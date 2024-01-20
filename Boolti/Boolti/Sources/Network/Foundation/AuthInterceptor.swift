@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 import RxSwift
 
-final class NetworkIntercepter: RequestInterceptor {
+final class AuthInterceptor: RequestInterceptor {
     
     private let disposeBag = DisposeBag()
  

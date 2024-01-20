@@ -32,7 +32,7 @@ final class NetworkProvider<API: BaseAPI>: Networking {
     private let provider: MoyaProvider<API>
     
     init(plugins: [PluginType] = []) {
-        let session = Session(interceptor: NetworkIntercepter())
+        let session = Session(interceptor: AuthInterceptor())
         session.sessionConfiguration.timeoutIntervalForRequest = 10
      
         self.provider = MoyaProvider<API>(session: session, plugins: plugins)
