@@ -1,0 +1,62 @@
+//
+//  TabBarDIContainer.swift
+//  Boolti
+//
+//  Created by Miro on 1/20/24.
+//
+
+import UIKit
+
+final class TabBarDIContainer {
+
+    // TODO: 아래의 의존성은 다시 설정할 예정
+
+    let rootDIContainer: RootDIContainer
+
+    init(rootDIContainer: RootDIContainer) {
+        self.rootDIContainer = rootDIContainer
+    }
+
+    func createTabBarController() -> TabBarController {
+        return TabBarController(
+        viewModel: createTabBarViewModel(),
+        viewControllerFactory: createViewController(of:)
+        )
+    }
+
+    private func createTabBarViewModel() -> TabBarViewModel {
+        return TabBarViewModel()
+    }
+
+
+    private func createViewController(of tab: HomeTab) -> UIViewController {
+        let viewController: UIViewController
+        switch tab {
+        case .concert:
+            let dependencyContainer = createConcertDIContainer()
+            viewController = dependencyContainer.createConcertViewController()
+        case .ticket:
+            let dependencyContainer = createTicketDIContainer()
+            viewController = dependencyContainer.createTicketViewController()
+        case .myPage:
+            let dependencyContainer = createMyPageDIContainer()
+            viewController = dependencyContainer.createMyPageViewController()
+        }
+
+        viewController.tabBarItem = tab.asTabBarItem()
+        return viewController
+    }
+
+    private func createConcertDIContainer() -> ConcertDIContainer {
+        return ConcertDIContainer()
+    }
+
+    private func createTicketDIContainer() -> TicketDIContainer {
+        return TicketDIContainer()
+    }
+
+    private func createMyPageDIContainer() -> MyPageDIContainer {
+        return MyPageDIContainer()
+    }
+
+}
