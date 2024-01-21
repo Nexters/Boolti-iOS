@@ -9,10 +9,12 @@ import Foundation
 
 final class RootDIContainer {
 
-    let rootViewModel: RootViewModel
+    private let rootViewModel: RootViewModel
+    private let networkProvider: NetworkProvider
 
     init() {
         self.rootViewModel = RootViewModel()
+        self.networkProvider = NetworkProvider()
     }
 
     func createRootViewController() -> RootViewController {
@@ -22,7 +24,7 @@ final class RootDIContainer {
         }
 
         let tabBarControllerFactory: () -> TabBarController = {
-            let DIContainer = self.createHomeDIContainer()
+            let DIContainer = self.createTabBarDIContainer()
             return DIContainer.createTabBarController()
         }
 
@@ -34,10 +36,10 @@ final class RootDIContainer {
     }
 
     private func createSplashDIContainer() -> SplashDIContainer {
-        return SplashDIContainer(rootDIContainer: self)
+        return SplashDIContainer(rootDIContainer: self, networkProvider: networkProvider)
     }
 
-    private func createHomeDIContainer() -> TabBarDIContainer {
+    private func createTabBarDIContainer() -> TabBarDIContainer {
         return TabBarDIContainer(rootDIContainer: self)
     }
 }

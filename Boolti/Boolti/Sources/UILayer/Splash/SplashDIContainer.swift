@@ -9,10 +9,12 @@ import Foundation
 
 final class SplashDIContainer {
 
-    let rootDIContainer: RootDIContainer
+    private let rootDIContainer: RootDIContainer
+    private let networkProvider: NetworkProvider
 
-    init(rootDIContainer: RootDIContainer) {
+    init(rootDIContainer: RootDIContainer, networkProvider: NetworkProvider) {
         self.rootDIContainer = rootDIContainer
+        self.networkProvider = networkProvider
     }
 
     func createSplashViewController() -> SplashViewController {
@@ -22,7 +24,7 @@ final class SplashDIContainer {
 
     private func createSplashViewModel() -> SplashViewModel {
         // TODO: 네트워크 의존성 주입하는 방법임!! 나중에 지워야함!
-        let viewModel = SplashViewModel(networkService: AuthService())
+        let viewModel = SplashViewModel(networkService: AuthService(provider: networkProvider))
 
         return viewModel
     }

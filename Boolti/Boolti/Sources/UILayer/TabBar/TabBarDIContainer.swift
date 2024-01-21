@@ -11,7 +11,7 @@ final class TabBarDIContainer {
 
     // TODO: 아래의 의존성은 다시 설정할 예정
 
-    let rootDIContainer: RootDIContainer
+    private let rootDIContainer: RootDIContainer
 
     init(rootDIContainer: RootDIContainer) {
         self.rootDIContainer = rootDIContainer

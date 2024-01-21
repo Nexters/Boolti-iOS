@@ -12,12 +12,20 @@ import RxCocoa
 import RxSwift
 
 protocol AuthAPIServiceType {
-//    func login() -> Single<Void>
+    func login(accessToken: String) -> Single<KakaoLoginResponseDTO>
 }
 
-final class AuthService: Networking, AuthAPIServiceType {
+final class AuthService: AuthAPIServiceType {
     
-    typealias API = AuthAPI
+    private typealias API = AuthAPI
+    private let provider: NetworkProvider
     
-    private let provider = NetworkProvider<API>()
+    init(provider: NetworkProvider) {
+        self.provider = provider
+    }
+    
+    func login(accessToken: String) -> Single<KakaoLoginResponseDTO> {
+        return provider.request(API.kakaoLogin(requestDTO: KakaoLoginRequestDTO(token: accessToken)))
+            .map(KakaoLoginResponseDTO.self)
+    }
 }

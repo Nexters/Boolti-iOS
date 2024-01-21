@@ -38,13 +38,13 @@ final class RootViewController: UIViewController {
         let splashDuration: DispatchTimeInterval = .seconds(2)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + splashDuration) { [weak self] in
-//            let splashViewController = self?.splashViewControllerFactory() ?? UIViewController()
-//            self?.navigationController?.pushViewController(splashViewController, animated: true)
+            let splashViewController = self?.splashViewControllerFactory() ?? UIViewController()
+            self?.navigationController?.pushViewController(splashViewController, animated: true)
             
-            let tabBarController = self?.tabBarControllerFactory() ?? UITabBarController()
-            tabBarController.modalTransitionStyle = .crossDissolve
-            tabBarController.modalPresentationStyle = .overFullScreen
-            self?.present(tabBarController, animated: true)
+//            let tabBarController = self?.tabBarControllerFactory() ?? UITabBarController()
+//            tabBarController.modalTransitionStyle = .crossDissolve
+//            tabBarController.modalPresentationStyle = .overFullScreen
+//            self?.present(tabBarController, animated: true)
         }
     }
 

@@ -10,42 +10,25 @@ import RxMoya
 import Moya
 
 protocol Networking {
-    associatedtype API: BaseAPI
-    
-    func request(_ api: API, file: StaticString, function: StaticString, line: UInt) -> Single<Response>
+    func request(_ api: BaseAPI) -> Single<Response>
 }
 
-extension Networking {
+final class NetworkProvider: Networking {
     
-    func request(
-        _ api: API,
-        file: StaticString = #file,
-        function: StaticString = #function,
-        line: UInt = #line
-    ) -> Single<Response> {
-        self.request(api, file: file, function: function, line: line)
-    }
-}
-
-final class NetworkProvider<API: BaseAPI>: Networking {
-
-    private let provider: MoyaProvider<API>
+    private let provider: MoyaProvider<MultiTarget>
     
     init(plugins: [PluginType] = []) {
         let session = Session(interceptor: AuthInterceptor())
         session.sessionConfiguration.timeoutIntervalForRequest = 10
-     
-        self.provider = MoyaProvider<API>(session: session, plugins: plugins)
+
+        self.provider = MoyaProvider<MultiTarget>(session: session, plugins: plugins)
     }
-    
-    func request(
-        _ api: API,
-        file: StaticString = #file,
-        function: StaticString = #function,
-        line: UInt = #line
-    ) -> Single<Response> {
+
+    func request(_ api: BaseAPI) -> Single<Response> {
         let requestString = "\(api.path)"
-        return provider.rx.request(api)
+        let endpoint = MultiTarget.target(api)
+
+        return provider.rx.request(endpoint)
             .filterSuccessfulStatusCodes()
             .do(
                 onSuccess: { response in
@@ -60,4 +43,3 @@ final class NetworkProvider<API: BaseAPI>: Networking {
             )
     }
 }
-
