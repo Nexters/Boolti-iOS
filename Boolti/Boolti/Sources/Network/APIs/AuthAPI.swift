@@ -35,4 +35,14 @@ extension AuthAPI: BaseAPI {
             return .requestJSONEncodable(requestDTO)
         }
     }
+    
+    var headers: [String : String]? {
+        switch self {
+        case .kakaoLogin:
+            return [
+                "Content-Type": "application/json",
+                "Authorization": UserDefaults.accessToken
+            ]
+        }
+    }
 }

@@ -17,9 +17,7 @@ final class AuthInterceptor: RequestInterceptor {
                for session: Session,
                completion: @escaping (Result<URLRequest, Error>) -> Void) {
         
-        // 모든 경로에 access token 넣음
         var urlRequest = urlRequest
-        urlRequest.headers.add(.authorization(bearerToken: UserDefaults.accessToken))
         
         // refesh 재발급 경로면 refresh token을 넣음
         if let urlString = urlRequest.url?.absoluteString, urlString.hasSuffix("/refeshToken") {
