@@ -1,5 +1,5 @@
 //
-//  TabBarDIContainer.swift
+//  HomeTabBarDIContainer.swift
 //  Boolti
 //
 //  Created by Miro on 1/20/24.
@@ -17,14 +17,14 @@ final class HomeTabBarDIContainer {
         self.rootDIContainer = rootDIContainer
     }
 
-    func createTabBarController() -> HomeTabBarController {
+    func createHomeTabBarController() -> HomeTabBarController {
         return HomeTabBarController(
-        viewModel: createTabBarViewModel(),
+        viewModel: createHomeTabBarViewModel(),
         viewControllerFactory: createViewController(of:)
         )
     }
 
-    private func createTabBarViewModel() -> HomeTabBarViewModel {
+    private func createHomeTabBarViewModel() -> HomeTabBarViewModel {
         return HomeTabBarViewModel()
     }
 
