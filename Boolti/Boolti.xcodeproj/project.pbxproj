@@ -32,7 +32,7 @@
 		84781C972B5BF15A00D37921 /* RxKakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C962B5BF15A00D37921 /* RxKakaoSDKCommon */; };
 		84781C992B5BF15A00D37921 /* RxKakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C982B5BF15A00D37921 /* RxKakaoSDKUser */; };
 		84781C9D2B5BF68900D37921 /* RootDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C9C2B5BF68900D37921 /* RootDIContainer.swift */; };
-		84781C9F2B5BF6A000D37921 /* RootNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C9E2B5BF6A000D37921 /* RootNavigationDelegate.swift */; };
+		84781C9F2B5BF6A000D37921 /* SplashViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C9E2B5BF6A000D37921 /* SplashViewModelDelegate.swift */; };
 		84781CA12B5BF6AB00D37921 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CA02B5BF6AB00D37921 /* RootViewController.swift */; };
 		84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CA22B5BF6BF00D37921 /* RootViewModel.swift */; };
 		84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CA52B5BF6F500D37921 /* SplashDIContainer.swift */; };
@@ -82,7 +82,7 @@
 		84781C862B5BED9A00D37921 /* BaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPI.swift; sourceTree = "<group>"; };
 		84781C882B5BEDAA00D37921 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		84781C9C2B5BF68900D37921 /* RootDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDIContainer.swift; sourceTree = "<group>"; };
-		84781C9E2B5BF6A000D37921 /* RootNavigationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationDelegate.swift; sourceTree = "<group>"; };
+		84781C9E2B5BF6A000D37921 /* SplashViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModelDelegate.swift; sourceTree = "<group>"; };
 		84781CA02B5BF6AB00D37921 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		84781CA22B5BF6BF00D37921 /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		84781CA52B5BF6F500D37921 /* SplashDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashDIContainer.swift; sourceTree = "<group>"; };
@@ -102,9 +102,9 @@
 		84781CCD2B5C005600D37921 /* ConcertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewController.swift; sourceTree = "<group>"; };
 		84781CCF2B5C006500D37921 /* ConcertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewModel.swift; sourceTree = "<group>"; };
 		84781CD32B5C06EC00D37921 /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
-		87101EF02B5DF685004BD418 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = "../../../../Boolti-File/Debug.xcconfig"; sourceTree = "<group>"; };
-		87101EF12B5DF685004BD418 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = "../../../../Boolti-File/Release.xcconfig"; sourceTree = "<group>"; };
-		87101EF22B5DF685004BD418 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = "../../../../Boolti-File/Shared.xcconfig"; sourceTree = "<group>"; };
+		87101EF02B5DF685004BD418 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		87101EF12B5DF685004BD418 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		87101EF22B5DF685004BD418 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIServiceType.swift; sourceTree = "<group>"; };
@@ -313,7 +313,6 @@
 			isa = PBXGroup;
 			children = (
 				84781C9C2B5BF68900D37921 /* RootDIContainer.swift */,
-				84781C9E2B5BF6A000D37921 /* RootNavigationDelegate.swift */,
 				84781CA02B5BF6AB00D37921 /* RootViewController.swift */,
 				84781CA22B5BF6BF00D37921 /* RootViewModel.swift */,
 				87101EF62B5DF8FE004BD418 /* RootDestination.swift */,
@@ -324,6 +323,7 @@
 		84781CA42B5BF6E800D37921 /* Splash */ = {
 			isa = PBXGroup;
 			children = (
+				84781C9E2B5BF6A000D37921 /* SplashViewModelDelegate.swift */,
 				84781CA52B5BF6F500D37921 /* SplashDIContainer.swift */,
 				84781CA72B5BF71900D37921 /* SplashViewController.swift */,
 				84781CA92B5BF72200D37921 /* SplashViewModel.swift */,
@@ -479,7 +479,7 @@
 				84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */,
 				84781C892B5BEDAA00D37921 /* AuthAPI.swift in Sources */,
 				84781CA12B5BF6AB00D37921 /* RootViewController.swift in Sources */,
-				84781C9F2B5BF6A000D37921 /* RootNavigationDelegate.swift in Sources */,
+				84781C9F2B5BF6A000D37921 /* SplashViewModelDelegate.swift in Sources */,
 				84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */,
 				84781BCD2B5BDAFC00D37921 /* AppDelegate.swift in Sources */,
 				84781BF02B5BE3C000D37921 /* Networking.swift in Sources */,
