@@ -10,14 +10,14 @@ import Foundation
 final class SplashViewModel {
     
     private let authAPIservice: AuthAPIServiceType
-    private let delegate: SplashViewViewModelDelegate
+    private let navigationDelegate: SplashViewViewModelDelegate
 
     init(authAPIService: AuthAPIServiceType, delegate: SplashViewViewModelDelegate) {
         self.authAPIservice = authAPIService
-        self.delegate = delegate
+        self.navigationDelegate = delegate
     }
 
     func navigateToHomeTab() {
-        delegate.splashViewViewModel(self)
+        navigationDelegate.splashViewViewModel(self)
     }
 }
