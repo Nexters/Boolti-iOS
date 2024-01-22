@@ -8,14 +8,14 @@
 import UIKit
 import RxSwift
 
-final class TabBarController: UITabBarController {
+final class HomeTabBarController: UITabBarController {
 
-    private let viewModel: TabBarViewModel
+    private let viewModel: HomeTabBarViewModel
     private let viewControllerFactory: (HomeTab) -> UIViewController
     private let disposeBag = DisposeBag()
 
     init(
-        viewModel: TabBarViewModel,
+        viewModel: HomeTabBarViewModel,
         viewControllerFactory: @escaping (HomeTab) -> UIViewController
     ) {
         self.viewModel = viewModel

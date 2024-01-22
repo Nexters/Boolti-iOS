@@ -11,11 +11,7 @@ import Moya
 import RxCocoa
 import RxSwift
 
-protocol AuthAPIServiceType {
-    func login(accessToken: String) -> Single<KakaoLoginResponseDTO>
-}
-
-final class AuthService: AuthAPIServiceType {
+final class AuthAPIService: AuthAPIServiceType {
     
     private typealias API = AuthAPI
     private let provider: NetworkProvider

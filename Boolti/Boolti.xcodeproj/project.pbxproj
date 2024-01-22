@@ -21,7 +21,7 @@
 		84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C6C2B5BEA3800D37921 /* AuthInterceptor.swift */; };
 		84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C6F2B5BEAB800D37921 /* UserDefaults+.swift */; };
 		84781C722B5BEAC800D37921 /* RxMoya+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C712B5BEAC800D37921 /* RxMoya+.swift */; };
-		84781C752B5BEB5600D37921 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C742B5BEB5600D37921 /* UserDefaultsManager.swift */; };
+		84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C742B5BEB5600D37921 /* UserDefault.swift */; };
 		84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */; };
 		84781C7E2B5BEC0700D37921 /* KakaoLoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C7D2B5BEC0700D37921 /* KakaoLoginRequestDTO.swift */; };
 		84781C802B5BEC1400D37921 /* KakaoLoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C7F2B5BEC1400D37921 /* KakaoLoginResponseDTO.swift */; };
@@ -38,10 +38,10 @@
 		84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CA52B5BF6F500D37921 /* SplashDIContainer.swift */; };
 		84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CA72B5BF71900D37921 /* SplashViewController.swift */; };
 		84781CAA2B5BF72200D37921 /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CA92B5BF72200D37921 /* SplashViewModel.swift */; };
-		84781CAD2B5BF7A200D37921 /* TabBarDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CAC2B5BF7A200D37921 /* TabBarDIContainer.swift */; };
+		84781CAD2B5BF7A200D37921 /* HomeTabBarDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CAC2B5BF7A200D37921 /* HomeTabBarDIContainer.swift */; };
 		84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CAE2B5BF7CA00D37921 /* HomeTab.swift */; };
-		84781CB12B5BF85400D37921 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CB02B5BF85400D37921 /* TabBarController.swift */; };
-		84781CBA2B5BF90C00D37921 /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CB92B5BF90C00D37921 /* TabBarViewModel.swift */; };
+		84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CB02B5BF85400D37921 /* HomeTabBarController.swift */; };
+		84781CBA2B5BF90C00D37921 /* HomeTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CB92B5BF90C00D37921 /* HomeTabBarViewModel.swift */; };
 		84781CBE2B5BF95100D37921 /* MyPageDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CBD2B5BF95100D37921 /* MyPageDIContainer.swift */; };
 		84781CC02B5BF98600D37921 /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CBF2B5BF98600D37921 /* MypageViewController.swift */; };
 		84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CC12B5BF9A700D37921 /* MyPageViewModel.swift */; };
@@ -51,12 +51,14 @@
 		84781CCC2B5C003700D37921 /* ConcertDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCB2B5C003700D37921 /* ConcertDIContainer.swift */; };
 		84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCD2B5C005600D37921 /* ConcertViewController.swift */; };
 		84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCF2B5C006500D37921 /* ConcertViewModel.swift */; };
-		84781CD42B5C06EC00D37921 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CD32B5C06EC00D37921 /* AuthService.swift */; };
+		84781CD42B5C06EC00D37921 /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CD32B5C06EC00D37921 /* AuthAPIService.swift */; };
 		87101EF32B5DF685004BD418 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87101EF02B5DF685004BD418 /* Debug.xcconfig */; };
 		87101EF42B5DF685004BD418 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87101EF12B5DF685004BD418 /* Release.xcconfig */; };
 		87101EF52B5DF685004BD418 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87101EF22B5DF685004BD418 /* Shared.xcconfig */; };
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
+		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
+		87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,7 +74,7 @@
 		84781C6C2B5BEA3800D37921 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		84781C6F2B5BEAB800D37921 /* UserDefaults+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+.swift"; sourceTree = "<group>"; };
 		84781C712B5BEAC800D37921 /* RxMoya+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxMoya+.swift"; sourceTree = "<group>"; };
-		84781C742B5BEB5600D37921 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		84781C742B5BEB5600D37921 /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		84781C7D2B5BEC0700D37921 /* KakaoLoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginRequestDTO.swift; sourceTree = "<group>"; };
 		84781C7F2B5BEC1400D37921 /* KakaoLoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginResponseDTO.swift; sourceTree = "<group>"; };
@@ -86,10 +88,10 @@
 		84781CA52B5BF6F500D37921 /* SplashDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashDIContainer.swift; sourceTree = "<group>"; };
 		84781CA72B5BF71900D37921 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		84781CA92B5BF72200D37921 /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
-		84781CAC2B5BF7A200D37921 /* TabBarDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarDIContainer.swift; sourceTree = "<group>"; };
+		84781CAC2B5BF7A200D37921 /* HomeTabBarDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarDIContainer.swift; sourceTree = "<group>"; };
 		84781CAE2B5BF7CA00D37921 /* HomeTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTab.swift; sourceTree = "<group>"; };
-		84781CB02B5BF85400D37921 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		84781CB92B5BF90C00D37921 /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
+		84781CB02B5BF85400D37921 /* HomeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarController.swift; sourceTree = "<group>"; };
+		84781CB92B5BF90C00D37921 /* HomeTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarViewModel.swift; sourceTree = "<group>"; };
 		84781CBD2B5BF95100D37921 /* MyPageDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageDIContainer.swift; sourceTree = "<group>"; };
 		84781CBF2B5BF98600D37921 /* MypageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewController.swift; sourceTree = "<group>"; };
 		84781CC12B5BF9A700D37921 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
@@ -99,11 +101,13 @@
 		84781CCB2B5C003700D37921 /* ConcertDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDIContainer.swift; sourceTree = "<group>"; };
 		84781CCD2B5C005600D37921 /* ConcertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewController.swift; sourceTree = "<group>"; };
 		84781CCF2B5C006500D37921 /* ConcertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewModel.swift; sourceTree = "<group>"; };
-		84781CD32B5C06EC00D37921 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		84781CD32B5C06EC00D37921 /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		87101EF02B5DF685004BD418 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = "../../../../Boolti-File/Debug.xcconfig"; sourceTree = "<group>"; };
 		87101EF12B5DF685004BD418 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = "../../../../Boolti-File/Release.xcconfig"; sourceTree = "<group>"; };
 		87101EF22B5DF685004BD418 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = "../../../../Boolti-File/Shared.xcconfig"; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
+		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
+		87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIServiceType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +223,7 @@
 				84781BED2B5BE3B600D37921 /* NetworkError.swift */,
 				84781BEF2B5BE3C000D37921 /* Networking.swift */,
 				84781C6C2B5BEA3800D37921 /* AuthInterceptor.swift */,
+				87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -235,7 +240,7 @@
 		84781C782B5BEBB800D37921 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				84781C742B5BEB5600D37921 /* UserDefaultsManager.swift */,
+				84781C742B5BEB5600D37921 /* UserDefault.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -330,9 +335,9 @@
 			isa = PBXGroup;
 			children = (
 				84781CAE2B5BF7CA00D37921 /* HomeTab.swift */,
-				84781CAC2B5BF7A200D37921 /* TabBarDIContainer.swift */,
-				84781CB02B5BF85400D37921 /* TabBarController.swift */,
-				84781CB92B5BF90C00D37921 /* TabBarViewModel.swift */,
+				84781CAC2B5BF7A200D37921 /* HomeTabBarDIContainer.swift */,
+				84781CB02B5BF85400D37921 /* HomeTabBarController.swift */,
+				84781CB92B5BF90C00D37921 /* HomeTabBarViewModel.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -370,7 +375,8 @@
 		84781CD12B5C064100D37921 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				84781CD32B5C06EC00D37921 /* AuthService.swift */,
+				84781CD32B5C06EC00D37921 /* AuthAPIService.swift */,
+				87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -467,8 +473,8 @@
 				87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */,
 				84781CC92B5BFA1C00D37921 /* TicketViewModel.swift in Sources */,
 				84781CCC2B5C003700D37921 /* ConcertDIContainer.swift in Sources */,
-				84781CB12B5BF85400D37921 /* TabBarController.swift in Sources */,
-				84781CD42B5C06EC00D37921 /* AuthService.swift in Sources */,
+				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
+				84781CD42B5C06EC00D37921 /* AuthAPIService.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
 				84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */,
 				84781C892B5BEDAA00D37921 /* AuthAPI.swift in Sources */,
@@ -484,14 +490,16 @@
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
 				84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */,
 				84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */,
+				87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */,
 				84781C822B5BEC3900D37921 /* BaseResponseDTO.swift in Sources */,
-				84781CAD2B5BF7A200D37921 /* TabBarDIContainer.swift in Sources */,
-				84781C752B5BEB5600D37921 /* UserDefaultsManager.swift in Sources */,
+				84781CAD2B5BF7A200D37921 /* HomeTabBarDIContainer.swift in Sources */,
+				84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */,
 				84781CAA2B5BF72200D37921 /* SplashViewModel.swift in Sources */,
 				84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */,
 				84781CBE2B5BF95100D37921 /* MyPageDIContainer.swift in Sources */,
 				84781BCF2B5BDAFC00D37921 /* SceneDelegate.swift in Sources */,
-				84781CBA2B5BF90C00D37921 /* TabBarViewModel.swift in Sources */,
+				87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */,
+				84781CBA2B5BF90C00D37921 /* HomeTabBarViewModel.swift in Sources */,
 				84781CC72B5BF9F700D37921 /* TicketDIContainer.swift in Sources */,
 				84781CC02B5BF98600D37921 /* MypageViewController.swift in Sources */,
 				84781C7E2B5BEC0700D37921 /* KakaoLoginRequestDTO.swift in Sources */,

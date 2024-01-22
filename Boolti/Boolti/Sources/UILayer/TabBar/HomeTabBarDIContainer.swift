@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TabBarDIContainer {
+final class HomeTabBarDIContainer {
 
     // TODO: 아래의 의존성은 다시 설정할 예정
 
@@ -17,15 +17,15 @@ final class TabBarDIContainer {
         self.rootDIContainer = rootDIContainer
     }
 
-    func createTabBarController() -> TabBarController {
-        return TabBarController(
+    func createTabBarController() -> HomeTabBarController {
+        return HomeTabBarController(
         viewModel: createTabBarViewModel(),
         viewControllerFactory: createViewController(of:)
         )
     }
 
-    private func createTabBarViewModel() -> TabBarViewModel {
-        return TabBarViewModel()
+    private func createTabBarViewModel() -> HomeTabBarViewModel {
+        return HomeTabBarViewModel()
     }
 
 

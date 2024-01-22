@@ -10,9 +10,8 @@ import RxSwift
 import RxRelay
 
 final class RootViewModel {
-
+    
     let navigation = BehaviorRelay<RootDestination>(value: .splash)
-
 }
 
 extension RootViewModel: SplashViewViewModelDelegate {

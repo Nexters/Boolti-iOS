@@ -16,12 +16,12 @@ final class RootViewController: UIViewController {
     private let disposeBag = DisposeBag()
 
     private let splashViewControllerFactory: () -> SplashViewController
-    private let tabBarControllerFactory: () -> TabBarController
+    private let tabBarControllerFactory: () -> HomeTabBarController
 
     init(
         viewModel: RootViewModel,
         splashViewControllerFactory: @escaping () -> SplashViewController,
-        tabBarControllerFactory: @escaping () -> TabBarController
+        tabBarControllerFactory: @escaping () -> HomeTabBarController
     ) {
         self.viewModel = viewModel
         self.splashViewControllerFactory = splashViewControllerFactory

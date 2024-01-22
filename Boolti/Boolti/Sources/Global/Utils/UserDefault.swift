@@ -1,5 +1,5 @@
 //
-//  UserDefaultsManager.swift
+//  UserDefault.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/20/24.
