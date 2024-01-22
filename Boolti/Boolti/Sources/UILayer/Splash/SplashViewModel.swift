@@ -9,9 +9,9 @@ import Foundation
 
 final class SplashViewModel {
     
-    private let networkService: AuthService
+    private let authAPIservice: AuthAPIServiceType
 
-    init(networkService: AuthService) {
-        self.networkService = networkService
+    init(authAPIService: AuthAPIServiceType) {
+        self.authAPIservice = authAPIService
     }
 }

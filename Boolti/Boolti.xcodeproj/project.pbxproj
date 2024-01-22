@@ -52,6 +52,9 @@
 		84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCD2B5C005600D37921 /* ConcertViewController.swift */; };
 		84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCF2B5C006500D37921 /* ConcertViewModel.swift */; };
 		84781CD42B5C06EC00D37921 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CD32B5C06EC00D37921 /* AuthService.swift */; };
+		87101EF32B5DF685004BD418 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87101EF02B5DF685004BD418 /* Debug.xcconfig */; };
+		87101EF42B5DF685004BD418 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87101EF12B5DF685004BD418 /* Release.xcconfig */; };
+		87101EF52B5DF685004BD418 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87101EF22B5DF685004BD418 /* Shared.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,10 +64,7 @@
 		84781BD52B5BDAFD00D37921 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84781BD82B5BDAFD00D37921 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84781BDA2B5BDAFD00D37921 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84781BE52B5BE06400D37921 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		84781BE62B5BE0BB00D37921 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		84781BE72B5BE17400D37921 /* Enviroment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enviroment.swift; sourceTree = "<group>"; };
-		84781BE92B5BE19900D37921 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		84781BED2B5BE3B600D37921 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		84781BEF2B5BE3C000D37921 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		84781C6C2B5BEA3800D37921 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
@@ -98,6 +98,9 @@
 		84781CCD2B5C005600D37921 /* ConcertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewController.swift; sourceTree = "<group>"; };
 		84781CCF2B5C006500D37921 /* ConcertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewModel.swift; sourceTree = "<group>"; };
 		84781CD32B5C06EC00D37921 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		87101EF02B5DF685004BD418 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = "../../../../Boolti-File/Debug.xcconfig"; sourceTree = "<group>"; };
+		87101EF12B5DF685004BD418 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = "../../../../Boolti-File/Release.xcconfig"; sourceTree = "<group>"; };
+		87101EF22B5DF685004BD418 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = "../../../../Boolti-File/Shared.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,9 +190,9 @@
 		84781BE42B5BE03600D37921 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				84781BE62B5BE0BB00D37921 /* Shared.xcconfig */,
-				84781BE52B5BE06400D37921 /* Debug.xcconfig */,
-				84781BE92B5BE19900D37921 /* Release.xcconfig */,
+				87101EF02B5DF685004BD418 /* Debug.xcconfig */,
+				87101EF12B5DF685004BD418 /* Release.xcconfig */,
+				87101EF22B5DF685004BD418 /* Shared.xcconfig */,
 				84781BE72B5BE17400D37921 /* Enviroment.swift */,
 			);
 			path = Support;
@@ -439,8 +442,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87101EF42B5DF685004BD418 /* Release.xcconfig in Resources */,
+				87101EF52B5DF685004BD418 /* Shared.xcconfig in Resources */,
 				84781BD92B5BDAFD00D37921 /* LaunchScreen.storyboard in Resources */,
 				84781BD62B5BDAFD00D37921 /* Assets.xcassets in Resources */,
+				87101EF32B5DF685004BD418 /* Debug.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,7 +512,6 @@
 /* Begin XCBuildConfiguration section */
 		84781BDB2B5BDAFD00D37921 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 84781BE52B5BE06400D37921 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -570,7 +575,6 @@
 		};
 		84781BDC2B5BDAFD00D37921 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 84781BE92B5BE19900D37921 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -627,7 +631,6 @@
 		};
 		84781BDE2B5BDAFD00D37921 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 84781BE52B5BE06400D37921 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -662,7 +665,6 @@
 		};
 		84781BDF2B5BDAFD00D37921 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 84781BE92B5BE19900D37921 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
