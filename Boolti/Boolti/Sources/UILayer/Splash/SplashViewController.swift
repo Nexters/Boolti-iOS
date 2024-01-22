@@ -36,10 +36,8 @@ final class SplashViewController: UIViewController {
 
         let splashDuration: DispatchTimeInterval = .seconds(2)
 
-        // TODO: Delegate을 활용해서 Splash View -> RootView -> TabBar로 넘어가는 로직 구현할 예정!
         DispatchQueue.main.asyncAfter(deadline: .now() + splashDuration) { [weak self] in
-            // ViewModel의 메소드를 실행시킨다.
-
+            self?.viewModel.navigateToHomeTab()
         }
     }
 }

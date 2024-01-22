@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-final class TabBarViewModel {
+final class HomeTabBarViewModel {
 
     let tabItems = BehaviorRelay<[HomeTab]>(value: HomeTab.allCases)
     let currentTab = PublishRelay<HomeTab>()
