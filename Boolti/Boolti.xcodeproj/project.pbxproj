@@ -55,6 +55,8 @@
 		87101EF32B5DF685004BD418 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87101EF02B5DF685004BD418 /* Debug.xcconfig */; };
 		87101EF42B5DF685004BD418 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87101EF12B5DF685004BD418 /* Release.xcconfig */; };
 		87101EF52B5DF685004BD418 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87101EF22B5DF685004BD418 /* Shared.xcconfig */; };
+		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
+		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +103,7 @@
 		87101EF02B5DF685004BD418 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = "../../../../Boolti-File/Debug.xcconfig"; sourceTree = "<group>"; };
 		87101EF12B5DF685004BD418 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = "../../../../Boolti-File/Release.xcconfig"; sourceTree = "<group>"; };
 		87101EF22B5DF685004BD418 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = "../../../../Boolti-File/Shared.xcconfig"; sourceTree = "<group>"; };
+		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +117,7 @@
 				84781C642B5BE9C100D37921 /* Moya in Frameworks */,
 				84781C952B5BF15A00D37921 /* RxKakaoSDKAuth in Frameworks */,
 				84781C992B5BF15A00D37921 /* RxKakaoSDKUser in Frameworks */,
+				87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */,
 				84781C662B5BE9C100D37921 /* ReactiveMoya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,6 +311,7 @@
 				84781C9E2B5BF6A000D37921 /* RootNavigationDelegate.swift */,
 				84781CA02B5BF6AB00D37921 /* RootViewController.swift */,
 				84781CA22B5BF6BF00D37921 /* RootViewModel.swift */,
+				87101EF62B5DF8FE004BD418 /* RootDestination.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -394,6 +399,7 @@
 				84781C942B5BF15A00D37921 /* RxKakaoSDKAuth */,
 				84781C962B5BF15A00D37921 /* RxKakaoSDKCommon */,
 				84781C982B5BF15A00D37921 /* RxKakaoSDKUser */,
+				87101EF92B5DF9A3004BD418 /* RxAppState */,
 			);
 			productName = Boolti;
 			productReference = 84781BC92B5BDAFC00D37921 /* Boolti.app */;
@@ -427,6 +433,7 @@
 				84781C622B5BE9C000D37921 /* XCRemoteSwiftPackageReference "Moya" */,
 				84781C692B5BEA0000D37921 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				84781C932B5BF15A00D37921 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
+				87101EF82B5DF9A3004BD418 /* XCRemoteSwiftPackageReference "RxAppState" */,
 			);
 			productRefGroup = 84781BCA2B5BDAFC00D37921 /* Products */;
 			projectDirPath = "";
@@ -457,6 +464,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */,
 				84781CC92B5BFA1C00D37921 /* TicketViewModel.swift in Sources */,
 				84781CCC2B5C003700D37921 /* ConcertDIContainer.swift in Sources */,
 				84781CB12B5BF85400D37921 /* TabBarController.swift in Sources */,
@@ -745,6 +753,14 @@
 				kind = branch;
 			};
 		};
+		87101EF82B5DF9A3004BD418 /* XCRemoteSwiftPackageReference "RxAppState" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pixeldock/RxAppState.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -782,6 +798,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 84781C932B5BF15A00D37921 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */;
 			productName = RxKakaoSDKUser;
+		};
+		87101EF92B5DF9A3004BD418 /* RxAppState */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87101EF82B5DF9A3004BD418 /* XCRemoteSwiftPackageReference "RxAppState" */;
+			productName = RxAppState;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
