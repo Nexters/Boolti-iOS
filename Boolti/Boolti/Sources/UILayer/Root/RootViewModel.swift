@@ -14,9 +14,9 @@ final class RootViewModel {
     let navigation = BehaviorRelay<RootDestination>(value: .splash)
 }
 
-extension RootViewModel: SplashViewViewModelDelegate {
+extension RootViewModel: SplashViewModelDelegate {
 
-    func splashViewViewModel(_ didSplashViewControllerDismissed: SplashViewModel) {
+    func splashViewModel(_ didSplashViewControllerDismissed: SplashViewModel) {
         self.navigation.accept(.homeTab)
     }
 }

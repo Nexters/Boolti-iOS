@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol SplashViewViewModelDelegate {
-    func splashViewViewModel(_ didSplashViewControllerDismissed: SplashViewModel)
+protocol SplashViewModelDelegate {
+    func splashViewModel(_ didSplashViewControllerDismissed: SplashViewModel)
 }
