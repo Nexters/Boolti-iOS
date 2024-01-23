@@ -11,14 +11,14 @@ import Firebase
 
 final class SplashViewModel {
     
-    private let authAPIservice: AuthAPIServiceType
+    private let authAPIservice: any AuthAPIServiceType
     private let navigationDelegate: SplashViewModelDelegate
-    
+
     let updateRequired = PublishRelay<Bool>()
-    
+
     private let remoteConfig = RemoteConfig.remoteConfig()
 
-    init(authAPIService: AuthAPIServiceType, delegate: SplashViewModelDelegate) {
+    init(authAPIService: any AuthAPIServiceType, delegate: SplashViewModelDelegate) {
         self.authAPIservice = authAPIService
         self.navigationDelegate = delegate
         self.initRemoteConfig()

@@ -8,7 +8,9 @@
 import Foundation
 import Moya
 
-protocol BaseAPI: TargetType { }
+protocol BaseAPI: TargetType {
+
+}
 
 extension BaseAPI {
     

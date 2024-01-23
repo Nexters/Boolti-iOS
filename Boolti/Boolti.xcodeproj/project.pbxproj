@@ -23,11 +23,10 @@
 		84781C722B5BEAC800D37921 /* RxMoya+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C712B5BEAC800D37921 /* RxMoya+.swift */; };
 		84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C742B5BEB5600D37921 /* UserDefault.swift */; };
 		84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */; };
-		84781C7E2B5BEC0700D37921 /* KakaoLoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C7D2B5BEC0700D37921 /* KakaoLoginRequestDTO.swift */; };
-		84781C802B5BEC1400D37921 /* KakaoLoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C7F2B5BEC1400D37921 /* KakaoLoginResponseDTO.swift */; };
+		84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */; };
 		84781C822B5BEC3900D37921 /* BaseResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C812B5BEC3900D37921 /* BaseResponseDTO.swift */; };
 		84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C862B5BED9A00D37921 /* BaseAPI.swift */; };
-		84781C892B5BEDAA00D37921 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C882B5BEDAA00D37921 /* AuthAPI.swift */; };
+		84781C892B5BEDAA00D37921 /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C882B5BEDAA00D37921 /* LoginAPI.swift */; };
 		84781C952B5BF15A00D37921 /* RxKakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C942B5BF15A00D37921 /* RxKakaoSDKAuth */; };
 		84781C972B5BF15A00D37921 /* RxKakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C962B5BF15A00D37921 /* RxKakaoSDKCommon */; };
 		84781C992B5BF15A00D37921 /* RxKakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C982B5BF15A00D37921 /* RxKakaoSDKUser */; };
@@ -51,7 +50,6 @@
 		84781CCC2B5C003700D37921 /* ConcertDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCB2B5C003700D37921 /* ConcertDIContainer.swift */; };
 		84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCD2B5C005600D37921 /* ConcertViewController.swift */; };
 		84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCF2B5C006500D37921 /* ConcertViewModel.swift */; };
-		84781CD42B5C06EC00D37921 /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CD32B5C06EC00D37921 /* AuthAPIService.swift */; };
 		849FBD422B5E8BE9006EB865 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 849FBD412B5E8BE9006EB865 /* FirebaseAnalytics */; };
 		849FBD442B5E8BE9006EB865 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 849FBD432B5E8BE9006EB865 /* FirebaseAnalyticsOnDeviceConversion */; };
 		849FBD462B5E8BE9006EB865 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 849FBD452B5E8BE9006EB865 /* FirebaseAnalyticsSwift */; };
@@ -64,12 +62,14 @@
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
 		87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */; };
+		8757BA972B5FA6B0008503B5 /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */; };
 		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
 		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
 		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
 		876E41482B5F875D006BEEB7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */; };
 		876E414D2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */; };
 		876E414F2B5F915E006BEEB7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414E2B5F915E006BEEB7 /* ViewController.swift */; };
+		876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,11 +87,10 @@
 		84781C712B5BEAC800D37921 /* RxMoya+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxMoya+.swift"; sourceTree = "<group>"; };
 		84781C742B5BEB5600D37921 /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
-		84781C7D2B5BEC0700D37921 /* KakaoLoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginRequestDTO.swift; sourceTree = "<group>"; };
-		84781C7F2B5BEC1400D37921 /* KakaoLoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginResponseDTO.swift; sourceTree = "<group>"; };
+		84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
 		84781C812B5BEC3900D37921 /* BaseResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponseDTO.swift; sourceTree = "<group>"; };
 		84781C862B5BED9A00D37921 /* BaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPI.swift; sourceTree = "<group>"; };
-		84781C882B5BEDAA00D37921 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		84781C882B5BEDAA00D37921 /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		84781C9C2B5BF68900D37921 /* RootDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDIContainer.swift; sourceTree = "<group>"; };
 		84781C9E2B5BF6A000D37921 /* SplashViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModelDelegate.swift; sourceTree = "<group>"; };
 		84781CA02B5BF6AB00D37921 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -112,17 +111,18 @@
 		84781CCB2B5C003700D37921 /* ConcertDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDIContainer.swift; sourceTree = "<group>"; };
 		84781CCD2B5C005600D37921 /* ConcertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewController.swift; sourceTree = "<group>"; };
 		84781CCF2B5C006500D37921 /* ConcertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewModel.swift; sourceTree = "<group>"; };
-		84781CD32B5C06EC00D37921 /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		849FBD502B5E920A006EB865 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIServiceType.swift; sourceTree = "<group>"; };
+		8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = "../../../../Boolti-File/Release.xcconfig"; sourceTree = "<group>"; };
 		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = "../../../../Boolti-File/Debug.xcconfig"; sourceTree = "<group>"; };
 		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = "../../../../Boolti-File/Shared.xcconfig"; sourceTree = "<group>"; };
 		876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Boolti-File/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		876E414E2B5F915E006BEEB7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +182,7 @@
 		84781BE02B5BDC8400D37921 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				876E41502B5F9542006BEEB7 /* Auth */,
 				84781BE32B5BDD9100D37921 /* Global */,
 				84781BEA2B5BE36100D37921 /* Network */,
 				84781C9A2B5BF4F800D37921 /* UILayer */,
@@ -236,7 +237,6 @@
 				84781BEB2B5BE38900D37921 /* Foundation */,
 				84781C792B5BEBDA00D37921 /* DTO */,
 				84781C852B5BED8D00D37921 /* APIs */,
-				84781CD12B5C064100D37921 /* Services */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -291,7 +291,7 @@
 		84781C7B2B5BEBEA00D37921 /* Request */ = {
 			isa = PBXGroup;
 			children = (
-				84781C7D2B5BEC0700D37921 /* KakaoLoginRequestDTO.swift */,
+				84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -299,7 +299,7 @@
 		84781C7C2B5BEBF200D37921 /* Response */ = {
 			isa = PBXGroup;
 			children = (
-				84781C7F2B5BEC1400D37921 /* KakaoLoginResponseDTO.swift */,
+				876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -308,7 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				84781C862B5BED9A00D37921 /* BaseAPI.swift */,
-				84781C882B5BEDAA00D37921 /* AuthAPI.swift */,
+				84781C882B5BEDAA00D37921 /* LoginAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -389,15 +389,6 @@
 			path = Concert;
 			sourceTree = "<group>";
 		};
-		84781CD12B5C064100D37921 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				84781CD32B5C06EC00D37921 /* AuthAPIService.swift */,
-				87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		849FBD4F2B5E91F7006EB865 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,6 +404,15 @@
 				876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */,
 			);
 			path = UIElements;
+			sourceTree = "<group>";
+		};
+		876E41502B5F9542006BEEB7 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */,
+				8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -517,10 +517,9 @@
 				84781CC92B5BFA1C00D37921 /* TicketViewModel.swift in Sources */,
 				84781CCC2B5C003700D37921 /* ConcertDIContainer.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
-				84781CD42B5C06EC00D37921 /* AuthAPIService.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
 				84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */,
-				84781C892B5BEDAA00D37921 /* AuthAPI.swift in Sources */,
+				84781C892B5BEDAA00D37921 /* LoginAPI.swift in Sources */,
 				84781CA12B5BF6AB00D37921 /* RootViewController.swift in Sources */,
 				84781C9F2B5BF6A000D37921 /* SplashViewModelDelegate.swift in Sources */,
 				84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */,
@@ -528,7 +527,6 @@
 				84781BF02B5BE3C000D37921 /* Networking.swift in Sources */,
 				84781C9D2B5BF68900D37921 /* RootDIContainer.swift in Sources */,
 				84781C722B5BEAC800D37921 /* RxMoya+.swift in Sources */,
-				84781C802B5BEC1400D37921 /* KakaoLoginResponseDTO.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
 				876E414F2B5F915E006BEEB7 /* ViewController.swift in Sources */,
@@ -547,9 +545,11 @@
 				84781CBA2B5BF90C00D37921 /* HomeTabBarViewModel.swift in Sources */,
 				84781CC72B5BF9F700D37921 /* TicketDIContainer.swift in Sources */,
 				84781CC02B5BF98600D37921 /* MypageViewController.swift in Sources */,
-				84781C7E2B5BEC0700D37921 /* KakaoLoginRequestDTO.swift in Sources */,
+				84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */,
+				876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */,
 				84781CC52B5BF9DE00D37921 /* TicketViewController.swift in Sources */,
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,
+				8757BA972B5FA6B0008503B5 /* AuthAPIService.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
 				84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
