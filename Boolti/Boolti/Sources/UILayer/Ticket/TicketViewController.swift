@@ -13,8 +13,10 @@ import SnapKit
 
 final class TicketViewController: ViewController {
 
-    private let disposeBag = DisposeBag()
     private let viewModel: TicketViewModel
+    private let loginViewControllerFactory: () -> LoginViewController
+
+    private let disposeBag = DisposeBag()
 
     private let containerView: UIView = {
         let view = UIView()
@@ -28,8 +30,12 @@ final class TicketViewController: ViewController {
         return view
     }()
 
-    init(viewModel: TicketViewModel) {
+    init(
+        viewModel: TicketViewModel,
+        loginViewControllerFactory: @escaping () -> LoginViewController
+    ) {
         self.viewModel = viewModel
+        self.loginViewControllerFactory = loginViewControllerFactory
         super.init()
     }
 
@@ -105,7 +111,7 @@ final class TicketViewController: ViewController {
 
     private func createViewController(_ next: TicketViewDestination) -> UIViewController {
         switch next {
-        case .login: return LoginViewController()
+        case .login: return loginViewControllerFactory()
         }
     }
 }

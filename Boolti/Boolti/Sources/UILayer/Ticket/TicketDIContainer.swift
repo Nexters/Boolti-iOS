@@ -17,9 +17,28 @@ final class TicketDIContainer {
 
     func createTicketViewController() -> UIViewController {
         let viewModel = createTicketViewModel()
-        let viewController = TicketViewController(viewModel: viewModel)
+
+        let loginViewControllerFactory: () -> LoginViewController = {
+            let DIContainer = self.createLoginViewDIContainer()
+
+            let viewController = DIContainer.createLoginViewController()
+            return viewController
+        }
+
+        let viewController = TicketViewController(
+            viewModel: viewModel,
+            loginViewControllerFactory: loginViewControllerFactory
+        )
+
         let navigationController = UINavigationController(rootViewController: viewController)
         return navigationController
+    }
+
+    private func createLoginViewDIContainer() -> LoginViewDIContainer {
+        return LoginViewDIContainer(
+            authAPIService: self.authAPIService,
+            socialLoginAPIService: SocialLoginAPIService()
+        )
     }
 
     private func createTicketViewModel() -> TicketViewModel {

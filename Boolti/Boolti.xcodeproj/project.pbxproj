@@ -66,6 +66,13 @@
 		8757BA992B5FC573008503B5 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA982B5FC573008503B5 /* AuthToken.swift */; };
 		8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */; };
 		8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */; };
+		8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9F2B5FDDAB008503B5 /* LoginViewDIContainer.swift */; };
+		8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA12B5FDE0D008503B5 /* LoginViewModel.swift */; };
+		8757BAA42B5FDEA2008503B5 /* SocialLoginAPIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA32B5FDEA2008503B5 /* SocialLoginAPIServiceType.swift */; };
+		8757BAA62B5FDED7008503B5 /* SocialLoginAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA52B5FDED7008503B5 /* SocialLoginAPIService.swift */; };
+		8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA72B5FDF0F008503B5 /* OAuth.swift */; };
+		8757BAAA2B5FDF29008503B5 /* KakaoAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA92B5FDF29008503B5 /* KakaoAuth.swift */; };
+		8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */; };
 		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
 		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
 		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
@@ -122,6 +129,13 @@
 		8757BA982B5FC573008503B5 /* AuthToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthToken.swift; sourceTree = "<group>"; };
 		8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEnterView.swift; sourceTree = "<group>"; };
+		8757BA9F2B5FDDAB008503B5 /* LoginViewDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewDIContainer.swift; sourceTree = "<group>"; };
+		8757BAA12B5FDE0D008503B5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		8757BAA32B5FDEA2008503B5 /* SocialLoginAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginAPIServiceType.swift; sourceTree = "<group>"; };
+		8757BAA52B5FDED7008503B5 /* SocialLoginAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginAPIService.swift; sourceTree = "<group>"; };
+		8757BAA72B5FDF0F008503B5 /* OAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
+		8757BAA92B5FDF29008503B5 /* KakaoAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuth.swift; sourceTree = "<group>"; };
+		8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuth.swift; sourceTree = "<group>"; };
 		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = "../../../../Boolti-File/Release.xcconfig"; sourceTree = "<group>"; };
 		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = "../../../../Boolti-File/Debug.xcconfig"; sourceTree = "<group>"; };
 		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = "../../../../Boolti-File/Shared.xcconfig"; sourceTree = "<group>"; };
@@ -410,6 +424,8 @@
 			isa = PBXGroup;
 			children = (
 				8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */,
+				8757BAA12B5FDE0D008503B5 /* LoginViewModel.swift */,
+				8757BA9F2B5FDDAB008503B5 /* LoginViewDIContainer.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -426,8 +442,13 @@
 			isa = PBXGroup;
 			children = (
 				87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */,
+				8757BAA32B5FDEA2008503B5 /* SocialLoginAPIServiceType.swift */,
 				8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */,
 				8757BA982B5FC573008503B5 /* AuthToken.swift */,
+				8757BAA52B5FDED7008503B5 /* SocialLoginAPIService.swift */,
+				8757BAA72B5FDF0F008503B5 /* OAuth.swift */,
+				8757BAA92B5FDF29008503B5 /* KakaoAuth.swift */,
+				8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -536,6 +557,7 @@
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
 				84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */,
+				8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */,
 				84781C892B5BEDAA00D37921 /* LoginAPI.swift in Sources */,
 				84781CA12B5BF6AB00D37921 /* RootViewController.swift in Sources */,
 				84781C9F2B5BF6A000D37921 /* SplashViewModelDelegate.swift in Sources */,
@@ -549,6 +571,7 @@
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
 				876E414F2B5F915E006BEEB7 /* ViewController.swift in Sources */,
 				84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */,
+				8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */,
 				8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */,
 				84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */,
 				87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */,
@@ -557,13 +580,17 @@
 				84781CAD2B5BF7A200D37921 /* HomeTabBarDIContainer.swift in Sources */,
 				84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */,
 				84781CAA2B5BF72200D37921 /* SplashViewModel.swift in Sources */,
+				8757BAA42B5FDEA2008503B5 /* SocialLoginAPIServiceType.swift in Sources */,
+				8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */,
 				84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */,
 				84781CBE2B5BF95100D37921 /* MyPageDIContainer.swift in Sources */,
 				84781BCF2B5BDAFC00D37921 /* SceneDelegate.swift in Sources */,
 				87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */,
 				84781CBA2B5BF90C00D37921 /* HomeTabBarViewModel.swift in Sources */,
 				84781CC72B5BF9F700D37921 /* TicketDIContainer.swift in Sources */,
+				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
 				8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */,
+				8757BAA62B5FDED7008503B5 /* SocialLoginAPIService.swift in Sources */,
 				84781CC02B5BF98600D37921 /* MypageViewController.swift in Sources */,
 				84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */,
 				876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */,
@@ -573,6 +600,7 @@
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
 				84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
+				8757BAAA2B5FDF29008503B5 /* KakaoAuth.swift in Sources */,
 				876E414D2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift in Sources */,
 				84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */,
 			);
