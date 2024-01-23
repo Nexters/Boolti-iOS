@@ -1,5 +1,5 @@
 //
-//  RootNavigationDelegate.swift
+//  SplashViewModelDelegate.swift
 //  Boolti
 //
 //  Created by Miro on 1/20/24.
