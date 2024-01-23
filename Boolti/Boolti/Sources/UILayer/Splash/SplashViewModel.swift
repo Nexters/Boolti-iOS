@@ -43,7 +43,7 @@ final class SplashViewModel {
             let updateRequired = self.remoteConfig.configValue(forKey: "UpdateRequired").boolValue
             
             self.updateRequired.accept(updateRequired &&
-                                       AppInfo.shared.appVersion.compare(minVersion, options: .numeric) == .orderedAscending)
+                                       AppInfo.appVersion?.compare(minVersion, options: .numeric) == .orderedAscending)
         })
     }
 }

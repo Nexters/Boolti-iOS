@@ -89,7 +89,7 @@ extension SplashViewController {
     }
     
     private func openAppStore() {
-        guard let url = URL(string: AppInfo.shared.booltiAppStoreLink) else { return }
+        guard let url = URL(string: AppInfo.booltiAppStoreLink) else { return }
 
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
