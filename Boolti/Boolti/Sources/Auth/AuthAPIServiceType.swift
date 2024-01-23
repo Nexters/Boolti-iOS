@@ -16,8 +16,6 @@ enum Provider: String {
 
 protocol AuthAPIServiceType {
 
-    associatedtype Token = (String, String)
-
     var networkService: Networking { get }
     func fetchTokens() -> Token
     func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<LoginResponseDTO>

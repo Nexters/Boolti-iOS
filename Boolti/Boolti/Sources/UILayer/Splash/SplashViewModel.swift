@@ -11,14 +11,15 @@ import Firebase
 
 final class SplashViewModel {
     
-    private let authAPIservice: any AuthAPIServiceType
+    private let authAPIservice: AuthAPIServiceType
     private let navigationDelegate: SplashViewModelDelegate
 
+    let fetchToken = PublishRelay<Token>()
     let updateRequired = PublishRelay<Bool>()
 
     private let remoteConfig = RemoteConfig.remoteConfig()
 
-    init(authAPIService: any AuthAPIServiceType, delegate: SplashViewModelDelegate) {
+    init(authAPIService: AuthAPIServiceType, delegate: SplashViewModelDelegate) {
         self.authAPIservice = authAPIService
         self.navigationDelegate = delegate
         self.initRemoteConfig()
@@ -31,8 +32,13 @@ final class SplashViewModel {
         remoteConfig.setDefaults(fromPlist: "GoogleService-Info")
     }
 
-    func navigateToHomeTab() {
-        navigationDelegate.splashViewModel(self)
+    func loadAccessToken() {
+        let token = authAPIservice.fetchTokens()
+        self.fetchToken.accept(token)
+    }
+
+    func navigateToHomeTab(with token: Token) {
+        navigationDelegate.splashViewModel(self, with: token)
     }
     
     func checkUpdateRequired() {

@@ -16,12 +16,12 @@ final class RootViewController: UIViewController {
     private let disposeBag = DisposeBag()
 
     private let splashViewControllerFactory: () -> SplashViewController
-    private let homeTabBarControllerFactory: () -> HomeTabBarController
+    private let homeTabBarControllerFactory: (Token) -> HomeTabBarController
 
     init(
         viewModel: RootViewModel,
         splashViewControllerFactory: @escaping () -> SplashViewController,
-        hometabBarControllerFactory: @escaping () -> HomeTabBarController
+        hometabBarControllerFactory: @escaping (Token) -> HomeTabBarController
     ) {
         self.viewModel = viewModel
         self.splashViewControllerFactory = splashViewControllerFactory
@@ -67,7 +67,7 @@ final class RootViewController: UIViewController {
     private func createViewController(_ next: RootDestination) -> UIViewController {
         switch next {
         case .splash: return splashViewControllerFactory()
-        case .homeTab: return homeTabBarControllerFactory()
+        case .homeTab(let token): return homeTabBarControllerFactory(token)
         }
     }
 }

@@ -23,8 +23,8 @@ final class RootDIContainer {
             return DIContainer.createSplashViewController()
         }
 
-        let homeTabBarControllerFactory: () -> HomeTabBarController = {
-            let DIContainer = self.createHomeTabBarDIContainer()
+        let homeTabBarControllerFactory: (Token) -> HomeTabBarController = { token in
+            let DIContainer = self.createHomeTabBarDIContainer(token: token)
             return DIContainer.createHomeTabBarController()
         }
 
@@ -39,7 +39,7 @@ final class RootDIContainer {
         return SplashDIContainer(rootDIContainer: self, networkProvider: networkProvider)
     }
 
-    private func createHomeTabBarDIContainer() -> HomeTabBarDIContainer {
-        return HomeTabBarDIContainer(rootDIContainer: self)
+    private func createHomeTabBarDIContainer(token: Token) -> HomeTabBarDIContainer {
+        return HomeTabBarDIContainer(token: token, rootDIContainer: self)
     }
 }

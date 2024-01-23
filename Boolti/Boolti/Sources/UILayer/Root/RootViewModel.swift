@@ -15,8 +15,8 @@ final class RootViewModel {
 }
 
 extension RootViewModel: SplashViewModelDelegate {
-
-    func splashViewModel(_ didSplashViewControllerDismissed: SplashViewModel) {
-        self.navigation.accept(.homeTab)
+    func splashViewModel(_ didSplashViewControllerDismissed: SplashViewModel, with token: Token) {
+        self.navigation.accept(.homeTab(token))
     }
+
 }
