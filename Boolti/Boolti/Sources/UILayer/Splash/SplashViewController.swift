@@ -81,10 +81,10 @@ extension SplashViewController {
         let confirm = UIAlertAction(title: "네", style: .default, handler: { _ in
             self.openAppStore()
         })
-        let cancle = UIAlertAction(title: "아니요", style: .cancel, handler: { _ in
+        let cancel = UIAlertAction(title: "아니요", style: .cancel, handler: { _ in
             UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
         })
-        [confirm, cancle].forEach { alertController.addAction($0) }
+        [confirm, cancel].forEach { alertController.addAction($0) }
         self.present(alertController, animated: true)
     }
     
