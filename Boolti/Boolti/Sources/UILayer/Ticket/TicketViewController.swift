@@ -43,13 +43,12 @@ final class TicketViewController: ViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // TODO: 화면 넘어가는 거 확인용. 나중에 지워야함!
         self.view.backgroundColor = .green
         self.configureUI()
-        self.bind()
+        self.bindViewModel()
     }
 
     private func configureUI() {
@@ -57,47 +56,45 @@ final class TicketViewController: ViewController {
         self.containerView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
-
     }
 
-    private func bind() {
+    private func bindViewModel() {
+        self.bindInput()
+        self.bindOutput()
+    }
 
-        self.rx.viewWillAppear
+    private func bindInput() {
+        self.rx.viewDidAppear
             .take(1)
-            .flatMapFirst { _ in self.viewModel.navigation }
-            .subscribe(with: self, onNext: { owner, ticketDestination in
-                let viewController = self.createViewController(ticketDestination)
-                switch ticketDestination {
-                case .login:
-                    viewController.modalPresentationStyle = .fullScreen
-                    self.present(viewController, animated: true)
-                }
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: { _ in
+                self.viewModel.input.viewDidAppearEvent.onNext(())
             })
             .disposed(by: self.disposeBag)
 
-        self.rx.viewDidAppear
-            .subscribe(with: self) { owner, _ in
-                self.viewModel.loadAccessToken()
-            }
+        self.loginEnterView.loginButton.rx.tap
+            .asDriver()
+            .drive(self.viewModel.input.loginButtonTapEvent)
             .disposed(by: self.disposeBag)
+    }
 
-        self.viewModel.isAccessTokenLoaded
-            .observe(on: MainScheduler.instance)
+    private func bindOutput() {
+        self.viewModel.output.isAccessTokenLoaded
             .subscribe(with: self) { owner, isLoaded in
                 if isLoaded {
                     // 여기서 그냥 API 호출해서 원래대로 화면 보여주기!..
+                } else {
+                    // 여기는 token이 없으므로 loginEnterView를 보여주기!...
+                    self.containerView.addSubview(self.loginEnterView)
+                    self.configureLoginEnterView()
                 }
-                // 여기는 token이 없으므로 loginEnterView를 보여주기!...
-                self.containerView.addSubview(self.loginEnterView)
-                self.configureLoginEnterView()
             }
             .disposed(by: self.disposeBag)
 
-        // TODO: 이것도 Input - Ouput Model로 바꿀 예정이니까 이렇게 구현하면 안됨!..
-        self.loginEnterView.loginButton.rx.tap
-            .asDriver()
-            .drive { _ in
-                self.viewModel.navigation.accept(.login)
+        self.viewModel.output.navigation
+            .subscribe(with: self) { owner, ticketDestination in
+                let viewController = self.createViewController(ticketDestination)
+                self.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
