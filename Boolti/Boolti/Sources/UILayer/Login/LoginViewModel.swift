@@ -14,6 +14,7 @@ final class LoginViewModel {
 
     private let authAPIService: AuthAPIServiceType
     private let socialLoginAPIService: SocialLoginAPIServiceType
+    private let disposeBag = DisposeBag()
 
     init(authAPIService: AuthAPIServiceType, socialLoginAPIService: SocialLoginAPIServiceType) {
         self.authAPIService = authAPIService
@@ -21,31 +22,18 @@ final class LoginViewModel {
     }
     // TODO: Input Ouput 모델로 변경할 예정!..
     func loginKakao() {
-        if UserApi.isKakaoTalkLoginAvailable() {
-            self.loginWithKakaoApp()
-        } else {
-            self.loginWithKakaoAccount()
-        }
+        self.socialLoginAPIService.authorize(provider: .kakao)
+            .flatMapLatest { [weak self] OAuthReponse -> Single<LoginResponseDTO> in
+                guard let self else {
+                    return Single<LoginResponseDTO>.never()
+                }
+                // 서버 통신을 통해서 AccessToken과 RefreshToken을 받아온다.
+                return self.authAPIService.fetch(withProviderToken: OAuthReponse.accessToken, provider: OAuthReponse.provider)
+            }
+            .subscribe { _ in
+                print("완료")
+            }
+            .disposed(by: self.disposeBag)
     }
-
-    func loginWithKakaoApp() {
-        UserApi.shared.loginWithKakaoTalk { oauthToken, error in
-            guard error != nil else { return }
-
-            let accessToken = oauthToken?.accessToken
-
-            print("loginWithKakaoApp 성공!..")
-        }
-    }
-
-    func loginWithKakaoAccount() {
-        UserApi.shared.loginWithKakaoAccount { oauthToken, error in
-            guard error != nil else { return }
-
-            print("loginWithKakaoApp 성공!..")
-        }
-    }
-
-
 
 }
