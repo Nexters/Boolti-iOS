@@ -19,11 +19,13 @@ final class TicketViewModel {
 
     private let disposeBag = DisposeBag()
 
+    // VC에서 일어나는 것
     struct Input {
         var viewDidAppearEvent = PublishSubject<Void>()
         var loginButtonTapEvent = PublishSubject<Void>()
     }
 
+    // Input에 의해서 생기는 ViewModel의 Output
     struct Output {
         let navigation = PublishSubject<TicketViewDestination>()
         let isAccessTokenLoaded = PublishSubject<Bool>()
@@ -32,7 +34,6 @@ final class TicketViewModel {
     let input: Input
     let output: Output
 
-    // TODO: 토큰 여부 확인 후 로그인 뷰로 이동
     init(authAPIService: AuthAPIServiceType) {
         self.authAPIService = authAPIService
 
@@ -48,6 +49,7 @@ final class TicketViewModel {
     }
 
     private func bindViewDidAppearEvent() {
+        // 화면이 뜨면, 현재 accessToken이 있는 지 확인한다.
         self.input.viewDidAppearEvent
             .subscribe(with: self) { owner, _ in
                 self.loadAccessToken()
@@ -56,6 +58,7 @@ final class TicketViewModel {
     }
 
     private func bindLoginButtonTapEvent() {
+        // 로그인 버튼을 누르면 로그인 화면으로 넘어가기
         self.input.loginButtonTapEvent
             .subscribe(with: self, onNext: { owner, _ in
                 self.output.navigation.onNext(.login)
@@ -64,6 +67,7 @@ final class TicketViewModel {
     }
 
     private func loadAccessToken() {
+        // accessToken이 있으면 output으로 넘기기!..
         let token = authAPIService.fetchTokens()
         guard token.accessToken != "" && token.refreshToken != "" else {
             self.output.isAccessTokenLoaded.onNext(false)

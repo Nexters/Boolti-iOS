@@ -62,7 +62,8 @@ final class TicketViewController: ViewController {
         self.bindInput()
         self.bindOutput()
     }
-
+    
+    // VC에서 일어나는 Input을 binding한다.
     private func bindInput() {
         self.rx.viewDidAppear
             .take(1)
@@ -78,6 +79,7 @@ final class TicketViewController: ViewController {
             .disposed(by: self.disposeBag)
     }
 
+    // ViewModel의 Output을 Binding한다.
     private func bindOutput() {
         self.viewModel.output.isAccessTokenLoaded
             .subscribe(with: self) { owner, isLoaded in

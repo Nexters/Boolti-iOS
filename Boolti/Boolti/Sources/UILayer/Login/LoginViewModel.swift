@@ -20,8 +20,12 @@ final class LoginViewModel {
         self.authAPIService = authAPIService
         self.socialLoginAPIService = socialLoginAPIService
     }
+
     // TODO: Input Ouput 모델로 변경할 예정!..
     func loginKakao() {
+        // 카카오 로그인을 한다..
+        // 카카오 로그인을 통해서 받아온 토큰을 통해서 서버와 login 통신을 한다.
+        // 만약 login 통신을 했는데, 회원가입을 안했다면, 서버와 signup 통신을 한다.
         self.socialLoginAPIService.authorize(provider: .kakao)
             .flatMapLatest { [weak self] OAuthReponse -> Single<LoginResponseDTO> in
                 guard let self else {

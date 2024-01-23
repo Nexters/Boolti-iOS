@@ -48,6 +48,8 @@ final class AuthAPIService: AuthAPIServiceType {
 
     // MARK: Kakao만 생각!..
 
+
+    // 유저의 정보를 가져와서 서버와 회원가입 API 통신을 한다.
     func signUp(provider: Provider) {
         UserApi.shared.rx.me()
             .subscribe(with: self, onSuccess: { owner, user in
