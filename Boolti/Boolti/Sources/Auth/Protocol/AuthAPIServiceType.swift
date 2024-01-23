@@ -5,14 +5,8 @@
 //  Created by Miro on 1/22/24.
 //
 
-import Foundation
 import RxSwift
 import Moya
-
-enum Provider: String {
-    case apple
-    case kakao
-}
 
 protocol AuthAPIServiceType {
 

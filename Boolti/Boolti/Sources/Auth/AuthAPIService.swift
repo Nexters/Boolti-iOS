@@ -11,9 +11,10 @@ import RxMoya
 
 
 final class AuthAPIService: AuthAPIServiceType {
-    let networkService: Networking
 
-    init(networkService: Networking) {
+    let networkService: NetworkProviderType
+
+    init(networkService: NetworkProviderType) {
         self.networkService = networkService
     }
 

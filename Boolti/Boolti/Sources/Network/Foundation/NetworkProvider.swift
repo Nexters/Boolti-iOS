@@ -10,7 +10,7 @@ import RxSwift
 import RxMoya
 import Moya
 
-final class NetworkProvider: Networking {
+final class NetworkProvider: NetworkProviderType {
 
     private let provider: MoyaProvider<MultiTarget>
 

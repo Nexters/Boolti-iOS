@@ -13,7 +13,7 @@
 		84781BD92B5BDAFD00D37921 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84781BD72B5BDAFD00D37921 /* LaunchScreen.storyboard */; };
 		84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781BE72B5BE17400D37921 /* Enviroment.swift */; };
 		84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781BED2B5BE3B600D37921 /* NetworkError.swift */; };
-		84781BF02B5BE3C000D37921 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781BEF2B5BE3C000D37921 /* Networking.swift */; };
+		84781BF02B5BE3C000D37921 /* NetworkProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781BEF2B5BE3C000D37921 /* NetworkProviderType.swift */; };
 		84781C642B5BE9C100D37921 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C632B5BE9C100D37921 /* Moya */; };
 		84781C662B5BE9C100D37921 /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C652B5BE9C100D37921 /* ReactiveMoya */; };
 		84781C682B5BE9C100D37921 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C672B5BE9C100D37921 /* RxMoya */; };
@@ -73,6 +73,8 @@
 		8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA72B5FDF0F008503B5 /* OAuth.swift */; };
 		8757BAAA2B5FDF29008503B5 /* KakaoAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA92B5FDF29008503B5 /* KakaoAuth.swift */; };
 		8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */; };
+		8757BAAE2B60067A008503B5 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAD2B60067A008503B5 /* Provider.swift */; };
+		8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAF2B60069B008503B5 /* OAuthResponse.swift */; };
 		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
 		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
 		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
@@ -91,7 +93,7 @@
 		84781BDA2B5BDAFD00D37921 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84781BE72B5BE17400D37921 /* Enviroment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enviroment.swift; sourceTree = "<group>"; };
 		84781BED2B5BE3B600D37921 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		84781BEF2B5BE3C000D37921 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		84781BEF2B5BE3C000D37921 /* NetworkProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProviderType.swift; sourceTree = "<group>"; };
 		84781C6C2B5BEA3800D37921 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		84781C6F2B5BEAB800D37921 /* UserDefaults+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+.swift"; sourceTree = "<group>"; };
 		84781C712B5BEAC800D37921 /* RxMoya+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxMoya+.swift"; sourceTree = "<group>"; };
@@ -136,6 +138,8 @@
 		8757BAA72B5FDF0F008503B5 /* OAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		8757BAA92B5FDF29008503B5 /* KakaoAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuth.swift; sourceTree = "<group>"; };
 		8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuth.swift; sourceTree = "<group>"; };
+		8757BAAD2B60067A008503B5 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		8757BAAF2B60069B008503B5 /* OAuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthResponse.swift; sourceTree = "<group>"; };
 		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = "../../../../Boolti-File/Release.xcconfig"; sourceTree = "<group>"; };
 		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = "../../../../Boolti-File/Debug.xcconfig"; sourceTree = "<group>"; };
 		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = "../../../../Boolti-File/Shared.xcconfig"; sourceTree = "<group>"; };
@@ -264,8 +268,8 @@
 		84781BEB2B5BE38900D37921 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				8757BAB22B6007A2008503B5 /* Protocol */,
 				84781BED2B5BE3B600D37921 /* NetworkError.swift */,
-				84781BEF2B5BE3C000D37921 /* Networking.swift */,
 				84781C6C2B5BEA3800D37921 /* AuthInterceptor.swift */,
 				87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */,
 			);
@@ -430,6 +434,23 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		8757BAB12B6006AB008503B5 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */,
+				8757BAA32B5FDEA2008503B5 /* SocialLoginAPIServiceType.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		8757BAB22B6007A2008503B5 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				84781BEF2B5BE3C000D37921 /* NetworkProviderType.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		876E414B2B5F8C6B006BEEB7 /* UIElements */ = {
 			isa = PBXGroup;
 			children = (
@@ -441,14 +462,15 @@
 		876E41502B5F9542006BEEB7 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */,
-				8757BAA32B5FDEA2008503B5 /* SocialLoginAPIServiceType.swift */,
+				8757BAB12B6006AB008503B5 /* Protocol */,
 				8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */,
 				8757BA982B5FC573008503B5 /* AuthToken.swift */,
 				8757BAA52B5FDED7008503B5 /* SocialLoginAPIService.swift */,
 				8757BAA72B5FDF0F008503B5 /* OAuth.swift */,
 				8757BAA92B5FDF29008503B5 /* KakaoAuth.swift */,
 				8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */,
+				8757BAAD2B60067A008503B5 /* Provider.swift */,
+				8757BAAF2B60069B008503B5 /* OAuthResponse.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -558,13 +580,14 @@
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
 				84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */,
 				8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */,
+				8757BAAE2B60067A008503B5 /* Provider.swift in Sources */,
 				84781C892B5BEDAA00D37921 /* LoginAPI.swift in Sources */,
 				84781CA12B5BF6AB00D37921 /* RootViewController.swift in Sources */,
 				84781C9F2B5BF6A000D37921 /* SplashViewModelDelegate.swift in Sources */,
 				84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */,
 				8757BA992B5FC573008503B5 /* AuthToken.swift in Sources */,
 				84781BCD2B5BDAFC00D37921 /* AppDelegate.swift in Sources */,
-				84781BF02B5BE3C000D37921 /* Networking.swift in Sources */,
+				84781BF02B5BE3C000D37921 /* NetworkProviderType.swift in Sources */,
 				84781C9D2B5BF68900D37921 /* RootDIContainer.swift in Sources */,
 				84781C722B5BEAC800D37921 /* RxMoya+.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
@@ -600,6 +623,7 @@
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
 				84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
+				8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */,
 				8757BAAA2B5FDF29008503B5 /* KakaoAuth.swift in Sources */,
 				876E414D2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift in Sources */,
 				84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */,
@@ -622,6 +646,7 @@
 /* Begin XCBuildConfiguration section */
 		84781BDB2B5BDAFD00D37921 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -685,6 +710,7 @@
 		};
 		84781BDC2B5BDAFD00D37921 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 876E41412B5F874B006BEEB7 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -741,6 +767,7 @@
 		};
 		84781BDE2B5BDAFD00D37921 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -775,6 +802,7 @@
 		};
 		84781BDF2B5BDAFD00D37921 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 876E41412B5F874B006BEEB7 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
