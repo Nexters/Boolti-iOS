@@ -81,15 +81,19 @@ final class TicketViewController: ViewController {
                 if isLoaded {
                     // 여기서 그냥 API 호출해서 원래대로 화면 보여주기!..
                 }
+                // 여기는 token이 없으므로 loginEnterView를 보여주기!...
                 self.containerView.addSubview(self.loginEnterView)
                 self.configureLoginEnterView()
             }
             .disposed(by: self.disposeBag)
 
-        //        self.viewModel.isLoading
-        //            .distinctUntilChanged()
-        //            .bind(to: self.isLoading)
-        //            .disposed(by: self.disposeBag)
+        // TODO: 이것도 Input - Ouput Model로 바꿀 예정이니까 이렇게 구현하면 안됨!..
+        self.loginEnterView.loginButton.rx.tap
+            .asDriver()
+            .drive { _ in
+                self.viewModel.navigation.accept(.login)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func configureLoginEnterView() {
