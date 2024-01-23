@@ -75,6 +75,9 @@
 		8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */; };
 		8757BAAE2B60067A008503B5 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAD2B60067A008503B5 /* Provider.swift */; };
 		8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAF2B60069B008503B5 /* OAuthResponse.swift */; };
+		8757BAB42B6008F8008503B5 /* SignUpAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB32B6008F8008503B5 /* SignUpAPI.swift */; };
+		8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */; };
+		8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */; };
 		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
 		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
 		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
@@ -140,6 +143,9 @@
 		8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuth.swift; sourceTree = "<group>"; };
 		8757BAAD2B60067A008503B5 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		8757BAAF2B60069B008503B5 /* OAuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthResponse.swift; sourceTree = "<group>"; };
+		8757BAB32B6008F8008503B5 /* SignUpAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAPI.swift; sourceTree = "<group>"; };
+		8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequestDTO.swift; sourceTree = "<group>"; };
+		8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponseDTO.swift; sourceTree = "<group>"; };
 		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = "../../../../Boolti-File/Release.xcconfig"; sourceTree = "<group>"; };
 		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = "../../../../Boolti-File/Debug.xcconfig"; sourceTree = "<group>"; };
 		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = "../../../../Boolti-File/Shared.xcconfig"; sourceTree = "<group>"; };
@@ -316,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */,
+				8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -324,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */,
+				8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -333,6 +341,7 @@
 			children = (
 				84781C862B5BED9A00D37921 /* BaseAPI.swift */,
 				84781C882B5BEDAA00D37921 /* LoginAPI.swift */,
+				8757BAB32B6008F8008503B5 /* SignUpAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -580,14 +589,17 @@
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
 				84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */,
 				8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */,
+				8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */,
 				8757BAAE2B60067A008503B5 /* Provider.swift in Sources */,
 				84781C892B5BEDAA00D37921 /* LoginAPI.swift in Sources */,
 				84781CA12B5BF6AB00D37921 /* RootViewController.swift in Sources */,
 				84781C9F2B5BF6A000D37921 /* SplashViewModelDelegate.swift in Sources */,
 				84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */,
 				8757BA992B5FC573008503B5 /* AuthToken.swift in Sources */,
+				8757BAB42B6008F8008503B5 /* SignUpAPI.swift in Sources */,
 				84781BCD2B5BDAFC00D37921 /* AppDelegate.swift in Sources */,
 				84781BF02B5BE3C000D37921 /* NetworkProviderType.swift in Sources */,
+				8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */,
 				84781C9D2B5BF68900D37921 /* RootDIContainer.swift in Sources */,
 				84781C722B5BEAC800D37921 /* RxMoya+.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,

@@ -30,9 +30,12 @@ final class LoginViewModel {
                 // 서버 통신을 통해서 AccessToken과 RefreshToken을 받아온다.
                 return self.authAPIService.fetch(withProviderToken: OAuthReponse.accessToken, provider: OAuthReponse.provider)
             }
-            .subscribe { _ in
-                print("완료")
-            }
+            .subscribe(onNext: { loginResponseDTO in
+                // 그리고 만약 회원가입이 필요하다면 signUp 메소드를 호출!..
+                if loginResponseDTO.signUpRequired == false {
+                    self.authAPIService.signUp(provider: .kakao)
+                }
+            })
             .disposed(by: self.disposeBag)
     }
 

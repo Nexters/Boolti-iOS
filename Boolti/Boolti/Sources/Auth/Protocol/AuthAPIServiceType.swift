@@ -10,8 +10,9 @@ import Moya
 
 protocol AuthAPIServiceType {
 
-    var networkService: Networking { get }
+    var networkService: NetworkProviderType { get }
     func fetchTokens() -> AuthToken
     func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<LoginResponseDTO>
+    func signUp(provider: Provider)
     func write(token: AuthToken)
 }

@@ -10,8 +10,6 @@ import Moya
 
 enum LoginAPI {
 
-    typealias Response = LoginResponseDTO
-
     // 불티 서버와 통신
     case kakao(requestDTO: LoginRequestDTO)
     case apple(requestDTO: LoginRequestDTO)

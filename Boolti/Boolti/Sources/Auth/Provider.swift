@@ -8,6 +8,6 @@
 import Foundation
 
 enum Provider: String {
-    case apple
-    case kakao
+    case apple = "KAKAO"
+    case kakao = "APPLE"
 }
