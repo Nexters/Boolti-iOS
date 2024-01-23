@@ -10,15 +10,14 @@ import RxSwift
 import RxMoya
 
 final class AuthAPIService: AuthAPIServiceType {
-
     let networkService: Networking
 
     init(networkService: Networking) {
         self.networkService = networkService
     }
 
-    func fetchTokens() -> Token {
-        return Token(accessToken: UserDefaults.accessToken, refreshToken: UserDefaults.refreshToken)
+    func fetchTokens() -> (String, String) {
+        return (UserDefaults.accessToken, UserDefaults.refreshToken)
     }
 
     func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<LoginResponseDTO> {
@@ -37,14 +36,13 @@ final class AuthAPIService: AuthAPIServiceType {
             .do { [weak self] loginReponseDTO in
                 guard let accessToken = loginReponseDTO.accessToken,
                       let refreshToken = loginReponseDTO.refreshToken else { return }
-                let token = Token(accessToken: accessToken, refreshToken: refreshToken)
-                self?.write(token: token)
+                self?.write(token: (accessToken, refreshToken))
             }
     }
 
-    func write(token: Token) {
-        UserDefaults.accessToken = token.accessToken
-        UserDefaults.refreshToken = token.refreshToken
+    func write(token: (String, String)) {
+        UserDefaults.accessToken = token.0
+        UserDefaults.refreshToken = token.1
     }
 
     func removeAllTokens() {

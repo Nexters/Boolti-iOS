@@ -7,11 +7,6 @@
 
 import Foundation
 
-struct Token {
-    var accessToken: String
-    var refreshToken: String
-}
-
 protocol SplashViewModelDelegate {
-    func splashViewModel(_ didSplashViewControllerDismissed: SplashViewModel, with token: Token)
+    func splashViewModel(_ didSplashViewControllerDismissed: SplashViewModel)
 }

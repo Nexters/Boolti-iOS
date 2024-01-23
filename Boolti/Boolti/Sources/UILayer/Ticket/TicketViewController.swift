@@ -14,7 +14,7 @@ final class TicketViewController: ViewController {
 
     private let disposeBag = DisposeBag()
 //    private var viewModel: TicketViewModel?
-    private let viewModel = TicketViewModel(authAPIService: AuthAPIService(networkService: NetworkProvider()))
+    private let viewModel = TicketViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()

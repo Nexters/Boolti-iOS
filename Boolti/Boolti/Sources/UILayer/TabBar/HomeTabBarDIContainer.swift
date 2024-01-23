@@ -13,7 +13,7 @@ final class HomeTabBarDIContainer {
 
     private let rootDIContainer: RootDIContainer
 
-    init(token: Token, rootDIContainer: RootDIContainer) {
+    init(rootDIContainer: RootDIContainer) {
         self.rootDIContainer = rootDIContainer
     }
 

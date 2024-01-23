@@ -7,7 +7,6 @@
 
 import UIKit
 import RxSwift
-import RxAppState
 
 final class SplashViewController: UIViewController {
 
@@ -31,12 +30,6 @@ final class SplashViewController: UIViewController {
         fatalError()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,27 +46,34 @@ final class SplashViewController: UIViewController {
 extension SplashViewController {
     
     private func bind() {
-
         NotificationCenter.default.rx
             .notification(UIApplication.willEnterForegroundNotification)
             .observe(on: MainScheduler.instance)
             .subscribe(with: self, onNext: { owner, _ in
                 owner.viewModel.checkUpdateRequired()
-                owner.viewModel.loadAccessToken()
             })
             .disposed(by: disposeBag)
-
-        Observable.zip(self.viewModel.updateRequired, self.viewModel.fetchToken)
-            .asDriver(onErrorJustReturn: (false, Token(accessToken: "", refreshToken: "")))
-            .drive { (isRequired, token) in
+        
+        self.viewModel.updateRequired
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self, onNext: { owner, isRequired in
                 if isRequired {
-                    self.showUpdateAlert()
+                    owner.showUpdateAlert()
                 } else {
-                    self.viewModel.navigateToHomeTab(with: token)
+                    owner.navigateToHomeTab()
                 }
-            }
-            .disposed(by: self.disposeBag)
-
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func navigateToHomeTab() {
+        Observable.just("")
+            .delay(.seconds(2), scheduler: MainScheduler.instance)
+            .take(1)
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.viewModel.navigateToHomeTab()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func showUpdateAlert() {

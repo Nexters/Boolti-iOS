@@ -9,5 +9,5 @@ import Foundation
 
 enum RootDestination {
     case splash
-    case homeTab(Token)
+    case homeTab
 }
