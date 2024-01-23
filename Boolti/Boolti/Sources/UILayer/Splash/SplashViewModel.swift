@@ -15,10 +15,20 @@ final class SplashViewModel {
     private let navigationDelegate: SplashViewModelDelegate
     
     let updateRequired = PublishRelay<Bool>()
+    
+    private let remoteConfig = RemoteConfig.remoteConfig()
 
     init(authAPIService: AuthAPIServiceType, delegate: SplashViewModelDelegate) {
         self.authAPIservice = authAPIService
         self.navigationDelegate = delegate
+        self.initRemoteConfig()
+    }
+    
+    func initRemoteConfig() {
+        let setting = RemoteConfigSettings()
+        setting.minimumFetchInterval = 0
+        remoteConfig.configSettings = setting
+        remoteConfig.setDefaults(fromPlist: "GoogleService-Info")
     }
 
     func navigateToHomeTab() {
@@ -26,20 +36,14 @@ final class SplashViewModel {
     }
     
     func checkUpdateRequired() {
-        let remoteConfig = RemoteConfig.remoteConfig()
-        let setting = RemoteConfigSettings()
-        setting.minimumFetchInterval = 0
-        remoteConfig.configSettings = setting
-        remoteConfig.setDefaults(fromPlist: "GoogleService-Info")
-        
-        remoteConfig.fetchAndActivate(completionHandler: { status, error in
+        self.remoteConfig.fetchAndActivate(completionHandler: { status, error in
             if status == .error { return }
             
-            guard let minVersion = remoteConfig.configValue(forKey: "MinVersion").stringValue else { return }
-            let updateRequired = remoteConfig.configValue(forKey: "UpdateRequired").boolValue
+            guard let minVersion = self.remoteConfig.configValue(forKey: "MinVersion").stringValue else { return }
+            let updateRequired = self.remoteConfig.configValue(forKey: "UpdateRequired").boolValue
             
             self.updateRequired.accept(updateRequired &&
-                                       AppInfo.appVersion?.compare(minVersion, options: .numeric) == .orderedAscending)
+                                       AppInfo.shared.appVersion.compare(minVersion, options: .numeric) == .orderedAscending)
         })
     }
 }
