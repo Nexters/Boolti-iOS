@@ -208,7 +208,6 @@
 			isa = PBXGroup;
 			children = (
 				849FBD4F2B5E91F7006EB865 /* Constants */,
-				84781C842B5BED3200D37921 /* Enums */,
 				84781C782B5BEBB800D37921 /* Utils */,
 				84781C6E2B5BEA9E00D37921 /* Extensions */,
 			);
@@ -297,14 +296,6 @@
 				84781C7F2B5BEC1400D37921 /* KakaoLoginResponseDTO.swift */,
 			);
 			path = Response;
-			sourceTree = "<group>";
-		};
-		84781C842B5BED3200D37921 /* Enums */ = {
-			isa = PBXGroup;
-			children = (
-				84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */,
-			);
-			path = Enums;
 			sourceTree = "<group>";
 		};
 		84781C852B5BED8D00D37921 /* APIs */ = {
@@ -405,6 +396,7 @@
 			isa = PBXGroup;
 			children = (
 				849FBD502B5E920A006EB865 /* AppInfo.swift */,
+				84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
