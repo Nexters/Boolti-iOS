@@ -50,6 +50,10 @@
 		84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCD2B5C005600D37921 /* ConcertViewController.swift */; };
 		84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCF2B5C006500D37921 /* ConcertViewModel.swift */; };
 		84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84975BE82B60E04500F903E7 /* AuthAPI.swift */; };
+		84975BEF2B6113D000F903E7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84975BEE2B6113D000F903E7 /* Colors.xcassets */; };
+		84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84975BF72B611EA500F903E7 /* UIFont+.swift */; };
+		84975BFF2B6123E500F903E7 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84975BFD2B6123E500F903E7 /* Pretendard-SemiBold.otf */; };
+		84975C002B6123E500F903E7 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84975BFE2B6123E500F903E7 /* Pretendard-Regular.otf */; };
 		849FBD422B5E8BE9006EB865 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 849FBD412B5E8BE9006EB865 /* FirebaseAnalytics */; };
 		849FBD442B5E8BE9006EB865 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 849FBD432B5E8BE9006EB865 /* FirebaseAnalyticsOnDeviceConversion */; };
 		849FBD462B5E8BE9006EB865 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 849FBD452B5E8BE9006EB865 /* FirebaseAnalyticsSwift */; };
@@ -125,6 +129,10 @@
 		84781CCD2B5C005600D37921 /* ConcertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewController.swift; sourceTree = "<group>"; };
 		84781CCF2B5C006500D37921 /* ConcertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewModel.swift; sourceTree = "<group>"; };
 		84975BE82B60E04500F903E7 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		84975BEE2B6113D000F903E7 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		84975BF72B611EA500F903E7 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
+		84975BFD2B6123E500F903E7 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		84975BFE2B6123E500F903E7 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		849FBD502B5E920A006EB865 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
@@ -144,10 +152,10 @@
 		8757BAAF2B60069B008503B5 /* OAuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthResponse.swift; sourceTree = "<group>"; };
 		8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequestDTO.swift; sourceTree = "<group>"; };
 		8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponseDTO.swift; sourceTree = "<group>"; };
-		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = "../../../../Boolti-File/Release.xcconfig"; sourceTree = "<group>"; };
-		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = "../../../../Boolti-File/Debug.xcconfig"; sourceTree = "<group>"; };
-		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = "../../../../Boolti-File/Shared.xcconfig"; sourceTree = "<group>"; };
-		876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Boolti-File/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
+		876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		876E414E2B5F915E006BEEB7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
@@ -221,7 +229,9 @@
 		84781BE12B5BDC9000D37921 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				84975BF22B611E2100F903E7 /* Fonts */,
 				84781BD52B5BDAFD00D37921 /* Assets.xcassets */,
+				84975BEE2B6113D000F903E7 /* Colors.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -286,6 +296,7 @@
 				84781C6F2B5BEAB800D37921 /* UserDefaults+.swift */,
 				84781C712B5BEAC800D37921 /* RxMoya+.swift */,
 				876E414E2B5F915E006BEEB7 /* ViewController.swift */,
+				84975BF72B611EA500F903E7 /* UIFont+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -419,6 +430,15 @@
 				84781CCF2B5C006500D37921 /* ConcertViewModel.swift */,
 			);
 			path = Concert;
+			sourceTree = "<group>";
+		};
+		84975BF22B611E2100F903E7 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				84975BFE2B6123E500F903E7 /* Pretendard-Regular.otf */,
+				84975BFD2B6123E500F903E7 /* Pretendard-SemiBold.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		849FBD4F2B5E91F7006EB865 /* Constants */ = {
@@ -566,7 +586,10 @@
 				876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */,
 				84781BD92B5BDAFD00D37921 /* LaunchScreen.storyboard in Resources */,
 				84781BD62B5BDAFD00D37921 /* Assets.xcassets in Resources */,
+				84975BFF2B6123E500F903E7 /* Pretendard-SemiBold.otf in Resources */,
+				84975C002B6123E500F903E7 /* Pretendard-Regular.otf in Resources */,
 				876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */,
+				84975BEF2B6113D000F903E7 /* Colors.xcassets in Resources */,
 				876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */,
 				876E41482B5F875D006BEEB7 /* GoogleService-Info.plist in Resources */,
 			);
@@ -619,6 +642,7 @@
 				87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */,
 				84781CBA2B5BF90C00D37921 /* HomeTabBarViewModel.swift in Sources */,
 				84781CC72B5BF9F700D37921 /* TicketDIContainer.swift in Sources */,
+				84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
 				8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* SocialLoginAPIService.swift in Sources */,

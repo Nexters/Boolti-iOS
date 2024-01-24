@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
 
     private let kakaoLoginButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "kakao_login_medium_wide"), for: .normal)
+        button.setImage(.kakaoLoginMediumWide, for: .normal)
         return button
     }()
 
