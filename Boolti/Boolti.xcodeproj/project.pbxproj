@@ -26,7 +26,6 @@
 		84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */; };
 		84781C822B5BEC3900D37921 /* BaseResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C812B5BEC3900D37921 /* BaseResponseDTO.swift */; };
 		84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C862B5BED9A00D37921 /* BaseAPI.swift */; };
-		84781C892B5BEDAA00D37921 /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C882B5BEDAA00D37921 /* LoginAPI.swift */; };
 		84781C952B5BF15A00D37921 /* RxKakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C942B5BF15A00D37921 /* RxKakaoSDKAuth */; };
 		84781C972B5BF15A00D37921 /* RxKakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C962B5BF15A00D37921 /* RxKakaoSDKCommon */; };
 		84781C992B5BF15A00D37921 /* RxKakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C982B5BF15A00D37921 /* RxKakaoSDKUser */; };
@@ -50,6 +49,7 @@
 		84781CCC2B5C003700D37921 /* ConcertDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCB2B5C003700D37921 /* ConcertDIContainer.swift */; };
 		84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCD2B5C005600D37921 /* ConcertViewController.swift */; };
 		84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCF2B5C006500D37921 /* ConcertViewModel.swift */; };
+		84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84975BE82B60E04500F903E7 /* AuthAPI.swift */; };
 		849FBD422B5E8BE9006EB865 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 849FBD412B5E8BE9006EB865 /* FirebaseAnalytics */; };
 		849FBD442B5E8BE9006EB865 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 849FBD432B5E8BE9006EB865 /* FirebaseAnalyticsOnDeviceConversion */; };
 		849FBD462B5E8BE9006EB865 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 849FBD452B5E8BE9006EB865 /* FirebaseAnalyticsSwift */; };
@@ -75,7 +75,6 @@
 		8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */; };
 		8757BAAE2B60067A008503B5 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAD2B60067A008503B5 /* Provider.swift */; };
 		8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAF2B60069B008503B5 /* OAuthResponse.swift */; };
-		8757BAB42B6008F8008503B5 /* SignUpAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB32B6008F8008503B5 /* SignUpAPI.swift */; };
 		8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */; };
 		8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */; };
 		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
@@ -105,7 +104,6 @@
 		84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
 		84781C812B5BEC3900D37921 /* BaseResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponseDTO.swift; sourceTree = "<group>"; };
 		84781C862B5BED9A00D37921 /* BaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPI.swift; sourceTree = "<group>"; };
-		84781C882B5BEDAA00D37921 /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		84781C9C2B5BF68900D37921 /* RootDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDIContainer.swift; sourceTree = "<group>"; };
 		84781C9E2B5BF6A000D37921 /* SplashViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModelDelegate.swift; sourceTree = "<group>"; };
 		84781CA02B5BF6AB00D37921 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -126,6 +124,7 @@
 		84781CCB2B5C003700D37921 /* ConcertDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDIContainer.swift; sourceTree = "<group>"; };
 		84781CCD2B5C005600D37921 /* ConcertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewController.swift; sourceTree = "<group>"; };
 		84781CCF2B5C006500D37921 /* ConcertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewModel.swift; sourceTree = "<group>"; };
+		84975BE82B60E04500F903E7 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		849FBD502B5E920A006EB865 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
@@ -143,7 +142,6 @@
 		8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuth.swift; sourceTree = "<group>"; };
 		8757BAAD2B60067A008503B5 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		8757BAAF2B60069B008503B5 /* OAuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthResponse.swift; sourceTree = "<group>"; };
-		8757BAB32B6008F8008503B5 /* SignUpAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAPI.swift; sourceTree = "<group>"; };
 		8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequestDTO.swift; sourceTree = "<group>"; };
 		8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponseDTO.swift; sourceTree = "<group>"; };
 		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = "../../../../Boolti-File/Release.xcconfig"; sourceTree = "<group>"; };
@@ -340,8 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				84781C862B5BED9A00D37921 /* BaseAPI.swift */,
-				84781C882B5BEDAA00D37921 /* LoginAPI.swift */,
-				8757BAB32B6008F8008503B5 /* SignUpAPI.swift */,
+				84975BE82B60E04500F903E7 /* AuthAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -591,12 +588,11 @@
 				8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */,
 				8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */,
 				8757BAAE2B60067A008503B5 /* Provider.swift in Sources */,
-				84781C892B5BEDAA00D37921 /* LoginAPI.swift in Sources */,
 				84781CA12B5BF6AB00D37921 /* RootViewController.swift in Sources */,
 				84781C9F2B5BF6A000D37921 /* SplashViewModelDelegate.swift in Sources */,
+				84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */,
 				84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */,
 				8757BA992B5FC573008503B5 /* AuthToken.swift in Sources */,
-				8757BAB42B6008F8008503B5 /* SignUpAPI.swift in Sources */,
 				84781BCD2B5BDAFC00D37921 /* AppDelegate.swift in Sources */,
 				84781BF02B5BE3C000D37921 /* NetworkProviderType.swift in Sources */,
 				8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */,
@@ -785,7 +781,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9XR48RYD63;
+				DEVELOPMENT_TEAM = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Boolti/Application/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "불티";
@@ -820,7 +816,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9XR48RYD63;
+				DEVELOPMENT_TEAM = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Boolti/Application/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "불티";

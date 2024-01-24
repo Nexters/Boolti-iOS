@@ -25,17 +25,9 @@ final class AuthAPIService: AuthAPIServiceType {
     }
 
     func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<LoginResponseDTO> {
-        let loginAPI: LoginAPI
         let loginRequestDTO = LoginRequestDTO(token: providerToken)
 
-        switch provider {
-        case .kakao:
-            loginAPI = LoginAPI.kakao(requestDTO: loginRequestDTO)
-        case .apple:
-            loginAPI = LoginAPI.apple(requestDTO: loginRequestDTO)
-        }
-
-        return networkService.request(loginAPI)
+        return networkService.request(AuthAPI.login(provider: provider, requestDTO: loginRequestDTO))
             .map(LoginResponseDTO.self)
             .do { [weak self] loginReponseDTO in
                 guard let accessToken = loginReponseDTO.accessToken,
@@ -96,9 +88,7 @@ final class AuthAPIService: AuthAPIServiceType {
             imgPath: imagePath
         )
 
-        let signUpAPI = SignUpAPI.kakao(requestDTO: requestDTO)
-
-        self.networkService.request(signUpAPI)
+        self.networkService.request(AuthAPI.signup(requestDTO: requestDTO))
             .map(SignUpResponseDTO.self)
             .subscribe { [weak self] signUpResponseDTO in
                 guard let accessToken = signUpResponseDTO.accessToken,
