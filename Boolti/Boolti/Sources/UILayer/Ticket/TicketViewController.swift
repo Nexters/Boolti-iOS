@@ -97,7 +97,8 @@ final class TicketViewController: ViewController {
         self.viewModel.output.navigation
             .subscribe(with: self) { owner, ticketDestination in
                 let viewController = self.createViewController(ticketDestination)
-                self.present(viewController, animated: true)
+                viewController.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
