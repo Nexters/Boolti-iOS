@@ -52,11 +52,15 @@ final class HomeTabBarDIContainer {
     }
 
     private func createTicketDIContainer() -> TicketDIContainer {
-        return TicketDIContainer()
+        return TicketDIContainer(
+            authAPIService: AuthAPIService(networkService: rootDIContainer.networkProvider)
+        )
     }
 
     private func createMyPageDIContainer() -> MyPageDIContainer {
-        return MyPageDIContainer()
+        return MyPageDIContainer(
+            authAPIService: AuthAPIService(networkService: rootDIContainer.networkProvider)
+        )
     }
 
 }

@@ -28,8 +28,13 @@ extension UserDefaults {
     // MARK: - Custom Methods
     
     // UserDefaults에 저장된 모든 유저 정보를 제거하는 메서드
-    func removeAllUserDefaulsKeys() {
+    static func removeAllUserDefaulsKeys() {
         UserDefaultsKey.allCases
             .forEach { UserDefaults.standard.removeObject(forKey: $0.rawValue) }
+    }
+
+    static func removeAllTokens() {
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.accessToken.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.refreshToken.rawValue)
     }
 }

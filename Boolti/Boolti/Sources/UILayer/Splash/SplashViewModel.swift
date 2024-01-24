@@ -13,9 +13,9 @@ final class SplashViewModel {
     
     private let authAPIservice: AuthAPIServiceType
     private let navigationDelegate: SplashViewModelDelegate
-    
+
     let updateRequired = PublishRelay<Bool>()
-    
+
     private let remoteConfig = RemoteConfig.remoteConfig()
 
     init(authAPIService: AuthAPIServiceType, delegate: SplashViewModelDelegate) {

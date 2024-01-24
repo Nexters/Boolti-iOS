@@ -10,7 +10,7 @@ import Foundation
 final class RootDIContainer {
 
     let rootViewModel: RootViewModel
-    private let networkProvider: NetworkProvider
+    let networkProvider: NetworkProvider
 
     init() {
         self.rootViewModel = RootViewModel()
