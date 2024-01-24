@@ -45,7 +45,7 @@ class LoginViewController: UIViewController {
         // 아래는 navigation controller의 색상으로 갈거므로 삭제될 예정
         self.view.backgroundColor = .gray
         self.configureUI()
-        self.bind()
+        self.bindViewModel()
     }
 
     init(viewModel: LoginViewModel) {
@@ -88,22 +88,24 @@ class LoginViewController: UIViewController {
         }
     }
 
-    private func bind() {
-        
+    private func bindViewModel() {
+        self.bindInput()
+    }
+
+    private func bindInput() {
         self.kakaoLoginButton.rx.tap
             .asDriver()
             .map { Provider.kakao }
             .drive(with: self) { owner, provider in
-                self.viewModel.login(with: provider)
+                self.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
             .disposed(by: self.disposeBag)
-
 
         self.appleLoginButton.rx.tap
             .asDriver()
             .map { Provider.apple }
             .drive(with: self) { owner, provider in
-                self.viewModel.login(with: provider)
+                self.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
             .disposed(by: self.disposeBag)
     }
