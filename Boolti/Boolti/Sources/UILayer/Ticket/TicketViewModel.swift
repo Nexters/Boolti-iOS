@@ -69,6 +69,6 @@ final class TicketViewModel {
     private func loadAccessToken() {
         // accessToken이 있으면 output으로 넘기기!..
         let token = authAPIService.fetchTokens()
-        self.output.isAccessTokenLoaded.onNext(!token.accessToken.isEmpty)
+        self.output.isAccessTokenLoaded.accept(!token.accessToken.isEmpty)
     }
 }
