@@ -68,7 +68,7 @@ final class TicketViewController: ViewController {
         self.rx.viewDidAppear
             .take(1)
             .asDriver(onErrorJustReturn: true)
-            .drive(onNext: { _ in
+            .drive(with: self, onNext: { owner, _ in
                 self.viewModel.input.viewDidAppearEvent.onNext(())
             })
             .disposed(by: self.disposeBag)
@@ -82,7 +82,8 @@ final class TicketViewController: ViewController {
     // ViewModel의 Output을 Binding한다.
     private func bindOutput() {
         self.viewModel.output.isAccessTokenLoaded
-            .subscribe(with: self) { owner, isLoaded in
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self, onNext: { owner, isLoaded in
                 if isLoaded {
                     // 여기서 그냥 API 호출해서 원래대로 화면 보여주기!..
                 } else {
@@ -90,7 +91,7 @@ final class TicketViewController: ViewController {
                     self.containerView.addSubview(self.loginEnterView)
                     self.configureLoginEnterView()
                 }
-            }
+            })
             .disposed(by: self.disposeBag)
 
         self.viewModel.output.navigation

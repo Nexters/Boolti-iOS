@@ -27,8 +27,8 @@ final class TicketViewModel {
 
     // Input에 의해서 생기는 ViewModel의 Output
     struct Output {
-        let navigation = PublishSubject<TicketViewDestination>()
-        let isAccessTokenLoaded = PublishSubject<Bool>()
+        let navigation = PublishRelay<TicketViewDestination>()
+        let isAccessTokenLoaded = PublishRelay<Bool>()
     }
 
     let input: Input
@@ -61,7 +61,7 @@ final class TicketViewModel {
         // 로그인 버튼을 누르면 로그인 화면으로 넘어가기
         self.input.loginButtonTapEvent
             .subscribe(with: self, onNext: { owner, _ in
-                self.output.navigation.onNext(.login)
+                self.output.navigation.accept(.login)
             })
             .disposed(by: self.disposeBag)
     }
@@ -69,12 +69,6 @@ final class TicketViewModel {
     private func loadAccessToken() {
         // accessToken이 있으면 output으로 넘기기!..
         let token = authAPIService.fetchTokens()
-        guard token.accessToken != "" && token.refreshToken != "" else {
-            self.output.isAccessTokenLoaded.onNext(false)
-            return
-        }
-        // 만약 accessToken이 존재한다면? 그냥 화면 띄우기!..
-        self.output.isAccessTokenLoaded.onNext(true)
-
+        self.output.isAccessTokenLoaded.onNext(!token.accessToken.isEmpty)
     }
 }

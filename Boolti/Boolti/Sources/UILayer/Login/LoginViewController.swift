@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
     private func bind() {
         self.kakaoLoginButton.rx.tap
             .asDriver()
-            .drive(onNext: { _ in
+            .drive(with: self, onNext: { owner, _ in
                 self.viewModel.loginKakao()
             })
             .disposed(by: self.disposeBag)
