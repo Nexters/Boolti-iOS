@@ -46,6 +46,13 @@ class LoginViewController: UIViewController {
         return button
     }()
 
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.closeButton, for: .normal)
+
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // 아래는 navigation controller의 색상으로 갈거므로 삭제될 예정
@@ -68,11 +75,17 @@ class LoginViewController: UIViewController {
 
     private func configureUI() {
         self.view.addSubviews([
+            self.closeButton,
             self.headerTitleLabel,
             self.subTitleLabel,
             self.kakaoLoginButton,
             self.appleLoginButton
         ])
+
+        self.closeButton.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(10)
+            make.left.equalToSuperview().inset(20)
+        }
 
         self.subTitleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -105,6 +118,13 @@ class LoginViewController: UIViewController {
     }
 
     private func bindInput() {
+        self.closeButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+
         self.kakaoLoginButton.rx.tap
             .asDriver()
             .map { Provider.kakao }
