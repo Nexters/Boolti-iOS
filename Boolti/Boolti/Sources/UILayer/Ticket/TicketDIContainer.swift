@@ -44,4 +44,5 @@ final class TicketDIContainer {
     private func createTicketViewModel() -> TicketViewModel {
         return TicketViewModel(authAPIService: self.authAPIService)
     }
+
 }

@@ -11,8 +11,10 @@ import RxCocoa
 
 class LoginViewController: UIViewController {
 
-    private let viewModel: LoginViewModel
+    let viewModel: LoginViewModel
     private let disposeBag = DisposeBag()
+
+    private let termsAgreementViewControllerFactory: () -> TermsAgreementViewController
 
     private let headerTitleLabel: UILabel = {
         let label = UILabel()
@@ -50,8 +52,11 @@ class LoginViewController: UIViewController {
         self.bindViewModel()
     }
 
-    init(viewModel: LoginViewModel) {
+    init(viewModel: LoginViewModel,
+         termsAgreementViewControllerFactory: @escaping () -> TermsAgreementViewController
+    ) {
         self.viewModel = viewModel
+        self.termsAgreementViewControllerFactory = termsAgreementViewControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -94,6 +99,7 @@ class LoginViewController: UIViewController {
 
     private func bindViewModel() {
         self.bindInput()
+        self.bindOutput()
     }
 
     private func bindInput() {
@@ -112,5 +118,24 @@ class LoginViewController: UIViewController {
                 owner.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func bindOutput() {
+        self.viewModel.output.loginFinished
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isFirstSignedUp in
+                guard isFirstSignedUp else {
+                    self.dismiss(animated: true)
+                    return
+                }
+                self.presentTermsAgreementViewController()
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func presentTermsAgreementViewController() {
+        let viewController = self.termsAgreementViewControllerFactory()
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: true)
     }
 }
