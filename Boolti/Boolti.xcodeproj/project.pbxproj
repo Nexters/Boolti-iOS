@@ -89,7 +89,6 @@
 		876E414D2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */; };
 		876E414F2B5F915E006BEEB7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414E2B5F915E006BEEB7 /* ViewController.swift */; };
 		876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */; };
-		878AF4652B60D28800C8838C /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878AF4642B60D28800C8838C /* LoginButton.swift */; };
 		878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */; };
 /* End PBXBuildFile section */
 
@@ -165,7 +164,6 @@
 		876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		876E414E2B5F915E006BEEB7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
-		878AF4642B60D28800C8838C /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASAuthorizationController+Rx.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -467,7 +465,6 @@
 				8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */,
 				8757BAA12B5FDE0D008503B5 /* LoginViewModel.swift */,
 				8757BA9F2B5FDDAB008503B5 /* LoginViewDIContainer.swift */,
-				878AF4642B60D28800C8838C /* LoginButton.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -631,7 +628,6 @@
 				8757BA992B5FC573008503B5 /* AuthToken.swift in Sources */,
 				84781BCD2B5BDAFC00D37921 /* AppDelegate.swift in Sources */,
 				84781BF02B5BE3C000D37921 /* NetworkProviderType.swift in Sources */,
-				878AF4652B60D28800C8838C /* LoginButton.swift in Sources */,
 				8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */,
 				84781C9D2B5BF68900D37921 /* RootDIContainer.swift in Sources */,
 				84781C722B5BEAC800D37921 /* RxMoya+.swift in Sources */,

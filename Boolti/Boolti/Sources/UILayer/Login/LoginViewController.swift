@@ -28,17 +28,19 @@ class LoginViewController: UIViewController {
         return label
     }()
 
-    private let kakaoLoginButton = LoginButton(
-        image: .kakaoLoginLogo,
-        title: "카카오톡으로 시작하기",
-        color: UIColor.yellow
-    )
+    private let kakaoLoginButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.kakaoLoginButton, for: .normal)
 
-    private let appleLoginButton = LoginButton(
-        image: .appleLoginLogo,
-        title: "Apple로 시작하기",
-        color: UIColor.white
-    )
+        return button
+    }()
+
+    private let appleLoginButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.appleLoginButton, for: .normal)
+
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
