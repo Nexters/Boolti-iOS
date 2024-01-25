@@ -48,7 +48,7 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 아래는 navigation controller의 색상으로 갈거므로 삭제될 예정 
+        // 아래는 navigation controller의 색상으로 갈거므로 삭제될 예정
         self.view.backgroundColor = .black
         self.configureUI()
         self.bindViewModel()

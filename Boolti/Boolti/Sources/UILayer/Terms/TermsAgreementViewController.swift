@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class TermsAgreementViewController: UIViewController {
 
     private let viewModel: TermsAgreementViewModel
+
+    private let disposeBag = DisposeBag()
 
     private let bottomSheetLayerView: UIView = {
         let view = UIView()
@@ -18,7 +22,6 @@ class TermsAgreementViewController: UIViewController {
         view.layer.maskedCorners = CACornerMask(
             arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner
         )
-
         return view
     }()
 
@@ -50,10 +53,25 @@ class TermsAgreementViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
+        self.bindViewModel()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func bindViewModel() {
+        self.bindInputs()
+    }
+
+    private func bindInputs() {
+        // 현재 ViewModel에서 처리하는 것이 없기에 그냥 VC에서 해결!..
+        self.agreementButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func configureUI() {
