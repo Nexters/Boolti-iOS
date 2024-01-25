@@ -1,5 +1,5 @@
 //
-//  NavigationView.swift
+//  BooltiNavigationView.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/26/24.
@@ -9,7 +9,7 @@ import UIKit
 import RxCocoa
 import SnapKit
 
-final class NavigationView: UIView {
+final class BooltiNavigationView: UIView {
     
     enum NavigationType {
         case payment
@@ -36,11 +36,11 @@ final class NavigationView: UIView {
     init(type: NavigationType) {
         super.init(frame: .zero)
         
-        self.setDefaultUI()
+        self.configureDefaultUI()
         
         switch type {
-        case .payment: self.setPaymentUI()
-        case .concertDetail: self.setConcertDetailUI()
+        case .payment: self.configurePaymentUI()
+        case .concertDetail: self.configureConcertDetailUI()
         }
     }
     
@@ -51,30 +51,39 @@ final class NavigationView: UIView {
 
 // MARK: - UI
 
-extension NavigationView {
+extension BooltiNavigationView {
     
-    private func setDefaultUI() {
+    private func configureDefaultUI() {
         self.backgroundColor = .grey95
         
+        self.addSubview(backButton)
+        
+        self.configureDefaultConstraints()
+    }
+    
+    private func configureDefaultConstraints() {
         self.snp.makeConstraints { make in
             make.height.equalTo(88)
         }
     }
     
-    private func setPaymentUI() {
-        self.setBackButtonLayout()
-        self.setTitleLayout()
+    private func configurePaymentUI() {
+        self.addSubview(backButton)
+        self.addSubview(titleLabel)
+        
+        self.configureBackButtonConstraints()
+        self.configureTitleConstraints()
         
         self.titleLabel.text = "결제하기"
     }
     
-    private func setConcertDetailUI() {
-        self.setBackButtonLayout()
+    private func configureConcertDetailUI() {
+        self.addSubview(backButton)
+        
+        self.configureBackButtonConstraints()
     }
     
-    private func setBackButtonLayout() {
-        self.addSubview(backButton)
-
+    private func configureBackButtonConstraints() {
         self.backButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(20)
@@ -82,9 +91,7 @@ extension NavigationView {
         }
     }
     
-    private func setTitleLayout() {
-        self.addSubview(titleLabel)
-        
+    private func configureTitleConstraints() {
         self.titleLabel.snp.makeConstraints { make in
             make.left.equalTo(self.backButton.snp.right).offset(4)
             make.centerY.equalTo(self.backButton.snp.centerY)
@@ -94,7 +101,7 @@ extension NavigationView {
 
 // MARK: - Methods
 
-extension NavigationView {
+extension BooltiNavigationView {
     
     func backButtonDidTap() -> Signal<Void> {
         return backButton.rx.tap.asSignal()

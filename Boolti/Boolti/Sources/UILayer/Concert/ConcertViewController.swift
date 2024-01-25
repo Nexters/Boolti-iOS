@@ -10,8 +10,8 @@ import SnapKit
 
 final class ConcertViewController: UIViewController {
 
-    private let navigationView: NavigationView = {
-        let view = NavigationView(type: .payment)
+    private let navigationView: BooltiNavigationView = {
+        let view = BooltiNavigationView(type: .payment)
         return view
     }()
     
