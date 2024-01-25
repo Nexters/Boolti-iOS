@@ -58,10 +58,12 @@ class LoginViewController: UIViewController {
     }
 
     private func configureUI() {
-        self.view.addSubview(self.headerTitleLabel)
-        self.view.addSubview(self.subTitleLabel)
-        self.view.addSubview(self.kakaoLoginButton)
-        self.view.addSubview(self.appleLoginButton)
+        self.view.addSubviews([
+            self.headerTitleLabel,
+            self.subTitleLabel,
+            self.kakaoLoginButton,
+            self.appleLoginButton
+        ])
 
         self.subTitleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
