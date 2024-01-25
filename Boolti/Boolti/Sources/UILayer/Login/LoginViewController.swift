@@ -84,7 +84,7 @@ class LoginViewController: UIViewController {
 
         self.appleLoginButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.left.right.equalTo(self.kakaoLoginButton)
+            make.horizontalEdges.equalTo(self.kakaoLoginButton)
             make.height.equalTo(48)
             make.top.equalTo(self.kakaoLoginButton.snp.bottom).offset(12)
         }
@@ -99,7 +99,7 @@ class LoginViewController: UIViewController {
             .asDriver()
             .map { Provider.kakao }
             .drive(with: self) { owner, provider in
-                self.viewModel.input.loginButtonDidTapEvent.onNext(provider)
+                owner.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
             .disposed(by: self.disposeBag)
 
@@ -107,7 +107,7 @@ class LoginViewController: UIViewController {
             .asDriver()
             .map { Provider.apple }
             .drive(with: self) { owner, provider in
-                self.viewModel.input.loginButtonDidTapEvent.onNext(provider)
+                owner.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
             .disposed(by: self.disposeBag)
     }

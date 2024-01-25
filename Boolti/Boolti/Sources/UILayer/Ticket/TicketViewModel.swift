@@ -52,7 +52,7 @@ final class TicketViewModel {
         // 화면이 뜨면, 현재 accessToken이 있는 지 확인한다.
         self.input.viewDidAppearEvent
             .subscribe(with: self) { owner, _ in
-                self.loadAccessToken()
+                owner.loadAccessToken()
             }
             .disposed(by: self.disposeBag)
     }
@@ -61,7 +61,7 @@ final class TicketViewModel {
         // 로그인 버튼을 누르면 로그인 화면으로 넘어가기
         self.input.loginButtonTapEvent
             .subscribe(with: self, onNext: { owner, _ in
-                self.output.navigation.accept(.login)
+                owner.output.navigation.accept(.login)
             })
             .disposed(by: self.disposeBag)
     }
