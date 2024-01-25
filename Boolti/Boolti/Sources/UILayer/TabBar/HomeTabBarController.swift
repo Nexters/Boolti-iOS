@@ -43,13 +43,12 @@ final class HomeTabBarController: UITabBarController {
             .disposed(by: disposeBag)
 
         viewModel.tabItems.distinctUntilChanged()
-            .subscribe( onNext: { [weak self] tabItems in
-                guard let self = self else { return }
+            .subscribe(with: self, onNext: { owner, tabItems in
                 let viewControllers = tabItems.map { tabItem -> UIViewController in
-                    let viewController = self.viewControllerFactory(tabItem)
+                    let viewController = owner.viewControllerFactory(tabItem)
                     return viewController
                 }
-                self.setViewControllers(viewControllers, animated: true)
+                owner.setViewControllers(viewControllers, animated: true)
             })
             .disposed(by: disposeBag)
 
@@ -59,8 +58,9 @@ final class HomeTabBarController: UITabBarController {
                 let isVaildTab = currentTab < self?.viewControllers?.count ?? 0
                 let isNotSameTab = currentTab != self?.selectedIndex
                 return isVaildTab && isNotSameTab
-            }.subscribe(onNext: { [weak self] selectedIndex in
-                self?.selectedIndex = selectedIndex
+            }
+            .subscribe(with: self, onNext: { owner, selectedIndex in
+                owner.selectedIndex = selectedIndex
             })
             .disposed(by: disposeBag)
     }

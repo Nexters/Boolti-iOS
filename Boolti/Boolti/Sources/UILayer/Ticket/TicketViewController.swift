@@ -69,7 +69,7 @@ final class TicketViewController: ViewController {
             .take(1)
             .asDriver(onErrorJustReturn: true)
             .drive(with: self, onNext: { owner, _ in
-                self.viewModel.input.viewDidAppearEvent.onNext(())
+                owner.viewModel.input.viewDidAppearEvent.onNext(())
             })
             .disposed(by: self.disposeBag)
 
@@ -88,16 +88,17 @@ final class TicketViewController: ViewController {
                     // 여기서 그냥 API 호출해서 원래대로 화면 보여주기!..
                 } else {
                     // 여기는 token이 없으므로 loginEnterView를 보여주기!...
-                    self.containerView.addSubview(self.loginEnterView)
-                    self.configureLoginEnterView()
+                    owner.containerView.addSubview(owner.loginEnterView)
+                    owner.configureLoginEnterView()
                 }
             })
             .disposed(by: self.disposeBag)
 
         self.viewModel.output.navigation
             .subscribe(with: self) { owner, ticketDestination in
-                let viewController = self.createViewController(ticketDestination)
-                self.present(viewController, animated: true)
+                let viewController = owner.createViewController(ticketDestination)
+                viewController.hidesBottomBarWhenPushed = true
+                owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }

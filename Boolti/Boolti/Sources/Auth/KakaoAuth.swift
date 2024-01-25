@@ -6,10 +6,8 @@
 //
 
 import RxSwift
-import RxKakaoSDKAuth
 import KakaoSDKAuth
 import KakaoSDKUser
-import RxKakaoSDKUser
 
 struct KakaoAuth: OAuth {
 
@@ -22,31 +20,29 @@ struct KakaoAuth: OAuth {
     func authorize() -> Observable<OAuthResponse> {
         return Observable<OAuthResponse>.create { observer in
             if UserApi.isKakaoTalkLoginAvailable() {
-                UserApi.shared.rx.loginWithKakaoTalk()
-                    .subscribe { OAuthToken in
-                        switch OAuthToken {
-                        case .next(let providerToken):
-                            observer.onNext(.init(accessToken: providerToken.accessToken, provider: .kakao))
-                        case .error:
-                            observer.onError(KakaoAuthError.invalidToken)
-                        case .completed:
-                            print("It's completed")
-                        }
+                UserApi.shared.loginWithKakaoTalk { OAuthToken, error in
+                    if let error = error {
+                        observer.onError(error)
                     }
-                    .disposed(by: self.disposeBag)
+                    guard let accessToken = OAuthToken?.accessToken else {
+                        observer.onError(KakaoAuthError.invalidToken)
+                        return
+                    }
+                    observer.onNext(.init(accessToken: accessToken, provider: .kakao))
+                    observer.onCompleted()
+                }
             } else {
-                UserApi.shared.rx.loginWithKakaoAccount()
-                    .subscribe { OAuthToken in
-                        switch OAuthToken {
-                        case .next(let providerToken):
-                            observer.onNext(.init(accessToken: providerToken.accessToken, provider: .kakao))
-                        case .error:
-                            observer.onError(KakaoAuthError.invalidToken)
-                        case .completed:
-                            print("It's completed")
-                        }
+                UserApi.shared.loginWithKakaoAccount() { OAuthToken, error in
+                    if let error = error {
+                        observer.onError(error)
                     }
-                    .disposed(by: self.disposeBag)
+                    guard let accessToken = OAuthToken?.accessToken else {
+                        observer.onError(KakaoAuthError.invalidToken)
+                        return
+                    }
+                    observer.onNext(.init(accessToken: accessToken, provider: .kakao))
+                    observer.onCompleted()
+                }
             }
             return Disposables.create()
         }
