@@ -20,6 +20,7 @@ class LoginViewController: UIViewController {
         let label = UILabel()
         label.text = "불티나게 팔리는 티켓, 불티"
         label.font = .headline1
+        label.textColor = .grey05
         return label
     }()
 
@@ -27,6 +28,7 @@ class LoginViewController: UIViewController {
         let label = UILabel()
         label.text = "지금 불티에서 티켓을 불티나게 팔아보세요!"
         label.font = .body3
+        label.textColor = .grey30
         return label
     }()
 
@@ -46,8 +48,8 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 아래는 navigation controller의 색상으로 갈거므로 삭제될 예정
-        self.view.backgroundColor = .gray
+        // 아래는 navigation controller의 색상으로 갈거므로 삭제될 예정 
+        self.view.backgroundColor = .black
         self.configureUI()
         self.bindViewModel()
     }

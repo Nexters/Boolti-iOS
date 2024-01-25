@@ -14,6 +14,11 @@ class TermsAgreementViewController: UIViewController {
     private let bottomSheetLayerView: UIView = {
         let view = UIView()
         view.backgroundColor = .grey85
+        view.layer.cornerRadius = 16
+        view.layer.maskedCorners = CACornerMask(
+            arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner
+        )
+
         return view
     }()
 
@@ -22,6 +27,7 @@ class TermsAgreementViewController: UIViewController {
         let label = UILabel()
         label.text = "어서오세요 일이삼사오육치팔구십님!"
         label.font = .headline1
+        label.textColor = .grey05
 
         return label
     }()
@@ -30,6 +36,7 @@ class TermsAgreementViewController: UIViewController {
         let label = UILabel()
         label.text = "원활한 이용을 위해 서비스 이용약관 확인 후 \n동의해 주세요."
         label.font = .body3
+        label.numberOfLines = 2
         label.textColor = .grey30
 
         return label
@@ -50,24 +57,26 @@ class TermsAgreementViewController: UIViewController {
     }
 
     private func configureUI() {
-        self.view.backgroundColor = .black
         self.view.addSubview(self.bottomSheetLayerView)
         self.bottomSheetLayerView.addSubviews([self.greetingLabel, self.subtitleLabel, self.agreementButton])
+
+        self.view.backgroundColor = .black
         self.configureConstraints()
     }
 
     private func configureConstraints() {
         self.bottomSheetLayerView.snp.makeConstraints { make in
             make.horizontalEdges.bottom.equalToSuperview()
-            make.height.equalTo(self.bottomSheetLayerView.snp.width).multipliedBy(0.6)
+            make.height.equalTo(self.bottomSheetLayerView.snp.width).multipliedBy(0.63)
         }
 
         self.greetingLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(24)
+            make.top.equalToSuperview().inset(30)
         }
 
-        self.greetingLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.greetingLabel.snp.bottom).offset(12)
+        self.subtitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.greetingLabel.snp.bottom).offset(20)
             make.horizontalEdges.equalTo(self.greetingLabel)
         }
 
