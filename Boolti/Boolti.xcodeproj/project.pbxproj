@@ -99,6 +99,11 @@
 		8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAF2B60069B008503B5 /* OAuthResponse.swift */; };
 		8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */; };
 		8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */; };
+		8766B5592B641266004F266A /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 8766B5582B641266004F266A /* Differentiator */; };
+		8766B55B2B641266004F266A /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 8766B55A2B641266004F266A /* RxDataSources */; };
+		8766B55D2B6413C1004F266A /* TicketSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B55C2B6413C1004F266A /* TicketSection.swift */; };
+		8766B55F2B641579004F266A /* IssuedTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B55E2B641579004F266A /* IssuedTicket.swift */; };
+		8766B5612B641581004F266A /* UsedTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B5602B641581004F266A /* UsedTicket.swift */; };
 		8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */; };
 		8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */; };
 		8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */; };
@@ -186,6 +191,9 @@
 		8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequestDTO.swift; sourceTree = "<group>"; };
 		8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponseDTO.swift; sourceTree = "<group>"; };
 		876577142B613F8D00BC6805 /* Boolti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Boolti.entitlements; sourceTree = "<group>"; };
+		8766B55C2B6413C1004F266A /* TicketSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSection.swift; sourceTree = "<group>"; };
+		8766B55E2B641579004F266A /* IssuedTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuedTicket.swift; sourceTree = "<group>"; };
+		8766B5602B641581004F266A /* UsedTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsedTicket.swift; sourceTree = "<group>"; };
 		8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewController.swift; sourceTree = "<group>"; };
 		8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewModel.swift; sourceTree = "<group>"; };
 		8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementDIContainer.swift; sourceTree = "<group>"; };
@@ -209,6 +217,7 @@
 				84781C972B5BF15A00D37921 /* RxKakaoSDKCommon in Frameworks */,
 				84B3219B2B61543E007FD669 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				84781C682B5BE9C100D37921 /* RxMoya in Frameworks */,
+				8766B5592B641266004F266A /* Differentiator in Frameworks */,
 				84781C6B2B5BEA0000D37921 /* SnapKit in Frameworks */,
 				849FBD4C2B5E8BE9006EB865 /* FirebaseRemoteConfig in Frameworks */,
 				849FBD462B5E8BE9006EB865 /* FirebaseAnalyticsSwift in Frameworks */,
@@ -222,6 +231,7 @@
 				84B3219F2B61543E007FD669 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				84B321992B61543E007FD669 /* FirebaseAnalytics in Frameworks */,
 				849FBD442B5E8BE9006EB865 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				8766B55B2B641266004F266A /* RxDataSources in Frameworks */,
 				84781C662B5BE9C100D37921 /* ReactiveMoya in Frameworks */,
 				84B321A72B61543E007FD669 /* FirebaseRemoteConfigSwift in Frameworks */,
 				849FBD4E2B5E8BE9006EB865 /* FirebaseRemoteConfigSwift in Frameworks */,
@@ -258,7 +268,10 @@
 			children = (
 				84781CC62B5BF9F700D37921 /* TicketDIContainer.swift */,
 				84781CC42B5BF9DE00D37921 /* TicketViewController.swift */,
+				8766B55C2B6413C1004F266A /* TicketSection.swift */,
 				84781CC82B5BFA1C00D37921 /* TicketViewModel.swift */,
+				8766B55E2B641579004F266A /* IssuedTicket.swift */,
+				8766B5602B641581004F266A /* UsedTicket.swift */,
 			);
 			path = TicketList;
 			sourceTree = "<group>";
@@ -636,6 +649,8 @@
 				84B321A22B61543E007FD669 /* FirebaseMessaging */,
 				84B321A42B61543E007FD669 /* FirebaseRemoteConfig */,
 				84B321A62B61543E007FD669 /* FirebaseRemoteConfigSwift */,
+				8766B5582B641266004F266A /* Differentiator */,
+				8766B55A2B641266004F266A /* RxDataSources */,
 			);
 			productName = Boolti;
 			productReference = 84781BC92B5BDAFC00D37921 /* Boolti.app */;
@@ -671,6 +686,7 @@
 				84781C932B5BF15A00D37921 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
 				87101EF82B5DF9A3004BD418 /* XCRemoteSwiftPackageReference "RxAppState" */,
 				849FBD402B5E8BE9006EB865 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8766B5572B641266004F266A /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 84781BCA2B5BDAFC00D37921 /* Products */;
 			projectDirPath = "";
@@ -711,6 +727,7 @@
 				8769BF9D2B6267CC00DA9A67 /* BooltiButton.swift in Sources */,
 				8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
+				8766B55F2B641579004F266A /* IssuedTicket.swift in Sources */,
 				84625A112B63B48D00CC9077 /* TicketEntity.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
 				84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */,
@@ -740,6 +757,7 @@
 				87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */,
 				849FBD512B5E920A006EB865 /* AppInfo.swift in Sources */,
 				8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */,
+				8766B55D2B6413C1004F266A /* TicketSection.swift in Sources */,
 				84781C822B5BEC3900D37921 /* BaseResponseDTO.swift in Sources */,
 				84781CAD2B5BF7A200D37921 /* HomeTabBarDIContainer.swift in Sources */,
 				84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */,
@@ -771,6 +789,7 @@
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
 				84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */,
 				8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */,
+				8766B5612B641581004F266A /* UsedTicket.swift in Sources */,
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,
 				84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */,
 				8757BAAA2B5FDF29008503B5 /* KakaoAuth.swift in Sources */,
@@ -1059,6 +1078,14 @@
 				minimumVersion = 1.7.2;
 			};
 		};
+		8766B5572B641266004F266A /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1176,6 +1203,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 87101EF82B5DF9A3004BD418 /* XCRemoteSwiftPackageReference "RxAppState" */;
 			productName = RxAppState;
+		};
+		8766B5582B641266004F266A /* Differentiator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8766B5572B641266004F266A /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = Differentiator;
+		};
+		8766B55A2B641266004F266A /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8766B5572B641266004F266A /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
