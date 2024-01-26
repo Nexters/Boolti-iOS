@@ -282,7 +282,6 @@
 		84781BE32B5BDD9100D37921 /* Global */ = {
 			isa = PBXGroup;
 			children = (
-				876E414B2B5F8C6B006BEEB7 /* UIElements */,
 				849FBD4F2B5E91F7006EB865 /* Constants */,
 				84781C782B5BEBB800D37921 /* Utils */,
 				84781C6E2B5BEA9E00D37921 /* Extensions */,
@@ -525,18 +524,11 @@
 		8769BF9B2B6267B200DA9A67 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */,
+				847AA70D2B62B55500E5B55C /* BooltiNavigationView.swift */,
 				8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		876E414B2B5F8C6B006BEEB7 /* UIElements */ = {
-			isa = PBXGroup;
-			children = (
-				876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */,
-				847AA70D2B62B55500E5B55C /* BooltiNavigationView.swift */,
-			);
-			path = UIElements;
 			sourceTree = "<group>";
 		};
 		876E41502B5F9542006BEEB7 /* Auth */ = {
