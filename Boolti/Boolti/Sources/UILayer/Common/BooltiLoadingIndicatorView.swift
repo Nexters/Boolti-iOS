@@ -1,5 +1,5 @@
 //
-//  LoadingIndicatorView.swift
+//  BooltiLoadingIndicatorView.swift
 //  Boolti
 //
 //  Created by Miro on 1/23/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoadingIndicatorView: UIActivityIndicatorView {
+class BooltiLoadingIndicatorView: UIActivityIndicatorView {
 
     override init(style: UIActivityIndicatorView.Style) {
         super.init(style: style)

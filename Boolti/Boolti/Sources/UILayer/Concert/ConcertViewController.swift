@@ -6,24 +6,43 @@
 //
 
 import UIKit
-import SnapKit
+import RxSwift
 
-final class ConcertViewController: UIViewController {
-
-    private let navigationView: BooltiNavigationView = {
-        let view = BooltiNavigationView(type: .payment)
-        return view
-    }()
+class ConcertViewController: UIViewController {
     
+    private let disposeBag = DisposeBag()
+
+    let nextButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("다음", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO: 화면 넘어가는 거 확인용. 나중에 지워야함!
         self.view.backgroundColor = .yellow
+
+        view.addSubview(nextButton)
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
         
-        self.view.addSubviews([navigationView])
-        self.navigationView.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
-        }
+        self.nextButton.rx.tap
+            .bind(with: self, onNext: { owner, _ in
+                owner.showBottomSheet()
+            })
+            .disposed(by: self.disposeBag)
+    }
+
+    func showBottomSheet() {
+        
+        // TODO: 나중에 ticket view에서 팩토리로 변경 필요 (이건 확인용!)
+        let bottomSheetViewController = UINavigationController(rootViewController: TicketSelectionViewController(viewModel: TicketSelectionViewModel()))
+        present(bottomSheetViewController, animated: true, completion: nil)
     }
 }

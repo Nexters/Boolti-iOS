@@ -11,7 +11,7 @@ import RxSwift
 import RxAppState
 import SnapKit
 
-final class TicketViewController: ViewController {
+final class TicketViewController: BooltiViewController {
 
     private let viewModel: TicketViewModel
     private let loginViewControllerFactory: () -> LoginViewController
