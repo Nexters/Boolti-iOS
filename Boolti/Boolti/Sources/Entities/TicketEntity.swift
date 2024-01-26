@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TicketEntity: Hashable {
+struct TicketEntity {
     let id: Int
     let name: String
     let price: Int

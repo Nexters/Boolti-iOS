@@ -1,5 +1,5 @@
 //
-//  SelectTicketViewController.swift
+//  TicketSelectionViewController.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/26/24.
@@ -9,11 +9,11 @@ import UIKit
 import RxSwift
 import SnapKit
 
-final class SelectTicketViewController: BooltiBottomSheetViewController {
+final class TicketSelectionViewController: BooltiBottomSheetViewController {
     
     // MARK: Properties
     
-    let viewModel: SelectTicketViewModel
+    let viewModel: TicketSelectionViewModel
     private let disposeBag = DisposeBag()
     
     // MARK: UI Component
@@ -26,7 +26,7 @@ final class SelectTicketViewController: BooltiBottomSheetViewController {
     }()
     
     // MARK: Init
-    init(viewModel: SelectTicketViewModel) {
+    init(viewModel: TicketSelectionViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -49,10 +49,10 @@ final class SelectTicketViewController: BooltiBottomSheetViewController {
 
 // MARK: - Methods
 
-extension SelectTicketViewController {
+extension TicketSelectionViewController {
     
     private func configureTableView() {
-        self.tableView.register(SelectTicketTableViewCell.self, forCellReuseIdentifier: SelectTicketTableViewCell.className)
+        self.tableView.register(TicketSelectionTableViewCell.self, forCellReuseIdentifier: TicketSelectionTableViewCell.className)
         
         Observable.just(58)
             .bind(to: self.tableView.rx.rowHeight)
@@ -61,7 +61,7 @@ extension SelectTicketViewController {
     
     private func bindOutputs() {
         self.viewModel.output.tickets
-            .bind(to: tableView.rx.items(cellIdentifier: SelectTicketTableViewCell.className, cellType: SelectTicketTableViewCell.self)) { index, item, cell in
+            .bind(to: tableView.rx.items(cellIdentifier: TicketSelectionTableViewCell.className, cellType: TicketSelectionTableViewCell.self)) { index, item, cell in
                 cell.selectionStyle = .none
                 cell.setData(entity: item)
             }.disposed(by: self.disposeBag)
@@ -70,7 +70,7 @@ extension SelectTicketViewController {
 
 // MARK: - UI
 
-extension SelectTicketViewController {
+extension TicketSelectionViewController {
     
     private func configureUI() {
         self.setTitle("티켓 선택")

@@ -1,5 +1,5 @@
 //
-//  BasePaddingLabel.swift
+//  BooltiPaddingLabel.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/26/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BasePaddingLabel: UILabel {
+class BooltiPaddingLabel: UILabel {
     
     private var padding = UIEdgeInsets(top: 4.0, left: 12.0, bottom: 4.0, right: 12.0)
     

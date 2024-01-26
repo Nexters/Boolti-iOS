@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		84625A042B6382C300CC9077 /* BooltiBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */; };
-		84625A092B63A01100CC9077 /* SelectTicketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A082B63A01100CC9077 /* SelectTicketViewController.swift */; };
-		84625A0B2B63B2AE00CC9077 /* SelectTicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A0A2B63B2AE00CC9077 /* SelectTicketViewModel.swift */; };
-		84625A0E2B63B2E600CC9077 /* SelectTicketDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A0D2B63B2E600CC9077 /* SelectTicketDIContainer.swift */; };
+		84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */; };
+		84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */; };
+		84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A0D2B63B2E600CC9077 /* TicketSelectionDIContainer.swift */; };
 		84625A112B63B48D00CC9077 /* TicketEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A102B63B48D00CC9077 /* TicketEntity.swift */; };
-		84625A142B63BEB600CC9077 /* SelectTicketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A132B63BEB600CC9077 /* SelectTicketTableViewCell.swift */; };
+		84625A142B63BEB600CC9077 /* TicketSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A132B63BEB600CC9077 /* TicketSelectionTableViewCell.swift */; };
 		84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A152B63C33D00CC9077 /* UITableViewCell+.swift */; };
-		84625A182B63E05700CC9077 /* BasePaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A172B63E05700CC9077 /* BasePaddingLabel.swift */; };
+		84625A182B63E05700CC9077 /* BooltiPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */; };
 		84781BCD2B5BDAFC00D37921 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781BCC2B5BDAFC00D37921 /* AppDelegate.swift */; };
 		84781BCF2B5BDAFC00D37921 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781BCE2B5BDAFC00D37921 /* SceneDelegate.swift */; };
 		84781BD62B5BDAFD00D37921 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84781BD52B5BDAFD00D37921 /* Assets.xcassets */; };
@@ -107,21 +107,21 @@
 		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
 		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
 		876E41482B5F875D006BEEB7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */; };
-		876E414D2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */; };
-		876E414F2B5F915E006BEEB7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414E2B5F915E006BEEB7 /* ViewController.swift */; };
+		876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */; };
+		876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */; };
 		876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */; };
 		878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBottomSheetViewController.swift; sourceTree = "<group>"; };
-		84625A082B63A01100CC9077 /* SelectTicketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTicketViewController.swift; sourceTree = "<group>"; };
-		84625A0A2B63B2AE00CC9077 /* SelectTicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTicketViewModel.swift; sourceTree = "<group>"; };
-		84625A0D2B63B2E600CC9077 /* SelectTicketDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTicketDIContainer.swift; sourceTree = "<group>"; };
+		84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewController.swift; sourceTree = "<group>"; };
+		84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewModel.swift; sourceTree = "<group>"; };
+		84625A0D2B63B2E600CC9077 /* TicketSelectionDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionDIContainer.swift; sourceTree = "<group>"; };
 		84625A102B63B48D00CC9077 /* TicketEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEntity.swift; sourceTree = "<group>"; };
-		84625A132B63BEB600CC9077 /* SelectTicketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTicketTableViewCell.swift; sourceTree = "<group>"; };
+		84625A132B63BEB600CC9077 /* TicketSelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionTableViewCell.swift; sourceTree = "<group>"; };
 		84625A152B63C33D00CC9077 /* UITableViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+.swift"; sourceTree = "<group>"; };
-		84625A172B63E05700CC9077 /* BasePaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePaddingLabel.swift; sourceTree = "<group>"; };
+		84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiPaddingLabel.swift; sourceTree = "<group>"; };
 		84781BC92B5BDAFC00D37921 /* Boolti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boolti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84781BCC2B5BDAFC00D37921 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84781BCE2B5BDAFC00D37921 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -194,8 +194,8 @@
 		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
-		876E414E2B5F915E006BEEB7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiLoadingIndicatorView.swift; sourceTree = "<group>"; };
+		876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiViewController.swift; sourceTree = "<group>"; };
 		876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 		878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASAuthorizationController+Rx.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -234,15 +234,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		84625A0C2B63B2D100CC9077 /* SelectTicket */ = {
+		84625A0C2B63B2D100CC9077 /* TicketSelection */ = {
 			isa = PBXGroup;
 			children = (
-				84625A0D2B63B2E600CC9077 /* SelectTicketDIContainer.swift */,
-				84625A082B63A01100CC9077 /* SelectTicketViewController.swift */,
-				84625A0A2B63B2AE00CC9077 /* SelectTicketViewModel.swift */,
-				84625A132B63BEB600CC9077 /* SelectTicketTableViewCell.swift */,
+				84625A0D2B63B2E600CC9077 /* TicketSelectionDIContainer.swift */,
+				84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */,
+				84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */,
+				84625A132B63BEB600CC9077 /* TicketSelectionTableViewCell.swift */,
 			);
-			path = SelectTicket;
+			path = TicketSelection;
 			sourceTree = "<group>";
 		};
 		84625A0F2B63B46600CC9077 /* Entities */ = {
@@ -372,7 +372,6 @@
 			children = (
 				84781C6F2B5BEAB800D37921 /* UserDefaults+.swift */,
 				84781C712B5BEAC800D37921 /* RxMoya+.swift */,
-				876E414E2B5F915E006BEEB7 /* ViewController.swift */,
 				84975BF72B611EA500F903E7 /* UIFont+.swift */,
 				8724C4BE2B6221A500484BFC /* UIView+.swift */,
 				84625A152B63C33D00CC9077 /* UITableViewCell+.swift */,
@@ -496,7 +495,7 @@
 			isa = PBXGroup;
 			children = (
 				84625A122B63B74800CC9077 /* TicketList */,
-				84625A0C2B63B2D100CC9077 /* SelectTicket */,
+				84625A0C2B63B2D100CC9077 /* TicketSelection */,
 			);
 			path = Ticket;
 			sourceTree = "<group>";
@@ -570,11 +569,12 @@
 		8769BF9B2B6267B200DA9A67 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */,
+				876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */,
+				876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */,
 				847AA70D2B62B55500E5B55C /* BooltiNavigationView.swift */,
 				8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */,
 				84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */,
-				84625A172B63E05700CC9077 /* BasePaddingLabel.swift */,
+				84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -728,9 +728,9 @@
 				84781C9D2B5BF68900D37921 /* RootDIContainer.swift in Sources */,
 				84781C722B5BEAC800D37921 /* RxMoya+.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
-				84625A142B63BEB600CC9077 /* SelectTicketTableViewCell.swift in Sources */,
+				84625A142B63BEB600CC9077 /* TicketSelectionTableViewCell.swift in Sources */,
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
-				876E414F2B5F915E006BEEB7 /* ViewController.swift in Sources */,
+				876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */,
 				847AA70E2B62B55500E5B55C /* BooltiNavigationView.swift in Sources */,
 				84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */,
 				8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */,
@@ -755,7 +755,7 @@
 				84781CC72B5BF9F700D37921 /* TicketDIContainer.swift in Sources */,
 				8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */,
 				84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */,
-				84625A0E2B63B2E600CC9077 /* SelectTicketDIContainer.swift in Sources */,
+				84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
 				8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* SocialLoginAPIService.swift in Sources */,
@@ -765,17 +765,17 @@
 				84781CC52B5BF9DE00D37921 /* TicketViewController.swift in Sources */,
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,
 				8757BA972B5FA6B0008503B5 /* AuthAPIService.swift in Sources */,
-				84625A182B63E05700CC9077 /* BasePaddingLabel.swift in Sources */,
+				84625A182B63E05700CC9077 /* BooltiPaddingLabel.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
 				84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
-				84625A0B2B63B2AE00CC9077 /* SelectTicketViewModel.swift in Sources */,
+				84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */,
 				8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */,
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,
-				84625A092B63A01100CC9077 /* SelectTicketViewController.swift in Sources */,
+				84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */,
 				8757BAAA2B5FDF29008503B5 /* KakaoAuth.swift in Sources */,
 				878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */,
-				876E414D2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift in Sources */,
+				876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */,
 				84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

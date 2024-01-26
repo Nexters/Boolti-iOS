@@ -1,5 +1,5 @@
 //
-//  SelectTicketTableViewCell.swift
+//  TicketSelectionTableViewCell.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/26/24.
@@ -10,7 +10,7 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-final class SelectTicketTableViewCell: UITableViewCell {
+final class TicketSelectionTableViewCell: UITableViewCell {
     
     // MARK: Properties
     
@@ -25,8 +25,8 @@ final class SelectTicketTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let inventoryLabel: BasePaddingLabel = {
-        let label = BasePaddingLabel()
+    private let inventoryLabel: BooltiPaddingLabel = {
+        let label = BooltiPaddingLabel()
         label.font = .caption
         label.textColor = .grey40
         label.backgroundColor = .grey80
@@ -59,7 +59,7 @@ final class SelectTicketTableViewCell: UITableViewCell {
 
 // MARK: - Methods
 
-extension SelectTicketTableViewCell {
+extension TicketSelectionTableViewCell {
     
     func setData(entity: TicketEntity) {
         self.nameLabel.text = entity.name
@@ -82,7 +82,7 @@ extension SelectTicketTableViewCell {
 
 // MARK: - UI
 
-extension SelectTicketTableViewCell {
+extension TicketSelectionTableViewCell {
     
     private func configureUI() {
         self.backgroundColor = .clear

@@ -42,7 +42,7 @@ class ConcertViewController: UIViewController {
     func showBottomSheet() {
         
         // TODO: 나중에 ticket view에서 팩토리로 변경 필요 (이건 확인용!)
-        let bottomSheetViewController = UINavigationController(rootViewController: SelectTicketViewController(viewModel: SelectTicketViewModel()))
+        let bottomSheetViewController = UINavigationController(rootViewController: TicketSelectionViewController(viewModel: TicketSelectionViewModel()))
         present(bottomSheetViewController, animated: true, completion: nil)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  SelectTicketViewModel.swift
+//  TicketSelectionViewModel.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/26/24.
@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-final class SelectTicketViewModel {
+final class TicketSelectionViewModel {
     
 //    private let ticketAPIService: TicketAPIServiceType
     

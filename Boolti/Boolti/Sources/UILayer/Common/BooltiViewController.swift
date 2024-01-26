@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  BooltiViewController.swift
 //  Boolti
 //
 //  Created by Miro on 1/23/24.
@@ -9,9 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ViewController: UIViewController {
+class BooltiViewController: UIViewController {
 
-    private let loadingIndicatorView = LoadingIndicatorView(style: .large)
+    private let loadingIndicatorView = BooltiLoadingIndicatorView(style: .large)
 
     var isLoading: Binder<Bool> {
         Binder(self) { [weak self] viewController, isLoading in
