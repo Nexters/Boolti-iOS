@@ -1,5 +1,5 @@
 //
-//  BooltiBaseButton.swift
+//  BooltiButton.swift
 //  Boolti
 //
 //  Created by Miro on 1/25/24.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class BooltiBaseButton: UIButton {
+class BooltiButton: UIButton {
 
     private let mainTitleLabel: UILabel = {
         let label = UILabel()

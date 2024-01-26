@@ -143,7 +143,7 @@ class LoginViewController: UIViewController {
     }
 
     private func bindOutput() {
-        self.viewModel.output.loginFinished
+        self.viewModel.output.didloginFinished
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, isFirstSignedUp in
                 guard isFirstSignedUp else {

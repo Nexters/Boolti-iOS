@@ -93,7 +93,7 @@
 		8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */; };
 		8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */; };
 		8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */; };
-		8769BF9D2B6267CC00DA9A67 /* BooltiBaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF9C2B6267CC00DA9A67 /* BooltiBaseButton.swift */; };
+		8769BF9D2B6267CC00DA9A67 /* BooltiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */; };
 		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
 		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
 		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
@@ -171,7 +171,7 @@
 		8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewController.swift; sourceTree = "<group>"; };
 		8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewModel.swift; sourceTree = "<group>"; };
 		8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementDIContainer.swift; sourceTree = "<group>"; };
-		8769BF9C2B6267CC00DA9A67 /* BooltiBaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBaseButton.swift; sourceTree = "<group>"; };
+		8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiButton.swift; sourceTree = "<group>"; };
 		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
@@ -523,7 +523,7 @@
 		8769BF9B2B6267B200DA9A67 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				8769BF9C2B6267CC00DA9A67 /* BooltiBaseButton.swift */,
+				8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -665,7 +665,7 @@
 				87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */,
 				84781CC92B5BFA1C00D37921 /* TicketViewModel.swift in Sources */,
 				84781CCC2B5C003700D37921 /* ConcertDIContainer.swift in Sources */,
-				8769BF9D2B6267CC00DA9A67 /* BooltiBaseButton.swift in Sources */,
+				8769BF9D2B6267CC00DA9A67 /* BooltiButton.swift in Sources */,
 				8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,

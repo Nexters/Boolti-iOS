@@ -25,7 +25,7 @@ class TermsAgreementViewController: UIViewController {
         return view
     }()
 
-    private let agreementButton = BooltiBaseButton(title: "약관 동의하고 시작하기")
+    private let agreementButton = BooltiButton(title: "약관 동의하고 시작하기")
     private let greetingLabel: UILabel = {
         let label = UILabel()
         label.text = "어서오세요 일이삼사오육치팔구십님!"

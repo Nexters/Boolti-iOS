@@ -23,9 +23,9 @@ final class LoginViewModel {
     }
 
     struct Output {
-        typealias isFirstSignUp = Bool
+        typealias didSignedUp = Bool
 
-        var loginFinished = PublishRelay<isFirstSignUp>()
+        var didloginFinished = PublishRelay<didSignedUp>()
     }
 
     let input: Input
@@ -71,14 +71,10 @@ final class LoginViewModel {
                 owner.socialLoginAPIService.authorize(provider: provider)
                     .subscribe(with: self) { owner, OAuthReponse in
                         // 만약 singUp을 했다고 가정하자!...
-                        var signUped = true
-
-                        if signUped == true { // 회원 가입을 했다!..
-                            // 최초 회원 가입 이용약관 동의 팝!
-                            owner.output.loginFinished.accept(true)
-                        } else {
-                            owner.output.loginFinished.accept(false)
-                        }
+                        var didSignedUp = true
+                        
+                        // 첫 회원가입이면 true를 던지고, 아니면 false를 던진다.
+                        owner.output.didloginFinished.accept(didSignedUp)
                     }
                     .disposed(by: self.disposeBag)
             }
