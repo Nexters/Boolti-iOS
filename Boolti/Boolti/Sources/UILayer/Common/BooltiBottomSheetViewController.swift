@@ -1,0 +1,91 @@
+//
+//  BooltiBottomSheet.swift
+//  Boolti
+//
+//  Created by Juhyeon Byun on 1/26/24.
+//
+
+import UIKit
+import RxSwift
+import SnapKit
+
+class BooltiBottomSheetViewController: UIViewController {
+    
+    // MARK: UI Component
+    
+    let titleView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .grey10
+        label.font = .subhead2
+        return label
+    }()
+    
+    // MARK: Life Cycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.configureUI()
+        self.configureConstraints()
+        self.configureDefaultBottomSheet()
+    }
+}
+
+// MARK: - Methods
+
+extension BooltiBottomSheetViewController {
+    
+    func setTitle(_ title: String) {
+        self.titleLabel.text = title
+    }
+}
+
+// MARK: - UI
+
+extension BooltiBottomSheetViewController {
+    
+    private func configureUI() {
+        self.view.backgroundColor = .grey85
+        
+        self.view.addSubview(titleView)
+        self.titleView.addSubview(titleLabel)
+    }
+    
+    private func configureConstraints() {
+        self.titleView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(80)
+        }
+        
+        self.titleLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.titleView.snp.left).offset(24)
+            make.bottom.equalTo(self.titleView.snp.bottom).offset(-12)
+        }
+    }
+    
+    private func configureDefaultBottomSheet() {
+        if let sheet = sheetPresentationController {
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 16.0
+        }
+    }
+    
+    /// detent를 변경한다. (ex. 티켓을 여러장 구매할 경우 화면에 추가 등)
+    func configureDetent(_ detent: CGFloat) {
+        if let sheet = sheetPresentationController {
+            sheet.animateChanges {
+                sheet.detents = [
+                    .custom { _ in
+                        return min(detent, 544)
+                    }
+                ]
+            }
+        }
+    }
+}
