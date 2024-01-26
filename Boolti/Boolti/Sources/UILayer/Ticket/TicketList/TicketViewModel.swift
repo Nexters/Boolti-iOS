@@ -29,6 +29,7 @@ final class TicketViewModel {
     struct Output {
         let navigation = PublishRelay<TicketViewDestination>()
         let isAccessTokenLoaded = PublishRelay<Bool>()
+        let sectionModels: BehaviorRelay<[TicketSection]> = BehaviorRelay(value: [])
     }
 
     let input: Input
@@ -49,10 +50,11 @@ final class TicketViewModel {
     }
 
     private func bindViewDidAppearEvent() {
-        // 화면이 뜨면, 현재 accessToken이 있는 지 확인한다.
+//         화면이 뜨면, 현재 accessToken이 있는 지 확인한다.
         self.input.viewDidAppearEvent
             .subscribe(with: self) { owner, _ in
                 owner.loadAccessToken()
+                owner.configureTableViewSection()
             }
             .disposed(by: self.disposeBag)
     }
@@ -70,5 +72,24 @@ final class TicketViewModel {
         // accessToken이 있으면 output으로 넘기기!..
         let token = authAPIService.fetchTokens()
         self.output.isAccessTokenLoaded.accept(!token.accessToken.isEmpty)
+    }
+
+    private func configureTableViewSection() {
+        let sections: [TicketSection] = [
+            .conformingDeposit(items: [
+                .conformingDepositTicket(id: 1, title: "안녕하세요."),
+                .conformingDepositTicket(id: 1, title: "안녕하세요.")
+            ]),
+            .used(items: [
+                .usedTicket(item: UsedTicket(ticketType: .premium, poster: .issuedPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20", location: "클럽샤프")),
+                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .issuedPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20", location: "클럽샤프")),
+            ]),
+            .used(items: [
+                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .usedPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프")),
+                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .usedPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프"))
+            ])
+        ]
+
+        self.output.sectionModels.accept(sections)
     }
 }
