@@ -103,7 +103,7 @@ extension BooltiNavigationView {
 
 extension BooltiNavigationView {
     
-    func backButtonDidTap() -> Signal<Void> {
+    func backButtonDidTapped() -> Signal<Void> {
         return backButton.rx.tap.asSignal()
     }
 }
