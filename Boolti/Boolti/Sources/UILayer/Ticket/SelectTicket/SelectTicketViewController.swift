@@ -42,7 +42,6 @@ final class SelectTicketViewController: BooltiBottomSheetViewController {
         
         self.configureUI()
         self.configureConstraints()
-        self.configureDetent(254)
         self.configureTableView()
         self.bindOutputs()
     }
@@ -75,6 +74,7 @@ extension SelectTicketViewController {
     
     private func configureUI() {
         self.setTitle("티켓 선택")
+        self.configureDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count * 58))
         
         self.view.addSubview(tableView)
     }

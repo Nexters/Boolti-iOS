@@ -11,6 +11,10 @@ import SnapKit
 
 class BooltiBottomSheetViewController: UIViewController {
     
+    // MARK: Properties
+    
+    private let headerHeight: CGFloat = 80
+    
     // MARK: UI Component
     
     let titleView: UIView = {
@@ -60,7 +64,7 @@ extension BooltiBottomSheetViewController {
         self.titleView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(80)
+            make.height.equalTo(headerHeight)
         }
         
         self.titleLabel.snp.makeConstraints { make in
@@ -77,12 +81,12 @@ extension BooltiBottomSheetViewController {
     }
     
     /// detent를 변경한다. (ex. 티켓을 여러장 구매할 경우 화면에 추가 등)
-    func configureDetent(_ detent: CGFloat) {
+    func configureDetent(contentHeight: CGFloat) {
         if let sheet = sheetPresentationController {
             sheet.animateChanges {
                 sheet.detents = [
                     .custom { _ in
-                        return min(detent, 544)
+                        return min(self.headerHeight + contentHeight, 544)
                     }
                 ]
             }
