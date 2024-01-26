@@ -76,14 +76,14 @@ extension SelectTicketViewController {
         self.setTitle("티켓 선택")
         self.configureDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count * 58))
         
-        self.view.addSubview(tableView)
+        self.contentView.addSubview(tableView)
     }
     
     private func configureConstraints() {
         self.tableView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleView.snp.bottom)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.top.equalTo(self.contentView)
+            make.horizontalEdges.equalTo(self.contentView)
+            make.bottom.equalTo(self.contentView)
         }
     }
 }

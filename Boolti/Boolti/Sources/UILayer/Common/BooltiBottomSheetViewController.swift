@@ -17,7 +17,7 @@ class BooltiBottomSheetViewController: UIViewController {
     
     // MARK: UI Component
     
-    let titleView: UIView = {
+    private let titleView: UIView = {
         let view = UIView()
         return view
     }()
@@ -27,6 +27,11 @@ class BooltiBottomSheetViewController: UIViewController {
         label.textColor = .grey10
         label.font = .subhead2
         return label
+    }()
+    
+    let contentView: UIView = {
+        let view = UIView()
+        return view
     }()
     
     // MARK: Life Cycle
@@ -56,7 +61,7 @@ extension BooltiBottomSheetViewController {
     private func configureUI() {
         self.view.backgroundColor = .grey85
         
-        self.view.addSubview(titleView)
+        self.view.addSubviews([titleView, contentView])
         self.titleView.addSubview(titleLabel)
     }
     
@@ -70,6 +75,12 @@ extension BooltiBottomSheetViewController {
         self.titleLabel.snp.makeConstraints { make in
             make.left.equalTo(self.titleView.snp.left).offset(24)
             make.bottom.equalTo(self.titleView.snp.bottom).offset(-12)
+        }
+        
+        self.contentView.snp.makeConstraints { make in
+            make.top.equalTo(self.titleView.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     
