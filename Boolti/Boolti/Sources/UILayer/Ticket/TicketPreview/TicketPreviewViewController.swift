@@ -25,8 +25,12 @@ final class TicketPreviewViewController: BooltiBottomSheetViewController {
         view.separatorStyle = .none
         view.showsVerticalScrollIndicator = false
         view.isScrollEnabled = false
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.grey80.cgColor
+        return view
+    }()
+    
+    private let underlineView: UIView = {
+        let view: UIView = UIView()
+        view.backgroundColor = .grey80
         return view
     }()
     
@@ -126,7 +130,7 @@ extension TicketPreviewViewController {
         self.setTitle("티켓 선택")
         self.configureDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count * self.tableViewRowHeight + 122))
         
-        self.contentView.addSubviews([tableView, priceInfoLabel, totalPriceLabel, ticketingButton])
+        self.contentView.addSubviews([tableView, underlineView, priceInfoLabel, totalPriceLabel, ticketingButton])
     }
     
     private func configureConstraints() {
@@ -134,6 +138,12 @@ extension TicketPreviewViewController {
             make.top.equalTo(self.contentView)
             make.horizontalEdges.equalTo(self.contentView)
             make.height.equalTo(self.tableViewRowHeight)
+            make.bottom.equalTo(self.underlineView.snp.top)
+        }
+        
+        self.underlineView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(1)
             make.bottom.equalTo(self.totalPriceLabel.snp.top).offset(-18)
         }
         
