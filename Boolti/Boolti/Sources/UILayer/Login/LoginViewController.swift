@@ -11,13 +11,16 @@ import RxCocoa
 
 class LoginViewController: UIViewController {
 
-    private let viewModel: LoginViewModel
+    let viewModel: LoginViewModel
     private let disposeBag = DisposeBag()
+
+    private let termsAgreementViewControllerFactory: () -> TermsAgreementViewController
 
     private let headerTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "불티나게 팔리는 티켓, 불티"
         label.font = .headline1
+        label.textColor = .grey05
         return label
     }()
 
@@ -25,6 +28,7 @@ class LoginViewController: UIViewController {
         let label = UILabel()
         label.text = "지금 불티에서 티켓을 불티나게 팔아보세요!"
         label.font = .body3
+        label.textColor = .grey30
         return label
     }()
 
@@ -42,16 +46,26 @@ class LoginViewController: UIViewController {
         return button
     }()
 
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.closeButton, for: .normal)
+
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // 아래는 navigation controller의 색상으로 갈거므로 삭제될 예정
-        self.view.backgroundColor = .gray
+        self.view.backgroundColor = .black
         self.configureUI()
         self.bindViewModel()
     }
 
-    init(viewModel: LoginViewModel) {
+    init(viewModel: LoginViewModel,
+         termsAgreementViewControllerFactory: @escaping () -> TermsAgreementViewController
+    ) {
         self.viewModel = viewModel
+        self.termsAgreementViewControllerFactory = termsAgreementViewControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -61,11 +75,17 @@ class LoginViewController: UIViewController {
 
     private func configureUI() {
         self.view.addSubviews([
+            self.closeButton,
             self.headerTitleLabel,
             self.subTitleLabel,
             self.kakaoLoginButton,
             self.appleLoginButton
         ])
+
+        self.closeButton.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(10)
+            make.left.equalToSuperview().inset(20)
+        }
 
         self.subTitleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -94,9 +114,17 @@ class LoginViewController: UIViewController {
 
     private func bindViewModel() {
         self.bindInput()
+        self.bindOutput()
     }
 
     private func bindInput() {
+        self.closeButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+
         self.kakaoLoginButton.rx.tap
             .asDriver()
             .map { Provider.kakao }
@@ -112,5 +140,24 @@ class LoginViewController: UIViewController {
                 owner.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func bindOutput() {
+        self.viewModel.output.didloginFinished
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isFirstSignedUp in
+                guard isFirstSignedUp else {
+                    self.dismiss(animated: true)
+                    return
+                }
+                self.presentTermsAgreementViewController()
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func presentTermsAgreementViewController() {
+        let viewController = self.termsAgreementViewControllerFactory()
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: true)
     }
 }

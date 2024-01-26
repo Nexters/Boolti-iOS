@@ -30,6 +30,13 @@ final class TicketViewController: ViewController {
         return view
     }()
 
+    private let blackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .red
+
+        return view
+    }()
+
     init(
         viewModel: TicketViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController
@@ -97,8 +104,14 @@ final class TicketViewController: ViewController {
         self.viewModel.output.navigation
             .subscribe(with: self) { owner, ticketDestination in
                 let viewController = owner.createViewController(ticketDestination)
-                viewController.hidesBottomBarWhenPushed = true
-                owner.navigationController?.pushViewController(viewController, animated: true)
+
+                if let viewController = viewController as? LoginViewController {
+                    viewController.hidesBottomBarWhenPushed = true
+                    viewController.modalPresentationStyle = .fullScreen
+                    owner.present(viewController, animated: true)
+                } else {
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
             }
             .disposed(by: self.disposeBag)
     }
@@ -108,7 +121,6 @@ final class TicketViewController: ViewController {
             make.edges.equalToSuperview()
         }
     }
-
 
     private func createViewController(_ next: TicketViewDestination) -> UIViewController {
         switch next {
