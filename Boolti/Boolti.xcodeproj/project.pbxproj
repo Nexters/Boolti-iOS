@@ -49,6 +49,7 @@
 		84781CCC2B5C003700D37921 /* ConcertDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCB2B5C003700D37921 /* ConcertDIContainer.swift */; };
 		84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCD2B5C005600D37921 /* ConcertViewController.swift */; };
 		84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCF2B5C006500D37921 /* ConcertViewModel.swift */; };
+		847AA70E2B62B55500E5B55C /* BooltiNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AA70D2B62B55500E5B55C /* BooltiNavigationView.swift */; };
 		84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84975BE82B60E04500F903E7 /* AuthAPI.swift */; };
 		84975BEF2B6113D000F903E7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84975BEE2B6113D000F903E7 /* Colors.xcassets */; };
 		84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84975BF72B611EA500F903E7 /* UIFont+.swift */; };
@@ -142,6 +143,7 @@
 		84781CCB2B5C003700D37921 /* ConcertDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDIContainer.swift; sourceTree = "<group>"; };
 		84781CCD2B5C005600D37921 /* ConcertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewController.swift; sourceTree = "<group>"; };
 		84781CCF2B5C006500D37921 /* ConcertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewModel.swift; sourceTree = "<group>"; };
+		847AA70D2B62B55500E5B55C /* BooltiNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiNavigationView.swift; sourceTree = "<group>"; };
 		84975BE82B60E04500F903E7 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		84975BEE2B6113D000F903E7 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		84975BF72B611EA500F903E7 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				876E414C2B5F8CA8006BEEB7 /* LoadingIndicatorView.swift */,
+				847AA70D2B62B55500E5B55C /* BooltiNavigationView.swift */,
 			);
 			path = UIElements;
 			sourceTree = "<group>";
@@ -686,6 +689,7 @@
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
 				876E414F2B5F915E006BEEB7 /* ViewController.swift in Sources */,
+				847AA70E2B62B55500E5B55C /* BooltiNavigationView.swift in Sources */,
 				84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */,
 				8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */,
 				8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */,
