@@ -43,9 +43,9 @@ class BooltiButton: UIButton {
             make.centerX.equalToSuperview()
         }
 
-        self.snp.makeConstraints { make in
-            make.width.equalTo(self.snp.height).multipliedBy(6)
-        }
+//        self.snp.makeConstraints { make in
+//            make.width.equalTo(self.snp.height).multipliedBy(6)
+//        }
     }
 }
 
