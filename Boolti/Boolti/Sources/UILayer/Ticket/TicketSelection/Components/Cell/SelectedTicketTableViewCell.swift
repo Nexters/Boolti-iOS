@@ -72,10 +72,7 @@ extension SelectedTicketTableViewCell {
         self.nameLabel.text = entity.name
         self.inventoryLabel.text = "\(entity.inventory)매 남음"
         self.priceLabel.text = "\(entity.price)원"
-        
-        if entity.price == 0 {
-            self.inventoryLabel.isHidden = true
-        }
+        self.inventoryLabel.isHidden = entity.price == 0
     }
     
     var didDeleteButtonTap: ControlEvent<Void> {
