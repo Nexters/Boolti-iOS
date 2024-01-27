@@ -13,6 +13,7 @@ final class TicketTypeView: UIView {
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
+    let cellHeight: CGFloat = 58
     
     // MARK: - UI Component
     
@@ -43,7 +44,7 @@ extension TicketTypeView {
     private func configureTableView() {
         self.tableView.register(TicketTypeTableViewCell.self, forCellReuseIdentifier: TicketTypeTableViewCell.className)
         
-        Observable.just(58)
+        Observable.just(self.cellHeight)
             .bind(to: self.tableView.rx.rowHeight)
             .disposed(by: self.disposeBag)
     }

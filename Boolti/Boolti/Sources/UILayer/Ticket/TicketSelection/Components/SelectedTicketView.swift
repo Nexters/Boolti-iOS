@@ -13,6 +13,7 @@ final class SelectedTicketView: UIView {
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
+    let cellHeight: CGFloat = 94
     
     // MARK: UI Component
     
@@ -42,7 +43,6 @@ final class SelectedTicketView: UIView {
     private let totalPriceLabel: UILabel = {
         let label = UILabel()
         label.font = .body4
-        label.text = "총 -원"
         label.textColor = .orange01
         return label
     }()
@@ -71,10 +71,13 @@ extension SelectedTicketView {
     private func configureTableView() {
         self.tableView.register(SelectedTicketTableViewCell.self, forCellReuseIdentifier: SelectedTicketTableViewCell.className)
         
-        Observable.just(94)
-            .map { CGFloat($0) }
+        Observable.just(self.cellHeight)
             .bind(to: self.tableView.rx.rowHeight)
             .disposed(by: disposeBag)
+    }
+    
+    func setTotalPriceLabel(price: Int) {
+        self.totalPriceLabel.text = "총 \(price)원"
     }
 
 }
@@ -91,7 +94,6 @@ extension SelectedTicketView {
         self.tableView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-//            make.height.equalTo(94)
             make.bottom.equalTo(self.underlineView.snp.top)
         }
         

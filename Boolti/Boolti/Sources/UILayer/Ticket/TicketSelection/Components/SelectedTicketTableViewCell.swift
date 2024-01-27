@@ -73,7 +73,7 @@ extension SelectedTicketTableViewCell {
         self.inventoryLabel.text = "\(entity.inventory)매 남음"
         self.priceLabel.text = "\(entity.price)원"
         
-        if entity.name == "초청 티켓" {
+        if entity.price == 0 {
             self.inventoryLabel.isHidden = true
         }
     }
