@@ -1,5 +1,5 @@
 //
-//  TicketPreviewTableViewCell.swift
+//  SelectedTicketTableViewCell.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/27/24.
@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-final class TicketPreviewTableViewCell: UITableViewCell {
+final class SelectedTicketTableViewCell: UITableViewCell {
     
     // MARK: Properties
     
@@ -66,7 +66,7 @@ final class TicketPreviewTableViewCell: UITableViewCell {
 
 // MARK: - Methods
 
-extension TicketPreviewTableViewCell {
+extension SelectedTicketTableViewCell {
     
     func setData(entity: TicketEntity) {
         self.nameLabel.text = entity.name
@@ -85,7 +85,7 @@ extension TicketPreviewTableViewCell {
 
 // MARK: - UI
 
-extension TicketPreviewTableViewCell {
+extension SelectedTicketTableViewCell {
     
     private func configureUI() {
         self.backgroundColor = .clear

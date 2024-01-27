@@ -18,14 +18,11 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     
     // MARK: UI Component
     
-    private let tableView: UITableView = {
-        let view = UITableView()
-        view.backgroundColor = .grey85
-        view.separatorStyle = .none
-        return view
-    }()
+    private let ticketTypeView = TicketTypeView()
+    private let selectedTicketView = SelectedTicketView()
     
     // MARK: Init
+    
     init(viewModel: TicketSelectionViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -42,7 +39,7 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
         
         self.configureUI()
         self.configureConstraints()
-        self.configureTableView()
+        self.bindInputs()
         self.bindOutputs()
     }
 }
@@ -51,20 +48,54 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
 
 extension TicketSelectionViewController {
     
-    private func configureTableView() {
-        self.tableView.register(TicketSelectionTableViewCell.self, forCellReuseIdentifier: TicketSelectionTableViewCell.className)
+    private func bindInputs() {
+        self.ticketTypeView.tableView.rx.modelSelected(TicketEntity.self)
+            .subscribe(onNext: { item in
+                print(item.name)
+                self.showContentView(.SelectedTicket)
+            })
+            .disposed(by: self.disposeBag)
         
-        Observable.just(58)
-            .bind(to: self.tableView.rx.rowHeight)
-            .disposed(by: disposeBag)
+        self.selectedTicketView.ticketingButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.presentingViewController?.dismiss(animated: true, completion: nil)
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func bindOutputs() {
         self.viewModel.output.tickets
-            .bind(to: tableView.rx.items(cellIdentifier: TicketSelectionTableViewCell.className, cellType: TicketSelectionTableViewCell.self)) { index, item, cell in
+            .bind(to: ticketTypeView.tableView.rx.items(cellIdentifier: TicketTypeTableViewCell.className, cellType: TicketTypeTableViewCell.self)) { index, item, cell in
                 cell.selectionStyle = .none
                 cell.setData(entity: item)
             }.disposed(by: self.disposeBag)
+        
+        self.viewModel.output.tickets
+            .bind(to: selectedTicketView.tableView.rx.items(cellIdentifier: SelectedTicketTableViewCell.className, cellType: SelectedTicketTableViewCell.self)) { index, item, cell in
+                cell.selectionStyle = .none
+                cell.setData(entity: item)
+                
+                cell.didDeleteButtonTap
+                    .asDriver()
+                    .drive(with: self, onNext: { owner, _ in
+                        self.showContentView(.TicketTypeList)
+                    })
+                    .disposed(by: cell.disposeBag)
+            }.disposed(by: self.disposeBag)
+    }
+    
+    private func showContentView(_ view: BottomSheetContentType) {
+        switch view {
+        case .TicketTypeList:
+            self.ticketTypeView.isHidden = false
+            self.selectedTicketView.isHidden = true
+            self.configureDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count * 58), contentType: .TicketTypeList)
+        case .SelectedTicket:
+            self.ticketTypeView.isHidden = true
+            self.selectedTicketView.isHidden = false
+            self.configureDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count * 94 + 122), contentType: .SelectedTicket)
+        }
     }
 }
 
@@ -74,16 +105,27 @@ extension TicketSelectionViewController {
     
     private func configureUI() {
         self.setTitle("티켓 선택")
-        self.configureDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count * 58))
         
-        self.contentView.addSubview(tableView)
+        self.contentView.addSubviews([self.ticketTypeView, self.selectedTicketView])
+        self.showContentView(.TicketTypeList)
     }
     
     private func configureConstraints() {
-        self.tableView.snp.makeConstraints { make in
+        self.ticketTypeView.snp.makeConstraints { make in
+            make.top.equalTo(self.contentView)
+            make.horizontalEdges.equalTo(self.contentView)
+            make.bottom.equalTo(self.contentView)
+        }
+        
+        self.selectedTicketView.snp.makeConstraints { make in
             make.top.equalTo(self.contentView)
             make.horizontalEdges.equalTo(self.contentView)
             make.bottom.equalTo(self.contentView)
         }
     }
+}
+
+enum BottomSheetContentType {
+    case TicketTypeList
+    case SelectedTicket
 }

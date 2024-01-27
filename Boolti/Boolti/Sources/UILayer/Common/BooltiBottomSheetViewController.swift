@@ -93,12 +93,20 @@ extension BooltiBottomSheetViewController {
     }
     
     /// detent를 변경한다. (ex. 티켓을 여러장 구매할 경우 화면에 추가 등)
-    func configureDetent(contentHeight: CGFloat) {
+    func configureDetent(contentHeight: CGFloat, contentType: BottomSheetContentType) {
         if let sheet = sheetPresentationController {
             sheet.animateChanges {
                 sheet.detents = [
-                    .custom { _ in
-                        return min(self.headerHeight + contentHeight, 544)
+                    .custom(identifier: .medium) { _ in
+                        switch contentType {
+                        case .TicketTypeList:
+                            return max(192, self.headerHeight + contentHeight)
+                        case .SelectedTicket:
+                            return self.headerHeight + contentHeight
+                        }
+                    },
+                    .custom(identifier: .large) { _ in
+                        return min(544, max(192, self.headerHeight + contentHeight))
                     }
                 ]
             }
