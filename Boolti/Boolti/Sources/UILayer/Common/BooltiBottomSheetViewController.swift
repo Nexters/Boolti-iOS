@@ -100,13 +100,10 @@ extension BooltiBottomSheetViewController {
                     .custom { _ in
                         switch contentType {
                         case .TicketTypeList:
-                            return max(192, self.headerHeight + contentHeight)
+                            return min(self.headerHeight + contentHeight + 20, self.headerHeight + 484)
                         case .SelectedTicket:
-                            return self.headerHeight + contentHeight
+                            return min(self.headerHeight + contentHeight, self.headerHeight + 484)
                         }
-                    },
-                    .custom { _ in
-                        return min(544, max(192, self.headerHeight + contentHeight))
                     }
                 ]
             }
