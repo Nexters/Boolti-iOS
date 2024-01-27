@@ -77,7 +77,7 @@ extension SelectedTicketView {
     }
     
     func setTotalPriceLabel(price: Int) {
-        self.totalPriceLabel.text = "총 \(price)원"
+        self.totalPriceLabel.text = "총 \(price.formattedCurrency())원"
     }
 
 }
