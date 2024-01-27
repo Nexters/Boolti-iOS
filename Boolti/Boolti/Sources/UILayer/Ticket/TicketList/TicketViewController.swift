@@ -9,6 +9,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 import RxAppState
+import RxDataSources
 import SnapKit
 
 final class TicketViewController: BooltiViewController {
@@ -22,6 +23,12 @@ final class TicketViewController: BooltiViewController {
         let view = UIView()
         view.backgroundColor = .lightGray
         return view
+    }()
+
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+
+        return tableView
     }()
 
     private let loginEnterView: LoginEnterView = {
@@ -88,6 +95,12 @@ final class TicketViewController: BooltiViewController {
 
     // ViewModel의 Output을 Binding한다.
     private func bindOutput() {
+        
+        self.viewModel.output.sectionModels
+            .asDriver(onErrorJustReturn: [])
+            .drive(self.tableView.rx.items(dataSource: self.dataSource()))
+            .disposed(by: self.disposeBag)
+
         self.viewModel.output.isAccessTokenLoaded
             .asDriver(onErrorJustReturn: false)
             .drive(with: self, onNext: { owner, isLoaded in
@@ -119,6 +132,28 @@ final class TicketViewController: BooltiViewController {
     private func configureLoginEnterView() {
         self.loginEnterView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+    }
+
+    private func dataSource() -> RxTableViewSectionedReloadDataSource<TicketSection> {
+        return RxTableViewSectionedReloadDataSource<TicketSection> { dataSource, tableView, indexPath, _ in
+            switch dataSource[indexPath] {
+            case .conformingDepositTicket(id: let id, title: let title):
+                let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
+                cell.selectionStyle = .none
+                cell.backgroundColor = .clear
+                return cell
+            case .issuedTicket(item: let issuedTicket):
+                let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
+                cell.selectionStyle = .none
+                cell.backgroundColor = .clear
+                return cell
+            case .usedTicket(item: let usedTicket):
+                let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
+                cell.selectionStyle = .none
+                cell.backgroundColor = .clear
+                return cell
+            }
         }
     }
 
