@@ -27,9 +27,12 @@ final class TicketViewController: BooltiViewController {
 
     private let tableView: UITableView = {
         let tableView = UITableView()
-
+        tableView.separatorStyle = .none
+        tableView.register(ConformingDepositTableViewCell.self, forCellReuseIdentifier: ConformingDepositTableViewCell.className)
         return tableView
     }()
+
+    private lazy var tableViewDataSource = dataSource()
 
     private let loginEnterView: LoginEnterView = {
         let view = LoginEnterView()
@@ -60,16 +63,29 @@ final class TicketViewController: BooltiViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // TODO: 화면 넘어가는 거 확인용. 나중에 지워야함!
-        self.view.backgroundColor = .green
+        self.view.backgroundColor = .black100
+        self.navigationController?.navigationBar.isHidden = true
         self.configureUI()
         self.bindViewModel()
     }
 
     private func configureUI() {
-        self.view.addSubview(self.containerView)
-        self.containerView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        self.view.addSubview(self.tableView)
+
+        self.tableView.snp.makeConstraints { make in
+            make.verticalEdges.equalTo(self.view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
+
+        self.tableView.rx
+            .setDelegate(self)
+            .disposed(by: self.disposeBag)
+//        self.view.addSubview(self.containerView)
+//        self.containerView.snp.makeConstraints { make in
+//            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+//        }
+
+//        self.configureTableView()
     }
 
     private func bindViewModel() {
@@ -95,10 +111,10 @@ final class TicketViewController: BooltiViewController {
 
     // ViewModel의 Output을 Binding한다.
     private func bindOutput() {
-        
+
         self.viewModel.output.sectionModels
             .asDriver(onErrorJustReturn: [])
-            .drive(self.tableView.rx.items(dataSource: self.dataSource()))
+            .drive(self.tableView.rx.items(dataSource: self.tableViewDataSource))
             .disposed(by: self.disposeBag)
 
         self.viewModel.output.isAccessTokenLoaded
@@ -139,9 +155,10 @@ final class TicketViewController: BooltiViewController {
         return RxTableViewSectionedReloadDataSource<TicketSection> { dataSource, tableView, indexPath, _ in
             switch dataSource[indexPath] {
             case .conformingDepositTicket(id: let id, title: let title):
-                let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
-                cell.selectionStyle = .none
-                cell.backgroundColor = .clear
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ConformingDepositTableViewCell.className, for: indexPath) as? ConformingDepositTableViewCell else {
+                    return UITableViewCell()
+                }
+                cell.configure(with: id, title: title)
                 return cell
             case .issuedTicket(item: let issuedTicket):
                 let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
@@ -160,6 +177,22 @@ final class TicketViewController: BooltiViewController {
     private func createViewController(_ next: TicketViewDestination) -> UIViewController {
         switch next {
         case .login: return loginViewControllerFactory()
+        }
+    }
+}
+
+extension TicketViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+        let section = self.tableViewDataSource[indexPath.section]
+
+        switch section {
+        case .conformingDeposit(items: _):
+            return 162
+        case .usable(items: _):
+            return 10
+        case .used(items: _):
+            return 10
         }
     }
 }

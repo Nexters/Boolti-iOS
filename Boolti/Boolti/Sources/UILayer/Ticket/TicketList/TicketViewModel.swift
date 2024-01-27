@@ -8,6 +8,8 @@
 import Foundation
 import RxSwift
 import RxRelay
+import RxDataSources
+import RxCocoa
 
 enum TicketViewDestination {
     case login
@@ -77,17 +79,17 @@ final class TicketViewModel {
     private func configureTableViewSection() {
         let sections: [TicketSection] = [
             .conformingDeposit(items: [
-                .conformingDepositTicket(id: 1, title: "안녕하세요."),
-                .conformingDepositTicket(id: 1, title: "안녕하세요.")
-            ]),
-            .used(items: [
-                .usedTicket(item: UsedTicket(ticketType: .premium, poster: .issuedPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20", location: "클럽샤프")),
-                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .issuedPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20", location: "클럽샤프")),
-            ]),
-            .used(items: [
-                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .usedPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프")),
-                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .usedPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프"))
+                .conformingDepositTicket(id: 1, title: "안녕하세요"),
+                .conformingDepositTicket(id: 1, title: "안녕하세요.sdfsfsfsfsffs")
             ])
+//            .used(items: [
+//                .usedTicket(item: UsedTicket(ticketType: .premium, poster: .issuedPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20", location: "클럽샤프")),
+//                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .issuedPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20", location: "클럽샤프")),
+//            ]),
+//            .used(items: [
+//                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .usedPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프")),
+//                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .usedPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프"))
+//            ])
         ]
 
         self.output.sectionModels.accept(sections)

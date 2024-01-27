@@ -13,7 +13,6 @@ class ConformingDepositTableViewCell: UITableViewCell {
     private let upperTagView: UIView = {
         let view = UIView()
         view.backgroundColor = .grey90
-        view.clipsToBounds = true
 
         return view
     }()
@@ -61,12 +60,22 @@ class ConformingDepositTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.configureUI()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.contentView.frame = contentView.frame.inset(
+            by: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+        )
+    }
+
+    func configure(with id: Int, title: String) {
+        self.titleLabel.text = " [\(title)"
+        self.configureUI()
     }
 
     private func configureUI() {
@@ -76,31 +85,28 @@ class ConformingDepositTableViewCell: UITableViewCell {
             self.navigateToDepositAccountButton
         ])
 
+        self.contentView.backgroundColor = .blue
+        self.contentView.layer.cornerRadius = 8
+        self.contentView.clipsToBounds = true
+
         self.configureBorder()
         self.configureConstraints()
     }
 
-    func configure(with id: Int, title: String) {
-        self.titleLabel.text = "[\(title)"
-    }
-
     private func configureBorder(){
-//        let borderLayer = CAShapeLayer()
-//
-//        borderLayer.strokeColor = UIColor.grey80.cgColor
-//        borderLayer.lineDashPattern = [2, 2]
-//        borderLayer.frame = self.contentView.bounds
-//        borderLayer.fillColor = nil
-//        borderLayer.path = UIBezierPath(roundedRect: self.contentView.bounds, cornerRadius: 8).cgPath
-//
-//        self.contentView.layer.addSublayer(borderLayer)
+        let borderLayer = CAShapeLayer()
+
+        borderLayer.strokeColor = UIColor.red.cgColor
+        borderLayer.lineDashPattern = [2, 2]
+        borderLayer.fillColor = nil
+        let bounds = self.contentView.bounds
+        let borderRect = CGRect(x: bounds.origin.x, y: bounds.origin.x, width: bounds.width, height: bounds.height-20)
+        borderLayer.path = UIBezierPath(roundedRect: borderRect, cornerRadius: 8).cgPath
+
+        self.contentView.layer.addSublayer(borderLayer)
     }
 
     private func configureConstraints() {
-
-        self.contentView.snp.makeConstraints { make in
-            make.height.equalTo(142)
-        }
 
         self.upperTagView.snp.makeConstraints { make in
             make.horizontalEdges.top.equalToSuperview()
@@ -108,12 +114,13 @@ class ConformingDepositTableViewCell: UITableViewCell {
         }
 
         self.mainStatementStackView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(200)
+            make.left.equalToSuperview().inset(20)
+            make.right.lessThanOrEqualToSuperview().inset(20)
+            make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
         }
 
         self.navigateToDepositAccountButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(-8)
+            make.top.equalTo(self.mainStatementStackView.snp.bottom).offset(8)
             make.left.equalTo(self.mainStatementStackView)
         }
     }
