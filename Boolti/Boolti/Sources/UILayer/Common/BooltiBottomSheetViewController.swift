@@ -97,7 +97,7 @@ extension BooltiBottomSheetViewController {
         if let sheet = sheetPresentationController {
             sheet.animateChanges {
                 sheet.detents = [
-                    .custom(identifier: .medium) { _ in
+                    .custom { _ in
                         switch contentType {
                         case .TicketTypeList:
                             return max(192, self.headerHeight + contentHeight)
@@ -105,7 +105,7 @@ extension BooltiBottomSheetViewController {
                             return self.headerHeight + contentHeight
                         }
                     },
-                    .custom(identifier: .large) { _ in
+                    .custom { _ in
                         return min(544, max(192, self.headerHeight + contentHeight))
                     }
                 ]
