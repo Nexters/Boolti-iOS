@@ -71,7 +71,7 @@ extension SelectedTicketTableViewCell {
     func setData(entity: TicketEntity) {
         self.nameLabel.text = entity.name
         self.inventoryLabel.text = "\(entity.inventory)매 남음"
-        self.priceLabel.text = "\(entity.price)원"
+        self.priceLabel.text = "\(entity.price.formattedCurrency())원"
         self.inventoryLabel.isHidden = entity.price == 0
     }
     
