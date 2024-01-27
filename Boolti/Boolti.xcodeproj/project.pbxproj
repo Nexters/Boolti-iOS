@@ -516,6 +516,24 @@
 			path = Concert;
 			sourceTree = "<group>";
 		};
+		848BEBB12B65117A009D0C1D /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				84625A132B63BEB600CC9077 /* TicketTypeTableViewCell.swift */,
+				84DC9F092B640C8300F1439A /* SelectedTicketTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		848BEBB22B651181009D0C1D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				84DC9F112B64CBEB00F1439A /* TicketTypeView.swift */,
+				84DC9F132B64CBF800F1439A /* SelectedTicketView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		84975BF22B611E2100F903E7 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -537,10 +555,8 @@
 		84DC9F102B64CACF00F1439A /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				84625A132B63BEB600CC9077 /* TicketTypeTableViewCell.swift */,
-				84DC9F092B640C8300F1439A /* SelectedTicketTableViewCell.swift */,
-				84DC9F112B64CBEB00F1439A /* TicketTypeView.swift */,
-				84DC9F132B64CBF800F1439A /* SelectedTicketView.swift */,
+				848BEBB22B651181009D0C1D /* View */,
+				848BEBB12B65117A009D0C1D /* Cell */,
 			);
 			path = Components;
 			sourceTree = "<group>";
