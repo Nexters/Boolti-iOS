@@ -24,6 +24,8 @@ final class TicketTypeView: UIView {
         return view
     }()
     
+    // MARK: Init
+    
     init() {
         super.init(frame: .zero)
         

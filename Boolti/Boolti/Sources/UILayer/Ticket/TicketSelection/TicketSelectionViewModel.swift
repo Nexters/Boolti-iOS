@@ -11,6 +11,8 @@ import RxRelay
 
 final class TicketSelectionViewModel {
     
+    // MARK: Properties
+    
 //    private let ticketAPIService: TicketAPIServiceType
     
     private let disposeBag = DisposeBag()
@@ -30,6 +32,8 @@ final class TicketSelectionViewModel {
 
     let input: Input
     let output: Output
+    
+    // MARK: Init
 
 //    init(ticketAPIService: TicketAPIService) {
 //        self.ticketAPIService = ticketAPIService

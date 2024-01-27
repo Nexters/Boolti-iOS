@@ -43,7 +43,7 @@ final class TicketTypeTableViewCell: UITableViewCell {
         return label
     }()
  
-    // MARK: Life Cycle
+    // MARK: Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
