@@ -53,23 +53,10 @@ extension TicketSelectionViewController {
             .asDriver()
             .drive(with: self, onNext: { owner, entity  in
                 guard entity.inventory > 0 else { return }
-                owner.viewModel.input.selectedTickets.accept([entity])
+                owner.viewModel.input.didTicketSelect.onNext(entity)
                 owner.showContentView(.SelectedTicket)
             })
             .disposed(by: self.disposeBag)
-        
-        self.viewModel.input.selectedTickets
-            .bind(to: selectedTicketView.tableView.rx.items(cellIdentifier: SelectedTicketTableViewCell.className, cellType: SelectedTicketTableViewCell.self)) { index, item, cell in
-                cell.selectionStyle = .none
-                cell.setData(entity: item)
-                
-                cell.didDeleteButtonTap
-                    .asDriver()
-                    .drive(with: self, onNext: { owner, _ in
-                        owner.showContentView(.TicketTypeList)
-                    })
-                    .disposed(by: cell.disposeBag)
-            }.disposed(by: self.disposeBag)
         
         self.selectedTicketView.ticketingButton.rx.tap
             .asDriver()
@@ -86,10 +73,30 @@ extension TicketSelectionViewController {
                 cell.setData(entity: item)
             }.disposed(by: self.disposeBag)
         
+        self.viewModel.output.selectedTickets
+            .bind(to: selectedTicketView.tableView.rx.items(cellIdentifier: SelectedTicketTableViewCell.className, cellType: SelectedTicketTableViewCell.self)) { index, item, cell in
+                cell.selectionStyle = .none
+                cell.setData(entity: item)
+                
+                cell.didDeleteButtonTap
+                    .asDriver()
+                    .drive(with: self, onNext: { owner, _ in
+                        owner.viewModel.input.didDeleteButtonTap.onNext(item.id)
+                    })
+                    .disposed(by: cell.disposeBag)
+            }.disposed(by: self.disposeBag)
+        
         self.viewModel.output.totalPrice
             .asDriver(onErrorJustReturn: 0)
             .drive(with: self, onNext: { owner, price in
                 owner.selectedTicketView.setTotalPriceLabel(price: price)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.showTicketTypeView
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self, onNext: { owner, _ in
+                owner.showContentView(.TicketTypeList)
             })
             .disposed(by: self.disposeBag)
     }
@@ -99,11 +106,11 @@ extension TicketSelectionViewController {
         case .TicketTypeList:
             self.ticketTypeView.isHidden = false
             self.selectedTicketView.isHidden = true
-            self.configureDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count) * self.ticketTypeView.cellHeight, contentType: .TicketTypeList)
+            self.setDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count) * self.ticketTypeView.cellHeight, contentType: .TicketTypeList)
         case .SelectedTicket:
             self.ticketTypeView.isHidden = true
             self.selectedTicketView.isHidden = false
-            self.configureDetent(contentHeight: CGFloat(self.viewModel.input.selectedTickets.value.count) * self.selectedTicketView.cellHeight + 122, contentType: .SelectedTicket)
+            self.setDetent(contentHeight: CGFloat(self.viewModel.output.selectedTickets.value.count) * self.selectedTicketView.cellHeight + 122, contentType: .SelectedTicket)
         }
     }
 }
@@ -132,9 +139,4 @@ extension TicketSelectionViewController {
             make.bottom.equalTo(self.contentView)
         }
     }
-}
-
-enum BottomSheetContentType {
-    case TicketTypeList
-    case SelectedTicket
 }

@@ -9,12 +9,12 @@ import UIKit
 import RxCocoa
 import SnapKit
 
+enum NavigationType {
+    case payment
+    case concertDetail
+}
+
 final class BooltiNavigationView: UIView {
-    
-    enum NavigationType {
-        case payment
-        case concertDetail
-    }
     
     // MARK: UI Component
     

@@ -18,7 +18,8 @@ final class TicketSelectionViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let selectedTickets = BehaviorRelay<[TicketEntity]>(value: [])
+        let didTicketSelect = PublishSubject<TicketEntity>()
+        let didDeleteButtonTap = PublishSubject<Int>()
     }
 
     struct Output {
@@ -27,7 +28,9 @@ final class TicketSelectionViewModel {
                                                             .init(id: 1, name: "일반 티켓 A", price: 3000, inventory: 0),
                                                             .init(id: 2, name: "일반 티켓 B", price: 5000, inventory: 300),
                                                             .init(id: 2, name: "일반 티켓 C", price: 15000, inventory: 10)])
-        let totalPrice = BehaviorSubject<Int>(value: 0)
+        let selectedTickets = BehaviorRelay<[TicketEntity]>(value: [])
+        let totalPrice = BehaviorRelay<Int>(value: 0)
+        let showTicketTypeView = PublishRelay<Void>()
     }
 
     let input: Input
@@ -42,6 +45,7 @@ final class TicketSelectionViewModel {
         self.output = Output()
         
         self.bindInputs()
+        self.bindOutputs()
     }
 }
 
@@ -50,11 +54,38 @@ final class TicketSelectionViewModel {
 extension TicketSelectionViewModel {
     
     private func bindInputs() {
-        self.input.selectedTickets
-            .map { ticket in
-                return ticket.reduce(0) { $0 + $1.price }
-            }
-            .bind(to: self.output.totalPrice)
+        self.input.didTicketSelect
+            .bind(with: self, onNext: { owner, entity in
+                var selectedTickets = owner.output.selectedTickets.value
+                selectedTickets.append(entity)
+
+                owner.output.selectedTickets.accept(selectedTickets)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.input.didDeleteButtonTap
+            .bind(with: self, onNext: { owner, id in
+                var selectedTickets = owner.output.selectedTickets.value
+                
+                if let indexToRemove = selectedTickets.firstIndex(where: { $0.id == id }) {
+                    selectedTickets.remove(at: indexToRemove)
+                    owner.output.selectedTickets.accept(selectedTickets)
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindOutputs() {
+        self.output.selectedTickets
+            .asDriver()
+            .drive(with: self, onNext: { owner, tickets in
+                if tickets.isEmpty {
+                    owner.output.showTicketTypeView.accept(())
+                } else {
+                    let totalPrice = tickets.reduce(0) { $0 + $1.price }
+                    owner.output.totalPrice.accept(totalPrice)
+                }
+            })
             .disposed(by: self.disposeBag)
     }
 }
