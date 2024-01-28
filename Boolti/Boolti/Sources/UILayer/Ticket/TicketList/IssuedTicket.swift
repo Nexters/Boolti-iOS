@@ -8,8 +8,17 @@
 import UIKit
 
 enum TicketType {
-    case premium
     case invitation
+    case premium
+
+    var description: String {
+        switch self {
+        case .invitation:
+            return "초청 티켓"
+        case .premium:
+            return "프리미엄 티켓"
+        }
+    }
 }
 
 struct IssuedTicket {

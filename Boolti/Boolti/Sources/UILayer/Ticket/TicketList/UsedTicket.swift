@@ -13,4 +13,5 @@ struct UsedTicket {
     let title: String
     let date: String
     let location: String
+    let number: Int
 }

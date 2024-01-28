@@ -29,6 +29,7 @@ final class TicketViewController: BooltiViewController {
         let tableView = UITableView()
         tableView.separatorStyle = .none
         tableView.register(ConformingDepositTableViewCell.self, forCellReuseIdentifier: ConformingDepositTableViewCell.className)
+        tableView.register(UsedTicketTableViewCell.self, forCellReuseIdentifier: UsedTicketTableViewCell.className)
         return tableView
     }()
 
@@ -160,15 +161,16 @@ final class TicketViewController: BooltiViewController {
                 }
                 cell.configure(with: id, title: title)
                 return cell
+
             case .issuedTicket(item: let issuedTicket):
                 let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
                 cell.selectionStyle = .none
                 cell.backgroundColor = .clear
                 return cell
+
             case .usedTicket(item: let usedTicket):
-                let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
-                cell.selectionStyle = .none
-                cell.backgroundColor = .clear
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: UsedTicketTableViewCell.className, for: indexPath) as? UsedTicketTableViewCell else { return UITableViewCell() }
+                cell.configure(with: usedTicket)
                 return cell
             }
         }
@@ -192,7 +194,7 @@ extension TicketViewController: UITableViewDelegate {
         case .usable(items: _):
             return 10
         case .used(items: _):
-            return 10
+            return 180
         }
     }
 }

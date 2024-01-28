@@ -84,6 +84,8 @@
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
 		87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */; };
 		8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8724C4BE2B6221A500484BFC /* UIView+.swift */; };
+		8746ACF92B65263E0037A1B1 /* UsedTicketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746ACF82B65263E0037A1B1 /* UsedTicketTableViewCell.swift */; };
+		8746ACFB2B6529760037A1B1 /* PosterImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746ACFA2B6529760037A1B1 /* PosterImageView.swift */; };
 		8757BA972B5FA6B0008503B5 /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */; };
 		8757BA992B5FC573008503B5 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA982B5FC573008503B5 /* AuthToken.swift */; };
 		8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */; };
@@ -177,6 +179,8 @@
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIServiceType.swift; sourceTree = "<group>"; };
 		8724C4BE2B6221A500484BFC /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		8746ACF82B65263E0037A1B1 /* UsedTicketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsedTicketTableViewCell.swift; sourceTree = "<group>"; };
+		8746ACFA2B6529760037A1B1 /* PosterImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterImageView.swift; sourceTree = "<group>"; };
 		8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		8757BA982B5FC573008503B5 /* AuthToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthToken.swift; sourceTree = "<group>"; };
 		8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -277,6 +281,7 @@
 				84781CC82B5BFA1C00D37921 /* TicketViewModel.swift */,
 				8766B55E2B641579004F266A /* IssuedTicket.swift */,
 				8766B5602B641581004F266A /* UsedTicket.swift */,
+				8746ACFA2B6529760037A1B1 /* PosterImageView.swift */,
 			);
 			path = TicketList;
 			sourceTree = "<group>";
@@ -579,6 +584,7 @@
 			isa = PBXGroup;
 			children = (
 				8766B5632B648772004F266A /* ConformingDepositTableViewCell.swift */,
+				8746ACF82B65263E0037A1B1 /* UsedTicketTableViewCell.swift */,
 			);
 			path = TicketTableViewCell;
 			sourceTree = "<group>";
@@ -771,6 +777,7 @@
 				87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */,
 				849FBD512B5E920A006EB865 /* AppInfo.swift in Sources */,
 				8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */,
+				8746ACF92B65263E0037A1B1 /* UsedTicketTableViewCell.swift in Sources */,
 				8766B55D2B6413C1004F266A /* TicketSection.swift in Sources */,
 				84781C822B5BEC3900D37921 /* BaseResponseDTO.swift in Sources */,
 				84781CAD2B5BF7A200D37921 /* HomeTabBarDIContainer.swift in Sources */,
@@ -809,6 +816,7 @@
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,
 				84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */,
 				8757BAAA2B5FDF29008503B5 /* KakaoAuth.swift in Sources */,
+				8746ACFB2B6529760037A1B1 /* PosterImageView.swift in Sources */,
 				878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */,
 				876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */,
 				84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */,
