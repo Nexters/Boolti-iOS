@@ -9,6 +9,11 @@ import UIKit
 import RxSwift
 import SnapKit
 
+enum BottomSheetContentType {
+    case TicketTypeList
+    case SelectedTicket
+}
+
 class BooltiBottomSheetViewController: UIViewController {
     
     // MARK: Properties
@@ -60,6 +65,7 @@ extension BooltiBottomSheetViewController {
     
     private func configureUI() {
         self.view.backgroundColor = .grey85
+        self.navigationController?.navigationBar.isHidden = true
         
         self.view.addSubviews([titleView, contentView])
         self.titleView.addSubview(titleLabel)
@@ -80,7 +86,7 @@ extension BooltiBottomSheetViewController {
         self.contentView.snp.makeConstraints { make in
             make.top.equalTo(self.titleView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
@@ -92,12 +98,17 @@ extension BooltiBottomSheetViewController {
     }
     
     /// detent를 변경한다. (ex. 티켓을 여러장 구매할 경우 화면에 추가 등)
-    func configureDetent(contentHeight: CGFloat) {
+    func setDetent(contentHeight: CGFloat, contentType: BottomSheetContentType) {
         if let sheet = sheetPresentationController {
             sheet.animateChanges {
                 sheet.detents = [
                     .custom { _ in
-                        return min(self.headerHeight + contentHeight, 544)
+                        switch contentType {
+                        case .TicketTypeList:
+                            return min(self.headerHeight + contentHeight + 20, self.headerHeight + 484)
+                        case .SelectedTicket:
+                            return min(self.headerHeight + contentHeight, self.headerHeight + 484)
+                        }
                     }
                 ]
             }
