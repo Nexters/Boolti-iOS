@@ -86,6 +86,7 @@
 		84DC9F0A2B640C8300F1439A /* SelectedTicketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC9F092B640C8300F1439A /* SelectedTicketTableViewCell.swift */; };
 		84DC9F122B64CBEB00F1439A /* TicketTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC9F112B64CBEB00F1439A /* TicketTypeView.swift */; };
 		84DC9F142B64CBF800F1439A /* SelectedTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC9F132B64CBF800F1439A /* SelectedTicketView.swift */; };
+		84FBBDFD2B675E78009462E9 /* OTSBAggroB.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84FBBDFC2B675E78009462E9 /* OTSBAggroB.otf */; };
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
@@ -180,6 +181,7 @@
 		84DC9F092B640C8300F1439A /* SelectedTicketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTicketTableViewCell.swift; sourceTree = "<group>"; };
 		84DC9F112B64CBEB00F1439A /* TicketTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketTypeView.swift; sourceTree = "<group>"; };
 		84DC9F132B64CBF800F1439A /* SelectedTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTicketView.swift; sourceTree = "<group>"; };
+		84FBBDFC2B675E78009462E9 /* OTSBAggroB.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OTSBAggroB.otf; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIServiceType.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 			children = (
 				84975BFE2B6123E500F903E7 /* Pretendard-Regular.otf */,
 				84975BFD2B6123E500F903E7 /* Pretendard-SemiBold.otf */,
+				84FBBDFC2B675E78009462E9 /* OTSBAggroB.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -747,6 +750,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84FBBDFD2B675E78009462E9 /* OTSBAggroB.otf in Resources */,
 				876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */,
 				84781BD92B5BDAFD00D37921 /* LaunchScreen.storyboard in Resources */,
 				84781BD62B5BDAFD00D37921 /* Assets.xcassets in Resources */,

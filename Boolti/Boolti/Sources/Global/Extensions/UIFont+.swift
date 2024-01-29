@@ -57,4 +57,7 @@ extension UIFont {
         return UIFont(name: "Pretendard-Regular", size: 12.0)!
     }
     
+    class var aggroB: UIFont {
+        return UIFont(name: "OTSBAggroB", size: 20.0)!
+    }
 }
