@@ -82,7 +82,7 @@ extension ConcertInfoView {
     
     private func configureConstraints() {
         self.snp.makeConstraints { make in
-            make.height.equalTo(138)
+            make.height.equalTo(126)
         }
         
         self.poster.snp.makeConstraints { make in

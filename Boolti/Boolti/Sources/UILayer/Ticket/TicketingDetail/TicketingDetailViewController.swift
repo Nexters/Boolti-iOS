@@ -34,6 +34,15 @@ final class TicketingDetailViewController: UIViewController {
     
     private let ticketInfoView = TicketInfoView()
     
+    private let paymentMethodView = PaymentMethodView()
+    
+    private let stackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.spacing = 12
+        return view
+    }()
+    
     // MARK: Init
     
     init(viewModel: TicketingDetailViewModel) {
@@ -52,7 +61,6 @@ final class TicketingDetailViewController: UIViewController {
         
         self.configureUI()
         self.configureConstraints()
-        self.configureScrollViewContentSize()
         
         // 확인용
         concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: "2024.03.09 (토) 17:00")
@@ -65,7 +73,8 @@ extension TicketingDetailViewController {
     
     private func configureUI() {
         self.view.addSubviews([self.navigationView, self.scrollView])
-        self.scrollView.addSubviews([self.concertInfoView, self.ticketHolderInputView, self.depositorInputView, self.ticketInfoView])
+        self.scrollView.addSubviews([self.stackView])
+        self.stackView.addArrangedSubviews([self.concertInfoView, self.ticketHolderInputView, self.depositorInputView, self.ticketInfoView, self.paymentMethodView])
         
         self.view.backgroundColor = .grey95
     }
@@ -78,33 +87,13 @@ extension TicketingDetailViewController {
         
         self.scrollView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationView.snp.bottom)
-            make.horizontalEdges.equalToSuperview()
+            make.width.equalToSuperview()
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
         
-        self.concertInfoView.snp.makeConstraints { make in
-            make.top.equalTo(self.scrollView)
+        self.stackView.snp.makeConstraints { make in
+            make.verticalEdges.equalTo(self.scrollView)
             make.width.equalTo(self.scrollView)
         }
-        
-        self.ticketHolderInputView.snp.makeConstraints { make in
-            make.top.equalTo(self.concertInfoView.snp.bottom)
-            make.width.equalTo(self.scrollView)
-        }
-        
-        self.depositorInputView.snp.makeConstraints { make in
-            make.top.equalTo(self.ticketHolderInputView.snp.bottom).offset(12)
-            make.width.equalTo(self.scrollView)
-        }
-        
-        self.ticketInfoView.snp.makeConstraints { make in
-            make.top.equalTo(self.depositorInputView.snp.bottom).offset(12)
-            make.width.equalTo(self.scrollView)
-        }
-    }
-    
-    private func configureScrollViewContentSize() {
-        self.scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width,
-                                             height: UIScreen.main.bounds.height - self.navigationView.bounds.height)
     }
 }

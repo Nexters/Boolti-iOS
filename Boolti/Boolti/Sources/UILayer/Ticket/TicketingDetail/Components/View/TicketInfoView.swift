@@ -83,13 +83,13 @@ extension TicketInfoView {
         let label = UILabel()
         label.font = .body3
         label.textColor = .grey15
+        label.textAlignment = .right
         return label
     }
     
     private func makeStackView(with: [UILabel]) -> UIStackView {
         let view = UIStackView()
         view.axis = .horizontal
-        view.alignment = .fill
         view.addArrangedSubviews(with)
         return view
     }
