@@ -72,6 +72,7 @@ final class TicketingDetailViewController: UIViewController {
         self.configureUI()
         self.configureConstraints()
         self.bindOutputs()
+        self.bindEvents()
         
         // 확인용
         concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: "2024.03.09 (토) 17:00")
@@ -85,11 +86,29 @@ extension TicketingDetailViewController {
     private func bindOutputs() {
         self.policyView.policyLabelHeight
             .asDriver(onErrorJustReturn: 0)
-             .drive(with: self, onNext: { owner, viewHeight in
-                 let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.size.height + viewHeight)
-                 owner.scrollView.setContentOffset(bottomOffset, animated: true)
-             })
-             .disposed(by: self.disposeBag)
+            .drive(with: self, onNext: { owner, viewHeight in
+                let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.size.height + viewHeight)
+                owner.scrollView.setContentOffset(bottomOffset, animated: true)
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindEvents() {
+        let tapGesture = UITapGestureRecognizer()
+        self.view.addGestureRecognizer(tapGesture)
+
+        // TODO: RxGesture 사용 가능
+        tapGesture.rx.event
+            .bind(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
+        
+        scrollView.rx.contentOffset
+            .bind(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
      }
 }
 
