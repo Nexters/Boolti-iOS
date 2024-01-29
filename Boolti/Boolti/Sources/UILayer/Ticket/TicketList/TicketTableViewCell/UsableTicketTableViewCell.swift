@@ -48,6 +48,7 @@ class UsableTicketTableViewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grey10
+        label.font = .headline1
         label.numberOfLines = 2
 
         return label
@@ -132,6 +133,24 @@ class UsableTicketTableViewCell: UITableViewCell {
         ])
 
         self.configureConstraints()
+        self.configureGradient()
+    }
+
+    private func configureGradient() {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.colors = [UIColor(white: 1, alpha: 0.4).cgColor, UIColor(white: 1, alpha: 0).cgColor]
+
+        // gradient를 layer 전체에 적용해주기 위해 범위를 0.0 ~ 1.0으로 설정
+
+        // gradient 방향을 x축과는 상관없이 y축의 변화만 줌
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradient.endPoint = CGPoint(x: 0.2, y: 0.3)
+
+        gradient.locations = [0.0, 0.5]
+
+        gradient.frame = bounds
+        gradient.cornerRadius = 8
+        self.contentView.layer.addSublayer(gradient)
     }
 
     private func configureConstraints() {

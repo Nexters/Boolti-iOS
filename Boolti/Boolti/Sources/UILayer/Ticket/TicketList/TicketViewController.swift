@@ -83,12 +83,6 @@ final class TicketViewController: BooltiViewController {
         self.tableView.rx
             .setDelegate(self)
             .disposed(by: self.disposeBag)
-//        self.view.addSubview(self.containerView)
-//        self.containerView.snp.makeConstraints { make in
-//            make.edges.equalTo(self.view.safeAreaLayoutGuide)
-//        }
-
-//        self.configureTableView()
     }
 
     private func bindViewModel() {
@@ -162,6 +156,7 @@ final class TicketViewController: BooltiViewController {
                     return UITableViewCell()
                 }
                 cell.configure(with: id, title: title)
+                cell.selectionStyle = .none
                 return cell
 
             case .usableTicket(item: let ticket):
@@ -169,11 +164,13 @@ final class TicketViewController: BooltiViewController {
                     return UITableViewCell()
                 }
                 cell.configureData(with: ticket)
+                cell.selectionStyle = .none
                 return cell
 
             case .usedTicket(item: let ticket):
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: UsedTicketTableViewCell.className, for: indexPath) as? UsedTicketTableViewCell else { return UITableViewCell() }
                 cell.configureData(with: ticket)
+                cell.selectionStyle = .none
                 return cell
             }
         }
