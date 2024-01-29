@@ -10,8 +10,8 @@ import RxCocoa
 import SnapKit
 
 enum NavigationType {
-    case payment
-    case concertDetail
+    case Payment
+    case ConcertDetail
 }
 
 final class BooltiNavigationView: UIView {
@@ -39,8 +39,8 @@ final class BooltiNavigationView: UIView {
         self.configureDefaultUI()
         
         switch type {
-        case .payment: self.configurePaymentUI()
-        case .concertDetail: self.configureConcertDetailUI()
+        case .Payment: self.configurePaymentUI()
+        case .ConcertDetail: self.configureConcertDetailUI()
         }
     }
     
