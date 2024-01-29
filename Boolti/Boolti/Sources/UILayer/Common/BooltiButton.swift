@@ -43,8 +43,7 @@ class BooltiButton: UIButton {
     private func configureConstraints() {
 
         self.mainTitleLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.center.equalToSuperview()
         }
 
         self.snp.makeConstraints { make in
