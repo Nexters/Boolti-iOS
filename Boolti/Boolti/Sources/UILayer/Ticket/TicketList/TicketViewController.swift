@@ -23,6 +23,7 @@ final class TicketViewController: BooltiViewController {
         let tableView = UITableView()
         tableView.separatorStyle = .none
         tableView.backgroundColor = .grey95
+        tableView.showsVerticalScrollIndicator = false
         tableView.register(ConformingDepositTableViewCell.self, forCellReuseIdentifier: ConformingDepositTableViewCell.className)
         tableView.register(UsedTicketTableViewCell.self, forCellReuseIdentifier: UsedTicketTableViewCell.className)
         tableView.register(UsableTicketTableViewCell.self, forCellReuseIdentifier: UsableTicketTableViewCell.className)
@@ -175,7 +176,7 @@ extension TicketViewController: UITableViewDelegate {
         case .usable(items: _):
             return 590
         case .used(items: _):
-            return 180
+            return 160
         }
     }
 }

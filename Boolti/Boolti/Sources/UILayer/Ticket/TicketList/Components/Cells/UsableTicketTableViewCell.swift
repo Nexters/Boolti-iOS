@@ -24,21 +24,6 @@ class UsableTicketTableViewCell: UITableViewCell {
         return stackView
     }()
 
-    private let booltiLogoImageView: UIImageView = {
-        let imageView = UIImageView(image: .booltiLogoOrange)
-        imageView.alpha = 0.5
-
-        return imageView
-    }()
-
-    private let ticketTypeLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .grey05
-        label.font = .caption
-
-        return label
-    }()
-
     private let numberLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grey05
@@ -56,38 +41,22 @@ class UsableTicketTableViewCell: UITableViewCell {
         return label
     }()
 
-    private lazy var informationStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.addArrangedSubViews([self.dateLabel, self.locationLabel])
-
-        return stackView
-    }()
-
-    private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .grey30
-        label.font = .body2
-
-        return label
-    }()
-
-    private let locationLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .grey30
-        label.font = .body2
-
-        return label
-    }()
-
-    private var posterImageView: PosterImageView?
-
-    private let qrCodeImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.layer.cornerRadius = 4
+    private let booltiLogoImageView: UIImageView = {
+        let imageView = UIImageView(image: .booltiLogoOrange)
+        imageView.alpha = 0.5
 
         return imageView
     }()
 
+    private let ticketTypeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .grey05
+        label.font = .caption
+
+        return label
+    }()
+
+    private var ticketMainView: TicketMainView?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -110,28 +79,17 @@ class UsableTicketTableViewCell: UITableViewCell {
         self.contentView.clipsToBounds = true
         self.contentView.layer.cornerRadius = 8
 
-        self.posterImageView = PosterImageView(
-            image: item.poster,
-            ellipseWidth: 28,
-            cornerRadius: 8,
-            circleColor: .grey85
-        )
-        self.dateLabel.text = item.date
-        self.locationLabel.text = " | \(item.location)"
-        self.titleLabel.text = item.title
         self.numberLabel.text = "﹒ \(item.number)매"
         self.ticketTypeLabel.text = item.ticketType.description
-        self.qrCodeImageView.image = item.qrCode
 
-        guard let posterImageView else { return }
+        self.ticketMainView = TicketMainView(with: item)
+        guard let ticketMainView else { return }
+
         self.contentView.addSubviews([
             self.upperTagView,
             self.upperTagLabelStackView,
             self.booltiLogoImageView,
-            posterImageView,
-            self.qrCodeImageView,
-            self.titleLabel,
-            self.informationStackView,
+            ticketMainView
         ])
 
         self.configureConstraints()
@@ -175,8 +133,6 @@ class UsableTicketTableViewCell: UITableViewCell {
 
     private func configureConstraints() {
 
-        guard let posterImageView else { return }
-
         self.upperTagView.snp.makeConstraints { make in
             make.horizontalEdges.top.equalToSuperview()
             make.height.equalTo(32)
@@ -192,29 +148,11 @@ class UsableTicketTableViewCell: UITableViewCell {
             make.right.equalToSuperview().inset(20)
         }
 
-        posterImageView.snp.makeConstraints { make in
+        guard let ticketMainView else { return }
+
+        ticketMainView.snp.makeConstraints { make in
             make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.height.equalTo(380)
-        }
-
-        self.qrCodeImageView.snp.makeConstraints { make in
-            make.top.equalTo(posterImageView.snp.bottom).offset(24)
-            make.height.equalTo(380)
-            make.right.equalTo(posterImageView.snp.right)
-            make.width.height.equalTo(80)
-            make.width.equalTo(self.qrCodeImageView.snp.height)
-        }
-
-        self.titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.qrCodeImageView.snp.top)
-            make.left.equalToSuperview().inset(20)
-            make.right.equalTo(self.qrCodeImageView.snp.left).offset(-20)
-        }
-
-        self.informationStackView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(4)
-            make.left.equalTo(self.titleLabel)
         }
     }
 }
