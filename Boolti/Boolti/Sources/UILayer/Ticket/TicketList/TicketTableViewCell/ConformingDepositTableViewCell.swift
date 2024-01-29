@@ -28,6 +28,7 @@ class ConformingDepositTableViewCell: UITableViewCell {
     private let ticketIconImage: UIImageView = {
         let imageView = UIImageView(image: .ticketIcon)
         imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+
         return imageView
     }()
 
@@ -50,11 +51,13 @@ class ConformingDepositTableViewCell: UITableViewCell {
         return label
     }()
 
-    private let navigateToDepositAccountButton: UIButton = {
+    private var navigateToDepositAccountButton: UIButton = {
         let button = UIButton()
         button.setImage(.navigate, for: .normal)
         button.setTitle("입금 계좌 보러 가기", for: .normal)
+        button.titleLabel?.textColor = .grey30
         button.semanticContentAttribute = .forceRightToLeft
+
         return button
     }()
 
@@ -73,7 +76,7 @@ class ConformingDepositTableViewCell: UITableViewCell {
         )
     }
 
-    func configure(with id: Int, title: String) {
+    func setData(with id: Int, title: String) {
         self.titleLabel.text = " [\(title)"
         self.configureUI()
     }
@@ -99,7 +102,7 @@ class ConformingDepositTableViewCell: UITableViewCell {
         let borderLayer = CAShapeLayer()
 
         borderLayer.strokeColor = UIColor.grey80.cgColor
-        borderLayer.lineDashPattern = [2, 2]
+        borderLayer.lineDashPattern = [3, 3]
         borderLayer.fillColor = nil
         let bounds = self.contentView.bounds
         let borderRect = CGRect(x: bounds.origin.x, y: bounds.origin.x, width: bounds.width, height: bounds.height-20)

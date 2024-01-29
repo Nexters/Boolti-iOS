@@ -26,6 +26,7 @@ class UsedTicketTableViewCell: UITableViewCell {
 
     private let booltiLogoImageView: UIImageView = {
         let imageView = UIImageView(image: .booltiLogo)
+
         return imageView
     }()
 
@@ -93,11 +94,8 @@ class UsedTicketTableViewCell: UITableViewCell {
         )
     }
 
-    func configureData(with item: UsedTicket) {
-        self.contentView.layer.cornerRadius = 8
-        self.contentView.backgroundColor = .grey90
-        self.backgroundColor = .grey95
-        self.contentView.clipsToBounds = true
+    func setData(with item: UsedTicket) {
+        self.configureContentViewUI()
 
         self.posterImageView = PosterImageView(
             image: item.poster,
@@ -122,6 +120,13 @@ class UsedTicketTableViewCell: UITableViewCell {
         ])
 
         self.configureConstraints()
+    }
+
+    private func configureContentViewUI() {
+        self.contentView.layer.cornerRadius = 8
+        self.contentView.backgroundColor = .grey90
+        self.backgroundColor = .grey95
+        self.contentView.clipsToBounds = true
     }
 
     private func configureConstraints() {

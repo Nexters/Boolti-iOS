@@ -26,6 +26,8 @@ class UsableTicketTableViewCell: UITableViewCell {
 
     private let booltiLogoImageView: UIImageView = {
         let imageView = UIImageView(image: .booltiLogoOrange)
+        imageView.alpha = 0.5
+
         return imageView
     }()
 
@@ -36,7 +38,7 @@ class UsableTicketTableViewCell: UITableViewCell {
 
         return label
     }()
-    
+
     private let numberLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grey05
@@ -102,7 +104,7 @@ class UsableTicketTableViewCell: UITableViewCell {
         )
     }
 
-    func configureData(with item: UsableTicket) {
+    func setData(with item: UsableTicket) {
         self.contentView.backgroundColor = .grey85
         self.backgroundColor = .grey95
         self.contentView.clipsToBounds = true
@@ -134,23 +136,41 @@ class UsableTicketTableViewCell: UITableViewCell {
 
         self.configureConstraints()
         self.configureGradient()
+        self.configureBorder()
     }
 
     private func configureGradient() {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.colors = [UIColor(white: 1, alpha: 0.4).cgColor, UIColor(white: 1, alpha: 0).cgColor]
+        let gradientLayer: CAGradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor(white: 1, alpha: 0.4).cgColor, UIColor(white: 1, alpha: 0).cgColor]
 
-        // gradient를 layer 전체에 적용해주기 위해 범위를 0.0 ~ 1.0으로 설정
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.2, y: 0.3)
 
-        // gradient 방향을 x축과는 상관없이 y축의 변화만 줌
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-        gradient.endPoint = CGPoint(x: 0.2, y: 0.3)
+        gradientLayer.locations = [0.0, 0.5]
 
-        gradient.locations = [0.0, 0.5]
+        gradientLayer.frame = self.bounds
+        gradientLayer.cornerRadius = 8
+        self.contentView.layer.addSublayer(gradientLayer)
+    }
 
-        gradient.frame = bounds
-        gradient.cornerRadius = 8
-        self.contentView.layer.addSublayer(gradient)
+    private func configureBorder() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.contentView.bounds
+        gradientLayer.colors = [UIColor.grey60.cgColor, UIColor.grey80.cgColor, UIColor.grey10.cgColor]
+
+        gradientLayer.startPoint = CGPoint(x: 1.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.0, y: 1.0)
+
+        gradientLayer.locations = [0.1, 0.5, 0.9]
+
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        let gradient =  renderer.image { ctx in
+            gradientLayer.render(in: ctx.cgContext)
+        }
+
+        let gradientColor = UIColor(patternImage: gradient)
+        self.contentView.layer.borderColor = gradientColor.cgColor
+        self.contentView.layer.borderWidth = 1
     }
 
     private func configureConstraints() {
@@ -197,5 +217,4 @@ class UsableTicketTableViewCell: UITableViewCell {
             make.left.equalTo(self.titleLabel)
         }
     }
-
 }
