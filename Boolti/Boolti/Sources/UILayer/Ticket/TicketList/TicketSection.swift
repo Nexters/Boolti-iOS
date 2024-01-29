@@ -11,7 +11,7 @@ import RxDataSources
 
 enum TicketSectionItem {
     case conformingDepositTicket(id: Int, title: String)
-    case issuedTicket(item: IssuedTicket)
+    case usableTicket(item: UsableTicket)
     case usedTicket(item: UsedTicket)
 }
 

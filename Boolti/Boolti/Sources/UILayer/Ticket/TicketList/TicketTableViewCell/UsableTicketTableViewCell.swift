@@ -1,17 +1,17 @@
 //
-//  UsedTicketTableViewCell.swift
+//  UsableTicketTableViewCell.swift
 //  Boolti
 //
-//  Created by Miro on 1/27/24.
+//  Created by Miro on 1/28/24.
 //
 
 import UIKit
 
-class UsedTicketTableViewCell: UITableViewCell {
+class UsableTicketTableViewCell: UITableViewCell {
 
     private let upperTagView: UIView = {
         let view = UIView()
-        view.backgroundColor = .grey85
+        view.backgroundColor = .orange01
 
         return view
     }()
@@ -25,21 +25,21 @@ class UsedTicketTableViewCell: UITableViewCell {
     }()
 
     private let booltiLogoImageView: UIImageView = {
-        let imageView = UIImageView(image: .booltiLogo)
+        let imageView = UIImageView(image: .booltiLogoOrange)
         return imageView
     }()
 
     private let ticketTypeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .grey50
+        label.textColor = .grey05
         label.font = .caption
 
         return label
     }()
-
+    
     private let numberLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .grey50
+        label.textColor = .grey05
         label.font = .caption
 
         return label
@@ -47,8 +47,8 @@ class UsedTicketTableViewCell: UITableViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .grey15
-        label.font = .subhead2
+        label.textColor = .grey10
+        label.numberOfLines = 2
 
         return label
     }()
@@ -62,21 +62,29 @@ class UsedTicketTableViewCell: UITableViewCell {
 
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .grey50
-        label.font = .body1
+        label.textColor = .grey30
+        label.font = .body2
 
         return label
     }()
 
     private let locationLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .grey50
-        label.font = .body1
+        label.textColor = .grey30
+        label.font = .body2
 
         return label
     }()
 
     private var posterImageView: PosterImageView?
+
+    private let qrCodeImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 4
+
+        return imageView
+    }()
+
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -89,42 +97,46 @@ class UsedTicketTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.contentView.frame = contentView.frame.inset(
-            by: UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+            by: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         )
     }
 
-    func configureData(with item: UsedTicket) {
-        self.contentView.layer.cornerRadius = 8
-        self.contentView.backgroundColor = .grey90
+    func configureData(with item: UsableTicket) {
+        self.contentView.backgroundColor = .grey85
         self.backgroundColor = .grey95
         self.contentView.clipsToBounds = true
+        self.contentView.layer.cornerRadius = 8
 
         self.posterImageView = PosterImageView(
             image: item.poster,
-            ellipseWidth: 12,
-            cornerRadius: 4,
-            circleColor: .grey90
+            ellipseWidth: 28,
+            cornerRadius: 8,
+            circleColor: .grey85
         )
         self.dateLabel.text = item.date
-        self.numberLabel.text = "﹒ \(item.number)매"
-        self.titleLabel.text = item.title
         self.locationLabel.text = " | \(item.location)"
+        self.titleLabel.text = item.title
+        self.numberLabel.text = "﹒ \(item.number)매"
         self.ticketTypeLabel.text = item.ticketType.description
+        self.qrCodeImageView.image = item.qrCode
 
         guard let posterImageView else { return }
         self.contentView.addSubviews([
             self.upperTagView,
             self.upperTagLabelStackView,
             self.booltiLogoImageView,
+            posterImageView,
+            self.qrCodeImageView,
             self.titleLabel,
             self.informationStackView,
-            posterImageView
         ])
 
         self.configureConstraints()
     }
 
     private func configureConstraints() {
+
+        guard let posterImageView else { return }
 
         self.upperTagView.snp.makeConstraints { make in
             make.horizontalEdges.top.equalToSuperview()
@@ -141,20 +153,30 @@ class UsedTicketTableViewCell: UITableViewCell {
             make.right.equalToSuperview().inset(20)
         }
 
+        posterImageView.snp.makeConstraints { make in
+            make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(380)
+        }
+
+        self.qrCodeImageView.snp.makeConstraints { make in
+            make.top.equalTo(posterImageView.snp.bottom).offset(24)
+            make.height.equalTo(380)
+            make.right.equalTo(posterImageView.snp.right)
+            make.width.height.equalTo(80)
+            make.width.equalTo(self.qrCodeImageView.snp.height)
+        }
+
         self.titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.upperTagView.snp.bottom).offset(16)
+            make.top.equalTo(self.qrCodeImageView.snp.top)
             make.left.equalToSuperview().inset(20)
+            make.right.equalTo(self.qrCodeImageView.snp.left).offset(-20)
         }
 
         self.informationStackView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(4)
             make.left.equalTo(self.titleLabel)
         }
-
-        self.posterImageView?.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.top)
-            make.width.height.equalTo(80)
-            make.right.equalToSuperview().inset(20)
-        }
     }
+
 }

@@ -7,6 +7,8 @@
 
 import UIKit
 
+// 아마도 각 공연마다 서로 다를 거여서 추후에 API 결정되면
+// 각 공연별로 TicketType을 설정해야될듯!
 enum TicketType {
     case invitation
     case premium
@@ -21,11 +23,12 @@ enum TicketType {
     }
 }
 
-struct IssuedTicket {
+struct UsableTicket {
     let ticketType: TicketType
     let poster: UIImage
     let title: String
     let date: String
     let location: String
-    let QRCode: UIImage
+    let qrCode: UIImage
+    let number: Int
 }

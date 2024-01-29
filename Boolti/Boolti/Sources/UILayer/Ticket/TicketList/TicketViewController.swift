@@ -28,8 +28,10 @@ final class TicketViewController: BooltiViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .grey95
         tableView.register(ConformingDepositTableViewCell.self, forCellReuseIdentifier: ConformingDepositTableViewCell.className)
         tableView.register(UsedTicketTableViewCell.self, forCellReuseIdentifier: UsedTicketTableViewCell.className)
+        tableView.register(UsableTicketTableViewCell.self, forCellReuseIdentifier: UsableTicketTableViewCell.className)
         return tableView
     }()
 
@@ -64,7 +66,7 @@ final class TicketViewController: BooltiViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // TODO: 화면 넘어가는 거 확인용. 나중에 지워야함!
-        self.view.backgroundColor = .black100
+        self.view.backgroundColor = .grey95
         self.navigationController?.navigationBar.isHidden = true
         self.configureUI()
         self.bindViewModel()
@@ -162,15 +164,16 @@ final class TicketViewController: BooltiViewController {
                 cell.configure(with: id, title: title)
                 return cell
 
-            case .issuedTicket(item: let issuedTicket):
-                let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
-                cell.selectionStyle = .none
-                cell.backgroundColor = .clear
+            case .usableTicket(item: let ticket):
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: UsableTicketTableViewCell.className, for: indexPath) as? UsableTicketTableViewCell else {
+                    return UITableViewCell()
+                }
+                cell.configureData(with: ticket)
                 return cell
 
-            case .usedTicket(item: let usedTicket):
+            case .usedTicket(item: let ticket):
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: UsedTicketTableViewCell.className, for: indexPath) as? UsedTicketTableViewCell else { return UITableViewCell() }
-                cell.configure(with: usedTicket)
+                cell.configureData(with: ticket)
                 return cell
             }
         }
@@ -192,7 +195,7 @@ extension TicketViewController: UITableViewDelegate {
         case .conformingDeposit(items: _):
             return 162
         case .usable(items: _):
-            return 10
+            return 590
         case .used(items: _):
             return 180
         }

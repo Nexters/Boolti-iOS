@@ -79,15 +79,17 @@ class ConformingDepositTableViewCell: UITableViewCell {
     }
 
     private func configureUI() {
+        self.backgroundColor = .grey95
+
+        self.contentView.backgroundColor = .grey95
+        self.contentView.layer.cornerRadius = 8
+        self.contentView.clipsToBounds = true
+
         self.contentView.addSubviews([
             self.upperTagView,
             self.mainStatementStackView,
             self.navigateToDepositAccountButton
         ])
-
-        self.contentView.backgroundColor = .blue
-        self.contentView.layer.cornerRadius = 8
-        self.contentView.clipsToBounds = true
 
         self.configureBorder()
         self.configureConstraints()
@@ -96,7 +98,7 @@ class ConformingDepositTableViewCell: UITableViewCell {
     private func configureBorder(){
         let borderLayer = CAShapeLayer()
 
-        borderLayer.strokeColor = UIColor.red.cgColor
+        borderLayer.strokeColor = UIColor.grey80.cgColor
         borderLayer.lineDashPattern = [2, 2]
         borderLayer.fillColor = nil
         let bounds = self.contentView.bounds

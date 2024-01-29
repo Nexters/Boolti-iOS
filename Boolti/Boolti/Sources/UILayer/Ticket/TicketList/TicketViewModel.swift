@@ -82,10 +82,10 @@ final class TicketViewModel {
                 .conformingDepositTicket(id: 1, title: "안녕하세요"),
                 .conformingDepositTicket(id: 1, title: "안녕하세요.sdfsfsfsfsffs")
             ]),
-//            .used(items: [
-//                .usedTicket(item: UsedTicket(ticketType: .premium, poster: .issuedPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20", location: "클럽샤프")),
-//                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .issuedPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20", location: "클럽샤프")),
-//            ]),
+            .usable(items: [
+                .usableTicket(item: UsableTicket(ticketType: .premium, poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB sㄴㅇㄹㅇfdㄴㄹㄴfdfsdfdsfsfsfsfsfssffsdfsdsfd", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 1)),
+                .usableTicket(item: UsableTicket(ticketType: .premium, poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 1)),
+            ]),
             .used(items: [
                 .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .mockPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프", number: 1)),
                 .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .mockPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프", number: 11))
