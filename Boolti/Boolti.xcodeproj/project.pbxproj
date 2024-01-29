@@ -96,6 +96,7 @@
 		84FBBE032B67748A009462E9 /* UserInfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE022B67748A009462E9 /* UserInfoInputView.swift */; };
 		84FBBE052B67A952009462E9 /* TicketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE042B67A952009462E9 /* TicketInfoView.swift */; };
 		84FBBE072B67B30D009462E9 /* PaymentMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE062B67B30D009462E9 /* PaymentMethodView.swift */; };
+		84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE082B67DF88009462E9 /* PolicyView.swift */; };
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
@@ -200,6 +201,7 @@
 		84FBBE022B67748A009462E9 /* UserInfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoInputView.swift; sourceTree = "<group>"; };
 		84FBBE042B67A952009462E9 /* TicketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketInfoView.swift; sourceTree = "<group>"; };
 		84FBBE062B67B30D009462E9 /* PaymentMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodView.swift; sourceTree = "<group>"; };
+		84FBBE082B67DF88009462E9 /* PolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyView.swift; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIServiceType.swift; sourceTree = "<group>"; };
@@ -622,6 +624,7 @@
 				84FBBE022B67748A009462E9 /* UserInfoInputView.swift */,
 				84FBBE042B67A952009462E9 /* TicketInfoView.swift */,
 				84FBBE062B67B30D009462E9 /* PaymentMethodView.swift */,
+				84FBBE082B67DF88009462E9 /* PolicyView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -869,6 +872,7 @@
 				84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
 				8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */,
+				84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* SocialLoginAPIService.swift in Sources */,
 				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
 				84781CC02B5BF98600D37921 /* MypageViewController.swift in Sources */,

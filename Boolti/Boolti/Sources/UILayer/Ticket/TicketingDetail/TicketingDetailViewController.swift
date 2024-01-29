@@ -36,12 +36,22 @@ final class TicketingDetailViewController: UIViewController {
     
     private let paymentMethodView = PaymentMethodView()
     
+    private let policyView = PolicyView()
+    
+    private let spacingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey95
+        return view
+    }()
+    
     private let stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = 12
         return view
     }()
+    
+    private let payButton = BooltiButton(title: "\(5000.formattedCurrency())원 결제하기")
     
     // MARK: Init
     
@@ -61,10 +71,26 @@ final class TicketingDetailViewController: UIViewController {
         
         self.configureUI()
         self.configureConstraints()
+        self.bindOutputs()
         
         // 확인용
         concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: "2024.03.09 (토) 17:00")
     }
+}
+
+// MARK: - Methods
+
+extension TicketingDetailViewController {
+    
+    private func bindOutputs() {
+        self.policyView.policyLabelHeight
+            .asDriver(onErrorJustReturn: 0)
+             .drive(with: self, onNext: { owner, viewHeight in
+                 let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.size.height + viewHeight)
+                 owner.scrollView.setContentOffset(bottomOffset, animated: true)
+             })
+             .disposed(by: self.disposeBag)
+     }
 }
 
 // MARK: - UI
@@ -72,9 +98,9 @@ final class TicketingDetailViewController: UIViewController {
 extension TicketingDetailViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.navigationView, self.scrollView])
+        self.view.addSubviews([self.navigationView, self.scrollView, self.payButton])
         self.scrollView.addSubviews([self.stackView])
-        self.stackView.addArrangedSubviews([self.concertInfoView, self.ticketHolderInputView, self.depositorInputView, self.ticketInfoView, self.paymentMethodView])
+        self.stackView.addArrangedSubviews([self.concertInfoView, self.ticketHolderInputView, self.depositorInputView, self.ticketInfoView, self.paymentMethodView, self.policyView, self.spacingView])
         
         self.view.backgroundColor = .grey95
     }
@@ -88,12 +114,21 @@ extension TicketingDetailViewController {
         self.scrollView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationView.snp.bottom)
             make.width.equalToSuperview()
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            make.bottom.equalTo(self.payButton.snp.top).offset(-8)
+        }
+        
+        self.spacingView.snp.makeConstraints { make in
+            make.height.equalTo(38)
         }
         
         self.stackView.snp.makeConstraints { make in
             make.verticalEdges.equalTo(self.scrollView)
             make.width.equalTo(self.scrollView)
+        }
+        
+        self.payButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
         }
     }
 }
