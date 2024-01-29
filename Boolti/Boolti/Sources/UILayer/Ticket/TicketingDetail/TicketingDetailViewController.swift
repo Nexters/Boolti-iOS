@@ -17,10 +17,14 @@ final class TicketingDetailViewController: UIViewController {
     
     // MARK: UI Component
     
+    private let navigationView = BooltiNavigationView(type: .payment)
+    
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
         return view
     }()
+    
+    private let concertInfoView = ConcertInfoView()
     
     // MARK: Init
     
@@ -40,6 +44,8 @@ final class TicketingDetailViewController: UIViewController {
         
         self.configureUI()
         self.configureConstraints()
+        
+        concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: "2024.03.09 (토) 17:00")
     }
 }
 
@@ -48,10 +54,27 @@ final class TicketingDetailViewController: UIViewController {
 extension TicketingDetailViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.scrollView])
+        self.view.addSubviews([self.navigationView, self.scrollView])
+        self.scrollView.addSubviews([self.concertInfoView])
+        
+        self.view.backgroundColor = .grey95
     }
     
     private func configureConstraints() {
+        self.navigationView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+        }
         
+        self.scrollView.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationView.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+        }
+        
+        self.concertInfoView.snp.makeConstraints { make in
+            make.top.equalTo(self.scrollView)
+            make.width.equalTo(self.scrollView)
+        }
     }
 }
