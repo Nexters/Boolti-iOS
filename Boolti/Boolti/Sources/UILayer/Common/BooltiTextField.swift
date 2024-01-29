@@ -15,6 +15,7 @@ final class BooltiTextField: UITextField {
         super.init(frame: frame)
         
         configureUI()
+        configureConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -43,5 +44,19 @@ extension BooltiTextField {
         self.font = .body3
         self.textColor = .grey15
         self.backgroundColor = .grey85
+        
+        self.addLeftPadding()
+    }
+    
+    private func configureConstraints() {
+        self.snp.makeConstraints { make in
+            make.height.equalTo(48)
+        }
+    }
+    
+    private func addLeftPadding() {
+      let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: self.frame.height))
+      self.leftView = paddingView
+      self.leftViewMode = ViewMode.always
     }
 }

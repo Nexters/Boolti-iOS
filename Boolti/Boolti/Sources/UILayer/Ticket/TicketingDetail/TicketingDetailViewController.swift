@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 final class TicketingDetailViewController: UIViewController {
     
@@ -17,14 +18,19 @@ final class TicketingDetailViewController: UIViewController {
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationView(type: .payment)
+    private let navigationView = BooltiNavigationView(type: .Payment)
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
+        view.showsVerticalScrollIndicator = false
         return view
     }()
     
     private let concertInfoView = ConcertInfoView()
+    
+    private let ticketHolderInputView = UserInfoInputView(type: .TicketHolder)
+    
+    private let depositorInputView = UserInfoInputView(type: .Depositor)
     
     // MARK: Init
     
@@ -44,7 +50,9 @@ final class TicketingDetailViewController: UIViewController {
         
         self.configureUI()
         self.configureConstraints()
+        self.configureScrollViewContentSize()
         
+        // 확인용
         concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: "2024.03.09 (토) 17:00")
     }
 }
@@ -55,7 +63,7 @@ extension TicketingDetailViewController {
     
     private func configureUI() {
         self.view.addSubviews([self.navigationView, self.scrollView])
-        self.scrollView.addSubviews([self.concertInfoView])
+        self.scrollView.addSubviews([self.concertInfoView, self.ticketHolderInputView, self.depositorInputView])
         
         self.view.backgroundColor = .grey95
     }
@@ -76,5 +84,20 @@ extension TicketingDetailViewController {
             make.top.equalTo(self.scrollView)
             make.width.equalTo(self.scrollView)
         }
+        
+        self.ticketHolderInputView.snp.makeConstraints { make in
+            make.top.equalTo(self.concertInfoView.snp.bottom)
+            make.width.equalTo(self.scrollView)
+        }
+        
+        self.depositorInputView.snp.makeConstraints { make in
+            make.top.equalTo(self.ticketHolderInputView.snp.bottom).offset(12)
+            make.width.equalTo(self.scrollView)
+        }
+    }
+    
+    private func configureScrollViewContentSize() {
+        self.scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width,
+                                             height: UIScreen.main.bounds.height - self.navigationView.bounds.height)
     }
 }
