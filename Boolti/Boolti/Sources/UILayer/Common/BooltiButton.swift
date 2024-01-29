@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class BooltiButton: UIButton {
+final class BooltiButton: UIButton {
 
     private let mainTitleLabel: UILabel = {
         let label = UILabel()
