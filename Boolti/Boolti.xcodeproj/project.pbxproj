@@ -94,6 +94,7 @@
 		84FBBDFF2B67677A009462E9 /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDFE2B67677A009462E9 /* UILabel+.swift */; };
 		84FBBE012B677187009462E9 /* BooltiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE002B677187009462E9 /* BooltiTextField.swift */; };
 		84FBBE032B67748A009462E9 /* UserInfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE022B67748A009462E9 /* UserInfoInputView.swift */; };
+		84FBBE052B67A952009462E9 /* TicketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE042B67A952009462E9 /* TicketInfoView.swift */; };
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
@@ -196,6 +197,7 @@
 		84FBBDFE2B67677A009462E9 /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		84FBBE002B677187009462E9 /* BooltiTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiTextField.swift; sourceTree = "<group>"; };
 		84FBBE022B67748A009462E9 /* UserInfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoInputView.swift; sourceTree = "<group>"; };
+		84FBBE042B67A952009462E9 /* TicketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketInfoView.swift; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIServiceType.swift; sourceTree = "<group>"; };
@@ -616,6 +618,7 @@
 			children = (
 				84FBBDF22B673877009462E9 /* ConcertInfoView.swift */,
 				84FBBE022B67748A009462E9 /* UserInfoInputView.swift */,
+				84FBBE042B67A952009462E9 /* TicketInfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -808,6 +811,7 @@
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
 				84625A112B63B48D00CC9077 /* TicketEntity.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
+				84FBBE052B67A952009462E9 /* TicketInfoView.swift in Sources */,
 				84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */,
 				8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */,
 				8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */,

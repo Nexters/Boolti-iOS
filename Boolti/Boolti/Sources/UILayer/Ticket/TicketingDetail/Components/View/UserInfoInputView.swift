@@ -22,7 +22,7 @@ final class UserInfoInputView: UIView {
     
     // MARK: UI Component
     
-    private let title: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .subhead2
         label.textColor = .grey10
@@ -141,7 +141,7 @@ extension UserInfoInputView {
     private func configureTicketHolderUI() {
         self.configureDefaultUI()
         
-        self.title.text = "예매자 정보"
+        self.titleLabel.text = "예매자 정보"
     }
     
     private func configureDepositorUI() {
@@ -150,11 +150,11 @@ extension UserInfoInputView {
         self.addSubview(isEqualButton)
         self.configureDepositorConstraints()
         
-        self.title.text = "입금자 정보"
+        self.titleLabel.text = "입금자 정보"
     }
     
     private func configureDefaultUI() {
-        self.addSubviews([title, nameLabel, nameTextField, phoneNumberLabel, phoneNumberTextField])
+        self.addSubviews([titleLabel, nameLabel, nameTextField, phoneNumberLabel, phoneNumberTextField])
         self.configureDefaultConstraints()
         
         self.backgroundColor = .grey90
@@ -168,25 +168,25 @@ extension UserInfoInputView {
             make.height.equalTo(210)
         }
         
-        self.title.snp.makeConstraints { make in
+        self.titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
             make.top.equalToSuperview().inset(20)
         }
         
         self.nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.title)
+            make.left.equalTo(self.titleLabel)
             make.centerY.equalTo(self.nameTextField)
             make.width.equalTo(44)
         }
         
         self.nameTextField.snp.makeConstraints { make in
-            make.top.equalTo(self.title.snp.bottom).offset(20)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
             make.left.equalTo(self.nameLabel.snp.right).offset(12)
             make.right.equalToSuperview().inset(20)
         }
         
         self.phoneNumberLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.title)
+            make.left.equalTo(self.titleLabel)
             make.centerY.equalTo(self.phoneNumberTextField)
             make.width.equalTo(self.nameLabel)
         }
@@ -199,7 +199,7 @@ extension UserInfoInputView {
     
     private func configureDepositorConstraints() {
         self.isEqualButton.snp.makeConstraints { make in
-            make.centerY.equalTo(self.title)
+            make.centerY.equalTo(self.titleLabel)
             make.right.equalToSuperview().inset(20)
         }
     }

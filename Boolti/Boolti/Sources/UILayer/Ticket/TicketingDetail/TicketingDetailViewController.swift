@@ -32,6 +32,8 @@ final class TicketingDetailViewController: UIViewController {
     
     private let depositorInputView = UserInfoInputView(type: .Depositor)
     
+    private let ticketInfoView = TicketInfoView()
+    
     // MARK: Init
     
     init(viewModel: TicketingDetailViewModel) {
@@ -63,7 +65,7 @@ extension TicketingDetailViewController {
     
     private func configureUI() {
         self.view.addSubviews([self.navigationView, self.scrollView])
-        self.scrollView.addSubviews([self.concertInfoView, self.ticketHolderInputView, self.depositorInputView])
+        self.scrollView.addSubviews([self.concertInfoView, self.ticketHolderInputView, self.depositorInputView, self.ticketInfoView])
         
         self.view.backgroundColor = .grey95
     }
@@ -92,6 +94,11 @@ extension TicketingDetailViewController {
         
         self.depositorInputView.snp.makeConstraints { make in
             make.top.equalTo(self.ticketHolderInputView.snp.bottom).offset(12)
+            make.width.equalTo(self.scrollView)
+        }
+        
+        self.ticketInfoView.snp.makeConstraints { make in
+            make.top.equalTo(self.depositorInputView.snp.bottom).offset(12)
             make.width.equalTo(self.scrollView)
         }
     }
