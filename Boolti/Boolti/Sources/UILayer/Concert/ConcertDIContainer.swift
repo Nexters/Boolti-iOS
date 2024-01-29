@@ -6,10 +6,30 @@
 //
 
 import Foundation
+import UIKit
 
 final class ConcertDIContainer {
 
-    func createConcertViewController() -> ConcertViewController {
-        return ConcertViewController()
+//    private let ticketAPIService: TicketAPIService
+//
+//    init(ticketAPIService: TicketAPIService) {
+//        self.ticketAPIService = ticketAPIService
+//    }
+    
+    func createConcertViewController() -> UIViewController {
+        let viewModel = createConcertViewModel()
+
+        let viewController = ConcertViewController(
+            viewModel: viewModel
+        )
+
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.isHidden = true
+        return navigationController
     }
+    
+    private func createConcertViewModel() -> ConcertViewModel {
+        return ConcertViewModel()
+    }
+
 }

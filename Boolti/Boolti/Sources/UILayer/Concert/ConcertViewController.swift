@@ -8,9 +8,14 @@
 import UIKit
 import RxSwift
 
-class ConcertViewController: UIViewController {
+final class ConcertViewController: UIViewController {
     
+    // MARK: Properties
+    
+    private let viewModel: ConcertViewModel
     private let disposeBag = DisposeBag()
+    
+    // MARK: UI Component
 
     let nextButton: UIButton = {
         let button = UIButton()
@@ -19,6 +24,19 @@ class ConcertViewController: UIViewController {
 
         return button
     }()
+    
+    // MARK: Init
+    
+    init(viewModel: ConcertViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
+    // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,11 +56,18 @@ class ConcertViewController: UIViewController {
             })
             .disposed(by: self.disposeBag)
     }
+}
 
+// MARK: - Methods
+
+extension ConcertViewController {
     func showBottomSheet() {
         
         // TODO: 나중에 ticket view에서 팩토리로 변경 필요 (이건 확인용!)
-        let bottomSheetViewController = UINavigationController(rootViewController: TicketSelectionViewController(viewModel: TicketSelectionViewModel()))
-        present(bottomSheetViewController, animated: true, completion: nil)
+//        let bottomSheetViewController = UINavigationController(rootViewController: TicketingDetailViewController(viewModel: TicketingDetailViewModel()))
+        let bottomSheetViewController = TicketingDetailViewController(viewModel: TicketingDetailViewModel())
+        bottomSheetViewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(bottomSheetViewController, animated: true)
+//        present(bottomSheetViewController, animated: true, completion: nil)
     }
 }
