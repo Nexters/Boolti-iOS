@@ -82,7 +82,6 @@
 		84B321A32B61543E007FD669 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321A22B61543E007FD669 /* FirebaseMessaging */; };
 		84B321A52B61543E007FD669 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321A42B61543E007FD669 /* FirebaseRemoteConfig */; };
 		84B321A72B61543E007FD669 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321A62B61543E007FD669 /* FirebaseRemoteConfigSwift */; };
-		84DC9F142B64CBF800F1439A /* SelectedTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC9F132B64CBF800F1439A /* SelectedTicketView.swift */; };
 		84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF22B673877009462E9 /* ConcertInfoView.swift */; };
 		84FBBDF72B67429D009462E9 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF62B67429D009462E9 /* ImageCacheManager.swift */; };
 		84FBBDF92B67431D009462E9 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF82B67431D009462E9 /* UIImageView+.swift */; };
@@ -201,7 +200,6 @@
 		84975BFD2B6123E500F903E7 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		84975BFE2B6123E500F903E7 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		849FBD502B5E920A006EB865 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
-		84DC9F132B64CBF800F1439A /* SelectedTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTicketView.swift; sourceTree = "<group>"; };
 		84FBBDF22B673877009462E9 /* ConcertInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertInfoView.swift; sourceTree = "<group>"; };
 		84FBBDF62B67429D009462E9 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		84FBBDF82B67431D009462E9 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
@@ -654,14 +652,6 @@
 				8746AD022B6805A40037A1B1 /* Views */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		8746AD0B2B6809930037A1B1 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				84DC9F132B64CBF800F1439A /* SelectedTicketView.swift */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		8746AD0C2B6809D90037A1B1 /* Components */ = {
