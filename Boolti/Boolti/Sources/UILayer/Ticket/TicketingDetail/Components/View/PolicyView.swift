@@ -52,7 +52,7 @@ final class PolicyView: UIView {
         
         self.configureUI()
         self.configureConstraints()
-        self.bindEvents()
+        self.bindInputs()
     }
     
     required init?(coder: NSCoder) {
@@ -64,7 +64,7 @@ final class PolicyView: UIView {
 
 extension PolicyView {
     
-    private func bindEvents() {
+    private func bindInputs() {
         self.chevronButton.rx.tap
             .asDriver()
             .drive(with: self, onNext: { owner, _ in

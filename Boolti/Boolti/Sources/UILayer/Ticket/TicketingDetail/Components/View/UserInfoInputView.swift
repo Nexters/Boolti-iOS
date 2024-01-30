@@ -7,7 +7,6 @@
 
 import UIKit
 import RxSwift
-import RxCocoa
 
 enum userInfoInputType {
     case TicketHolder
@@ -37,7 +36,12 @@ final class UserInfoInputView: UIView {
         return label
     }()
     
-    private let nameTextField = BooltiTextField()
+    private let nameTextField: BooltiTextField = {
+        let button = BooltiTextField()
+        button.setPlaceHolderText(placeholder: "예) 김불티")
+        return button
+    }()
+
     
     private let phoneNumberLabel: UILabel = {
         let label = UILabel()
@@ -46,8 +50,13 @@ final class UserInfoInputView: UIView {
         label.text = "연락처"
         return label
     }()
-    
-    private let phoneNumberTextField = BooltiTextField()
+
+    private let phoneNumberTextField: BooltiTextField = {
+        let button = BooltiTextField()
+        button.setPlaceHolderText(placeholder: "예) 010-1234-5678")
+        return button
+    }()
+
     
     private let isEqualButton: UIButton = {
         var config = UIButton.Configuration.plain()
@@ -83,7 +92,7 @@ final class UserInfoInputView: UIView {
             self.configureDepositorUI()
         }
         
-        self.bindEvents()
+        self.bindInputs()
     }
     
     required init?(coder: NSCoder) {
@@ -95,7 +104,7 @@ final class UserInfoInputView: UIView {
 
 extension UserInfoInputView {
     
-    private func bindEvents() {
+    private func bindInputs() {
         self.isEqualButton.rx.tap
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
@@ -119,6 +128,15 @@ extension UserInfoInputView {
             .disposed(by: self.disposeBag)
         
         self.nameTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: "")
+            .drive(with: self, onNext: { owner, changedText in
+                debugPrint(changedText)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.phoneNumberTextField.rx.text
             .orEmpty
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: "")
@@ -158,9 +176,6 @@ extension UserInfoInputView {
         self.configureDefaultConstraints()
         
         self.backgroundColor = .grey90
-        
-        self.nameTextField.setPlaceHolderText(placeholder: "예) 김불티")
-        self.phoneNumberTextField.setPlaceHolderText(placeholder: "예) 010-1234-5678")
     }
     
     private func configureDefaultConstraints() {

@@ -16,6 +16,7 @@ final class ConcertInfoView: UIView {
     private let poster: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .grey30
+        view.layer.cornerRadius = 4
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey80.cgColor
         return view
@@ -86,14 +87,14 @@ extension ConcertInfoView {
         }
         
         self.poster.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
             make.left.equalToSuperview().inset(20)
-            make.verticalEdges.equalToSuperview().inset(20)
+            make.top.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(8)
             make.width.equalTo(70)
         }
         
         self.labelStackView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.centerY.equalTo(self.poster)
             make.left.equalTo(self.poster.snp.right).offset(16)
             make.right.equalToSuperview().inset(20)
         }

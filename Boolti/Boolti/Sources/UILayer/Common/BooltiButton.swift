@@ -31,6 +31,14 @@ final class BooltiButton: UIButton {
         }
     }
 
+    override func setTitle(_ title: String?, for state: UIControl.State) {
+        self.mainTitleLabel.text = title
+    }
+    
+    override func setTitleColor(_ color: UIColor?, for state: UIControl.State) {
+        self.mainTitleLabel.textColor = color
+    }
+
     private func configureUI(title: String) {
         self.addSubview(self.mainTitleLabel)
 

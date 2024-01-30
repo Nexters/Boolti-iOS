@@ -64,7 +64,7 @@ final class PaymentMethodView: UIView {
         
         self.configureUI()
         self.configureConstraints()
-        self.bindEvents()
+        self.bindInputs()
     }
     
     required init?(coder: NSCoder) {
@@ -76,7 +76,7 @@ final class PaymentMethodView: UIView {
 
 extension PaymentMethodView {
     
-    private func bindEvents() {
+    private func bindInputs() {
         self.depositButton.rx.tap
             .bind(with: self, onNext: { owner, _ in
                 debugPrint("계좌 이체 선택")

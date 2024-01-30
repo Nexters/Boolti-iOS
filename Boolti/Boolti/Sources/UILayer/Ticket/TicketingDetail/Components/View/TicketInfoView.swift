@@ -19,11 +19,11 @@ final class TicketInfoView: UIView {
         return label
     }()
     
-    private lazy var ticketTypeTitleLabel = self.makeSelectedTitleLabel(title: "선택한 티켓 종류")
+    private lazy var ticketTypeTitleLabel = self.makeSelectedTitleLabel(title: "티켓 종류")
     private lazy var ticketTypeDataLabel = self.makeSelectedDataLabel()
     private lazy var ticketTypeStackView = self.makeStackView(with: [ticketTypeTitleLabel, ticketTypeDataLabel])
     
-    private lazy var ticketCountTitleLabel = self.makeSelectedTitleLabel(title: "선택한 티켓 개수")
+    private lazy var ticketCountTitleLabel = self.makeSelectedTitleLabel(title: "티켓 매수")
     private lazy var ticketCountDataLabel = self.makeSelectedDataLabel()
     private lazy var ticketCountStackView = self.makeStackView(with: [ticketCountTitleLabel, ticketCountDataLabel])
     
