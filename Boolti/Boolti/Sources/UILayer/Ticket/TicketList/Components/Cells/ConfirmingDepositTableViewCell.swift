@@ -20,7 +20,7 @@ class ConfirmingDepositTableViewCell: UITableViewCell {
     private lazy var mainStatementStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.addArrangedSubViews([self.ticketIconImage, self.titleLabel, self.statusLabel])
+        stackView.addArrangedSubviews([self.ticketIconImage, self.titleLabel, self.statusLabel])
 
         return stackView
     }()
