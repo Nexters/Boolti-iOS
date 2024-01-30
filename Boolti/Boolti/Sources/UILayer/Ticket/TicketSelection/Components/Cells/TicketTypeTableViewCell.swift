@@ -11,12 +11,6 @@ import RxCocoa
 import RxSwift
 
 final class TicketTypeTableViewCell: UITableViewCell {
-<<<<<<<< HEAD:Boolti/Boolti/Sources/UILayer/Ticket/TicketSelection/Components/Cell/TicketTypeTableViewCell.swift
-    
-========
-
->>>>>>>> feature/#23-TicketsList:Boolti/Boolti/Sources/UILayer/Ticket/TicketSelection/Components/Cells/TicketTypeTableViewCell.swift
-    // MARK: Properties
 
     let disposeBag = DisposeBag()
 
@@ -46,15 +40,9 @@ final class TicketTypeTableViewCell: UITableViewCell {
         label.textColor = .grey15
         return label
     }()
-<<<<<<<< HEAD:Boolti/Boolti/Sources/UILayer/Ticket/TicketSelection/Components/Cell/TicketTypeTableViewCell.swift
  
     // MARK: Init
-    
-========
 
-    // MARK: Init
-
->>>>>>>> feature/#23-TicketsList:Boolti/Boolti/Sources/UILayer/Ticket/TicketSelection/Components/Cells/TicketTypeTableViewCell.swift
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -70,11 +58,7 @@ final class TicketTypeTableViewCell: UITableViewCell {
 // MARK: - Methods
 
 extension TicketTypeTableViewCell {
-<<<<<<<< HEAD:Boolti/Boolti/Sources/UILayer/Ticket/TicketSelection/Components/Cell/TicketTypeTableViewCell.swift
-    
-========
 
->>>>>>>> feature/#23-TicketsList:Boolti/Boolti/Sources/UILayer/Ticket/TicketSelection/Components/Cells/TicketTypeTableViewCell.swift
     func setData(entity: TicketEntity) {
         self.nameLabel.text = entity.name
         self.inventoryLabel.text = "\(entity.inventory)매 남음"
@@ -97,11 +81,7 @@ extension TicketTypeTableViewCell {
 // MARK: - UI
 
 extension TicketTypeTableViewCell {
-<<<<<<<< HEAD:Boolti/Boolti/Sources/UILayer/Ticket/TicketSelection/Components/Cell/TicketTypeTableViewCell.swift
-    
-========
 
->>>>>>>> feature/#23-TicketsList:Boolti/Boolti/Sources/UILayer/Ticket/TicketSelection/Components/Cells/TicketTypeTableViewCell.swift
     private func configureUI() {
         self.backgroundColor = .clear
 

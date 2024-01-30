@@ -8,6 +8,8 @@
 import Foundation
 import RxSwift
 import RxRelay
+import RxDataSources
+import RxCocoa
 
 enum TicketViewDestination {
     case login
@@ -16,19 +18,19 @@ enum TicketViewDestination {
 final class TicketViewModel {
 
     private let authAPIService: AuthAPIServiceType
-
     private let disposeBag = DisposeBag()
 
     // VC에서 일어나는 것
     struct Input {
         var viewDidAppearEvent = PublishSubject<Void>()
-        var loginButtonTapEvent = PublishSubject<Void>()
+        var didloginButtonTapEvent = PublishSubject<Void>()
     }
 
     // Input에 의해서 생기는 ViewModel의 Output
     struct Output {
         let navigation = PublishRelay<TicketViewDestination>()
         let isAccessTokenLoaded = PublishRelay<Bool>()
+        let sectionModels: BehaviorRelay<[TicketSection]> = BehaviorRelay(value: [])
     }
 
     let input: Input
@@ -49,26 +51,52 @@ final class TicketViewModel {
     }
 
     private func bindViewDidAppearEvent() {
-        // 화면이 뜨면, 현재 accessToken이 있는 지 확인한다.
         self.input.viewDidAppearEvent
             .subscribe(with: self) { owner, _ in
-                owner.loadAccessToken()
+                if owner.isAccessTokenAvailable() {
+                    // 서버와의 통신!..
+                    // 그리고 sectionModel로 보내기!..
+                    owner.configureTableViewSection()
+                } else {
+                    owner.output.isAccessTokenLoaded.accept(false)
+                    // 지금은 토큰이 없는 상태이므로 그냥 table view 로드
+                    owner.configureTableViewSection()
+                }
             }
             .disposed(by: self.disposeBag)
     }
 
     private func bindLoginButtonTapEvent() {
         // 로그인 버튼을 누르면 로그인 화면으로 넘어가기
-        self.input.loginButtonTapEvent
+        self.input.didloginButtonTapEvent
             .subscribe(with: self, onNext: { owner, _ in
                 owner.output.navigation.accept(.login)
             })
             .disposed(by: self.disposeBag)
     }
 
-    private func loadAccessToken() {
+    private func isAccessTokenAvailable() -> Bool {
         // accessToken이 있으면 output으로 넘기기!..
         let token = authAPIService.fetchTokens()
-        self.output.isAccessTokenLoaded.accept(!token.accessToken.isEmpty)
+        return (!token.accessToken.isEmpty)
+    }
+
+    private func configureTableViewSection() {
+        let sections: [TicketSection] = [
+            .confirmingDeposit(items: [
+                .confirmingDepositTicket(id: 1, title: "안녕하세요"),
+                .confirmingDepositTicket(id: 1, title: "안녕하세요.sdfsfsfsfsffs")
+            ]),
+            .usable(items: [
+                .usableTicket(item: UsableTicket(ticketType: .premium, poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB sㄴㅇㄹㅇfdㄴㄹㄴfdfsdfdsfsfsfsfsfssffsdfsdsfd", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 1)),
+                .usableTicket(item: UsableTicket(ticketType: .premium, poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 1)),
+            ]),
+            .used(items: [
+                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .mockPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프", number: 1)),
+                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .mockPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프", number: 11))
+            ])
+        ]
+
+        self.output.sectionModels.accept(sections)
     }
 }

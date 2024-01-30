@@ -2,14 +2,14 @@
 //  UIStackView+.swift
 //  Boolti
 //
-//  Created by Juhyeon Byun on 1/29/24.
+//  Created by Miro on 1/27/24.
 //
 
 import UIKit
 
 extension UIStackView {
-    
-    func addArrangedSubviews(_ views: [UIView]) {
+
+    func addArrangedSubViews(_ views: [UIView]) {
         views.forEach { self.addArrangedSubview($0) }
     }
 }
