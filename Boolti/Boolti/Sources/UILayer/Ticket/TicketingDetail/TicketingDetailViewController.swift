@@ -36,6 +36,8 @@ final class TicketingDetailViewController: UIViewController {
     
     private let paymentMethodView = PaymentMethodView()
     
+    private let invitationCodeView = InvitationCodeView()
+    
     private let policyView = PolicyView()
     
     private let spacingView: UIView = {
@@ -51,7 +53,7 @@ final class TicketingDetailViewController: UIViewController {
         return view
     }()
     
-    private let payButton = BooltiButton(title: "\(5000.formattedCurrency())원 결제하기")
+    private let payButton = BooltiButton(title: "\(0.formattedCurrency())원 결제하기")
     
     // MARK: Init
     
@@ -72,9 +74,10 @@ final class TicketingDetailViewController: UIViewController {
         self.configureUI()
         self.configureConstraints()
         self.bindOutputs()
-        self.bindEvents()
+        self.bindInputs()
         
         // 확인용
+        self.payButton.setTitle("\(5000.formattedCurrency())원 결제하기", for: .normal)
         concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: "2024.03.09 (토) 17:00")
     }
 }
@@ -93,23 +96,30 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
-    private func bindEvents() {
+    private func bindInputs() {
         let tapGesture = UITapGestureRecognizer()
         self.view.addGestureRecognizer(tapGesture)
 
-        // TODO: RxGesture 사용 가능
         tapGesture.rx.event
             .bind(with: self, onNext: { owner, _ in
                 owner.view.endEditing(true)
             })
             .disposed(by: disposeBag)
         
-        scrollView.rx.contentOffset
-            .bind(with: self, onNext: { owner, _ in
-                owner.view.endEditing(true)
-            })
-            .disposed(by: disposeBag)
-     }
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { notification in
+            guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+                  let currentTextField = UIResponder.currentResponder as? UITextField else { return }
+            
+            let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+            let convertedTextFieldFrame = self.view.convert(currentTextField.frame,
+                                                          from: currentTextField.superview)
+            let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+            if textFieldBottomY > keyboardTopY {
+                let textFieldTopY = convertedTextFieldFrame.origin.y
+                self.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y + textFieldTopY / 3), animated: true)
+            }
+        }
+    }
 }
 
 // MARK: - UI
@@ -117,9 +127,9 @@ extension TicketingDetailViewController {
 extension TicketingDetailViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.navigationView, self.scrollView, self.payButton])
+        self.view.addSubviews([self.scrollView, self.navigationView, self.payButton])
         self.scrollView.addSubviews([self.stackView])
-        self.stackView.addArrangedSubviews([self.concertInfoView, self.ticketHolderInputView, self.depositorInputView, self.ticketInfoView, self.paymentMethodView, self.policyView, self.spacingView])
+        self.stackView.addArrangedSubviews([self.concertInfoView, self.ticketHolderInputView, self.depositorInputView, self.ticketInfoView, self.paymentMethodView, self.invitationCodeView, self.policyView, self.spacingView])
         
         self.view.backgroundColor = .grey95
     }
