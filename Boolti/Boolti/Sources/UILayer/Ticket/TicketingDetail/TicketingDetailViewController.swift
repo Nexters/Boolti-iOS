@@ -84,10 +84,10 @@ final class TicketingDetailViewController: UIViewController {
         self.configureConstraints()
         self.configureGesture()
         self.configureKeyboardNotification()
+        self.bindInputs()
         self.bindOutputs()
         
-        // 확인용
-        self.payButton.setTitle("\(5000.formattedCurrency())원 결제하기", for: .normal)
+        // 확인용 - 공연 리스트 뷰 만들어지면 연결
         concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: "2024.03.09 (토) 17:00")
     }
 }
@@ -95,6 +95,22 @@ final class TicketingDetailViewController: UIViewController {
 // MARK: - Methods
 
 extension TicketingDetailViewController {
+    
+    private func bindInputs() {
+        self.viewModel.output.selectedTicket
+            .take(1)
+            .bind(with: self, onNext: { owner, entity in
+                owner.ticketInfoView.setData(entity: entity)
+                owner.payButton.setTitle("\(entity.price.formattedCurrency())원 결제하기", for: .normal)
+                
+                if entity.price == 0 {
+                    owner.depositorInputView.isHidden = true
+                } else {
+                    owner.invitationCodeView.isHidden = true
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
 
     private func bindOutputs() {
         self.policyView.policyLabelHeight
