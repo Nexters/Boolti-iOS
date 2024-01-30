@@ -110,6 +110,12 @@ extension TicketingDetailViewController {
                 }
             })
             .disposed(by: self.disposeBag)
+        
+        self.navigationView.backButtonDidTapped()
+            .emit(with: self, onNext: { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: self.disposeBag)
     }
 
     private func bindOutputs() {
