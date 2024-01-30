@@ -16,10 +16,10 @@ final class TicketingDetailViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
+        let selectedTicket = PublishRelay<TicketEntity>()
     }
 
     struct Output {
-        let selectedTicket = PublishRelay<TicketEntity>()
     }
 
     let input: Input
@@ -31,6 +31,6 @@ final class TicketingDetailViewModel {
         self.input = Input()
         self.output = Output()
         
-        self.output.selectedTicket.accept(selectedTicket)
+        self.input.selectedTicket.accept(selectedTicket)
     }
 }

@@ -85,7 +85,7 @@ extension InvitationCodeView {
 extension InvitationCodeView {
     
     private func configureUI() {
-        self.addSubviews([titleLabel, codeTextField, useButton, useInfo])
+        self.addSubviews([self.titleLabel, self.codeTextField, self.useButton, self.useInfo])
         
         self.backgroundColor = .grey90
     }

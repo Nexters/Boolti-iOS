@@ -22,11 +22,13 @@ final class ConcertInfoView: UIView {
         return view
     }()
     
-    private let labelStackView: UIStackView = {
+    private lazy var labelStackView: UIStackView = {
         let view = UIStackView()
         view.spacing = 8
         view.axis = .vertical
         view.alignment = .fill
+        
+        view.addArrangedSubviews([self.titleLabel, self.datetimeLabel])
         return view
     }()
     
@@ -77,8 +79,7 @@ extension ConcertInfoView {
 extension ConcertInfoView {
     
     private func configureUI() {
-        self.addSubviews([poster, labelStackView])
-        self.labelStackView.addArrangedSubviews([titleLabel, datetimeLabel])
+        self.addSubviews([self.poster, self.labelStackView])
     }
     
     private func configureConstraints() {

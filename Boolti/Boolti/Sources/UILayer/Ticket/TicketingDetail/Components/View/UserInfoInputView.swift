@@ -172,7 +172,11 @@ extension UserInfoInputView {
     }
     
     private func configureDefaultUI() {
-        self.addSubviews([titleLabel, nameLabel, nameTextField, phoneNumberLabel, phoneNumberTextField])
+        self.addSubviews([self.titleLabel,
+                          self.nameLabel,
+                          self.nameTextField,
+                          self.phoneNumberLabel,
+                          self.phoneNumberTextField])
         self.configureDefaultConstraints()
         
         self.backgroundColor = .grey90

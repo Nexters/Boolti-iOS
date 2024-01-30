@@ -36,7 +36,8 @@ final class TicketInfoView: UIView {
         view.axis = .vertical
         view.alignment = .fill
         view.spacing = 20
-        view.addArrangedSubviews([ticketTypeStackView, ticketCountStackView, totalPriceStackView])
+        
+        view.addArrangedSubviews([self.ticketTypeStackView, self.ticketCountStackView, self.totalPriceStackView])
         return view
     }()
     
@@ -95,7 +96,7 @@ extension TicketInfoView {
     }
     
     private func configureUI() {
-        self.addSubviews([titleLabel, stackView])
+        self.addSubviews([self.titleLabel, self.stackView])
         
         self.backgroundColor = .grey90
     }

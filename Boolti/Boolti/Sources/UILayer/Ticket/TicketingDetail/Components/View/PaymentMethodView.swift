@@ -89,7 +89,7 @@ extension PaymentMethodView {
 extension PaymentMethodView {
     
     private func configureUI() {
-        self.addSubviews([titleLabel, depositButton, infoIcon, infoLabel])
+        self.addSubviews([self.titleLabel, self.depositButton, self.infoIcon, self.infoLabel])
         
         self.backgroundColor = .grey90
     }

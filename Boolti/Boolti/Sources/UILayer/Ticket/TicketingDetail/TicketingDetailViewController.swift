@@ -46,10 +46,19 @@ final class TicketingDetailViewController: UIViewController {
         return view
     }()
     
-    private let stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = 12
+        
+        view.addArrangedSubviews([self.concertInfoView,
+                                  self.ticketHolderInputView,
+                                  self.depositorInputView,
+                                  self.ticketInfoView,
+                                  self.paymentMethodView,
+                                  self.invitationCodeView,
+                                  self.policyView,
+                                  self.spacingView])
         return view
     }()
     
@@ -119,6 +128,13 @@ extension TicketingDetailViewController {
                 self.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y + textFieldTopY / 3), animated: true)
             }
         }
+        
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { _ in
+            let bottomSpacing = self.scrollView.contentOffset.y - self.scrollView.bounds.height
+            if bottomSpacing > 0 {
+                self.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y - bottomSpacing), animated: true)
+            }
+        }
     }
 }
 
@@ -129,7 +145,6 @@ extension TicketingDetailViewController {
     private func configureUI() {
         self.view.addSubviews([self.scrollView, self.navigationView, self.payButton])
         self.scrollView.addSubviews([self.stackView])
-        self.stackView.addArrangedSubviews([self.concertInfoView, self.ticketHolderInputView, self.depositorInputView, self.ticketInfoView, self.paymentMethodView, self.invitationCodeView, self.policyView, self.spacingView])
         
         self.view.backgroundColor = .grey95
     }
