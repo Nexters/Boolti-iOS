@@ -119,15 +119,15 @@ extension TicketSelectionViewController {
     
     private func pushTicketingDetailViewController() {
         
-        let presentingViewController = self.presentingViewController
-        
         // 1차 MVP - 티켓 한 개 선택
         guard let selectedTicket = self.viewModel.output.selectedTickets.value.first else { return }
         let viewController = self.ticketingDetailViewControllerFactory(selectedTicket)
         
-        // dismiss 후 push 해야됨
-//        self.dismiss(animated: true)
-        self.navigationController?.pushViewController(viewController, animated: true)
+        guard let presentingViewController = self.presentingViewController as? HomeTabBarController else { return }
+        guard let rootviewController = presentingViewController.children[0] as? UINavigationController else { return }
+        self.dismiss (animated: true) {
+            rootviewController.pushViewController(viewController, animated: true)
+        }
     }
 }
 

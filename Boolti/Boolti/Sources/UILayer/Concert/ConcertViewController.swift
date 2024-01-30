@@ -42,6 +42,7 @@ final class ConcertViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .yellow
+        self.hidesBottomBarWhenPushed = true
 
         view.addSubview(nextButton)
         nextButton.translatesAutoresizingMaskIntoConstraints = false
