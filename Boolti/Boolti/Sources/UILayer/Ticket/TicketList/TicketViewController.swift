@@ -16,8 +16,7 @@ final class TicketViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
     
-    // TermsAgreementVC 때문에 private 없앰
-    let viewModel: TicketViewModel
+    private let viewModel: TicketViewModel
     private let disposeBag = DisposeBag()
 
     private let tableView: UITableView = {
@@ -33,7 +32,7 @@ final class TicketViewController: BooltiViewController {
 
     private lazy var tableViewDataSource = self.dataSource()
 
-    let loginEnterView: LoginEnterView = {
+    private let loginEnterView: LoginEnterView = {
         let view = LoginEnterView()
         // 색깔은 바꿔줄 예정!..
         view.backgroundColor = .black100
@@ -118,6 +117,13 @@ final class TicketViewController: BooltiViewController {
             .asDriver()
             .drive(self.viewModel.input.didloginButtonTapEvent)
             .disposed(by: self.disposeBag)
+        
+        self.homeEnterView.navigateToHomeButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.tabBarController?.selectedIndex = 0
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindOutput() {
@@ -125,9 +131,11 @@ final class TicketViewController: BooltiViewController {
         self.viewModel.output.isAccessTokenLoaded
             .asDriver(onErrorJustReturn: false)
             .drive(with: self, onNext: { owner, isLoaded in
+                // AccessToken이 없으면 -> LoginEnterView를 띄우기!..
                 if !isLoaded {
                     owner.loginEnterView.isHidden = false
                 } else {
+                // AcessToken이 있으면 -> TableView를 띄어야한다고 VM에게 알리기
                     owner.viewModel.input.shouldLoadTableViewEvent.onNext(())
                 }
             })

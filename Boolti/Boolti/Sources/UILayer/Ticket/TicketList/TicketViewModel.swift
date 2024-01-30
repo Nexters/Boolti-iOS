@@ -58,11 +58,12 @@ final class TicketViewModel {
     private func bindViewDidAppearEvent() {
         self.input.viewDidAppearEvent
             .subscribe(with: self) { owner, _ in
+                // AccessToken이 있는 지 먼저 확인한다.
                 if owner.isAccessTokenAvailable() {
-                    // 서버와의 통신!..
-                    // 그리고 sectionModel로 보내기!..
+                    // AccessToken이 있으면 Output으로 true 던지기
                     owner.output.isAccessTokenLoaded.accept(true)
                 } else {
+                    // 만약 없으면 OutPut으로 false 던지기.
                     owner.output.isAccessTokenLoaded.accept(false)
                 }
             }
@@ -94,7 +95,6 @@ final class TicketViewModel {
     }
 
     private func isAccessTokenAvailable() -> Bool {
-        // accessToken이 있으면 output으로 넘기기!..
         let token = authAPIService.fetchTokens()
         return (!token.accessToken.isEmpty)
     }
