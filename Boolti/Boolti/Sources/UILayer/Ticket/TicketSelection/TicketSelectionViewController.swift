@@ -15,6 +15,7 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     
     let viewModel: TicketSelectionViewModel
     private let disposeBag = DisposeBag()
+    private let ticketingDetailViewControllerFactory: (TicketEntity) -> TicketingDetailViewController
     
     // MARK: UI Component
     
@@ -23,8 +24,10 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     
     // MARK: Init
     
-    init(viewModel: TicketSelectionViewModel) {
+    init(viewModel: TicketSelectionViewModel,
+         ticketingDetailViewControllerFactory: @escaping (TicketEntity) -> TicketingDetailViewController) {
         self.viewModel = viewModel
+        self.ticketingDetailViewControllerFactory = ticketingDetailViewControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -61,7 +64,7 @@ extension TicketSelectionViewController {
         self.selectedTicketView.ticketingButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                owner.presentingViewController?.dismiss(animated: true, completion: nil)
+                owner.pushTicketingDetailViewController()
             }
             .disposed(by: self.disposeBag)
     }
@@ -112,6 +115,19 @@ extension TicketSelectionViewController {
             self.selectedTicketView.isHidden = false
             self.setDetent(contentHeight: CGFloat(self.viewModel.output.selectedTickets.value.count) * self.selectedTicketView.cellHeight + 122, contentType: .SelectedTicket)
         }
+    }
+    
+    private func pushTicketingDetailViewController() {
+        
+        let presentingViewController = self.presentingViewController
+        
+        // 1차 MVP - 티켓 한 개 선택
+        guard let selectedTicket = self.viewModel.output.selectedTickets.value.first else { return }
+        let viewController = self.ticketingDetailViewControllerFactory(selectedTicket)
+        
+        // dismiss 후 push 해야됨
+//        self.dismiss(animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

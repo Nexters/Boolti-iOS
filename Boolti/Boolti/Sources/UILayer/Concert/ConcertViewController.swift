@@ -64,10 +64,6 @@ extension ConcertViewController {
     func showBottomSheet() {
         
         // TODO: 나중에 ticket view에서 팩토리로 변경 필요 (이건 확인용!)
-//        let bottomSheetViewController = UINavigationController(rootViewController: TicketingDetailViewController(viewModel: TicketingDetailViewModel()))
-        let bottomSheetViewController = TicketingDetailViewController(viewModel: TicketingDetailViewModel())
-        bottomSheetViewController.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(bottomSheetViewController, animated: true)
-//        present(bottomSheetViewController, animated: true, completion: nil)
+        self.present(TicketSelectionDIContainer().createTicketSelectionViewController(), animated: true)
     }
 }

@@ -19,6 +19,7 @@ final class TicketingDetailViewModel {
     }
 
     struct Output {
+        let selectedTicket = PublishRelay<TicketEntity>()
     }
 
     let input: Input
@@ -26,8 +27,10 @@ final class TicketingDetailViewModel {
 
 //    init(ticketAPIService: TicketAPIService) {
 //        self.ticketAPIService = ticketAPIService
-    init() {
+    init(selectedTicket: TicketEntity) {
         self.input = Input()
         self.output = Output()
+        
+        self.output.selectedTicket.accept(selectedTicket)
     }
 }

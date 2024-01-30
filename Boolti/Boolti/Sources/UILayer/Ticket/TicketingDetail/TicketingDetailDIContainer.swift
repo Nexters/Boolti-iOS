@@ -15,8 +15,8 @@ final class TicketingDetailDIContainer {
 //        self.ticketAPIService = ticketAPIService
 //    }
 
-    func createTicketingDetailViewController() -> UIViewController {
-        let viewModel = createTicketingDetailViewModel()
+    func createTicketingDetailViewController(selectedTicket: TicketEntity) -> TicketingDetailViewController {
+        let viewModel = createTicketingDetailViewModel(selectedTicket: selectedTicket)
         
         let viewController = TicketingDetailViewController(
             viewModel: viewModel
@@ -25,8 +25,8 @@ final class TicketingDetailDIContainer {
         return viewController
     }
 
-    private func createTicketingDetailViewModel() -> TicketingDetailViewModel {
-        return TicketingDetailViewModel()
+    private func createTicketingDetailViewModel(selectedTicket: TicketEntity) -> TicketingDetailViewModel {
+        return TicketingDetailViewModel(selectedTicket: selectedTicket)
     }
 
 }
