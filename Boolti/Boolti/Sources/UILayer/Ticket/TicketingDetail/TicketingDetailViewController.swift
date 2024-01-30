@@ -82,8 +82,9 @@ final class TicketingDetailViewController: UIViewController {
         
         self.configureUI()
         self.configureConstraints()
+        self.configureGesture()
+        self.configureKeyboardNotification()
         self.bindOutputs()
-        self.bindInputs()
         
         // 확인용
         self.payButton.setTitle("\(5000.formattedCurrency())원 결제하기", for: .normal)
@@ -94,7 +95,7 @@ final class TicketingDetailViewController: UIViewController {
 // MARK: - Methods
 
 extension TicketingDetailViewController {
-    
+
     private func bindOutputs() {
         self.policyView.policyLabelHeight
             .asDriver(onErrorJustReturn: 0)
@@ -105,16 +106,7 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
-    private func bindInputs() {
-        let tapGesture = UITapGestureRecognizer()
-        self.view.addGestureRecognizer(tapGesture)
-
-        tapGesture.rx.event
-            .bind(with: self, onNext: { owner, _ in
-                owner.view.endEditing(true)
-            })
-            .disposed(by: disposeBag)
-        
+    private func configureKeyboardNotification() {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { notification in
             guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
                   let currentTextField = UIResponder.currentResponder as? UITextField else { return }
@@ -135,6 +127,17 @@ extension TicketingDetailViewController {
                 self.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y - bottomSpacing), animated: true)
             }
         }
+    }
+    
+    private func configureGesture() {
+        let tapGesture = UITapGestureRecognizer()
+        self.view.addGestureRecognizer(tapGesture)
+
+        tapGesture.rx.event
+            .bind(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

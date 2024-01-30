@@ -39,7 +39,7 @@ final class InvitationCodeView: UIView {
     
     private let useInfo: UILabel = {
         let label = UILabel()
-        label.text = "사용되었습니다"
+        label.text = "사용되었습니다."
         label.textColor = .success
         label.font = .body1
         label.isHidden = true
