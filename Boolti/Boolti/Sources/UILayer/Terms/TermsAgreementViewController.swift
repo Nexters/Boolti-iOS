@@ -100,6 +100,7 @@ class TermsAgreementViewController: UIViewController {
 
         self.agreementButton.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(self.greetingLabel)
+            make.height.equalTo(45)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(8)
         }
     }

@@ -102,6 +102,7 @@ class ConfirmingDepositTableViewCell: UITableViewCell {
         let borderLayer = CAShapeLayer()
 
         borderLayer.strokeColor = UIColor.grey80.cgColor
+        borderLayer.lineWidth = 3
         borderLayer.lineDashPattern = [3, 3]
         borderLayer.fillColor = nil
         let bounds = self.contentView.bounds
