@@ -68,7 +68,7 @@ extension SplashViewController {
     
     private func navigateToHomeTab() {
         Observable.just("")
-            .delay(.seconds(1), scheduler: MainScheduler.instance)
+//            .delay(.seconds(2), scheduler: MainScheduler.instance)
             .take(1)
             .subscribe(with: self, onNext: { owner, _ in
                 owner.viewModel.navigateToHomeTab()
