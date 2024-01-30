@@ -1,5 +1,5 @@
 //
-//  ConformingDepositTableViewCell.swift
+//  ConfirmingDepositTableViewCell.swift
 //  Boolti
 //
 //  Created by Miro on 1/27/24.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ConformingDepositTableViewCell: UITableViewCell {
+class ConfirmingDepositTableViewCell: UITableViewCell {
 
     private let upperTagView: UIView = {
         let view = UIView()

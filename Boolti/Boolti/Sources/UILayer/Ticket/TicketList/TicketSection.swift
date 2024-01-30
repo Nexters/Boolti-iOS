@@ -10,13 +10,13 @@ import RxCocoa
 import RxDataSources
 
 enum TicketSectionItem {
-    case conformingDepositTicket(id: Int, title: String)
+    case confirmingDepositTicket(id: Int, title: String)
     case usableTicket(item: UsableTicket)
     case usedTicket(item: UsedTicket)
 }
 
 enum TicketSection {
-    case conformingDeposit(items: [TicketSectionItem])
+    case confirmingDeposit(items: [TicketSectionItem])
     case usable(items: [TicketSectionItem])
     case used(items: [TicketSectionItem])
 }
@@ -25,8 +25,8 @@ extension TicketSection: SectionModelType {
 
     init(original: TicketSection, items: [TicketSectionItem]) {
         switch original {
-        case .conformingDeposit(items: let items):
-            self = .conformingDeposit(items: items)
+        case .confirmingDeposit(items: let items):
+            self = .confirmingDeposit(items: items)
         case .usable(items: let items):
             self = .usable(items: items)
         case .used(items: let items):
@@ -36,7 +36,7 @@ extension TicketSection: SectionModelType {
     
     var items: [TicketSectionItem] {
         switch self {
-        case .conformingDeposit(items: let items):
+        case .confirmingDeposit(items: let items):
             return items.map { $0 }
         case .usable(items: let items):
             return items.map { $0 }

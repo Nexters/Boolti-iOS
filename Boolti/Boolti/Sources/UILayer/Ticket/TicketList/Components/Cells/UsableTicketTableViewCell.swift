@@ -148,9 +148,7 @@ class UsableTicketTableViewCell: UITableViewCell {
             make.right.equalToSuperview().inset(20)
         }
 
-        guard let ticketMainView else { return }
-
-        ticketMainView.snp.makeConstraints { make in
+        self.ticketMainView?.snp.makeConstraints { make in
             make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
         }

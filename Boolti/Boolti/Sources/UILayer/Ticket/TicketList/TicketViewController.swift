@@ -24,7 +24,7 @@ final class TicketViewController: BooltiViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .grey95
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(ConformingDepositTableViewCell.self, forCellReuseIdentifier: ConformingDepositTableViewCell.className)
+        tableView.register(ConfirmingDepositTableViewCell.self, forCellReuseIdentifier: ConfirmingDepositTableViewCell.className)
         tableView.register(UsedTicketTableViewCell.self, forCellReuseIdentifier: UsedTicketTableViewCell.className)
         tableView.register(UsableTicketTableViewCell.self, forCellReuseIdentifier: UsableTicketTableViewCell.className)
         return tableView
@@ -125,11 +125,11 @@ final class TicketViewController: BooltiViewController {
     private func dataSource() -> RxTableViewSectionedReloadDataSource<TicketSection> {
         return RxTableViewSectionedReloadDataSource<TicketSection> { dataSource, tableView, indexPath, _ in
             switch dataSource[indexPath] {
-            case .conformingDepositTicket(id: let id, title: let title):
+            case .confirmingDepositTicket(id: let id, title: let title):
                 guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: ConformingDepositTableViewCell.className,
+                    withIdentifier: ConfirmingDepositTableViewCell.className,
                     for: indexPath
-                ) as? ConformingDepositTableViewCell else { return UITableViewCell() }
+                ) as? ConfirmingDepositTableViewCell else { return UITableViewCell() }
 
                 cell.setData(with: id, title: title)
                 cell.selectionStyle = .none
@@ -171,7 +171,7 @@ extension TicketViewController: UITableViewDelegate {
         let section = self.tableViewDataSource[indexPath.section]
 
         switch section {
-        case .conformingDeposit(items: _):
+        case .confirmingDeposit(items: _):
             return 162
         case .usable(items: _):
             return 590

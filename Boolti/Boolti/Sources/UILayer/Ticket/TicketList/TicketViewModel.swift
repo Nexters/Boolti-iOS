@@ -83,9 +83,9 @@ final class TicketViewModel {
 
     private func configureTableViewSection() {
         let sections: [TicketSection] = [
-            .conformingDeposit(items: [
-                .conformingDepositTicket(id: 1, title: "안녕하세요"),
-                .conformingDepositTicket(id: 1, title: "안녕하세요.sdfsfsfsfsffs")
+            .confirmingDeposit(items: [
+                .confirmingDepositTicket(id: 1, title: "안녕하세요"),
+                .confirmingDepositTicket(id: 1, title: "안녕하세요.sdfsfsfsfsffs")
             ]),
             .usable(items: [
                 .usableTicket(item: UsableTicket(ticketType: .premium, poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB sㄴㅇㄹㅇfdㄴㄹㄴfdfsdfdsfsfsfsfsfssffsdfsdsfd", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 1)),
