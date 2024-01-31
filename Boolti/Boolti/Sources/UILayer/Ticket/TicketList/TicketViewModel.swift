@@ -96,7 +96,8 @@ final class TicketViewModel {
 
     private func isAccessTokenAvailable() -> Bool {
         let token = authAPIService.fetchTokens()
-        return (!token.accessToken.isEmpty)
+        let accessToken = token.0
+        return (!accessToken.isEmpty)
     }
 
     private func fetchTableViewSectionByAPI() -> Single<[TicketSection]> {

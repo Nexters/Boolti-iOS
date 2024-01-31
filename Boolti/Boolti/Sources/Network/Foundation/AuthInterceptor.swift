@@ -12,17 +12,21 @@ import RxSwift
 final class AuthInterceptor: RequestInterceptor {
     
     private let disposeBag = DisposeBag()
- 
+    private let refreshAuthAPIService = RefreshAuthAPIService()
+
     func adapt(_ urlRequest: URLRequest,
                for session: Session,
                completion: @escaping (Result<URLRequest, Error>) -> Void) {
-        
+
         var urlRequest = urlRequest
-        
-        // refesh 재발급 경로면 refresh token을 넣음
-        if let urlString = urlRequest.url?.absoluteString, urlString.hasSuffix("/refeshToken") {
-            urlRequest.headers.add(.authorization(bearerToken: UserDefaults.refreshToken))
+
+        // accessToken이 필요한 것만 넣어주기!..
+        // 일단 지금은 logout일 때만 필요하다!..
+        // logout일 때 넣어주기
+        if let urlString = urlRequest.url?.absoluteString, urlString.hasSuffix("/logout") {
+            urlRequest.headers.add(.authorization(bearerToken: UserDefaults.accessToken))
         }
+
         completion(.success(urlRequest))
     }
     
@@ -30,6 +34,8 @@ final class AuthInterceptor: RequestInterceptor {
                for _: Session,
                dueTo error: Error,
                completion: @escaping (RetryResult) -> Void) {
+        // 401(토큰 재발급 이슈)일 경우에는 밑으로 넘어가고,
+        // 만약 다른 문제라면? retry를 하지 않는다.
         guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401
         else {
             completion(.doNotRetryWithError(error))
@@ -42,16 +48,21 @@ final class AuthInterceptor: RequestInterceptor {
             return
         }
         
-        // 토큰 재발급 요청 (401일 떄)
-//        ReissueAPIService.shared.reissueAuthentication()
-//            .subscribe(onSuccess: { result in
-//              // userdefault에 새로 저장
-//                completion(.retry)
-//            }, onFailure: { error in
-//                // refreshToken 만료 시 로그인 화면으로 전환
-//                NotificationCenter.default.post(name: NotificationCenterKey.refreshTokenHasExpired, object: nil)
-//                completion(.doNotRetryWithError(error))
-//            })
-//            .disposed(by: disposeBag)
+        // 현재 401이므로, refreshToken으로 API 호출을 한다.
+        let refreshToken = UserDefaults.refreshToken
+        self.refreshAuthAPIService.request(with: refreshToken)
+            .subscribe(onSuccess: { tokenRefreshResponseDTO in
+                guard let accessToken = tokenRefreshResponseDTO.accessToken,
+                      let  refreshToken = tokenRefreshResponseDTO.refreshToken
+                else { return }
+                UserDefaults.accessToken = accessToken
+                UserDefaults.refreshToken = refreshToken
+
+                completion(.retry)
+            }, onFailure: { error in
+                // 이러면 로그인 화면으로 간다!..
+                completion(.doNotRetry)
+            })
+            .disposed(by: self.disposeBag)
     }
 }

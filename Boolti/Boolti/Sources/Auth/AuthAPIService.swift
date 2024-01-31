@@ -14,6 +14,7 @@ import RxMoya
 final class AuthAPIService: AuthAPIServiceType {
 
     typealias isSignUpRequired = Bool
+    typealias AuthToken = (String, String)
 
     let networkService: NetworkProviderType
     private let disposeBag = DisposeBag()
@@ -23,7 +24,7 @@ final class AuthAPIService: AuthAPIServiceType {
     }
 
     func fetchTokens() -> AuthToken {
-        return AuthToken(accessToken: UserDefaults.accessToken, refreshToken: UserDefaults.refreshToken)
+        return (UserDefaults.accessToken, UserDefaults.refreshToken)
     }
     
     // 로그인 API 활용해서 AccessToken, RefreshToken 가져오기
@@ -33,12 +34,12 @@ final class AuthAPIService: AuthAPIServiceType {
 
         return networkService.request(api)
             .map(LoginResponseDTO.self)
-            .do { [weak self] loginReponseDTO in
+            .do { loginReponseDTO in
                 guard let accessToken = loginReponseDTO.accessToken,
                       let refreshToken = loginReponseDTO.refreshToken else { return }
 
-                let authToken = AuthToken(accessToken: accessToken, refreshToken: refreshToken)
-                self?.write(token: authToken)
+                UserDefaults.accessToken = accessToken
+                UserDefaults.refreshToken = refreshToken
             }
             .map { $0.signUpRequired }
     }
@@ -97,20 +98,16 @@ final class AuthAPIService: AuthAPIServiceType {
     private func requestSignUp(_ API: AuthAPI) {
         self.networkService.request(API)
             .map(SignUpResponseDTO.self)
-            .subscribe { [weak self] signUpResponseDTO in
+            .subscribe { signUpResponseDTO in
                 guard let accessToken = signUpResponseDTO.accessToken,
                       let refreshToken = signUpResponseDTO.refreshToken else { return }
-
-                let authToken = AuthToken(accessToken: accessToken, refreshToken: refreshToken)
-                self?.write(token: authToken)
+                
+                UserDefaults.accessToken = accessToken
+                UserDefaults.refreshToken = refreshToken
             }
             .disposed(by: self.disposeBag)
     }
 
-    func write(token: AuthToken) {
-        UserDefaults.accessToken = token.accessToken
-        UserDefaults.refreshToken = token.refreshToken
-    }
 
     func removeAllTokens() {
         UserDefaults.removeAllTokens()
