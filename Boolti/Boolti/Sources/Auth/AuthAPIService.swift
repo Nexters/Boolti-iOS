@@ -75,7 +75,6 @@ final class AuthAPIService: AuthAPIServiceType {
                 let API = AuthAPI.signup(requestDTO: requestDTO)
 
                 self.requestSignUp(API)
-
             })
             .disposed(by: self.disposeBag)
     }

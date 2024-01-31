@@ -147,10 +147,10 @@ class LoginViewController: UIViewController {
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, isFirstSignedUp in
                 guard isFirstSignedUp else {
-                    self.dismiss(animated: true)
+                    owner.dismiss(animated: true)
                     return
                 }
-                self.presentTermsAgreementViewController()
+                owner.presentTermsAgreementViewController()
             }
             .disposed(by: self.disposeBag)
     }
