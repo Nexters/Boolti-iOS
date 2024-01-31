@@ -16,17 +16,19 @@ final class TicketingDetailViewController: UIViewController {
     let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
     
-    private var currentScrollViewOffsetY: CGFloat = 0
+    private var isScrollViewOffsetChanged: Bool = false
+    private var changedScrollViewOffsetY: CGFloat = 0
     
     // MARK: UI Component
     
     private let navigationView = BooltiNavigationView(type: .payment)
     
-    private let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.showsVerticalScrollIndicator = false
         view.contentInset = .init(top: 0, left: 0, bottom: 40, right: 0)
         view.keyboardDismissMode = .onDrag
+        view.delegate = self
         return view
     }()
     
@@ -113,27 +115,12 @@ extension TicketingDetailViewController {
                 owner.navigationController?.popViewController(animated: true)
             })
             .disposed(by: self.disposeBag)
-        
-        self.depositorInputView.didIsEqualButtonTap()
-            .emit(with: self, onNext: { owner, _ in
-                owner.view.endEditing(true)
-                owner.scrollView.setContentOffset(CGPoint(x: 0, y: self.currentScrollViewOffsetY), animated: true)
-            })
-            .disposed(by: self.disposeBag)
-        
-        self.invitationCodeView.didUseButtonTap()
-            .emit(with: self, onNext: { owner, _ in
-                owner.view.endEditing(true)
-            })
-            .disposed(by: self.disposeBag)
     }
-
+    
     private func bindOutputs() {
         self.policyView.policyLabelHeight
-            .map { $0 + 40 }
             .asDriver(onErrorJustReturn: 0)
             .drive(with: self, onNext: { owner, viewHeight in
-                owner.view.endEditing(true)
                 let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.height + viewHeight)
                 owner.scrollView.setContentOffset(bottomOffset, animated: true)
             })
@@ -142,36 +129,46 @@ extension TicketingDetailViewController {
     
     private func configureKeyboardNotification() {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { notification in
-            self.currentScrollViewOffsetY = self.scrollView.contentOffset.y
-            
             guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
                   let currentTextField = UIResponder.currentResponder as? UITextField else { return }
             
             let keyboardTopY = keyboardFrame.cgRectValue.origin.y
             let convertedTextFieldFrame = self.view.convert(currentTextField.frame,
-                                                          from: currentTextField.superview)
+                                                            from: currentTextField.superview)
             let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
             if textFieldBottomY > keyboardTopY {
-                let textFieldTopY = convertedTextFieldFrame.origin.y
-                self.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y + textFieldTopY / 3), animated: true)
+                let changeOffset = textFieldBottomY - keyboardTopY + convertedTextFieldFrame.size.height
+                self.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y + changeOffset), animated: true)
+                
+                self.isScrollViewOffsetChanged = true
+                self.changedScrollViewOffsetY = changeOffset
             }
-        }
-        
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidHideNotification, object: nil, queue: nil) { notification in
-            self.currentScrollViewOffsetY = self.scrollView.contentOffset.y
         }
     }
     
     private func configureGesture() {
         let tapGesture = UITapGestureRecognizer()
+        tapGesture.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGesture)
-
+        
         tapGesture.rx.event
             .bind(with: self, onNext: { owner, _ in
                 owner.view.endEditing(true)
-                self.scrollView.setContentOffset(CGPoint(x: 0, y: self.currentScrollViewOffsetY), animated: true)
+                if self.isScrollViewOffsetChanged {
+                    owner.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y - self.changedScrollViewOffsetY), animated: true)
+                    self.isScrollViewOffsetChanged = false
+                }
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension TicketingDetailViewController: UIScrollViewDelegate {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.isScrollViewOffsetChanged = false
     }
 }
 

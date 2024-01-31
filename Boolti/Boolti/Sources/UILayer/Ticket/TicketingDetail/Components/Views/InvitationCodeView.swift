@@ -79,10 +79,6 @@ extension InvitationCodeView {
                 }
             }).disposed(by: self.disposeBag)
     }
-    
-    func didUseButtonTap() -> Signal<Void> {
-        return useButton.rx.tap.asSignal()
-    }
 }
 
 // MARK: - UI

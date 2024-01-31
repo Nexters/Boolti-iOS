@@ -151,10 +151,6 @@ extension UserInfoInputView {
         self.nameTextField.text = nil
         self.phoneNumberTextField.text = nil
     }
-    
-    func didIsEqualButtonTap() -> Signal<Void> {
-        return isEqualButton.rx.tap.asSignal()
-    }
 }
 
 // MARK: - UI

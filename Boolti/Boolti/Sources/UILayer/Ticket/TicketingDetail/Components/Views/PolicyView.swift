@@ -75,12 +75,12 @@ extension PolicyView {
                     owner.snp.updateConstraints { make in
                         make.height.equalTo(66 + owner.policyLabel.frame.height + 40)
                     }
-                    owner.policyLabelHeight.accept(owner.policyLabel.frame.height + 40)
+                    owner.policyLabelHeight.accept(66 + owner.policyLabel.frame.height + 40)
                 } else {
                     owner.snp.updateConstraints { make in
                         make.height.equalTo(66)
                     }
-                    owner.policyLabelHeight.accept(0)
+                    owner.policyLabelHeight.accept(66)
                 }
             }).disposed(by: self.disposeBag)
     }
