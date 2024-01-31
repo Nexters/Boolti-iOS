@@ -16,6 +16,8 @@ final class TicketingDetailViewController: UIViewController {
     let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
     
+    private var currentScrollViewOffsetY: CGFloat = 0
+    
     // MARK: UI Component
     
     private let navigationView = BooltiNavigationView(type: .Payment)
@@ -24,6 +26,7 @@ final class TicketingDetailViewController: UIViewController {
         let view = UIScrollView()
         view.showsVerticalScrollIndicator = false
         view.contentInset = .init(top: 0, left: 0, bottom: 40, right: 0)
+        view.keyboardDismissMode = .onDrag
         return view
     }()
     
@@ -105,9 +108,22 @@ extension TicketingDetailViewController {
             })
             .disposed(by: self.disposeBag)
         
-        self.navigationView.backButtonDidTapped()
+        self.navigationView.didBackButtonTap()
             .emit(with: self, onNext: { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.depositorInputView.didIsEqualButtonTap()
+            .emit(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
+                owner.scrollView.setContentOffset(CGPoint(x: 0, y: self.currentScrollViewOffsetY), animated: true)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.invitationCodeView.didUseButtonTap()
+            .emit(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
             })
             .disposed(by: self.disposeBag)
     }
@@ -117,7 +133,8 @@ extension TicketingDetailViewController {
             .map { $0 + 40 }
             .asDriver(onErrorJustReturn: 0)
             .drive(with: self, onNext: { owner, viewHeight in
-                let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.size.height + viewHeight)
+                owner.view.endEditing(true)
+                let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.height + viewHeight)
                 owner.scrollView.setContentOffset(bottomOffset, animated: true)
             })
             .disposed(by: self.disposeBag)
@@ -125,6 +142,8 @@ extension TicketingDetailViewController {
     
     private func configureKeyboardNotification() {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { notification in
+            self.currentScrollViewOffsetY = self.scrollView.contentOffset.y
+            
             guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
                   let currentTextField = UIResponder.currentResponder as? UITextField else { return }
             
@@ -138,11 +157,8 @@ extension TicketingDetailViewController {
             }
         }
         
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { _ in
-            let bottomSpacing = self.scrollView.contentOffset.y - self.scrollView.bounds.height
-            if bottomSpacing > 0 {
-                self.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y - bottomSpacing), animated: true)
-            }
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidHideNotification, object: nil, queue: nil) { notification in
+            self.currentScrollViewOffsetY = self.scrollView.contentOffset.y
         }
     }
     
@@ -153,6 +169,7 @@ extension TicketingDetailViewController {
         tapGesture.rx.event
             .bind(with: self, onNext: { owner, _ in
                 owner.view.endEditing(true)
+                self.scrollView.setContentOffset(CGPoint(x: 0, y: self.currentScrollViewOffsetY), animated: true)
             })
             .disposed(by: disposeBag)
     }

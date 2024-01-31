@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 final class InvitationCodeView: UIView {
     
@@ -77,6 +78,10 @@ extension InvitationCodeView {
                     make.height.equalTo(163)
                 }
             }).disposed(by: self.disposeBag)
+    }
+    
+    func didUseButtonTap() -> Signal<Void> {
+        return useButton.rx.tap.asSignal()
     }
 }
 
