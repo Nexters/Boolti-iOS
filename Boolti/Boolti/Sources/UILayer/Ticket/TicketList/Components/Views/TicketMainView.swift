@@ -28,7 +28,7 @@ class TicketMainView: UIView {
 
     private lazy var informationStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.addArrangedSubViews([self.dateLabel, self.locationLabel])
+        stackView.addArrangedSubviews([self.dateLabel, self.locationLabel])
 
         return stackView
     }()

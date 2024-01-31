@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BooltiLoadingIndicatorView: UIActivityIndicatorView {
+final class BooltiLoadingIndicatorView: UIActivityIndicatorView {
 
     override init(style: UIActivityIndicatorView.Style) {
         super.init(style: style)

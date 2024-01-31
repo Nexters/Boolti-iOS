@@ -15,6 +15,7 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     
     let viewModel: TicketSelectionViewModel
     private let disposeBag = DisposeBag()
+    private let ticketingDetailViewControllerFactory: (TicketEntity) -> TicketingDetailViewController
     
     // MARK: UI Component
     
@@ -23,8 +24,10 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     
     // MARK: Init
     
-    init(viewModel: TicketSelectionViewModel) {
+    init(viewModel: TicketSelectionViewModel,
+         ticketingDetailViewControllerFactory: @escaping (TicketEntity) -> TicketingDetailViewController) {
         self.viewModel = viewModel
+        self.ticketingDetailViewControllerFactory = ticketingDetailViewControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,14 +57,14 @@ extension TicketSelectionViewController {
             .drive(with: self, onNext: { owner, entity  in
                 guard entity.inventory > 0 else { return }
                 owner.viewModel.input.didTicketSelect.onNext(entity)
-                owner.showContentView(.SelectedTicket)
+                owner.showContentView(.selectedTicket)
             })
             .disposed(by: self.disposeBag)
         
         self.selectedTicketView.ticketingButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                owner.presentingViewController?.dismiss(animated: true, completion: nil)
+                owner.pushTicketingDetailViewController()
             }
             .disposed(by: self.disposeBag)
     }
@@ -96,21 +99,34 @@ extension TicketSelectionViewController {
         self.viewModel.output.showTicketTypeView
             .asDriver(onErrorJustReturn: ())
             .drive(with: self, onNext: { owner, _ in
-                owner.showContentView(.TicketTypeList)
+                owner.showContentView(.ticketTypeList)
             })
             .disposed(by: self.disposeBag)
     }
     
     private func showContentView(_ view: BottomSheetContentType) {
         switch view {
-        case .TicketTypeList:
+        case .ticketTypeList:
             self.ticketTypeView.isHidden = false
             self.selectedTicketView.isHidden = true
-            self.setDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count) * self.ticketTypeView.cellHeight, contentType: .TicketTypeList)
-        case .SelectedTicket:
+            self.setDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count) * self.ticketTypeView.cellHeight, contentType: .ticketTypeList)
+        case .selectedTicket:
             self.ticketTypeView.isHidden = true
             self.selectedTicketView.isHidden = false
-            self.setDetent(contentHeight: CGFloat(self.viewModel.output.selectedTickets.value.count) * self.selectedTicketView.cellHeight + 122, contentType: .SelectedTicket)
+            self.setDetent(contentHeight: CGFloat(self.viewModel.output.selectedTickets.value.count) * self.selectedTicketView.cellHeight + 122, contentType: .selectedTicket)
+        }
+    }
+    
+    private func pushTicketingDetailViewController() {
+        
+        // 1차 MVP - 티켓 한 개 선택
+        guard let selectedTicket = self.viewModel.output.selectedTickets.value.first else { return }
+        let viewController = self.ticketingDetailViewControllerFactory(selectedTicket)
+        
+        guard let presentingViewController = self.presentingViewController as? HomeTabBarController else { return }
+        guard let rootviewController = presentingViewController.children[0] as? UINavigationController else { return }
+        self.dismiss (animated: true) {
+            rootviewController.pushViewController(viewController, animated: true)
         }
     }
 }
@@ -123,7 +139,7 @@ extension TicketSelectionViewController {
         self.setTitle("티켓 선택")
         
         self.contentView.addSubviews([self.ticketTypeView, self.selectedTicketView])
-        self.showContentView(.TicketTypeList)
+        self.showContentView(.ticketTypeList)
     }
     
     private func configureConstraints() {

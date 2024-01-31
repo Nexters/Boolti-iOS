@@ -58,6 +58,9 @@
 		84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCF2B5C006500D37921 /* ConcertViewModel.swift */; };
 		847AA70E2B62B55500E5B55C /* BooltiNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AA70D2B62B55500E5B55C /* BooltiNavigationView.swift */; };
 		848CBF032B65458900239303 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF022B65458900239303 /* Int+.swift */; };
+		848CBF062B6547FA00239303 /* TicketingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */; };
+		848CBF082B65480A00239303 /* TicketingDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */; };
+		848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF092B65481500239303 /* TicketingDetailDIContainer.swift */; };
 		84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84975BE82B60E04500F903E7 /* AuthAPI.swift */; };
 		84975BEF2B6113D000F903E7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84975BEE2B6113D000F903E7 /* Colors.xcassets */; };
 		84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84975BF72B611EA500F903E7 /* UIFont+.swift */; };
@@ -79,6 +82,20 @@
 		84B321A32B61543E007FD669 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321A22B61543E007FD669 /* FirebaseMessaging */; };
 		84B321A52B61543E007FD669 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321A42B61543E007FD669 /* FirebaseRemoteConfig */; };
 		84B321A72B61543E007FD669 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321A62B61543E007FD669 /* FirebaseRemoteConfigSwift */; };
+		84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF22B673877009462E9 /* ConcertInfoView.swift */; };
+		84FBBDF72B67429D009462E9 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF62B67429D009462E9 /* ImageCacheManager.swift */; };
+		84FBBDF92B67431D009462E9 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF82B67431D009462E9 /* UIImageView+.swift */; };
+		84FBBDFB2B675834009462E9 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDFA2B675834009462E9 /* UIStackView+.swift */; };
+		84FBBDFD2B675E78009462E9 /* OTSBAggroB.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84FBBDFC2B675E78009462E9 /* OTSBAggroB.otf */; };
+		84FBBDFF2B67677A009462E9 /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDFE2B67677A009462E9 /* UILabel+.swift */; };
+		84FBBE012B677187009462E9 /* BooltiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE002B677187009462E9 /* BooltiTextField.swift */; };
+		84FBBE032B67748A009462E9 /* UserInfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE022B67748A009462E9 /* UserInfoInputView.swift */; };
+		84FBBE052B67A952009462E9 /* TicketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE042B67A952009462E9 /* TicketInfoView.swift */; };
+		84FBBE072B67B30D009462E9 /* PaymentMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE062B67B30D009462E9 /* PaymentMethodView.swift */; };
+		84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE082B67DF88009462E9 /* PolicyView.swift */; };
+		84FBBE0B2B6888CB009462E9 /* InvitationCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE0A2B6888CB009462E9 /* InvitationCodeView.swift */; };
+		84FEF6172B68A6D100EBB64F /* UIResponder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEF6162B68A6D100EBB64F /* UIResponder+.swift */; };
+		84FEF6192B68ACDD00EBB64F /* TicketingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */; };
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
@@ -114,7 +131,6 @@
 		8766B55F2B641579004F266A /* UsableTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B55E2B641579004F266A /* UsableTicket.swift */; };
 		8766B5612B641581004F266A /* UsedTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B5602B641581004F266A /* UsedTicket.swift */; };
 		8766B5642B648772004F266A /* ConfirmingDepositTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B5632B648772004F266A /* ConfirmingDepositTableViewCell.swift */; };
-		8766B5662B64D5C5004F266A /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B5652B64D5C5004F266A /* UIStackView+.swift */; };
 		8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */; };
 		8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */; };
 		8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */; };
@@ -176,12 +192,29 @@
 		84781CCF2B5C006500D37921 /* ConcertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewModel.swift; sourceTree = "<group>"; };
 		847AA70D2B62B55500E5B55C /* BooltiNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiNavigationView.swift; sourceTree = "<group>"; };
 		848CBF022B65458900239303 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
+		848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailViewController.swift; sourceTree = "<group>"; };
+		848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailViewModel.swift; sourceTree = "<group>"; };
+		848CBF092B65481500239303 /* TicketingDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailDIContainer.swift; sourceTree = "<group>"; };
 		84975BE82B60E04500F903E7 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		84975BEE2B6113D000F903E7 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		84975BF72B611EA500F903E7 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		84975BFD2B6123E500F903E7 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		84975BFE2B6123E500F903E7 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		849FBD502B5E920A006EB865 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
+		84FBBDF22B673877009462E9 /* ConcertInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertInfoView.swift; sourceTree = "<group>"; };
+		84FBBDF62B67429D009462E9 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		84FBBDF82B67431D009462E9 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
+		84FBBDFA2B675834009462E9 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
+		84FBBDFC2B675E78009462E9 /* OTSBAggroB.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OTSBAggroB.otf; sourceTree = "<group>"; };
+		84FBBDFE2B67677A009462E9 /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		84FBBE002B677187009462E9 /* BooltiTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiTextField.swift; sourceTree = "<group>"; };
+		84FBBE022B67748A009462E9 /* UserInfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoInputView.swift; sourceTree = "<group>"; };
+		84FBBE042B67A952009462E9 /* TicketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketInfoView.swift; sourceTree = "<group>"; };
+		84FBBE062B67B30D009462E9 /* PaymentMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodView.swift; sourceTree = "<group>"; };
+		84FBBE082B67DF88009462E9 /* PolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyView.swift; sourceTree = "<group>"; };
+		84FBBE0A2B6888CB009462E9 /* InvitationCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationCodeView.swift; sourceTree = "<group>"; };
+		84FEF6162B68A6D100EBB64F /* UIResponder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+.swift"; sourceTree = "<group>"; };
+		84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingEntity.swift; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIServiceType.swift; sourceTree = "<group>"; };
@@ -215,7 +248,6 @@
 		8766B55E2B641579004F266A /* UsableTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsableTicket.swift; sourceTree = "<group>"; };
 		8766B5602B641581004F266A /* UsedTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsedTicket.swift; sourceTree = "<group>"; };
 		8766B5632B648772004F266A /* ConfirmingDepositTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmingDepositTableViewCell.swift; sourceTree = "<group>"; };
-		8766B5652B64D5C5004F266A /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewController.swift; sourceTree = "<group>"; };
 		8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewModel.swift; sourceTree = "<group>"; };
 		8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementDIContainer.swift; sourceTree = "<group>"; };
@@ -281,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				84625A102B63B48D00CC9077 /* TicketEntity.swift */,
+				84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */,
 				8766B55E2B641579004F266A /* UsableTicket.swift */,
 				8766B5602B641581004F266A /* UsedTicket.swift */,
 			);
@@ -304,7 +337,6 @@
 			children = (
 				84781BCB2B5BDAFC00D37921 /* Boolti */,
 				84781BCA2B5BDAFC00D37921 /* Products */,
-				8746AD0B2B6809930037A1B1 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -409,11 +441,14 @@
 			children = (
 				84781C6F2B5BEAB800D37921 /* UserDefaults+.swift */,
 				84781C712B5BEAC800D37921 /* RxMoya+.swift */,
-				84975BF72B611EA500F903E7 /* UIFont+.swift */,
-				8724C4BE2B6221A500484BFC /* UIView+.swift */,
-				84625A152B63C33D00CC9077 /* UITableViewCell+.swift */,
 				848CBF022B65458900239303 /* Int+.swift */,
-				8766B5652B64D5C5004F266A /* UIStackView+.swift */,
+				84975BF72B611EA500F903E7 /* UIFont+.swift */,
+				84FBBDFE2B67677A009462E9 /* UILabel+.swift */,
+				8724C4BE2B6221A500484BFC /* UIView+.swift */,
+				84FBBDFA2B675834009462E9 /* UIStackView+.swift */,
+				84FBBDF82B67431D009462E9 /* UIImageView+.swift */,
+				84625A152B63C33D00CC9077 /* UITableViewCell+.swift */,
+				84FEF6162B68A6D100EBB64F /* UIResponder+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -422,6 +457,7 @@
 			isa = PBXGroup;
 			children = (
 				84781C742B5BEB5600D37921 /* UserDefault.swift */,
+				84FBBDF62B67429D009462E9 /* ImageCacheManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -535,6 +571,7 @@
 			children = (
 				84625A122B63B74800CC9077 /* TicketList */,
 				84625A0C2B63B2D100CC9077 /* TicketSelection */,
+				848CBF042B6547DB00239303 /* TicketingDetail */,
 			);
 			path = Ticket;
 			sourceTree = "<group>";
@@ -550,11 +587,31 @@
 			path = Concert;
 			sourceTree = "<group>";
 		};
+		848CBF042B6547DB00239303 /* TicketingDetail */ = {
+			isa = PBXGroup;
+			children = (
+				848CBF0B2B65495200239303 /* Components */,
+				848CBF092B65481500239303 /* TicketingDetailDIContainer.swift */,
+				848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */,
+				848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */,
+			);
+			path = TicketingDetail;
+			sourceTree = "<group>";
+		};
+		848CBF0B2B65495200239303 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				84FBBDF12B673834009462E9 /* Views */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		84975BF22B611E2100F903E7 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
 				84975BFE2B6123E500F903E7 /* Pretendard-Regular.otf */,
 				84975BFD2B6123E500F903E7 /* Pretendard-SemiBold.otf */,
+				84FBBDFC2B675E78009462E9 /* OTSBAggroB.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -566,6 +623,19 @@
 				84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		84FBBDF12B673834009462E9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84FBBDF22B673877009462E9 /* ConcertInfoView.swift */,
+				84FBBE022B67748A009462E9 /* UserInfoInputView.swift */,
+				84FBBE042B67A952009462E9 /* TicketInfoView.swift */,
+				84FBBE062B67B30D009462E9 /* PaymentMethodView.swift */,
+				84FBBE0A2B6888CB009462E9 /* InvitationCodeView.swift */,
+				84FBBE082B67DF88009462E9 /* PolicyView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8746AD022B6805A40037A1B1 /* Views */ = {
@@ -584,13 +654,6 @@
 				8746AD022B6805A40037A1B1 /* Views */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		8746AD0B2B6809930037A1B1 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		8746AD0C2B6809D90037A1B1 /* Components */ = {
@@ -693,6 +756,7 @@
 				8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */,
 				84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */,
 				84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */,
+				84FBBE002B677187009462E9 /* BooltiTextField.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -807,6 +871,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84FBBDFD2B675E78009462E9 /* OTSBAggroB.otf in Resources */,
 				876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */,
 				84781BD92B5BDAFD00D37921 /* LaunchScreen.storyboard in Resources */,
 				84781BD62B5BDAFD00D37921 /* Assets.xcassets in Resources */,
@@ -831,20 +896,25 @@
 				84781CCC2B5C003700D37921 /* ConcertDIContainer.swift in Sources */,
 				8769BF9D2B6267CC00DA9A67 /* BooltiButton.swift in Sources */,
 				8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */,
+				84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
 				8766B55F2B641579004F266A /* UsableTicket.swift in Sources */,
 				84625A112B63B48D00CC9077 /* TicketEntity.swift in Sources */,
 				8746AD162B680A700037A1B1 /* SelectedTicketTableViewCell.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
+				84FBBE052B67A952009462E9 /* TicketInfoView.swift in Sources */,
 				84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */,
 				8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */,
 				8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */,
+				84FBBE072B67B30D009462E9 /* PaymentMethodView.swift in Sources */,
 				8757BAAE2B60067A008503B5 /* Provider.swift in Sources */,
 				84781CA12B5BF6AB00D37921 /* RootViewController.swift in Sources */,
+				84FBBE032B67748A009462E9 /* UserInfoInputView.swift in Sources */,
 				84781C9F2B5BF6A000D37921 /* SplashViewModelDelegate.swift in Sources */,
 				848CBF032B65458900239303 /* Int+.swift in Sources */,
 				84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */,
 				84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */,
+				84FBBDFF2B67677A009462E9 /* UILabel+.swift in Sources */,
 				8757BA992B5FC573008503B5 /* AuthToken.swift in Sources */,
 				84781BCD2B5BDAFC00D37921 /* AppDelegate.swift in Sources */,
 				84781BF02B5BE3C000D37921 /* NetworkProviderType.swift in Sources */,
@@ -852,6 +922,7 @@
 				84781C9D2B5BF68900D37921 /* RootDIContainer.swift in Sources */,
 				84781C722B5BEAC800D37921 /* RxMoya+.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
+				84FBBDF92B67431D009462E9 /* UIImageView+.swift in Sources */,
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
 				876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */,
 				847AA70E2B62B55500E5B55C /* BooltiNavigationView.swift in Sources */,
@@ -862,14 +933,18 @@
 				84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */,
 				87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */,
 				849FBD512B5E920A006EB865 /* AppInfo.swift in Sources */,
+				84FBBDF72B67429D009462E9 /* ImageCacheManager.swift in Sources */,
+				84FBBE0B2B6888CB009462E9 /* InvitationCodeView.swift in Sources */,
 				8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */,
 				8746ACF92B65263E0037A1B1 /* UsedTicketTableViewCell.swift in Sources */,
 				8766B55D2B6413C1004F266A /* TicketSection.swift in Sources */,
 				8746AD142B680A5C0037A1B1 /* TicketTypeTableViewCell.swift in Sources */,
 				84781C822B5BEC3900D37921 /* BaseResponseDTO.swift in Sources */,
+				84FBBDFB2B675834009462E9 /* UIStackView+.swift in Sources */,
 				84781CAD2B5BF7A200D37921 /* HomeTabBarDIContainer.swift in Sources */,
 				84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */,
 				84781CAA2B5BF72200D37921 /* SplashViewModel.swift in Sources */,
+				84FEF6192B68ACDD00EBB64F /* TicketingEntity.swift in Sources */,
 				8757BAA42B5FDEA2008503B5 /* SocialLoginAPIServiceType.swift in Sources */,
 				8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */,
 				84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */,
@@ -885,8 +960,11 @@
 				84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
 				8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */,
+				84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* SocialLoginAPIService.swift in Sources */,
+				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
 				84781CC02B5BF98600D37921 /* MypageViewController.swift in Sources */,
+				84FBBE012B677187009462E9 /* BooltiTextField.swift in Sources */,
 				84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */,
 				876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */,
 				84781CC52B5BF9DE00D37921 /* TicketViewController.swift in Sources */,
@@ -894,13 +972,13 @@
 				8746AD102B680A290037A1B1 /* SelectedTicketView.swift in Sources */,
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,
 				8757BA972B5FA6B0008503B5 /* AuthAPIService.swift in Sources */,
-				8766B5662B64D5C5004F266A /* UIStackView+.swift in Sources */,
 				84625A182B63E05700CC9077 /* BooltiPaddingLabel.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
 				84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
 				8746AD012B67F7610037A1B1 /* TicketMainView.swift in Sources */,
 				84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */,
+				84FEF6172B68A6D100EBB64F /* UIResponder+.swift in Sources */,
 				8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */,
 				8766B5612B641581004F266A /* UsedTicket.swift in Sources */,
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,
@@ -909,6 +987,8 @@
 				8746ACFB2B6529760037A1B1 /* PosterImageView.swift in Sources */,
 				8746AD122B680A3E0037A1B1 /* TicketTypeView.swift in Sources */,
 				878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */,
+				848CBF082B65480A00239303 /* TicketingDetailViewModel.swift in Sources */,
+				848CBF062B6547FA00239303 /* TicketingDetailViewController.swift in Sources */,
 				8746ACFF2B65F9AF0037A1B1 /* UsableTicketTableViewCell.swift in Sources */,
 				876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */,
 				84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */,

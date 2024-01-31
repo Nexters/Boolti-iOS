@@ -19,7 +19,7 @@ class UsedTicketTableViewCell: UITableViewCell {
     private lazy var upperTagLabelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.addArrangedSubViews([self.ticketTypeLabel, self.numberLabel])
+        stackView.addArrangedSubviews([self.ticketTypeLabel, self.numberLabel])
 
         return stackView
     }()
@@ -56,7 +56,7 @@ class UsedTicketTableViewCell: UITableViewCell {
 
     private lazy var informationStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.addArrangedSubViews([self.dateLabel, self.locationLabel])
+        stackView.addArrangedSubviews([self.dateLabel, self.locationLabel])
 
         return stackView
     }()
