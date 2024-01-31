@@ -41,8 +41,8 @@ final class TicketViewController: BooltiViewController {
         return view
     }()
 
-    private let homeEnterView: HomeEnterView = {
-        let view = HomeEnterView()
+    private let concertEnterView: ConcertEnterView = {
+        let view = ConcertEnterView()
         view.backgroundColor = .black100
         view.isHidden = true
 
@@ -78,7 +78,7 @@ final class TicketViewController: BooltiViewController {
         self.view.addSubviews([
             self.tableView,
             self.loginEnterView,
-            self.homeEnterView
+            self.concertEnterView
         ])
 
         self.tableView.rx
@@ -95,7 +95,7 @@ final class TicketViewController: BooltiViewController {
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
 
-        self.homeEnterView.snp.makeConstraints { make in
+        self.concertEnterView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
@@ -118,7 +118,7 @@ final class TicketViewController: BooltiViewController {
             .drive(self.viewModel.input.didloginButtonTapEvent)
             .disposed(by: self.disposeBag)
         
-        self.homeEnterView.navigateToHomeButton.rx.tap
+        self.concertEnterView.navigateToHomeButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
                 owner.tabBarController?.selectedIndex = 0
@@ -144,7 +144,7 @@ final class TicketViewController: BooltiViewController {
         self.viewModel.output.isTicketsExist
             .subscribe(with: self) { owner, isTicketsExist in
                 if !isTicketsExist {
-                    owner.homeEnterView.isHidden = false
+                    owner.concertEnterView.isHidden = false
                 }
             }
             .disposed(by: self.disposeBag)

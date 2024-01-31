@@ -1,5 +1,5 @@
 //
-//  HomeEnterView.swift
+//  ConcertEnterView.swift
 //  Boolti
 //
 //  Created by Miro on 1/30/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeEnterView: UIView {
+final class ConcertEnterView: UIView {
 
     private let headerTitleLabel: UILabel = {
         let label = UILabel()
@@ -69,8 +69,7 @@ class HomeEnterView: UIView {
         }
 
         self.headerTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(self.backgroundImageView)
-            make.centerY.equalTo(self.backgroundImageView)
+            make.center.equalTo(self.backgroundImageView)
         }
 
         self.subTitleLabel.snp.makeConstraints { make in
