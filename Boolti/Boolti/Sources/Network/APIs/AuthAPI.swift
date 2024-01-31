@@ -12,6 +12,7 @@ enum AuthAPI {
 
     case login(provider: Provider, requestDTO: LoginRequestDTO)
     case signup(requestDTO: SignUpRequestDTO)
+    case refresh(requestDTO: TokenRefreshRequestDTO)
 }
 
 extension AuthAPI: BaseAPI {
@@ -19,17 +20,16 @@ extension AuthAPI: BaseAPI {
     var path: String {
         switch self {
         case .login(let provider, _):
-            return "/login/\(provider.rawValue)"
+            return "/login/\(provider.requestTokenDescription)"
         case .signup:
             return "/signup/sns"
+        case .refresh(requestDTO: _):
+            return "login/refresh"
         }
     }
 
     var method: Moya.Method {
-        switch self {
-        case .login, .signup:
-            return .post
-        }
+        return .post
     }
 
     var task: Task {
@@ -38,17 +38,15 @@ extension AuthAPI: BaseAPI {
             let params: [String: Any]
             switch provider {
             case .kakao:
-                params = ["accessToken": DTO.token]
+                params = ["accessToken": DTO.accessToken]
             case .apple:
-                params = ["idToken": DTO.token]
+                params = ["idToken": DTO.accessToken]
             }
             return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
         case .signup(let DTO):
             return .requestJSONEncodable(DTO)
+        case .refresh(requestDTO: let DTO):
+            return .requestJSONEncodable(DTO)
         }
-    }
-    
-    var headers: [String : String]? {
-        return ["Content-Type": "application/json"]
     }
 }

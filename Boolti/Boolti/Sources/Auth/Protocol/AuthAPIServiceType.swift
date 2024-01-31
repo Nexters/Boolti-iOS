@@ -12,7 +12,9 @@ protocol AuthAPIServiceType {
 
     var networkService: NetworkProviderType { get }
     func fetchTokens() -> AuthToken
-    func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<LoginResponseDTO>
-    func signUp(provider: Provider)
+    func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<Bool>
+    func signUp(provider: Provider, identityToken: String?)
     func write(token: AuthToken)
+    func removeAllTokens()
+
 }

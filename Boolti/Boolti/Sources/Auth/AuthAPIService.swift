@@ -13,6 +13,8 @@ import RxMoya
 
 final class AuthAPIService: AuthAPIServiceType {
 
+    typealias isSignUpRequired = Bool
+
     let networkService: NetworkProviderType
     private let disposeBag = DisposeBag()
 
@@ -23,11 +25,13 @@ final class AuthAPIService: AuthAPIServiceType {
     func fetchTokens() -> AuthToken {
         return AuthToken(accessToken: UserDefaults.accessToken, refreshToken: UserDefaults.refreshToken)
     }
+    
+    // 로그인 API 활용해서 AccessToken, RefreshToken 가져오기
+    func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<isSignUpRequired> {
+        let loginRequestDTO = LoginRequestDTO(accessToken: providerToken)
+        let api = AuthAPI.login(provider: provider, requestDTO: loginRequestDTO)
 
-    func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<LoginResponseDTO> {
-        let loginRequestDTO = LoginRequestDTO(token: providerToken)
-
-        return networkService.request(AuthAPI.login(provider: provider, requestDTO: loginRequestDTO))
+        return networkService.request(api)
             .map(LoginResponseDTO.self)
             .do { [weak self] loginReponseDTO in
                 guard let accessToken = loginReponseDTO.accessToken,
@@ -36,59 +40,62 @@ final class AuthAPIService: AuthAPIServiceType {
                 let authToken = AuthToken(accessToken: accessToken, refreshToken: refreshToken)
                 self?.write(token: authToken)
             }
+            .map { $0.signUpRequired }
     }
 
-    // MARK: Kakao만 생각!..
+    // 회원가입 API 활용해서 AccessToken, RefreshToken 가져오기
+    func signUp(provider: Provider, identityToken: String?) {
+        switch provider {
+        case .kakao:
+            self.signUpKakao()
+        case .apple:
+            self.signUpApple(with: identityToken)
+        }
+    }
 
-
-    // 유저의 정보를 가져와서 서버와 회원가입 API 통신을 한다.
-    func signUp(provider: Provider) {
+    private func signUpKakao() {
         UserApi.shared.rx.me()
             .subscribe(with: self, onSuccess: { owner, user in
                 guard let email = user.kakaoAccount?.email,
-                      let name = user.kakaoAccount?.legalName,
                       let phoneNumber = user.kakaoAccount?.phoneNumber,
                       let nickName = user.kakaoAccount?.name,
                       let userID = user.id,
                       let imgPath = user.kakaoAccount?.profile?.profileImageUrl
-                else {
-                    return
-                }
+                else { return }
 
-                self.signInUser(
-                    name: name,
-                    nickName: nickName,
+                let requestDTO = SignUpRequestDTO(
+                    nickname: nickName,
                     email: email,
                     phoneNumber: phoneNumber,
-                    OAuthType: "KAKAO",
-                    OAuthIdentity: "\(userID)",
-                    imagePath: "\(imgPath)"
+                    oauthType: "KAKAO",
+                    oauthIdentity: "\(userID)",
+                    imgPath: "\(imgPath)"
                 )
+                let API = AuthAPI.signup(requestDTO: requestDTO)
+
+                self.requestSignUp(API)
+
             })
             .disposed(by: self.disposeBag)
     }
 
-    private func signInUser(
-        name: String?,
-        nickName: String,
-        email: String?,
-        phoneNumber: String?,
-        OAuthType: String,
-        OAuthIdentity: String,
-        imagePath: String?
-    ) {
-
+    private func signUpApple(with identityToken: String?) {
+        guard let identityToken else { return }
         let requestDTO = SignUpRequestDTO(
-            name: name,
-            nickname: nickName,
-            email: email,
-            phoneNumber: phoneNumber,
-            OAuthType: OAuthType,
-            OAuthIdentity: OAuthIdentity,
-            imgPath: imagePath
+            nickname: nil,
+            email: nil,
+            phoneNumber: nil,
+            oauthType: "APPLE",
+            oauthIdentity: identityToken,
+            imgPath: nil
         )
+        let API = AuthAPI.signup(requestDTO: requestDTO)
 
-        self.networkService.request(AuthAPI.signup(requestDTO: requestDTO))
+        self.requestSignUp(API)
+    }
+
+    private func requestSignUp(_ API: AuthAPI) {
+        self.networkService.request(API)
             .map(SignUpResponseDTO.self)
             .subscribe { [weak self] signUpResponseDTO in
                 guard let accessToken = signUpResponseDTO.accessToken,

@@ -10,4 +10,13 @@ import Foundation
 enum Provider: String {
     case apple = "KAKAO"
     case kakao = "APPLE"
+
+    var requestTokenDescription: String {
+        switch self {
+        case .kakao:
+            return "kakao"
+        case .apple:
+            return "appleid"
+        }
+    }
 }

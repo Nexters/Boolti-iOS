@@ -10,7 +10,7 @@ import RxSwift
 import RxMoya
 import Moya
 
-final class NetworkProvider: NetworkProviderType {
+class NetworkProvider: NetworkProviderType {
 
     private let provider: MoyaProvider<MultiTarget>
 
@@ -20,6 +20,7 @@ final class NetworkProvider: NetworkProviderType {
 
         self.provider = MoyaProvider<MultiTarget>(session: session, plugins: plugins)
     }
+    
     func request(_ api: BaseAPI) -> Single<Response> {
         let requestString = "\(api.path)"
         let endpoint = MultiTarget.target(api)

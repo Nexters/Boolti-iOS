@@ -27,7 +27,6 @@
 		84781C6B2B5BEA0000D37921 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C6A2B5BEA0000D37921 /* SnapKit */; };
 		84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C6C2B5BEA3800D37921 /* AuthInterceptor.swift */; };
 		84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C6F2B5BEAB800D37921 /* UserDefaults+.swift */; };
-		84781C722B5BEAC800D37921 /* RxMoya+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C712B5BEAC800D37921 /* RxMoya+.swift */; };
 		84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C742B5BEB5600D37921 /* UserDefault.swift */; };
 		84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */; };
 		84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */; };
@@ -135,6 +134,8 @@
 		8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */; };
 		8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */; };
 		8769BF9D2B6267CC00DA9A67 /* BooltiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */; };
+		876BF16C2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */; };
+		876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */; };
 		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
 		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
 		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
@@ -164,7 +165,6 @@
 		84781BEF2B5BE3C000D37921 /* NetworkProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProviderType.swift; sourceTree = "<group>"; };
 		84781C6C2B5BEA3800D37921 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		84781C6F2B5BEAB800D37921 /* UserDefaults+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+.swift"; sourceTree = "<group>"; };
-		84781C712B5BEAC800D37921 /* RxMoya+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxMoya+.swift"; sourceTree = "<group>"; };
 		84781C742B5BEB5600D37921 /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
@@ -252,6 +252,8 @@
 		8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewModel.swift; sourceTree = "<group>"; };
 		8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementDIContainer.swift; sourceTree = "<group>"; };
 		8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiButton.swift; sourceTree = "<group>"; };
+		876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshRequestDTO.swift; sourceTree = "<group>"; };
+		876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponseDTO.swift; sourceTree = "<group>"; };
 		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
@@ -440,7 +442,6 @@
 			isa = PBXGroup;
 			children = (
 				84781C6F2B5BEAB800D37921 /* UserDefaults+.swift */,
-				84781C712B5BEAC800D37921 /* RxMoya+.swift */,
 				848CBF022B65458900239303 /* Int+.swift */,
 				84975BF72B611EA500F903E7 /* UIFont+.swift */,
 				84FBBDFE2B67677A009462E9 /* UILabel+.swift */,
@@ -484,6 +485,7 @@
 			isa = PBXGroup;
 			children = (
 				84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */,
+				876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */,
 				8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */,
 			);
 			path = Request;
@@ -494,6 +496,7 @@
 			children = (
 				876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */,
 				8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */,
+				876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -920,7 +923,6 @@
 				84781BF02B5BE3C000D37921 /* NetworkProviderType.swift in Sources */,
 				8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */,
 				84781C9D2B5BF68900D37921 /* RootDIContainer.swift in Sources */,
-				84781C722B5BEAC800D37921 /* RxMoya+.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
 				84FBBDF92B67431D009462E9 /* UIImageView+.swift in Sources */,
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
@@ -937,6 +939,7 @@
 				84FBBE0B2B6888CB009462E9 /* InvitationCodeView.swift in Sources */,
 				8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */,
 				8746ACF92B65263E0037A1B1 /* UsedTicketTableViewCell.swift in Sources */,
+				876BF16C2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift in Sources */,
 				8766B55D2B6413C1004F266A /* TicketSection.swift in Sources */,
 				8746AD142B680A5C0037A1B1 /* TicketTypeTableViewCell.swift in Sources */,
 				84781C822B5BEC3900D37921 /* BaseResponseDTO.swift in Sources */,
@@ -968,6 +971,7 @@
 				84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */,
 				876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */,
 				84781CC52B5BF9DE00D37921 /* TicketViewController.swift in Sources */,
+				876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */,
 				8766B5642B648772004F266A /* ConfirmingDepositTableViewCell.swift in Sources */,
 				8746AD102B680A290037A1B1 /* SelectedTicketView.swift in Sources */,
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,
