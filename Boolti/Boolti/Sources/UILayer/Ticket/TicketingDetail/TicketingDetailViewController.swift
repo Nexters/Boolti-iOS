@@ -15,7 +15,7 @@ final class TicketingDetailViewController: UIViewController {
     
     let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
-    private let ticketingCompletionViewControllerFactory: () -> TicketingCompletionViewController
+    private let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController
     
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
@@ -68,7 +68,7 @@ final class TicketingDetailViewController: UIViewController {
 
     init(
         viewModel: TicketingDetailViewModel,
-        ticketingCompletionViewControllerFactory: @escaping () -> TicketingCompletionViewController
+        ticketingCompletionViewControllerFactory: @escaping (TicketingEntity) -> TicketingCompletionViewController
     ) {
         self.viewModel = viewModel
         self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
@@ -124,8 +124,10 @@ extension TicketingDetailViewController {
         
         self.payButton.rx.tap
             .bind(with: self, onNext: { owner, _ in
-                let viewController = self.ticketingCompletionViewControllerFactory
-                self.navigationController?.pushViewController(viewController(), animated: true)
+                
+                // 테스트용 데이터
+                let viewController = self.ticketingCompletionViewControllerFactory(TicketingEntity(ticketHolder: TicketingEntity.userInfo(name: .init(), phoneNumber: .init()), depositor: nil, selectedTicket: [self.viewModel.output.selectedTicket.value], paymentMethod: "", invitationCode: "asdf"))
+                self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: self.disposeBag)
     }

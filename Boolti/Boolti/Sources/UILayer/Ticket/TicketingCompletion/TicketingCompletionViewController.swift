@@ -58,11 +58,7 @@ final class TicketingCompletionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO: 초청 티켓 - 일반 티켓 분기처리
-        self.topContentView = self.depositSummaryView
-        self.topContentView = self.paymentCompletionView
-        [self.depositDetailView, self.copyButton].forEach { $0.isHidden = true }
-        
+        self.bindOutput()
         self.configureUI()
         self.configureConstraints()
         self.bindInput()
@@ -93,6 +89,20 @@ extension TicketingCompletionViewController {
         
         self.copyButton.rx.tap
             .bind(to: self.viewModel.input.didCopyButtonTap)
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindOutput() {
+        self.viewModel.output.ticketingData
+            .take(1)
+            .bind(with: self) { owner, data in
+                if data.selectedTicket.first?.price == 0 {
+                    self.topContentView = self.paymentCompletionView
+                    [self.depositDetailView, self.copyButton].forEach { $0.isHidden = true }
+                } else {
+                    self.topContentView = self.depositSummaryView
+                }
+            }
             .disposed(by: self.disposeBag)
     }
 }

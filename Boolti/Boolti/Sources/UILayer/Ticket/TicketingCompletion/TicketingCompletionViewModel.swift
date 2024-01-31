@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxRelay
 
 final class TicketingCompletionViewModel {
     
@@ -19,6 +20,7 @@ final class TicketingCompletionViewModel {
     }
 
     struct Output {
+        let ticketingData: BehaviorRelay<TicketingEntity>
     }
 
     let input: Input
@@ -26,9 +28,9 @@ final class TicketingCompletionViewModel {
 
 //    init(ticketAPIService: TicketAPIService) {
 //        self.ticketAPIService = ticketAPIService
-    init() {
+    init(ticketingEntity: TicketingEntity) {
         self.input = Input()
-        self.output = Output()
+        self.output = Output(ticketingData: BehaviorRelay<TicketingEntity>(value: ticketingEntity))
         
         self.bindInputs()
     }
