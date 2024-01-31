@@ -7,7 +7,21 @@
 
 import Foundation
 
-class TermsAgreementDIContainer {
+final class TermsAgreementDIContainer {
+
+    private let identityCode: String
+    private let provider: Provider
+    private let authAPIService: AuthAPIServiceType
+
+    init(
+        identityCode: String,
+        provider: Provider,
+        authAPIService: AuthAPIServiceType
+    ) {
+        self.identityCode = identityCode
+        self.provider = provider
+        self.authAPIService = authAPIService
+    }
 
     func createTermsAgreementViewController() -> TermsAgreementViewController {
         let viewController = TermsAgreementViewController(viewModel: self.createTermsAgreementViewModel())
@@ -16,7 +30,7 @@ class TermsAgreementDIContainer {
     }
 
     private func createTermsAgreementViewModel() -> TermsAgreementViewModel {
-        let viewModel = TermsAgreementViewModel()
+        let viewModel = TermsAgreementViewModel(identityCode: self.identityCode, provider: self.provider, authAPIService: self.authAPIService)
 
         return viewModel
     }

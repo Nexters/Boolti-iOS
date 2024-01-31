@@ -42,7 +42,7 @@ final class TicketViewModel {
 
     init(authAPIService: AuthAPIServiceType) {
         self.authAPIService = authAPIService
-
+        
         self.input = Input()
         self.output = Output()
 
@@ -87,7 +87,6 @@ final class TicketViewModel {
                 if ticketSections.isEmpty {
                     owner.output.isTicketsExist.accept(false)
                 } else {
-//                    owner.output.isTicketsExist.accept(false)
                     owner.output.sectionModels.accept(ticketSections)
                 }
             }

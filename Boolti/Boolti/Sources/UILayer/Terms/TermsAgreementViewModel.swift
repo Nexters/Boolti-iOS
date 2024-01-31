@@ -7,30 +7,44 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
-class TermsAgreementViewModel {
+final class TermsAgreementViewModel {
 
     struct Input {
-        var agreementButtonDidTapEvent = PublishSubject<Void>()
+        var didAgreementButtonTapEvent = PublishSubject<Void>()
+    }
+
+    struct Output {
+        var didsignUpFinished = PublishRelay<Void>()
     }
 
     let input: Input
+    let output: Output
+
+    private let authAPIService: AuthAPIServiceType
+    private let identityCode: String
+    private let provider: Provider
+
     private let disposeBag = DisposeBag()
 
-    // 현재는 의존성 없음
-    init() {
+    init(identityCode: String, provider: Provider, authAPIService: AuthAPIServiceType) {
+        self.identityCode = identityCode
+        self.provider = provider
+        self.authAPIService = authAPIService
+
         self.input = Input()
+        self.output = Output()
+
         self.bindInputs()
     }
 
     private func bindInputs() {
-        // 현재는 ViewModel에서 처리할 일이 없음!..
-//        self.input.agreementButtonDidTapEvent
-//            .subscribe(with: self) { owner, _ in
-//                <#code#>
-//            }
-//            .disposed(by: self.disposeBag)
+        self.input.didAgreementButtonTapEvent
+            .subscribe(with: self) { owner, _ in
+                owner.authAPIService.signUp(provider: owner.provider, identityToken: owner.identityCode)
+                owner.output.didsignUpFinished.accept(())
+            }
+            .disposed(by: self.disposeBag)
     }
-
-
 }

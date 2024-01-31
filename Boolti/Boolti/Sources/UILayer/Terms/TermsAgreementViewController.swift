@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TermsAgreementViewController: UIViewController {
+final class TermsAgreementViewController: UIViewController {
 
     private let viewModel: TermsAgreementViewModel
 
@@ -62,13 +62,19 @@ class TermsAgreementViewController: UIViewController {
 
     private func bindViewModel() {
         self.bindInputs()
+        self.bindOutputs()
     }
 
     private func bindInputs() {
-        // 현재 ViewModel에서 처리하는 것이 없기에 그냥 VC에서 해결!..
         self.agreementButton.rx.tap
             .asDriver()
-            .drive(with: self) { owner, _ in
+            .drive(self.viewModel.input.didAgreementButtonTapEvent)
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindOutputs() {
+        self.viewModel.output.didsignUpFinished
+            .subscribe(with: self) { owner, _ in
                 owner.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
             }
             .disposed(by: self.disposeBag)

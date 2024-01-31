@@ -21,7 +21,6 @@ final class LoginViewModel {
 
     struct Output {
         typealias didSignedUp = Bool
-
         var didloginFinished = PublishRelay<didSignedUp>()
     }
 
@@ -31,13 +30,15 @@ final class LoginViewModel {
     private let authAPIService: AuthAPIServiceType
     private let socialLoginAPIService: SocialLoginAPIServiceType
 
+    var identityToken: String?
+    var provider: Provider?
+
     private let disposeBag = DisposeBag()
-    private var identityToken: String?
 
     init(authAPIService: AuthAPIServiceType, socialLoginAPIService: SocialLoginAPIServiceType) {
         self.authAPIService = authAPIService
         self.socialLoginAPIService = socialLoginAPIService
-
+        
         self.input = Input()
         self.output = Output()
         self.bindInputs()
@@ -46,6 +47,7 @@ final class LoginViewModel {
     private func bindInputs() {
         self.input.loginButtonDidTapEvent
             .subscribe(with: self) { owner, provider in
+                owner.provider = provider
                 // 먼저 카카오 로그인을 통해서 accesstoken을 받아오기
                 owner.socialLoginAPIService.authorize(provider: provider)
                     .flatMap({ OAuthResponse -> Single<Bool> in
@@ -55,11 +57,9 @@ final class LoginViewModel {
                     })
                     .subscribe(with: self) { owner, isSignUpRequired in
                         if isSignUpRequired { // 회원가입이 필요하다.
-                            guard let identityToken = owner.identityToken else { return }
-                            owner.authAPIService.signUp(provider: provider, identityToken: identityToken)
-                            owner.output.didloginFinished.accept(false)
-                        } else { // 회원가입이 필요없다.
                             owner.output.didloginFinished.accept(true)
+                        } else { // 회원가입이 필요없다.
+                            owner.output.didloginFinished.accept(false)
                         }
                     }
                     .disposed(by: owner.disposeBag)

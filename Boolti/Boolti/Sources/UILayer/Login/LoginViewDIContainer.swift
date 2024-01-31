@@ -19,8 +19,8 @@ final class LoginViewDIContainer {
 
     func createLoginViewController() -> LoginViewController {
 
-        let termsAgreementControllerFactory: () -> TermsAgreementViewController = {
-            let DIContainer = self.createTermsAgreementViewDIContainer()
+        let termsAgreementControllerFactory: (String, Provider) -> TermsAgreementViewController = { identityCode, provider in
+            let DIContainer = self.createTermsAgreementViewDIContainer(identityCode: identityCode, provider: provider)
 
             let viewController = DIContainer.createTermsAgreementViewController()
             return viewController
@@ -40,7 +40,7 @@ final class LoginViewDIContainer {
         return viewModel
     }
 
-    private func createTermsAgreementViewDIContainer() -> TermsAgreementDIContainer {
-        return TermsAgreementDIContainer()
+    private func createTermsAgreementViewDIContainer(identityCode: String, provider: Provider) -> TermsAgreementDIContainer {
+        return TermsAgreementDIContainer(identityCode: identityCode, provider: provider ,authAPIService: self.authAPIService)
     }
 }

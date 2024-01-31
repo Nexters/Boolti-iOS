@@ -14,4 +14,5 @@ protocol AuthAPIServiceType {
     func fetchTokens() -> (String, String)
     func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<Bool>
     func signUp(provider: Provider, identityToken: String?)
+    func removeAllTokens()
 }

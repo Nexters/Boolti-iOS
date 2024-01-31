@@ -31,13 +31,11 @@ final class AuthAPIService: AuthAPIServiceType {
     func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<isSignUpRequired> {
         let loginRequestDTO = LoginRequestDTO(accessToken: providerToken)
         let api = AuthAPI.login(provider: provider, requestDTO: loginRequestDTO)
-
         return networkService.request(api)
             .map(LoginResponseDTO.self)
             .do { loginReponseDTO in
                 guard let accessToken = loginReponseDTO.accessToken,
                       let refreshToken = loginReponseDTO.refreshToken else { return }
-
                 UserDefaults.accessToken = accessToken
                 UserDefaults.refreshToken = refreshToken
             }
@@ -57,23 +55,22 @@ final class AuthAPIService: AuthAPIServiceType {
     private func signUpKakao() {
         UserApi.shared.rx.me()
             .subscribe(with: self, onSuccess: { owner, user in
-                guard let email = user.kakaoAccount?.email,
-                      let phoneNumber = user.kakaoAccount?.phoneNumber,
-                      let nickName = user.kakaoAccount?.name,
-                      let userID = user.id,
-                      let imgPath = user.kakaoAccount?.profile?.profileImageUrl
-                else { return }
+                let email = user.kakaoAccount?.email
+                let phoneNumber = user.kakaoAccount?.phoneNumber
+                let nickName = user.kakaoAccount?.name
+                guard let userID = user.id else { return }
+                let imgPath = user.kakaoAccount?.profile?.profileImageUrl
 
                 let requestDTO = SignUpRequestDTO(
                     nickname: nickName,
                     email: email,
                     phoneNumber: phoneNumber,
                     oauthType: "KAKAO",
-                    oauthIdentity: "\(userID)",
-                    imgPath: "\(imgPath)"
+                    oauthIdentity: String(userID),
+                    imgPath: "\(String(describing: imgPath))"
                 )
+                
                 let API = AuthAPI.signup(requestDTO: requestDTO)
-
                 self.requestSignUp(API)
             })
             .disposed(by: self.disposeBag)
