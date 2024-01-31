@@ -18,11 +18,23 @@ final class TicketingDetailDIContainer {
     func createTicketingDetailViewController(selectedTicket: TicketEntity) -> TicketingDetailViewController {
         let viewModel = createTicketingDetailViewModel(selectedTicket: selectedTicket)
         
+        let ticketingCompletionViewControllerFactory: () -> TicketingCompletionViewController = {
+            let DIContainer = self.createTicketingCompletionDIContainer()
+
+            let viewController = DIContainer.createTicketingCompletionViewController()
+            return viewController
+        }
+
         let viewController = TicketingDetailViewController(
-            viewModel: viewModel
+            viewModel: viewModel,
+            ticketingCompletionViewControllerFactory: ticketingCompletionViewControllerFactory
         )
         
         return viewController
+    }
+    
+    private func createTicketingCompletionDIContainer() -> TicketingCompletionDIContainer {
+        return TicketingCompletionDIContainer()
     }
 
     private func createTicketingDetailViewModel(selectedTicket: TicketEntity) -> TicketingDetailViewModel {

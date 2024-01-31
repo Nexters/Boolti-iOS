@@ -15,6 +15,7 @@ final class TicketingDetailViewController: UIViewController {
     
     let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
+    private let ticketingCompletionViewControllerFactory: () -> TicketingCompletionViewController
     
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
@@ -64,11 +65,16 @@ final class TicketingDetailViewController: UIViewController {
     private let payButton = BooltiButton(title: "\(0.formattedCurrency())원 결제하기")
     
     // MARK: Init
-    
-    init(viewModel: TicketingDetailViewModel) {
+
+    init(
+        viewModel: TicketingDetailViewModel,
+        ticketingCompletionViewControllerFactory: @escaping () -> TicketingCompletionViewController
+    ) {
         self.viewModel = viewModel
+        self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
+
     
     required init?(coder: NSCoder) {
         fatalError()
@@ -113,6 +119,13 @@ extension TicketingDetailViewController {
         self.navigationView.didBackButtonTap()
             .emit(with: self, onNext: { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.payButton.rx.tap
+            .bind(with: self, onNext: { owner, _ in
+                let viewController = self.ticketingCompletionViewControllerFactory
+                self.navigationController?.pushViewController(viewController(), animated: true)
             })
             .disposed(by: self.disposeBag)
     }
