@@ -114,6 +114,7 @@ extension TicketingDetailViewController {
 
     private func bindOutputs() {
         self.policyView.policyLabelHeight
+            .map { $0 + 40 }
             .asDriver(onErrorJustReturn: 0)
             .drive(with: self, onNext: { owner, viewHeight in
                 let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.size.height + viewHeight)
