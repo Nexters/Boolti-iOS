@@ -60,16 +60,16 @@ final class AuthAPIService: AuthAPIServiceType {
                 let nickName = user.kakaoAccount?.name
                 guard let userID = user.id else { return }
                 let imgPath = user.kakaoAccount?.profile?.profileImageUrl
-
+                
                 let requestDTO = SignUpRequestDTO(
                     nickname: nickName,
                     email: email,
                     phoneNumber: phoneNumber,
                     oauthType: "KAKAO",
                     oauthIdentity: String(userID),
-                    imgPath: "\(String(describing: imgPath))"
+                    imgPath: imgPath?.absoluteString
                 )
-                
+
                 let API = AuthAPI.signup(requestDTO: requestDTO)
                 self.requestSignUp(API)
             })
