@@ -60,6 +60,7 @@
 		84896A432B6A583200CB3E33 /* TicketingCompletionDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A422B6A583200CB3E33 /* TicketingCompletionDIContainer.swift */; };
 		84896A452B6A672800CB3E33 /* TicketingCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A442B6A672800CB3E33 /* TicketingCompletionViewController.swift */; };
 		84896A472B6A677400CB3E33 /* TicketingCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A462B6A677400CB3E33 /* TicketingCompletionViewModel.swift */; };
+		84896A532B6A86A800CB3E33 /* OTSAggroM.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84896A522B6A86A800CB3E33 /* OTSAggroM.otf */; };
 		848CBF032B65458900239303 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF022B65458900239303 /* Int+.swift */; };
 		848CBF062B6547FA00239303 /* TicketingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */; };
 		848CBF082B65480A00239303 /* TicketingDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */; };
@@ -197,6 +198,7 @@
 		84896A422B6A583200CB3E33 /* TicketingCompletionDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionDIContainer.swift; sourceTree = "<group>"; };
 		84896A442B6A672800CB3E33 /* TicketingCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionViewController.swift; sourceTree = "<group>"; };
 		84896A462B6A677400CB3E33 /* TicketingCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionViewModel.swift; sourceTree = "<group>"; };
+		84896A522B6A86A800CB3E33 /* OTSAggroM.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OTSAggroM.otf; sourceTree = "<group>"; };
 		848CBF022B65458900239303 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailViewController.swift; sourceTree = "<group>"; };
 		848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailViewModel.swift; sourceTree = "<group>"; };
@@ -629,6 +631,7 @@
 				84975BFE2B6123E500F903E7 /* Pretendard-Regular.otf */,
 				84975BFD2B6123E500F903E7 /* Pretendard-SemiBold.otf */,
 				84FBBDFC2B675E78009462E9 /* OTSBAggroB.otf */,
+				84896A522B6A86A800CB3E33 /* OTSAggroM.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -893,6 +896,7 @@
 				84781BD92B5BDAFD00D37921 /* LaunchScreen.storyboard in Resources */,
 				84781BD62B5BDAFD00D37921 /* Assets.xcassets in Resources */,
 				84975BFF2B6123E500F903E7 /* Pretendard-SemiBold.otf in Resources */,
+				84896A532B6A86A800CB3E33 /* OTSAggroM.otf in Resources */,
 				84975C002B6123E500F903E7 /* Pretendard-Regular.otf in Resources */,
 				876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */,
 				84975BEF2B6113D000F903E7 /* Colors.xcassets in Resources */,
