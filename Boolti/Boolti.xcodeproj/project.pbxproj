@@ -92,6 +92,7 @@
 		8746AD122B680A3E0037A1B1 /* TicketTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD112B680A3E0037A1B1 /* TicketTypeView.swift */; };
 		8746AD142B680A5C0037A1B1 /* TicketTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD132B680A5C0037A1B1 /* TicketTypeTableViewCell.swift */; };
 		8746AD162B680A700037A1B1 /* SelectedTicketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD152B680A700037A1B1 /* SelectedTicketTableViewCell.swift */; };
+		8746AD202B6932B30037A1B1 /* ConcertEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */; };
 		8757BA972B5FA6B0008503B5 /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */; };
 		8757BA992B5FC573008503B5 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA982B5FC573008503B5 /* AuthToken.swift */; };
 		8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */; };
@@ -193,6 +194,7 @@
 		8746AD112B680A3E0037A1B1 /* TicketTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketTypeView.swift; sourceTree = "<group>"; };
 		8746AD132B680A5C0037A1B1 /* TicketTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8746AD152B680A700037A1B1 /* SelectedTicketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTicketTableViewCell.swift; sourceTree = "<group>"; };
+		8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertEnterView.swift; sourceTree = "<group>"; };
 		8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		8757BA982B5FC573008503B5 /* AuthToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthToken.swift; sourceTree = "<group>"; };
 		8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 		84781CCA2B5C002D00D37921 /* Concert */ = {
 			isa = PBXGroup;
 			children = (
+				8746AD1E2B6932970037A1B1 /* HomeEnter */,
 				84781CCB2B5C003700D37921 /* ConcertDIContainer.swift */,
 				84781CCD2B5C005600D37921 /* ConcertViewController.swift */,
 				84781CCF2B5C006500D37921 /* ConcertViewModel.swift */,
@@ -617,10 +620,26 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		8757BA9A2B5FCBF9008503B5 /* Login */ = {
+		8746AD182B6903FA0037A1B1 /* LoginEnter */ = {
 			isa = PBXGroup;
 			children = (
 				8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */,
+			);
+			path = LoginEnter;
+			sourceTree = "<group>";
+		};
+		8746AD1E2B6932970037A1B1 /* HomeEnter */ = {
+			isa = PBXGroup;
+			children = (
+				8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */,
+			);
+			path = HomeEnter;
+			sourceTree = "<group>";
+		};
+		8757BA9A2B5FCBF9008503B5 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				8746AD182B6903FA0037A1B1 /* LoginEnter */,
 				8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */,
 				8757BAA12B5FDE0D008503B5 /* LoginViewModel.swift */,
 				8757BA9F2B5FDDAB008503B5 /* LoginViewDIContainer.swift */,
@@ -861,6 +880,7 @@
 				84781CBA2B5BF90C00D37921 /* HomeTabBarViewModel.swift in Sources */,
 				84781CC72B5BF9F700D37921 /* TicketDIContainer.swift in Sources */,
 				8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */,
+				8746AD202B6932B30037A1B1 /* ConcertEnterView.swift in Sources */,
 				84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */,
 				84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,

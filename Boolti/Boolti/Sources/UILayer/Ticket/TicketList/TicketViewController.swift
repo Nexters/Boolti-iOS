@@ -15,7 +15,7 @@ import SnapKit
 final class TicketViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
-
+    
     private let viewModel: TicketViewModel
     private let disposeBag = DisposeBag()
 
@@ -34,6 +34,17 @@ final class TicketViewController: BooltiViewController {
 
     private let loginEnterView: LoginEnterView = {
         let view = LoginEnterView()
+        // 색깔은 바꿔줄 예정!..
+        view.backgroundColor = .black100
+        view.isHidden = true
+
+        return view
+    }()
+
+    private let concertEnterView: ConcertEnterView = {
+        let view = ConcertEnterView()
+        view.backgroundColor = .black100
+        view.isHidden = true
 
         return view
     }()
@@ -59,16 +70,33 @@ final class TicketViewController: BooltiViewController {
         self.bindViewModel()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.loginEnterView.isHidden = true
+    }
+
     private func configureUI() {
-        self.view.addSubview(self.tableView)
+        self.view.addSubviews([
+            self.tableView,
+            self.loginEnterView,
+            self.concertEnterView
+        ])
 
         self.tableView.rx
             .setDelegate(self)
             .disposed(by: self.disposeBag)
 
         self.tableView.snp.makeConstraints { make in
-            make.verticalEdges.equalTo(self.view.safeAreaLayoutGuide)
+            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(25)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
+        self.loginEnterView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+
+        self.concertEnterView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
 
@@ -79,7 +107,6 @@ final class TicketViewController: BooltiViewController {
     
     private func bindInput() {
         self.rx.viewDidAppear
-            .take(1)
             .asDriver(onErrorJustReturn: true)
             .drive(with: self, onNext: { owner, _ in
                 owner.viewModel.input.viewDidAppearEvent.onNext(())
@@ -90,6 +117,13 @@ final class TicketViewController: BooltiViewController {
             .asDriver()
             .drive(self.viewModel.input.didloginButtonTapEvent)
             .disposed(by: self.disposeBag)
+        
+        self.concertEnterView.navigateToHomeButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.tabBarController?.selectedIndex = 0
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindOutput() {
@@ -97,9 +131,22 @@ final class TicketViewController: BooltiViewController {
         self.viewModel.output.isAccessTokenLoaded
             .asDriver(onErrorJustReturn: false)
             .drive(with: self, onNext: { owner, isLoaded in
-                guard !isLoaded else { return }
-                // accessToken이 없으므로 Login 화면으로 가기!..
+                // AccessToken이 없으면 -> LoginEnterView를 띄우기!..
+                if !isLoaded {
+                    owner.loginEnterView.isHidden = false
+                } else {
+                // AcessToken이 있으면 -> TableView를 띄어야한다고 VM에게 알리기
+                    owner.viewModel.input.shouldLoadTableViewEvent.onNext(())
+                }
             })
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.isTicketsExist
+            .subscribe(with: self) { owner, isTicketsExist in
+                if !isTicketsExist {
+                    owner.concertEnterView.isHidden = false
+                }
+            }
             .disposed(by: self.disposeBag)
 
         self.viewModel.output.sectionModels
@@ -120,6 +167,8 @@ final class TicketViewController: BooltiViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+
+
     }
 
     private func dataSource() -> RxTableViewSectionedReloadDataSource<TicketSection> {
