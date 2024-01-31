@@ -60,6 +60,7 @@
 		84896A432B6A583200CB3E33 /* TicketingCompletionDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A422B6A583200CB3E33 /* TicketingCompletionDIContainer.swift */; };
 		84896A452B6A672800CB3E33 /* TicketingCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A442B6A672800CB3E33 /* TicketingCompletionViewController.swift */; };
 		84896A472B6A677400CB3E33 /* TicketingCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A462B6A677400CB3E33 /* TicketingCompletionViewModel.swift */; };
+		84896A4F2B6A723900CB3E33 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A4E2B6A723900CB3E33 /* Date+.swift */; };
 		84896A532B6A86A800CB3E33 /* OTSAggroM.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84896A522B6A86A800CB3E33 /* OTSAggroM.otf */; };
 		848CBF032B65458900239303 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF022B65458900239303 /* Int+.swift */; };
 		848CBF062B6547FA00239303 /* TicketingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */; };
@@ -198,6 +199,7 @@
 		84896A422B6A583200CB3E33 /* TicketingCompletionDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionDIContainer.swift; sourceTree = "<group>"; };
 		84896A442B6A672800CB3E33 /* TicketingCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionViewController.swift; sourceTree = "<group>"; };
 		84896A462B6A677400CB3E33 /* TicketingCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionViewModel.swift; sourceTree = "<group>"; };
+		84896A4E2B6A723900CB3E33 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		84896A522B6A86A800CB3E33 /* OTSAggroM.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OTSAggroM.otf; sourceTree = "<group>"; };
 		848CBF022B65458900239303 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailViewController.swift; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 				84FBBDF82B67431D009462E9 /* UIImageView+.swift */,
 				84625A152B63C33D00CC9077 /* UITableViewCell+.swift */,
 				84FEF6162B68A6D100EBB64F /* UIResponder+.swift */,
+				84896A4E2B6A723900CB3E33 /* Date+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -947,6 +950,7 @@
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
 				876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */,
 				847AA70E2B62B55500E5B55C /* BooltiNavigationView.swift in Sources */,
+				84896A4F2B6A723900CB3E33 /* Date+.swift in Sources */,
 				84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */,
 				8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */,
 				8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */,
