@@ -62,11 +62,6 @@ final class TicketingCompletionViewController: UIViewController {
         self.configureUI()
         self.configureConstraints()
         self.bindInput()
-        
-        // 테스트용
-        self.depositSummaryView.setData(date: Date(), price: 5000)
-        self.reservedTicketView.setData(concert: "2024 TOGETHER LUCKY CLUB", selectedTicket: TicketEntity(id: 0, name: "일반 티켓 B", price: 5000, inventory: 1))
-        self.depositDetailView.setData(depositDeadline: Date())
     }
 }
 
@@ -96,12 +91,18 @@ extension TicketingCompletionViewController {
         self.viewModel.output.ticketingData
             .take(1)
             .bind(with: self) { owner, data in
-                if data.selectedTicket.first?.price == 0 {
+                guard let selectedTicket = data.selectedTicket.first else { return }
+                if selectedTicket.price == 0 {
                     self.topContentView = self.paymentCompletionView
                     [self.depositDetailView, self.copyButton].forEach { $0.isHidden = true }
                 } else {
                     self.topContentView = self.depositSummaryView
                 }
+                
+                // TODO: 공연 이름도 가져와야함! entity 수정필요
+                self.depositSummaryView.setData(date: Date(), price: selectedTicket.price)
+                self.reservedTicketView.setData(concert: "2024 TOGETHER LUCKY CLUB", selectedTicket: selectedTicket)
+                self.depositDetailView.setData(depositDeadline: Date())
             }
             .disposed(by: self.disposeBag)
     }
