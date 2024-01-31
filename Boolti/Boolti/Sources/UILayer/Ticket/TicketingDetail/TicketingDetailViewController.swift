@@ -23,6 +23,7 @@ final class TicketingDetailViewController: UIViewController {
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.showsVerticalScrollIndicator = false
+        view.contentInset = .init(top: 0, left: 0, bottom: 40, right: 0)
         return view
     }()
     
@@ -40,12 +41,6 @@ final class TicketingDetailViewController: UIViewController {
     
     private let policyView = PolicyView()
     
-    private let spacingView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .grey95
-        return view
-    }()
-    
     private lazy var stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -57,8 +52,7 @@ final class TicketingDetailViewController: UIViewController {
                                   self.ticketInfoView,
                                   self.paymentMethodView,
                                   self.invitationCodeView,
-                                  self.policyView,
-                                  self.spacingView])
+                                  self.policyView])
         return view
     }()
     
@@ -184,10 +178,6 @@ extension TicketingDetailViewController {
             make.top.equalTo(self.navigationView.snp.bottom)
             make.width.equalToSuperview()
             make.bottom.equalTo(self.payButton.snp.top).offset(-8)
-        }
-        
-        self.spacingView.snp.makeConstraints { make in
-            make.height.equalTo(38)
         }
         
         self.stackView.snp.makeConstraints { make in
