@@ -19,7 +19,11 @@ final class TicketingCompletionViewController: UIViewController {
     
     private let navigationView = BooltiNavigationView(type: .ticketingCompletion)
     
+    private var topContentView = UIView()
+    
     private let depositSummaryView = DepositSummaryView()
+    
+    private let paymentCompletionView = PaymentCompletionView()
     
     private let underlineView: UIView = {
         let view = UIView()
@@ -53,6 +57,11 @@ final class TicketingCompletionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // TODO: 초청 티켓 - 일반 티켓 분기처리
+        self.topContentView = self.depositSummaryView
+        self.topContentView = self.paymentCompletionView
+        [self.depositDetailView, self.copyButton].forEach { $0.isHidden = true }
         
         self.configureUI()
         self.configureConstraints()
@@ -94,7 +103,7 @@ extension TicketingCompletionViewController {
     
     private func configureUI() {
         self.view.addSubviews([self.navigationView,
-                               self.depositSummaryView,
+                               self.topContentView,
                                self.underlineView,
                                self.reservedTicketView,
                                self.depositDetailView,
@@ -110,13 +119,13 @@ extension TicketingCompletionViewController {
             make.horizontalEdges.equalToSuperview()
         }
         
-        self.depositSummaryView.snp.makeConstraints { make in
+        self.topContentView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
         }
         
         self.underlineView.snp.makeConstraints { make in
-            make.top.equalTo(self.depositSummaryView.snp.bottom)
+            make.top.equalTo(self.topContentView.snp.bottom)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(1)
         }
