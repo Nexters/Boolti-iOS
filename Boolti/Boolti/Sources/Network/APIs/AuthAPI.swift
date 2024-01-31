@@ -15,7 +15,7 @@ enum AuthAPI {
     case refresh(requestDTO: TokenRefreshRequestDTO)
 }
 
-extension AuthAPI: BaseAPI {
+extension AuthAPI: ServiceAPI {
 
     var path: String {
         switch self {

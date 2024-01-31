@@ -135,6 +135,8 @@
 		876BF16C2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */; };
 		876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */; };
 		876BF1702B6A5FEF00DB4BCB /* RefreshAuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16F2B6A5FEF00DB4BCB /* RefreshAuthAPIService.swift */; };
+		876BF1722B6A925C00DB4BCB /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF1712B6A925C00DB4BCB /* ServiceAPI.swift */; };
+		876BF1742B6A939900DB4BCB /* LogoutAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF1732B6A939900DB4BCB /* LogoutAPI.swift */; };
 		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
 		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
 		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
@@ -252,6 +254,8 @@
 		876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshRequestDTO.swift; sourceTree = "<group>"; };
 		876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponseDTO.swift; sourceTree = "<group>"; };
 		876BF16F2B6A5FEF00DB4BCB /* RefreshAuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshAuthAPIService.swift; sourceTree = "<group>"; };
+		876BF1712B6A925C00DB4BCB /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
+		876BF1732B6A939900DB4BCB /* LogoutAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutAPI.swift; sourceTree = "<group>"; };
 		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
@@ -503,6 +507,8 @@
 			children = (
 				84781C862B5BED9A00D37921 /* BaseAPI.swift */,
 				84975BE82B60E04500F903E7 /* AuthAPI.swift */,
+				876BF1732B6A939900DB4BCB /* LogoutAPI.swift */,
+				876BF1712B6A925C00DB4BCB /* ServiceAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -942,6 +948,7 @@
 				84781CAD2B5BF7A200D37921 /* HomeTabBarDIContainer.swift in Sources */,
 				84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */,
 				84781CAA2B5BF72200D37921 /* SplashViewModel.swift in Sources */,
+				876BF1742B6A939900DB4BCB /* LogoutAPI.swift in Sources */,
 				84FEF6192B68ACDD00EBB64F /* TicketingEntity.swift in Sources */,
 				8757BAA42B5FDEA2008503B5 /* SocialLoginAPIServiceType.swift in Sources */,
 				8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */,
@@ -961,6 +968,7 @@
 				84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* SocialLoginAPIService.swift in Sources */,
 				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
+				876BF1722B6A925C00DB4BCB /* ServiceAPI.swift in Sources */,
 				84781CC02B5BF98600D37921 /* MypageViewController.swift in Sources */,
 				84FBBE012B677187009462E9 /* BooltiTextField.swift in Sources */,
 				84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */,
