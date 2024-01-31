@@ -35,7 +35,7 @@ extension UILabel {
                 )
             }
             
-            attributedText = attributedString
+            self.attributedText = attributedString
         }
     }
 }

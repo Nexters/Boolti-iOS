@@ -15,6 +15,29 @@ final class TicketingCompletionViewController: UIViewController {
     let viewModel: TicketingCompletionViewModel
     private let disposeBag = DisposeBag()
     
+    // MARK: UI Component
+    
+    private let navigationView = BooltiNavigationView(type: .ticketingCompletion)
+    
+    private let depositSummaryView = DepositSummaryView()
+    
+    private let underlineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey85
+        return view
+    }()
+    
+    private let reservedTicketView = ReservedTicketView()
+    
+    private let depositDetailView = DepositDetailView()
+    
+    private let copyButton: BooltiButton = {
+        let button = BooltiButton(title: "계좌번호 복사하기")
+        button.backgroundColor = .grey20
+        button.setTitleColor(.grey90, for: .normal)
+        return button
+    }()
+    
     // MARK: Init
     
     init(viewModel: TicketingCompletionViewModel) {
@@ -30,5 +53,87 @@ final class TicketingCompletionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.configureUI()
+        self.configureConstraints()
+        self.bindInput()
+        
+        // 테스트용
+        self.depositSummaryView.setData(date: Date(), price: 5000)
+        self.reservedTicketView.setData(concert: "2024 TOGETHER LUCKY CLUB", selectedTicket: TicketEntity(id: 0, name: "일반 티켓 B", price: 5000, inventory: 1))
+        self.depositDetailView.setData(depositDeadline: Date())
+    }
+}
+
+// MARK: - Methods
+
+extension TicketingCompletionViewController {
+    
+    private func bindInput() {
+        self.navigationView.didHomeButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popToRootViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.navigationView.didCloseButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popToRootViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.copyButton.rx.tap
+            .bind(to: self.viewModel.input.didCopyButtonTap)
+            .disposed(by: self.disposeBag)
+    }
+}
+
+// MARK: - UI
+
+extension TicketingCompletionViewController {
+    
+    private func configureUI() {
+        self.view.addSubviews([self.navigationView,
+                               self.depositSummaryView,
+                               self.underlineView,
+                               self.reservedTicketView,
+                               self.depositDetailView,
+                               self.copyButton])
+        
+        self.view.backgroundColor = .grey95
+    }
+    
+    private func configureConstraints() {
+        
+        self.navigationView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.depositSummaryView.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationView.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.underlineView.snp.makeConstraints { make in
+            make.top.equalTo(self.depositSummaryView.snp.bottom)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(1)
+        }
+        
+        self.reservedTicketView.snp.makeConstraints { make in
+            make.top.equalTo(self.underlineView.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.depositDetailView.snp.makeConstraints { make in
+            make.top.equalTo(self.reservedTicketView.snp.bottom)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        self.copyButton.snp.makeConstraints { make in
+            make.top.equalTo(self.depositDetailView.snp.bottom).offset(16)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
     }
 }

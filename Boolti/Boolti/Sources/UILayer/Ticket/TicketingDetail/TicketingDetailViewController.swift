@@ -22,7 +22,7 @@ final class TicketingDetailViewController: UIViewController {
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationView(type: .payment)
+    private let navigationView = BooltiNavigationView(type: .ticketingDetail)
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -93,7 +93,7 @@ final class TicketingDetailViewController: UIViewController {
         self.bindOutputs()
         
         // 확인용 - 공연 리스트 뷰 만들어지면 연결
-        concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: "2024.03.09 (토) 17:00")
+        concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: Date())
     }
 }
 
