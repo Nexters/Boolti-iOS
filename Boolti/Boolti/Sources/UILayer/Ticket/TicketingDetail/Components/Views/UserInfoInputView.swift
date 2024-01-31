@@ -10,8 +10,8 @@ import RxSwift
 import RxCocoa
 
 enum userInfoInputType {
-    case TicketHolder
-    case Depositor
+    case ticketHolder
+    case depositor
 }
 
 final class UserInfoInputView: UIView {
@@ -87,9 +87,9 @@ final class UserInfoInputView: UIView {
         super.init(frame: .zero)
         
         switch type {
-        case .TicketHolder:
+        case .ticketHolder:
             self.configureTicketHolderUI()
-        case .Depositor:
+        case .depositor:
             self.configureDepositorUI()
         }
         

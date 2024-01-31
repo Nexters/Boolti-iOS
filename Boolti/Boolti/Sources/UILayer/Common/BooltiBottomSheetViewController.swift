@@ -10,8 +10,8 @@ import RxSwift
 import SnapKit
 
 enum BottomSheetContentType {
-    case TicketTypeList
-    case SelectedTicket
+    case ticketTypeList
+    case selectedTicket
 }
 
 class BooltiBottomSheetViewController: UIViewController {
@@ -104,9 +104,9 @@ extension BooltiBottomSheetViewController {
                 sheet.detents = [
                     .custom { _ in
                         switch contentType {
-                        case .TicketTypeList:
+                        case .ticketTypeList:
                             return min(self.headerHeight + contentHeight + 20, self.headerHeight + 484)
-                        case .SelectedTicket:
+                        case .selectedTicket:
                             return min(self.headerHeight + contentHeight, self.headerHeight + 484)
                         }
                     }

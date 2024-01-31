@@ -57,7 +57,7 @@ extension TicketSelectionViewController {
             .drive(with: self, onNext: { owner, entity  in
                 guard entity.inventory > 0 else { return }
                 owner.viewModel.input.didTicketSelect.onNext(entity)
-                owner.showContentView(.SelectedTicket)
+                owner.showContentView(.selectedTicket)
             })
             .disposed(by: self.disposeBag)
         
@@ -99,21 +99,21 @@ extension TicketSelectionViewController {
         self.viewModel.output.showTicketTypeView
             .asDriver(onErrorJustReturn: ())
             .drive(with: self, onNext: { owner, _ in
-                owner.showContentView(.TicketTypeList)
+                owner.showContentView(.ticketTypeList)
             })
             .disposed(by: self.disposeBag)
     }
     
     private func showContentView(_ view: BottomSheetContentType) {
         switch view {
-        case .TicketTypeList:
+        case .ticketTypeList:
             self.ticketTypeView.isHidden = false
             self.selectedTicketView.isHidden = true
-            self.setDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count) * self.ticketTypeView.cellHeight, contentType: .TicketTypeList)
-        case .SelectedTicket:
+            self.setDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count) * self.ticketTypeView.cellHeight, contentType: .ticketTypeList)
+        case .selectedTicket:
             self.ticketTypeView.isHidden = true
             self.selectedTicketView.isHidden = false
-            self.setDetent(contentHeight: CGFloat(self.viewModel.output.selectedTickets.value.count) * self.selectedTicketView.cellHeight + 122, contentType: .SelectedTicket)
+            self.setDetent(contentHeight: CGFloat(self.viewModel.output.selectedTickets.value.count) * self.selectedTicketView.cellHeight + 122, contentType: .selectedTicket)
         }
     }
     
@@ -139,7 +139,7 @@ extension TicketSelectionViewController {
         self.setTitle("티켓 선택")
         
         self.contentView.addSubviews([self.ticketTypeView, self.selectedTicketView])
-        self.showContentView(.TicketTypeList)
+        self.showContentView(.ticketTypeList)
     }
     
     private func configureConstraints() {

@@ -20,7 +20,7 @@ final class TicketingDetailViewController: UIViewController {
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationView(type: .Payment)
+    private let navigationView = BooltiNavigationView(type: .payment)
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -32,9 +32,9 @@ final class TicketingDetailViewController: UIViewController {
     
     private let concertInfoView = ConcertInfoView()
     
-    private let ticketHolderInputView = UserInfoInputView(type: .TicketHolder)
+    private let ticketHolderInputView = UserInfoInputView(type: .ticketHolder)
     
-    private let depositorInputView = UserInfoInputView(type: .Depositor)
+    private let depositorInputView = UserInfoInputView(type: .depositor)
     
     private let ticketInfoView = TicketInfoView()
     
