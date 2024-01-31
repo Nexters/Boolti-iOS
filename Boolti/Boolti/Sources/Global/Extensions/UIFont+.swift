@@ -17,6 +17,10 @@ extension UIFont {
         return UIFont(name: "Pretendard-Regular", size: size)!
     }
     
+    static func customAggroB(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "OTSBAggroB", size: size)!
+    }
+    
     class var headline3: UIFont {
         return UIFont(name: "Pretendard-SemiBold", size: 28.0)!
     }
