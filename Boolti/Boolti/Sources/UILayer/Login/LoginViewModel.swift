@@ -48,7 +48,6 @@ final class LoginViewModel {
         self.input.loginButtonDidTapEvent
             .subscribe(with: self) { owner, provider in
                 owner.provider = provider
-                // 먼저 카카오 로그인을 통해서 accesstoken을 받아오기
                 owner.socialLoginAPIService.authorize(provider: provider)
                     .flatMap({ OAuthResponse -> Single<Bool> in
                         let accessToken = OAuthResponse.accessToken
@@ -56,9 +55,9 @@ final class LoginViewModel {
                         return owner.authAPIService.fetch(withProviderToken: accessToken, provider: provider)
                     })
                     .subscribe(with: self) { owner, isSignUpRequired in
-                        if isSignUpRequired { // 회원가입이 필요하다.
+                        if isSignUpRequired {
                             owner.output.didloginFinished.accept(true)
-                        } else { // 회원가입이 필요없다.
+                        } else {
                             owner.output.didloginFinished.accept(false)
                         }
                     }

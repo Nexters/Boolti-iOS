@@ -67,8 +67,7 @@ final class TermsAgreementViewController: UIViewController {
 
     private func bindInputs() {
         self.agreementButton.rx.tap
-            .asDriver()
-            .drive(self.viewModel.input.didAgreementButtonTapEvent)
+            .bind(to: self.viewModel.input.didAgreementButtonTapEvent)
             .disposed(by: self.disposeBag)
     }
 

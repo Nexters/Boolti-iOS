@@ -20,10 +20,10 @@ extension AuthAPI: ServiceAPI {
     var path: String {
         switch self {
         case .login(let provider, _):
-            return "/login/\(provider.requestTokenDescription)"
+            return "/login/\(provider.rawValue)"
         case .signup:
             return "/signup/sns"
-        case .refresh(requestDTO: _):
+        case .refresh:
             return "login/refresh"
         }
     }

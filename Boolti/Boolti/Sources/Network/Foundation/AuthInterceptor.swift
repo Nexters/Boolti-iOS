@@ -20,10 +20,7 @@ final class AuthInterceptor: RequestInterceptor {
 
         var urlRequest = urlRequest
 
-        // accessToken이 필요한 것만 넣어주기!..
-        // 일단 지금은 logout일 때만 필요하다!..
-        // logout일 때 넣어주기
-        if let urlString = urlRequest.url?.absoluteString, urlString.hasSuffix("/logout") {
+        if let urlString = urlRequest.url?.absoluteString, urlString.contains("/papi") {
             urlRequest.headers.add(.authorization(bearerToken: UserDefaults.accessToken))
         }
 
