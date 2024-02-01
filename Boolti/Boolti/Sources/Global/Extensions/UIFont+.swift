@@ -17,6 +17,14 @@ extension UIFont {
         return UIFont(name: "Pretendard-Regular", size: size)!
     }
     
+    static func aggroB(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "OTSBAggroB", size: size)!
+    }
+    
+    static func aggroM(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "OTSBAggroM", size: size)!
+    }
+    
     class var headline3: UIFont {
         return UIFont(name: "Pretendard-SemiBold", size: 28.0)!
     }
@@ -57,7 +65,19 @@ extension UIFont {
         return UIFont(name: "Pretendard-Regular", size: 12.0)!
     }
     
-    class var aggroB: UIFont {
+    class var point4: UIFont {
+        return UIFont(name: "OTSBAggroM", size: 24.0)!
+    }
+    
+    class var point3: UIFont {
+        return UIFont(name: "OTSBAggroB", size: 24.0)!
+    }
+    
+    class var point2: UIFont {
         return UIFont(name: "OTSBAggroB", size: 20.0)!
+    }
+    
+    class var point1: UIFont {
+        return UIFont(name: "OTSBAggroB", size: 16.0)!
     }
 }

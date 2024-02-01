@@ -1,15 +1,13 @@
 //
-//  ConcertInfoView.swift
+//  TicketInfoView.swift
 //  Boolti
 //
-//  Created by Juhyeon Byun on 1/29/24.
+//  Created by Juhyeon Byun on 1/31/24.
 //
 
 import UIKit
-import SnapKit
-import RxSwift
 
-final class ConcertInfoView: UIView {
+final class ReservedTicketView: UIView {
     
     // MARK: UI Component
     
@@ -28,26 +26,34 @@ final class ConcertInfoView: UIView {
         view.axis = .vertical
         view.alignment = .fill
         
-        view.addArrangedSubviews([self.titleLabel, self.datetimeLabel])
+        view.addArrangedSubviews([self.titleLabel, self.ticketDetailLabel, self.priceLabel])
         return view
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .point2
+        label.font = .subhead2
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        label.setLineSpacing(lineSpacing: 4)
         label.textColor = .grey05
         return label
     }()
     
-    private let datetimeLabel: UILabel = {
+    private let ticketDetailLabel: UILabel = {
         let label = UILabel()
-        label.font = .body1
+        label.font = .caption
         label.textColor = .grey30
         return label
     }()
     
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        label.font = .caption
+        label.textColor = .grey30
+        return label
+    }()
+
     // MARK: Init
     
     init() {
@@ -64,19 +70,20 @@ final class ConcertInfoView: UIView {
 
 // MARK: - Methods
 
-extension ConcertInfoView {
+extension ReservedTicketView {
     
-    func setData(posterURL: String, title: String, datetime: Date) {
-        self.poster.setImageUrl(posterURL)
-        self.titleLabel.text = title
-        self.titleLabel.setLineSpacing(lineSpacing: 6)
-        self.datetimeLabel.text = datetime.format(.dateTime)
+    func setData(concert: String, selectedTicket: TicketEntity) {
+        self.titleLabel.text = concert
+        self.titleLabel.setLineSpacing(lineSpacing: 4)
+        self.ticketDetailLabel.text = "\(selectedTicket.name) / 1매"
+        self.priceLabel.text = "\(selectedTicket.price.formattedCurrency())원"
     }
 }
 
+
 // MARK: - UI
 
-extension ConcertInfoView {
+extension ReservedTicketView {
     
     private func configureUI() {
         self.addSubviews([self.poster, self.labelStackView])
@@ -84,18 +91,18 @@ extension ConcertInfoView {
     
     private func configureConstraints() {
         self.snp.makeConstraints { make in
-            make.height.equalTo(126)
+            make.height.equalTo(146)
         }
         
         self.poster.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
             make.left.equalToSuperview().inset(20)
-            make.top.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(8)
+            make.height.equalTo(98)
             make.width.equalTo(70)
         }
         
         self.labelStackView.snp.makeConstraints { make in
-            make.centerY.equalTo(self.poster)
+            make.centerY.equalToSuperview()
             make.left.equalTo(self.poster.snp.right).offset(16)
             make.right.equalToSuperview().inset(20)
         }
