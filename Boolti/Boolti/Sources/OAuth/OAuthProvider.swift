@@ -1,5 +1,5 @@
 //
-//  Provider.swift
+//  OAuthProvider.swift
 //  Boolti
 //
 //  Created by Miro on 1/23/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Provider: String {
+enum OAuthProvider: String {
     case apple = "kakao"
     case kakao = "appleid"
 }

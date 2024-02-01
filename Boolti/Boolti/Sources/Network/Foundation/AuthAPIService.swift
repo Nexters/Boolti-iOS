@@ -27,8 +27,7 @@ final class AuthAPIService: AuthAPIServiceType {
         return (UserDefaults.accessToken, UserDefaults.refreshToken)
     }
     
-    // 로그인 API 활용해서 AccessToken, RefreshToken 가져오기
-    func fetch(withProviderToken providerToken: String, provider: Provider) -> Single<isSignUpRequired> {
+    func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<isSignUpRequired> {
         let loginRequestDTO = LoginRequestDTO(accessToken: providerToken)
         let api = AuthAPI.login(provider: provider, requestDTO: loginRequestDTO)
         return networkService.request(api)
@@ -43,7 +42,7 @@ final class AuthAPIService: AuthAPIServiceType {
     }
 
     // 회원가입 API 활용해서 AccessToken, RefreshToken 가져오기
-    func signUp(provider: Provider, identityToken: String?) {
+    func signUp(provider: OAuthProvider, identityToken: String?) {
         switch provider {
         case .kakao:
             self.signUpKakao()

@@ -24,11 +24,11 @@ final class TermsAgreementViewModel {
 
     private let authAPIService: AuthAPIServiceType
     private let identityCode: String
-    private let provider: Provider
+    private let provider: OAuthProvider
 
     private let disposeBag = DisposeBag()
 
-    init(identityCode: String, provider: Provider, authAPIService: AuthAPIServiceType) {
+    init(identityCode: String, provider: OAuthProvider, authAPIService: AuthAPIServiceType) {
         self.identityCode = identityCode
         self.provider = provider
         self.authAPIService = authAPIService

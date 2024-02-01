@@ -10,7 +10,7 @@ import Moya
 
 enum AuthAPI {
 
-    case login(provider: Provider, requestDTO: LoginRequestDTO)
+    case login(provider: OAuthProvider, requestDTO: LoginRequestDTO)
     case signup(requestDTO: SignUpRequestDTO)
     case refresh(requestDTO: TokenRefreshRequestDTO)
 }

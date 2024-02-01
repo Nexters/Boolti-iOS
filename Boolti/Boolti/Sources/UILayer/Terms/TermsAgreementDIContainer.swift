@@ -10,12 +10,12 @@ import Foundation
 final class TermsAgreementDIContainer {
 
     private let identityCode: String
-    private let provider: Provider
+    private let provider: OAuthProvider
     private let authAPIService: AuthAPIServiceType
 
     init(
         identityCode: String,
-        provider: Provider,
+        provider: OAuthProvider,
         authAPIService: AuthAPIServiceType
     ) {
         self.identityCode = identityCode

@@ -16,7 +16,7 @@ final class LoginViewController: UIViewController {
     let viewModel: LoginViewModel
     private let disposeBag = DisposeBag()
 
-    private let termsAgreementViewControllerFactory: (IdentityCode, Provider) -> TermsAgreementViewController
+    private let termsAgreementViewControllerFactory: (IdentityCode, OAuthProvider) -> TermsAgreementViewController
 
     private let headerTitleLabel: UILabel = {
         let label = UILabel()
@@ -64,7 +64,7 @@ final class LoginViewController: UIViewController {
     }
 
     init(viewModel: LoginViewModel,
-         termsAgreementViewControllerFactory: @escaping (IdentityCode, Provider) -> TermsAgreementViewController
+         termsAgreementViewControllerFactory: @escaping (IdentityCode, OAuthProvider) -> TermsAgreementViewController
     ) {
         self.viewModel = viewModel
         self.termsAgreementViewControllerFactory = termsAgreementViewControllerFactory
@@ -129,7 +129,7 @@ final class LoginViewController: UIViewController {
 
         self.kakaoLoginButton.rx.tap
             .asDriver()
-            .map { Provider.kakao }
+            .map { OAuthProvider.kakao }
             .drive(with: self) { owner, provider in
                 owner.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
@@ -137,7 +137,7 @@ final class LoginViewController: UIViewController {
 
         self.appleLoginButton.rx.tap
             .asDriver()
-            .map { Provider.apple }
+            .map { OAuthProvider.apple }
             .drive(with: self) { owner, provider in
                 owner.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }

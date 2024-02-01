@@ -16,7 +16,7 @@ import RxRelay
 final class LoginViewModel {
 
     struct Input {
-        var loginButtonDidTapEvent = PublishSubject<Provider>()
+        var loginButtonDidTapEvent = PublishSubject<OAuthProvider>()
     }
 
     struct Output {
@@ -28,14 +28,14 @@ final class LoginViewModel {
     let output: Output
 
     private let authAPIService: AuthAPIServiceType
-    private let socialLoginAPIService: SocialLoginAPIServiceType
+    private let socialLoginAPIService: OAuthAPIServiceType
 
     var identityToken: String?
-    var provider: Provider?
+    var provider: OAuthProvider?
 
     private let disposeBag = DisposeBag()
 
-    init(authAPIService: AuthAPIServiceType, socialLoginAPIService: SocialLoginAPIServiceType) {
+    init(authAPIService: AuthAPIServiceType, socialLoginAPIService: OAuthAPIServiceType) {
         self.authAPIService = authAPIService
         self.socialLoginAPIService = socialLoginAPIService
         

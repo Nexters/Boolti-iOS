@@ -1,5 +1,5 @@
 //
-//  SocialLoginAPIService.swift
+//  OAuthAPIService.swift
 //  Boolti
 //
 //  Created by Miro on 1/23/24.
@@ -7,9 +7,9 @@
 
 import RxSwift
 
-final class SocialLoginAPIService: SocialLoginAPIServiceType {
+final class OAuthAPIService: OAuthAPIServiceType {
 
-    func authorize(provider: Provider) -> Observable<OAuthResponse> {
+    func authorize(provider: OAuthProvider) -> Observable<OAuthResponse> {
         var OAuth: OAuth
 
         switch provider {
