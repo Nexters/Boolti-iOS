@@ -14,9 +14,9 @@ final class OAuthAPIService: OAuthAPIServiceType {
 
         switch provider {
         case .kakao:
-            OAuth = KakaoAuth()
+            OAuth = KakaoOAuth()
         case .apple:
-            OAuth = AppleAuth()
+            OAuth = AppleOAuth()
         }
         return OAuth.authorize()
     }

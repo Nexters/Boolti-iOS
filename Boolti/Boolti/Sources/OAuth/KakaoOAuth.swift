@@ -1,5 +1,5 @@
 //
-//  KakaoAuth.swift
+//  KakaoOAuth.swift
 //  Boolti
 //
 //  Created by Miro on 1/23/24.
@@ -9,7 +9,7 @@ import RxSwift
 import KakaoSDKAuth
 import KakaoSDKUser
 
-struct KakaoAuth: OAuth {
+struct KakaoOAuth: OAuth {
 
     private let disposeBag = DisposeBag()
 

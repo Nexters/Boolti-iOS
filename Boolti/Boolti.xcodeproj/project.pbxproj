@@ -116,8 +116,8 @@
 		8757BAA42B5FDEA2008503B5 /* OAuthAPIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA32B5FDEA2008503B5 /* OAuthAPIServiceType.swift */; };
 		8757BAA62B5FDED7008503B5 /* OAuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA52B5FDED7008503B5 /* OAuthAPIService.swift */; };
 		8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA72B5FDF0F008503B5 /* OAuth.swift */; };
-		8757BAAA2B5FDF29008503B5 /* KakaoAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA92B5FDF29008503B5 /* KakaoAuth.swift */; };
-		8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */; };
+		8757BAAA2B5FDF29008503B5 /* KakaoOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA92B5FDF29008503B5 /* KakaoOAuth.swift */; };
+		8757BAAC2B5FDF69008503B5 /* AppleOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAB2B5FDF69008503B5 /* AppleOAuth.swift */; };
 		8757BAAE2B60067A008503B5 /* OAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAD2B60067A008503B5 /* OAuthProvider.swift */; };
 		8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAF2B60069B008503B5 /* OAuthResponse.swift */; };
 		8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */; };
@@ -238,8 +238,8 @@
 		8757BAA32B5FDEA2008503B5 /* OAuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthAPIServiceType.swift; sourceTree = "<group>"; };
 		8757BAA52B5FDED7008503B5 /* OAuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthAPIService.swift; sourceTree = "<group>"; };
 		8757BAA72B5FDF0F008503B5 /* OAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
-		8757BAA92B5FDF29008503B5 /* KakaoAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuth.swift; sourceTree = "<group>"; };
-		8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuth.swift; sourceTree = "<group>"; };
+		8757BAA92B5FDF29008503B5 /* KakaoOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoOAuth.swift; sourceTree = "<group>"; };
+		8757BAAB2B5FDF69008503B5 /* AppleOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleOAuth.swift; sourceTree = "<group>"; };
 		8757BAAD2B60067A008503B5 /* OAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthProvider.swift; sourceTree = "<group>"; };
 		8757BAAF2B60069B008503B5 /* OAuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthResponse.swift; sourceTree = "<group>"; };
 		8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequestDTO.swift; sourceTree = "<group>"; };
@@ -780,8 +780,8 @@
 				8757BAB12B6006AB008503B5 /* Protocol */,
 				876BF16F2B6A5FEF00DB4BCB /* RefreshAuthAPIService.swift */,
 				8757BAA52B5FDED7008503B5 /* OAuthAPIService.swift */,
-				8757BAA92B5FDF29008503B5 /* KakaoAuth.swift */,
-				8757BAAB2B5FDF69008503B5 /* AppleAuth.swift */,
+				8757BAA92B5FDF29008503B5 /* KakaoOAuth.swift */,
+				8757BAAB2B5FDF69008503B5 /* AppleOAuth.swift */,
 				8757BAAD2B60067A008503B5 /* OAuthProvider.swift */,
 				8757BAAF2B60069B008503B5 /* OAuthResponse.swift */,
 				878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */,
@@ -917,7 +917,7 @@
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
 				84FBBE052B67A952009462E9 /* TicketInfoView.swift in Sources */,
 				84781C702B5BEAB800D37921 /* UserDefaults+.swift in Sources */,
-				8757BAAC2B5FDF69008503B5 /* AppleAuth.swift in Sources */,
+				8757BAAC2B5FDF69008503B5 /* AppleOAuth.swift in Sources */,
 				8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */,
 				84FBBE072B67B30D009462E9 /* PaymentMethodView.swift in Sources */,
 				8757BAAE2B60067A008503B5 /* OAuthProvider.swift in Sources */,
@@ -998,7 +998,7 @@
 				8766B5612B641581004F266A /* UsedTicket.swift in Sources */,
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,
 				84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */,
-				8757BAAA2B5FDF29008503B5 /* KakaoAuth.swift in Sources */,
+				8757BAAA2B5FDF29008503B5 /* KakaoOAuth.swift in Sources */,
 				8746ACFB2B6529760037A1B1 /* PosterImageView.swift in Sources */,
 				8746AD122B680A3E0037A1B1 /* TicketTypeView.swift in Sources */,
 				878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */,
