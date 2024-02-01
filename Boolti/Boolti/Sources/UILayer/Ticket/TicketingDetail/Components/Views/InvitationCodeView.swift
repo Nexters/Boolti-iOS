@@ -87,6 +87,7 @@ extension InvitationCodeView {
             self.codeStateLabel.textColor = .error
         case .verified:
             self.codeStateLabel.textColor = .success
+            self.codeTextField.isEnabled = false
             self.useButton.isEnabled = false
         }
     }

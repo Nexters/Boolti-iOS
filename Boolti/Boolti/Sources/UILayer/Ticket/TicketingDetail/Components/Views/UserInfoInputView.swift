@@ -19,6 +19,7 @@ final class UserInfoInputView: UIView {
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
+    private let isEqualButtonSelected = BehaviorRelay<Bool>(value: false)
     
     // MARK: UI Component
     
@@ -110,6 +111,7 @@ extension UserInfoInputView {
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
                 owner.isEqualButton.isSelected.toggle()
+                owner.isEqualButtonSelected.accept(owner.isEqualButton.isSelected)
                 
                 owner.snp.updateConstraints { make in
                     if owner.isEqualButton.isSelected {
@@ -150,6 +152,16 @@ extension UserInfoInputView {
     private func resetTextField() {
         self.nameTextField.text = nil
         self.phoneNumberTextField.text = nil
+    }
+    
+    func isBothTextFieldsFilled() -> Observable<Bool> {
+        let nameTextObservable = nameTextField.rx.text.orEmpty
+        let phoneNumberTextObservable = phoneNumberTextField.rx.text.orEmpty
+
+        return Observable.combineLatest(nameTextObservable, phoneNumberTextObservable, self.isEqualButtonSelected)
+            .map { nameText, phoneNumberText, isEqualButtonSelected in
+                return (!nameText.isEmpty && !phoneNumberText.isEmpty) || (!self.isEqualButton.isHidden && isEqualButtonSelected)
+            }
     }
 }
 

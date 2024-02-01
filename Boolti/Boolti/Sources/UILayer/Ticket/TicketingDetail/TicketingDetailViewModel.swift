@@ -21,7 +21,7 @@ final class TicketingDetailViewModel {
 
     struct Output {
         let selectedTicket: BehaviorRelay<TicketEntity>
-        let invitationCodeState = PublishRelay<InvitationCodeState>()
+        let invitationCodeState = BehaviorRelay<InvitationCodeState>(value: .empty)
     }
 
     let input: Input

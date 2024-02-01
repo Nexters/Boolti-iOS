@@ -101,6 +101,32 @@ final class TicketingDetailViewController: UIViewController {
 
 extension TicketingDetailViewController {
     
+    private func checkGeneralTextFieldFilled() {
+        Observable.combineLatest(self.ticketHolderInputView.isBothTextFieldsFilled(),
+                                 self.depositorInputView.isBothTextFieldsFilled())
+            .map { (isTicketHolderFilled, isDepositorFilled) in
+                return isTicketHolderFilled && isDepositorFilled
+            }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isFilled in
+                owner.payButton.isEnabled = isFilled
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func checkInvitationTextFieldFilled() {
+        Observable.combineLatest(self.ticketHolderInputView.isBothTextFieldsFilled(),
+                                 self.viewModel.output.invitationCodeState)
+        .map { ( isTicketHolderFilled, codeState ) in
+                return isTicketHolderFilled && codeState == .verified
+            }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isFilled in
+                owner.payButton.isEnabled = isFilled
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
     private func bindInputs() {
         self.viewModel.output.selectedTicket
             .take(1)
@@ -110,8 +136,10 @@ extension TicketingDetailViewController {
                 
                 if entity.price == 0 {
                     owner.depositorInputView.isHidden = true
+                    owner.checkInvitationTextFieldFilled()
                 } else {
                     owner.invitationCodeView.isHidden = true
+                    owner.checkGeneralTextFieldFilled()
                 }
             })
             .disposed(by: self.disposeBag)
@@ -144,6 +172,7 @@ extension TicketingDetailViewController {
     
     private func bindOutputs() {
         self.viewModel.output.invitationCodeState
+            .skip(1)
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: .incorrect)
             .drive(with: self) { owner, state in
@@ -214,7 +243,7 @@ extension TicketingDetailViewController {
         self.scrollView.addSubviews([self.stackView])
         
         self.view.backgroundColor = .grey95
-        self.payButton.isHidden = false
+        self.payButton.isEnabled = false
     }
     
     private func configureConstraints() {
