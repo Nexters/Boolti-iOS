@@ -63,6 +63,10 @@ final class TicketingCompletionViewController: UIViewController {
         self.configureConstraints()
         self.bindInput()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
 }
 
 // MARK: - Methods
