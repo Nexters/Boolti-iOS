@@ -130,9 +130,27 @@ extension TicketingDetailViewController {
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: self.disposeBag)
+        
+        self.invitationCodeView.didUseButtonTap()
+            .emit(with: self) { owner, _ in
+                if let codeInput = owner.invitationCodeView.codeTextField.text, codeInput.isEmpty {
+                    owner.viewModel.output.invitationCodeState.accept(.empty)
+                } else {
+                    owner.viewModel.input.didUseButtonTap.onNext(())
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func bindOutputs() {
+        self.viewModel.output.invitationCodeState
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: .incorrect)
+            .drive(with: self) { owner, state in
+                owner.invitationCodeView.setCodeState(state)
+            }
+            .disposed(by: self.disposeBag)
+        
         self.policyView.policyLabelHeight
             .asDriver(onErrorJustReturn: 0)
             .drive(with: self, onNext: { owner, viewHeight in
@@ -151,7 +169,7 @@ extension TicketingDetailViewController {
             let convertedTextFieldFrame = self.view.convert(currentTextField.frame,
                                                             from: currentTextField.superview)
             let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
-            if textFieldBottomY > keyboardTopY {
+            if textFieldBottomY > keyboardTopY * 0.9 {
                 let changeOffset = textFieldBottomY - keyboardTopY + convertedTextFieldFrame.size.height
                 self.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y + changeOffset), animated: true)
                 
@@ -196,6 +214,7 @@ extension TicketingDetailViewController {
         self.scrollView.addSubviews([self.stackView])
         
         self.view.backgroundColor = .grey95
+        self.payButton.isHidden = false
     }
     
     private func configureConstraints() {
