@@ -145,6 +145,8 @@
 		876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */; };
 		876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */; };
 		878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */; };
+		87FB0D382B6BE7B900B42AF9 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 87FB0D372B6BE7B900B42AF9 /* SwiftJWT */; };
+		87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -264,6 +266,7 @@
 		876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiViewController.swift; sourceTree = "<group>"; };
 		876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 		878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASAuthorizationController+Rx.swift"; sourceTree = "<group>"; };
+		87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityTokenDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +278,7 @@
 				84781C972B5BF15A00D37921 /* RxKakaoSDKCommon in Frameworks */,
 				84B3219B2B61543E007FD669 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				84781C682B5BE9C100D37921 /* RxMoya in Frameworks */,
+				87FB0D382B6BE7B900B42AF9 /* SwiftJWT in Frameworks */,
 				8766B5592B641266004F266A /* Differentiator in Frameworks */,
 				84781C6B2B5BEA0000D37921 /* SnapKit in Frameworks */,
 				849FBD4C2B5E8BE9006EB865 /* FirebaseRemoteConfig in Frameworks */,
@@ -479,6 +483,7 @@
 			children = (
 				84781C7B2B5BEBEA00D37921 /* Request */,
 				84781C7C2B5BEBF200D37921 /* Response */,
+				87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -826,6 +831,7 @@
 				84B321A62B61543E007FD669 /* FirebaseRemoteConfigSwift */,
 				8766B5582B641266004F266A /* Differentiator */,
 				8766B55A2B641266004F266A /* RxDataSources */,
+				87FB0D372B6BE7B900B42AF9 /* SwiftJWT */,
 			);
 			productName = Boolti;
 			productReference = 84781BC92B5BDAFC00D37921 /* Boolti.app */;
@@ -862,6 +868,7 @@
 				87101EF82B5DF9A3004BD418 /* XCRemoteSwiftPackageReference "RxAppState" */,
 				849FBD402B5E8BE9006EB865 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8766B5572B641266004F266A /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				87FB0D362B6BE7B900B42AF9 /* XCRemoteSwiftPackageReference "Swift-JWT" */,
 			);
 			productRefGroup = 84781BCA2B5BDAFC00D37921 /* Products */;
 			projectDirPath = "";
@@ -980,6 +987,7 @@
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,
 				8757BA972B5FA6B0008503B5 /* AuthAPIService.swift in Sources */,
 				84625A182B63E05700CC9077 /* BooltiPaddingLabel.swift in Sources */,
+				87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
 				84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
@@ -1290,6 +1298,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		87FB0D362B6BE7B900B42AF9 /* XCRemoteSwiftPackageReference "Swift-JWT" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kitura/Swift-JWT.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1417,6 +1433,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8766B5572B641266004F266A /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		87FB0D372B6BE7B900B42AF9 /* SwiftJWT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87FB0D362B6BE7B900B42AF9 /* XCRemoteSwiftPackageReference "Swift-JWT" */;
+			productName = SwiftJWT;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -8,6 +8,6 @@
 import Foundation
 
 enum OAuthProvider: String {
-    case apple = "kakao"
-    case kakao = "appleid"
+    case apple = "appleid"
+    case kakao = "kakao"
 }

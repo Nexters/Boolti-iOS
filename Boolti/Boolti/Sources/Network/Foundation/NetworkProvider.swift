@@ -20,7 +20,7 @@ class NetworkProvider: NetworkProviderType {
 
         self.provider = MoyaProvider<MultiTarget>(session: session, plugins: plugins)
     }
-    
+
     func request(_ api: BaseAPI) -> Single<Response> {
         let requestString = "\(api.path)"
         let endpoint = MultiTarget.target(api)

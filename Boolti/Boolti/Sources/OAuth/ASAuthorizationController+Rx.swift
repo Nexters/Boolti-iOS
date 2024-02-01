@@ -7,6 +7,8 @@
 
 import RxCocoa
 import RxSwift
+import SwiftJWT
+
 import AuthenticationServices
 
 final class RxASAuthorizationControllerDelegateProxy: DelegateProxy<ASAuthorizationController, ASAuthorizationControllerDelegate>, DelegateProxyType, ASAuthorizationControllerDelegate {
@@ -40,8 +42,12 @@ extension Reactive where Base: ASAuthorizationController {
                       let appleIdentityToken = appleIDCredential.identityToken
                 else { return nil }
 
-                return String(data: appleIdentityToken, encoding: .utf8)
+                guard let identityToken = String(data: appleIdentityToken, encoding: .utf8) else { return nil }
+
+                return identityToken
             }
     }
 
 }
+
+

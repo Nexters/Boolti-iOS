@@ -7,6 +7,8 @@
 import Foundation
 import KakaoSDKAuth
 import KakaoSDKUser
+import SwiftJWT
+
 import RxKakaoSDKUser
 import RxSwift
 import RxMoya
@@ -30,6 +32,7 @@ final class AuthAPIService: AuthAPIServiceType {
     func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<isSignUpRequired> {
         let loginRequestDTO = LoginRequestDTO(accessToken: providerToken)
         let api = AuthAPI.login(provider: provider, requestDTO: loginRequestDTO)
+
         return networkService.request(api)
             .map(LoginResponseDTO.self)
             .do { loginReponseDTO in
@@ -77,12 +80,16 @@ final class AuthAPIService: AuthAPIServiceType {
 
     private func signUpApple(with identityToken: String?) {
         guard let identityToken else { return }
+
+        guard let jwt = try? JWT<IdentityTokenDTO>(jwtString: identityToken) else { return }
+        let oauthIdentity = jwt.claims.sub
+
         let requestDTO = SignUpRequestDTO(
             nickname: nil,
             email: nil,
             phoneNumber: nil,
             oauthType: "APPLE",
-            oauthIdentity: identityToken,
+            oauthIdentity: oauthIdentity,
             imgPath: nil
         )
         let API = AuthAPI.signup(requestDTO: requestDTO)
