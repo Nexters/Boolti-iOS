@@ -33,9 +33,9 @@ final class InvitationCodeView: UIView {
     }()
     
     let codeTextField: BooltiTextField = {
-        let button = BooltiTextField()
-        button.setPlaceHolderText(placeholder: "예) B123456")
-        return button
+        let textField = BooltiTextField()
+        textField.setPlaceHolderText(placeholder: "예) B123456")
+        return textField
     }()
 
     private let useButton: BooltiButton = {
