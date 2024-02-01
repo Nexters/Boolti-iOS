@@ -41,8 +41,7 @@ final class ConcertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .yellow
-        self.hidesBottomBarWhenPushed = true
+        self.view.backgroundColor = .grey95
 
         view.addSubview(nextButton)
         nextButton.translatesAutoresizingMaskIntoConstraints = false
@@ -56,6 +55,14 @@ final class ConcertViewController: UIViewController {
                 owner.showBottomSheet()
             })
             .disposed(by: self.disposeBag)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
     }
 }
 

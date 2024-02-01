@@ -15,13 +15,14 @@ final class TicketingDetailViewController: UIViewController {
     
     let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
+    private let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController
     
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationView(type: .payment)
+    private let navigationView = BooltiNavigationView(type: .ticketingDetail)
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -64,11 +65,16 @@ final class TicketingDetailViewController: UIViewController {
     private let payButton = BooltiButton(title: "\(0.formattedCurrency())원 결제하기")
     
     // MARK: Init
-    
-    init(viewModel: TicketingDetailViewModel) {
+
+    init(
+        viewModel: TicketingDetailViewModel,
+        ticketingCompletionViewControllerFactory: @escaping (TicketingEntity) -> TicketingCompletionViewController
+    ) {
         self.viewModel = viewModel
+        self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
+
     
     required init?(coder: NSCoder) {
         fatalError()
@@ -87,7 +93,7 @@ final class TicketingDetailViewController: UIViewController {
         self.bindOutputs()
         
         // 확인용 - 공연 리스트 뷰 만들어지면 연결
-        concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: "2024.03.09 (토) 17:00")
+        concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: Date())
     }
 }
 
@@ -113,6 +119,15 @@ extension TicketingDetailViewController {
         self.navigationView.didBackButtonTap()
             .emit(with: self, onNext: { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.payButton.rx.tap
+            .bind(with: self, onNext: { owner, _ in
+                
+                // 테스트용 데이터
+                let viewController = self.ticketingCompletionViewControllerFactory(TicketingEntity(ticketHolder: TicketingEntity.userInfo(name: .init(), phoneNumber: .init()), depositor: nil, selectedTicket: [self.viewModel.output.selectedTicket.value], paymentMethod: "", invitationCode: "asdf"))
+                self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: self.disposeBag)
     }

@@ -10,7 +10,8 @@ import RxCocoa
 import SnapKit
 
 enum NavigationType {
-    case payment
+    case ticketingDetail
+    case ticketingCompletion
     case concertDetail
 }
 
@@ -18,18 +19,18 @@ final class BooltiNavigationView: UIView {
     
     // MARK: UI Component
     
-    private lazy var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .subhead2
         label.textColor = .grey10
         return label
     }()
+
+    private lazy var backButton = self.makeButton(image: .back)
     
-    private lazy var backButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(.back, for: .normal)
-        return button
-    }()
+    private lazy var homeButton = self.makeButton(image: .home)
+    
+    private lazy var closeButton = self.makeButton(image: .closeButton)
     
     // MARK: Init
     
@@ -39,7 +40,8 @@ final class BooltiNavigationView: UIView {
         self.configureDefaultUI()
         
         switch type {
-        case .payment: self.configurePaymentUI()
+        case .ticketingDetail: self.configureTicketingDetailUI()
+        case .ticketingCompletion: self.configureTicketingCompletionUI()
         case .concertDetail: self.configureConcertDetailUI()
         }
     }
@@ -53,10 +55,14 @@ final class BooltiNavigationView: UIView {
 
 extension BooltiNavigationView {
     
+    private func makeButton(image: UIImage) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        return button
+    }
+    
     private func configureDefaultUI() {
         self.backgroundColor = .grey95
-        
-        self.addSubview(backButton)
         
         self.configureDefaultConstraints()
     }
@@ -67,14 +73,20 @@ extension BooltiNavigationView {
         }
     }
     
-    private func configurePaymentUI() {
-        self.addSubview(backButton)
-        self.addSubview(titleLabel)
+    private func configureTicketingDetailUI() {
+        self.addSubviews([self.backButton, self.titleLabel])
         
         self.configureBackButtonConstraints()
         self.configureTitleConstraints()
         
         self.titleLabel.text = "결제하기"
+    }
+    
+    private func configureTicketingCompletionUI() {
+        self.addSubviews([self.homeButton, self.closeButton])
+        
+        self.configureHomeButtonConstraints()
+        self.configureCloseButtonConstraints()
     }
     
     private func configureConcertDetailUI() {
@@ -91,10 +103,26 @@ extension BooltiNavigationView {
         }
     }
     
+    private func configureHomeButtonConstraints() {
+        self.homeButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(10)
+            make.left.equalToSuperview().inset(20)
+            make.height.width.equalTo(24)
+        }
+    }
+    
     private func configureTitleConstraints() {
         self.titleLabel.snp.makeConstraints { make in
             make.left.equalTo(self.backButton.snp.right).offset(4)
             make.centerY.equalTo(self.backButton.snp.centerY)
+        }
+    }
+    
+    private func configureCloseButtonConstraints() {
+        self.closeButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(10)
+            make.right.equalToSuperview().inset(20)
+            make.height.width.equalTo(24)
         }
     }
 }
@@ -105,5 +133,13 @@ extension BooltiNavigationView {
     
     func didBackButtonTap() -> Signal<Void> {
         return backButton.rx.tap.asSignal()
+    }
+    
+    func didHomeButtonTap() -> Signal<Void> {
+        return homeButton.rx.tap.asSignal()
+    }
+    
+    func didCloseButtonTap() -> Signal<Void> {
+        return closeButton.rx.tap.asSignal()
     }
 }

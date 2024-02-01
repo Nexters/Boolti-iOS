@@ -19,4 +19,23 @@ extension UILabel {
             self.attributedText = attributeString
         }
     }
+    
+    /// 특정 문자열 컬러 변경하는 메서드
+    func setSubStringColor(to targetString: [String], with color: UIColor) {
+        if let labelText = self.text, labelText.count > 0 {
+            let attributedString = NSMutableAttributedString(
+                attributedString: self.attributedText ?? NSAttributedString(string: labelText)
+            )
+            
+            targetString.forEach { string in
+                attributedString.addAttribute(
+                    .foregroundColor,
+                    value: color,
+                    range: (labelText as NSString).range(of: string)
+                )
+            }
+            
+            self.attributedText = attributedString
+        }
+    }
 }
