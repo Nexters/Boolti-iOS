@@ -104,13 +104,9 @@ extension TicketingDetailViewController {
     private func checkGeneralTextFieldFilled() {
         Observable.combineLatest(self.ticketHolderInputView.isBothTextFieldsFilled(),
                                  self.depositorInputView.isBothTextFieldsFilled())
-            .map { (isTicketHolderFilled, isDepositorFilled) in
-                return isTicketHolderFilled && isDepositorFilled
-            }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, isFilled in
-                owner.payButton.isEnabled = isFilled
-            }
+            .map { $0 && $1 }
+            .distinctUntilChanged()
+            .bind(to: self.payButton.rx.isEnabled)
             .disposed(by: self.disposeBag)
     }
     
@@ -118,13 +114,11 @@ extension TicketingDetailViewController {
         Observable.combineLatest(self.ticketHolderInputView.isBothTextFieldsFilled(),
                                  self.viewModel.output.invitationCodeState)
         .map { ( isTicketHolderFilled, codeState ) in
-                return isTicketHolderFilled && codeState == .verified
-            }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, isFilled in
-                owner.payButton.isEnabled = isFilled
-            }
-            .disposed(by: self.disposeBag)
+            return isTicketHolderFilled && codeState == .verified
+        }
+        .distinctUntilChanged()
+        .bind(to: self.payButton.rx.isEnabled)
+        .disposed(by: self.disposeBag)
     }
     
     private func bindInputs() {

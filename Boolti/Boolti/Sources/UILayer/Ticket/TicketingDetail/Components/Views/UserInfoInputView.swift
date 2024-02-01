@@ -125,7 +125,7 @@ extension UserInfoInputView {
                 [owner.nameLabel, owner.nameTextField, owner.phoneNumberLabel, owner.phoneNumberTextField]
                     .forEach { $0.isHidden.toggle() }
                 
-                if !owner.isEqualButton.isSelected {
+                if owner.isEqualButton.isSelected {
                     owner.resetTextField()
                 }
             })
@@ -153,6 +153,8 @@ extension UserInfoInputView {
     private func resetTextField() {
         self.nameTextField.text = nil
         self.phoneNumberTextField.text = nil
+        self.nameTextField.sendActions(for: .editingChanged)
+        self.phoneNumberTextField.sendActions(for: .editingChanged)
     }
     
     func isBothTextFieldsFilled() -> Observable<Bool> {
