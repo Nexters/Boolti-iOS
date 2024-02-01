@@ -306,6 +306,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		84360F6E2B6BF6C5009510D9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				84360F6F2B6BF6D4009510D9 /* Protocol */,
+				84360F702B6BF70E009510D9 /* Auth */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		84360F6F2B6BF6D4009510D9 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		84360F702B6BF70E009510D9 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */,
+				876BF16F2B6A5FEF00DB4BCB /* RefreshAuthAPIService.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		84625A0C2B63B2D100CC9077 /* TicketSelection */ = {
 			isa = PBXGroup;
 			children = (
@@ -429,6 +455,7 @@
 				84781BEB2B5BE38900D37921 /* Foundation */,
 				84781C792B5BEBDA00D37921 /* DTO */,
 				84781C852B5BED8D00D37921 /* APIs */,
+				84360F6E2B6BF6C5009510D9 /* Services */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -438,7 +465,6 @@
 			children = (
 				8757BAB22B6007A2008503B5 /* Protocol */,
 				84781BED2B5BE3B600D37921 /* NetworkError.swift */,
-				8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */,
 				84781C6C2B5BEA3800D37921 /* AuthInterceptor.swift */,
 				87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */,
 			);
@@ -734,7 +760,6 @@
 		8757BAB22B6007A2008503B5 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */,
 				84781BEF2B5BE3C000D37921 /* NetworkProviderType.swift */,
 			);
 			path = Protocol;
@@ -778,7 +803,6 @@
 			isa = PBXGroup;
 			children = (
 				8757BAB12B6006AB008503B5 /* Protocol */,
-				876BF16F2B6A5FEF00DB4BCB /* RefreshAuthAPIService.swift */,
 				8757BAA52B5FDED7008503B5 /* OAuthAPIService.swift */,
 				8757BAA92B5FDF29008503B5 /* KakaoOAuth.swift */,
 				8757BAAB2B5FDF69008503B5 /* AppleOAuth.swift */,
