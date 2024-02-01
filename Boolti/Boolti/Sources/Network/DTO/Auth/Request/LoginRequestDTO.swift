@@ -8,5 +8,5 @@
 import Foundation
 
 struct LoginRequestDTO: Encodable {
-    let token: String
+    let accessToken: String
 }

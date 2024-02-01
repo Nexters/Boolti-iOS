@@ -22,6 +22,8 @@
 	<string>NO</string>
 	<key>KAKAO_NATIVE_APP_KEY</key>
 	<string>${KAKAO_NATIVE_APP_KEY}</string>
+	<key>BASE_URL</key>
+	<string>${BASE_URL}</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Regular.otf</string>

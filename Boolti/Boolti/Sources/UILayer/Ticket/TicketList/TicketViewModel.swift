@@ -42,7 +42,7 @@ final class TicketViewModel {
 
     init(authAPIService: AuthAPIServiceType) {
         self.authAPIService = authAPIService
-
+        
         self.input = Input()
         self.output = Output()
 
@@ -58,12 +58,9 @@ final class TicketViewModel {
     private func bindViewDidAppearEvent() {
         self.input.viewDidAppearEvent
             .subscribe(with: self) { owner, _ in
-                // AccessToken이 있는 지 먼저 확인한다.
                 if owner.isAccessTokenAvailable() {
-                    // AccessToken이 있으면 Output으로 true 던지기
                     owner.output.isAccessTokenLoaded.accept(true)
                 } else {
-                    // 만약 없으면 OutPut으로 false 던지기.
                     owner.output.isAccessTokenLoaded.accept(false)
                 }
             }
@@ -71,7 +68,6 @@ final class TicketViewModel {
     }
 
     private func bindLoginButtonTapEvent() {
-        // 로그인 버튼을 누르면 로그인 화면으로 넘어가기
         self.input.didloginButtonTapEvent
             .subscribe(with: self, onNext: { owner, _ in
                 owner.output.navigation.accept(.login)
@@ -83,11 +79,9 @@ final class TicketViewModel {
         self.input.shouldLoadTableViewEvent
             .flatMap { self.fetchTableViewSectionByAPI() }
             .subscribe(with: self) { owner, ticketSections in
-                // 만약 ticketSections가 0이면 홈 탭으로 옮기는 homeEnterView를 던져야된다.
                 if ticketSections.isEmpty {
                     owner.output.isTicketsExist.accept(false)
                 } else {
-//                    owner.output.isTicketsExist.accept(false)
                     owner.output.sectionModels.accept(ticketSections)
                 }
             }
@@ -96,7 +90,8 @@ final class TicketViewModel {
 
     private func isAccessTokenAvailable() -> Bool {
         let token = authAPIService.fetchTokens()
-        return (!token.accessToken.isEmpty)
+        let accessToken = token.0
+        return (!accessToken.isEmpty)
     }
 
     private func fetchTableViewSectionByAPI() -> Single<[TicketSection]> {

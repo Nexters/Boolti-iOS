@@ -1,5 +1,5 @@
 //
-//  AppleAuth.swift
+//  AppleOAuth.swift
 //  Boolti
 //
 //  Created by Miro on 1/23/24.
@@ -8,7 +8,7 @@
 import RxSwift
 import AuthenticationServices
 
-class AppleAuth: OAuth {
+class AppleOAuth: OAuth {
 
     enum Error: LocalizedError {
       case tokenNotFound

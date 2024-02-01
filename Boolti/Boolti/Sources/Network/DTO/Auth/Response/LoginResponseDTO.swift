@@ -9,7 +9,7 @@ import Foundation
 
 struct LoginResponseDTO: Decodable {
 
-    let signUpRequired: Bool
     let accessToken: String?
     let refreshToken: String?
+    let signUpRequired: Bool
 }

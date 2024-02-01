@@ -9,11 +9,10 @@ import Foundation
 
 struct SignUpRequestDTO: Encodable {
 
-    let name: String?
     let nickname: String?
     let email: String?
     let phoneNumber: String?
-    let OAuthType: String
-    let OAuthIdentity: String
+    let oauthType: String
+    let oauthIdentity: String
     let imgPath: String?
 }
