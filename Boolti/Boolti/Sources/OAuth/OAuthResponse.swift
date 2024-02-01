@@ -9,5 +9,5 @@ import Foundation
 
 struct OAuthResponse {
     let accessToken: String
-    let provider: Provider
+    let provider: OAuthProvider
 }

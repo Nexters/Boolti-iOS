@@ -9,12 +9,14 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
+
+    typealias IdentityCode = String
 
     let viewModel: LoginViewModel
     private let disposeBag = DisposeBag()
 
-    private let termsAgreementViewControllerFactory: () -> TermsAgreementViewController
+    private let termsAgreementViewControllerFactory: (IdentityCode, OAuthProvider) -> TermsAgreementViewController
 
     private let headerTitleLabel: UILabel = {
         let label = UILabel()
@@ -62,7 +64,7 @@ class LoginViewController: UIViewController {
     }
 
     init(viewModel: LoginViewModel,
-         termsAgreementViewControllerFactory: @escaping () -> TermsAgreementViewController
+         termsAgreementViewControllerFactory: @escaping (IdentityCode, OAuthProvider) -> TermsAgreementViewController
     ) {
         self.viewModel = viewModel
         self.termsAgreementViewControllerFactory = termsAgreementViewControllerFactory
@@ -127,7 +129,7 @@ class LoginViewController: UIViewController {
 
         self.kakaoLoginButton.rx.tap
             .asDriver()
-            .map { Provider.kakao }
+            .map { OAuthProvider.kakao }
             .drive(with: self) { owner, provider in
                 owner.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
@@ -135,7 +137,7 @@ class LoginViewController: UIViewController {
 
         self.appleLoginButton.rx.tap
             .asDriver()
-            .map { Provider.apple }
+            .map { OAuthProvider.apple }
             .drive(with: self) { owner, provider in
                 owner.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
@@ -147,16 +149,18 @@ class LoginViewController: UIViewController {
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, isFirstSignedUp in
                 guard isFirstSignedUp else {
-                    self.dismiss(animated: true)
+                    owner.dismiss(animated: true)
                     return
                 }
-                self.presentTermsAgreementViewController()
+                owner.presentTermsAgreementViewController()
             }
             .disposed(by: self.disposeBag)
     }
 
     private func presentTermsAgreementViewController() {
-        let viewController = self.termsAgreementViewControllerFactory()
+        guard let identityToken = self.viewModel.identityToken else { return }
+        guard let provider = self.viewModel.provider else { return }
+        let viewController = self.termsAgreementViewControllerFactory(identityToken, provider)
         viewController.modalPresentationStyle = .fullScreen
         self.present(viewController, animated: true)
     }

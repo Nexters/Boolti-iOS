@@ -37,7 +37,7 @@ final class TicketDIContainer {
     private func createLoginViewDIContainer() -> LoginViewDIContainer {
         return LoginViewDIContainer(
             authAPIService: self.authAPIService,
-            socialLoginAPIService: SocialLoginAPIService()
+            socialLoginAPIService: OAuthAPIService()
         )
     }
 
