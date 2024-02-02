@@ -61,7 +61,7 @@ class UsableTicketTableViewCell: UICollectionViewCell {
         return label
     }()
 
-    private var ticketMainView: TicketMainView?
+    private var ticketMainView = TicketMainView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -78,20 +78,21 @@ class UsableTicketTableViewCell: UICollectionViewCell {
             self.upperTagView,
             self.upperTagLabelStackView,
             self.booltiLogoImageView,
-            //            ticketMainView
+            self.ticketMainView
         ])
-//        self.clipsToBounds = true
+
         self.layer.cornerRadius = 8
+        self.clipsToBounds = true
+        
         self.configureConstraints()
         self.configureBackGroundBlurViewEffect()
     }
 
     func setData(with item: TicketItem) {
         self.backgroundImageView.image = item.poster
-
-
         self.numberLabel.text = "﹒ \(item.number)매"
         self.ticketTypeLabel.text = item.ticketType
+        self.ticketMainView.setData(with: item)
 
         //        self.ticketMainView = TicketMainView(with: item)
         //        guard let ticketMainView else { return }
@@ -114,11 +115,11 @@ class UsableTicketTableViewCell: UICollectionViewCell {
 
     private func configureBackGroundGradient() {
         let gradientLayer: CAGradientLayer = CAGradientLayer()
-        gradientLayer.colors = [UIColor(red: 0.77, green: 0.79, blue: 0.80, alpha: 0.8).cgColor,
-                                UIColor(red: 0.04, green: 0.04, blue: 0.04, alpha: 0.8).cgColor]
+        gradientLayer.colors = [UIColor(red: 0.77, green: 0.79, blue: 0.80, alpha: 0.7).cgColor,
+                                UIColor(red: 0.04, green: 0.04, blue: 0.04, alpha: 0.7).cgColor]
 
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
 
         gradientLayer.frame = self.bounds
         self.backgroundImageView.layer.addSublayer(gradientLayer)
@@ -152,22 +153,22 @@ class UsableTicketTableViewCell: UICollectionViewCell {
 
         self.upperTagView.snp.makeConstraints { make in
             make.horizontalEdges.top.equalToSuperview()
-            make.height.equalTo(32)
+            make.height.equalTo(self.snp.height).multipliedBy(0.06)
+        }
+
+        self.ticketMainView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.053)
+            make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
         }
 
         self.upperTagLabelStackView.snp.makeConstraints { make in
             make.centerY.equalTo(self.upperTagView.snp.centerY)
-            make.left.equalToSuperview().inset(20)
+            make.left.equalTo(self.ticketMainView)
         }
 
         self.booltiLogoImageView.snp.makeConstraints { make in
             make.top.equalTo(self.upperTagLabelStackView)
-            make.right.equalToSuperview().inset(20)
+            make.right.equalTo(self.ticketMainView)
         }
-
-        //        self.ticketMainView?.snp.makeConstraints { make in
-        //            make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
-        //            make.horizontalEdges.equalToSuperview().inset(20)
-        //        }
     }
 }
