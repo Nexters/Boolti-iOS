@@ -163,7 +163,7 @@ extension UserInfoInputView {
 
         return Observable.combineLatest(nameTextObservable, phoneNumberTextObservable, self.isEqualButtonSelected)
             .map { nameText, phoneNumberText, isEqualButtonSelected in
-                return (!nameText.isEmpty && !phoneNumberText.isEmpty) || (!self.isEqualButton.isHidden && isEqualButtonSelected)
+                return (!nameText.trimmingCharacters(in: .whitespaces).isEmpty && !phoneNumberText.trimmingCharacters(in: .whitespaces).isEmpty) || (!self.isEqualButton.isHidden && isEqualButtonSelected)
             }
     }
 }

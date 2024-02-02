@@ -155,7 +155,7 @@ extension TicketingDetailViewController {
         
         self.invitationCodeView.didUseButtonTap()
             .emit(with: self) { owner, _ in
-                if let codeInput = owner.invitationCodeView.codeTextField.text, codeInput.isEmpty {
+                if let codeInput = owner.invitationCodeView.codeTextField.text, codeInput.trimmingCharacters(in: .whitespaces).isEmpty {
                     owner.viewModel.output.invitationCodeState.accept(.empty)
                 } else {
                     owner.viewModel.input.didUseButtonTap.onNext(())
