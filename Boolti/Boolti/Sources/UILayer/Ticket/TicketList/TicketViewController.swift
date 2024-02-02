@@ -29,11 +29,10 @@ final class TicketViewController: BooltiViewController {
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
-        //        collectionView.contentInsetAdjustmentBehavior = .automatic
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .black
         collectionView.register(
-            TicketCollectionViewCell.self,
-            forCellWithReuseIdentifier: String(describing: TicketCollectionViewCell.self)
+            UsableTicketTableViewCell.self,
+            forCellWithReuseIdentifier: String(describing: UsableTicketTableViewCell.self)
         )
 
         return collectionView
@@ -233,8 +232,10 @@ final class TicketViewController: BooltiViewController {
     private func configureCollectionViewDatasource() {
         self.datasource = UICollectionViewDiffableDataSource(
             collectionView: self.collectionView,
-            cellProvider: { collectionView, indexPath, itemIdentifier in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TicketCollectionViewCell.self), for: indexPath)
+            cellProvider: { collectionView, indexPath, item in
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: UsableTicketTableViewCell.self), for: indexPath) as? UsableTicketTableViewCell else { return UICollectionViewCell() }
+                cell.setData(with: item)
+
             return cell
         })
     }

@@ -100,10 +100,10 @@ final class TicketViewModel {
         // 아래와 같이 fetch가 되면, Ticket이 있다.
         // 현재는 있다고 가정!..
         let items: [TicketItem] = [
-            TicketItem(ticketType: .invitation, poster: UIImage(), title: "sdf", date: "sdsf", location: "Sdfsf", qrCode: UIImage(), number: 2),
-            TicketItem(ticketType: .invitation, poster: UIImage(), title: "sdf", date: "sdsf", location: "Sdfsf", qrCode: UIImage(), number: 2),
-            TicketItem(ticketType: .invitation, poster: UIImage(), title: "sdf", date: "sdsf", location: "Sdfsf", qrCode: UIImage(), number: 2),
-            TicketItem(ticketType: .invitation, poster: UIImage(), title: "sdf", date: "sdsf", location: "Sdfsf", qrCode: UIImage(), number: 2),
+            TicketItem(ticketType: "Happy", poster: .mockPoster, title: "sdf", date: "sdsf", location: "Sdfsf", qrCode: .qrCode, number: 2),
+            TicketItem(ticketType: "Happy", poster: .mockPoster, title: "sdf", date: "sdsf", location: "Sdfsf", qrCode: .qrCode, number: 2),
+            TicketItem(ticketType: "Happy", poster: .mockPoster, title: "sdf", date: "sdsf", location: "Sdfsf", qrCode: .qrCode, number: 2),
+            TicketItem(ticketType: "Happy", poster: .mockPoster, title: "sdf", date: "sdsf", location: "Sdfsf", qrCode: .qrCode, number: 2),
         ]
         return Single.just(items)
     }

@@ -156,6 +156,7 @@
 		87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */; };
 		87FB0D3C2B6C09B500B42AF9 /* TicketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D3B2B6C09B500B42AF9 /* TicketItem.swift */; };
 		87FB0D3E2B6C0D2B00B42AF9 /* TicketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D3D2B6C0D2B00B42AF9 /* TicketCollectionViewCell.swift */; };
+		87FB0D402B6C9AE200B42AF9 /* UsableTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D3F2B6C9AE200B42AF9 /* UsableTicket.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -285,6 +286,7 @@
 		87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityTokenDTO.swift; sourceTree = "<group>"; };
 		87FB0D3B2B6C09B500B42AF9 /* TicketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketItem.swift; sourceTree = "<group>"; };
 		87FB0D3D2B6C0D2B00B42AF9 /* TicketCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketCollectionViewCell.swift; sourceTree = "<group>"; };
+		87FB0D3F2B6C9AE200B42AF9 /* UsableTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsableTicket.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -376,6 +378,7 @@
 				8746AD052B6807B20037A1B1 /* Components */,
 				84781CC62B5BF9F700D37921 /* TicketDIContainer.swift */,
 				84781CC42B5BF9DE00D37921 /* TicketViewController.swift */,
+				87FB0D3F2B6C9AE200B42AF9 /* UsableTicket.swift */,
 				87FB0D3B2B6C09B500B42AF9 /* TicketItem.swift */,
 				8766B55C2B6413C1004F266A /* TicketSection.swift */,
 				84781CC82B5BFA1C00D37921 /* TicketViewModel.swift */,
@@ -1044,6 +1047,7 @@
 				84625A042B6382C300CC9077 /* BooltiBottomSheetViewController.swift in Sources */,
 				87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */,
 				84781CBA2B5BF90C00D37921 /* HomeTabBarViewModel.swift in Sources */,
+				87FB0D402B6C9AE200B42AF9 /* UsableTicket.swift in Sources */,
 				84781CC72B5BF9F700D37921 /* TicketDIContainer.swift in Sources */,
 				87FB0D3C2B6C09B500B42AF9 /* TicketItem.swift in Sources */,
 				8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */,

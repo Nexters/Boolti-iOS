@@ -24,7 +24,7 @@ enum TicketType {
 struct TicketItem: Hashable {
 
     let id = UUID()
-    let ticketType: TicketType
+    let ticketType: String
     let poster: UIImage
     let title: String
     let date: String
