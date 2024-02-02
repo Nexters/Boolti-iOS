@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class TicketingDetailViewController: UIViewController {
+final class TicketingDetailViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -72,7 +72,7 @@ final class TicketingDetailViewController: UIViewController {
     ) {
         self.viewModel = viewModel
         self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
 
     
@@ -85,6 +85,7 @@ final class TicketingDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.configureToastView(isButtonExisted: true)
         self.configureUI()
         self.configureConstraints()
         self.configureGesture()
@@ -129,6 +130,13 @@ extension TicketingDetailViewController {
                 let viewController = self.ticketingCompletionViewControllerFactory(TicketingEntity(ticketHolder: TicketingEntity.userInfo(name: .init(), phoneNumber: .init()), depositor: nil, selectedTicket: [self.viewModel.output.selectedTicket.value], paymentMethod: "", invitationCode: "asdf"))
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
+            .disposed(by: self.disposeBag)
+        
+        self.paymentMethodView.didDepositButtonTap()
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
+                owner.showToast(message: "지금은 계좌 이체로만 결제할 수 있어요")
+            }
             .disposed(by: self.disposeBag)
     }
     

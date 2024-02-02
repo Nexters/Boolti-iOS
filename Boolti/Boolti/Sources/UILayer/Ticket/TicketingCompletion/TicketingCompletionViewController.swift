@@ -58,7 +58,7 @@ final class TicketingCompletionViewController: BooltiViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.configureToastView()
+        self.configureToastView(isButtonExisted: false)
         self.bindOutput()
         self.configureUI()
         self.configureConstraints()
