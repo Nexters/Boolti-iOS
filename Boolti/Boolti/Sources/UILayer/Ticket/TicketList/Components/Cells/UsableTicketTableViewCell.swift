@@ -34,7 +34,7 @@ class UsableTicketTableViewCell: UICollectionViewCell {
     private let numberLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grey80
-        label.font = .caption
+        label.font = .pretendardR(14)
 
         return label
     }()
@@ -56,7 +56,7 @@ class UsableTicketTableViewCell: UICollectionViewCell {
     private let ticketTypeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grey80
-        label.font = .caption
+        label.font = .pretendardR(14)
 
         return label
     }()
@@ -83,9 +83,10 @@ class UsableTicketTableViewCell: UICollectionViewCell {
 
         self.layer.cornerRadius = 8
         self.clipsToBounds = true
-        
+
         self.configureConstraints()
         self.configureBackGroundBlurViewEffect()
+        self.configureSeperateLine()
     }
 
     func setData(with item: TicketItem) {
@@ -145,6 +146,21 @@ class UsableTicketTableViewCell: UICollectionViewCell {
     //        self.contentView.layer.borderWidth = 1
     //}
 
+    private func configureSeperateLine() {
+        let path = UIBezierPath()
+
+        path.move(to: CGPoint(x: self.bounds.width * 0.053, y: self.bounds.height * 0.8))
+        path.addLine(to: CGPoint(x: self.bounds.width * 0.947, y: self.bounds.height * 0.8))
+        path.close()
+
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = path.cgPath
+        shapeLayer.lineWidth = 2
+        shapeLayer.lineDashPattern = [3, 3]
+        shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
+        self.layer.addSublayer(shapeLayer)
+    }
+
     private func configureConstraints() {
 
         self.backgroundImageView.snp.makeConstraints { make in
@@ -158,7 +174,8 @@ class UsableTicketTableViewCell: UICollectionViewCell {
 
         self.ticketMainView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.053)
-            make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
+            make.top.equalTo(self.upperTagView.snp.bottom).offset(self.bounds.height * 0.038)
+            make.bottom.equalToSuperview().inset(self.bounds.height * 0.038)
         }
 
         self.upperTagLabelStackView.snp.makeConstraints { make in

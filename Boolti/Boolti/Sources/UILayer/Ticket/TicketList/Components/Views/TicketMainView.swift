@@ -112,7 +112,7 @@ class TicketMainView: UIView {
         }
 
         self.verticalInformationStackView.snp.makeConstraints { make in
-            make.top.equalTo(self.posterImageView.snp.bottom).offset(45)
+            make.bottom.equalToSuperview()
             make.right.equalTo(self.qrCodeImageView.snp.left).offset(-12)
             make.left.equalToSuperview()
         }
@@ -120,7 +120,7 @@ class TicketMainView: UIView {
         self.qrCodeImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self.verticalInformationStackView.snp.centerY)
             make.right.equalToSuperview()
-            make.height.equalTo(80)
+            make.height.equalTo(self.posterImageView.snp.height).multipliedBy(0.18)
             make.width.equalTo(self.qrCodeImageView.snp.height)
         }
     }
