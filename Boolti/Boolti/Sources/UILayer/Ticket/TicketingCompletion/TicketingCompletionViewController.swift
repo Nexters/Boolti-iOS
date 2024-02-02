@@ -58,6 +58,7 @@ final class TicketingCompletionViewController: BooltiViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.configureToastView()
         self.bindOutput()
         self.configureUI()
         self.configureConstraints()
@@ -86,7 +87,7 @@ extension TicketingCompletionViewController {
             .asDriver()
             .drive(with: self) { owner, _ in
                 owner.viewModel.input.didCopyButtonTap.onNext(())
-                owner.showToast.onNext("계좌번호가 복사되었어요")
+                owner.showToast(message: "계좌번호가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
     }
