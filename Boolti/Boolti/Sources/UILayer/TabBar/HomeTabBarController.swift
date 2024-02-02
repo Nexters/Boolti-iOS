@@ -85,5 +85,10 @@ extension HomeTabBarController {
         self.tabBar.backgroundColor = .grey95
         self.tabBar.tintColor = .grey10
         self.tabBar.unselectedItemTintColor = .grey50
+        
+        let topBorder = CALayer()
+        topBorder.frame = CGRect(x: 0, y: 0, width: tabBar.frame.size.width, height: 1.0)
+        topBorder.backgroundColor = UIColor.grey85.cgColor
+        self.tabBar.layer.addSublayer(topBorder)
     }
 }
