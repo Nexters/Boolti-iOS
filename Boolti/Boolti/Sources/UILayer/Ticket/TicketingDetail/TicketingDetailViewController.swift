@@ -128,7 +128,7 @@ extension TicketingDetailViewController {
                 owner.ticketInfoView.setData(entity: entity)
                 owner.payButton.setTitle("\(entity.price.formattedCurrency())원 결제하기", for: .normal)
                 
-                if entity.price == 0 {
+                if entity.ticketType == .invite {
                     owner.depositorInputView.isHidden = true
                     owner.checkInvitationTextFieldFilled()
                 } else {

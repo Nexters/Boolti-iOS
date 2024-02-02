@@ -20,7 +20,7 @@ final class TicketingDetailViewModel {
     }
 
     struct Output {
-        let selectedTicket: BehaviorRelay<TicketEntity>
+        let selectedTicket: BehaviorRelay<SalesTicketEntity>
         let invitationCodeState = BehaviorRelay<InvitationCodeState>(value: .empty)
     }
 
@@ -29,9 +29,9 @@ final class TicketingDetailViewModel {
 
 //    init(ticketAPIService: TicketAPIService) {
 //        self.ticketAPIService = ticketAPIService
-    init(selectedTicket: TicketEntity) {
+    init(selectedTicket: SalesTicketEntity) {
         self.input = Input()
-        self.output = Output(selectedTicket: BehaviorRelay<TicketEntity>(value: selectedTicket))
+        self.output = Output(selectedTicket: BehaviorRelay<SalesTicketEntity>(value: selectedTicket))
         
         self.bindInputs()
     }

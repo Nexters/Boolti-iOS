@@ -68,11 +68,11 @@ final class SelectedTicketTableViewCell: UITableViewCell {
 
 extension SelectedTicketTableViewCell {
 
-    func setData(entity: TicketEntity) {
-        self.nameLabel.text = entity.name
-        self.inventoryLabel.text = "\(entity.inventory)매 남음"
+    func setData(entity: SalesTicketEntity) {
+        self.nameLabel.text = entity.ticketName
+        self.inventoryLabel.text = "\(entity.quantity)매 남음"
         self.priceLabel.text = "\(entity.price.formattedCurrency())원"
-        self.inventoryLabel.isHidden = entity.price == 0
+        self.inventoryLabel.isHidden = entity.ticketType == .invite
     }
 
     var didDeleteButtonTap: ControlEvent<Void> {

@@ -15,7 +15,7 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     
     let viewModel: TicketSelectionViewModel
     private let disposeBag = DisposeBag()
-    private let ticketingDetailViewControllerFactory: (TicketEntity) -> TicketingDetailViewController
+    private let ticketingDetailViewControllerFactory: (SalesTicketEntity) -> TicketingDetailViewController
     
     // MARK: UI Component
     
@@ -25,7 +25,7 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     // MARK: Init
     
     init(viewModel: TicketSelectionViewModel,
-         ticketingDetailViewControllerFactory: @escaping (TicketEntity) -> TicketingDetailViewController) {
+         ticketingDetailViewControllerFactory: @escaping (SalesTicketEntity) -> TicketingDetailViewController) {
         self.viewModel = viewModel
         self.ticketingDetailViewControllerFactory = ticketingDetailViewControllerFactory
         super.init(nibName: nil, bundle: nil)
@@ -52,10 +52,10 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
 extension TicketSelectionViewController {
     
     private func bindInputs() {
-        self.ticketTypeView.tableView.rx.modelSelected(TicketEntity.self)
+        self.ticketTypeView.tableView.rx.modelSelected(SalesTicketEntity.self)
             .asDriver()
             .drive(with: self, onNext: { owner, entity  in
-                guard entity.inventory > 0 else { return }
+                guard entity.quantity > 0 else { return }
                 owner.viewModel.input.didTicketSelect.onNext(entity)
                 owner.showContentView(.selectedTicket)
             })
