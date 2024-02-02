@@ -24,6 +24,15 @@ class BooltiViewController: UIViewController {
             }
         }
     }
+    
+    private let toastView = BooltiToastView()
+    
+    var showToast: Binder<String> {
+        Binder(self) { [weak self] viewController, message in
+            guard let self = self else { return }
+            self.toastView.showToast.accept(message)
+        }
+    }
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -35,17 +44,32 @@ class BooltiViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupLoadingIndicatorView()
+        self.configureLoadingIndicatorView()
+        self.configureToast()
     }
 
     deinit {
         print(" 💀 \(String(describing: self)) deinit")
     }
 
-    private func setupLoadingIndicatorView() {
+    private func configureLoadingIndicatorView() {
         self.view.addSubview(self.loadingIndicatorView)
-        self.loadingIndicatorView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        self.loadingIndicatorView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    private func configureToast() {
+        guard let keyWindow = UIApplication.shared.connectedScenes
+            .filter({ $0.activationState == .foregroundActive })
+            .compactMap({ $0 as? UIWindowScene })
+            .first?.windows.first else {
+            return
+        }
+        keyWindow.addSubview(self.toastView)
+        self.toastView.snp.makeConstraints { make in
+            make.bottom.equalTo(keyWindow.safeAreaLayoutGuide).offset(-20)
+            make.centerX.equalTo(keyWindow)
         }
     }
 
