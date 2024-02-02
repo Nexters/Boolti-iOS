@@ -69,8 +69,10 @@ extension BooltiViewController {
         }
     }
     
-    func configureToastView() {
+    func configureToastView(isbuttonExisted: Bool) {
         self.toastView = BooltiToastView()
+        
+        let bottomOffset = isbuttonExisted ? 80 : 20
         
         guard let keyWindow = UIApplication.shared.connectedScenes
             .filter({ $0.activationState == .foregroundActive })
@@ -80,7 +82,7 @@ extension BooltiViewController {
         }
         keyWindow.addSubview(self.toastView ?? BooltiToastView())
         self.toastView?.snp.makeConstraints { make in
-            make.bottom.equalTo(keyWindow.safeAreaLayoutGuide).offset(-20)
+            make.bottom.equalTo(keyWindow.safeAreaLayoutGuide).offset(-bottomOffset)
             make.centerX.equalTo(keyWindow)
         }
     }

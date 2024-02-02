@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 final class PaymentMethodView: UIView {
     
@@ -64,7 +65,6 @@ final class PaymentMethodView: UIView {
         
         self.configureUI()
         self.configureConstraints()
-        self.bindInputs()
     }
     
     required init?(coder: NSCoder) {
@@ -76,11 +76,8 @@ final class PaymentMethodView: UIView {
 
 extension PaymentMethodView {
     
-    private func bindInputs() {
-        self.depositButton.rx.tap
-            .bind(with: self, onNext: { owner, _ in
-                debugPrint("계좌 이체 선택")
-            }).disposed(by: self.disposeBag)
+    func didDepositButtonTap() -> Signal<Void> {
+        return self.depositButton.rx.tap.asSignal()
     }
 }
 
