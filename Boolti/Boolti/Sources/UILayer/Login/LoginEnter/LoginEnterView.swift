@@ -12,7 +12,7 @@ class LoginEnterView: UIView {
 
     private let headerTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "지금 로그인하고 \n원하는 공원의 티켓을 \n구매해보세요!"
+        label.text = "지금 로그인하고 \n원하는 공연의 티켓을 \n구매해보세요!"
         label.textAlignment = .center
         label.numberOfLines = 3
         label.font = .headline1
