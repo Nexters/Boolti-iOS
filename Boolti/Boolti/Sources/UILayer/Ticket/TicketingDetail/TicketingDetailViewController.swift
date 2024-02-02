@@ -95,6 +95,11 @@ final class TicketingDetailViewController: UIViewController {
         // 확인용 - 공연 리스트 뷰 만들어지면 연결
         concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: Date())
     }
+    
+    // TODO: 공연 상세로 이동해야됨!
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+    }
 }
 
 // MARK: - Methods

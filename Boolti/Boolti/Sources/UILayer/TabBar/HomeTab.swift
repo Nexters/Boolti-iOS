@@ -16,9 +16,9 @@ enum HomeTab: Int, CaseIterable {
 extension HomeTab: CustomStringConvertible {
     var description: String {
         switch self {
-        case .concert: return "공연 리스트"
-        case .ticket: return "티켓 내역"
-        case .myPage: return "마이 페이지"
+        case .concert: return "홈"
+        case .ticket: return "티켓"
+        case .myPage: return "마이"
         }
     }
 }
@@ -27,9 +27,9 @@ extension HomeTab {
 
     var icon: UIImage? {
         switch self {
-        case .concert: return UIImage(named: "공연 리스트")
-        case .ticket: return UIImage(named: "티켓 내역")
-        case .myPage: return UIImage(named: "마이 페이지")
+        case .concert: return .home
+        case .ticket: return .ticketIcon
+        case .myPage: return .myIcon
         }
     }
 

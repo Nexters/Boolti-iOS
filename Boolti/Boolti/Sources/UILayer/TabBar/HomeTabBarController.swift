@@ -9,10 +9,14 @@ import UIKit
 import RxSwift
 
 final class HomeTabBarController: UITabBarController {
+    
+    // MARK: Properties
 
     private let viewModel: HomeTabBarViewModel
     private let viewControllerFactory: (HomeTab) -> UIViewController
     private let disposeBag = DisposeBag()
+    
+    // MARK: Init
 
     init(
         viewModel: HomeTabBarViewModel,
@@ -29,18 +33,25 @@ final class HomeTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        bind()
+        
+        self.configureUI()
+        self.bind()
     }
+}
 
+// MARK: - Methods
+
+extension HomeTabBarController {
+    
     private func bind() {
-
         self.rx.didSelect.distinctUntilChanged()
             .map { [weak self] selected in self?.viewControllers?.firstIndex(where: { selected === $0 }) }
             .compactMap { $0 }
-            .subscribe(onNext: { [weak self] in
-                self?.viewModel.selectTab(index: $0)
-            })
-            .disposed(by: disposeBag)
+            .asDriver(onErrorJustReturn: 0)
+            .drive(with: self) { owner, index in
+                owner.viewModel.selectTab(index: index)
+            }
+            .disposed(by: self.disposeBag)
 
         viewModel.tabItems.distinctUntilChanged()
             .subscribe(with: self, onNext: { owner, tabItems in
@@ -64,6 +75,15 @@ final class HomeTabBarController: UITabBarController {
             })
             .disposed(by: disposeBag)
     }
+}
 
+// MARK: - UI
 
+extension HomeTabBarController {
+    
+    private func configureUI() {
+        self.tabBar.backgroundColor = .grey95
+        self.tabBar.tintColor = .grey10
+        self.tabBar.unselectedItemTintColor = .grey50
+    }
 }
