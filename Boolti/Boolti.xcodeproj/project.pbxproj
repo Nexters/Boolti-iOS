@@ -134,8 +134,6 @@
 		8766B5592B641266004F266A /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 8766B5582B641266004F266A /* Differentiator */; };
 		8766B55B2B641266004F266A /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 8766B55A2B641266004F266A /* RxDataSources */; };
 		8766B55D2B6413C1004F266A /* TicketSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B55C2B6413C1004F266A /* TicketSection.swift */; };
-		8766B55F2B641579004F266A /* UsableTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B55E2B641579004F266A /* UsableTicket.swift */; };
-		8766B5612B641581004F266A /* UsedTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B5602B641581004F266A /* UsedTicket.swift */; };
 		8766B5642B648772004F266A /* ConfirmingDepositTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8766B5632B648772004F266A /* ConfirmingDepositTableViewCell.swift */; };
 		8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */; };
 		8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */; };
@@ -156,6 +154,8 @@
 		878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */; };
 		87FB0D382B6BE7B900B42AF9 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 87FB0D372B6BE7B900B42AF9 /* SwiftJWT */; };
 		87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */; };
+		87FB0D3C2B6C09B500B42AF9 /* TicketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D3B2B6C09B500B42AF9 /* TicketItem.swift */; };
+		87FB0D3E2B6C0D2B00B42AF9 /* TicketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D3D2B6C0D2B00B42AF9 /* TicketCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -264,8 +264,6 @@
 		8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponseDTO.swift; sourceTree = "<group>"; };
 		876577142B613F8D00BC6805 /* Boolti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Boolti.entitlements; sourceTree = "<group>"; };
 		8766B55C2B6413C1004F266A /* TicketSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSection.swift; sourceTree = "<group>"; };
-		8766B55E2B641579004F266A /* UsableTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsableTicket.swift; sourceTree = "<group>"; };
-		8766B5602B641581004F266A /* UsedTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsedTicket.swift; sourceTree = "<group>"; };
 		8766B5632B648772004F266A /* ConfirmingDepositTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmingDepositTableViewCell.swift; sourceTree = "<group>"; };
 		8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewController.swift; sourceTree = "<group>"; };
 		8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewModel.swift; sourceTree = "<group>"; };
@@ -285,6 +283,8 @@
 		876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 		878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASAuthorizationController+Rx.swift"; sourceTree = "<group>"; };
 		87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityTokenDTO.swift; sourceTree = "<group>"; };
+		87FB0D3B2B6C09B500B42AF9 /* TicketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketItem.swift; sourceTree = "<group>"; };
+		87FB0D3D2B6C0D2B00B42AF9 /* TicketCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,8 +366,6 @@
 			children = (
 				84625A102B63B48D00CC9077 /* TicketEntity.swift */,
 				84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */,
-				8766B55E2B641579004F266A /* UsableTicket.swift */,
-				8766B5602B641581004F266A /* UsedTicket.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -378,6 +376,7 @@
 				8746AD052B6807B20037A1B1 /* Components */,
 				84781CC62B5BF9F700D37921 /* TicketDIContainer.swift */,
 				84781CC42B5BF9DE00D37921 /* TicketViewController.swift */,
+				87FB0D3B2B6C09B500B42AF9 /* TicketItem.swift */,
 				8766B55C2B6413C1004F266A /* TicketSection.swift */,
 				84781CC82B5BFA1C00D37921 /* TicketViewModel.swift */,
 			);
@@ -822,6 +821,7 @@
 				8766B5632B648772004F266A /* ConfirmingDepositTableViewCell.swift */,
 				8746ACF82B65263E0037A1B1 /* UsedTicketTableViewCell.swift */,
 				8746ACFE2B65F9AF0037A1B1 /* UsableTicketTableViewCell.swift */,
+				87FB0D3D2B6C0D2B00B42AF9 /* TicketCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -987,7 +987,6 @@
 				8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */,
 				84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
-				8766B55F2B641579004F266A /* UsableTicket.swift in Sources */,
 				84625A112B63B48D00CC9077 /* TicketEntity.swift in Sources */,
 				8746AD162B680A700037A1B1 /* SelectedTicketTableViewCell.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
@@ -1046,6 +1045,7 @@
 				87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */,
 				84781CBA2B5BF90C00D37921 /* HomeTabBarViewModel.swift in Sources */,
 				84781CC72B5BF9F700D37921 /* TicketDIContainer.swift in Sources */,
+				87FB0D3C2B6C09B500B42AF9 /* TicketItem.swift in Sources */,
 				8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */,
 				8746AD202B6932B30037A1B1 /* ConcertEnterView.swift in Sources */,
 				84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */,
@@ -1064,6 +1064,7 @@
 				876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */,
 				84781CC52B5BF9DE00D37921 /* TicketViewController.swift in Sources */,
 				876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */,
+				87FB0D3E2B6C0D2B00B42AF9 /* TicketCollectionViewCell.swift in Sources */,
 				8766B5642B648772004F266A /* ConfirmingDepositTableViewCell.swift in Sources */,
 				8746AD102B680A290037A1B1 /* SelectedTicketView.swift in Sources */,
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,
@@ -1077,7 +1078,6 @@
 				84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */,
 				84FEF6172B68A6D100EBB64F /* UIResponder+.swift in Sources */,
 				8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */,
-				8766B5612B641581004F266A /* UsedTicket.swift in Sources */,
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,
 				84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */,
 				8757BAAA2B5FDF29008503B5 /* KakaoOAuth.swift in Sources */,

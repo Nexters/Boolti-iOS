@@ -9,28 +9,36 @@ import UIKit
 import RxCocoa
 import RxSwift
 import RxAppState
-import RxDataSources
 import SnapKit
 
 final class TicketViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
-    
+
+    private enum Section {
+        case concertList
+    }
+
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, TicketItem>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, TicketItem>
+
+    private var datasource: DataSource?
+
     private let viewModel: TicketViewModel
     private let disposeBag = DisposeBag()
 
-    private let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .grey95
-        tableView.showsVerticalScrollIndicator = false
-        tableView.register(ConfirmingDepositTableViewCell.self, forCellReuseIdentifier: ConfirmingDepositTableViewCell.className)
-        tableView.register(UsedTicketTableViewCell.self, forCellReuseIdentifier: UsedTicketTableViewCell.className)
-        tableView.register(UsableTicketTableViewCell.self, forCellReuseIdentifier: UsableTicketTableViewCell.className)
-        return tableView
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
+        //        collectionView.contentInsetAdjustmentBehavior = .automatic
+        collectionView.backgroundColor = .white
+        collectionView.register(
+            TicketCollectionViewCell.self,
+            forCellWithReuseIdentifier: String(describing: TicketCollectionViewCell.self)
+        )
+
+        return collectionView
     }()
 
-    private lazy var tableViewDataSource = self.dataSource()
 
     private let loginEnterView: LoginEnterView = {
         let view = LoginEnterView()
@@ -64,8 +72,9 @@ final class TicketViewController: BooltiViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .grey95
+        self.view.backgroundColor = .blue
         self.navigationController?.navigationBar.isHidden = true
+        self.configureCollectionViewDatasource()
         self.configureUI()
         self.bindViewModel()
     }
@@ -76,19 +85,15 @@ final class TicketViewController: BooltiViewController {
 
     private func configureUI() {
         self.view.addSubviews([
-            self.tableView,
+            self.collectionView,
             self.loginEnterView,
             self.concertEnterView
         ])
 
-        self.tableView.rx
-            .setDelegate(self)
-            .disposed(by: self.disposeBag)
-
-        self.tableView.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(25)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
-            make.horizontalEdges.equalToSuperview().inset(20)
+        self.collectionView.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(30)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-70)
+            make.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide)
         }
 
         self.loginEnterView.snp.makeConstraints { make in
@@ -100,11 +105,65 @@ final class TicketViewController: BooltiViewController {
         }
     }
 
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        let layout = UICollectionViewCompositionalLayout { _,_ in
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+            item.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: 10,
+                bottom: 10,
+                trailing: 10
+            )
+
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.62))
+
+            let group = NSCollectionLayoutGroup.horizontal(
+                layoutSize: groupSize,
+                subitems: [item]
+            )
+
+            let section = NSCollectionLayoutSection(group: group)
+
+            section.orthogonalScrollingBehavior = .groupPagingCentered
+            self.setupCollectionViewCarousel(to: section)
+            return section
+        }
+
+        return layout
+    }
+
+    private func setupCollectionViewCarousel(to section: NSCollectionLayoutSection) {
+        section.visibleItemsInvalidationHandler = { visibleItems, offset, environment in
+
+            // 현재 Page 관련 정보!..
+            let currentPage = Int(max(0, round(offset.x / environment.container.contentSize.width)))
+            print(currentPage)
+            visibleItems.forEach { item in
+
+                // 아이템과 스크롤된 화면 사이의 교차하는 영역을 계산
+                let intersectedRect = item.frame.intersection(
+                    CGRect(x: offset.x, y: offset.y, width: environment.container.contentSize.width, height: item.frame.height)
+                )
+                //  아이템이 화면에서 얼마나 보이는지를 나타내는 비율을 계산
+                let percentVisible = intersectedRect.width / item.frame.width
+                
+                // 스케일 설정
+                let scale = 0.8 + (0.1 * percentVisible)
+                item.transform = CGAffineTransform(scaleX: 1, y: scale)
+            }
+        }
+    }
+
     private func bindViewModel() {
         self.bindInput()
         self.bindOutput()
     }
-    
+
     private func bindInput() {
         self.rx.viewDidAppear
             .asDriver(onErrorJustReturn: true)
@@ -117,7 +176,7 @@ final class TicketViewController: BooltiViewController {
             .asDriver()
             .drive(self.viewModel.input.didloginButtonTapEvent)
             .disposed(by: self.disposeBag)
-        
+
         self.concertEnterView.navigateToHomeButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -135,7 +194,7 @@ final class TicketViewController: BooltiViewController {
                 if !isLoaded {
                     owner.loginEnterView.isHidden = false
                 } else {
-                // AcessToken이 있으면 -> TableView를 띄어야한다고 VM에게 알리기
+                    // AcessToken이 있으면 -> TableView를 띄어야한다고 VM에게 알리기
                     owner.viewModel.input.shouldLoadTableViewEvent.onNext(())
                 }
             })
@@ -151,7 +210,9 @@ final class TicketViewController: BooltiViewController {
 
         self.viewModel.output.sectionModels
             .asDriver(onErrorJustReturn: [])
-            .drive(self.tableView.rx.items(dataSource: self.tableViewDataSource))
+            .drive(with: self, onNext: { owner, ticketItems in
+                owner.applySnapshot(ticketItems)
+            })
             .disposed(by: self.disposeBag)
 
         self.viewModel.output.navigation
@@ -167,65 +228,28 @@ final class TicketViewController: BooltiViewController {
                 }
             }
             .disposed(by: self.disposeBag)
-
-
     }
 
-    private func dataSource() -> RxTableViewSectionedReloadDataSource<TicketSection> {
-        return RxTableViewSectionedReloadDataSource<TicketSection> { dataSource, tableView, indexPath, _ in
-            switch dataSource[indexPath] {
-            case .confirmingDepositTicket(id: let id, title: let title):
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: ConfirmingDepositTableViewCell.className,
-                    for: indexPath
-                ) as? ConfirmingDepositTableViewCell else { return UITableViewCell() }
+    private func configureCollectionViewDatasource() {
+        self.datasource = UICollectionViewDiffableDataSource(
+            collectionView: self.collectionView,
+            cellProvider: { collectionView, indexPath, itemIdentifier in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TicketCollectionViewCell.self), for: indexPath)
+            return cell
+        })
+    }
 
-                cell.setData(with: id, title: title)
-                cell.selectionStyle = .none
-                return cell
+    private func applySnapshot(_ ticketItems: [TicketItem]) {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.concertList])
+        snapshot.appendItems(ticketItems, toSection: .concertList)
 
-            case .usableTicket(item: let ticket):
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: UsableTicketTableViewCell.className,
-                    for: indexPath
-                ) as? UsableTicketTableViewCell else { return UITableViewCell() }
-
-                cell.setData(with: ticket)
-                cell.selectionStyle = .none
-                return cell
-
-            case .usedTicket(item: let ticket):
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: UsedTicketTableViewCell.className,
-                    for: indexPath
-                ) as? UsedTicketTableViewCell else { return UITableViewCell() }
-
-                cell.setData(with: ticket)
-                cell.selectionStyle = .none
-                return cell
-            }
-        }
+        datasource?.apply(snapshot)
     }
 
     private func createViewController(_ next: TicketViewDestination) -> UIViewController {
         switch next {
         case .login: return loginViewControllerFactory()
-        }
-    }
-}
-
-extension TicketViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
-        let section = self.tableViewDataSource[indexPath.section]
-
-        switch section {
-        case .confirmingDeposit(items: _):
-            return 162
-        case .usable(items: _):
-            return 590
-        case .used(items: _):
-            return 160
         }
     }
 }
