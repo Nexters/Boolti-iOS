@@ -124,6 +124,7 @@ extension TicketingDetailViewController {
                 
                 if entity.ticketType == .invite {
                     owner.depositorInputView.isHidden = true
+                    owner.paymentMethodView.isHidden = true
                     owner.bindInvitationView()
                 } else {
                     owner.invitationCodeView.isHidden = true
