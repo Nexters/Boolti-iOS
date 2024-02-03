@@ -59,11 +59,11 @@ final class TicketTypeTableViewCell: UITableViewCell {
 
 extension TicketTypeTableViewCell {
 
-    func setData(entity: TicketEntity) {
-        self.nameLabel.text = entity.name
-        self.inventoryLabel.text = "\(entity.inventory)매 남음"
+    func setData(entity: SalesTicketEntity) {
+        self.nameLabel.text = entity.ticketName
+        self.inventoryLabel.text = "\(entity.quantity)매 남음"
 
-        if entity.inventory == 0 {
+        if entity.quantity == 0 {
             self.nameLabel.textColor = .grey70
             self.priceLabel.textColor = .grey70
             self.priceLabel.text = "품절"
@@ -72,7 +72,7 @@ extension TicketTypeTableViewCell {
             self.priceLabel.text = "\(entity.price.formattedCurrency())원"
         }
 
-        if entity.name == "초청 티켓" {
+        if entity.ticketType == .invite {
             self.inventoryLabel.isHidden = true
         }
     }

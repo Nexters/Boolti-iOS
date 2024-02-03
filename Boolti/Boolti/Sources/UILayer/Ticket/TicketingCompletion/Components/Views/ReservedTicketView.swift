@@ -72,10 +72,10 @@ final class ReservedTicketView: UIView {
 
 extension ReservedTicketView {
     
-    func setData(concert: String, selectedTicket: TicketEntity) {
+    func setData(concert: String, selectedTicket: SalesTicketEntity) {
         self.titleLabel.text = concert
         self.titleLabel.setLineSpacing(lineSpacing: 4)
-        self.ticketDetailLabel.text = "\(selectedTicket.name) / 1매"
+        self.ticketDetailLabel.text = "\(selectedTicket.ticketName) / 1매"
         self.priceLabel.text = "\(selectedTicket.price.formattedCurrency())원"
     }
 }

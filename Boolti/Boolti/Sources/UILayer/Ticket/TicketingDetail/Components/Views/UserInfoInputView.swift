@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-enum userInfoInputType {
+enum UserInfoInputType {
     case ticketHolder
     case depositor
 }
@@ -19,6 +19,7 @@ final class UserInfoInputView: UIView {
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
+    let isEqualButtonSelected = BehaviorRelay<Bool>(value: false)
     
     // MARK: UI Component
     
@@ -37,10 +38,11 @@ final class UserInfoInputView: UIView {
         return label
     }()
     
-    private let nameTextField: BooltiTextField = {
-        let button = BooltiTextField()
-        button.setPlaceHolderText(placeholder: "예) 김불티")
-        return button
+    let nameTextField: BooltiTextField = {
+        let textField = BooltiTextField()
+        textField.setPlaceHolderText(placeholder: "예) 김불티")
+        textField.returnKeyType = .done
+        return textField
     }()
 
     
@@ -52,14 +54,16 @@ final class UserInfoInputView: UIView {
         return label
     }()
 
-    private let phoneNumberTextField: BooltiTextField = {
-        let button = BooltiTextField()
-        button.setPlaceHolderText(placeholder: "예) 010-1234-5678")
-        return button
+    let phoneNumberTextField: BooltiTextField = {
+        let textField = BooltiTextField()
+        textField.setPlaceHolderText(placeholder: "예) 01012345678")
+        textField.keyboardType = .phonePad
+        textField.returnKeyType = .done
+        return textField
     }()
 
     
-    private let isEqualButton: UIButton = {
+    let isEqualButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -83,7 +87,7 @@ final class UserInfoInputView: UIView {
     
     // MARK: Init
     
-    init(type: userInfoInputType) {
+    init(type: UserInfoInputType) {
         super.init(frame: .zero)
         
         switch type {
@@ -110,6 +114,7 @@ extension UserInfoInputView {
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
                 owner.isEqualButton.isSelected.toggle()
+                owner.isEqualButtonSelected.accept(owner.isEqualButton.isSelected)
                 
                 owner.snp.updateConstraints { make in
                     if owner.isEqualButton.isSelected {
@@ -122,27 +127,9 @@ extension UserInfoInputView {
                 [owner.nameLabel, owner.nameTextField, owner.phoneNumberLabel, owner.phoneNumberTextField]
                     .forEach { $0.isHidden.toggle() }
                 
-                if !owner.isEqualButton.isSelected {
+                if owner.isEqualButton.isSelected {
                     owner.resetTextField()
                 }
-            })
-            .disposed(by: self.disposeBag)
-        
-        self.nameTextField.rx.text
-            .orEmpty
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: "")
-            .drive(with: self, onNext: { owner, changedText in
-                debugPrint(changedText)
-            })
-            .disposed(by: self.disposeBag)
-        
-        self.phoneNumberTextField.rx.text
-            .orEmpty
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: "")
-            .drive(with: self, onNext: { owner, changedText in
-                debugPrint(changedText)
             })
             .disposed(by: self.disposeBag)
     }
@@ -150,6 +137,8 @@ extension UserInfoInputView {
     private func resetTextField() {
         self.nameTextField.text = nil
         self.phoneNumberTextField.text = nil
+        self.nameTextField.sendActions(for: .editingChanged)
+        self.phoneNumberTextField.sendActions(for: .editingChanged)
     }
 }
 

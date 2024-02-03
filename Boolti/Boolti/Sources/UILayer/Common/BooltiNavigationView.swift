@@ -58,6 +58,7 @@ extension BooltiNavigationView {
     private func makeButton(image: UIImage) -> UIButton {
         let button = UIButton(type: .system)
         button.setImage(image, for: .normal)
+        button.tintColor = .grey10
         return button
     }
     

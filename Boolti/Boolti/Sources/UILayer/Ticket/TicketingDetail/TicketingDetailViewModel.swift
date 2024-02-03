@@ -16,10 +16,12 @@ final class TicketingDetailViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
+        let didUseButtonTap = PublishSubject<Void>()
     }
 
     struct Output {
-        let selectedTicket: BehaviorRelay<TicketEntity>
+        let selectedTicket: BehaviorRelay<SalesTicketEntity>
+        let invitationCodeState = BehaviorRelay<InvitationCodeState>(value: .empty)
     }
 
     let input: Input
@@ -27,8 +29,25 @@ final class TicketingDetailViewModel {
 
 //    init(ticketAPIService: TicketAPIService) {
 //        self.ticketAPIService = ticketAPIService
-    init(selectedTicket: TicketEntity) {
+    init(selectedTicket: SalesTicketEntity) {
         self.input = Input()
-        self.output = Output(selectedTicket: BehaviorRelay<TicketEntity>(value: selectedTicket))
+        self.output = Output(selectedTicket: BehaviorRelay<SalesTicketEntity>(value: selectedTicket))
+        
+        self.bindInputs()
+    }
+}
+
+// MARK: - Methods
+
+extension TicketingDetailViewModel {
+    
+    private func bindInputs() {
+        self.input.didUseButtonTap
+            .subscribe(with: self) { owner, _ in
+                
+                // 서버에서 state 확인 후 수정
+                owner.output.invitationCodeState.accept(.verified)
+            }
+            .disposed(by: self.disposeBag)
     }
 }

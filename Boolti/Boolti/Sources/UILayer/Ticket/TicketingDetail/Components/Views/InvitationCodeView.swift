@@ -9,6 +9,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+enum InvitationCodeState: String {
+    case verified = "사용되었습니다."
+    case used = "이미 사용된 초청코드입니다."
+    case incorrect = "초청 코드가 올바르지 않아요."
+    case empty = "초청 코드를 입력해 주세요."
+}
+
 final class InvitationCodeView: UIView {
     
     // MARK: Properties
@@ -25,10 +32,12 @@ final class InvitationCodeView: UIView {
         return label
     }()
     
-    private let codeTextField: BooltiTextField = {
-        let button = BooltiTextField()
-        button.setPlaceHolderText(placeholder: "예) B123456")
-        return button
+    let codeTextField: BooltiTextField = {
+        let textField = BooltiTextField()
+        textField.setPlaceHolderText(placeholder: "예) B123456")
+        textField.keyboardType = .namePhonePad
+        textField.returnKeyType = .done
+        return textField
     }()
 
     private let useButton: BooltiButton = {
@@ -38,10 +47,8 @@ final class InvitationCodeView: UIView {
         return button
     }()
     
-    private let useInfo: UILabel = {
+    private let codeStateLabel: UILabel = {
         let label = UILabel()
-        label.text = "사용되었습니다."
-        label.textColor = .success
         label.font = .body1
         label.isHidden = true
         return label
@@ -54,7 +61,6 @@ final class InvitationCodeView: UIView {
         
         self.configureUI()
         self.configureConstraints()
-        self.bindInputs()
     }
     
     required init?(coder: NSCoder) {
@@ -66,18 +72,26 @@ final class InvitationCodeView: UIView {
 
 extension InvitationCodeView {
     
-    private func bindInputs() {
-        self.useButton.rx.tap
-            .bind(with: self, onNext: { owner, _ in
-                
-                // TODO: 서버 통신 후 코드 사용 확인 필요
-                owner.useInfo.isHidden = false
-                owner.useButton.isEnabled = false
-                
-                owner.snp.updateConstraints { make in
-                    make.height.equalTo(163)
-                }
-            }).disposed(by: self.disposeBag)
+    func didUseButtonTap() -> Signal<Void> {
+        return self.useButton.rx.tap.asSignal()
+    }
+    
+    func setCodeState(_ state: InvitationCodeState) {
+        self.codeStateLabel.text = state.rawValue
+        self.codeStateLabel.isHidden = false
+        
+        self.snp.updateConstraints { make in
+            make.height.equalTo(163)
+        }
+        
+        switch state {
+        case .empty, .incorrect, .used:
+            self.codeStateLabel.textColor = .error
+        case .verified:
+            self.codeStateLabel.textColor = .success
+            self.codeTextField.isEnabled = false
+            self.useButton.isEnabled = false
+        }
     }
 }
 
@@ -86,7 +100,7 @@ extension InvitationCodeView {
 extension InvitationCodeView {
     
     private func configureUI() {
-        self.addSubviews([self.titleLabel, self.codeTextField, self.useButton, self.useInfo])
+        self.addSubviews([self.titleLabel, self.codeTextField, self.useButton, self.codeStateLabel])
         
         self.backgroundColor = .grey90
     }
@@ -115,7 +129,7 @@ extension InvitationCodeView {
             make.width.equalTo(96)
         }
         
-        self.useInfo.snp.makeConstraints { make in
+        self.codeStateLabel.snp.makeConstraints { make in
             make.top.equalTo(self.codeTextField.snp.bottom).offset(12)
             make.left.equalTo(self.codeTextField)
         }

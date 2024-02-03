@@ -37,6 +37,7 @@ final class TicketListViewController: BooltiViewController {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
         collectionView.backgroundColor = .black
         collectionView.alwaysBounceVertical = false
+        collectionView.isScrollEnabled = false
         collectionView.register(
             TicketListCollectionViewCell.self,
             forCellWithReuseIdentifier: String(describing: TicketListCollectionViewCell.self)
@@ -123,13 +124,13 @@ final class TicketListViewController: BooltiViewController {
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
             item.contentInsets = NSDirectionalEdgeInsets(
-                top: 50,
+                top: 40,
                 leading: 6,
-                bottom: 20,
+                bottom: 5,
                 trailing: 6
             )
 
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.73))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.72))
 
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
@@ -281,7 +282,7 @@ final class TicketListViewController: BooltiViewController {
         snapshot.appendSections([.concertList])
         snapshot.appendItems(ticketItems, toSection: .concertList)
 
-        datasource?.apply(snapshot)
+        datasource?.apply(snapshot, animatingDifferences: false)
     }
 
     private func createViewController(_ next: TicketViewDestination) -> UIViewController {

@@ -15,7 +15,7 @@ final class TicketingDetailDIContainer {
 //        self.ticketAPIService = ticketAPIService
 //    }
 
-    func createTicketingDetailViewController(selectedTicket: TicketEntity) -> TicketingDetailViewController {
+    func createTicketingDetailViewController(selectedTicket: SalesTicketEntity) -> TicketingDetailViewController {
         let viewModel = createTicketingDetailViewModel(selectedTicket: selectedTicket)
         
         let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController = { ticketingEntity in
@@ -37,7 +37,7 @@ final class TicketingDetailDIContainer {
         return TicketingCompletionDIContainer()
     }
 
-    private func createTicketingDetailViewModel(selectedTicket: TicketEntity) -> TicketingDetailViewModel {
+    private func createTicketingDetailViewModel(selectedTicket: SalesTicketEntity) -> TicketingDetailViewModel {
         return TicketingDetailViewModel(selectedTicket: selectedTicket)
     }
 

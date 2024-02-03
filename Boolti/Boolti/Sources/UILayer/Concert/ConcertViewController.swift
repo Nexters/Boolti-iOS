@@ -65,13 +65,10 @@ final class ConcertViewController: UIViewController {
             .disposed(by: self.disposeBag)
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        self.tabBarController?.tabBar.isHidden = false
-//    }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.tabBarController?.tabBar.isHidden = true
-//    }
+    override func viewDidAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
 }
 
 // MARK: - Methods

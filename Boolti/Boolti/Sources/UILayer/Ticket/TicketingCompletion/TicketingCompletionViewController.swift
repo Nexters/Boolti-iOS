@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-final class TicketingCompletionViewController: UIViewController {
+final class TicketingCompletionViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -46,7 +46,7 @@ final class TicketingCompletionViewController: UIViewController {
     
     init(viewModel: TicketingCompletionViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {
@@ -58,10 +58,15 @@ final class TicketingCompletionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.configureToastView(isButtonExisted: false)
         self.bindOutput()
         self.configureUI()
         self.configureConstraints()
         self.bindInput()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
 }
 
@@ -83,7 +88,11 @@ extension TicketingCompletionViewController {
             .disposed(by: self.disposeBag)
         
         self.copyButton.rx.tap
-            .bind(to: self.viewModel.input.didCopyButtonTap)
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didCopyButtonTap.onNext(())
+                owner.showToast(message: "계좌번호가 복사되었어요")
+            }
             .disposed(by: self.disposeBag)
     }
     
