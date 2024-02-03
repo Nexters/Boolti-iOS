@@ -35,6 +35,8 @@ final class InvitationCodeView: UIView {
     let codeTextField: BooltiTextField = {
         let textField = BooltiTextField()
         textField.setPlaceHolderText(placeholder: "예) B123456")
+        textField.keyboardType = .namePhonePad
+        textField.returnKeyType = .done
         return textField
     }()
 

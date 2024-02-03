@@ -41,6 +41,7 @@ final class UserInfoInputView: UIView {
     let nameTextField: BooltiTextField = {
         let textField = BooltiTextField()
         textField.setPlaceHolderText(placeholder: "예) 김불티")
+        textField.returnKeyType = .done
         return textField
     }()
 
@@ -55,8 +56,9 @@ final class UserInfoInputView: UIView {
 
     let phoneNumberTextField: BooltiTextField = {
         let textField = BooltiTextField()
-        textField.setPlaceHolderText(placeholder: "예) 010-1234-5678")
+        textField.setPlaceHolderText(placeholder: "예) 01012345678")
         textField.keyboardType = .phonePad
+        textField.returnKeyType = .done
         return textField
     }()
 

@@ -167,10 +167,26 @@ extension TicketingDetailViewController {
                 .distinctUntilChanged()
                 .asDriver(onErrorJustReturn: "")
                 .drive(with: self, onNext: { owner, changedText in
-                    debugPrint(changedText)
+                    let formattedNumber = self.formatPhoneNumber(phoneNumber: changedText)
+                    inputView.phoneNumberTextField.text = formattedNumber
+                    
+                    if formattedNumber.count > 13 {
+                        inputView.phoneNumberTextField.deleteBackward()
+                    }
                 })
                 .disposed(by: self.disposeBag)
         }
+    }
+    
+    private func formatPhoneNumber(phoneNumber: String) -> String {
+        var formattedNumber = ""
+        for (index, number) in Array(phoneNumber.replacingOccurrences(of: "-", with: "")).enumerated() {
+            if index == 3 || index == 7 {
+                formattedNumber.append("-")
+            }
+            formattedNumber.append(number)
+        }
+        return formattedNumber
     }
     
     private func checkInputViewTextFieldFilled(inputType: UserInfoInputType)  -> Observable<Bool> {
@@ -200,6 +216,17 @@ extension TicketingDetailViewController {
     }
     
     private func bindInvitationView() {
+        self.invitationCodeView.codeTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: "")
+            .drive(with: self, onNext: { owner, changedText in
+                if changedText.count > 8 {
+                    owner.invitationCodeView.codeTextField.deleteBackward()
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
         self.invitationCodeView.didUseButtonTap()
             .emit(with: self) { owner, _ in
                 if let codeInput = owner.invitationCodeView.codeTextField.text, codeInput.trimmingCharacters(in: .whitespaces).isEmpty {
