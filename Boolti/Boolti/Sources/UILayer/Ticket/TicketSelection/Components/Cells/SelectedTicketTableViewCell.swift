@@ -45,8 +45,7 @@ final class SelectedTicketTableViewCell: UITableViewCell {
 
     private let deleteButton: UIButton = {
         let button = UIButton()
-        button.setImage(.closeButton, for: .normal)
-        button.tintColor = .grey50
+        button.setImage(.closeButton.withTintColor(.grey50), for: .normal)
         return button
     }()
 

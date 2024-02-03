@@ -61,10 +61,6 @@ final class ConcertListViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
-    }
 }
 
 // MARK: - Methods
