@@ -36,7 +36,7 @@ final class HomeTabBarDIContainer {
             let dependencyContainer = createConcertDIContainer()
             viewController = dependencyContainer.createConcertViewController()
         case .ticket:
-            let dependencyContainer = createTicketDIContainer()
+            let dependencyContainer = createTicketListDIContainer()
             viewController = dependencyContainer.createTicketListViewController()
         case .myPage:
             let dependencyContainer = createMyPageDIContainer()
@@ -51,7 +51,7 @@ final class HomeTabBarDIContainer {
         return ConcertDIContainer()
     }
 
-    private func createTicketDIContainer() -> TicketListDIContainer {
+    private func createTicketListDIContainer() -> TicketListDIContainer {
         return TicketListDIContainer(
             authAPIService: AuthAPIService(networkService: rootDIContainer.networkProvider)
         )

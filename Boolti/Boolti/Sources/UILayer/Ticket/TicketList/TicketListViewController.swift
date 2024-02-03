@@ -124,12 +124,12 @@ final class TicketListViewController: BooltiViewController {
 
             item.contentInsets = NSDirectionalEdgeInsets(
                 top: 50,
-                leading: 10,
+                leading: 6,
                 bottom: 20,
-                trailing: 10
+                trailing: 6
             )
 
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.7))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.73))
 
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
