@@ -49,25 +49,21 @@ extension BooltiToastView {
     private func bindOutputs() {
         self.showToast
             .asDriver(onErrorJustReturn: "")
+            .throttle(.seconds(2))
             .drive(with: self) { owner, message in
                 self.toastLabel.text = message
-                self.isHidden = false
                 
-                Observable.just("")
-                    .delay(.seconds(2), scheduler: MainScheduler.instance)
-                    .asDriver(onErrorJustReturn: "")
-                    .drive(with: self) { owner, _ in
-                        UIView.animate(
-                            withDuration: 0.3,
-                            animations: {
-                                owner.alpha = 0.0
-                            },
-                            completion: { _ in
-                                owner.isHidden = true
-                                owner.alpha = 1.0
-                            })
-                    }
-                    .disposed(by: owner.disposeBag)
+                UIView.animate(
+                    withDuration: 0.3,
+                    delay: 1,
+                    animations: {
+                        self.isHidden = false
+                        self.alpha = 0
+                    },
+                    completion: { _ in
+                        self.alpha = 1.0
+                        self.isHidden = true
+                    })
             }
             .disposed(by: self.disposeBag)
     }
