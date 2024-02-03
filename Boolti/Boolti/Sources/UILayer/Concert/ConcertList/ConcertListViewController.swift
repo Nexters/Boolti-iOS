@@ -1,5 +1,5 @@
 //
-//  ConcertViewController.swift
+//  ConcertListViewController.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/20/24.
@@ -8,11 +8,11 @@
 import UIKit
 import RxSwift
 
-final class ConcertViewController: UIViewController {
+final class ConcertListViewController: UIViewController {
     
     // MARK: Properties
     
-    private let viewModel: ConcertViewModel
+    private let viewModel: ConcertListViewModel
     private let disposeBag = DisposeBag()
     
     // MARK: UI Component
@@ -27,7 +27,7 @@ final class ConcertViewController: UIViewController {
     
     // MARK: Init
     
-    init(viewModel: ConcertViewModel) {
+    init(viewModel: ConcertListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -69,7 +69,7 @@ final class ConcertViewController: UIViewController {
 
 // MARK: - Methods
 
-extension ConcertViewController {
+extension ConcertListViewController {
     func showBottomSheet() {
         
         // TODO: 나중에 ticket view에서 팩토리로 변경 필요 (이건 확인용!)

@@ -33,8 +33,8 @@ final class HomeTabBarDIContainer {
         let viewController: UIViewController
         switch tab {
         case .concert:
-            let dependencyContainer = createConcertDIContainer()
-            viewController = dependencyContainer.createConcertViewController()
+            let dependencyContainer = createConcertListDIContainer()
+            viewController = dependencyContainer.createConcertListViewController()
         case .ticket:
             let dependencyContainer = createTicketDIContainer()
             viewController = dependencyContainer.createTicketViewController()
@@ -47,8 +47,8 @@ final class HomeTabBarDIContainer {
         return viewController
     }
 
-    private func createConcertDIContainer() -> ConcertDIContainer {
-        return ConcertDIContainer()
+    private func createConcertListDIContainer() -> ConcertListDIContainer {
+        return ConcertListDIContainer()
     }
 
     private func createTicketDIContainer() -> TicketDIContainer {

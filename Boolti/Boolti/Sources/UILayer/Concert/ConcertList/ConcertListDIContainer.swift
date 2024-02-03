@@ -1,5 +1,5 @@
 //
-//  ConcertDIContainer.swift
+//  ConcertListDIContainer.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/20/24.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class ConcertDIContainer {
+final class ConcertListDIContainer {
 
 //    private let ticketAPIService: TicketAPIService
 //
@@ -16,10 +16,10 @@ final class ConcertDIContainer {
 //        self.ticketAPIService = ticketAPIService
 //    }
     
-    func createConcertViewController() -> UIViewController {
-        let viewModel = createConcertViewModel()
+    func createConcertListViewController() -> UIViewController {
+        let viewModel = createConcertListViewModel()
 
-        let viewController = ConcertViewController(
+        let viewController = ConcertListViewController(
             viewModel: viewModel
         )
 
@@ -28,8 +28,8 @@ final class ConcertDIContainer {
         return navigationController
     }
     
-    private func createConcertViewModel() -> ConcertViewModel {
-        return ConcertViewModel()
+    private func createConcertListViewModel() -> ConcertListViewModel {
+        return ConcertListViewModel()
     }
 
 }
