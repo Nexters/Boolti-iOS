@@ -18,17 +18,17 @@ final class TicketSelectionViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let didTicketSelect = PublishSubject<TicketEntity>()
+        let didTicketSelect = PublishSubject<SalesTicketEntity>()
         let didDeleteButtonTap = PublishSubject<Int>()
     }
 
     struct Output {
         // TODO: 데이터 체크용. api 연결후 []로 초기화 예정
-        let tickets = BehaviorRelay<[TicketEntity]>(value: [.init(id: 0, name: "초청 티켓", price: 0, inventory: 100),
-                                                            .init(id: 1, name: "일반 티켓 A", price: 3000, inventory: 0),
-                                                            .init(id: 2, name: "일반 티켓 B", price: 5000, inventory: 300),
-                                                            .init(id: 2, name: "일반 티켓 C", price: 15000, inventory: 10)])
-        let selectedTickets = BehaviorRelay<[TicketEntity]>(value: [])
+        let tickets = BehaviorRelay<[SalesTicketEntity]>(value: [.init(id: 0, showId: 1, ticketType: .invite, ticketName: "초청 티켓", price: 0, quantity: 50),
+                                                            .init(id: 1, showId: 1, ticketType: .sales, ticketName: "일반 티켓 A", price: 5000, quantity: 0),
+                                                            .init(id: 2, showId: 1, ticketType: .sales, ticketName: "일반 티켓 B", price: 0, quantity: 100),
+                                                            .init(id: 3, showId: 1, ticketType: .sales, ticketName: "일반 티켓 C", price: 15000, quantity: 520)])
+        let selectedTickets = BehaviorRelay<[SalesTicketEntity]>(value: [])
         let totalPrice = BehaviorRelay<Int>(value: 0)
         let showTicketTypeView = PublishRelay<Void>()
     }

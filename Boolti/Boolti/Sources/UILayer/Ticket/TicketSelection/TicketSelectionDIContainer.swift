@@ -18,7 +18,7 @@ final class TicketSelectionDIContainer {
     func createTicketSelectionViewController() -> UIViewController {
         let viewModel = createTicketSelectionViewModel()
         
-        let ticketingDetailViewControllerFactory: (TicketEntity) -> TicketingDetailViewController = { selectedTicket in
+        let ticketingDetailViewControllerFactory: (SalesTicketEntity) -> TicketingDetailViewController = { selectedTicket in
             let DIContainer = self.createTicketingDetailViewDIContainer()
 
             let viewController = DIContainer.createTicketingDetailViewController(selectedTicket: selectedTicket)

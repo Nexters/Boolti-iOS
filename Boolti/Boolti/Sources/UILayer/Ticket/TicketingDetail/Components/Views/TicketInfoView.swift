@@ -49,7 +49,7 @@ final class TicketInfoView: UIView {
         self.configureUI()
         self.configureConstraints()
         
-        self.setData(entity: .init(id: 0, name: "일반 티켓 B", price: 5000, inventory: 1))
+        self.setData(entity: .init(id: 1, showId: 1, ticketType: .sales, ticketName: "일반 티켓 A", price: 5000, quantity: 100))
     }
     
     required init?(coder: NSCoder) {
@@ -61,8 +61,8 @@ final class TicketInfoView: UIView {
 
 extension TicketInfoView {
     
-    func setData(entity: TicketEntity) {
-        self.ticketTypeDataLabel.text = entity.name
+    func setData(entity: SalesTicketEntity) {
+        self.ticketTypeDataLabel.text = entity.ticketName
         self.ticketCountDataLabel.text = "1개"
         self.totalPriceDataLabel.text = "\(entity.price.formattedCurrency())원"
     }
