@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-enum userInfoInputType {
+enum UserInfoInputType {
     case ticketHolder
     case depositor
 }
@@ -19,7 +19,7 @@ final class UserInfoInputView: UIView {
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
-    private let isEqualButtonSelected = BehaviorRelay<Bool>(value: false)
+    let isEqualButtonSelected = BehaviorRelay<Bool>(value: false)
     
     // MARK: UI Component
     
@@ -38,7 +38,7 @@ final class UserInfoInputView: UIView {
         return label
     }()
     
-    private let nameTextField: BooltiTextField = {
+    let nameTextField: BooltiTextField = {
         let textField = BooltiTextField()
         textField.setPlaceHolderText(placeholder: "예) 김불티")
         return textField
@@ -53,7 +53,7 @@ final class UserInfoInputView: UIView {
         return label
     }()
 
-    private let phoneNumberTextField: BooltiTextField = {
+    let phoneNumberTextField: BooltiTextField = {
         let textField = BooltiTextField()
         textField.setPlaceHolderText(placeholder: "예) 010-1234-5678")
         textField.keyboardType = .phonePad
@@ -61,7 +61,7 @@ final class UserInfoInputView: UIView {
     }()
 
     
-    private let isEqualButton: UIButton = {
+    let isEqualButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -85,7 +85,7 @@ final class UserInfoInputView: UIView {
     
     // MARK: Init
     
-    init(type: userInfoInputType) {
+    init(type: UserInfoInputType) {
         super.init(frame: .zero)
         
         switch type {
@@ -130,24 +130,6 @@ extension UserInfoInputView {
                 }
             })
             .disposed(by: self.disposeBag)
-        
-        self.nameTextField.rx.text
-            .orEmpty
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: "")
-            .drive(with: self, onNext: { owner, changedText in
-                debugPrint(changedText)
-            })
-            .disposed(by: self.disposeBag)
-        
-        self.phoneNumberTextField.rx.text
-            .orEmpty
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: "")
-            .drive(with: self, onNext: { owner, changedText in
-                debugPrint(changedText)
-            })
-            .disposed(by: self.disposeBag)
     }
     
     private func resetTextField() {
@@ -155,16 +137,6 @@ extension UserInfoInputView {
         self.phoneNumberTextField.text = nil
         self.nameTextField.sendActions(for: .editingChanged)
         self.phoneNumberTextField.sendActions(for: .editingChanged)
-    }
-    
-    func isBothTextFieldsFilled() -> Observable<Bool> {
-        let nameTextObservable = nameTextField.rx.text.orEmpty
-        let phoneNumberTextObservable = phoneNumberTextField.rx.text.orEmpty
-
-        return Observable.combineLatest(nameTextObservable, phoneNumberTextObservable, self.isEqualButtonSelected)
-            .map { nameText, phoneNumberText, isEqualButtonSelected in
-                return (!nameText.trimmingCharacters(in: .whitespaces).isEmpty && !phoneNumberText.trimmingCharacters(in: .whitespaces).isEmpty) || (!self.isEqualButton.isHidden && isEqualButtonSelected)
-            }
     }
 }
 
