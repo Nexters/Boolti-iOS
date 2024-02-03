@@ -16,6 +16,7 @@ import RxAppState
 final class TicketListViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
+    private let ticketDetailControllerFactory: (TicketItem) -> TicketDetailViewController
 
     private enum Section {
         case concertList
@@ -71,10 +72,12 @@ final class TicketListViewController: BooltiViewController {
 
     init(
         viewModel: TicketListViewModel,
-        loginViewControllerFactory: @escaping () -> LoginViewController
+        loginViewControllerFactory: @escaping () -> LoginViewController,
+        ticketDetailViewControllerFactory: @escaping (TicketItem) -> TicketDetailViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
+        self.ticketDetailControllerFactory = ticketDetailViewControllerFactory
         super.init()
     }
 
@@ -88,6 +91,7 @@ final class TicketListViewController: BooltiViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.configureCollectionViewDatasource()
         self.configureUI()
+        self.bindUIComponenets()
         self.bindViewModel()
     }
 
@@ -176,6 +180,18 @@ final class TicketListViewController: BooltiViewController {
                 item.transform = CGAffineTransform(scaleX: 1, y: scale)
             }
         }
+    }
+
+    private func bindUIComponenets() {
+        self.collectionView.rx
+            .itemSelected
+            .asDriver()
+            .drive(with: self) { owner, indexPath in
+                guard let ticketItem = owner.datasource?.itemIdentifier(for: indexPath) else { return }
+                let viewController = owner.ticketDetailControllerFactory(ticketItem)
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {
