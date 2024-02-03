@@ -41,6 +41,7 @@ class TicketMainView: UIView {
             self.horizontalInformationStackView
         ])
         stackView.axis = .vertical
+        stackView.alignment = .leading
         stackView.spacing = 2
 
         return stackView
@@ -48,6 +49,7 @@ class TicketMainView: UIView {
 
     private lazy var horizontalInformationStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.axis = .horizontal
         stackView.addArrangedSubviews([self.dateLabel, self.locationLabel])
 
         return stackView
