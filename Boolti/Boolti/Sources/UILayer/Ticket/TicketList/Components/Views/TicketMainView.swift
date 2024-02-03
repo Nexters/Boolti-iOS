@@ -69,8 +69,6 @@ class TicketMainView: UIView {
         return label
     }()
 
-//    private var posterImageView: PosterImageView?
-
     private let qrCodeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 4
@@ -80,35 +78,36 @@ class TicketMainView: UIView {
 
     init() {
         super.init(frame: CGRect())
+        self.configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func setData(with item: TicketItem) {
 
+    func setData(with item: TicketItem) {
+        self.posterImageView.image = item.poster
+        self.dateLabel.text = item.date
+        self.locationLabel.text = " | \(item.location)"
+        self.titleLabel.text = item.title
+        self.qrCodeImageView.image = item.qrCode
+    }
+
+    private func configureUI() {
         self.addSubviews([
             self.posterImageView,
             self.qrCodeImageView,
             self.verticalInformationStackView
         ])
 
-        self.posterImageView.image = item.poster
-        self.dateLabel.text = item.date
-        self.locationLabel.text = " | \(item.location)"
-        self.titleLabel.text = item.title
-        self.qrCodeImageView.image = item.qrCode
-
         self.configureConstraints()
     }
 
     private func configureConstraints() {
-
         self.posterImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(self.posterImageView.snp.width).multipliedBy(1.34)
+            make.height.equalTo(self.posterImageView.snp.width).multipliedBy(1.5)
         }
 
         self.verticalInformationStackView.snp.makeConstraints { make in

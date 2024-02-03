@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UsableTicketTableViewCell: UICollectionViewCell {
+class TicketListCollectionViewCell: UICollectionViewCell {
 
     private var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -40,7 +40,7 @@ class UsableTicketTableViewCell: UICollectionViewCell {
     private let upperTagView: UIView = {
         let view = UIView()
         view.backgroundColor = .white.withAlphaComponent(0.4)
-//        view.backgroundColor = .red
+
         return view
     }()
 
@@ -71,6 +71,7 @@ class UsableTicketTableViewCell: UICollectionViewCell {
 
     private let booltiLogoImageView: UIImageView = {
         let imageView = UIImageView(image: .booltiLogo)
+
         return imageView
     }()
 
@@ -86,14 +87,14 @@ class UsableTicketTableViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.configureViews()
+        self.configureUI()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func configureViews() {
+    private func configureUI() {
         self.backgroundImageView.addSubview(self.upperTagView)
         self.addSubviews([
             self.backgroundImageView,
@@ -118,16 +119,7 @@ class UsableTicketTableViewCell: UICollectionViewCell {
         self.numberLabel.text = "﹒ \(item.number)매"
         self.ticketTypeLabel.text = item.ticketType
         self.ticketMainView.setData(with: item)
-
-        //        self.ticketMainView = TicketMainView(with: item)
-        //        guard let ticketMainView else { return }
-        //        self.configureBlurViewGradient()
-
     }
-
-    //    override func prepareForReuse() {
-    //        self.configureBlurViewGradient()
-    //    }
 
     private func configureBorder() {
         self.rightCircleView.layer.cornerRadius = self.bounds.height * 0.0175
@@ -156,31 +148,11 @@ class UsableTicketTableViewCell: UICollectionViewCell {
         self.backgroundImageView.bringSubviewToFront(self.upperTagView)
     }
 
-    //    private func configureBorder() {
-    //        let gradientLayer = CAGradientLayer()
-    //        gradientLayer.frame = self.contentView.bounds
-    //        gradientLayer.colors = [UIColor.grey60.cgColor, UIColor.grey80.cgColor, UIColor.grey10.cgColor]
-    //
-    //        gradientLayer.startPoint = CGPoint(x: 1.0, y: 0.0)
-    //        gradientLayer.endPoint = CGPoint(x: 0.0, y: 1.0)
-    //
-    //        gradientLayer.locations = [0.1, 0.5, 0.9]
-    //
-    //        let renderer = UIGraphicsImageRenderer(bounds: bounds)
-    //        let gradient =  renderer.image { ctx in
-    //            gradientLayer.render(in: ctx.cgContext)
-    //        }
-    //
-    //        let gradientColor = UIColor(patternImage: gradient)
-    //        self.contentView.layer.borderColor = gradientColor.cgColor
-    //        self.contentView.layer.borderWidth = 1
-    //}
-
     private func configureSeperateLine() {
         let path = UIBezierPath()
 
-        path.move(to: CGPoint(x: self.bounds.width * 0.053, y: self.bounds.height * 0.8))
-        path.addLine(to: CGPoint(x: self.bounds.width * 0.947, y: self.bounds.height * 0.8))
+        path.move(to: CGPoint(x: self.bounds.width * 0.053, y: self.bounds.height * 0.82))
+        path.addLine(to: CGPoint(x: self.bounds.width * 0.947, y: self.bounds.height * 0.82))
         path.close()
 
         let shapeLayer = CAShapeLayer()
@@ -220,13 +192,13 @@ class UsableTicketTableViewCell: UICollectionViewCell {
 
         self.rightCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height*0.8)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.82)
             make.centerX.equalTo(self.snp.right)
         }
 
         self.leftCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height*0.8)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.82)
             make.centerX.equalTo(self.snp.left)
         }
     }

@@ -16,7 +16,7 @@ enum TicketViewDestination {
     case login
 }
 
-final class TicketViewModel {
+final class TicketListViewModel {
 
     private let authAPIService: AuthAPIServiceType
     private let disposeBag = DisposeBag()

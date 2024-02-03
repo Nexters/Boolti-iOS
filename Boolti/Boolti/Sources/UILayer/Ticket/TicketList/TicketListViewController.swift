@@ -1,17 +1,19 @@
 //
-//  TicketViewController.swift
+//  TicketListViewController.swift
 //  Boolti
 //
 //  Created by Miro on 1/20/24.
 //
 
 import UIKit
-import RxCocoa
-import RxSwift
-import RxAppState
 import SnapKit
 
-final class TicketViewController: BooltiViewController {
+import RxCocoa
+import RxSwift
+import RxRelay
+import RxAppState
+
+final class TicketListViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
 
@@ -23,17 +25,26 @@ final class TicketViewController: BooltiViewController {
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, TicketItem>
 
     private var datasource: DataSource?
+    private static let ticketListFooterViewKind = "ticketListFooterViewKind"
 
-    private let viewModel: TicketViewModel
+    private let viewModel: TicketListViewModel
     private let disposeBag = DisposeBag()
+
+    private let currentTicketPage = BehaviorRelay<Int>(value: 1)
+    private let ticketPageCount = PublishRelay<Int>()
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
         collectionView.backgroundColor = .black
         collectionView.alwaysBounceVertical = false
         collectionView.register(
-            UsableTicketTableViewCell.self,
-            forCellWithReuseIdentifier: String(describing: UsableTicketTableViewCell.self)
+            TicketListCollectionViewCell.self,
+            forCellWithReuseIdentifier: String(describing: TicketListCollectionViewCell.self)
+        )
+        collectionView.register(
+            TicketListFooterView.self,
+            forSupplementaryViewOfKind: TicketListViewController.ticketListFooterViewKind,
+            withReuseIdentifier: String(describing: TicketListFooterView.self)
         )
 
         return collectionView
@@ -58,7 +69,7 @@ final class TicketViewController: BooltiViewController {
     }()
 
     init(
-        viewModel: TicketViewModel,
+        viewModel: TicketListViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController
     ) {
         self.viewModel = viewModel
@@ -91,7 +102,7 @@ final class TicketViewController: BooltiViewController {
         ])
 
         self.collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+            make.edges.equalToSuperview()
         }
 
         self.loginEnterView.snp.makeConstraints { make in
@@ -111,46 +122,55 @@ final class TicketViewController: BooltiViewController {
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-            item.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 10,
-                bottom: 10,
-                trailing: 10
-            )
-
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.6))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.7))
 
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
                 subitems: [item]
             )
 
-            let section = NSCollectionLayoutSection(group: group)
+            group.contentInsets = NSDirectionalEdgeInsets(
+                top: 20,
+                leading: 10,
+                bottom: 0,
+                trailing: 10
+            )
 
+            let footerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(35)
+            )
+
+            let footer = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: footerSize,
+                elementKind: TicketListViewController.ticketListFooterViewKind,
+                alignment: .bottom
+            )
+
+            let section = NSCollectionLayoutSection(group: group)
+            section.boundarySupplementaryItems = [footer]
             section.orthogonalScrollingBehavior = .groupPagingCentered
-            self.setupCollectionViewCarousel(to: section)
+
+            self.configureCollectionViewCarousel(of: section)
+
             return section
         }
 
         return layout
     }
 
-    private func setupCollectionViewCarousel(to section: NSCollectionLayoutSection) {
-        section.visibleItemsInvalidationHandler = { visibleItems, offset, environment in
+    private func configureCollectionViewCarousel(of section: NSCollectionLayoutSection) {
+        section.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, environment in
 
             // 현재 Page 관련 정보!..
             let currentPage = Int(max(0, round(offset.x / environment.container.contentSize.width)))
-            print(currentPage)
-            visibleItems.forEach { item in
+            self?.currentTicketPage.accept(currentPage+1)
 
-                // 아이템과 스크롤된 화면 사이의 교차하는 영역을 계산
+            visibleItems.forEach { item in
                 let intersectedRect = item.frame.intersection(
                     CGRect(x: offset.x, y: offset.y, width: environment.container.contentSize.width, height: item.frame.height)
                 )
-                //  아이템이 화면에서 얼마나 보이는지를 나타내는 비율을 계산
                 let percentVisible = intersectedRect.width / item.frame.width
-                
-                // 스케일 설정
                 let scale = 0.8 + (0.1 * percentVisible)
                 item.transform = CGAffineTransform(scaleX: 1, y: scale)
             }
@@ -210,6 +230,7 @@ final class TicketViewController: BooltiViewController {
             .asDriver(onErrorJustReturn: [])
             .drive(with: self, onNext: { owner, ticketItems in
                 owner.applySnapshot(ticketItems)
+                owner.ticketPageCount.accept(ticketItems.count)
             })
             .disposed(by: self.disposeBag)
 
@@ -232,11 +253,27 @@ final class TicketViewController: BooltiViewController {
         self.datasource = UICollectionViewDiffableDataSource(
             collectionView: self.collectionView,
             cellProvider: { collectionView, indexPath, item in
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: UsableTicketTableViewCell.self), for: indexPath) as? UsableTicketTableViewCell else { return UICollectionViewCell() }
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TicketListCollectionViewCell.self), for: indexPath) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
                 cell.setData(with: item)
 
             return cell
         })
+
+        self.datasource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+            let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: TicketListFooterView.self), for: indexPath)
+
+            self.bind(supplementaryView)
+            return supplementaryView
+        }
+    }
+
+    private func bind(_ footerView: UICollectionReusableView) {
+        guard let footerView = footerView as? TicketListFooterView else { return }
+        Observable.combineLatest(self.currentTicketPage, self.ticketPageCount)
+            .subscribe { (currentPage, pagesCount) in
+                footerView.pageIndicatorLabel.text = "\(currentPage)/\(pagesCount)"
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func applySnapshot(_ ticketItems: [TicketItem]) {
