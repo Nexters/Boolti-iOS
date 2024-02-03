@@ -55,7 +55,7 @@ class TicketListCollectionViewCell: UICollectionViewCell {
     private let numberLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grey80
-        label.font = .pretendardR(14)
+        label.font = .pretendardB(14)
 
         return label
     }()
@@ -78,7 +78,7 @@ class TicketListCollectionViewCell: UICollectionViewCell {
     private let ticketTypeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grey80
-        label.font = .pretendardR(14)
+        label.font = .pretendardB(14)
 
         return label
     }()

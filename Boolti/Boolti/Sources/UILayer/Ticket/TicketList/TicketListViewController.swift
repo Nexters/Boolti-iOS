@@ -122,18 +122,18 @@ final class TicketListViewController: BooltiViewController {
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
+            item.contentInsets = NSDirectionalEdgeInsets(
+                top: 50,
+                leading: 10,
+                bottom: 20,
+                trailing: 10
+            )
+
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.7))
 
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
                 subitems: [item]
-            )
-
-            group.contentInsets = NSDirectionalEdgeInsets(
-                top: 20,
-                leading: 10,
-                bottom: 0,
-                trailing: 10
             )
 
             let footerSize = NSCollectionLayoutSize(
@@ -171,7 +171,7 @@ final class TicketListViewController: BooltiViewController {
                     CGRect(x: offset.x, y: offset.y, width: environment.container.contentSize.width, height: item.frame.height)
                 )
                 let percentVisible = intersectedRect.width / item.frame.width
-                let scale = 0.8 + (0.1 * percentVisible)
+                let scale = 0.8 + (0.2 * percentVisible)
                 item.transform = CGAffineTransform(scaleX: 1, y: scale)
             }
         }

@@ -107,7 +107,7 @@ class TicketMainView: UIView {
         self.posterImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(self.posterImageView.snp.width).multipliedBy(1.5)
+            make.height.equalTo(self.posterImageView.snp.width).multipliedBy(1.4)
         }
 
         self.verticalInformationStackView.snp.makeConstraints { make in
