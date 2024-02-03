@@ -13,13 +13,34 @@ class UsableTicketTableViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 8
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.grey50.cgColor
 
         return imageView
     }()
 
+    private lazy var rightCircleView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.grey50.cgColor
+        view.backgroundColor = .black
+
+        return view
+    }()
+
+    private lazy var leftCircleView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.grey50.cgColor
+        view.backgroundColor = .black
+
+        return view
+    }()
     private let upperTagView: UIView = {
         let view = UIView()
         view.backgroundColor = .white.withAlphaComponent(0.4)
+//        view.backgroundColor = .red
         return view
     }()
 
@@ -73,19 +94,22 @@ class UsableTicketTableViewCell: UICollectionViewCell {
     }
 
     private func configureViews() {
+        self.backgroundImageView.addSubview(self.upperTagView)
         self.addSubviews([
             self.backgroundImageView,
-            self.upperTagView,
             self.upperTagLabelStackView,
             self.booltiLogoImageView,
-            self.ticketMainView
+            self.ticketMainView,
+            self.rightCircleView,
+            self.leftCircleView
         ])
 
         self.layer.cornerRadius = 8
         self.clipsToBounds = true
 
-        self.configureConstraints()
         self.configureBackGroundBlurViewEffect()
+        self.configureConstraints()
+        self.configureBorder()
         self.configureSeperateLine()
     }
 
@@ -105,12 +129,17 @@ class UsableTicketTableViewCell: UICollectionViewCell {
     //        self.configureBlurViewGradient()
     //    }
 
+    private func configureBorder() {
+        self.rightCircleView.layer.cornerRadius = self.bounds.height * 0.0175
+        self.leftCircleView.layer.cornerRadius = self.bounds.height * 0.0175
+    }
+
     private func configureBackGroundBlurViewEffect() {
         let blurEffect = UIBlurEffect(style: .regular)
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
         visualEffectView.frame = self.bounds
         self.backgroundImageView.addSubview(visualEffectView)
-        
+
         self.configureBackGroundGradient()
     }
 
@@ -124,6 +153,7 @@ class UsableTicketTableViewCell: UICollectionViewCell {
 
         gradientLayer.frame = self.bounds
         self.backgroundImageView.layer.addSublayer(gradientLayer)
+        self.backgroundImageView.bringSubviewToFront(self.upperTagView)
     }
 
     //    private func configureBorder() {
@@ -186,6 +216,18 @@ class UsableTicketTableViewCell: UICollectionViewCell {
         self.booltiLogoImageView.snp.makeConstraints { make in
             make.top.equalTo(self.upperTagLabelStackView)
             make.right.equalTo(self.ticketMainView)
+        }
+
+        self.rightCircleView.snp.makeConstraints { make in
+            make.width.height.equalTo(self.bounds.height * 0.035)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height*0.8)
+            make.centerX.equalTo(self.snp.right)
+        }
+
+        self.leftCircleView.snp.makeConstraints { make in
+            make.width.height.equalTo(self.bounds.height * 0.035)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height*0.8)
+            make.centerX.equalTo(self.snp.left)
         }
     }
 }

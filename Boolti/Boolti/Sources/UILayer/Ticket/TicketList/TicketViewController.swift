@@ -30,6 +30,7 @@ final class TicketViewController: BooltiViewController {
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
         collectionView.backgroundColor = .black
+        collectionView.alwaysBounceVertical = false
         collectionView.register(
             UsableTicketTableViewCell.self,
             forCellWithReuseIdentifier: String(describing: UsableTicketTableViewCell.self)
@@ -90,9 +91,7 @@ final class TicketViewController: BooltiViewController {
         ])
 
         self.collectionView.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(30)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-70)
-            make.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide)
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
 
         self.loginEnterView.snp.makeConstraints { make in
