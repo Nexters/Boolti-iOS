@@ -89,6 +89,7 @@
 		84B321A32B61543E007FD669 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321A22B61543E007FD669 /* FirebaseMessaging */; };
 		84B321A52B61543E007FD669 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321A42B61543E007FD669 /* FirebaseRemoteConfig */; };
 		84B321A72B61543E007FD669 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321A62B61543E007FD669 /* FirebaseRemoteConfigSwift */; };
+		84E512442B6E2433002658D1 /* QRMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E512432B6E2433002658D1 /* QRMaker.swift */; };
 		84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF22B673877009462E9 /* ConcertInfoView.swift */; };
 		84FBBDF72B67429D009462E9 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF62B67429D009462E9 /* ImageCacheManager.swift */; };
 		84FBBDF92B67431D009462E9 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF82B67431D009462E9 /* UIImageView+.swift */; };
@@ -221,6 +222,7 @@
 		84975BFD2B6123E500F903E7 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		84975BFE2B6123E500F903E7 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		849FBD502B5E920A006EB865 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
+		84E512432B6E2433002658D1 /* QRMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRMaker.swift; sourceTree = "<group>"; };
 		84FBBDF22B673877009462E9 /* ConcertInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertInfoView.swift; sourceTree = "<group>"; };
 		84FBBDF62B67429D009462E9 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		84FBBDF82B67431D009462E9 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
@@ -511,6 +513,7 @@
 			children = (
 				84781C742B5BEB5600D37921 /* UserDefault.swift */,
 				84FBBDF62B67429D009462E9 /* ImageCacheManager.swift */,
+				84E512432B6E2433002658D1 /* QRMaker.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1092,6 +1095,7 @@
 				8746ACFF2B65F9AF0037A1B1 /* UsableTicketTableViewCell.swift in Sources */,
 				876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */,
 				84781CCE2B5C005600D37921 /* ConcertViewController.swift in Sources */,
+				84E512442B6E2433002658D1 /* QRMaker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

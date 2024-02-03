@@ -25,6 +25,11 @@ final class ConcertViewController: UIViewController {
         return button
     }()
     
+    let qrImageView: UIImageView = {
+        let view = UIImageView()
+        return view
+    }()
+    
     // MARK: Init
     
     init(viewModel: ConcertViewModel) {
@@ -50,11 +55,23 @@ final class ConcertViewController: UIViewController {
             nextButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
         
+        self.view.addSubview(qrImageView)
+        
+        self.qrImageView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(self.nextButton.snp.bottom).offset(50)
+            make.width.height.equalTo(200)
+        }
+        
         self.nextButton.rx.tap
             .bind(with: self, onNext: { owner, _ in
                 owner.showBottomSheet()
             })
             .disposed(by: self.disposeBag)
+        
+        // identifier에 서버가 준 고유값 넣기
+        let qrImage = QRMaker().makeQR(identifier: "B8273H")
+        self.qrImageView.image = qrImage
     }
     
     override func viewWillAppear(_ animated: Bool) {
