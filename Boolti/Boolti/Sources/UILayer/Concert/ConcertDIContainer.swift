@@ -28,8 +28,8 @@ final class ConcertDIContainer {
         return navigationController
     }
     
-    private func createConcertViewModel() -> ConcertViewModel {
-        return ConcertViewModel()
+    private func createConcertViewModel() -> MypageViewModel {
+        return MypageViewModel()
     }
 
 }

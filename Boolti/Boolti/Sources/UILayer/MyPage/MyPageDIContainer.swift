@@ -6,16 +6,28 @@
 //
 
 import Foundation
+import UIKit
 
 final class MyPageDIContainer {
 
-    private let authAPIService: AuthAPIServiceType
+    private let authAPIService: AuthAPIService
 
-    init(authAPIService: AuthAPIServiceType) {
+    init(authAPIService: AuthAPIService) {
         self.authAPIService = authAPIService
     }
+    
+    func createMyPageViewController() -> UIViewController {
+        let viewModel = createMyPageViewModel()
 
-    func createMyPageViewController() -> MyPageViewController {
-        return MyPageViewController()
+        let viewController = MyPageViewController(viewModel: viewModel)
+
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.isHidden = true
+        return navigationController
     }
+    
+    private func createMyPageViewModel() -> MypageViewModel {
+        return MypageViewModel()
+    }
+
 }

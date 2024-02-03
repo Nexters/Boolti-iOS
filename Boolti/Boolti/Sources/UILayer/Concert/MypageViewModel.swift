@@ -7,5 +7,5 @@
 
 import Foundation
 
-final class ConcertViewModel {
+final class MypageViewModel {
 }

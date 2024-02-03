@@ -12,7 +12,7 @@ final class ConcertViewController: UIViewController {
     
     // MARK: Properties
     
-    private let viewModel: ConcertViewModel
+    private let viewModel: MypageViewModel
     private let disposeBag = DisposeBag()
     
     // MARK: UI Component
@@ -32,7 +32,7 @@ final class ConcertViewController: UIViewController {
     
     // MARK: Init
     
-    init(viewModel: ConcertViewModel) {
+    init(viewModel: MypageViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
