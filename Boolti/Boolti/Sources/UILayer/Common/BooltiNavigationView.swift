@@ -25,19 +25,23 @@ final class BooltiNavigationView: UIView {
         label.textColor = .grey10
         return label
     }()
-
+    
     private lazy var backButton = self.makeButton(image: .back)
     
     private lazy var homeButton = self.makeButton(image: .home)
     
     private lazy var closeButton = self.makeButton(image: .closeButton)
     
+    private lazy var shareButton = self.makeButton(image: .share)
+    
+    private lazy var moreButton = self.makeButton(image: .more)
+    
     // MARK: Init
     
     init(type: NavigationType) {
         super.init(frame: .zero)
         
-        self.configureDefaultUI()
+        self.configureDefaultConstraints()
         
         switch type {
         case .ticketingDetail: self.configureTicketingDetailUI()
@@ -51,7 +55,7 @@ final class BooltiNavigationView: UIView {
     }
 }
 
-// MARK: - UI
+// MARK: - Methods
 
 extension BooltiNavigationView {
     
@@ -61,12 +65,11 @@ extension BooltiNavigationView {
         button.tintColor = .grey10
         return button
     }
-    
-    private func configureDefaultUI() {
-        self.backgroundColor = .grey95
-        
-        self.configureDefaultConstraints()
-    }
+}
+
+// MARK: - UI
+
+extension BooltiNavigationView {
     
     private func configureDefaultConstraints() {
         self.snp.makeConstraints { make in
@@ -75,56 +78,81 @@ extension BooltiNavigationView {
     }
     
     private func configureTicketingDetailUI() {
-        self.addSubviews([self.backButton, self.titleLabel])
-        
-        self.configureBackButtonConstraints()
-        self.configureTitleConstraints()
-        
         self.titleLabel.text = "결제하기"
+        self.backgroundColor = .grey95
+        
+        self.addSubviews([self.backButton, self.titleLabel])
+        self.configureTicketingDetailConstraints()
     }
     
     private func configureTicketingCompletionUI() {
-        self.addSubviews([self.homeButton, self.closeButton])
+        self.backgroundColor = .grey95
         
-        self.configureHomeButtonConstraints()
-        self.configureCloseButtonConstraints()
+        self.addSubviews([self.homeButton, self.closeButton])
+        self.configureTicketingCompletionConstraints()
     }
     
     private func configureConcertDetailUI() {
-        self.addSubview(backButton)
+        self.backgroundColor = .grey90
         
-        self.configureBackButtonConstraints()
+        self.addSubviews([self.backButton, self.homeButton, self.shareButton, self.moreButton])
+        self.configureConcertDetailConstraints()
     }
     
-    private func configureBackButtonConstraints() {
+    private func configureTicketingDetailConstraints() {
         self.backButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(20)
-            make.height.width.equalTo(24)
-        }
-    }
-    
-    private func configureHomeButtonConstraints() {
-        self.homeButton.snp.makeConstraints { make in
+            make.width.height.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
-            make.left.equalToSuperview().inset(20)
-            make.height.width.equalTo(24)
         }
-    }
-    
-    private func configureTitleConstraints() {
+        
         self.titleLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.backButton.snp.right).offset(4)
-            make.centerY.equalTo(self.backButton.snp.centerY)
+            make.left.equalTo(self.backButton).offset(20)
+            make.width.height.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
         }
     }
     
-    private func configureCloseButtonConstraints() {
-        self.closeButton.snp.makeConstraints { make in
+    private func configureTicketingCompletionConstraints() {
+        self.homeButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(20)
+            make.width.height.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
-            make.right.equalToSuperview().inset(20)
-            make.height.width.equalTo(24)
         }
+        
+        self.closeButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.width.height.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+        
+    }
+    
+    private func configureConcertDetailConstraints() {
+        self.backButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(20)
+            make.width.height.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+        
+        self.homeButton.snp.makeConstraints { make in
+            make.left.equalTo(self.backButton.snp.right).offset(20)
+            make.width.height.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+        
+        self.moreButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.width.height.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+        
+        self.shareButton.snp.makeConstraints { make in
+            make.right.equalTo(self.moreButton.snp.left).offset(-20)
+            make.width.height.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+
     }
 }
 
@@ -142,5 +170,13 @@ extension BooltiNavigationView {
     
     func didCloseButtonTap() -> Signal<Void> {
         return closeButton.rx.tap.asSignal()
+    }
+    
+    func didShareButtonTap() -> Signal<Void> {
+        return shareButton.rx.tap.asSignal()
+    }
+    
+    func didMoreButtonTap() -> Signal<Void> {
+        return moreButton.rx.tap.asSignal()
     }
 }
