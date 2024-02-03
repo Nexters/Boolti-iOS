@@ -980,7 +980,6 @@
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
 				8766B55F2B641579004F266A /* UsableTicket.swift in Sources */,
 				84625A112B63B48D00CC9077 /* SalesTicketEntity.swift in Sources */,
-				84625A112B63B48D00CC9077 /* TicketEntity.swift in Sources */,
 				8746AD162B680A700037A1B1 /* SelectedTicketTableViewCell.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
 				84FBBE052B67A952009462E9 /* TicketInfoView.swift in Sources */,
