@@ -34,6 +34,7 @@ class TicketDetailViewController: UIViewController {
 
     private lazy var ticketDetailView = TicketDetailView(item: self.ticketItem)
     private let seperatingBlankView = UIView()
+    private let reversalPolicyView = ReversalPolicyView()
 
     private let disposeBag = DisposeBag()
 
@@ -80,7 +81,8 @@ class TicketDetailViewController: UIViewController {
 
         self.contentStackView.addArrangedSubviews([
             self.ticketDetailView,
-            self.seperatingBlankView
+            self.seperatingBlankView,
+            self.reversalPolicyView
         ])
     }
 
