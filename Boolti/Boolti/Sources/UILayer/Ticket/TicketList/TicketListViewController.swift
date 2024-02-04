@@ -52,7 +52,6 @@ final class TicketListViewController: BooltiViewController {
         return collectionView
     }()
 
-
     private let loginEnterView: LoginEnterView = {
         let view = LoginEnterView()
         // 색깔은 바꿔줄 예정!..
@@ -95,6 +94,9 @@ final class TicketListViewController: BooltiViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         self.loginEnterView.isHidden = true
+        self.tabBarController?.tabBar.isHidden = false
+        self.hidesBottomBarWhenPushed = true
+        print("뭔데..")
     }
 
     private func configureUI() {

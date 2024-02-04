@@ -20,6 +20,10 @@ class TicketDetailView: UIView {
     private var backgroundGradientView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 8
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.grey50.cgColor
 
         return view
     }()
@@ -83,7 +87,10 @@ class TicketDetailView: UIView {
         self.ticketMainInformationView = TicketMainInformationView(item: item)
         self.backgroundImageView.image = item.poster
         self.ticketInquiryView.setData(with: "박불티 (010-1234-5678)")
-        
+
+        self.layer.cornerRadius = 8
+        self.clipsToBounds = true
+
         self.copyAddressButton.snp.makeConstraints { make in
             make.height.equalTo(48)
         }
@@ -141,7 +148,7 @@ class TicketDetailView: UIView {
         let blurEffect = UIBlurEffect(style: .light)
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
         visualEffectView.frame = self.bounds
-        visualEffectView.alpha = 0.6
+        visualEffectView.alpha = 0.8
 
         self.insertSubview(visualEffectView, aboveSubview: self.backgroundImageView)
     }

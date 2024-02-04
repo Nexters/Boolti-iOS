@@ -15,6 +15,8 @@ class TicketDetailViewController: UIViewController {
     private let viewModel: TicketDetailViewModel
     private let ticketItem: TicketItem
 
+    private let navigationBar = BooltiNavigationView(type: .ticketDetail)
+
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .black
@@ -31,7 +33,8 @@ class TicketDetailViewController: UIViewController {
     }()
 
     private lazy var ticketDetailView = TicketDetailView(item: self.ticketItem)
-    private let navigationBar = BooltiNavigationView(type: .ticketDetail)
+    private let seperatingBlankView = UIView()
+
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -51,14 +54,6 @@ class TicketDetailViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
-    }
-
     private func configureUI() {
         self.view.backgroundColor = .black
         self.view.addSubviews([self.navigationBar, self.scrollView])
@@ -74,6 +69,10 @@ class TicketDetailViewController: UIViewController {
             make.horizontalEdges.equalToSuperview().inset(25)
         }
 
+        self.seperatingBlankView.snp.makeConstraints { make in
+            make.height.equalTo(20)
+        }
+
         self.contentStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
@@ -81,6 +80,7 @@ class TicketDetailViewController: UIViewController {
 
         self.contentStackView.addArrangedSubviews([
             self.ticketDetailView,
+            self.seperatingBlankView
         ])
     }
 
