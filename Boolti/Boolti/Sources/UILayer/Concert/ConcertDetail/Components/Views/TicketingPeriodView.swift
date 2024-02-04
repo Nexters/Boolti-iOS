@@ -19,6 +19,13 @@ final class TicketingPeriodView: UIView {
         return label
     }()
     
+    private var periodLabel: UILabel = {
+        let label = UILabel()
+        label.font = .subhead1
+        label.textColor = .grey30
+        return label
+    }()
+    
     // MARK: Init
     
     override init(frame: CGRect) {
@@ -34,6 +41,15 @@ final class TicketingPeriodView: UIView {
     
 }
 
+// MARK: - Methods
+
+extension TicketingPeriodView {
+    
+    func setData(startDate: Date, endDate: Date) {
+        self.periodLabel.text = "\(startDate.format(.date)) - \(endDate.format(.date))"
+    }
+}
+
 // MARK: - UI
 
 extension TicketingPeriodView {
@@ -41,26 +57,26 @@ extension TicketingPeriodView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
 
-        // 마스크(잘라낼 부분) 만들기
-        let path =  UIBezierPath(roundedRect: rect, cornerRadius: 8)
+        // 티켓 테두리 마스크(잘라낼 부분) 만들기
+        let rectPath =  UIBezierPath(roundedRect: rect, cornerRadius: 8)
         
-        let leftCenter = CGPoint(x: rect.minX, y: rect.height / 2)
-        path.move(to: leftCenter)
-        path.addArc(withCenter: leftCenter, radius: 8, startAngle: 3 / 2 * .pi, endAngle: 1 / 2 * .pi, clockwise: true)
+        let leftCenter = CGPoint(x: rect.minX, y: rect.midY)
+        rectPath.move(to: leftCenter)
+        rectPath.addArc(withCenter: leftCenter, radius: 8, startAngle: 3 / 2 * .pi, endAngle: 1 / 2 * .pi, clockwise: true)
         
-        let rightCenter = CGPoint(x: rect.maxX, y: rect.height / 2)
-        path.move(to: rightCenter)
-        path.addArc(withCenter: rightCenter, radius: 8, startAngle: 3 / 2 * .pi, endAngle: 1 / 2 * .pi, clockwise: false)
+        let rightCenter = CGPoint(x: rect.maxX, y: rect.midY)
+        rectPath.move(to: rightCenter)
+        rectPath.addArc(withCenter: rightCenter, radius: 8, startAngle: 3 / 2 * .pi, endAngle: 1 / 2 * .pi, clockwise: false)
 
-        // 마스크 적용
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        mask.fillRule = .evenOdd
-        layer.mask = mask
+        // 티켓 테두리 마스크 적용
+        let ticketMask = CAShapeLayer()
+        ticketMask.path = rectPath.cgPath
+        ticketMask.fillRule = .evenOdd
+        self.layer.mask = ticketMask
         
         // 티켓 모양 마스크 만들기
         let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
+        shapeLayer.path = rectPath.cgPath
         shapeLayer.lineWidth = 1.0
         shapeLayer.strokeColor = UIColor.white00.cgColor
         shapeLayer.fillColor = UIColor.clear.cgColor
@@ -76,11 +92,23 @@ extension TicketingPeriodView {
         // 그라데이션 레이어에 티켓 모양 마스크 적용
         gradientLayer.mask = shapeLayer
         
-        layer.addSublayer(gradientLayer)
+        self.layer.addSublayer(gradientLayer)
+        
+        // 점선 만들기
+        let linePath = UIBezierPath()
+        linePath.move(to: leftCenter)
+        linePath.addLine(to: rightCenter)
+        
+        let lineLayer = CAShapeLayer()
+        lineLayer.strokeColor = UIColor.black100.cgColor
+        lineLayer.lineDashPattern = [7]
+             
+        lineLayer.path = linePath.cgPath
+        self.layer.addSublayer(lineLayer)
     }
     
     private func configureUI() {
-        self.addSubviews([self.titleLabel])
+        self.addSubviews([self.titleLabel, self.periodLabel])
         
         self.backgroundColor = .grey70
     }
@@ -92,6 +120,11 @@ extension TicketingPeriodView {
         
         self.titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(12)
+            make.centerX.equalToSuperview()
+        }
+        
+        self.periodLabel.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(12)
             make.centerX.equalToSuperview()
         }
     }

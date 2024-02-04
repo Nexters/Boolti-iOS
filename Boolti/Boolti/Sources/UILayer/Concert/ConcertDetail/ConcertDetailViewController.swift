@@ -45,7 +45,8 @@ final class ConcertDetailViewController: UIViewController {
         self.configureConstraints()
         
         // 확인용
-        self.concertPosterView.setData(images: [.mockPoster, .mockPoster], title: "2024 TOGETHER LUCKY CLUB")
+        self.concertPosterView.setData(images: [.mockPoster, .mockPoster, .mockPoster], title: "2024 TOGETHER LUCKY CLUB")
+        self.ticketingPeriodView.setData(startDate: Date(), endDate: Date().addingTimeInterval(1234541))
     }
     
     override func viewWillAppear(_ animated: Bool) {
