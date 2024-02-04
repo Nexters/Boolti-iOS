@@ -21,6 +21,8 @@ final class ConcertDetailViewController: UIViewController {
     
     private let concertPosterView = ConcertPosterView()
     
+    private let ticketingPeriodView = TicketingPeriodView()
+    
     // MARK: Init
     
     init(viewModel: ConcertDetailViewModel) {
@@ -56,7 +58,9 @@ final class ConcertDetailViewController: UIViewController {
 extension ConcertDetailViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.navigationView, self.concertPosterView])
+        self.view.addSubviews([self.navigationView,
+                               self.concertPosterView,
+                               self.ticketingPeriodView])
     }
     
     private func configureConstraints() {
@@ -68,6 +72,11 @@ extension ConcertDetailViewController {
         self.concertPosterView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.ticketingPeriodView.snp.makeConstraints { make in
+            make.top.equalTo(self.concertPosterView.snp.bottom).offset(40)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }

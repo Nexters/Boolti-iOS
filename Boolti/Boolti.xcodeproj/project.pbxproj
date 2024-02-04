@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D84032B6F5C610078D352 /* TicketingPeriodView.swift */; };
 		84625A042B6382C300CC9077 /* BooltiBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */; };
 		84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */; };
 		84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */; };
@@ -55,6 +56,7 @@
 		84781CCE2B5C005600D37921 /* ConcertListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCD2B5C005600D37921 /* ConcertListViewController.swift */; };
 		84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781CCF2B5C006500D37921 /* ConcertViewModel.swift */; };
 		847AA70E2B62B55500E5B55C /* BooltiNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AA70D2B62B55500E5B55C /* BooltiNavigationView.swift */; };
+		84886E882B6FB166005D2329 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84886E872B6FB166005D2329 /* UIColor+.swift */; };
 		84896A432B6A583200CB3E33 /* TicketingCompletionDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A422B6A583200CB3E33 /* TicketingCompletionDIContainer.swift */; };
 		84896A452B6A672800CB3E33 /* TicketingCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A442B6A672800CB3E33 /* TicketingCompletionViewController.swift */; };
 		84896A472B6A677400CB3E33 /* TicketingCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A462B6A677400CB3E33 /* TicketingCompletionViewModel.swift */; };
@@ -164,6 +166,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		840D84032B6F5C610078D352 /* TicketingPeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingPeriodView.swift; sourceTree = "<group>"; };
 		84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBottomSheetViewController.swift; sourceTree = "<group>"; };
 		84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewController.swift; sourceTree = "<group>"; };
 		84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -207,6 +210,7 @@
 		84781CCD2B5C005600D37921 /* ConcertListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListViewController.swift; sourceTree = "<group>"; };
 		84781CCF2B5C006500D37921 /* ConcertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewModel.swift; sourceTree = "<group>"; };
 		847AA70D2B62B55500E5B55C /* BooltiNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiNavigationView.swift; sourceTree = "<group>"; };
+		84886E872B6FB166005D2329 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		84896A422B6A583200CB3E33 /* TicketingCompletionDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionDIContainer.swift; sourceTree = "<group>"; };
 		84896A442B6A672800CB3E33 /* TicketingCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionViewController.swift; sourceTree = "<group>"; };
 		84896A462B6A677400CB3E33 /* TicketingCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionViewModel.swift; sourceTree = "<group>"; };
@@ -512,6 +516,7 @@
 				84625A152B63C33D00CC9077 /* UITableViewCell+.swift */,
 				84FEF6162B68A6D100EBB64F /* UIResponder+.swift */,
 				84896A4E2B6A723900CB3E33 /* Date+.swift */,
+				84886E872B6FB166005D2329 /* UIColor+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -756,6 +761,7 @@
 			isa = PBXGroup;
 			children = (
 				84E512522B6E9E0B002658D1 /* ConcertPosterView.swift */,
+				840D84032B6F5C610078D352 /* TicketingPeriodView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1069,6 +1075,7 @@
 				8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */,
 				8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */,
 				8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */,
+				840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */,
 				84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */,
 				87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */,
 				849FBD512B5E920A006EB865 /* AppInfo.swift in Sources */,
@@ -1142,6 +1149,7 @@
 				84896A432B6A583200CB3E33 /* TicketingCompletionDIContainer.swift in Sources */,
 				848CBF062B6547FA00239303 /* TicketingDetailViewController.swift in Sources */,
 				8746ACFF2B65F9AF0037A1B1 /* UsableTicketTableViewCell.swift in Sources */,
+				84886E882B6FB166005D2329 /* UIColor+.swift in Sources */,
 				876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */,
 				84781CCE2B5C005600D37921 /* ConcertListViewController.swift in Sources */,
 			);
