@@ -100,7 +100,7 @@ extension ConcertPosterView {
 
 extension ConcertPosterView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentPage = Int(self.scrollView.contentOffset.x / self.scrollView.frame.width)
+        let currentPage = Int(round(self.scrollView.contentOffset.x / self.scrollViewWidth))
         self.pageControl.currentPage = currentPage
     }
 }
