@@ -18,9 +18,17 @@ final class ConcertListDIContainer {
     
     func createConcertListViewController() -> UIViewController {
         let viewModel = createConcertListViewModel()
+        
+        let concertDetailViewControllerFactory: () -> ConcertDetailViewController = {
+            let DIContainer = self.createConcertDetailDIContainer()
+
+            let viewController = DIContainer.createConcertDetailViewController()
+            return viewController
+        }
 
         let viewController = ConcertListViewController(
-            viewModel: viewModel
+            viewModel: viewModel,
+            concertDetailViewControllerFactory: concertDetailViewControllerFactory
         )
 
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -30,6 +38,10 @@ final class ConcertListDIContainer {
     
     private func createConcertListViewModel() -> ConcertListViewModel {
         return ConcertListViewModel()
+    }
+    
+    private func createConcertDetailDIContainer() -> ConcertDetailDIContainer {
+        return ConcertDetailDIContainer()
     }
 
 }

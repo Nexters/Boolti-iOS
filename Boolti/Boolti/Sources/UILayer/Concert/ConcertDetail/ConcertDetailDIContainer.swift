@@ -16,16 +16,14 @@ final class ConcertDetailDIContainer {
 //        self.concertAPIService = concertAPIService
 //    }
     
-    func createConcertDetailViewController() -> UIViewController {
+    func createConcertDetailViewController() -> ConcertDetailViewController {
         let viewModel = createConcertDetailViewModel()
 
         let viewController = ConcertDetailViewController(
             viewModel: viewModel
         )
 
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.navigationBar.isHidden = true
-        return navigationController
+        return viewController
     }
     
     private func createConcertDetailViewModel() -> ConcertDetailViewModel {

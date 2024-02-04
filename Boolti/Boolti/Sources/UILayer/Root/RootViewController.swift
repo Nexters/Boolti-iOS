@@ -37,8 +37,7 @@ final class RootViewController: UIViewController {
         super.viewDidLoad()
         self.bind()
 
-        // TODO: 화면 넘어가는 거 확인용. 나중에 지워야함!
-        self.view.backgroundColor = .red
+        self.view.backgroundColor = .grey95
     }
 
     private func bind() {

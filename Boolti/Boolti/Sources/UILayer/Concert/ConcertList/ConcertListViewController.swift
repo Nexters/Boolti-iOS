@@ -14,6 +14,7 @@ final class ConcertListViewController: UIViewController {
     
     private let viewModel: ConcertListViewModel
     private let disposeBag = DisposeBag()
+    private let concertDetailViewControllerFactory: () -> ConcertDetailViewController
     
     // MARK: UI Component
 
@@ -27,8 +28,12 @@ final class ConcertListViewController: UIViewController {
     
     // MARK: Init
     
-    init(viewModel: ConcertListViewModel) {
+    init(
+        viewModel: ConcertListViewModel,
+        concertDetailViewControllerFactory: @escaping () -> ConcertDetailViewController
+    ) {
         self.viewModel = viewModel
+        self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -52,7 +57,8 @@ final class ConcertListViewController: UIViewController {
         
         self.nextButton.rx.tap
             .bind(with: self, onNext: { owner, _ in
-                owner.showBottomSheet()
+                let viewController = self.concertDetailViewControllerFactory()
+                self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: self.disposeBag)
     }
@@ -60,15 +66,5 @@ final class ConcertListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-    }
-}
-
-// MARK: - Methods
-
-extension ConcertListViewController {
-    func showBottomSheet() {
-        
-        // TODO: 나중에 ticket view에서 팩토리로 변경 필요 (이건 확인용!)
-        self.present(TicketSelectionDIContainer().createTicketSelectionViewController(), animated: true)
     }
 }
