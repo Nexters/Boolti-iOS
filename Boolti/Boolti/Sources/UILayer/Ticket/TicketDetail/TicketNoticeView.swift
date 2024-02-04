@@ -33,7 +33,7 @@ final class TicketNoticeView: UIView {
     init() {
         super.init(frame: .zero)
         self.configureUI()
-        self.backgroundColor = .green
+        self.backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {
