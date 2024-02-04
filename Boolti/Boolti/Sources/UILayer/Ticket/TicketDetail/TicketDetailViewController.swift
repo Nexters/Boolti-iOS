@@ -7,6 +7,9 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 class TicketDetailViewController: UIViewController {
     
     private let viewModel: TicketDetailViewModel
@@ -28,11 +31,14 @@ class TicketDetailViewController: UIViewController {
     }()
 
     private lazy var ticketDetailView = TicketDetailView(item: self.ticketItem)
+    private let navigationBar = BooltiNavigationView(type: .ticketDetail)
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .orange
         self.configureUI()
+        self.bindUIComponenets()
+        self.bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -54,12 +60,18 @@ class TicketDetailViewController: UIViewController {
     }
 
     private func configureUI() {
-        self.view.addSubview(scrollView)
+        self.view.backgroundColor = .black
+        self.view.addSubviews([self.navigationBar, self.scrollView])
         self.scrollView.addSubview(self.contentStackView)
 
+        self.navigationBar.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+        }
+
         self.scrollView.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(30)
+            make.top.equalTo(self.navigationBar.snp.bottom).offset(16)
+            make.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(25)
         }
 
         self.contentStackView.snp.makeConstraints { make in
@@ -70,5 +82,17 @@ class TicketDetailViewController: UIViewController {
         self.contentStackView.addArrangedSubviews([
             self.ticketDetailView,
         ])
+    }
+
+    private func bindUIComponenets() {
+        self.navigationBar.didBackButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindViewModel() {
+
     }
 }

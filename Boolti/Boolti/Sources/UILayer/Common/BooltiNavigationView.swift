@@ -13,6 +13,7 @@ enum NavigationType {
     case ticketingDetail
     case ticketingCompletion
     case concertDetail
+    case ticketDetail
 }
 
 final class BooltiNavigationView: UIView {
@@ -43,6 +44,7 @@ final class BooltiNavigationView: UIView {
         case .ticketingDetail: self.configureTicketingDetailUI()
         case .ticketingCompletion: self.configureTicketingCompletionUI()
         case .concertDetail: self.configureConcertDetailUI()
+        case .ticketDetail: self.configureTicketDetailUI()
         }
     }
     
@@ -91,11 +93,16 @@ extension BooltiNavigationView {
     }
     
     private func configureConcertDetailUI() {
-        self.addSubview(backButton)
-        
+        self.addSubview(self.backButton)
+
         self.configureBackButtonConstraints()
     }
-    
+
+    private func configureTicketDetailUI() {
+        self.addSubview(self.backButton)
+        self.configureBackButtonConstraints()
+    }
+
     private func configureBackButtonConstraints() {
         self.backButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)

@@ -87,8 +87,6 @@ final class TicketListViewController: BooltiViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .blue
-        self.navigationController?.navigationBar.isHidden = true
         self.configureCollectionViewDatasource()
         self.configureUI()
         self.bindUIComponenets()
@@ -100,6 +98,8 @@ final class TicketListViewController: BooltiViewController {
     }
 
     private func configureUI() {
+        self.navigationController?.navigationBar.isHidden = true
+
         self.view.addSubviews([
             self.collectionView,
             self.loginEnterView,
