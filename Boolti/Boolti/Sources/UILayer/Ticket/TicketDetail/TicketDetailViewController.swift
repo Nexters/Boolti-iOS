@@ -14,7 +14,7 @@ class TicketDetailViewController: UIViewController {
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .red
+        scrollView.backgroundColor = .black
 
         return scrollView
     }()
@@ -25,27 +25,6 @@ class TicketDetailViewController: UIViewController {
         stackView.distribution = .fill
 
         return stackView
-    }()
-
-    private let blueView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .yellow
-
-        return view
-    }()
-
-    private let redView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-
-        return view
-    }()
-
-    private let greenView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .green
-
-        return view
     }()
 
     private lazy var ticketDetailView = TicketDetailView(item: self.ticketItem)
@@ -88,26 +67,8 @@ class TicketDetailViewController: UIViewController {
             make.width.equalToSuperview()
         }
 
-        self.blueView.snp.makeConstraints { make in
-            make.height.equalTo(500)
-            make.width.equalTo(800)
-        }
-
-        self.greenView.snp.makeConstraints { make in
-            make.height.equalTo(500)
-            make.width.equalTo(800)
-        }
-
-        self.redView.snp.makeConstraints { make in
-            make.height.equalTo(500)
-            make.width.equalTo(800)
-        }
-
         self.contentStackView.addArrangedSubviews([
-            self.blueView,
-            self.greenView,
             self.ticketDetailView,
-            self.redView,
         ])
     }
 }
