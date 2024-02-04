@@ -46,6 +46,10 @@ final class TicketNoticeView: UIView {
             self.noticeLabel
         ])
 
+        self.snp.makeConstraints { make in
+            make.height.equalTo(382)
+        }
+
         self.titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(16)
             make.horizontalEdges.equalToSuperview().inset(20)

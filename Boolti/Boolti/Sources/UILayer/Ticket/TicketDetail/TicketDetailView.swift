@@ -44,7 +44,7 @@ class TicketDetailView: UIView {
 
         self.ticketNoticeVIew.snp.makeConstraints { make in
             make.top.equalTo(ticketMainInformationView.snp.bottom)
-            make.width.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
         }
     }
 }
