@@ -57,19 +57,19 @@ final class AuthAPIService: AuthAPIServiceType {
     private func signUpKakao() {
         UserApi.shared.rx.me()
             .subscribe(with: self, onSuccess: { owner, user in
-                let email = user.kakaoAccount?.email
-                let phoneNumber = user.kakaoAccount?.phoneNumber
-                let nickName = user.kakaoAccount?.name
+                guard let email = user.kakaoAccount?.email else { return }
+                guard let phoneNumber = user.kakaoAccount?.phoneNumber else { return }
+                guard let nickName = user.kakaoAccount?.name else { return }
                 guard let userID = user.id else { return }
-                let imgPath = user.kakaoAccount?.profile?.profileImageUrl
-                
+                guard let imagePath = user.kakaoAccount?.profile?.profileImageUrl?.absoluteString else { return }
+
                 let requestDTO = SignUpRequestDTO(
                     nickname: nickName,
                     email: email,
                     phoneNumber: phoneNumber,
                     oauthType: "KAKAO",
                     oauthIdentity: String(userID),
-                    imgPath: imgPath?.absoluteString
+                    imgPath: imagePath
                 )
 
                 let API = AuthAPI.signup(requestDTO: requestDTO)
