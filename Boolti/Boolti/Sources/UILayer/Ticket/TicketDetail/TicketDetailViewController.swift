@@ -49,7 +49,6 @@ class TicketDetailViewController: BooltiViewController {
     }()
 
     private lazy var ticketDetailView = TicketDetailView(item: self.ticketItem)
-    private let seperatingBlankView = UIView()
     private let reversalPolicyView = ReversalPolicyView()
 
     private let disposeBag = DisposeBag()
@@ -84,6 +83,8 @@ class TicketDetailViewController: BooltiViewController {
         self.scrollView.addSubview(self.contentStackView)
         self.entryCodeView.addSubview(self.entryCodeButton)
 
+        self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
+
         self.navigationBar.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
         }
@@ -92,10 +93,6 @@ class TicketDetailViewController: BooltiViewController {
             make.top.equalTo(self.navigationBar.snp.bottom).offset(16)
             make.bottom.equalToSuperview()
             make.horizontalEdges.equalToSuperview().inset(25)
-        }
-
-        self.seperatingBlankView.snp.makeConstraints { make in
-            make.height.equalTo(20)
         }
 
         self.entryCodeView.snp.makeConstraints { make in
@@ -115,9 +112,9 @@ class TicketDetailViewController: BooltiViewController {
             make.width.equalToSuperview()
         }
 
+
         self.contentStackView.addArrangedSubviews([
             self.ticketDetailView,
-            self.seperatingBlankView,
             self.reversalPolicyView,
             self.entryCodeView
         ])

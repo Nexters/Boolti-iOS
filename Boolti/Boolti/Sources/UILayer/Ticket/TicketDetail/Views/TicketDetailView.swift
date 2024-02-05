@@ -19,7 +19,7 @@ class TicketDetailView: UIView {
     let didCopyAddressButtonTap = PublishRelay<Void>()
     let didShowConcertDetailButtonTap = PublishRelay<Void>()
 
-    private var backgroundImageView: UIImageView = {
+    private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -27,7 +27,7 @@ class TicketDetailView: UIView {
         return imageView
     }()
 
-    private var backgroundGradientView: UIView = {
+    private let backgroundGradientView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         view.clipsToBounds = true
@@ -83,7 +83,7 @@ class TicketDetailView: UIView {
         return button
     }()
 
-    private lazy var horizantalButtonStackView: UIStackView = {
+    private lazy var horizontalButtonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.addArrangedSubviews([
@@ -100,7 +100,6 @@ class TicketDetailView: UIView {
         super.init(frame: .zero)
         self.configureUI(with: item)
         self.bindUIComponents()
-        self.backgroundColor = .white
     }
 
     required init?(coder: NSCoder) {
@@ -125,14 +124,8 @@ class TicketDetailView: UIView {
         self.ticketInquiryView.setData(with: "박불티 (010-1234-5678)")
 
         self.layer.cornerRadius = 8
+        self.backgroundColor = .white
         self.clipsToBounds = true
-
-        self.copyAddressButton.snp.makeConstraints { make in
-            make.height.equalTo(48)
-        }
-        self.showConcertDetailButton.snp.makeConstraints { make in
-            make.height.equalTo(48)
-        }
 
         guard let ticketMainInformationView else { return }
 
@@ -142,10 +135,18 @@ class TicketDetailView: UIView {
             ticketMainInformationView,
             self.ticketNoticeView,
             self.ticketInquiryView,
-            self.horizantalButtonStackView,
+            self.horizontalButtonStackView,
             self.rightCircleView,
             self.leftCircleView
         ])
+        
+        self.configureConstraints()
+        self.bindUIComponents()
+    }
+
+    private func configureConstraints() {
+
+        guard let ticketMainInformationView else { return }
 
         self.snp.makeConstraints { make in
             make.width.greaterThanOrEqualTo(317)
@@ -175,24 +176,28 @@ class TicketDetailView: UIView {
             make.horizontalEdges.equalToSuperview()
         }
 
-        self.horizantalButtonStackView.snp.makeConstraints { make in
+        self.horizontalButtonStackView.snp.makeConstraints { make in
             make.top.equalTo(self.ticketInquiryView.snp.bottom)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(25)
+        }
+
+        self.copyAddressButton.snp.makeConstraints { make in
+            make.height.equalTo(48)
+        }
+        
+        self.showConcertDetailButton.snp.makeConstraints { make in
+            make.height.equalTo(48)
         }
     }
 
     private func bindUIComponents() {
         self.copyAddressButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.didCopyAddressButtonTap.accept(())
-            }
+            .bind(to: self.didCopyAddressButtonTap)
             .disposed(by: self.disposeBag)
 
         self.showConcertDetailButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.didShowConcertDetailButtonTap.accept(())
-            }
+            .bind(to: didShowConcertDetailButtonTap)
             .disposed(by: self.disposeBag)
     }
 
