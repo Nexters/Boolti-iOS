@@ -121,7 +121,6 @@ class TicketMainView: UIView {
         }
         
         self.verticalInformationStackView.snp.makeConstraints { make in
-
             make.top.greaterThanOrEqualTo(self.posterImageView.snp.bottom).offset(40)
             make.bottom.equalToSuperview()
             make.right.equalTo(self.qrCodeImageView.snp.left).offset(-12)

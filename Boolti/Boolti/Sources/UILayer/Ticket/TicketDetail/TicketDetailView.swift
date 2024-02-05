@@ -111,7 +111,7 @@ class TicketDetailView: UIView {
 
         self.snp.makeConstraints { make in
             make.width.greaterThanOrEqualTo(317)
-            make.height.equalTo(1150)
+            make.height.greaterThanOrEqualTo(1000)
         }
 
         self.backgroundImageView.snp.makeConstraints { make in
@@ -140,6 +140,7 @@ class TicketDetailView: UIView {
         self.horizantalButtonStackView.snp.makeConstraints { make in
             make.top.equalTo(self.ticketInquiryView.snp.bottom)
             make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(25)
         }
     }
 
