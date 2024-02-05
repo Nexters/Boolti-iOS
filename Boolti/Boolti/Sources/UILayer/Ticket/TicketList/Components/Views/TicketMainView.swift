@@ -42,7 +42,7 @@ class TicketMainView: UIView {
         ])
         stackView.axis = .vertical
         stackView.alignment = .leading
-        stackView.spacing = 2
+        stackView.spacing = 4
 
         return stackView
     }()
@@ -98,9 +98,10 @@ class TicketMainView: UIView {
         self.locationLabel.text = " | \(item.location)"
         self.titleLabel.text = item.title
         self.qrCodeImageView.image = item.qrCode
+        self.titleLabel.setLineSpacing(lineSpacing: 4)
 
         guard limitNumberOfLines else { return }
-        titleLabel.numberOfLines = 0
+        self.titleLabel.numberOfLines = 4
     }
 
     private func configureUI() {
