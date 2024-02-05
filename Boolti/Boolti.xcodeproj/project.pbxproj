@@ -116,6 +116,7 @@
 		8746AD142B680A5C0037A1B1 /* TicketTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD132B680A5C0037A1B1 /* TicketTypeTableViewCell.swift */; };
 		8746AD162B680A700037A1B1 /* SelectedTicketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD152B680A700037A1B1 /* SelectedTicketTableViewCell.swift */; };
 		8746AD202B6932B30037A1B1 /* ConcertEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */; };
+		8753CA692B70DD00002871C7 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA682B70DD00002871C7 /* UIButton+.swift */; };
 		8757BA972B5FA6B0008503B5 /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */; };
 		8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */; };
 		8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */; };
@@ -252,6 +253,7 @@
 		8746AD132B680A5C0037A1B1 /* TicketTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8746AD152B680A700037A1B1 /* SelectedTicketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTicketTableViewCell.swift; sourceTree = "<group>"; };
 		8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertEnterView.swift; sourceTree = "<group>"; };
+		8753CA682B70DD00002871C7 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEnterView.swift; sourceTree = "<group>"; };
@@ -510,6 +512,7 @@
 				84625A152B63C33D00CC9077 /* UITableViewCell+.swift */,
 				84FEF6162B68A6D100EBB64F /* UIResponder+.swift */,
 				84896A4E2B6A723900CB3E33 /* Date+.swift */,
+				8753CA682B70DD00002871C7 /* UIButton+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1006,6 +1009,7 @@
 				87D2FABA2B6EB5C50027FBE1 /* TicketNoticeView.swift in Sources */,
 				87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */,
 				84781CC92B5BFA1C00D37921 /* TicketListViewModel.swift in Sources */,
+				8753CA692B70DD00002871C7 /* UIButton+.swift in Sources */,
 				84781CCC2B5C003700D37921 /* ConcertDIContainer.swift in Sources */,
 				8769BF9D2B6267CC00DA9A67 /* BooltiButton.swift in Sources */,
 				8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */,
