@@ -38,4 +38,9 @@ extension UILabel {
             self.attributedText = attributedString
         }
     }
+    
+    // 현재 label의 전체 높이를 반환하는 함수
+    func getLabelHeight() -> CGFloat {
+        return self.sizeThatFits(CGSize(width: self.frame.width, height: CGFloat.greatestFiniteMagnitude)).height
+    }
 }

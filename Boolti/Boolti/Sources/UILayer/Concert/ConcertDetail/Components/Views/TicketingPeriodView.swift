@@ -10,7 +10,7 @@ import UIKit
 final class TicketingPeriodView: UIView {
     
     // MARK: UI Component
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "•  티켓 예매 기간  •"
@@ -56,15 +56,17 @@ extension TicketingPeriodView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        
+        let insetRect = rect.inset(by: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
 
         // 티켓 테두리 마스크(잘라낼 부분) 만들기
-        let rectPath =  UIBezierPath(roundedRect: rect, cornerRadius: 8)
+        let rectPath =  UIBezierPath(roundedRect: insetRect, cornerRadius: 8)
         
-        let leftCenter = CGPoint(x: rect.minX, y: rect.midY)
+        let leftCenter = CGPoint(x: insetRect.minX, y: insetRect.midY)
         rectPath.move(to: leftCenter)
         rectPath.addArc(withCenter: leftCenter, radius: 8, startAngle: 3 / 2 * .pi, endAngle: 1 / 2 * .pi, clockwise: true)
         
-        let rightCenter = CGPoint(x: rect.maxX, y: rect.midY)
+        let rightCenter = CGPoint(x: insetRect.maxX, y: insetRect.midY)
         rectPath.move(to: rightCenter)
         rectPath.addArc(withCenter: rightCenter, radius: 8, startAngle: 3 / 2 * .pi, endAngle: 1 / 2 * .pi, clockwise: false)
 
@@ -76,8 +78,8 @@ extension TicketingPeriodView {
         
         // 티켓 모양 마스크 만들기
         let shapeLayer = CAShapeLayer()
-        shapeLayer.path = rectPath.cgPath
-        shapeLayer.lineWidth = 1.0
+        shapeLayer.path = ticketMask.path
+        shapeLayer.lineWidth = 2
         shapeLayer.strokeColor = UIColor.white00.cgColor
         shapeLayer.fillColor = UIColor.clear.cgColor
 
@@ -114,6 +116,7 @@ extension TicketingPeriodView {
     }
     
     private func configureConstraints() {
+        
         self.snp.makeConstraints { make in
             make.height.equalTo(88)
         }
