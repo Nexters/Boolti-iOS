@@ -111,7 +111,6 @@ class TicketListCollectionViewCell: UICollectionViewCell {
         self.configureBackGroundBlurViewEffect()
         self.configureConstraints()
         self.configureBorder()
-        self.configureSeperateLine()
     }
 
     func setData(with item: TicketItem) {
@@ -148,21 +147,6 @@ class TicketListCollectionViewCell: UICollectionViewCell {
         self.backgroundImageView.bringSubviewToFront(self.upperTagView)
     }
 
-    private func configureSeperateLine() {
-        let path = UIBezierPath()
-
-        path.move(to: CGPoint(x: self.bounds.width * 0.053, y: self.bounds.height * 0.82))
-        path.addLine(to: CGPoint(x: self.bounds.width * 0.947, y: self.bounds.height * 0.82))
-        path.close()
-
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        shapeLayer.lineWidth = 2
-        shapeLayer.lineDashPattern = [3, 3]
-        shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
-        self.layer.addSublayer(shapeLayer)
-    }
-
     private func configureConstraints() {
 
         self.backgroundImageView.snp.makeConstraints { make in
@@ -192,13 +176,13 @@ class TicketListCollectionViewCell: UICollectionViewCell {
 
         self.rightCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.82)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.815)
             make.centerX.equalTo(self.snp.right)
         }
 
         self.leftCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.82)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.815)
             make.centerX.equalTo(self.snp.left)
         }
     }

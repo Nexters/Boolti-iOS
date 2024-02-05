@@ -38,7 +38,7 @@ final class TicketListViewController: BooltiViewController {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
         collectionView.backgroundColor = .black
         collectionView.alwaysBounceVertical = false
-        collectionView.isScrollEnabled = false
+//        collectionView.isScrollEnabled = false
         collectionView.register(
             TicketListCollectionViewCell.self,
             forCellWithReuseIdentifier: String(describing: TicketListCollectionViewCell.self)
