@@ -7,9 +7,17 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 class TicketDetailView: UIView {
 
     private var isLayoutConfigured = false
+
+    private let disposeBag = DisposeBag()
+
+    let didCopyAddressButtonTap = PublishRelay<Void>()
+    let didShowConcertDetailButtonTap = PublishRelay<Void>()
 
     private var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -53,7 +61,7 @@ class TicketDetailView: UIView {
     private let ticketInquiryView = TicketInquiryView()
 
     // BooltiButton이랑 붙히는 거 추후에 진행할 예정
-    let copyAddressButton: UIButton = {
+    private let copyAddressButton: UIButton = {
         let button = UIButton()
         button.setTitle("공연장 주소 복사", for: .normal)
         button.backgroundColor = .grey70
@@ -64,7 +72,7 @@ class TicketDetailView: UIView {
         return button
     }()
 
-    let showConcertDetailButton: UIButton = {
+    private let showConcertDetailButton: UIButton = {
         let button = UIButton()
         button.setTitle("공연 정보 보기", for: .normal)
         button.backgroundColor = .grey20
@@ -91,6 +99,7 @@ class TicketDetailView: UIView {
     init(item: TicketItem) {
         super.init(frame: .zero)
         self.configureUI(with: item)
+        self.bindUIComponents()
         self.backgroundColor = .white
     }
 
@@ -171,6 +180,20 @@ class TicketDetailView: UIView {
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(25)
         }
+    }
+
+    private func bindUIComponents() {
+        self.copyAddressButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.didCopyAddressButtonTap.accept(())
+            }
+            .disposed(by: self.disposeBag)
+
+        self.showConcertDetailButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.didShowConcertDetailButtonTap.accept(())
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func configureBackGroundBlurViewEffect() {

@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TicketDetailViewController: UIViewController {
+class TicketDetailViewController: BooltiViewController {
 
     private let ticketEntryCodeControllerFactory: () -> TicketEntryCodeViewController
 
@@ -57,6 +57,7 @@ class TicketDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
+        self.configureToastView(isButtonExisted: false)
         self.bindUIComponenets()
         self.bindViewModel()
     }
@@ -73,7 +74,7 @@ class TicketDetailViewController: UIViewController {
         self.ticketItem = ticketItem
         self.viewModel = viewModel
         self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
 
     private func configureUI() {
@@ -132,6 +133,12 @@ class TicketDetailViewController: UIViewController {
         self.reversalPolicyView.didViewCollapseButtonTap
             .bind(with: self) { owner, _ in
                 owner.scrollToBottom()
+            }
+            .disposed(by: self.disposeBag)
+
+        self.ticketDetailView.didCopyAddressButtonTap
+            .bind(with: self) { owner, _ in
+                owner.showToast(message: "공연장 주소가 복사되었어요.")
             }
             .disposed(by: self.disposeBag)
 
