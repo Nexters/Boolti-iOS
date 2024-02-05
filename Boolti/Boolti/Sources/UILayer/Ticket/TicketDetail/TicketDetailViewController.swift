@@ -92,9 +92,22 @@ class TicketDetailViewController: UIViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
+
+        self.reversalPolicyView.didViewCollapseButtonTap
+            .bind(with: self) { owner, _ in
+                owner.scrollToBottom()
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {
 
+    }
+
+    private func scrollToBottom() {
+        let scrollViewPaddingFromNavigationBar = CGFloat(16)
+        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollViewPaddingFromNavigationBar)
+
+        self.scrollView.setContentOffset(bottomOffset, animated: true)
     }
 }

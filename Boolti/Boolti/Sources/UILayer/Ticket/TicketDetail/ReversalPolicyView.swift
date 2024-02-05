@@ -8,10 +8,13 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxRelay
 
 class ReversalPolicyView: UIStackView {
 
     private let disposeBag = DisposeBag()
+
+    let didViewCollapseButtonTap = PublishRelay<Void>()
 
     private let titleView: UIView = {
         let view = UIView()
@@ -105,6 +108,7 @@ class ReversalPolicyView: UIStackView {
                     owner.reversalPolicyLabel.isHidden.toggle()
                     owner.layoutIfNeeded()
                 }
+                owner.didViewCollapseButtonTap.accept(())
             }
             .disposed(by: self.disposeBag)
     }
