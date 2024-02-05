@@ -19,9 +19,24 @@ class TicketDetailDIContainer {
     }
 
     func createTicketDetailController(ticketItem: TicketItem) -> TicketDetailViewController {
-        let viewController = TicketDetailViewController(ticketItem: ticketItem, viewModel: self.createTicketDetailViewModel())
+        let ticketEntryCodeViewControllerFactory = {
+            let DIContainer = self.createTicketEntryCodeDIContainer()
+
+            let viewController = DIContainer.createTicketEntryCodeViewController()
+            return viewController
+        }
+
+        let viewController = TicketDetailViewController(
+            ticketItem: ticketItem,
+            viewModel: self.createTicketDetailViewModel(),
+            ticketEntryCodeViewControllerFactory: ticketEntryCodeViewControllerFactory
+        )
 
         return viewController
+    }
+
+    private func createTicketEntryCodeDIContainer() -> TicketEntryCodeDIContainer {
+        return TicketEntryCodeDIContainer(networkService: self.networkService)
     }
 
     private func createTicketDetailViewModel() -> TicketDetailViewModel {

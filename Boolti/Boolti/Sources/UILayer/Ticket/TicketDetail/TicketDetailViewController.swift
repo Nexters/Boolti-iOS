@@ -11,7 +11,9 @@ import RxSwift
 import RxCocoa
 
 class TicketDetailViewController: UIViewController {
-    
+
+    private let ticketEntryCodeControllerFactory: () -> TicketEntryCodeViewController
+
     private let viewModel: TicketDetailViewModel
     private let ticketItem: TicketItem
 
@@ -63,9 +65,14 @@ class TicketDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(ticketItem: TicketItem, viewModel: TicketDetailViewModel) {
+    init(
+        ticketItem: TicketItem,
+        viewModel: TicketDetailViewModel,
+        ticketEntryCodeViewControllerFactory: @escaping () -> TicketEntryCodeViewController
+    ) {
         self.ticketItem = ticketItem
         self.viewModel = viewModel
+        self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -127,10 +134,18 @@ class TicketDetailViewController: UIViewController {
                 owner.scrollToBottom()
             }
             .disposed(by: self.disposeBag)
+
+        self.entryCodeButton.rx.tap
+            .bind(with: self) { owner, _ in
+                let viewController = owner.ticketEntryCodeControllerFactory()
+                viewController.modalPresentationStyle = .overFullScreen
+                owner.present(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {
-
+        // 원래는 여기서 VM를 통해서 API 통신을 해서 받아오지만, 지금은 그냥 전에 넘어온 값으로 구현!.
     }
 
     private func scrollToBottom() {
