@@ -1,5 +1,5 @@
 //
-//  TicketDIContainer.swift
+//  TicketListDIContainer.swift
 //  Boolti
 //
 //  Created by Miro on 1/20/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TicketDIContainer {
+final class TicketListDIContainer {
 
     private let authAPIService: AuthAPIServiceType
 
@@ -15,8 +15,8 @@ final class TicketDIContainer {
         self.authAPIService = authAPIService
     }
 
-    func createTicketViewController() -> UIViewController {
-        let viewModel = createTicketViewModel()
+    func createTicketListViewController() -> UIViewController {
+        let viewModel = createTicketListViewModel()
 
         let loginViewControllerFactory: () -> LoginViewController = {
             let DIContainer = self.createLoginViewDIContainer()
@@ -25,7 +25,7 @@ final class TicketDIContainer {
             return viewController
         }
 
-        let viewController = TicketViewController(
+        let viewController = TicketListViewController(
             viewModel: viewModel,
             loginViewControllerFactory: loginViewControllerFactory
         )
@@ -41,8 +41,8 @@ final class TicketDIContainer {
         )
     }
 
-    private func createTicketViewModel() -> TicketViewModel {
-        return TicketViewModel(authAPIService: self.authAPIService)
+    private func createTicketListViewModel() -> TicketListViewModel {
+        return TicketListViewModel(authAPIService: self.authAPIService)
     }
 
 }

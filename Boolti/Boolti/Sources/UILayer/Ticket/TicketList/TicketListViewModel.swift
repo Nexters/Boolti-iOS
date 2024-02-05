@@ -10,12 +10,13 @@ import RxSwift
 import RxRelay
 import RxDataSources
 import RxCocoa
+import UIKit
 
 enum TicketViewDestination {
     case login
 }
 
-final class TicketViewModel {
+final class TicketListViewModel {
 
     private let authAPIService: AuthAPIServiceType
     private let disposeBag = DisposeBag()
@@ -32,7 +33,7 @@ final class TicketViewModel {
         let navigation = PublishRelay<TicketViewDestination>()
         let isAccessTokenLoaded = PublishRelay<Bool>()
         let isTicketsExist = PublishRelay<Bool>()
-        let sectionModels: BehaviorRelay<[TicketSection]> = BehaviorRelay(value: [])
+        let sectionModels: BehaviorRelay<[TicketItem]> = BehaviorRelay(value: [])
     }
 
     private let isAccessTokenExist = PublishRelay<Bool>()
@@ -61,7 +62,7 @@ final class TicketViewModel {
                 if owner.isAccessTokenAvailable() {
                     owner.output.isAccessTokenLoaded.accept(true)
                 } else {
-                    owner.output.isAccessTokenLoaded.accept(false)
+                    owner.output.isAccessTokenLoaded.accept(true)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -77,12 +78,12 @@ final class TicketViewModel {
 
     private func bindShouldLoadTableViewEvent() {
         self.input.shouldLoadTableViewEvent
-            .flatMap { self.fetchTableViewSectionByAPI() }
-            .subscribe(with: self) { owner, ticketSections in
-                if ticketSections.isEmpty {
+            .flatMap { self.fetchTicketItemsByAPI() }
+            .subscribe(with: self) { owner, ticketItems in
+                if ticketItems.isEmpty {
                     owner.output.isTicketsExist.accept(false)
                 } else {
-                    owner.output.sectionModels.accept(ticketSections)
+                    owner.output.sectionModels.accept(ticketItems)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -94,24 +95,17 @@ final class TicketViewModel {
         return (!accessToken.isEmpty)
     }
 
-    private func fetchTableViewSectionByAPI() -> Single<[TicketSection]> {
+    private func fetchTicketItemsByAPI() -> Single<[TicketItem]> {
         // 만약 API 호출을 했는데, 빈 배열이 있으면 Ticket이 없는 것이고,
         // 아래와 같이 fetch가 되면, Ticket이 있다.
         // 현재는 있다고 가정!..
-        let sections: [TicketSection] = [
-            .confirmingDeposit(items: [
-                .confirmingDepositTicket(id: 1, title: "안녕하세요"),
-                .confirmingDepositTicket(id: 1, title: "안녕하세요.sdfsfsfsfsffs")
-            ]),
-            .usable(items: [
-                .usableTicket(item: UsableTicket(ticketType: .premium, poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB sㄴㅇㄹㅇfdㄴㄹㄴfdfsdfdsfsfsfsfsfssffsdfsdsfd", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 1)),
-                .usableTicket(item: UsableTicket(ticketType: .premium, poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 1)),
-            ]),
-            .used(items: [
-                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .mockPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프", number: 1)),
-                .usedTicket(item: UsedTicket(ticketType: .invitation, poster: .mockPoster, title: "HEXA 3rd Concert", date: "2024.01.20", location: "클럽샤프", number: 11))
-            ])
+        let items: [TicketItem] = [
+            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
+            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
+            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB ㄴㅇㄹㄴㅁㄹㅇㄴㄹㄴㄹㄴㄹ", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
+            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
+            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
         ]
-        return Single.just(sections)
+        return Single.just(items)
     }
 }

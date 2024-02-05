@@ -84,6 +84,7 @@ extension HomeTabBarController {
     private func configureUI() {
         self.tabBar.backgroundColor = .grey95
         self.tabBar.tintColor = .grey10
+        self.tabBar.barTintColor = .grey95
         self.tabBar.unselectedItemTintColor = .grey50
         
         let topBorder = CALayer()

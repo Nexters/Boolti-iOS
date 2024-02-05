@@ -25,7 +25,14 @@ final class ConcertListViewController: UIViewController {
 
         return button
     }()
-    
+
+    let safeView: UIView = {
+        let view = UIView()
+
+        view.backgroundColor = .grey50
+        return view
+    }()
+
     // MARK: Init
     
     init(
@@ -49,12 +56,13 @@ final class ConcertListViewController: UIViewController {
         self.view.backgroundColor = .grey95
 
         view.addSubview(nextButton)
+        view.addSubview(safeView)
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nextButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
-        
+
         self.nextButton.rx.tap
             .bind(with: self, onNext: { owner, _ in
                 let viewController = self.concertDetailViewControllerFactory()
