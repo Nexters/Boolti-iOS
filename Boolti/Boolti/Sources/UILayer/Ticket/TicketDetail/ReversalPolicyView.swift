@@ -65,7 +65,7 @@ class ReversalPolicyView: UIStackView {
         self.clipsToBounds = true
         self.layer.cornerRadius = 8
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.grey50.cgColor
+        self.layer.borderColor = UIColor.grey80.cgColor
 
         self.titleView.addSubviews([
             self.titleLabel, self.viewCollapseButton

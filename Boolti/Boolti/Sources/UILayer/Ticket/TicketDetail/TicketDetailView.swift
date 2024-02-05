@@ -25,7 +25,7 @@ class TicketDetailView: UIView {
         view.clipsToBounds = true
         view.layer.cornerRadius = 8
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.grey50.cgColor
+        view.layer.borderColor = UIColor.grey80.cgColor
 
         return view
     }()
@@ -33,7 +33,7 @@ class TicketDetailView: UIView {
     private lazy var rightCircleView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.grey50.cgColor
+        view.layer.borderColor = UIColor.grey80.cgColor
         view.backgroundColor = .black
 
         return view
@@ -42,7 +42,7 @@ class TicketDetailView: UIView {
     private lazy var leftCircleView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.grey50.cgColor
+        view.layer.borderColor = UIColor.grey80.cgColor
         view.backgroundColor = .black
 
         return view
