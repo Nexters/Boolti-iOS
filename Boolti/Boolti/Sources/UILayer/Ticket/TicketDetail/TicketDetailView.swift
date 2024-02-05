@@ -110,7 +110,7 @@ class TicketDetailView: UIView {
         ])
 
         self.snp.makeConstraints { make in
-            make.width.equalTo(317)
+            make.width.greaterThanOrEqualTo(317)
             make.height.equalTo(1150)
         }
 

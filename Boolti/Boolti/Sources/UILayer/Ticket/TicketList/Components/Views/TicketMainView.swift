@@ -144,7 +144,7 @@ class TicketMainView: UIView {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path.cgPath
         shapeLayer.lineWidth = 2
-        shapeLayer.lineDashPattern = [3, 3]
+        shapeLayer.lineDashPattern = [2, 2]
         shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
         self.layer.addSublayer(shapeLayer)
     }

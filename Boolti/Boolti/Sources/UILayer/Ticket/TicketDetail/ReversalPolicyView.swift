@@ -15,7 +15,6 @@ class ReversalPolicyView: UIStackView {
 
     private let titleView: UIView = {
         let view = UIView()
-//        view.backgroundColor = .black100
         return view
     }()
 
@@ -75,7 +74,7 @@ class ReversalPolicyView: UIStackView {
         ])
 
         self.snp.makeConstraints { make in
-            make.width.equalTo(317)
+            make.width.greaterThanOrEqualTo(317)
         }
 
         self.titleView.snp.makeConstraints { make in
