@@ -9,6 +9,8 @@ import UIKit
 
 class TicketDetailView: UIView {
 
+    private var isLayoutConfigured = false
+
     private var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -24,6 +26,24 @@ class TicketDetailView: UIView {
         view.layer.cornerRadius = 8
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey50.cgColor
+
+        return view
+    }()
+
+    private lazy var rightCircleView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.grey50.cgColor
+        view.backgroundColor = .black
+
+        return view
+    }()
+
+    private lazy var leftCircleView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.grey50.cgColor
+        view.backgroundColor = .black
 
         return view
     }()
@@ -79,8 +99,15 @@ class TicketDetailView: UIView {
     }
 
     override func layoutSubviews() {
-        self.configureBackGroundBlurViewEffect()
-        self.configureBackGroundGradientView()
+        super.layoutSubviews()
+
+        if !isLayoutConfigured {
+            self.configureBackGroundBlurViewEffect()
+            self.configureBackGroundGradientView()
+            self.isLayoutConfigured = true
+        }
+        // 아래 로직 변경해야함!..
+        self.configureCircleViews()
     }
 
     private func configureUI(with item: TicketItem) {
@@ -106,7 +133,9 @@ class TicketDetailView: UIView {
             ticketMainInformationView,
             self.ticketNoticeView,
             self.ticketInquiryView,
-            self.horizantalButtonStackView
+            self.horizantalButtonStackView,
+            self.rightCircleView,
+            self.leftCircleView
         ])
 
         self.snp.makeConstraints { make in
@@ -168,5 +197,26 @@ class TicketDetailView: UIView {
 
         gradientLayer.frame = self.bounds
         self.backgroundGradientView.layer.addSublayer(gradientLayer)
+    }
+
+    private func configureCircleViews() {
+
+        guard let centerY = self.ticketMainInformationView?.ticketMainView.posterImageView.bounds.height else { return }
+        guard centerY != 0 else { return }
+
+        self.rightCircleView.snp.makeConstraints { make in
+            make.centerX.equalTo(self.snp.right)
+            make.width.height.equalTo(centerY * 0.05)
+            make.centerY.equalTo(centerY * 1.18)
+        }
+
+        self.leftCircleView.snp.makeConstraints { make in
+            make.centerX.equalTo(self.snp.left)
+            make.width.height.equalTo(centerY * 0.05)
+            make.centerY.equalTo(centerY * 1.18)
+        }
+
+        self.rightCircleView.layer.cornerRadius = centerY * 0.025
+        self.leftCircleView.layer.cornerRadius = centerY * 0.025
     }
 }

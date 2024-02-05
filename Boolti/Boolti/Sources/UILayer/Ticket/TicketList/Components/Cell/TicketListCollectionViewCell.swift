@@ -37,6 +37,7 @@ class TicketListCollectionViewCell: UICollectionViewCell {
 
         return view
     }()
+
     private let upperTagView: UIView = {
         let view = UIView()
         view.backgroundColor = .white.withAlphaComponent(0.4)
@@ -176,13 +177,13 @@ class TicketListCollectionViewCell: UICollectionViewCell {
 
         self.rightCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.815)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.813)
             make.centerX.equalTo(self.snp.right)
         }
 
         self.leftCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.815)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.813)
             make.centerX.equalTo(self.snp.left)
         }
     }

@@ -9,7 +9,7 @@ import UIKit
 
 class TicketMainInformationView: UIView {
 
-    private var ticketMainView = TicketMainView()
+    let ticketMainView = TicketMainView()
 
     private let upperTagView: UIView = {
         let view = UIView()

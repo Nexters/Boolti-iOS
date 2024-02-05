@@ -20,6 +20,7 @@ class TicketDetailViewController: UIViewController {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .black
+        scrollView.showsVerticalScrollIndicator = false
 
         return scrollView
     }()
