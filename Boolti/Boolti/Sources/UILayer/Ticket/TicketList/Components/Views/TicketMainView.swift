@@ -92,12 +92,15 @@ class TicketMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setData(with item: TicketItem) {
+    func setData(with item: TicketItem, limitNumberOfLines: Bool = false) {
         self.posterImageView.image = item.poster
         self.dateLabel.text = item.date
         self.locationLabel.text = " | \(item.location)"
         self.titleLabel.text = item.title
         self.qrCodeImageView.image = item.qrCode
+
+        guard limitNumberOfLines else { return }
+        titleLabel.numberOfLines = 0
     }
 
     private func configureUI() {
@@ -118,6 +121,8 @@ class TicketMainView: UIView {
         }
         
         self.verticalInformationStackView.snp.makeConstraints { make in
+
+            make.top.greaterThanOrEqualTo(self.posterImageView.snp.bottom).offset(40)
             make.bottom.equalToSuperview()
             make.right.equalTo(self.qrCodeImageView.snp.left).offset(-12)
             make.left.equalToSuperview()

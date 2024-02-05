@@ -35,11 +35,7 @@ class TicketMainInformationView: UIView {
             self.ticketMainView
         ])
 
-        self.ticketMainView.setData(with: item)
-
-        self.snp.makeConstraints { make in
-            make.height.equalTo(590)
-        }
+        self.ticketMainView.setData(with: item, limitNumberOfLines: true)
 
         self.upperTagView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
@@ -48,8 +44,9 @@ class TicketMainInformationView: UIView {
 
         self.ticketMainView.snp.makeConstraints { make in
             make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
-            make.height.equalTo(510)
+            make.height.greaterThanOrEqualTo(530)
             make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview()
         }
     }
 }
