@@ -7,8 +7,9 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
-final class ConcertDetailViewController: UIViewController {
+final class ConcertDetailViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -58,7 +59,7 @@ final class ConcertDetailViewController: UIViewController {
     
     init(viewModel: ConcertDetailViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
 
     required init?(coder: NSCoder) {
@@ -74,6 +75,9 @@ final class ConcertDetailViewController: UIViewController {
         
         self.configureUI()
         self.configureConstraints()
+        self.configureToastView(isButtonExisted: true)
+        self.bindPlaceInfoView()
+        self.bindNavigationView()
         
         // 확인용
         self.concertPosterView.setData(images: [.mockPoster, .mockPoster, .mockPoster], title: "2024 TOGETHER LUCKY CLUB")
@@ -81,12 +85,51 @@ final class ConcertDetailViewController: UIViewController {
         self.placeInfoView.setData(name: "클럽 샤프", address: "서울특별시 마포구 와우산로 19길 20 / 지하 1층")
         self.datetimeInfoView.setData(datetime: "2024.01.20 (토) / 18:00 (150분)")
         self.contentInfoView.setData(content: "[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!\n[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!\n[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!\n[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!\n[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!\n[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!")
-//        self.contentInfoView.setData(content: "[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!")
         self.organizerInfoView.setData(organizer: "박불티 (010-1234-5678)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
+    }
+}
+
+// MARK: - Methods
+
+extension ConcertDetailViewController {
+    
+    private func bindPlaceInfoView() {
+        self.placeInfoView.didAddressCopyButtonTap()
+            .emit(with: self) { owner, _ in
+                UIPasteboard.general.string = self.placeInfoView.addressLabel.text
+                owner.showToast(message: "공연장 주소가 복사되었어요")
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindNavigationView() {
+        self.navigationView.didBackButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.navigationView.didHomeButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.navigationView.didShareButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.navigationView.didMoreButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 }
 

@@ -6,8 +6,14 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class PlaceInfoView: UIView {
+    
+    // MARK: Properties
+    
+    private let disposeBag = DisposeBag()
     
     // MARK: UI Component
     
@@ -45,7 +51,7 @@ final class PlaceInfoView: UIView {
         return label
     }()
     
-    private let addressLabel: UILabel = {
+    let addressLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grey30
         label.font = .body3
@@ -87,6 +93,10 @@ extension PlaceInfoView {
         self.snp.makeConstraints { make in
             make.height.equalTo(138 + self.addressLabel.getLabelHeight())
         }
+    }
+    
+    func didAddressCopyButtonTap() -> Signal<Void> {
+        return self.copyButton.rx.tap.asSignal()
     }
 }
 
