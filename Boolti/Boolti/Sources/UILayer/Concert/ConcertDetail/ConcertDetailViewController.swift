@@ -55,6 +55,8 @@ final class ConcertDetailViewController: BooltiViewController {
     
     private let organizerInfoView = OrganizerInfoView()
     
+    private let button = BooltiButton(title: "예매하기")
+    
     // MARK: Init
     
     init(viewModel: ConcertDetailViewModel) {
@@ -115,13 +117,17 @@ extension ConcertDetailViewController {
         
         self.navigationView.didHomeButtonTap()
             .emit(with: self) { owner, _ in
-                owner.navigationController?.popViewController(animated: true)
+                owner.navigationController?.popToRootViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
         
         self.navigationView.didShareButtonTap()
             .emit(with: self) { owner, _ in
-                owner.navigationController?.popViewController(animated: true)
+                
+                // TODO: 공유하기 내용 수정
+                let activityViewController = UIActivityViewController(activityItems: [UIImage.mockPoster, "2024 TOGETHER LUCKY CLUB"], applicationActivities: nil)
+                activityViewController.popoverPresentationController?.sourceView = owner.view
+                owner.present(activityViewController, animated: true, completion: nil)
             }
             .disposed(by: self.disposeBag)
         
@@ -139,7 +145,8 @@ extension ConcertDetailViewController {
     
     private func configureUI() {
         self.view.addSubviews([self.navigationView,
-                               self.scrollView])
+                               self.scrollView,
+                               self.button])
     }
     
     private func configureConstraints() {
@@ -151,12 +158,17 @@ extension ConcertDetailViewController {
         self.scrollView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(self.button.snp.top)
         }
         
         self.stackView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.edges.equalTo(self.scrollView)
+        }
+        
+        self.button.snp.makeConstraints { make in
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }
