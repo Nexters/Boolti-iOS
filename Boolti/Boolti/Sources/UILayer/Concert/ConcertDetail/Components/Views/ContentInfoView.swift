@@ -68,6 +68,7 @@ extension ContentInfoView {
     
     func setData(content: String) {
         self.contentLabel.text = content
+        self.contentLabel.setLineSpacing(lineSpacing: 4)
         
         self.snp.makeConstraints { make in
             make.height.equalTo(106 + min(self.contentLabel.getLabelHeight(), 246))
