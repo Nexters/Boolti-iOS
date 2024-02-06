@@ -17,7 +17,7 @@ final class TicketingCompletionViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationView(type: .ticketingCompletion)
+    private let navigationView = BooltiNavigationBar(type: .ticketingCompletion)
     
     private var topContentView = UIView()
     
