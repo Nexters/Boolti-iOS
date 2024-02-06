@@ -85,8 +85,9 @@ final class TicketListViewController: BooltiViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.configureCollectionViewDatasource()
         self.configureUI()
+        self.configureLoadingIndicatorView()
+        self.configureCollectionViewDatasource()
         self.bindUIComponenets()
         self.bindViewModel()
     }
@@ -165,12 +166,15 @@ final class TicketListViewController: BooltiViewController {
 
     private func configureCollectionViewCarousel(of section: NSCollectionLayoutSection) {
         section.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, environment in
-
+            
+            let visibleCellItems = visibleItems.filter {
+              $0.representedElementKind != TicketListViewController.ticketListFooterViewKind
+            }
             // 현재 Page 관련 정보!..
             let currentPage = Int(max(0, round(offset.x / environment.container.contentSize.width)))
             self?.currentTicketPage.accept(currentPage+1)
 
-            visibleItems.forEach { item in
+            visibleCellItems.forEach { item in
                 let intersectedRect = item.frame.intersection(
                     CGRect(x: offset.x, y: offset.y, width: environment.container.contentSize.width, height: item.frame.height)
                 )
@@ -220,6 +224,12 @@ final class TicketListViewController: BooltiViewController {
     }
 
     private func bindOutput() {
+
+        self.viewModel.output.isLoading
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(self.isLoading)
+            .disposed(by: self.disposeBag)
 
         self.viewModel.output.isAccessTokenLoaded
             .asDriver(onErrorJustReturn: false)
@@ -285,8 +295,10 @@ final class TicketListViewController: BooltiViewController {
 
     private func bind(_ footerView: UICollectionReusableView) {
         guard let footerView = footerView as? TicketListFooterView else { return }
+        footerView.isHidden = true
         Observable.combineLatest(self.currentTicketPage, self.ticketPageCount)
             .subscribe { (currentPage, pagesCount) in
+                footerView.isHidden = false
                 footerView.pageIndicatorLabel.text = "\(currentPage)/\(pagesCount)"
             }
             .disposed(by: self.disposeBag)

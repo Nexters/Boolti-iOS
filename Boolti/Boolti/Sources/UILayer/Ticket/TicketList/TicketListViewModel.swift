@@ -32,6 +32,7 @@ final class TicketListViewModel {
     // Input에 의해서 생기는 ViewModel의 Output
     struct Output {
         let navigation = PublishRelay<TicketViewDestination>()
+        let isLoading = PublishRelay<Bool>()
         let isAccessTokenLoaded = PublishRelay<Bool>()
         let isTicketsExist = PublishRelay<Bool>()
         let sectionModels: BehaviorRelay<[TicketItem]> = BehaviorRelay(value: [])
@@ -79,12 +80,16 @@ final class TicketListViewModel {
 
     private func bindShouldLoadTableViewEvent() {
         self.input.shouldLoadTableViewEvent
+            .do(onNext: { [weak self] _ in
+                self?.output.isLoading.accept(true)
+            })
             .flatMap { self.fetchTicketList() }
             .subscribe(with: self) { owner, ticketItems in
                 if ticketItems.isEmpty {
                     owner.output.isTicketsExist.accept(false)
                 } else {
                     owner.output.sectionModels.accept(ticketItems)
+                    owner.output.isLoading.accept(false)
                 }
             }
             .disposed(by: self.disposeBag)
