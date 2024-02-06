@@ -51,7 +51,7 @@ final class SplashViewController: UIViewController {
 extension SplashViewController {
     
     private func bind() {
-        self.viewModel.updateRequired
+        self.viewModel.output.updateRequired
             .asDriver(onErrorJustReturn: true)
             .drive(with: self, onNext: { owner, isRequired in
                 if isRequired {

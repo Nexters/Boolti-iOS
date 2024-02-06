@@ -14,11 +14,17 @@ final class SplashViewModel {
     private let authAPIservice: AuthAPIServiceType
     private let navigationDelegate: SplashViewModelDelegate
 
-    let updateRequired = PublishRelay<Bool>()
-
     private let remoteConfig = RemoteConfig.remoteConfig()
-
+    
+    struct Output {
+        let updateRequired = PublishRelay<Bool>()
+    }
+    
+    let output: Output
+    
     init(authAPIService: AuthAPIServiceType, delegate: SplashViewModelDelegate) {
+        self.output = Output()
+        
         self.authAPIservice = authAPIService
         self.navigationDelegate = delegate
         self.initRemoteConfig()
@@ -42,7 +48,7 @@ final class SplashViewModel {
             guard let minVersion = self.remoteConfig.configValue(forKey: "MinVersion").stringValue else { return }
             let updateRequired = self.remoteConfig.configValue(forKey: "UpdateRequired").boolValue
             
-            self.updateRequired.accept(updateRequired &&
+            self.output.updateRequired.accept(updateRequired &&
                                        AppInfo.appVersion?.compare(minVersion, options: .numeric) == .orderedAscending)
         })
     }
