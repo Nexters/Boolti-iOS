@@ -100,6 +100,8 @@
 		84E5124D2B6E7736002658D1 /* ConcertDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5124C2B6E7736002658D1 /* ConcertDetailViewController.swift */; };
 		84E5124F2B6E773F002658D1 /* ConcertDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5124E2B6E773F002658D1 /* ConcertDetailViewModel.swift */; };
 		84E512532B6E9E0B002658D1 /* ConcertPosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E512522B6E9E0B002658D1 /* ConcertPosterView.swift */; };
+		84DF59DA2B722E5B000816DA /* UpdatePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF59D92B722E5B000816DA /* UpdatePopupViewController.swift */; };
+		84DF59DC2B722EA0000816DA /* UpdatePopupDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF59DB2B722EA0000816DA /* UpdatePopupDIContainer.swift */; };
 		84EC6A642B6CF973009AC6BB /* BooltiToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */; };
 		84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF22B673877009462E9 /* ConcertInfoView.swift */; };
 		84FBBDF72B67429D009462E9 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF62B67429D009462E9 /* ImageCacheManager.swift */; };
@@ -248,6 +250,8 @@
 		84975BFD2B6123E500F903E7 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		84975BFE2B6123E500F903E7 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		849FBD502B5E920A006EB865 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
+		84DF59D92B722E5B000816DA /* UpdatePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePopupViewController.swift; sourceTree = "<group>"; };
+		84DF59DB2B722EA0000816DA /* UpdatePopupDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePopupDIContainer.swift; sourceTree = "<group>"; };
 		84E5124A2B6E71FD002658D1 /* ConcertDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailDIContainer.swift; sourceTree = "<group>"; };
 		84E5124C2B6E7736002658D1 /* ConcertDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailViewController.swift; sourceTree = "<group>"; };
 		84E5124E2B6E773F002658D1 /* ConcertDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailViewModel.swift; sourceTree = "<group>"; };
@@ -615,6 +619,7 @@
 				84781CC32B5BF9C600D37921 /* Ticket */,
 				84781CBB2B5BF94100D37921 /* MyPage */,
 				84781CAB2B5BF79000D37921 /* TabBar */,
+				84DF59D62B722DB8000816DA /* Update */,
 				84781CA42B5BF6E800D37921 /* Splash */,
 				84781C9B2B5BF67E00D37921 /* Root */,
 			);
@@ -754,6 +759,15 @@
 				84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		84DF59D62B722DB8000816DA /* Update */ = {
+			isa = PBXGroup;
+			children = (
+				84DF59DB2B722EA0000816DA /* UpdatePopupDIContainer.swift */,
+				84DF59D92B722E5B000816DA /* UpdatePopupViewController.swift */,
+			);
+			path = Update;
 			sourceTree = "<group>";
 		};
 		84E512482B6E702E002658D1 /* ConcertList */ = {
@@ -1135,6 +1149,7 @@
 				8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */,
 				84781C9D2B5BF68900D37921 /* RootDIContainer.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
+				84DF59DA2B722E5B000816DA /* UpdatePopupViewController.swift in Sources */,
 				84FBBDF92B67431D009462E9 /* UIImageView+.swift in Sources */,
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
 				876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */,
@@ -1203,6 +1218,7 @@
 				87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
 				84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */,
+				84DF59DC2B722EA0000816DA /* UpdatePopupDIContainer.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
 				8746AD012B67F7610037A1B1 /* TicketMainView.swift in Sources */,
 				84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */,
