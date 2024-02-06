@@ -5,9 +5,6 @@
 //  Created by Juhyeon Byun on 2/3/24.
 //
 
-import Foundation
-import UIKit
-
 final class ConcertDetailDIContainer {
 
 //    private let concertAPIService: ConcertAPIService
@@ -18,12 +15,24 @@ final class ConcertDetailDIContainer {
     
     func createConcertDetailViewController() -> ConcertDetailViewController {
         let viewModel = createConcertDetailViewModel()
+        
+        let concertContentExpandViewControllerFactory: (String) -> ConcertContentExpandViewController = { content in
+            let DIContainer = self.createConcertContentExpandDIContainer()
+
+            let viewController = DIContainer.createConcertContentExpandViewController(content: content)
+            return viewController
+        }
 
         let viewController = ConcertDetailViewController(
-            viewModel: viewModel
+            viewModel: viewModel, 
+            concertContentExpandViewControllerFactory: concertContentExpandViewControllerFactory
         )
 
         return viewController
+    }
+    
+    private func createConcertContentExpandDIContainer() -> ConcertContentExpandDIContainer {
+        return ConcertContentExpandDIContainer()
     }
     
     private func createConcertDetailViewModel() -> ConcertDetailViewModel {
