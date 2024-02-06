@@ -9,13 +9,13 @@ import UIKit
 
 import RxSwift
 import RxCocoa
+import RxAppState
 
 class TicketDetailViewController: BooltiViewController {
 
     private let ticketEntryCodeControllerFactory: () -> TicketEntryCodeViewController
 
     private let viewModel: TicketDetailViewModel
-    private let ticketID: String
 
     private let navigationBar = BooltiNavigationView(type: .ticketDetail)
 
@@ -48,17 +48,18 @@ class TicketDetailViewController: BooltiViewController {
         return button
     }()
 
-//    private lazy var ticketDetailView = TicketDetailView(item: self.ticketItem)
+    private var ticketDetailView = TicketDetailView()
     private let reversalPolicyView = ReversalPolicyView()
 
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bindViewModel()
         self.configureUI()
         self.configureToastView(isButtonExisted: false)
+        self.configureLoadingIndicatorView()
         self.bindUIComponenets()
-        self.bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -66,11 +67,9 @@ class TicketDetailViewController: BooltiViewController {
     }
 
     init(
-        ticketID: String,
         viewModel: TicketDetailViewModel,
         ticketEntryCodeViewControllerFactory: @escaping () -> TicketEntryCodeViewController
     ) {
-        self.ticketID = ticketID
         self.viewModel = viewModel
         self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
         super.init()
@@ -86,14 +85,15 @@ class TicketDetailViewController: BooltiViewController {
         self.configureConstraints()
 
         self.contentStackView.addArrangedSubviews([
-//            self.ticketDetailView,
+            self.ticketDetailView,
             self.reversalPolicyView,
             self.entryCodeView
         ])
+
+        self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
     }
 
     private func configureConstraints() {
-//        self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
 
         self.navigationBar.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
@@ -121,6 +121,7 @@ class TicketDetailViewController: BooltiViewController {
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
         }
+
     }
 
     private func bindUIComponenets() {
@@ -136,11 +137,11 @@ class TicketDetailViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-//        self.ticketDetailView.didCopyAddressButtonTap
-//            .bind(with: self) { owner, _ in
-//                owner.showToast(message: "공연장 주소가 복사되었어요.")
-//            }
-//            .disposed(by: self.disposeBag)
+        self.ticketDetailView.didCopyAddressButtonTap
+            .bind(with: self) { owner, _ in
+                owner.showToast(message: "공연장 주소가 복사되었어요.")
+            }
+            .disposed(by: self.disposeBag)
 
         self.entryCodeButton.rx.tap
             .bind(with: self) { owner, _ in
@@ -152,7 +153,18 @@ class TicketDetailViewController: BooltiViewController {
     }
 
     private func bindViewModel() {
-        // 원래는 여기서 VM를 통해서 API 통신을 해서 받아오지만, 지금은 그냥 전에 넘어온 값으로 구현!.
+        self.rx.viewDidAppear
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.input.viewDidAppearEvent.onNext(())
+            })
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.fetchedTicketDetail
+            .bind(with: self) { owner, ticketDetailItem in
+                owner.ticketDetailView.setData(with: ticketDetailItem)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func scrollToBottom() {

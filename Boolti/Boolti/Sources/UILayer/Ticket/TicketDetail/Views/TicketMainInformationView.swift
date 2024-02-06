@@ -18,9 +18,9 @@ class TicketMainInformationView: UIView {
         return view
     }()
 
-    init(item: TicketItem) {
+    init() {
         super.init(frame: .zero)
-        self.configureUI(with: item)
+        self.configureUI()
         self.backgroundColor = .clear
     }
 
@@ -28,14 +28,30 @@ class TicketMainInformationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func configureUI(with item: TicketItem) {
+    func setData(with item: TicketDetailItem) {
+        // 다른 방법 생각해보기!..
+        // TicketDetailItem이 TicketItem을 가지고 있는 것도 생각해보기!..
+        let ticketItem = TicketItem(
+            ticketType: item.ticketType,
+            ticketName: item.ticketName,
+            poster: item.poster,
+            title: item.title,
+            date: item.date,
+            location: item.location,
+            qrCode: item.qrCode,
+            ticketID: item.ticketID,
+            isUsed: item.isUsed
+        )
+        self.ticketMainView.setData(with: ticketItem, limitNumberOfLines: true)
+    }
+
+    private func configureUI() {
 
         self.addSubviews([
             self.upperTagView,
             self.ticketMainView
         ])
 
-        self.ticketMainView.setData(with: item, limitNumberOfLines: true)
 
         self.upperTagView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()

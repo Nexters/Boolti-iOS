@@ -56,7 +56,7 @@ class TicketDetailView: UIView {
         return view
     }()
 
-    private var ticketMainInformationView: TicketMainInformationView?
+    private var ticketMainInformationView = TicketMainInformationView()
     private let ticketNoticeView = TicketNoticeView()
     private let ticketInquiryView = TicketInquiryView()
 
@@ -96,9 +96,9 @@ class TicketDetailView: UIView {
         return stackView
     }()
 
-    init(item: TicketItem) {
+    init() {
         super.init(frame: .zero)
-        self.configureUI(with: item)
+        self.configureUI()
         self.bindUIComponents()
     }
 
@@ -118,21 +118,22 @@ class TicketDetailView: UIView {
         self.configureCircleViews()
     }
 
-    private func configureUI(with item: TicketItem) {
-        self.ticketMainInformationView = TicketMainInformationView(item: item)
+    func setData(with item: TicketDetailItem) {
+        self.ticketMainInformationView.setData(with: item)
         self.backgroundImageView.image = item.poster
-        self.ticketInquiryView.setData(with: "박불티 (010-1234-5678)")
+        self.ticketInquiryView.setData(with: "\(item.hostName) (\(item.hostPhoneNumber))")
+        self.ticketNoticeView.setData(with: item.notice)
+    }
 
+    private func configureUI() {
         self.layer.cornerRadius = 8
-        self.backgroundColor = .white
+        self.backgroundColor = .black
         self.clipsToBounds = true
-
-        guard let ticketMainInformationView else { return }
 
         self.addSubviews([
             self.backgroundImageView,
             self.backgroundGradientView,
-            ticketMainInformationView,
+            self.ticketMainInformationView,
             self.ticketNoticeView,
             self.ticketInquiryView,
             self.horizontalButtonStackView,
@@ -145,8 +146,6 @@ class TicketDetailView: UIView {
     }
 
     private func configureConstraints() {
-
-        guard let ticketMainInformationView else { return }
 
         self.snp.makeConstraints { make in
             make.width.greaterThanOrEqualTo(317)
@@ -162,7 +161,7 @@ class TicketDetailView: UIView {
             make.edges.equalToSuperview()
         }
 
-        ticketMainInformationView.snp.makeConstraints { make in
+        self.ticketMainInformationView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
         }
 
@@ -185,7 +184,7 @@ class TicketDetailView: UIView {
         self.copyAddressButton.snp.makeConstraints { make in
             make.height.equalTo(48)
         }
-        
+
         self.showConcertDetailButton.snp.makeConstraints { make in
             make.height.equalTo(48)
         }
@@ -229,7 +228,7 @@ class TicketDetailView: UIView {
 
     private func configureCircleViews() {
 
-        guard let centerY = self.ticketMainInformationView?.ticketMainView.posterImageView.bounds.height else { return }
+        let centerY = self.ticketMainInformationView.ticketMainView.posterImageView.bounds.height
         guard centerY != 0 else { return }
 
         self.rightCircleView.snp.makeConstraints { make in

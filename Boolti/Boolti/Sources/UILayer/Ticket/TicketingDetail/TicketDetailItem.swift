@@ -16,7 +16,9 @@ struct TicketDetailItem {
     let date: String
     let location: String
     let qrCode: UIImage
+    let notice: String
     let ticketID: Int
     let hostName: String
     let hostPhoneNumber: String
+    let isUsed: Bool
 }

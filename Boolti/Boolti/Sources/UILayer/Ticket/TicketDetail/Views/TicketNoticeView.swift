@@ -57,4 +57,8 @@ final class TicketNoticeView: UIView {
             make.bottom.equalToSuperview().inset(20)
         }
     }
+
+    func setData(with text: String) {
+        self.noticeLabel.text = text
+    }
 }

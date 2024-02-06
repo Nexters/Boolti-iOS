@@ -75,6 +75,12 @@ extension TicketDetailResponseDTO {
         let hostName = self.hostName
         let hostPhoneNumber = self.hostPhoneNumber
 
+        /// 사용된 ticket인지
+        let isUsed = self.isUsedTicket
+
+        /// 안내사항
+        let notice = self.notice
+
 
         return TicketDetailItem(
             ticketType: ticketType,
@@ -84,9 +90,11 @@ extension TicketDetailResponseDTO {
             date: formatterDate,
             location: location,
             qrCode: qrCodeImage,
+            notice: notice,
             ticketID: ticketID,
             hostName: hostName,
-            hostPhoneNumber: hostPhoneNumber
+            hostPhoneNumber: hostPhoneNumber,
+            isUsed: isUsed
         )
     }
 }

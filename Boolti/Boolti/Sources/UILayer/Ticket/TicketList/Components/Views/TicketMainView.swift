@@ -29,6 +29,7 @@ class TicketMainView: UIView {
         let label = UILabel()
         label.textColor = .grey10
         label.font = .aggroB(20)
+        label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
 
         return label
@@ -120,7 +121,7 @@ class TicketMainView: UIView {
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(self.posterImageView.snp.width).multipliedBy(1.4)
         }
-        
+
         self.verticalInformationStackView.snp.makeConstraints { make in
             make.top.greaterThanOrEqualTo(self.posterImageView.snp.bottom).offset(40)
             make.bottom.equalToSuperview()

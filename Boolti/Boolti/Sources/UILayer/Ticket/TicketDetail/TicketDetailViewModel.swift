@@ -7,12 +7,63 @@
 
 import Foundation
 
+import Moya
+
+import RxSwift
+import RxRelay
+import RxMoya
+
 class TicketDetailViewModel {
 
-    private let networkService: NetworkProviderType
-
-    init(networkService: NetworkProviderType) {
-        self.networkService = networkService
+    struct Input {
+        var viewDidAppearEvent = PublishSubject<Void>()
     }
 
+    struct Output {
+        let isLoading = PublishRelay<Bool>()
+        let fetchedTicketDetail = PublishRelay<TicketDetailItem>()
+    }
+
+    let input: Input
+    let output: Output
+
+    private let networkService: NetworkProviderType
+    private let disposeBag = DisposeBag()
+
+    private let ticketID: String
+
+    init(ticketID: String, networkService: NetworkProviderType) {
+        self.networkService = networkService
+        self.ticketID = ticketID
+
+        self.input = Input()
+        self.output = Output()
+
+        self.bindInputs()
+    }
+
+    private func bindInputs() {
+        self.bindViewDidAppearEvent()
+    }
+
+    private func bindViewDidAppearEvent() {
+        self.input.viewDidAppearEvent
+            .take(1)
+            .do { self.output.isLoading.accept(true) }
+            .flatMap { self.fetchTicketDetailItem() }
+            .subscribe(with: self) { owner, ticketDetailItem in
+                owner.output.fetchedTicketDetail.accept(ticketDetailItem)
+                owner.output.isLoading.accept(false)
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func fetchTicketDetailItem() -> Single<TicketDetailItem> {
+        // MARK: 의존성 networkService로 바꿔주기!..
+        let ticketDetailAPI = TicketAPI.detail(ticketID: self.ticketID)
+
+        return networkService.request(ticketDetailAPI)
+            .map(TicketDetailResponseDTO.self)
+            .map { $0.convertToTicketDetailItem() }
+    }
 }

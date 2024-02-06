@@ -27,8 +27,7 @@ class TicketDetailDIContainer {
         }
 
         let viewController = TicketDetailViewController(
-            ticketID: ticketID,
-            viewModel: self.createTicketDetailViewModel(),
+            viewModel: self.createTicketDetailViewModel(ticketID: ticketID),
             ticketEntryCodeViewControllerFactory: ticketEntryCodeViewControllerFactory
         )
 
@@ -39,7 +38,7 @@ class TicketDetailDIContainer {
         return TicketEntryCodeDIContainer(networkService: self.networkService)
     }
 
-    private func createTicketDetailViewModel() -> TicketDetailViewModel {
-        return TicketDetailViewModel(networkService: self.networkService)
+    private func createTicketDetailViewModel(ticketID: String) -> TicketDetailViewModel {
+        return TicketDetailViewModel(ticketID: ticketID, networkService: self.networkService)
     }
 }
