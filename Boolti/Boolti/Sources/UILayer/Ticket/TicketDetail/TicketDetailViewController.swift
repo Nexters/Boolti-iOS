@@ -15,7 +15,7 @@ class TicketDetailViewController: BooltiViewController {
     private let ticketEntryCodeControllerFactory: () -> TicketEntryCodeViewController
 
     private let viewModel: TicketDetailViewModel
-    private let ticketItem: TicketItem
+    private let ticketID: String
 
     private let navigationBar = BooltiNavigationView(type: .ticketDetail)
 
@@ -48,7 +48,7 @@ class TicketDetailViewController: BooltiViewController {
         return button
     }()
 
-    private lazy var ticketDetailView = TicketDetailView(item: self.ticketItem)
+//    private lazy var ticketDetailView = TicketDetailView(item: self.ticketItem)
     private let reversalPolicyView = ReversalPolicyView()
 
     private let disposeBag = DisposeBag()
@@ -66,11 +66,11 @@ class TicketDetailViewController: BooltiViewController {
     }
 
     init(
-        ticketItem: TicketItem,
+        ticketID: String,
         viewModel: TicketDetailViewModel,
         ticketEntryCodeViewControllerFactory: @escaping () -> TicketEntryCodeViewController
     ) {
-        self.ticketItem = ticketItem
+        self.ticketID = ticketID
         self.viewModel = viewModel
         self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
         super.init()
@@ -86,14 +86,14 @@ class TicketDetailViewController: BooltiViewController {
         self.configureConstraints()
 
         self.contentStackView.addArrangedSubviews([
-            self.ticketDetailView,
+//            self.ticketDetailView,
             self.reversalPolicyView,
             self.entryCodeView
         ])
     }
 
     private func configureConstraints() {
-        self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
+//        self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
 
         self.navigationBar.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
@@ -136,11 +136,11 @@ class TicketDetailViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.ticketDetailView.didCopyAddressButtonTap
-            .bind(with: self) { owner, _ in
-                owner.showToast(message: "공연장 주소가 복사되었어요.")
-            }
-            .disposed(by: self.disposeBag)
+//        self.ticketDetailView.didCopyAddressButtonTap
+//            .bind(with: self) { owner, _ in
+//                owner.showToast(message: "공연장 주소가 복사되었어요.")
+//            }
+//            .disposed(by: self.disposeBag)
 
         self.entryCodeButton.rx.tap
             .bind(with: self) { owner, _ in

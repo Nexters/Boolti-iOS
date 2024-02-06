@@ -15,8 +15,10 @@ import RxAppState
 
 final class TicketListViewController: BooltiViewController {
 
+    typealias TicketID = (String)
+
     private let loginViewControllerFactory: () -> LoginViewController
-    private let ticketDetailControllerFactory: (TicketItem) -> TicketDetailViewController
+    private let ticketDetailControllerFactory: (TicketID) -> TicketDetailViewController
 
     private enum Section {
         case concertList
@@ -71,7 +73,7 @@ final class TicketListViewController: BooltiViewController {
     init(
         viewModel: TicketListViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
-        ticketDetailViewControllerFactory: @escaping (TicketItem) -> TicketDetailViewController
+        ticketDetailViewControllerFactory: @escaping (TicketID) -> TicketDetailViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
@@ -191,8 +193,7 @@ final class TicketListViewController: BooltiViewController {
             .asDriver()
             .drive(with: self) { owner, indexPath in
                 guard let ticketItem = owner.datasource?.itemIdentifier(for: indexPath) else { return }
-                let viewController = owner.ticketDetailControllerFactory(ticketItem)
-                owner.navigationController?.pushViewController(viewController, animated: true)
+                owner.viewModel.output.navigation.accept(.detail(ticketID: "\(ticketItem.ticketID)"))
             }
             .disposed(by: self.disposeBag)
     }
@@ -312,9 +313,11 @@ final class TicketListViewController: BooltiViewController {
         datasource?.apply(snapshot, animatingDifferences: false)
     }
 
-    private func createViewController(_ next: TicketViewDestination) -> UIViewController {
+    private func createViewController(_ next: TicketListViewDestination) -> UIViewController {
         switch next {
         case .login: return loginViewControllerFactory()
+        case .detail(ticketID: let id):
+            return ticketDetailControllerFactory(id)
         }
     }
 }

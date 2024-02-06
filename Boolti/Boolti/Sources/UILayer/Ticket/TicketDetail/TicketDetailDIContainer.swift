@@ -18,7 +18,7 @@ class TicketDetailDIContainer {
         self.networkService = authAPIService.networkService
     }
 
-    func createTicketDetailController(ticketItem: TicketItem) -> TicketDetailViewController {
+    func createTicketDetailController(ticketID: String) -> TicketDetailViewController {
         let ticketEntryCodeViewControllerFactory = {
             let DIContainer = self.createTicketEntryCodeDIContainer()
 
@@ -27,7 +27,7 @@ class TicketDetailDIContainer {
         }
 
         let viewController = TicketDetailViewController(
-            ticketItem: ticketItem,
+            ticketID: ticketID,
             viewModel: self.createTicketDetailViewModel(),
             ticketEntryCodeViewControllerFactory: ticketEntryCodeViewControllerFactory
         )

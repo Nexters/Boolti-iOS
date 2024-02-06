@@ -13,8 +13,9 @@ import RxSwift
 import RxRelay
 import RxMoya
 
-enum TicketViewDestination {
+enum TicketListViewDestination {
     case login
+    case detail(ticketID: String)
 }
 
 final class TicketListViewModel {
@@ -31,7 +32,7 @@ final class TicketListViewModel {
 
     // Input에 의해서 생기는 ViewModel의 Output
     struct Output {
-        let navigation = PublishRelay<TicketViewDestination>()
+        let navigation = PublishRelay<TicketListViewDestination>()
         let isLoading = PublishRelay<Bool>()
         let isAccessTokenLoaded = PublishRelay<Bool>()
         let isTicketsExist = PublishRelay<Bool>()
