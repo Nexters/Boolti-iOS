@@ -16,6 +16,7 @@ import RxAppState
 final class TicketListViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
+    private let ticketDetailControllerFactory: (TicketItem) -> TicketDetailViewController
 
     private enum Section {
         case concertList
@@ -37,7 +38,6 @@ final class TicketListViewController: BooltiViewController {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
         collectionView.backgroundColor = .black
         collectionView.alwaysBounceVertical = false
-        collectionView.isScrollEnabled = false
         collectionView.register(
             TicketListCollectionViewCell.self,
             forCellWithReuseIdentifier: String(describing: TicketListCollectionViewCell.self)
@@ -50,7 +50,6 @@ final class TicketListViewController: BooltiViewController {
 
         return collectionView
     }()
-
 
     private let loginEnterView: LoginEnterView = {
         let view = LoginEnterView()
@@ -71,10 +70,12 @@ final class TicketListViewController: BooltiViewController {
 
     init(
         viewModel: TicketListViewModel,
-        loginViewControllerFactory: @escaping () -> LoginViewController
+        loginViewControllerFactory: @escaping () -> LoginViewController,
+        ticketDetailViewControllerFactory: @escaping (TicketItem) -> TicketDetailViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
+        self.ticketDetailControllerFactory = ticketDetailViewControllerFactory
         super.init()
     }
 
@@ -84,18 +85,20 @@ final class TicketListViewController: BooltiViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .blue
-        self.navigationController?.navigationBar.isHidden = true
         self.configureCollectionViewDatasource()
         self.configureUI()
+        self.bindUIComponenets()
         self.bindViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.loginEnterView.isHidden = true
+        self.hidesBottomBarWhenPushed = true
     }
 
     private func configureUI() {
+        self.navigationController?.navigationBar.isHidden = true
+
         self.view.addSubviews([
             self.collectionView,
             self.loginEnterView,
@@ -176,6 +179,18 @@ final class TicketListViewController: BooltiViewController {
                 item.transform = CGAffineTransform(scaleX: 1, y: scale)
             }
         }
+    }
+
+    private func bindUIComponenets() {
+        self.collectionView.rx
+            .itemSelected
+            .asDriver()
+            .drive(with: self) { owner, indexPath in
+                guard let ticketItem = owner.datasource?.itemIdentifier(for: indexPath) else { return }
+                let viewController = owner.ticketDetailControllerFactory(ticketItem)
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {
