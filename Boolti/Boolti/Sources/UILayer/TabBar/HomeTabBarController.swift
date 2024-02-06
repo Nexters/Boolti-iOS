@@ -82,9 +82,12 @@ extension HomeTabBarController {
 extension HomeTabBarController {
     
     private func configureUI() {
-        self.tabBar.backgroundColor = .grey95
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = .grey95
+        
+        self.tabBar.standardAppearance = appearance
+        self.tabBar.scrollEdgeAppearance = appearance
         self.tabBar.tintColor = .grey10
-        self.tabBar.barTintColor = .grey95
         self.tabBar.unselectedItemTintColor = .grey50
         
         let topBorder = CALayer()
