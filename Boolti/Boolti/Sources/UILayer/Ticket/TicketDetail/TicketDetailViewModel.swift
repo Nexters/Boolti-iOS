@@ -16,7 +16,7 @@ import RxMoya
 class TicketDetailViewModel {
 
     struct Input {
-        var viewDidAppearEvent = PublishSubject<Void>()
+        var viewWillAppearEvent = PublishSubject<Void>()
     }
 
     struct Output {
@@ -47,9 +47,11 @@ class TicketDetailViewModel {
     }
 
     private func bindViewDidAppearEvent() {
-        self.input.viewDidAppearEvent
+        self.input.viewWillAppearEvent
             .take(1)
-            .do { self.output.isLoading.accept(true) }
+            .do(onNext: { _ in
+                self.output.isLoading.accept(true)
+            })
             .flatMap { self.fetchTicketDetailItem() }
             .subscribe(with: self) { owner, ticketDetailItem in
                 owner.output.fetchedTicketDetail.accept(ticketDetailItem)

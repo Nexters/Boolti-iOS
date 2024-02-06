@@ -61,7 +61,6 @@ final class TicketListViewModel {
 
     private func bindViewDidAppearEvent() {
         self.input.viewDidAppearEvent
-            .take(1)
             .subscribe(with: self) { owner, _ in
                 if owner.isAccessTokenAvailable() {
                     owner.output.isAccessTokenLoaded.accept(true)

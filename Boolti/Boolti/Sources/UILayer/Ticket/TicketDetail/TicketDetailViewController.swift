@@ -153,17 +153,30 @@ class TicketDetailViewController: BooltiViewController {
     }
 
     private func bindViewModel() {
-        self.rx.viewDidAppear
+        self.bindInput()
+        self.bindOutput()
+    }
+
+    private func bindInput() {
+        self.rx.viewWillAppear
             .asDriver(onErrorJustReturn: true)
             .drive(with: self, onNext: { owner, _ in
-                owner.viewModel.input.viewDidAppearEvent.onNext(())
+                owner.viewModel.input.viewWillAppearEvent.onNext(())
             })
             .disposed(by: self.disposeBag)
+    }
 
+    private func bindOutput() {
         self.viewModel.output.fetchedTicketDetail
             .bind(with: self) { owner, ticketDetailItem in
                 owner.ticketDetailView.setData(with: ticketDetailItem)
             }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.isLoading
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(self.isLoading)
             .disposed(by: self.disposeBag)
     }
 

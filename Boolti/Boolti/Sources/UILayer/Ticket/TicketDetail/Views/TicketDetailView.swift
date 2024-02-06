@@ -105,7 +105,8 @@ class TicketDetailView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    // 아래 로직은 추후에 바꿀 예정!
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -116,6 +117,7 @@ class TicketDetailView: UIView {
         }
         // 아래 로직 변경해야함!..
         self.configureCircleViews()
+        self.updateDetailViewHeight()
     }
 
     func setData(with item: TicketDetailItem) {
@@ -149,7 +151,7 @@ class TicketDetailView: UIView {
 
         self.snp.makeConstraints { make in
             make.width.greaterThanOrEqualTo(317)
-            make.height.greaterThanOrEqualTo(1000)
+            make.height.equalTo(1000)
         }
 
         self.backgroundImageView.snp.makeConstraints { make in
@@ -178,7 +180,6 @@ class TicketDetailView: UIView {
         self.horizontalButtonStackView.snp.makeConstraints { make in
             make.top.equalTo(self.ticketInquiryView.snp.bottom)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(25)
         }
 
         self.copyAddressButton.snp.makeConstraints { make in
@@ -187,6 +188,16 @@ class TicketDetailView: UIView {
 
         self.showConcertDetailButton.snp.makeConstraints { make in
             make.height.equalTo(48)
+        }
+    }
+
+    private func updateDetailViewHeight() {
+        let height = self.ticketMainInformationView.bounds.height + self.ticketNoticeView.bounds.height + self.ticketInquiryView.bounds.height
+
+        + self.horizontalButtonStackView.bounds.height + CGFloat(25)
+
+        self.snp.updateConstraints { make in
+            make.height.equalTo(height)
         }
     }
 
