@@ -9,7 +9,7 @@ import UIKit
 
 class TicketMainView: UIView {
 
-    private var posterImageView: UIImageView = {
+    let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 8
         imageView.clipsToBounds = true
@@ -41,13 +41,15 @@ class TicketMainView: UIView {
             self.horizontalInformationStackView
         ])
         stackView.axis = .vertical
-        stackView.spacing = 2
+        stackView.alignment = .leading
+        stackView.spacing = 4
 
         return stackView
     }()
 
     private lazy var horizontalInformationStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.axis = .horizontal
         stackView.addArrangedSubviews([self.dateLabel, self.locationLabel])
 
         return stackView
@@ -76,6 +78,11 @@ class TicketMainView: UIView {
         return imageView
     }()
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.configureSeperateLine()
+    }
+
     init() {
         super.init(frame: CGRect())
         self.configureUI()
@@ -85,12 +92,16 @@ class TicketMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setData(with item: TicketItem) {
+    func setData(with item: TicketItem, limitNumberOfLines: Bool = false) {
         self.posterImageView.image = item.poster
         self.dateLabel.text = item.date
         self.locationLabel.text = " | \(item.location)"
         self.titleLabel.text = item.title
         self.qrCodeImageView.image = item.qrCode
+        self.titleLabel.setLineSpacing(lineSpacing: 4)
+
+        guard limitNumberOfLines else { return }
+        self.titleLabel.numberOfLines = 4
     }
 
     private func configureUI() {
@@ -109,8 +120,9 @@ class TicketMainView: UIView {
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(self.posterImageView.snp.width).multipliedBy(1.4)
         }
-
+        
         self.verticalInformationStackView.snp.makeConstraints { make in
+            make.top.greaterThanOrEqualTo(self.posterImageView.snp.bottom).offset(40)
             make.bottom.equalToSuperview()
             make.right.equalTo(self.qrCodeImageView.snp.left).offset(-12)
             make.left.equalToSuperview()
@@ -122,5 +134,23 @@ class TicketMainView: UIView {
             make.height.equalTo(self.posterImageView.snp.height).multipliedBy(0.18)
             make.width.equalTo(self.qrCodeImageView.snp.height)
         }
+    }
+
+    private func configureSeperateLine() {
+        let path = UIBezierPath()
+
+        let posterImageViewBottonY = self.posterImageView.bounds.height
+        let stackViewTopY = self.verticalInformationStackView.frame.origin.y
+
+        path.move(to: CGPoint(x: 0, y: (posterImageViewBottonY + stackViewTopY)/2))
+        path.addLine(to: CGPoint(x: self.bounds.width, y: (posterImageViewBottonY + stackViewTopY)/2))
+        path.close()
+
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = path.cgPath
+        shapeLayer.lineWidth = 2
+        shapeLayer.lineDashPattern = [2, 2]
+        shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
+        self.layer.addSublayer(shapeLayer)
     }
 }

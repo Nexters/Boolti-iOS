@@ -28,7 +28,6 @@ final class HomeTabBarDIContainer {
         return HomeTabBarViewModel()
     }
 
-
     private func createViewController(of tab: HomeTab) -> UIViewController {
         let viewController: UIViewController
         switch tab {
