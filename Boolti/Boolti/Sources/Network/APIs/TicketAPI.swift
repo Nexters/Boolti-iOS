@@ -19,9 +19,9 @@ extension TicketAPI: ServiceAPI {
     var path: String {
         switch self {
         case .list:
-            return "/tickets"
+            return "/api/v1/tickets"
         case .detail(ticketID: let id):
-            return "/ticket/\(id)"
+            return "/api/v1/ticket/\(id)"
         }
     }
     

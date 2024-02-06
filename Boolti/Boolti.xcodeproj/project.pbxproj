@@ -30,7 +30,7 @@
 		84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C742B5BEB5600D37921 /* UserDefault.swift */; };
 		84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */; };
 		84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */; };
-		84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C862B5BED9A00D37921 /* BaseAPI.swift */; };
+		84781C872B5BED9A00D37921 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781C862B5BED9A00D37921 /* ServiceAPI.swift */; };
 		84781C952B5BF15A00D37921 /* RxKakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C942B5BF15A00D37921 /* RxKakaoSDKAuth */; };
 		84781C972B5BF15A00D37921 /* RxKakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C962B5BF15A00D37921 /* RxKakaoSDKCommon */; };
 		84781C992B5BF15A00D37921 /* RxKakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 84781C982B5BF15A00D37921 /* RxKakaoSDKUser */; };
@@ -122,6 +122,7 @@
 		8753CA702B70E322002871C7 /* TicketEntryCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA6F2B70E322002871C7 /* TicketEntryCodeViewModel.swift */; };
 		8753CA732B71EA68002871C7 /* TicketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA722B71EA68002871C7 /* TicketAPI.swift */; };
 		8753CA752B71ED3E002871C7 /* TicketListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA742B71ED3E002871C7 /* TicketListResponseDTO.swift */; };
+		8753CA772B71F004002871C7 /* TicketListItemResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA762B71F004002871C7 /* TicketListItemResponseDTO.swift */; };
 		8757BA972B5FA6B0008503B5 /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */; };
 		8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */; };
 		8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */; };
@@ -145,7 +146,6 @@
 		876BF16C2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */; };
 		876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */; };
 		876BF1702B6A5FEF00DB4BCB /* RefreshAuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16F2B6A5FEF00DB4BCB /* RefreshAuthAPIService.swift */; };
-		876BF1722B6A925C00DB4BCB /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF1712B6A925C00DB4BCB /* ServiceAPI.swift */; };
 		876BF1742B6A939900DB4BCB /* LogoutAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF1732B6A939900DB4BCB /* LogoutAPI.swift */; };
 		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
 		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
@@ -191,7 +191,7 @@
 		84781C742B5BEB5600D37921 /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
-		84781C862B5BED9A00D37921 /* BaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPI.swift; sourceTree = "<group>"; };
+		84781C862B5BED9A00D37921 /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		84781C9C2B5BF68900D37921 /* RootDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDIContainer.swift; sourceTree = "<group>"; };
 		84781C9E2B5BF6A000D37921 /* SplashViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModelDelegate.swift; sourceTree = "<group>"; };
 		84781CA02B5BF6AB00D37921 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -264,6 +264,7 @@
 		8753CA6F2B70E322002871C7 /* TicketEntryCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEntryCodeViewModel.swift; sourceTree = "<group>"; };
 		8753CA722B71EA68002871C7 /* TicketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketAPI.swift; sourceTree = "<group>"; };
 		8753CA742B71ED3E002871C7 /* TicketListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketListResponseDTO.swift; sourceTree = "<group>"; };
+		8753CA762B71F004002871C7 /* TicketListItemResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketListItemResponseDTO.swift; sourceTree = "<group>"; };
 		8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEnterView.swift; sourceTree = "<group>"; };
@@ -286,7 +287,6 @@
 		876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshRequestDTO.swift; sourceTree = "<group>"; };
 		876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponseDTO.swift; sourceTree = "<group>"; };
 		876BF16F2B6A5FEF00DB4BCB /* RefreshAuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshAuthAPIService.swift; sourceTree = "<group>"; };
-		876BF1712B6A925C00DB4BCB /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		876BF1732B6A939900DB4BCB /* LogoutAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutAPI.swift; sourceTree = "<group>"; };
 		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -571,6 +571,7 @@
 				8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */,
 				876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */,
 				8753CA742B71ED3E002871C7 /* TicketListResponseDTO.swift */,
+				8753CA762B71F004002871C7 /* TicketListItemResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -578,10 +579,9 @@
 		84781C852B5BED8D00D37921 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
-				84781C862B5BED9A00D37921 /* BaseAPI.swift */,
+				84781C862B5BED9A00D37921 /* ServiceAPI.swift */,
 				84975BE82B60E04500F903E7 /* AuthAPI.swift */,
 				876BF1732B6A939900DB4BCB /* LogoutAPI.swift */,
-				876BF1712B6A925C00DB4BCB /* ServiceAPI.swift */,
 				8753CA722B71EA68002871C7 /* TicketAPI.swift */,
 			);
 			path = APIs;
@@ -1080,6 +1080,7 @@
 				8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */,
 				84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */,
 				87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */,
+				8753CA772B71F004002871C7 /* TicketListItemResponseDTO.swift in Sources */,
 				849FBD512B5E920A006EB865 /* AppInfo.swift in Sources */,
 				84FBBDF72B67429D009462E9 /* ImageCacheManager.swift in Sources */,
 				84FBBE0B2B6888CB009462E9 /* InvitationCodeView.swift in Sources */,
@@ -1121,7 +1122,6 @@
 				84896A552B6A8E1500CB3E33 /* DepositDetailView.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* OAuthAPIService.swift in Sources */,
 				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
-				876BF1722B6A925C00DB4BCB /* ServiceAPI.swift in Sources */,
 				8753CA732B71EA68002871C7 /* TicketAPI.swift in Sources */,
 				84781CC02B5BF98600D37921 /* MypageViewController.swift in Sources */,
 				84FBBE012B677187009462E9 /* BooltiTextField.swift in Sources */,
@@ -1136,7 +1136,7 @@
 				84625A182B63E05700CC9077 /* BooltiPaddingLabel.swift in Sources */,
 				87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
-				84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */,
+				84781C872B5BED9A00D37921 /* ServiceAPI.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
 				8746AD012B67F7610037A1B1 /* TicketMainView.swift in Sources */,
 				84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */,

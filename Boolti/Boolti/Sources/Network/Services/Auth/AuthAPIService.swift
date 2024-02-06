@@ -38,6 +38,7 @@ final class AuthAPIService: AuthAPIServiceType {
             .do { loginReponseDTO in
                 guard let accessToken = loginReponseDTO.accessToken,
                       let refreshToken = loginReponseDTO.refreshToken else { return }
+                print(accessToken)
                 UserDefaults.accessToken = accessToken
                 UserDefaults.refreshToken = refreshToken
             }

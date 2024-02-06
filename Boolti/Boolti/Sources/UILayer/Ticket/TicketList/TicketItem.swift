@@ -9,14 +9,14 @@ import UIKit
 
 enum TicketType {
     case invitation
-    case premium
+    case sale
 
     var description: String {
         switch self {
         case .invitation:
             return "초청 티켓"
-        case .premium:
-            return "프리미엄 티켓"
+        case .sale:
+            return "일반 티켓"
         }
     }
 }
@@ -24,11 +24,11 @@ enum TicketType {
 struct TicketItem: Hashable {
 
     let id = UUID()
-    let ticketType: String
+    let ticketType: TicketType
     let poster: UIImage
     let title: String
     let date: String
     let location: String
     let qrCode: UIImage
-    let number: Int
+    let ticketID: Int
 }

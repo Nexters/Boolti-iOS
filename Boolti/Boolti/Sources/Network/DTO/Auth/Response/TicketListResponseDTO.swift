@@ -9,24 +9,12 @@ import Foundation
 
 struct TicketListResponseDTO: Decodable {
 
-    let userID: Int
-    let ticketID: Int
-    let concertTitle: String
-    let placeName: String
-    let concertDate: String
-    let concertImagePath: String
-    let ticketType: String
-    let ticketName: String
-    let entryCode: String
-    let isUsedTicket: Bool
+    let ticketListItemResponseDTO: [TicketListItemResponseDTO]
+}
 
-    enum CodingKeys: String, CodingKey {
-        case userID = "userId"
-        case ticketID = "ticketId"
-        case concertTitle = "showName"
-        case concertDate = "showDate"
-        case concertImagePath = "showImgPath"
-        case isUsedTicket = "isUsed"
-        case placeName, entryCode, ticketName, ticketType
+extension TicketListResponseDTO {
+
+    func converToTicketItems() -> [TicketItem] {
+        return self.ticketListItemResponseDTO.map { $0.convertToTicketItem() }
     }
 }

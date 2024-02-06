@@ -13,14 +13,10 @@ enum LogoutAPI {
     case logout
 }
 
-extension LogoutAPI: BaseAPI {
-
-    var baseURL: URL {
-        return URL(string: "~/app/v1")!
-    }
+extension LogoutAPI: ServiceAPI {
 
     var path: String {
-        return "/logout"
+        return "/v1/logout"
     }
 
     var method: Moya.Method {

@@ -78,15 +78,21 @@ final class TicketListViewModel {
     }
 
     private func bindShouldLoadTableViewEvent() {
+//        self.input.shouldLoadTableViewEvent
+//            .flatMap { self.fetchTicketItemsByAPI() }
+//            .subscribe(with: self) { owner, ticketItems in
+//                if ticketItems.isEmpty {
+//                    owner.output.isTicketsExist.accept(false)
+//                } else {
+//                    owner.output.sectionModels.accept(ticketItems)
+//                }
+//            }
+//            .disposed(by: self.disposeBag)
         self.input.shouldLoadTableViewEvent
-            .flatMap { self.fetchTicketItemsByAPI() }
-            .subscribe(with: self) { owner, ticketItems in
-                if ticketItems.isEmpty {
-                    owner.output.isTicketsExist.accept(false)
-                } else {
-                    owner.output.sectionModels.accept(ticketItems)
-                }
-            }
+            .flatMap { self.fetchTicketList() }
+            .subscribe(onNext: { list in
+                print(list)
+            })
             .disposed(by: self.disposeBag)
     }
 
@@ -96,11 +102,11 @@ final class TicketListViewModel {
         return (!accessToken.isEmpty)
     }
 
-    private func fetchTicketList() -> Single<[TicketItem]> {
+    private func fetchTicketList() -> Single<[TicketListItemResponseDTO]> {
         let networkProvider = self.authAPIService.networkService
         let ticketListAPI = TicketAPI.list
-        networkProvider.request(ticketListAPI)
-            .
+        return networkProvider.request(ticketListAPI)
+            .map([TicketListItemResponseDTO].self)
     }
 
     private func fetchTicketItemsByAPI() -> Single<[TicketItem]> {

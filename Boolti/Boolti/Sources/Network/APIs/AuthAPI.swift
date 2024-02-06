@@ -16,15 +16,15 @@ enum AuthAPI {
 }
 
 extension AuthAPI: ServiceAPI {
-
+    
     var path: String {
         switch self {
         case .login(let provider, _):
-            return "/login/\(provider.rawValue)"
+            return "/papi/v1/login/\(provider.rawValue)"
         case .signup:
-            return "/signup/sns"
+            return "/papi/v1/signup/sns"
         case .refresh:
-            return "login/refresh"
+            return "/papi/v1/login/refresh"
         }
     }
 
