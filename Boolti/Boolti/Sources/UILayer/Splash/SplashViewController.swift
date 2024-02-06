@@ -19,10 +19,15 @@ final class SplashViewController: UIViewController {
     private let viewModel: SplashViewModel
     private let disposeBag = DisposeBag()
     
+    private let updatePopupViewControllerFactory: () -> UpdatePopupViewController
+    
     // MARK: Life Cycle
     
-    init(viewModel: SplashViewModel) {
+    init(viewModel: SplashViewModel,
+         updatePopupViewControllerFactory: @escaping () -> UpdatePopupViewController) {
         self.viewModel = viewModel
+        self.updatePopupViewControllerFactory = updatePopupViewControllerFactory
+        
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -46,14 +51,6 @@ final class SplashViewController: UIViewController {
 extension SplashViewController {
     
     private func bind() {
-        NotificationCenter.default.rx
-            .notification(UIApplication.willEnterForegroundNotification)
-            .observe(on: MainScheduler.instance)
-            .subscribe(with: self, onNext: { owner, _ in
-                owner.viewModel.checkUpdateRequired()
-            })
-            .disposed(by: disposeBag)
-        
         self.viewModel.updateRequired
             .asDriver(onErrorJustReturn: true)
             .drive(with: self, onNext: { owner, isRequired in
@@ -77,22 +74,9 @@ extension SplashViewController {
     }
     
     private func showUpdateAlert() {
-        let alertController = UIAlertController(title: "업데이트가 필요합니다", message: "앱스토어로 이동하시겠습니까?", preferredStyle: .alert)
-        let confirm = UIAlertAction(title: "네", style: .default, handler: { _ in
-            self.openAppStore()
-        })
-        let cancel = UIAlertAction(title: "아니요", style: .cancel, handler: { _ in
-            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-        })
-        [confirm, cancel].forEach { alertController.addAction($0) }
-        self.present(alertController, animated: true)
-    }
-    
-    private func openAppStore() {
-        guard let url = URL(string: AppInfo.booltiAppStoreLink) else { return }
-
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+        let viewController = self.updatePopupViewControllerFactory()
+        viewController.modalPresentationStyle = .overFullScreen
+        
+        self.present(viewController, animated: true)
     }
 }

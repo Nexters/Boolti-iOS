@@ -18,8 +18,20 @@ final class SplashDIContainer {
     }
 
     func createSplashViewController() -> SplashViewController {
-        let viewController = SplashViewController(viewModel: createSplashViewModel())
+        let updatePopupViewControllerFactory: () -> UpdatePopupViewController = {
+            let DIContainer = self.createUpdatePopupDIContainer()
+
+            let viewController = DIContainer.createUpdatePopupViewController()
+            return viewController
+        }
+        
+        let viewController = SplashViewController(viewModel: createSplashViewModel(),
+                                                  updatePopupViewControllerFactory: updatePopupViewControllerFactory)
         return viewController
+    }
+    
+    private func createUpdatePopupDIContainer() -> UpdatePopupDIContainer {
+        return UpdatePopupDIContainer()
     }
 
     private func createSplashViewModel() -> SplashViewModel {
