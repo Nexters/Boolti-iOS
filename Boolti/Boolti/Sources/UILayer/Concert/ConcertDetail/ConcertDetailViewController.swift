@@ -152,7 +152,18 @@ extension ConcertDetailViewController {
         
         self.navigationView.didMoreButtonTap()
             .emit(with: self) { owner, _ in
-                owner.navigationController?.popViewController(animated: true)
+                let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                
+                let reportAction = UIAlertAction(title: "신고하기", style: .default) { _ in
+                    // TODO: 신고하기 페이지로 이동
+                    debugPrint("신고하기 페이지로 이동")
+                 }
+                 alertController.addAction(reportAction)
+
+                let cancleAction = UIAlertAction(title: "취소하기", style: .cancel)
+                alertController.addAction(cancleAction)
+
+                self.present(alertController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
