@@ -94,7 +94,7 @@ extension UpdatePopupViewController {
     private func configureConstraints() {
         self.popupBackgroundView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview().inset(32)
         }
         
         self.titleLabel.snp.makeConstraints { make in
