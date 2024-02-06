@@ -86,9 +86,9 @@ final class PlaceInfoView: UIView {
 
 extension PlaceInfoView {
     
-    func setData(name: String, address: String) {
+    func setData(name: String, streetAddress: String, detailAddress: String) {
         self.placeNameLabel.text = name
-        self.addressLabel.text = address
+        self.addressLabel.text = "\(streetAddress) / \(detailAddress)"
         
         self.snp.makeConstraints { make in
             make.height.equalTo(138 + self.addressLabel.getLabelHeight())

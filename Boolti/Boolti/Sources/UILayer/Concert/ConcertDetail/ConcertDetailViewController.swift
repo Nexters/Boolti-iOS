@@ -91,14 +91,7 @@ final class ConcertDetailViewController: BooltiViewController {
         self.configureToastView(isButtonExisted: true)
         self.bindPlaceInfoView()
         self.bindNavigationView()
-        
-        // 확인용
-        self.concertPosterView.setData(images: [.mockPoster, .mockPoster, .mockPoster], title: "2024 TOGETHER LUCKY CLUB")
-        self.ticketingPeriodView.setData(startDate: Date(), endDate: Date().addingTimeInterval(1234541))
-        self.placeInfoView.setData(name: "클럽 샤프", address: "서울특별시 마포구 와우산로 19길 20 / 지하 1층")
-        self.datetimeInfoView.setData(datetime: "2024.01.20 (토) / 18:00 (150분)")
-        self.contentInfoView.setData(content: "[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!\n[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!\n[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!\n[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!\n[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!\n[팀명 및 팀 소개]\nOvO (오보)\n웃는 표정, 틀려도 웃고 넘기자!")
-        self.organizerInfoView.setData(organizer: "박불티 (010-1234-5678)")
+        self.bindOutputs()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,10 +103,25 @@ final class ConcertDetailViewController: BooltiViewController {
 
 extension ConcertDetailViewController {
     
+    private func bindOutputs() {
+        self.viewModel.output.concertDetail
+            .take(1)
+            .bind(with: self) { owner, entity in
+                owner.concertPosterView.setData(images: [.mockPoster, .mockPoster, .mockPoster], title: entity.name)
+                owner.ticketingPeriodView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
+                owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
+                owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
+                owner.contentInfoView.setData(content: entity.notice)
+                owner.organizerInfoView.setData(organizer: "박불티 (010-1234-5678)")
+            }
+            .disposed(by: self.disposeBag)
+                
+    }
+    
     private func bindPlaceInfoView() {
         self.placeInfoView.didAddressCopyButtonTap()
             .emit(with: self) { owner, _ in
-                UIPasteboard.general.string = self.placeInfoView.addressLabel.text
+                UIPasteboard.general.string = self.viewModel.output.concertDetail.value.streetAddress
                 owner.showToast(message: "공연장 주소가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
