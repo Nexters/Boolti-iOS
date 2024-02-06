@@ -116,7 +116,23 @@ extension ConcertDetailViewController {
                 owner.organizerInfoView.setData(organizer: "박불티 (010-1234-5678)")
             }
             .disposed(by: self.disposeBag)
-                
+
+        self.viewModel.output.buttonState
+            .bind(with: self) { owner, state in
+                switch state {
+                case .onSale:
+                    owner.button.isEnabled = true
+                    owner.button.setTitle(state.rawValue, for: .normal)
+                case .beforeSale:
+                    owner.button.isEnabled = false
+                    owner.button.setTitle("\(state.rawValue)\(Date().getBetweenDay(to: owner.viewModel.output.concertDetail.value.date))", for: .normal)
+                    owner.button.setTitleColor(.orange01, for: .normal)
+                case .endSale, .endConcert:
+                    owner.button.isEnabled = false
+                    owner.button.setTitle(state.rawValue, for: .normal)
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func bindPlaceInfoView() {
