@@ -5,12 +5,13 @@
 //  Created by Miro on 1/20/24.
 //
 
-import Foundation
+import UIKit
+
+import Moya
+
 import RxSwift
 import RxRelay
-import RxDataSources
-import RxCocoa
-import UIKit
+import RxMoya
 
 enum TicketViewDestination {
     case login
@@ -62,7 +63,7 @@ final class TicketListViewModel {
                 if owner.isAccessTokenAvailable() {
                     owner.output.isAccessTokenLoaded.accept(true)
                 } else {
-                    owner.output.isAccessTokenLoaded.accept(true)
+                    owner.output.isAccessTokenLoaded.accept(false)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -93,6 +94,13 @@ final class TicketListViewModel {
         let token = authAPIService.fetchTokens()
         let accessToken = token.0
         return (!accessToken.isEmpty)
+    }
+
+    private func fetchTicketList() -> Single<[TicketItem]> {
+        let networkProvider = self.authAPIService.networkService
+        let ticketListAPI = TicketAPI.list
+        networkProvider.request(ticketListAPI)
+            .
     }
 
     private func fetchTicketItemsByAPI() -> Single<[TicketItem]> {

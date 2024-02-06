@@ -121,6 +121,7 @@
 		8753CA6E2B70E30D002871C7 /* TicketEntryCodeDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA6D2B70E30D002871C7 /* TicketEntryCodeDIContainer.swift */; };
 		8753CA702B70E322002871C7 /* TicketEntryCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA6F2B70E322002871C7 /* TicketEntryCodeViewModel.swift */; };
 		8753CA732B71EA68002871C7 /* TicketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA722B71EA68002871C7 /* TicketAPI.swift */; };
+		8753CA752B71ED3E002871C7 /* TicketListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA742B71ED3E002871C7 /* TicketListResponseDTO.swift */; };
 		8757BA972B5FA6B0008503B5 /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */; };
 		8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */; };
 		8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */; };
@@ -262,6 +263,7 @@
 		8753CA6D2B70E30D002871C7 /* TicketEntryCodeDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEntryCodeDIContainer.swift; sourceTree = "<group>"; };
 		8753CA6F2B70E322002871C7 /* TicketEntryCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEntryCodeViewModel.swift; sourceTree = "<group>"; };
 		8753CA722B71EA68002871C7 /* TicketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketAPI.swift; sourceTree = "<group>"; };
+		8753CA742B71ED3E002871C7 /* TicketListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketListResponseDTO.swift; sourceTree = "<group>"; };
 		8757BA962B5FA6B0008503B5 /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEnterView.swift; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 				876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */,
 				8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */,
 				876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */,
+				8753CA742B71ED3E002871C7 /* TicketListResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1109,6 +1112,7 @@
 				87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */,
 				84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */,
 				84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */,
+				8753CA752B71ED3E002871C7 /* TicketListResponseDTO.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
 				8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */,
 				87D2FAB82B6EA7050027FBE1 /* TicketMainInformationView.swift in Sources */,
