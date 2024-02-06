@@ -55,6 +55,17 @@ final class ConcertDetailViewController: BooltiViewController {
     
     private let organizerInfoView = OrganizerInfoView()
     
+    private lazy var buttonBackgroundView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 16))
+        
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.colors = [UIColor.clear.cgColor, UIColor.grey95.cgColor]
+        view.layer.insertSublayer(gradient, at: 0)
+
+        return view
+    }()
+    
     private let button = BooltiButton(title: "예매하기")
     
     // MARK: Init
@@ -146,6 +157,7 @@ extension ConcertDetailViewController {
     private func configureUI() {
         self.view.addSubviews([self.navigationView,
                                self.scrollView,
+                               self.buttonBackgroundView,
                                self.button])
     }
     
@@ -164,6 +176,12 @@ extension ConcertDetailViewController {
         self.stackView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.edges.equalTo(self.scrollView)
+        }
+        
+        self.buttonBackgroundView.snp.makeConstraints { make in
+            make.bottom.equalTo(self.button.snp.top)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(16)
         }
         
         self.button.snp.makeConstraints { make in
