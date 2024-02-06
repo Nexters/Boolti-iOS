@@ -34,7 +34,10 @@ extension TicketListItemResponseDTO {
     func convertToTicketItem() -> TicketItem {
         /// 티켓 타입
         let ticketType = self.ticketType == "SALE" ? TicketType.sale : TicketType.invitation
-        
+
+        /// 티켓 이름
+        let ticketName = self.ticketName
+
         /// 포스터 이미지
         // 여기서 KingFisher로 Image 가져오기 OR 혹은 url만 던지고 다른 곳에서 Image 가져오기!.. -> Data 영역에서 UIKit을 import하는 게 별로여서!...
         let posterImage: UIImage = .mockPoster
@@ -64,6 +67,7 @@ extension TicketListItemResponseDTO {
 
         return TicketItem(
             ticketType: ticketType,
+            ticketName: ticketName,
             poster: posterImage,
             title: title,
             date: formatterDate,

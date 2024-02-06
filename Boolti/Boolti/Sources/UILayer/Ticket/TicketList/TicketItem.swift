@@ -25,6 +25,7 @@ struct TicketItem: Hashable {
 
     let id = UUID()
     let ticketType: TicketType
+    let ticketName: String
     let poster: UIImage
     let title: String
     let date: String

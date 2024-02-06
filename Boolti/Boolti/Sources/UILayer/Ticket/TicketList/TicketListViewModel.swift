@@ -78,21 +78,15 @@ final class TicketListViewModel {
     }
 
     private func bindShouldLoadTableViewEvent() {
-//        self.input.shouldLoadTableViewEvent
-//            .flatMap { self.fetchTicketItemsByAPI() }
-//            .subscribe(with: self) { owner, ticketItems in
-//                if ticketItems.isEmpty {
-//                    owner.output.isTicketsExist.accept(false)
-//                } else {
-//                    owner.output.sectionModels.accept(ticketItems)
-//                }
-//            }
-//            .disposed(by: self.disposeBag)
         self.input.shouldLoadTableViewEvent
             .flatMap { self.fetchTicketList() }
-            .subscribe(onNext: { list in
-                print(list)
-            })
+            .subscribe(with: self) { owner, ticketItems in
+                if ticketItems.isEmpty {
+                    owner.output.isTicketsExist.accept(false)
+                } else {
+                    owner.output.sectionModels.accept(ticketItems)
+                }
+            }
             .disposed(by: self.disposeBag)
     }
 
@@ -102,24 +96,11 @@ final class TicketListViewModel {
         return (!accessToken.isEmpty)
     }
 
-    private func fetchTicketList() -> Single<[TicketListItemResponseDTO]> {
+    private func fetchTicketList() -> Single<[TicketItem]> {
         let networkProvider = self.authAPIService.networkService
         let ticketListAPI = TicketAPI.list
         return networkProvider.request(ticketListAPI)
             .map([TicketListItemResponseDTO].self)
-    }
-
-    private func fetchTicketItemsByAPI() -> Single<[TicketItem]> {
-        // 만약 API 호출을 했는데, 빈 배열이 있으면 Ticket이 없는 것이고,
-        // 아래와 같이 fetch가 되면, Ticket이 있다.
-        // 현재는 있다고 가정!..
-        let items: [TicketItem] = [
-            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
-            TicketItem(ticketType: "일반 티켓 B", poster: .mockPosterTwo, title: "2024 TOGETHER LUCKY CLUB SEFVDVDSFESVEFSFEFSEVESFEFESF ㅁㄴㅇㄹㄴㅁㄹㅁㄷㄹㅁㄴㄹㄷㄹㅍㄷ", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
-            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB ㄴㅇㄹㄴㅁㄹㅇㄴㄹㄴㄹㄴㄹ", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
-            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
-            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
-        ]
-        return Single.just(items)
+            .map { $0.map { $0.convertToTicketItem() }}
     }
 }
