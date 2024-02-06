@@ -83,6 +83,16 @@ class TicketDetailViewController: BooltiViewController {
         self.scrollView.addSubview(self.contentStackView)
         self.entryCodeView.addSubview(self.entryCodeButton)
 
+        self.configureConstraints()
+
+        self.contentStackView.addArrangedSubviews([
+            self.ticketDetailView,
+            self.reversalPolicyView,
+            self.entryCodeView
+        ])
+    }
+
+    private func configureConstraints() {
         self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
 
         self.navigationBar.snp.makeConstraints { make in
@@ -111,13 +121,6 @@ class TicketDetailViewController: BooltiViewController {
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
         }
-
-
-        self.contentStackView.addArrangedSubviews([
-            self.ticketDetailView,
-            self.reversalPolicyView,
-            self.entryCodeView
-        ])
     }
 
     private func bindUIComponenets() {
