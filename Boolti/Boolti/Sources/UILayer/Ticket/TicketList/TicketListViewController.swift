@@ -93,7 +93,7 @@ final class TicketListViewController: BooltiViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         self.loginEnterView.isHidden = true
-        self.hidesBottomBarWhenPushed = true
+        self.tabBarController?.tabBar.isHidden = false
     }
 
     private func configureUI() {

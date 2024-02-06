@@ -22,4 +22,13 @@ extension Date {
         formatter.locale = Locale(identifier: "ko_KR")
         return formatter.string(from: self)
     }
+    
+    func getBetweenDay(to endDate: Date) -> Int {
+        let calendar = Calendar.current
+        let startMidnight = calendar.startOfDay(for: self)
+        let endMidnight = calendar.startOfDay(for: endDate)
+        
+        let components = calendar.dateComponents([.day], from: startMidnight, to: endMidnight)
+        return components.day ?? 0
+    }
 }
