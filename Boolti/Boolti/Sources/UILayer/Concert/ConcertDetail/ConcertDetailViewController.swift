@@ -22,6 +22,7 @@ final class ConcertDetailViewController: BooltiViewController {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.bounces = false
         scrollView.showsVerticalScrollIndicator = false
         
         scrollView.addSubviews([self.stackView])
@@ -107,7 +108,7 @@ extension ConcertDetailViewController {
         self.viewModel.output.concertDetail
             .take(1)
             .bind(with: self) { owner, entity in
-                owner.concertPosterView.setData(images: [.mockPoster, .mockPoster, .mockPoster], title: entity.name)
+                owner.concertPosterView.setData(images: entity.showImg, title: entity.name)
                 owner.ticketingPeriodView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
                 owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
                 owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
