@@ -1,5 +1,5 @@
 //
-//  TicketListItemResponseDTO.swift
+//  TicketDetailResponseDTO.swift
 //  Boolti
 //
 //  Created by Miro on 2/6/24.
@@ -7,17 +7,22 @@
 
 import UIKit
 
-struct TicketListItemResponseDTO: Decodable {
+struct TicketDetailResponseDTO: Decodable {
 
     let ticketID: Int
     let concertTitle: String
     let placeName: String
-    let concertDate: String
     let concertImagePath: String
+    let concertDate: String
+    let streetAddress: String
+    let detailAddress: String
     let ticketType: String
     let ticketName: String
+    let notice: String
     let entryCode: String
     let isUsedTicket: Bool
+    let hostName: String
+    let hostPhoneNumber: String
 
     enum CodingKeys: String, CodingKey {
         case ticketID = "ticketId"
@@ -25,13 +30,15 @@ struct TicketListItemResponseDTO: Decodable {
         case concertDate = "showDate"
         case concertImagePath = "showImgPath"
         case isUsedTicket = "isUsed"
-        case placeName, entryCode, ticketName, ticketType
+        case placeName, entryCode, ticketName, ticketType, streetAddress, detailAddress, hostName, hostPhoneNumber, notice
     }
 }
 
-extension TicketListItemResponseDTO {
 
-    func convertToTicketItem() -> TicketItem {
+
+extension TicketDetailResponseDTO {
+
+    func convertToTicketDetailItem() -> TicketDetailItem {
         /// 티켓 타입
         let ticketType = self.ticketType == "SALE" ? TicketType.sale : TicketType.invitation
 
@@ -52,7 +59,7 @@ extension TicketListItemResponseDTO {
 
         let date = isoDateFormatter.date(from: self.concertDate) ?? Date()
         let formatterDate = date.format(.date)
-        
+
 
         /// 공연 장소
         let location = self.placeName
@@ -64,11 +71,12 @@ extension TicketListItemResponseDTO {
         /// 티켓 ID
         let ticketID = self.ticketID
 
-        /// 사용된 ticket
-        let isUsed = self.isUsedTicket
+        /// Host Name, PhoneNumber
+        let hostName = self.hostName
+        let hostPhoneNumber = self.hostPhoneNumber
 
 
-        return TicketItem(
+        return TicketDetailItem(
             ticketType: ticketType,
             ticketName: ticketName,
             poster: posterImage,
@@ -77,7 +85,8 @@ extension TicketListItemResponseDTO {
             location: location,
             qrCode: qrCodeImage,
             ticketID: ticketID,
-            isUsed: isUsed
+            hostName: hostName,
+            hostPhoneNumber: hostPhoneNumber
         )
     }
 }

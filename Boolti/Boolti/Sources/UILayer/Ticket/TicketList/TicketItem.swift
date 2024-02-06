@@ -32,4 +32,5 @@ struct TicketItem: Hashable {
     let location: String
     let qrCode: UIImage
     let ticketID: Int
+    let isUsed: Bool
 }
