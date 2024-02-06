@@ -17,7 +17,7 @@ class TicketDetailViewController: BooltiViewController {
     private let viewModel: TicketDetailViewModel
     private let ticketItem: TicketItem
 
-    private let navigationBar = BooltiNavigationView(type: .ticketDetail)
+    private let navigationBar = BooltiNavigationBar(type: .ticketDetail)
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()

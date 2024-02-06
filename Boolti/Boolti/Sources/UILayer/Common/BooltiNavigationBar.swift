@@ -1,5 +1,5 @@
 //
-//  BooltiNavigationView.swift
+//  BooltiNavigationBar.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/26/24.
@@ -16,7 +16,7 @@ enum NavigationType {
     case ticketDetail
 }
 
-final class BooltiNavigationView: UIView {
+final class BooltiNavigationBar: UIView {
     
     // MARK: UI Component
     
@@ -59,7 +59,7 @@ final class BooltiNavigationView: UIView {
 
 // MARK: - Methods
 
-extension BooltiNavigationView {
+extension BooltiNavigationBar {
     
     private func makeButton(image: UIImage) -> UIButton {
         let button = UIButton(type: .system)
@@ -71,7 +71,7 @@ extension BooltiNavigationView {
 
 // MARK: - UI
 
-extension BooltiNavigationView {
+extension BooltiNavigationBar {
     
     private func configureDefaultConstraints() {
         self.snp.makeConstraints { make in
@@ -175,7 +175,7 @@ extension BooltiNavigationView {
 
 // MARK: - Methods
 
-extension BooltiNavigationView {
+extension BooltiNavigationBar {
     
     func didBackButtonTap() -> Signal<Void> {
         return backButton.rx.tap.asSignal()

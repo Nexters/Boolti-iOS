@@ -18,7 +18,7 @@ final class ConcertDetailViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationView(type: .concertDetail)
+    private let navigationView = BooltiNavigationBar(type: .concertDetail)
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -67,7 +67,7 @@ final class ConcertDetailViewController: BooltiViewController {
         return view
     }()
     
-    private let button = BooltiButton(title: "예매하기")
+    private let ticketingButton = BooltiButton(title: "예매하기")
     
     // MARK: Init
     
@@ -121,15 +121,15 @@ extension ConcertDetailViewController {
             .bind(with: self) { owner, state in
                 switch state {
                 case .onSale:
-                    owner.button.isEnabled = true
-                    owner.button.setTitle(state.rawValue, for: .normal)
+                    owner.ticketingButton.isEnabled = true
+                    owner.ticketingButton.setTitle(state.rawValue, for: .normal)
                 case .beforeSale:
-                    owner.button.isEnabled = false
-                    owner.button.setTitle("\(state.rawValue)\(Date().getBetweenDay(to: owner.viewModel.output.concertDetail.value.date))", for: .normal)
-                    owner.button.setTitleColor(.orange01, for: .normal)
+                    owner.ticketingButton.isEnabled = false
+                    owner.ticketingButton.setTitle("\(state.rawValue)\(Date().getBetweenDay(to: owner.viewModel.output.concertDetail.value.date))", for: .normal)
+                    owner.ticketingButton.setTitleColor(.orange01, for: .normal)
                 case .endSale, .endConcert:
-                    owner.button.isEnabled = false
-                    owner.button.setTitle(state.rawValue, for: .normal)
+                    owner.ticketingButton.isEnabled = false
+                    owner.ticketingButton.setTitle(state.rawValue, for: .normal)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -180,7 +180,7 @@ extension ConcertDetailViewController {
                 let cancleAction = UIAlertAction(title: "취소하기", style: .cancel)
                 alertController.addAction(cancleAction)
 
-                self.present(alertController, animated: true)
+                owner.present(alertController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
@@ -194,7 +194,7 @@ extension ConcertDetailViewController {
         self.view.addSubviews([self.navigationView,
                                self.scrollView,
                                self.buttonBackgroundView,
-                               self.button])
+                               self.ticketingButton])
     }
     
     private func configureConstraints() {
@@ -206,7 +206,7 @@ extension ConcertDetailViewController {
         self.scrollView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(self.button.snp.top)
+            make.bottom.equalTo(self.ticketingButton.snp.top)
         }
         
         self.stackView.snp.makeConstraints { make in
@@ -215,12 +215,12 @@ extension ConcertDetailViewController {
         }
         
         self.buttonBackgroundView.snp.makeConstraints { make in
-            make.bottom.equalTo(self.button.snp.top)
+            make.bottom.equalTo(self.ticketingButton.snp.top)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(16)
         }
         
-        self.button.snp.makeConstraints { make in
+        self.ticketingButton.snp.makeConstraints { make in
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
             make.horizontalEdges.equalToSuperview().inset(20)
         }

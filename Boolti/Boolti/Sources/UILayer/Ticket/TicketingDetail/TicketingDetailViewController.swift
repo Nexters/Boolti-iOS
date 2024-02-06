@@ -22,7 +22,7 @@ final class TicketingDetailViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationView(type: .ticketingDetail)
+    private let navigationView = BooltiNavigationBar(type: .ticketingDetail)
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
