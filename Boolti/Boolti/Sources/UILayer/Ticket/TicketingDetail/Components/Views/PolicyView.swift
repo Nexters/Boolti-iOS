@@ -73,9 +73,9 @@ extension PolicyView {
                 
                 if owner.chevronButton.isSelected {
                     owner.snp.updateConstraints { make in
-                        make.height.equalTo(66 + owner.policyLabel.frame.height + 40)
+                        make.height.equalTo(66 + owner.policyLabel.getLabelHeight() + 40)
                     }
-                    owner.policyLabelHeight.accept(66 + owner.policyLabel.frame.height + 40)
+                    owner.policyLabelHeight.accept(66 + owner.policyLabel.getLabelHeight() + 40)
                 } else {
                     owner.snp.updateConstraints { make in
                         make.height.equalTo(66)

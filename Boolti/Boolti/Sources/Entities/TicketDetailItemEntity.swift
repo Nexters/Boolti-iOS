@@ -20,5 +20,5 @@ struct TicketDetailItemEntity {
     let ticketID: Int
     let hostName: String
     let hostPhoneNumber: String
-    let isUsed: Bool
+    let usedTime: String
 }

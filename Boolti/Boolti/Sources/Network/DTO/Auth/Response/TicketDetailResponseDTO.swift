@@ -20,7 +20,7 @@ struct TicketDetailResponseDTO: Decodable {
     let ticketName: String
     let notice: String
     let entryCode: String
-    let isUsed: Bool
+    let usedAt: String
     let hostName: String
     let hostPhoneNumber: String
 }
@@ -29,7 +29,7 @@ struct TicketDetailResponseDTO: Decodable {
 
 extension TicketDetailResponseDTO {
 
-    func convertToTicketDetailItem() -> TicketDetailItemEntity {
+    func convertToTicketDetailItemEntity() -> TicketDetailItemEntity {
         /// 티켓 타입
         let ticketType = self.ticketType == "SALE" ? TicketType.sale : TicketType.invitation
 
@@ -67,7 +67,7 @@ extension TicketDetailResponseDTO {
         let hostPhoneNumber = self.hostPhoneNumber
 
         /// 사용된 ticket인지
-        let isUsed = self.isUsed
+        let usedTime = self.usedAt
 
         /// 안내사항
         let notice = self.notice
@@ -85,7 +85,7 @@ extension TicketDetailResponseDTO {
             ticketID: ticketID,
             hostName: hostName,
             hostPhoneNumber: hostPhoneNumber,
-            isUsed: isUsed
+            usedTime: usedTime
         )
     }
 }

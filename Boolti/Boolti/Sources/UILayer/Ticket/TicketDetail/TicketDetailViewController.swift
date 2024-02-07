@@ -17,7 +17,7 @@ class TicketDetailViewController: BooltiViewController {
 
     private let viewModel: TicketDetailViewModel
 
-    private let navigationBar = BooltiNavigationView(type: .ticketDetail)
+    private let navigationBar = BooltiNavigationBar(type: .ticketDetail)
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -60,6 +60,10 @@ class TicketDetailViewController: BooltiViewController {
         self.configureToastView(isButtonExisted: false)
         self.configureLoadingIndicatorView()
         self.bindUIComponents()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     required init?(coder: NSCoder) {

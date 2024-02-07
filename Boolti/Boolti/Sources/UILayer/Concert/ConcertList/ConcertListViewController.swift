@@ -1,5 +1,5 @@
 //
-//  ConcertViewController.swift
+//  ConcertListViewController.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/20/24.
@@ -8,12 +8,13 @@
 import UIKit
 import RxSwift
 
-final class ConcertViewController: UIViewController {
+final class ConcertListViewController: UIViewController {
     
     // MARK: Properties
     
-    private let viewModel: ConcertViewModel
+    private let viewModel: ConcertListViewModel
     private let disposeBag = DisposeBag()
+    private let concertDetailViewControllerFactory: () -> ConcertDetailViewController
     
     // MARK: UI Component
 
@@ -34,8 +35,12 @@ final class ConcertViewController: UIViewController {
 
     // MARK: Init
     
-    init(viewModel: ConcertViewModel) {
+    init(
+        viewModel: ConcertListViewModel,
+        concertDetailViewControllerFactory: @escaping () -> ConcertDetailViewController
+    ) {
         self.viewModel = viewModel
+        self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -60,7 +65,8 @@ final class ConcertViewController: UIViewController {
 
         self.nextButton.rx.tap
             .bind(with: self, onNext: { owner, _ in
-                owner.showBottomSheet()
+                let viewController = self.concertDetailViewControllerFactory()
+                self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: self.disposeBag)
     }
@@ -68,15 +74,5 @@ final class ConcertViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-    }
-}
-
-// MARK: - Methods
-
-extension ConcertViewController {
-    func showBottomSheet() {
-        
-        // TODO: 나중에 ticket view에서 팩토리로 변경 필요 (이건 확인용!)
-        self.present(TicketSelectionDIContainer().createTicketSelectionViewController(), animated: true)
     }
 }

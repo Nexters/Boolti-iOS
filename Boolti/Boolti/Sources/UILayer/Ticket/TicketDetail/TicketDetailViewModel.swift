@@ -64,6 +64,6 @@ class TicketDetailViewModel {
 
         return networkService.request(ticketDetailAPI)
             .map(TicketDetailResponseDTO.self)
-            .map { $0.convertToTicketDetailItem() }
+            .map { $0.convertToTicketDetailItemEntity() }
     }
 }

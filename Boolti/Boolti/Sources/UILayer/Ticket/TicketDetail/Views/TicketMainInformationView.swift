@@ -40,7 +40,7 @@ class TicketMainInformationView: UIView {
             location: item.location,
             qrCode: item.qrCode,
             ticketID: item.ticketID,
-            isUsed: item.isUsed
+            usedTime: item.usedTime
         )
         self.ticketMainView.setData(with: ticketItem, limitNumberOfLines: true)
     }

@@ -108,6 +108,6 @@ final class TicketListViewModel {
         let ticketListAPI = TicketAPI.list
         return networkProvider.request(ticketListAPI)
             .map([TicketListItemResponseDTO].self)
-            .map { $0.map { $0.convertToTicketItem() }}
+            .map { $0.map { $0.convertToTicketItemEntity() }}
     }
 }

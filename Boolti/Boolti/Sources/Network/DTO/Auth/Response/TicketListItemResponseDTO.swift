@@ -17,12 +17,12 @@ struct TicketListItemResponseDTO: Decodable {
     let ticketType: String
     let ticketName: String
     let entryCode: String
-    let isUsed: Bool
+    let usedAt: String
 }
 
 extension TicketListItemResponseDTO {
 
-    func convertToTicketItem() -> TicketItemEntity {
+    func convertToTicketItemEntity() -> TicketItemEntity {
         /// 티켓 타입
         let ticketType = self.ticketType == "SALE" ? TicketType.sale : TicketType.invitation
 
@@ -56,7 +56,7 @@ extension TicketListItemResponseDTO {
         let ticketID = self.ticketId
 
         /// 사용된 ticket
-        let isUsed = self.isUsed
+        let usedTime = self.usedAt
 
 
         return TicketItemEntity(
@@ -68,7 +68,7 @@ extension TicketListItemResponseDTO {
             location: location,
             qrCode: qrCodeImage,
             ticketID: ticketID,
-            isUsed: isUsed
+            usedTime: usedTime
         )
     }
 }
