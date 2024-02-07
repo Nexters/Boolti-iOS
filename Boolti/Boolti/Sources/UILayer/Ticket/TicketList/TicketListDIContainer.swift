@@ -9,6 +9,8 @@ import UIKit
 
 final class TicketListDIContainer {
 
+    typealias TicketID = String
+
     private let authAPIService: AuthAPIServiceType
 
     init(authAPIService: AuthAPIServiceType) {
@@ -25,10 +27,10 @@ final class TicketListDIContainer {
             return viewController
         }
 
-        let ticketDetailViewControllerFactory: (TicketItem) -> TicketDetailViewController = { ticketItem in
+        let ticketDetailViewControllerFactory: (TicketID) -> TicketDetailViewController = { ticketID in
             let DIContainer = self.createTicketDetailDIContainer()
 
-            let viewController = DIContainer.createTicketDetailController(ticketItem: ticketItem)
+            let viewController = DIContainer.createTicketDetailController(ticketID: ticketID)
             return viewController
         }
 

@@ -9,6 +9,6 @@ import Foundation
 
 struct TokenRefreshResponseDTO: Decodable {
 
-    var accessToken: String?
-    var refreshToken: String?
+    let accessToken: String?
+    let refreshToken: String?
 }
