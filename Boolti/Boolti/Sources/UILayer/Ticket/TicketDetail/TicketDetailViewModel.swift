@@ -19,7 +19,7 @@ class TicketDetailViewModel {
 
     struct Output {
         let isLoading = PublishRelay<Bool>()
-        let fetchedTicketDetail = PublishRelay<TicketDetailItem>()
+        let fetchedTicketDetail = PublishRelay<TicketDetailItemEntity>()
     }
 
     let input: Input
@@ -58,7 +58,7 @@ class TicketDetailViewModel {
             .disposed(by: self.disposeBag)
     }
 
-    private func fetchTicketDetailItem() -> Single<TicketDetailItem> {
+    private func fetchTicketDetailItem() -> Single<TicketDetailItemEntity> {
         // MARK: 의존성 networkService로 바꿔주기!..
         let ticketDetailAPI = TicketAPI.detail(ticketID: self.ticketID)
 

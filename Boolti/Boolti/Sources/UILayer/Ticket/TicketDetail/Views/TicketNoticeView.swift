@@ -20,7 +20,6 @@ final class TicketNoticeView: UIView {
 
     private let noticeLabel: UILabel = {
         let label = UILabel()
-        label.setLineSpacing(lineSpacing: 6)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.font = .body1
@@ -59,6 +58,7 @@ final class TicketNoticeView: UIView {
 
     func setData(with text: String) {
         self.noticeLabel.text = text
+        self.noticeLabel.setLineSpacing(lineSpacing: 6)
         self.layoutIfNeeded()
     }
 }

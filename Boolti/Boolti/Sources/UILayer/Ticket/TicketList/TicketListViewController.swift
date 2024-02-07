@@ -24,8 +24,8 @@ final class TicketListViewController: BooltiViewController {
         case concertList
     }
 
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, TicketItem>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, TicketItem>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, TicketItemEntity>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, TicketItemEntity>
 
     private var datasource: DataSource?
     private static let ticketListFooterViewKind = "ticketListFooterViewKind"
@@ -305,7 +305,7 @@ final class TicketListViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
     }
 
-    private func applySnapshot(_ ticketItems: [TicketItem]) {
+    private func applySnapshot(_ ticketItems: [TicketItemEntity]) {
         var snapshot = Snapshot()
         snapshot.appendSections([.concertList])
         snapshot.appendItems(ticketItems, toSection: .concertList)

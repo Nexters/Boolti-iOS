@@ -9,36 +9,27 @@ import UIKit
 
 struct TicketDetailResponseDTO: Decodable {
 
-    let ticketID: Int
-    let concertTitle: String
+    let ticketId: Int
+    let showName: String
     let placeName: String
-    let concertImagePath: String
-    let concertDate: String
+    let showImgPath: String
+    let showDate: String
     let streetAddress: String
     let detailAddress: String
     let ticketType: String
     let ticketName: String
     let notice: String
     let entryCode: String
-    let isUsedTicket: Bool
+    let isUsed: Bool
     let hostName: String
     let hostPhoneNumber: String
-
-    enum CodingKeys: String, CodingKey {
-        case ticketID = "ticketId"
-        case concertTitle = "showName"
-        case concertDate = "showDate"
-        case concertImagePath = "showImgPath"
-        case isUsedTicket = "isUsed"
-        case placeName, entryCode, ticketName, ticketType, streetAddress, detailAddress, hostName, hostPhoneNumber, notice
-    }
 }
 
 
 
 extension TicketDetailResponseDTO {
 
-    func convertToTicketDetailItem() -> TicketDetailItem {
+    func convertToTicketDetailItem() -> TicketDetailItemEntity {
         /// 티켓 타입
         let ticketType = self.ticketType == "SALE" ? TicketType.sale : TicketType.invitation
 
@@ -50,14 +41,14 @@ extension TicketDetailResponseDTO {
         let posterImage: UIImage = .mockPoster
 
         /// 공연 이름
-        let title = self.concertTitle
+        let title = self.showName
 
         /// 공연 날짜
         // 추후에 Custom DateFormatter 타입을 정의할 예정
         let isoDateFormatter = DateFormatter()
         isoDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 
-        let date = isoDateFormatter.date(from: self.concertDate) ?? Date()
+        let date = isoDateFormatter.date(from: self.showDate) ?? Date()
         let formatterDate = date.format(.date)
 
 
@@ -69,20 +60,20 @@ extension TicketDetailResponseDTO {
         let qrCodeImage: UIImage = .qrCode
 
         /// 티켓 ID
-        let ticketID = self.ticketID
+        let ticketID = self.ticketId
 
         /// Host Name, PhoneNumber
         let hostName = self.hostName
         let hostPhoneNumber = self.hostPhoneNumber
 
         /// 사용된 ticket인지
-        let isUsed = self.isUsedTicket
+        let isUsed = self.isUsed
 
         /// 안내사항
         let notice = self.notice
 
 
-        return TicketDetailItem(
+        return TicketDetailItemEntity(
             ticketType: ticketType,
             ticketName: ticketName,
             poster: posterImage,

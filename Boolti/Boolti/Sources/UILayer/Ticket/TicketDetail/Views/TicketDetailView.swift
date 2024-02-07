@@ -120,7 +120,7 @@ class TicketDetailView: UIView {
         self.updateDetailViewHeight()
     }
 
-    func setData(with item: TicketDetailItem) {
+    func setData(with item: TicketDetailItemEntity) {
         self.ticketMainInformationView.setData(with: item)
         self.backgroundImageView.image = item.poster
         self.ticketInquiryView.setData(with: "\(item.hostName) (\(item.hostPhoneNumber))")

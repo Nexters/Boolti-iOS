@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct TicketDetailItem {
+struct TicketDetailItemEntity {
 
     let ticketType: TicketType
     let ticketName: String

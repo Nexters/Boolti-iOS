@@ -93,7 +93,7 @@ class TicketMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setData(with item: TicketItem, limitNumberOfLines: Bool = false) {
+    func setData(with item: TicketItemEntity, limitNumberOfLines: Bool = false) {
         self.posterImageView.image = item.poster
         self.dateLabel.text = item.date
         self.locationLabel.text = " | \(item.location)"

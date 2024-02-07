@@ -36,7 +36,7 @@ final class TicketListViewModel {
         let isLoading = PublishRelay<Bool>()
         let isAccessTokenLoaded = PublishRelay<Bool>()
         let isTicketsExist = PublishRelay<Bool>()
-        let sectionModels: BehaviorRelay<[TicketItem]> = BehaviorRelay(value: [])
+        let sectionModels: BehaviorRelay<[TicketItemEntity]> = BehaviorRelay(value: [])
     }
 
     private let isAccessTokenExist = PublishRelay<Bool>()
@@ -102,7 +102,7 @@ final class TicketListViewModel {
         return (!accessToken.isEmpty)
     }
 
-    private func fetchTicketList() -> Single<[TicketItem]> {
+    private func fetchTicketList() -> Single<[TicketItemEntity]> {
         // MARK: 의존성 networkService로 바꿔주기!..
         let networkProvider = self.authAPIService.networkService
         let ticketListAPI = TicketAPI.list

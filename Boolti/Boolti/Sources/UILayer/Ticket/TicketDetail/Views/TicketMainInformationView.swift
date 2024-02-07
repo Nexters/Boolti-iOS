@@ -28,10 +28,10 @@ class TicketMainInformationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setData(with item: TicketDetailItem) {
+    func setData(with item: TicketDetailItemEntity) {
         // 다른 방법 생각해보기!..
         // TicketDetailItem이 TicketItem을 가지고 있는 것도 생각해보기!..
-        let ticketItem = TicketItem(
+        let ticketItem = TicketItemEntity(
             ticketType: item.ticketType,
             ticketName: item.ticketName,
             poster: item.poster,
