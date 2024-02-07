@@ -83,7 +83,8 @@ extension TicketingCompletionViewController {
         
         self.navigationView.didCloseButtonTap()
             .emit(with: self) { owner, _ in
-                owner.navigationController?.popToRootViewController(animated: true)
+                guard let viewControllers = self.navigationController?.viewControllers else { return }
+                self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
             }
             .disposed(by: self.disposeBag)
         
