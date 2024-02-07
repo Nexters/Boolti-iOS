@@ -192,9 +192,7 @@ class TicketDetailView: UIView {
     }
 
     private func updateDetailViewHeight() {
-        let height = self.ticketMainInformationView.bounds.height + self.ticketNoticeView.bounds.height + self.ticketInquiryView.bounds.height
-
-        + self.horizontalButtonStackView.bounds.height + CGFloat(25)
+        let height = self.ticketMainInformationView.bounds.height + self.ticketNoticeView.bounds.height + self.ticketInquiryView.bounds.height + self.horizontalButtonStackView.bounds.height + CGFloat(25)
 
         self.snp.updateConstraints { make in
             make.height.equalTo(height)

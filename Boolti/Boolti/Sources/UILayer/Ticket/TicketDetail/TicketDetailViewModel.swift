@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Moya
-
 import RxSwift
 import RxRelay
 import RxMoya

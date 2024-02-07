@@ -59,7 +59,7 @@ class TicketDetailViewController: BooltiViewController {
         self.configureUI()
         self.configureToastView(isButtonExisted: false)
         self.configureLoadingIndicatorView()
-        self.bindUIComponenets()
+        self.bindUIComponents()
     }
     
     required init?(coder: NSCoder) {
@@ -124,7 +124,7 @@ class TicketDetailViewController: BooltiViewController {
 
     }
 
-    private func bindUIComponenets() {
+    private func bindUIComponents() {
         self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
