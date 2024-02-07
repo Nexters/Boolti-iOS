@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxCocoa
 
 final class ContentInfoView: UIView {
     
@@ -73,6 +74,10 @@ extension ContentInfoView {
         self.snp.makeConstraints { make in
             make.height.equalTo(106 + min(self.contentLabel.getLabelHeight(), 246))
         }
+    }
+    
+    func didAddressExpandButtonTap() -> Signal<Void> {
+        return self.expandButton.rx.tap.asSignal()
     }
 }
 

@@ -14,6 +14,7 @@ enum NavigationType {
     case ticketingCompletion
     case concertDetail
     case ticketDetail
+    case concertContentExpand
 }
 
 final class BooltiNavigationBar: UIView {
@@ -49,6 +50,7 @@ final class BooltiNavigationBar: UIView {
         case .ticketingCompletion: self.configureTicketingCompletionUI()
         case .concertDetail: self.configureConcertDetailUI()
         case .ticketDetail: self.configureTicketDetailUI()
+        case .concertContentExpand: self.configureConcertContentExpandUI()
         }
     }
     
@@ -108,6 +110,14 @@ extension BooltiNavigationBar {
         self.configureTicketDetailConstraints()
     }
     
+    private func configureConcertContentExpandUI() {
+        self.titleLabel.text = "공연 내용"
+        self.backgroundColor = .grey95
+        
+        self.addSubviews([self.backButton, self.titleLabel])
+        self.configureConcertContentExpandConstraints()
+    }
+    
     private func configureTicketDetailConstraints() {
         self.backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
@@ -124,8 +134,7 @@ extension BooltiNavigationBar {
         }
         
         self.titleLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.backButton).offset(20)
-            make.width.height.equalTo(24)
+            make.left.equalTo(self.backButton.snp.right).offset(4)
             make.bottom.equalToSuperview().inset(10)
         }
     }
@@ -169,7 +178,19 @@ extension BooltiNavigationBar {
             make.width.height.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
-
+    }
+    
+    private func configureConcertContentExpandConstraints() {
+        self.backButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(20)
+            make.width.height.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+        
+        self.titleLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.backButton.snp.right).offset(4)
+            make.bottom.equalToSuperview().inset(10)
+        }
     }
 }
 
