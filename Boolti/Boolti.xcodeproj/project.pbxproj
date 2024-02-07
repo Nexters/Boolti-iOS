@@ -427,6 +427,7 @@
 				84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */,
 				842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */,
 				87FB0D3B2B6C09B500B42AF9 /* TicketItemEntity.swift */,
+
 			);
 			path = Entities;
 			sourceTree = "<group>";
