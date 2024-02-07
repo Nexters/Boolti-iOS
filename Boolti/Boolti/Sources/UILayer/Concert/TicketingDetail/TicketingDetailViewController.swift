@@ -110,7 +110,7 @@ extension TicketingDetailViewController {
             .bind(with: self, onNext: { owner, _ in
                 
                 // 테스트용 데이터
-                let viewController = self.ticketingCompletionViewControllerFactory(TicketingEntity(ticketHolder: TicketingEntity.userInfo(name: .init(), phoneNumber: .init()), depositor: nil, selectedTicket: [self.viewModel.output.selectedTicket.value], paymentMethod: "", invitationCode: "asdf"))
+                let viewController = self.ticketingCompletionViewControllerFactory(TicketingEntity(ticketHolder: TicketingEntity.userInfo(name: .init(), phoneNumber: .init()), depositor: nil, selectedTicket: [self.viewModel.selectedTicket.value], paymentMethod: "", invitationCode: "asdf"))
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: self.disposeBag)
@@ -124,7 +124,7 @@ extension TicketingDetailViewController {
     }
     
     private func bindOutputs() {
-        self.viewModel.output.selectedTicket
+        self.viewModel.selectedTicket
             .take(1)
             .bind(with: self, onNext: { owner, entity in
                 owner.ticketInfoView.setData(entity: entity)

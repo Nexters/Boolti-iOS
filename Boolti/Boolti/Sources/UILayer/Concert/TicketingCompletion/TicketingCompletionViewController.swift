@@ -97,7 +97,7 @@ extension TicketingCompletionViewController {
     }
     
     private func bindOutput() {
-        self.viewModel.output.ticketingData
+        self.viewModel.ticketingData
             .take(1)
             .bind(with: self) { owner, data in
                 guard let selectedTicket = data.selectedTicket.first else { return }

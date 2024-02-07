@@ -19,18 +19,15 @@ final class TicketingCompletionViewModel {
         let didCopyButtonTap = PublishSubject<Void>()
     }
 
-    struct Output {
-        let ticketingData: BehaviorRelay<TicketingEntity>
-    }
-
     let input: Input
-    let output: Output
+    
+    let ticketingData: BehaviorRelay<TicketingEntity>
 
 //    init(ticketAPIService: TicketAPIService) {
 //        self.ticketAPIService = ticketAPIService
     init(ticketingEntity: TicketingEntity) {
         self.input = Input()
-        self.output = Output(ticketingData: BehaviorRelay<TicketingEntity>(value: ticketingEntity))
+        self.ticketingData = BehaviorRelay<TicketingEntity>(value: ticketingEntity)
         
         self.bindInputs()
     }
