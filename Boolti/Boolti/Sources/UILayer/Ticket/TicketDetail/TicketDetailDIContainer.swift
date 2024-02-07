@@ -18,7 +18,7 @@ class TicketDetailDIContainer {
         self.networkService = authAPIService.networkService
     }
 
-    func createTicketDetailController(ticketItem: TicketItem) -> TicketDetailViewController {
+    func createTicketDetailController(ticketID: String) -> TicketDetailViewController {
         let ticketEntryCodeViewControllerFactory = {
             let DIContainer = self.createTicketEntryCodeDIContainer()
 
@@ -27,8 +27,7 @@ class TicketDetailDIContainer {
         }
 
         let viewController = TicketDetailViewController(
-            ticketItem: ticketItem,
-            viewModel: self.createTicketDetailViewModel(),
+            viewModel: self.createTicketDetailViewModel(ticketID: ticketID),
             ticketEntryCodeViewControllerFactory: ticketEntryCodeViewControllerFactory
         )
 
@@ -39,7 +38,7 @@ class TicketDetailDIContainer {
         return TicketEntryCodeDIContainer(networkService: self.networkService)
     }
 
-    private func createTicketDetailViewModel() -> TicketDetailViewModel {
-        return TicketDetailViewModel(networkService: self.networkService)
+    private func createTicketDetailViewModel(ticketID: String) -> TicketDetailViewModel {
+        return TicketDetailViewModel(ticketID: ticketID, networkService: self.networkService)
     }
 }

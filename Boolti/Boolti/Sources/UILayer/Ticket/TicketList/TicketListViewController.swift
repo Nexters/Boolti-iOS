@@ -15,15 +15,17 @@ import RxAppState
 
 final class TicketListViewController: BooltiViewController {
 
+    typealias TicketID = (String)
+
     private let loginViewControllerFactory: () -> LoginViewController
-    private let ticketDetailControllerFactory: (TicketItem) -> TicketDetailViewController
+    private let ticketDetailControllerFactory: (TicketID) -> TicketDetailViewController
 
     private enum Section {
         case concertList
     }
 
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, TicketItem>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, TicketItem>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, TicketItemEntity>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, TicketItemEntity>
 
     private var datasource: DataSource?
     private static let ticketListFooterViewKind = "ticketListFooterViewKind"
@@ -71,7 +73,7 @@ final class TicketListViewController: BooltiViewController {
     init(
         viewModel: TicketListViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
-        ticketDetailViewControllerFactory: @escaping (TicketItem) -> TicketDetailViewController
+        ticketDetailViewControllerFactory: @escaping (TicketID) -> TicketDetailViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
@@ -85,8 +87,9 @@ final class TicketListViewController: BooltiViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.configureCollectionViewDatasource()
         self.configureUI()
+        self.configureLoadingIndicatorView()
+        self.configureCollectionViewDatasource()
         self.bindUIComponenets()
         self.bindViewModel()
     }
@@ -165,12 +168,15 @@ final class TicketListViewController: BooltiViewController {
 
     private func configureCollectionViewCarousel(of section: NSCollectionLayoutSection) {
         section.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, environment in
-
+            
+            let visibleCellItems = visibleItems.filter {
+              $0.representedElementKind != TicketListViewController.ticketListFooterViewKind
+            }
             // 현재 Page 관련 정보!..
             let currentPage = Int(max(0, round(offset.x / environment.container.contentSize.width)))
             self?.currentTicketPage.accept(currentPage+1)
 
-            visibleItems.forEach { item in
+            visibleCellItems.forEach { item in
                 let intersectedRect = item.frame.intersection(
                     CGRect(x: offset.x, y: offset.y, width: environment.container.contentSize.width, height: item.frame.height)
                 )
@@ -187,8 +193,7 @@ final class TicketListViewController: BooltiViewController {
             .asDriver()
             .drive(with: self) { owner, indexPath in
                 guard let ticketItem = owner.datasource?.itemIdentifier(for: indexPath) else { return }
-                let viewController = owner.ticketDetailControllerFactory(ticketItem)
-                owner.navigationController?.pushViewController(viewController, animated: true)
+                owner.viewModel.output.navigation.accept(.detail(ticketID: "\(ticketItem.ticketID)"))
             }
             .disposed(by: self.disposeBag)
     }
@@ -220,6 +225,12 @@ final class TicketListViewController: BooltiViewController {
     }
 
     private func bindOutput() {
+
+        self.viewModel.output.isLoading
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(self.isLoading)
+            .disposed(by: self.disposeBag)
 
         self.viewModel.output.isAccessTokenLoaded
             .asDriver(onErrorJustReturn: false)
@@ -285,14 +296,16 @@ final class TicketListViewController: BooltiViewController {
 
     private func bind(_ footerView: UICollectionReusableView) {
         guard let footerView = footerView as? TicketListFooterView else { return }
+        footerView.isHidden = true
         Observable.combineLatest(self.currentTicketPage, self.ticketPageCount)
             .subscribe { (currentPage, pagesCount) in
+                footerView.isHidden = false
                 footerView.pageIndicatorLabel.text = "\(currentPage)/\(pagesCount)"
             }
             .disposed(by: self.disposeBag)
     }
 
-    private func applySnapshot(_ ticketItems: [TicketItem]) {
+    private func applySnapshot(_ ticketItems: [TicketItemEntity]) {
         var snapshot = Snapshot()
         snapshot.appendSections([.concertList])
         snapshot.appendItems(ticketItems, toSection: .concertList)
@@ -300,9 +313,11 @@ final class TicketListViewController: BooltiViewController {
         datasource?.apply(snapshot, animatingDifferences: false)
     }
 
-    private func createViewController(_ next: TicketViewDestination) -> UIViewController {
+    private func createViewController(_ next: TicketListViewDestination) -> UIViewController {
         switch next {
         case .login: return loginViewControllerFactory()
+        case .detail(ticketID: let id):
+            return ticketDetailControllerFactory(id)
         }
     }
 }

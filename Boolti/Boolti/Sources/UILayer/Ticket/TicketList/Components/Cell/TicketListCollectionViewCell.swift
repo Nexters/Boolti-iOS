@@ -114,10 +114,10 @@ class TicketListCollectionViewCell: UICollectionViewCell {
         self.configureBorder()
     }
 
-    func setData(with item: TicketItem) {
+    func setData(with item: TicketItemEntity) {
         self.backgroundImageView.image = item.poster
-        self.numberLabel.text = "﹒ \(item.number)매"
-        self.ticketTypeLabel.text = item.ticketType
+        self.numberLabel.text = " ・ 1매"
+        self.ticketTypeLabel.text = item.ticketName
         self.ticketMainView.setData(with: item)
     }
 

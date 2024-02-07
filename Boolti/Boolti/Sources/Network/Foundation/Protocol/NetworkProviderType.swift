@@ -11,5 +11,5 @@ import Moya
 
 protocol NetworkProviderType {
 
-    func request(_ api: BaseAPI) -> Single<Response>
+    func request(_ api: ServiceAPI) -> Single<Response>
 }

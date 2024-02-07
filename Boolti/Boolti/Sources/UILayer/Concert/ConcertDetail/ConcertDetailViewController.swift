@@ -16,6 +16,8 @@ final class ConcertDetailViewController: BooltiViewController {
     private let viewModel: ConcertDetailViewModel
     private let disposeBag = DisposeBag()
     
+    private let concertContentExpandViewControllerFactory: (String) -> ConcertContentExpandViewController
+    
     // MARK: UI Component
     
     private let navigationView = BooltiNavigationBar(type: .concertDetail)
@@ -71,8 +73,11 @@ final class ConcertDetailViewController: BooltiViewController {
     
     // MARK: Init
     
-    init(viewModel: ConcertDetailViewModel) {
+    init(viewModel: ConcertDetailViewModel,
+         concertContentExpandViewControllerFactory: @escaping (String) -> ConcertContentExpandViewController) {
         self.viewModel = viewModel
+        self.concertContentExpandViewControllerFactory = concertContentExpandViewControllerFactory
+        
         super.init()
     }
 
@@ -91,6 +96,7 @@ final class ConcertDetailViewController: BooltiViewController {
         self.configureConstraints()
         self.configureToastView(isButtonExisted: true)
         self.bindPlaceInfoView()
+        self.bindContentInfoView()
         self.bindNavigationView()
         self.bindOutputs()
     }
@@ -140,6 +146,17 @@ extension ConcertDetailViewController {
             .emit(with: self) { owner, _ in
                 UIPasteboard.general.string = self.viewModel.output.concertDetail.value.streetAddress
                 owner.showToast(message: "공연장 주소가 복사되었어요")
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindContentInfoView() {
+        self.contentInfoView.didAddressExpandButtonTap()
+            .emit(with: self) { owner, _ in
+                let content = owner.viewModel.output.concertDetail.value.notice
+                let viewController = owner.concertContentExpandViewControllerFactory(content)
+                
+                owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }

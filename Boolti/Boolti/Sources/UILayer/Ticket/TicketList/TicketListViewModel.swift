@@ -5,15 +5,17 @@
 //  Created by Miro on 1/20/24.
 //
 
-import Foundation
-import RxSwift
-import RxRelay
-import RxDataSources
-import RxCocoa
 import UIKit
 
-enum TicketViewDestination {
+import Moya
+
+import RxSwift
+import RxRelay
+import RxMoya
+
+enum TicketListViewDestination {
     case login
+    case detail(ticketID: String)
 }
 
 final class TicketListViewModel {
@@ -30,10 +32,11 @@ final class TicketListViewModel {
 
     // Input에 의해서 생기는 ViewModel의 Output
     struct Output {
-        let navigation = PublishRelay<TicketViewDestination>()
+        let navigation = PublishRelay<TicketListViewDestination>()
+        let isLoading = PublishRelay<Bool>()
         let isAccessTokenLoaded = PublishRelay<Bool>()
         let isTicketsExist = PublishRelay<Bool>()
-        let sectionModels: BehaviorRelay<[TicketItem]> = BehaviorRelay(value: [])
+        let sectionModels: BehaviorRelay<[TicketItemEntity]> = BehaviorRelay(value: [])
     }
 
     private let isAccessTokenExist = PublishRelay<Bool>()
@@ -62,7 +65,7 @@ final class TicketListViewModel {
                 if owner.isAccessTokenAvailable() {
                     owner.output.isAccessTokenLoaded.accept(true)
                 } else {
-                    owner.output.isAccessTokenLoaded.accept(true)
+                    owner.output.isAccessTokenLoaded.accept(false)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -78,12 +81,16 @@ final class TicketListViewModel {
 
     private func bindShouldLoadTableViewEvent() {
         self.input.shouldLoadTableViewEvent
-            .flatMap { self.fetchTicketItemsByAPI() }
+            .do(onNext: { [weak self] _ in
+                self?.output.isLoading.accept(true)
+            })
+            .flatMap { self.fetchTicketList() }
             .subscribe(with: self) { owner, ticketItems in
                 if ticketItems.isEmpty {
                     owner.output.isTicketsExist.accept(false)
                 } else {
                     owner.output.sectionModels.accept(ticketItems)
+                    owner.output.isLoading.accept(false)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -95,17 +102,12 @@ final class TicketListViewModel {
         return (!accessToken.isEmpty)
     }
 
-    private func fetchTicketItemsByAPI() -> Single<[TicketItem]> {
-        // 만약 API 호출을 했는데, 빈 배열이 있으면 Ticket이 없는 것이고,
-        // 아래와 같이 fetch가 되면, Ticket이 있다.
-        // 현재는 있다고 가정!..
-        let items: [TicketItem] = [
-            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
-            TicketItem(ticketType: "일반 티켓 B", poster: .mockPosterTwo, title: "2024 TOGETHER LUCKY CLUB SEFVDVDSFESVEFSFEFSEVESFEFESF ㅁㄴㅇㄹㄴㅁㄹㅁㄷㄹㅁㄴㄹㄷㄹㅍㄷ", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
-            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB ㄴㅇㄹㄴㅁㄹㅇㄴㄹㄴㄹㄴㄹ", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
-            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
-            TicketItem(ticketType: "일반 티켓 B", poster: .mockPoster, title: "2024 TOGETHER LUCKY CLUB", date: "2024.01.20 (토)", location: "클럽샤프", qrCode: .qrCode, number: 2),
-        ]
-        return Single.just(items)
+    private func fetchTicketList() -> Single<[TicketItemEntity]> {
+        // MARK: 의존성 networkService로 바꿔주기!..
+        let networkProvider = self.authAPIService.networkService
+        let ticketListAPI = TicketAPI.list
+        return networkProvider.request(ticketListAPI)
+            .map([TicketListItemResponseDTO].self)
+            .map { $0.map { $0.convertToTicketItemEntity() }}
     }
 }
