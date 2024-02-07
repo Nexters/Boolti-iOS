@@ -177,7 +177,7 @@ extension ConcertDetailViewController {
         
         self.navigationView.didShareButtonTap()
             .emit(with: self) { owner, _ in
-                guard let url = URL(string: "https://apps.apple.com/kr/app/id362057947"),
+                guard let url = URL(string: AppInfo.booltiShareLink),
                       let poster = owner.viewModel.output.concertDetail.value.posters.first?.path as? NSString,
                       let image = ImageCacheManager.shared.object(forKey: poster) 
                 else { return }
