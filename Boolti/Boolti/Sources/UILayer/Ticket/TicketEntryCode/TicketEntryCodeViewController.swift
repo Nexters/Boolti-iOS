@@ -7,21 +7,26 @@
 
 import UIKit
 
-class TicketEntryCodeViewController: UIViewController {
+import RxSwift
+import RxCocoa
+
+class TicketEntryCodeViewController: BooltiViewController {
 
     private let viewModel: TicketEntryCodeViewModel
 
-    private let entryCodeInputView = EntryCodeInputView()
+    private let disposeBag = DisposeBag()
 
+    private let entryCodeInputView = EntryCodeInputView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
+        self.bindUIComponents()
     }
 
     init(viewModel: TicketEntryCodeViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {
@@ -35,5 +40,31 @@ class TicketEntryCodeViewController: UIViewController {
         self.entryCodeInputView.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
+    }
+
+    private func bindUIComponents() {
+//        self.entryCodeInputView.textFieldText
+//            .asDriver(onErrorJustReturn: "")
+//            .drive(with: self) { owner, text in
+//                print(text)
+//                if text == "" {
+//                    owner.entryCodeInputView.disableCheckButton()
+//                } else {
+//                    owner.entryCodeInputView.enableCheckButton()
+//                }
+//            }
+//            .disposed(by: self.disposeBag)
+
+        self.entryCodeInputView.textFieldText
+            .asDriver(onErrorJustReturn: "")
+            .drive(with: self) { owner, text in
+                print(text)
+                if text == "" {
+                    owner.entryCodeInputView.enableCheckButton.onNext(false)
+                } else {
+                    owner.entryCodeInputView.enableCheckButton.onNext(true)
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
 }

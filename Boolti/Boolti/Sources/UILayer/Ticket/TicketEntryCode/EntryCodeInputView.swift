@@ -7,7 +7,16 @@
 
 import UIKit
 
+import RxSwift
+import RxRelay
+import RxCocoa
+
 class EntryCodeInputView: UIView {
+
+    private let disposeBag = DisposeBag()
+
+    var textFieldText = PublishSubject<String>()
+    var enableCheckButton = PublishSubject<Bool>()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -22,9 +31,10 @@ class EntryCodeInputView: UIView {
         let label = UILabel()
         label.text = "입장 코드는 마이 > QR 스캔 > \n 해당 공연 스캐너에서 확인 가능해요"
         label.numberOfLines = 0
-        label.textAlignment = .center
         label.textColor = .grey50
         label.font = .body1
+        label.setLineSpacing(lineSpacing: 3)
+        label.textAlignment = .center
 
         return label
     }()
@@ -51,6 +61,7 @@ class EntryCodeInputView: UIView {
         super.init(frame: .zero)
         self.configureUI()
         self.configureConstraints()
+        self.bindUIComponents()
     }
 
     required init?(coder: NSCoder) {
@@ -60,6 +71,7 @@ class EntryCodeInputView: UIView {
     private func configureUI() {
         self.backgroundColor = .grey85
         self.layer.cornerRadius = 8
+        self.checkButton.isEnabled = false
 
         self.addSubviews([
             self.closeButton,
@@ -100,4 +112,27 @@ class EntryCodeInputView: UIView {
             make.horizontalEdges.equalTo(self.entryCodeInputTextField)
         }
     }
+
+    private func bindUIComponents() {
+        self.entryCodeInputTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .bind(to: self.textFieldText)
+            .disposed(by: self.disposeBag)
+
+        self.enableCheckButton
+            .distinctUntilChanged()
+            .bind(with: self, onNext: { owner, enableCheckButton in
+                self.checkButton.isEnabled = enableCheckButton
+            })
+            .disposed(by: self.disposeBag)
+    }
+
+//    func disableCheckButton() {
+//        self.checkButton.isEnabled = false
+//    }
+//
+//    func enableCheckButton() {
+//        self.checkButton.isEnabled = true
+//    }
 }
