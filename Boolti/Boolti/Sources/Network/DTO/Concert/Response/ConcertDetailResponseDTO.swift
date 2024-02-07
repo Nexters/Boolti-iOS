@@ -13,7 +13,7 @@ struct ConcertDetailResponseDTO: Codable {
     let groupId: Int
     let name: String
     let placeName: String
-    let date: Date
+    let date: String
     let runningTime: Int
     let streetAddress: String
     let detailAddress: String
@@ -21,10 +21,12 @@ struct ConcertDetailResponseDTO: Codable {
     let longitude: Int?
     let notice: String
     let managerCode: String
-    let salesStartTime: Date
-    let salesEndTime: Date
-    let deletedAt: Date?
+    let salesStartTime: String
+    let salesEndTime: String
+    let deletedAt: String?
     let showImg: [ShowImg]
+    let hostName: String
+    let hostPhoneNumber: String
     
     struct ShowImg: Codable {
         let id: Int
@@ -32,12 +34,12 @@ struct ConcertDetailResponseDTO: Codable {
         let path: String
         let thumbnailPath: String
         let sequence: Int
-        let createdAt: Date
-        let modifiedAt: Date?
-        let removedAt: Date?
+        let createdAt: String
+        let modifiedAt: String?
+        let removedAt: String?
     }
-    
-    func mapToConcertDetailEntity() -> ConcertDetailEntity {
+
+    func convertToConcertDetailEntity() -> ConcertDetailEntity {
         let posters = self.showImg.map { showImgDTO in
             return ConcertDetailEntity.Poster(
                 id: showImgDTO.id,
@@ -52,14 +54,16 @@ struct ConcertDetailResponseDTO: Codable {
             groupId: self.groupId,
             name: self.name,
             placeName: self.placeName,
-            date: self.date,
+            date: self.date.formatToDate(),
             runningTime: self.runningTime,
             streetAddress: self.streetAddress,
             detailAddress: self.detailAddress,
             notice: self.notice,
-            salesStartTime: self.salesStartTime,
-            salesEndTime: self.salesEndTime,
-            posters: posters
+            salesStartTime: self.salesStartTime.formatToDate(),
+            salesEndTime: self.salesEndTime.formatToDate(),
+            posters: posters,
+            hostName: self.hostName,
+            hostPhoneNumber: self.hostPhoneNumber
         )
     }
 }

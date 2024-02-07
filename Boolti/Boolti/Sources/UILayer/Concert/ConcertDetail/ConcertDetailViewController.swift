@@ -112,6 +112,7 @@ extension ConcertDetailViewController {
     
     private func bindOutputs() {
         self.viewModel.output.concertDetail
+            .skip(1)
             .take(1)
             .bind(with: self) { owner, entity in
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name)
@@ -119,7 +120,7 @@ extension ConcertDetailViewController {
                 owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
                 owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
                 owner.contentInfoView.setData(content: entity.notice)
-                owner.organizerInfoView.setData(organizer: "박불티 (010-1234-5678)")
+                owner.organizerInfoView.setData(hostName: entity.hostName, hostPhoneNumber: entity.hostPhoneNumber)
             }
             .disposed(by: self.disposeBag)
 
@@ -177,7 +178,7 @@ extension ConcertDetailViewController {
         self.navigationView.didShareButtonTap()
             .emit(with: self) { owner, _ in
                 
-                // TODO: 공유하기 내용 수정
+                // TODO: 공유하기 내용 수정 -> 앱스토어 링크로!
                 let activityViewController = UIActivityViewController(activityItems: [UIImage.mockPoster, "2024 TOGETHER LUCKY CLUB"], applicationActivities: nil)
                 activityViewController.popoverPresentationController?.sourceView = owner.view
                 owner.present(activityViewController, animated: true, completion: nil)

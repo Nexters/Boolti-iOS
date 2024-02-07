@@ -30,9 +30,24 @@ class NetworkProvider: NetworkProviderType {
             .do(
                 onSuccess: { response in
                     print("SUCCESS: \(requestString) (\(response.statusCode))")
+                    do {
+                        let data = response.data
+                        if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                            let prettyPrintedData = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+                            if let prettyPrintedString = String(data: prettyPrintedData, encoding: .utf8) {
+                                print("========================================")
+                                print("JSON Response:\n\(prettyPrintedString)")
+                                print("========================================")
+                            }
+                        } else {
+                            print("Error parsing JSON: Unable to convert response data to dictionary.")
+                        }
+                    } catch {
+                        print("Error parsing JSON: \(error.localizedDescription)")
+                    }
                 },
-                onError: { _ in
-                    print("ERROR: \(requestString)")
+                onError: { response in
+                    print("ERROR: \(requestString) (\(response.localizedDescription))")
                 },
                 onSubscribed: {
                     print("REQUEST: \(requestString)")

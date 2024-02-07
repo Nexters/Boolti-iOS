@@ -72,7 +72,7 @@ extension ContentInfoView {
         self.contentLabel.setLineSpacing(lineSpacing: 4)
         
         self.snp.makeConstraints { make in
-            make.height.equalTo(106 + min(self.contentLabel.getLabelHeight(), 246))
+            make.height.equalTo(120 + min(self.contentLabel.getLabelHeight(), 246))
         }
     }
     

@@ -47,7 +47,9 @@ final class HomeTabBarDIContainer {
     }
 
     private func createConcertListDIContainer() -> ConcertListDIContainer {
-        return ConcertListDIContainer()
+        return ConcertListDIContainer(
+            concertAPIService: ConcertAPIService(networkService: rootDIContainer.networkProvider)
+        )
     }
 
     private func createTicketListDIContainer() -> TicketListDIContainer {
