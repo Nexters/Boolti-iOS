@@ -61,13 +61,13 @@ final class ConcertPosterView: UIView {
 
 extension ConcertPosterView {
     
-    func setData(images: [ConcertDetailEntity.ShowImage], title: String) {
+    func setData(images: [ConcertDetailEntity.Poster], title: String) {
         self.addContentScrollView(images: images)
         self.titleLabel.text = title
         self.titleLabel.setLineSpacing(lineSpacing: 6)
     }
     
-    private func addContentScrollView(images: [ConcertDetailEntity.ShowImage]) {
+    private func addContentScrollView(images: [ConcertDetailEntity.Poster]) {
         for index in 0..<images.count{
             let imageView = UIImageView()
             imageView.setImageUrl(images[index].path)
