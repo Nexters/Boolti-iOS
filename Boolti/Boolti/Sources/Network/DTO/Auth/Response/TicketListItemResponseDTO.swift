@@ -17,7 +17,7 @@ struct TicketListItemResponseDTO: Decodable {
     let ticketType: String
     let ticketName: String
     let entryCode: String
-    let usedAt: String
+    let usedAt: String?
 }
 
 extension TicketListItemResponseDTO {

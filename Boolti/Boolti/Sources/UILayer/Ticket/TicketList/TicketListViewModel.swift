@@ -103,6 +103,7 @@ final class TicketListViewModel {
     }
 
     private func fetchTicketList() -> Single<[TicketItemEntity]> {
+        print(UserDefaults.accessToken)
         // MARK: 의존성 networkService로 바꿔주기!..
         let networkProvider = self.authAPIService.networkService
         let ticketListAPI = TicketAPI.list
