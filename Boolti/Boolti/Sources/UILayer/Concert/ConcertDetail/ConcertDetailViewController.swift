@@ -177,9 +177,12 @@ extension ConcertDetailViewController {
         
         self.navigationView.didShareButtonTap()
             .emit(with: self) { owner, _ in
-                
-                // TODO: 공유하기 내용 수정 -> 앱스토어 링크로!
-                let activityViewController = UIActivityViewController(activityItems: [UIImage.mockPoster, "2024 TOGETHER LUCKY CLUB"], applicationActivities: nil)
+                guard let url = URL(string: "https://apps.apple.com/kr/app/id362057947"),
+                      let poster = owner.viewModel.output.concertDetail.value.posters.first?.path as? NSString,
+                      let image = ImageCacheManager.shared.object(forKey: poster) 
+                else { return }
+
+                let activityViewController = UIActivityViewController(activityItems: [url, image], applicationActivities: nil)
                 activityViewController.popoverPresentationController?.sourceView = owner.view
                 owner.present(activityViewController, animated: true, completion: nil)
             }
