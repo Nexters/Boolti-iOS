@@ -15,8 +15,9 @@ class EntryCodeInputView: UIView {
 
     private let disposeBag = DisposeBag()
 
-    var textFieldText = PublishSubject<String>()
-    var enableCheckButton = PublishSubject<Bool>()
+    var textFieldText = PublishRelay<String>()
+    var enableCheckButton = PublishRelay<Bool>()
+    var didCheckButtonTap = PublishRelay<Void>()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -51,6 +52,16 @@ class EntryCodeInputView: UIView {
         return button
     }()
 
+    private let errorCommentLabel: UILabel = {
+        let label = UILabel()
+        label.text = "올바른 입장 코드를 입력해 주세요."
+        label.font = .body1
+        label.textColor = .error
+        label.isHidden = true
+
+        return label
+    }()
+
     private let closeButton: UIButton = {
         let button = UIButton()
         button.setImage(.closeButton.withTintColor(.grey50), for: .normal)
@@ -78,6 +89,7 @@ class EntryCodeInputView: UIView {
             self.titleLabel,
             self.descriptionLabel,
             self.entryCodeInputTextField,
+            self.errorCommentLabel,
             self.checkButton
         ])
     }
@@ -107,8 +119,13 @@ class EntryCodeInputView: UIView {
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 
+        self.errorCommentLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.entryCodeInputTextField.snp.bottom).offset(8)
+            make.horizontalEdges.equalTo(self.entryCodeInputTextField)
+        }
+
         self.checkButton.snp.makeConstraints { make in
-            make.top.equalTo(self.entryCodeInputTextField.snp.bottom).offset(28)
+            make.bottom.equalToSuperview().inset(20)
             make.horizontalEdges.equalTo(self.entryCodeInputTextField)
         }
     }
@@ -126,6 +143,20 @@ class EntryCodeInputView: UIView {
                 self.checkButton.isEnabled = enableCheckButton
             })
             .disposed(by: self.disposeBag)
+
+        self.checkButton.rx.tap
+            .bind(to: self.didCheckButtonTap)
+            .disposed(by: self.disposeBag)
+    }
+
+    func showErrorComments() {
+        self.errorCommentLabel.isHidden = false
+        self.entryCodeInputTextField.layer.borderColor = UIColor.error.cgColor
+        self.entryCodeInputTextField.layer.borderWidth = 1
+
+        self.snp.updateConstraints { make in
+            make.height.equalTo(316)
+        }
     }
 
 //    func disableCheckButton() {
