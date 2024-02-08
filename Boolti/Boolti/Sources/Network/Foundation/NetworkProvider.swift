@@ -30,6 +30,7 @@ class NetworkProvider: NetworkProviderType {
             .do(
                 onSuccess: { response in
                     print("SUCCESS: \(requestString) (\(response.statusCode))")
+                    #if DEBUG
                     do {
                         let data = response.data
                         if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
@@ -45,6 +46,7 @@ class NetworkProvider: NetworkProviderType {
                     } catch {
                         print("Error parsing JSON: \(error.localizedDescription)")
                     }
+                    #endif
                 },
                 onError: { response in
                     print("ERROR: \(requestString) (\(response.localizedDescription))")
