@@ -111,7 +111,6 @@ final class AuthAPIService: AuthAPIServiceType {
             .disposed(by: self.disposeBag)
     }
 
-
     func removeAllTokens() {
         UserDefaults.removeAllTokens()
     }

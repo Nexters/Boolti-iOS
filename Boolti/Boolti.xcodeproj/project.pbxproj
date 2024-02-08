@@ -124,6 +124,7 @@
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
 		87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */; };
+		8710D9402B74E44400309FBF /* MypageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710D93F2B74E44400309FBF /* MypageContentView.swift */; };
 		8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8724C4BE2B6221A500484BFC /* UIView+.swift */; };
 		8746ACFF2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746ACFE2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift */; };
 		8746AD012B67F7610037A1B1 /* TicketMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD002B67F7610037A1B1 /* TicketMainView.swift */; };
@@ -284,6 +285,7 @@
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIServiceType.swift; sourceTree = "<group>"; };
+		8710D93F2B74E44400309FBF /* MypageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageContentView.swift; sourceTree = "<group>"; };
 		8724C4BE2B6221A500484BFC /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		8746ACFE2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketListCollectionViewCell.swift; sourceTree = "<group>"; };
 		8746AD002B67F7610037A1B1 /* TicketMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketMainView.swift; sourceTree = "<group>"; };
@@ -427,7 +429,6 @@
 				84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */,
 				842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */,
 				87FB0D3B2B6C09B500B42AF9 /* TicketItemEntity.swift */,
-
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -681,6 +682,7 @@
 		84781CBB2B5BF94100D37921 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				8710D93E2B74E42C00309FBF /* Views */,
 				84781CBD2B5BF95100D37921 /* MyPageDIContainer.swift */,
 				84781CBF2B5BF98600D37921 /* MypageViewController.swift */,
 				84781CC12B5BF9A700D37921 /* MyPageViewModel.swift */,
@@ -851,6 +853,14 @@
 				84FBBE062B67B30D009462E9 /* PaymentMethodView.swift */,
 				84FBBE0A2B6888CB009462E9 /* InvitationCodeView.swift */,
 				84FBBE082B67DF88009462E9 /* PolicyView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8710D93E2B74E42C00309FBF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8710D93F2B74E44400309FBF /* MypageContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1206,6 +1216,7 @@
 				87D2FAB22B6E96D20027FBE1 /* TicketDetailViewController.swift in Sources */,
 				84781CAD2B5BF7A200D37921 /* HomeTabBarDIContainer.swift in Sources */,
 				84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */,
+				8710D9402B74E44400309FBF /* MypageContentView.swift in Sources */,
 				84781CAA2B5BF72200D37921 /* SplashViewModel.swift in Sources */,
 				876BF1742B6A939900DB4BCB /* LogoutAPI.swift in Sources */,
 				84FEF6192B68ACDD00EBB64F /* TicketingEntity.swift in Sources */,
@@ -1222,7 +1233,7 @@
 				84781CBA2B5BF90C00D37921 /* HomeTabBarViewModel.swift in Sources */,
 				84781CC72B5BF9F700D37921 /* TicketListDIContainer.swift in Sources */,
 				842183732B71D75D00A52E1C /* ConcertDetailEntity.swift in Sources */,
-				87FB0D3C2B6C09B500B42AF9 /* TicketItem.swift in Sources */,
+				87FB0D3C2B6C09B500B42AF9 /* TicketItemEntity.swift in Sources */,
 				87FB0D3C2B6C09B500B42AF9 /* TicketItemEntity.swift in Sources */,
 				8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */,
 				8746AD202B6932B30037A1B1 /* ConcertEnterView.swift in Sources */,
@@ -1254,7 +1265,7 @@
 				84625A182B63E05700CC9077 /* BooltiPaddingLabel.swift in Sources */,
 				87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
-				84781C872B5BED9A00D37921 /* BaseAPI.swift in Sources */,
+				84781C872B5BED9A00D37921 /* ServiceAPI.swift in Sources */,
 				84DF59DC2B722EA0000816DA /* UpdatePopupDIContainer.swift in Sources */,
 				84781C872B5BED9A00D37921 /* ServiceAPI.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
