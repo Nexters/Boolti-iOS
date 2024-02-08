@@ -16,8 +16,8 @@ struct SalesTicketEntity {
     let price: Int
     let quantity: Int
     
-    enum TicketType {
-        case sales
-        case invite
+    enum TicketType: String {
+        case sales = "SALE"
+        case invite = "INVITE"
     }
 }

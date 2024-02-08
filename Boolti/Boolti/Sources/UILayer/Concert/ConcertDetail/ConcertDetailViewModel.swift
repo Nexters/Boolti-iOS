@@ -56,7 +56,7 @@ final class ConcertDetailViewModel {
         
         self.bindInputs()
         self.bindOutputs()
-        self.fetchConcertDetail(concertId: 1)
+        self.fetchConcertDetail(concertId: 3)
     }
 }
 
@@ -67,7 +67,8 @@ extension ConcertDetailViewModel {
     private func bindInputs() {
         self.input.didExpandButtonTap
             .bind(with: self) { owner, _ in
-                owner.output.navigate.accept(.contentExpand(content: "담배 노노요"))
+                guard let notice = owner.output.concertDetailEntity?.notice else { return }
+                owner.output.navigate.accept(.contentExpand(content: notice))
             }
             .disposed(by: self.disposeBag)
         
@@ -76,7 +77,8 @@ extension ConcertDetailViewModel {
                 if UserDefaults.accessToken.isEmpty {
                     owner.output.showLoginEnterView.accept(true)
                 } else {
-                    owner.output.navigate.accept(.ticketSelection(concertId: 1))
+                    guard let concertId = owner.output.concertDetailEntity?.id else { return }
+                    owner.output.navigate.accept(.ticketSelection(concertId: concertId))
                 }
             }
             .disposed(by: self.disposeBag)

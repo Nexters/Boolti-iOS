@@ -18,6 +18,8 @@
 		841D77DF2B7463020068B1C5 /* TicketListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746ACFE2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift */; };
 		841D77E12B7464250068B1C5 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77E02B7464250068B1C5 /* UIImageView+.swift */; };
 		842183732B71D75D00A52E1C /* ConcertDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */; };
+		8453D7FC2B7539270048F103 /* SalesTicketResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453D7FB2B7539270048F103 /* SalesTicketResponseDTO.swift */; };
+		8453D7FE2B7539770048F103 /* SalesTicketRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453D7FD2B7539770048F103 /* SalesTicketRequestDTO.swift */; };
 		84625A042B6382C300CC9077 /* BooltiBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */; };
 		84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */; };
 		84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */; };
@@ -203,6 +205,8 @@
 		841D77D72B73D2A20068B1C5 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		841D77E02B7464250068B1C5 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailEntity.swift; sourceTree = "<group>"; };
+		8453D7FB2B7539270048F103 /* SalesTicketResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesTicketResponseDTO.swift; sourceTree = "<group>"; };
+		8453D7FD2B7539770048F103 /* SalesTicketRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesTicketRequestDTO.swift; sourceTree = "<group>"; };
 		84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBottomSheetViewController.swift; sourceTree = "<group>"; };
 		84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewController.swift; sourceTree = "<group>"; };
 		84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -813,6 +817,7 @@
 			isa = PBXGroup;
 			children = (
 				84DC6F662B728858001F9576 /* ConcertDetailRequestDTO.swift */,
+				8453D7FD2B7539770048F103 /* SalesTicketRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -821,6 +826,7 @@
 			isa = PBXGroup;
 			children = (
 				84C6E0022B7320280023BAE6 /* ConcertDetailResponseDTO.swift */,
+				8453D7FB2B7539270048F103 /* SalesTicketResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1239,6 +1245,7 @@
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
 				876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */,
 				847AA70E2B62B55500E5B55C /* BooltiNavigationBar.swift in Sources */,
+				8453D7FC2B7539270048F103 /* SalesTicketResponseDTO.swift in Sources */,
 				84896A4F2B6A723900CB3E33 /* Date+.swift in Sources */,
 				84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */,
 				8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */,
@@ -1320,6 +1327,7 @@
 				8753CA6C2B70E17B002871C7 /* TicketEntryCodeViewController.swift in Sources */,
 				84EC6A642B6CF973009AC6BB /* BooltiToastView.swift in Sources */,
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,
+				8453D7FE2B7539770048F103 /* SalesTicketRequestDTO.swift in Sources */,
 				84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */,
 				8757BAAA2B5FDF29008503B5 /* KakaoOAuth.swift in Sources */,
 				84E5124F2B6E773F002658D1 /* ConcertDetailViewModel.swift in Sources */,
