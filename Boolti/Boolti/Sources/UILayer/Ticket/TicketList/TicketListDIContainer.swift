@@ -11,10 +11,10 @@ final class TicketListDIContainer {
 
     typealias TicketID = String
 
-    private let authAPIService: AuthAPIServiceType
+    private let authRepository: AuthRepositoryType
 
-    init(authAPIService: AuthAPIServiceType) {
-        self.authAPIService = authAPIService
+    init(authRepository: AuthRepositoryType) {
+        self.authRepository = authRepository
     }
 
     func createTicketListViewController() -> UIViewController {
@@ -46,17 +46,17 @@ final class TicketListDIContainer {
 
     private func createLoginViewDIContainer() -> LoginViewDIContainer {
         return LoginViewDIContainer(
-            authAPIService: self.authAPIService,
-            socialLoginAPIService: OAuthAPIService()
+            authRepository: self.authRepository,
+            socialLoginAPIService: OAuthRepository()
         )
     }
 
     private func createTicketDetailDIContainer() -> TicketDetailDIContainer {
-        return TicketDetailDIContainer(authAPIService: self.authAPIService)
+        return TicketDetailDIContainer(authRepository: self.authRepository)
     }
 
     private func createTicketListViewModel() -> TicketListViewModel {
-        return TicketListViewModel(authAPIService: self.authAPIService)
+        return TicketListViewModel(authRepository: self.authRepository)
     }
 
 }

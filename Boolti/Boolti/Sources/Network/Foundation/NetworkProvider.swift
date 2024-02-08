@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import RxSwift
 import RxMoya
 import Moya
@@ -30,9 +31,30 @@ class NetworkProvider: NetworkProviderType {
             .do(
                 onSuccess: { response in
                     print("SUCCESS: \(requestString) (\(response.statusCode))")
+                    #if DEBUG
+                    do {
+                        let data = response.data
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        if let jsonArray = json as? [[String: Any]] {
+                            let prettyPrintedData = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
+                            if let prettyPrintedString = String(data: prettyPrintedData, encoding: .utf8) {
+                                print("========================================")
+                                print("JSON Response (Array):\n\(prettyPrintedString)")
+                                print("========================================")
+                            }
+                        } else if let jsonDict = json as? [String: Any] {
+                            let prettyPrintedData = try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
+                            if let prettyPrintedString = String(data: prettyPrintedData, encoding: .utf8) {
+                                print("========================================")
+                                print("JSON Response (Dictionary):\n\(prettyPrintedString)")
+                                print("========================================")
+                            }
+                        }
+                    }
+                    #endif
                 },
-                onError: { _ in
-                    print("ERROR: \(requestString)")
+                onError: { response in
+                    print("ERROR: \(requestString) (\(response.localizedDescription))")
                 },
                 onSubscribed: {
                     print("REQUEST: \(requestString)")

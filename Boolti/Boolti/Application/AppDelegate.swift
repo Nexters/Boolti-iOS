@@ -6,9 +6,10 @@
 //
 
 import UIKit
+
+import UserNotifications
 import RxKakaoSDKCommon
 import FirebaseCore
-import UserNotifications
 import FirebaseMessaging
 
 @main

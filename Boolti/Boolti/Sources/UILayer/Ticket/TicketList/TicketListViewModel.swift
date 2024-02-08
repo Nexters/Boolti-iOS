@@ -7,10 +7,9 @@
 
 import UIKit
 
-import Moya
-
 import RxSwift
 import RxRelay
+import Moya
 import RxMoya
 
 enum TicketListViewDestination {
@@ -20,7 +19,7 @@ enum TicketListViewDestination {
 
 final class TicketListViewModel {
 
-    private let authAPIService: AuthAPIServiceType
+    private let authRepository: AuthRepositoryType
     private let disposeBag = DisposeBag()
 
     // VC에서 일어나는 것
@@ -44,8 +43,8 @@ final class TicketListViewModel {
     let input: Input
     let output: Output
 
-    init(authAPIService: AuthAPIServiceType) {
-        self.authAPIService = authAPIService
+    init(authRepository: AuthRepositoryType) {
+        self.authRepository = authRepository
         
         self.input = Input()
         self.output = Output()
@@ -86,26 +85,25 @@ final class TicketListViewModel {
             })
             .flatMap { self.fetchTicketList() }
             .subscribe(with: self) { owner, ticketItems in
+                owner.output.isLoading.accept(false)
                 if ticketItems.isEmpty {
                     owner.output.isTicketsExist.accept(false)
                 } else {
                     owner.output.sectionModels.accept(ticketItems)
-                    owner.output.isLoading.accept(false)
                 }
             }
             .disposed(by: self.disposeBag)
     }
 
     private func isAccessTokenAvailable() -> Bool {
-        let token = authAPIService.fetchTokens()
+        let token = authRepository.fetchTokens()
         let accessToken = token.0
         return (!accessToken.isEmpty)
     }
 
     private func fetchTicketList() -> Single<[TicketItemEntity]> {
-        print(UserDefaults.accessToken)
         // MARK: 의존성 networkService로 바꿔주기!..
-        let networkProvider = self.authAPIService.networkService
+        let networkProvider = self.authRepository.networkService
         let ticketListAPI = TicketAPI.list
         return networkProvider.request(ticketListAPI)
             .map([TicketListItemResponseDTO].self)

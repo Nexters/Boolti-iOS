@@ -19,9 +19,11 @@ struct ConcertDetailEntity {
     let notice: String
     let salesStartTime: Date
     let salesEndTime: Date
-    let showImg: [ShowImage]
+    let posters: [Poster]
+    let hostName: String
+    let hostPhoneNumber: String
     
-    struct ShowImage {
+    struct Poster {
         let id: Int
         let path: String
         let thumbnailPath: String

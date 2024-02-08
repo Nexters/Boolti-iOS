@@ -49,8 +49,8 @@ final class OrganizerInfoView: UIView {
 
 extension OrganizerInfoView {
     
-    func setData(organizer: String) {
-        self.organizerLabel.text = organizer
+    func setData(hostName: String, hostPhoneNumber: String) {
+        self.organizerLabel.text = "\(hostName) (\(hostPhoneNumber))"
     }
 }
 

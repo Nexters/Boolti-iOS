@@ -7,12 +7,13 @@
 
 import Foundation
 import Alamofire
+
 import RxSwift
 
 final class AuthInterceptor: RequestInterceptor {
     
     private let disposeBag = DisposeBag()
-    private let refreshAuthAPIService = RefreshAuthAPIService()
+    private let refreshAuthRepository = RefreshAuthRepository()
 
     func adapt(_ urlRequest: URLRequest,
                for session: Session,
@@ -47,7 +48,7 @@ final class AuthInterceptor: RequestInterceptor {
         
         // 현재 401이므로, refreshToken으로 API 호출을 한다.
         let refreshToken = UserDefaults.refreshToken
-        self.refreshAuthAPIService.request(with: refreshToken)
+        self.refreshAuthRepository.request(with: refreshToken)
             .subscribe(onSuccess: { tokenRefreshResponseDTO in
                 guard let accessToken = tokenRefreshResponseDTO.accessToken,
                       let  refreshToken = tokenRefreshResponseDTO.refreshToken

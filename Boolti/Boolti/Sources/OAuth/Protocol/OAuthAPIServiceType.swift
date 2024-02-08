@@ -1,5 +1,5 @@
 //
-//  OAuthAPIServiceType.swift
+//  OAuthRepositoryType.swift
 //  Boolti
 //
 //  Created by Miro on 1/23/24.
@@ -7,6 +7,6 @@
 
 import RxSwift
 
-protocol OAuthAPIServiceType {
+protocol OAuthRepositoryType {
     func authorize(provider: OAuthProvider) -> Observable<OAuthResponse>
 }

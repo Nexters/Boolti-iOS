@@ -47,18 +47,20 @@ final class HomeTabBarDIContainer {
     }
 
     private func createConcertListDIContainer() -> ConcertListDIContainer {
-        return ConcertListDIContainer()
+        return ConcertListDIContainer(
+            concertRepository: ConcertRepository(networkService: rootDIContainer.networkProvider)
+        )
     }
 
     private func createTicketListDIContainer() -> TicketListDIContainer {
         return TicketListDIContainer(
-            authAPIService: AuthAPIService(networkService: rootDIContainer.networkProvider)
+            authRepository: AuthRepository(networkService: rootDIContainer.networkProvider)
         )
     }
 
     private func createMyPageDIContainer() -> MyPageDIContainer {
         return MyPageDIContainer(
-            authAPIService: AuthAPIService(networkService: rootDIContainer.networkProvider)
+            authRepository: AuthRepository(networkService: rootDIContainer.networkProvider)
         )
     }
 

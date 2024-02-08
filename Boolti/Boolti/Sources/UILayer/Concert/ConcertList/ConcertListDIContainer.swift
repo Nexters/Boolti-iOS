@@ -5,16 +5,15 @@
 //  Created by Juhyeon Byun on 1/20/24.
 //
 
-import Foundation
 import UIKit
 
 final class ConcertListDIContainer {
 
-//    private let ticketAPIService: TicketAPIService
-//
-//    init(ticketAPIService: TicketAPIService) {
-//        self.ticketAPIService = ticketAPIService
-//    }
+    private let concertRepository: ConcertRepository
+
+    init(concertRepository: ConcertRepository) {
+        self.concertRepository = concertRepository
+    }
     
     func createConcertListViewController() -> UIViewController {
         let viewModel = createConcertListViewModel()
@@ -41,7 +40,7 @@ final class ConcertListDIContainer {
     }
     
     private func createConcertDetailDIContainer() -> ConcertDetailDIContainer {
-        return ConcertDetailDIContainer()
+        return ConcertDetailDIContainer(concertRepository: self.concertRepository)
     }
 
 }

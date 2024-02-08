@@ -6,8 +6,10 @@
 //
 
 import UIKit
+
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 final class ConcertDetailViewController: BooltiViewController {
     
@@ -114,12 +116,12 @@ extension ConcertDetailViewController {
         self.viewModel.output.concertDetail
             .take(1)
             .bind(with: self) { owner, entity in
-                owner.concertPosterView.setData(images: entity.showImg, title: entity.name)
+                owner.concertPosterView.setData(images: entity.posters, title: entity.name)
                 owner.ticketingPeriodView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
                 owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
                 owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
                 owner.contentInfoView.setData(content: entity.notice)
-                owner.organizerInfoView.setData(organizer: "박불티 (010-1234-5678)")
+                owner.organizerInfoView.setData(hostName: entity.hostName, hostPhoneNumber: entity.hostPhoneNumber)
             }
             .disposed(by: self.disposeBag)
 
@@ -131,7 +133,7 @@ extension ConcertDetailViewController {
                     owner.ticketingButton.setTitle(state.rawValue, for: .normal)
                 case .beforeSale:
                     owner.ticketingButton.isEnabled = false
-                    owner.ticketingButton.setTitle("\(state.rawValue)\(Date().getBetweenDay(to: owner.viewModel.output.concertDetail.value.date))", for: .normal)
+                    owner.ticketingButton.setTitle("\(state.rawValue)\(Date().getBetweenDay(to: owner.viewModel.output.concertDetailEntity?.date ?? Date()))", for: .normal)
                     owner.ticketingButton.setTitleColor(.orange01, for: .normal)
                 case .endSale, .endConcert:
                     owner.ticketingButton.isEnabled = false
@@ -144,7 +146,7 @@ extension ConcertDetailViewController {
     private func bindPlaceInfoView() {
         self.placeInfoView.didAddressCopyButtonTap()
             .emit(with: self) { owner, _ in
-                UIPasteboard.general.string = self.viewModel.output.concertDetail.value.streetAddress
+                UIPasteboard.general.string = self.viewModel.output.concertDetailEntity?.streetAddress
                 owner.showToast(message: "공연장 주소가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
@@ -153,7 +155,7 @@ extension ConcertDetailViewController {
     private func bindContentInfoView() {
         self.contentInfoView.didAddressExpandButtonTap()
             .emit(with: self) { owner, _ in
-                let content = owner.viewModel.output.concertDetail.value.notice
+                guard let content = owner.viewModel.output.concertDetailEntity?.notice else { return }
                 let viewController = owner.concertContentExpandViewControllerFactory(content)
                 
                 owner.navigationController?.pushViewController(viewController, animated: true)
@@ -176,9 +178,13 @@ extension ConcertDetailViewController {
         
         self.navigationView.didShareButtonTap()
             .emit(with: self) { owner, _ in
+                guard let url = URL(string: AppInfo.booltiShareLink),
+                      let posterURL = owner.viewModel.output.concertDetailEntity?.posters.first?.path
+                else { return }
                 
-                // TODO: 공유하기 내용 수정
-                let activityViewController = UIActivityViewController(activityItems: [UIImage.mockPoster, "2024 TOGETHER LUCKY CLUB"], applicationActivities: nil)
+                let image = KFImage(URL(string: posterURL))
+                
+                let activityViewController = UIActivityViewController(activityItems: [url, image], applicationActivities: nil)
                 activityViewController.popoverPresentationController?.sourceView = owner.view
                 owner.present(activityViewController, animated: true, completion: nil)
             }

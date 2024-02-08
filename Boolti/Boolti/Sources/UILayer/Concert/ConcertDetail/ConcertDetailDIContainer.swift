@@ -7,11 +7,11 @@
 
 final class ConcertDetailDIContainer {
 
-//    private let concertAPIService: ConcertAPIService
-//
-//    init(concertAPIService: ConcertAPIService) {
-//        self.concertAPIService = concertAPIService
-//    }
+    private let concertRepository: ConcertRepository
+
+    init(concertRepository: ConcertRepository) {
+        self.concertRepository = concertRepository
+    }
     
     func createConcertDetailViewController() -> ConcertDetailViewController {
         let viewModel = createConcertDetailViewModel()
@@ -36,7 +36,7 @@ final class ConcertDetailDIContainer {
     }
     
     private func createConcertDetailViewModel() -> ConcertDetailViewModel {
-        return ConcertDetailViewModel()
+        return ConcertDetailViewModel(concertRepository: self.concertRepository)
     }
 
 }

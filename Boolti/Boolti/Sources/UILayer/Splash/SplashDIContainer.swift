@@ -36,7 +36,7 @@ final class SplashDIContainer {
 
     private func createSplashViewModel() -> SplashViewModel {
         // TODO: 네트워크 의존성 주입하는 방법임!! 나중에 지워야함!
-        let viewModel = SplashViewModel(authAPIService: AuthAPIService(networkService: self.networkProvider), delegate: self.rootDIContainer.rootViewModel)
+        let viewModel = SplashViewModel(authRepository: AuthRepository(networkService: self.networkProvider), delegate: self.rootDIContainer.rootViewModel)
 
         return viewModel
     }
