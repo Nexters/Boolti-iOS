@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ConcertDetailRequestDTO: Encodable {
+struct ConcertDetailRequestDTO {
     
     let id: Int
 }
