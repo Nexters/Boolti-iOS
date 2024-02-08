@@ -13,7 +13,7 @@ final class TicketingDetailViewController: BooltiViewController {
     
     // MARK: Properties
     
-    let viewModel: TicketingDetailViewModel
+    private let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
     private let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController
     
