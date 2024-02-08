@@ -14,8 +14,7 @@ final class TicketSelectionViewModel {
     
     // MARK: Properties
     
-//    private let ticketAPIService: TicketAPIServiceType
-    
+    private let concertRepository: ConcertRepository
     private let disposeBag = DisposeBag()
     
     struct Input {
@@ -37,11 +36,15 @@ final class TicketSelectionViewModel {
     let input: Input
     let output: Output
     
+    private let concertId: Int
+    
     // MARK: Init
 
-//    init(ticketAPIService: TicketAPIService) {
-//        self.ticketAPIService = ticketAPIService
-    init() {
+    init(concertRepository: ConcertRepository,
+         concertId: Int) {
+        self.concertRepository = concertRepository
+        self.concertId = concertId
+        
         self.input = Input()
         self.output = Output()
         

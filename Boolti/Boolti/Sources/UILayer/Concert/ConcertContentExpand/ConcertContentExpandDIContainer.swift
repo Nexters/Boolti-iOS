@@ -6,12 +6,6 @@
 //
 
 final class ConcertContentExpandDIContainer {
-
-//    private let concertAPIService: ConcertAPIService
-//
-//    init(concertAPIService: ConcertAPIService) {
-//        self.concertAPIService = concertAPIService
-//    }
     
     func createConcertContentExpandViewController(content: String) -> ConcertContentExpandViewController {
         let viewModel = createConcertContentExpandViewModel(content: content)
