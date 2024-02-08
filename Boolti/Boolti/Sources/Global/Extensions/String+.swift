@@ -10,6 +10,6 @@ import Foundation
 extension String {
     
     func formatToDate() -> Date {
-        return DateFormatType.rawDatetime.formatter.date(from: self) ?? Date()
+        return DateFormatType.isoDateTime.formatter.date(from: self) ?? Date()
     }
 }
