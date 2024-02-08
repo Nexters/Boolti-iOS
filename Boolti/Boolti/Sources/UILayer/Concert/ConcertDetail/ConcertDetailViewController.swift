@@ -133,7 +133,7 @@ extension ConcertDetailViewController {
                     owner.ticketingButton.setTitle(state.rawValue, for: .normal)
                 case .beforeSale:
                     owner.ticketingButton.isEnabled = false
-                    owner.ticketingButton.setTitle("\(state.rawValue)\(owner.viewModel.output.startDday)", for: .normal)
+                    owner.ticketingButton.setTitle("\(state.rawValue)\(Date().getBetweenDay(to: owner.viewModel.output.concertDetailEntity?.date ?? Date()))", for: .normal)
                     owner.ticketingButton.setTitleColor(.orange01, for: .normal)
                 case .endSale, .endConcert:
                     owner.ticketingButton.isEnabled = false
@@ -146,7 +146,7 @@ extension ConcertDetailViewController {
     private func bindPlaceInfoView() {
         self.placeInfoView.didAddressCopyButtonTap()
             .emit(with: self) { owner, _ in
-                UIPasteboard.general.string = self.viewModel.output.streetAddress
+                UIPasteboard.general.string = self.viewModel.output.concertDetailEntity?.streetAddress
                 owner.showToast(message: "공연장 주소가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
@@ -155,7 +155,7 @@ extension ConcertDetailViewController {
     private func bindContentInfoView() {
         self.contentInfoView.didAddressExpandButtonTap()
             .emit(with: self) { owner, _ in
-                let content = owner.viewModel.output.notice
+                guard let content = owner.viewModel.output.concertDetailEntity?.notice else { return }
                 let viewController = owner.concertContentExpandViewControllerFactory(content)
                 
                 owner.navigationController?.pushViewController(viewController, animated: true)

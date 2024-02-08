@@ -26,9 +26,7 @@ final class ConcertDetailViewModel {
     
     struct Output {
         let concertDetail = PublishRelay<ConcertDetailEntity>()
-        var startDday: Int = 0
-        var notice: String = ""
-        var streetAddress: String = ""
+        var concertDetailEntity: ConcertDetailEntity?
         let buttonState = BehaviorRelay<ConcertTicketingState>(value: .onSale)
     }
     
@@ -75,11 +73,7 @@ extension ConcertDetailViewModel {
 
     private func fetchConcertDetail(concertId: Int) {
         self.concertRepository.concertDetail(concertId: concertId).asObservable()
-            .do(onNext: { [weak self] entity in
-                self?.output.startDday = Date().getBetweenDay(to: entity.date)
-                self?.output.notice = entity.notice
-                self?.output.streetAddress = entity.streetAddress
-            })
+            .do { self.output.concertDetailEntity = $0 }
             .bind(to: self.output.concertDetail)
             .disposed(by: self.disposeBag)
     }
