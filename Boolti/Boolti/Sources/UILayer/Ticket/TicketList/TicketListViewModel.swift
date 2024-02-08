@@ -7,10 +7,9 @@
 
 import UIKit
 
-import Moya
-
 import RxSwift
 import RxRelay
+import Moya
 import RxMoya
 
 enum TicketListViewDestination {
