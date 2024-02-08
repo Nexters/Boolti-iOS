@@ -10,14 +10,12 @@ import UIKit
 final class BooltiTextField: UITextField {
 
     // MARK: Init
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        configureUI()
-        configureConstraints()
+    init(backgroundColor: UIColor = .grey85) {
+        super.init(frame: .zero)
+        self.configureUI(backgroundColor: backgroundColor)
+        self.configureConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -27,10 +25,10 @@ final class BooltiTextField: UITextField {
 
 extension BooltiTextField {
     
-    func setPlaceHolderText(placeholder: String) {
+    func setPlaceHolderText(placeholder: String, foregroundColor: UIColor = UIColor.grey70) {
         self.placeholder = placeholder
         self.attributedPlaceholder = NSAttributedString(string: placeholder,
-                                                        attributes: [.foregroundColor: UIColor.grey70,
+                                                        attributes: [.foregroundColor: foregroundColor,
                                                                      .font: UIFont.body3])
     }
 }
@@ -39,12 +37,12 @@ extension BooltiTextField {
 
 extension BooltiTextField {
     
-    private func configureUI() {
+    private func configureUI(backgroundColor: UIColor = .grey85) {
         self.layer.cornerRadius = 4
         self.font = .body3
         self.textColor = .grey15
-        self.backgroundColor = .grey85
-        
+        self.backgroundColor = backgroundColor
+
         self.addLeftPadding()
     }
     

@@ -7,11 +7,47 @@
 
 import Foundation
 
+import RxSwift
+import RxMoya
+import RxRelay
+
 class TicketEntryCodeViewModel {
-    
+
+    struct Input {
+        var didCheckButtonTapEvent = PublishSubject<Void>()
+    }
+
+    struct Output {
+        let isValidEntryCode = PublishRelay<Bool>()
+    }
+
+    let input: Input
+    let output: Output
+
+    private let disposeBag = DisposeBag()
+
     private let networkService: NetworkProviderType
 
     init(networkService: NetworkProviderType) {
         self.networkService = networkService
+
+        self.input = Input()
+        self.output = Output()
+
+        self.bindInputs()
+    }
+
+    private func bindInputs() {
+        self.input.didCheckButtonTapEvent
+            .flatMap { self.validateEntryCode() }
+            .subscribe(with: self) { owner, isValid in
+                owner.output.isValidEntryCode.accept(isValid)
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    // API 올라오면 붙힐 예정!
+    private func validateEntryCode() -> Single<Bool> {
+        return Single.just(false)
     }
 }
