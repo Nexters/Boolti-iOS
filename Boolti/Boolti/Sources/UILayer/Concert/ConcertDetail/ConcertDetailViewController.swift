@@ -178,8 +178,13 @@ extension ConcertDetailViewController {
         
         self.navigationView.didShareButtonTap()
             .emit(with: self) { owner, _ in
-                guard let url = URL(string: AppInfo.booltiShareLink) else { return }
-                let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                guard let url = URL(string: AppInfo.booltiShareLink),
+                      let posterURL = owner.viewModel.output.concertDetailEntity?.posters.first?.path
+                else { return }
+                
+                let image = KFImage(URL(string: posterURL))
+                
+                let activityViewController = UIActivityViewController(activityItems: [url, image], applicationActivities: nil)
                 activityViewController.popoverPresentationController?.sourceView = owner.view
                 owner.present(activityViewController, animated: true, completion: nil)
             }
