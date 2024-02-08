@@ -18,5 +18,7 @@ struct TicketItemEntity: Hashable {
     let location: String
     let qrCode: UIImage
     let ticketID: Int
-    let usedTime: String
+    let usedTime: String?
 }
+
+

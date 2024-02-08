@@ -20,7 +20,7 @@ struct TicketDetailResponseDTO: Decodable {
     let ticketName: String
     let notice: String
     let entryCode: String
-    let usedAt: String
+    let usedAt: String?
     let hostName: String
     let hostPhoneNumber: String
 }
