@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 import SnapKit
-import Kingfisher
 
 final class ConcertInfoView: UIView {
     
