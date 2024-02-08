@@ -134,6 +134,8 @@
 		8710D9542B74FAB500309FBF /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710D9532B74FAB500309FBF /* LogoutViewController.swift */; };
 		8710D9562B74FAC100309FBF /* LogoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710D9552B74FAC100309FBF /* LogoutViewModel.swift */; };
 		8710D9582B74FAC800309FBF /* LogoutDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710D9572B74FAC800309FBF /* LogoutDIContainer.swift */; };
+		8710D95A2B750A5500309FBF /* MyPageDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710D9592B750A5500309FBF /* MyPageDestination.swift */; };
+		8710D95C2B750FE000309FBF /* LogoutRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710D95B2B750FE000309FBF /* LogoutRepository.swift */; };
 		8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8724C4BE2B6221A500484BFC /* UIView+.swift */; };
 		8746ACFF2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746ACFE2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift */; };
 		8746AD012B67F7610037A1B1 /* TicketMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD002B67F7610037A1B1 /* TicketMainView.swift */; };
@@ -304,6 +306,8 @@
 		8710D9532B74FAB500309FBF /* LogoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
 		8710D9552B74FAC100309FBF /* LogoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewModel.swift; sourceTree = "<group>"; };
 		8710D9572B74FAC800309FBF /* LogoutDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutDIContainer.swift; sourceTree = "<group>"; };
+		8710D9592B750A5500309FBF /* MyPageDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageDestination.swift; sourceTree = "<group>"; };
+		8710D95B2B750FE000309FBF /* LogoutRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutRepository.swift; sourceTree = "<group>"; };
 		8724C4BE2B6221A500484BFC /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		8746ACFE2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketListCollectionViewCell.swift; sourceTree = "<group>"; };
 		8746AD002B67F7610037A1B1 /* TicketMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketMainView.swift; sourceTree = "<group>"; };
@@ -889,6 +893,7 @@
 				8710D93E2B74E42C00309FBF /* Views */,
 				84781CBD2B5BF95100D37921 /* MyPageDIContainer.swift */,
 				84781CBF2B5BF98600D37921 /* MypageViewController.swift */,
+				8710D9592B750A5500309FBF /* MyPageDestination.swift */,
 				84781CC12B5BF9A700D37921 /* MyPageViewModel.swift */,
 			);
 			path = Main;
@@ -900,6 +905,7 @@
 				8710D9532B74FAB500309FBF /* LogoutViewController.swift */,
 				8710D9552B74FAC100309FBF /* LogoutViewModel.swift */,
 				8710D9572B74FAC800309FBF /* LogoutDIContainer.swift */,
+				8710D95B2B750FE000309FBF /* LogoutRepository.swift */,
 			);
 			path = Logout;
 			sourceTree = "<group>";
@@ -1256,6 +1262,7 @@
 				876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */,
 				847AA70E2B62B55500E5B55C /* BooltiNavigationBar.swift in Sources */,
 				84896A4F2B6A723900CB3E33 /* Date+.swift in Sources */,
+				8710D95C2B750FE000309FBF /* LogoutRepository.swift in Sources */,
 				84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */,
 				8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */,
 				8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */,
@@ -1279,6 +1286,7 @@
 				84781CAA2B5BF72200D37921 /* SplashViewModel.swift in Sources */,
 				876BF1742B6A939900DB4BCB /* LogoutAPI.swift in Sources */,
 				84FEF6192B68ACDD00EBB64F /* TicketingEntity.swift in Sources */,
+				8710D95A2B750A5500309FBF /* MyPageDestination.swift in Sources */,
 				8757BAA42B5FDEA2008503B5 /* OAuthAPIServiceType.swift in Sources */,
 				8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */,
 				87D2FABE2B6F89060027FBE1 /* TicketInquiryView.swift in Sources */,

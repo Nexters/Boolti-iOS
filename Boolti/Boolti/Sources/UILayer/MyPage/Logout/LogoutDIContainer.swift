@@ -16,12 +16,10 @@ final class LogoutDIContainer {
     }
 
     func createLogoutViewController() -> LogoutViewController {
-        return LogoutViewController(
-            viewModel: self.createLogoutViewModel()
-            )
+        return LogoutViewController(viewModel: self.createLogoutViewModel())
     }
 
     private func createLogoutViewModel() -> LogoutViewModel {
-        return LogoutViewModel(networkService: self.networkService)
+        return LogoutViewModel(logoutRepository: LogoutRepository(networkService: self.networkService))
     }
 }

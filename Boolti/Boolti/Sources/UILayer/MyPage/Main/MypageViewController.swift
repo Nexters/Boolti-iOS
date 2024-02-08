@@ -7,11 +7,16 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 final class MyPageViewController: UIViewController {
 
     private let logoutViewControllerFactory: () -> LogoutViewController
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
     private let qrScanViewControllerFactory: () -> QrScanViewController
+
+    private let disposeBag = DisposeBag()
 
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -58,6 +63,7 @@ final class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
+        self.bindUIComponents()
     }
 
     init(
@@ -120,6 +126,24 @@ final class MyPageViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(40)
         }
+    }
 
+    private func bindUIComponents() {
+        self.logoutNavigationButton.rx.tap
+            .bind(with: self) { owner, _ in
+                guard let viewController = owner.createViewController(.logout) as? LogoutViewController else { return }
+                viewController.modalPresentationStyle = .overFullScreen
+                owner.present(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+
+    private func createViewController(_ next: MyPageDestination) -> UIViewController {
+        switch next {
+        case .logout: return logoutViewControllerFactory()
+        case .qrScan: return qrScanViewControllerFactory()
+        case .ticketReservations: return ticketReservationsViewControllerFactory()
+        }
     }
 }

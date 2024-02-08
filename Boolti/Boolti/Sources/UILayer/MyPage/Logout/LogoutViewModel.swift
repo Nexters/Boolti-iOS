@@ -9,9 +9,9 @@ import Foundation
 
 final class LogoutViewModel {
 
-    private let networkService: NetworkProviderType
+    private let logoutRepository: LogoutRepositoryType
 
-    init(networkService: NetworkProviderType) {
-        self.networkService = networkService
+    init(logoutRepository: LogoutRepositoryType) {
+        self.logoutRepository = logoutRepository
     }
 }
