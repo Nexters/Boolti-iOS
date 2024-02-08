@@ -70,7 +70,7 @@ extension ConcertPosterView {
     private func addContentScrollView(images: [ConcertDetailEntity.Poster]) {
         for index in 0..<images.count{
             let imageView = UIImageView()
-            imageView.setImageUrl(images[index].path)
+            imageView.setImage(with: images[index].path)
             imageView.contentMode = .scaleToFill
 
             let positionX = self.scrollViewHeight * CGFloat(index)

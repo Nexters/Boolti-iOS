@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import SnapKit
 import RxSwift
+import SnapKit
+import Kingfisher
 
 final class ConcertInfoView: UIView {
     
@@ -67,7 +68,7 @@ final class ConcertInfoView: UIView {
 extension ConcertInfoView {
     
     func setData(posterURL: String, title: String, datetime: Date) {
-        self.poster.setImageUrl(posterURL)
+        self.poster.setImage(with: posterURL)
         self.titleLabel.text = title
         self.titleLabel.setLineSpacing(lineSpacing: 6)
         self.datetimeLabel.text = datetime.format(.dateTime)

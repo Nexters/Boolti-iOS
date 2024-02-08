@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 final class ConcertDetailViewController: BooltiViewController {
     
@@ -178,9 +179,10 @@ extension ConcertDetailViewController {
         self.navigationView.didShareButtonTap()
             .emit(with: self) { owner, _ in
                 guard let url = URL(string: AppInfo.booltiShareLink),
-                      let poster = owner.viewModel.output.concertDetail.value.posters.first?.path as? NSString,
-                      let image = ImageCacheManager.shared.object(forKey: poster) 
+                      let poster = owner.viewModel.output.concertDetail.value.posters.first?.path
                 else { return }
+                
+                let image = KFImage(URL(string: poster))
 
                 let activityViewController = UIActivityViewController(activityItems: [url, image], applicationActivities: nil)
                 activityViewController.popoverPresentationController?.sourceView = owner.view
