@@ -11,8 +11,8 @@ final class MyPageDIContainer {
 
     private let networkService: NetworkProviderType
 
-    init(authAPIService: AuthAPIServiceType) {
-        self.networkService = authAPIService.networkService
+    init(authRepository: AuthRepositoryType) {
+        self.networkService = authRepository.networkService
     }
 
     func createMyPageViewController() -> MyPageViewController {

@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import SnapKit
 
+import SnapKit
 import RxCocoa
 import RxSwift
 import RxRelay

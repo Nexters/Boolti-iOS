@@ -11,16 +11,16 @@ final class TermsAgreementDIContainer {
 
     private let identityCode: String
     private let provider: OAuthProvider
-    private let authAPIService: AuthAPIServiceType
+    private let authRepository: AuthRepositoryType
 
     init(
         identityCode: String,
         provider: OAuthProvider,
-        authAPIService: AuthAPIServiceType
+        authRepository: AuthRepositoryType
     ) {
         self.identityCode = identityCode
         self.provider = provider
-        self.authAPIService = authAPIService
+        self.authRepository = authRepository
     }
 
     func createTermsAgreementViewController() -> TermsAgreementViewController {
@@ -30,7 +30,7 @@ final class TermsAgreementDIContainer {
     }
 
     private func createTermsAgreementViewModel() -> TermsAgreementViewModel {
-        let viewModel = TermsAgreementViewModel(identityCode: self.identityCode, provider: self.provider, authAPIService: self.authAPIService)
+        let viewModel = TermsAgreementViewModel(identityCode: self.identityCode, provider: self.provider, authRepository: self.authRepository)
 
         return viewModel
     }

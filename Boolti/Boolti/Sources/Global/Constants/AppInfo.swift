@@ -12,5 +12,6 @@ enum AppInfo {
 
     // TODO: - Update with actual KakaoTalk ID and Apple App ID
     private static let appId = "362057947"
-    static let booltiAppStoreLink =  "itms-apps://itunes.apple.com/app/app-store/\(appId)"
+    static let booltiAppStoreLink = "itms-apps://itunes.apple.com/app/app-store/\(appId)"
+    static let booltiShareLink = "https://apps.apple.com/kr/app/id\(appId)"
 }

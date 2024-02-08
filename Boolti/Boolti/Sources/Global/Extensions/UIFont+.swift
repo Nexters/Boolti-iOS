@@ -5,7 +5,7 @@
 //  Created by Juhyeon Byun on 1/24/24.
 //
 
-import UIKit.UIFont
+import UIKit
 
 extension UIFont {
     
