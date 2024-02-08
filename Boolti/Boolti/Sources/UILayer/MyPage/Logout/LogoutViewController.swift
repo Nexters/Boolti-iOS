@@ -7,9 +7,14 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 final class LogoutViewController: BooltiViewController {
 
     private var viewModel: LogoutViewModel
+
+    private let disposeBag = DisposeBag()
 
     private let logoutBackgroundView: UIView = {
         let view = UIView()
@@ -39,6 +44,8 @@ final class LogoutViewController: BooltiViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
+        self.bindUIComponents()
+        self.bindViewModel()
     }
 
     init(viewModel: LogoutViewModel) {
@@ -82,5 +89,33 @@ final class LogoutViewController: BooltiViewController {
             make.top.equalTo(self.logoutBackgroundView.snp.top).inset(12)
             make.right.equalTo(self.logoutBackgroundView.snp.right).inset(20)
         }
+    }
+
+    private func bindUIComponents() {
+        self.closeButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindViewModel() {
+        self.bindInputs()
+        self.bindOutputs()
+    }
+
+    private func bindInputs() {
+        self.confirmLogoutButton.rx.tap
+            .bind(to: self.viewModel.input.didLogoutConfirmButtonTap)
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindOutputs() {
+        self.viewModel.output.didLogoutAccount
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 }
