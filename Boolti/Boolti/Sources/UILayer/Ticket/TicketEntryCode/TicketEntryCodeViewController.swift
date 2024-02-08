@@ -64,12 +64,20 @@ class TicketEntryCodeViewController: BooltiViewController {
             .drive(with: self) { owner, isValid in
                 if isValid {
                     // dismiss하고 토스트 이미지 띄우기
+                    guard let homeTabBarController = owner.presentingViewController as? HomeTabBarController else { return }
+                    guard let rootviewController = homeTabBarController.children[1] as? UINavigationController else { return }
+                    guard let ticketDetailViewController = rootviewController.viewControllers.filter({ $0 is TicketDetailViewController
+                    })[0] as? TicketDetailViewController else { return }
+
+                    owner.dismiss(animated: true) {
+                        ticketDetailViewController.showToast(message: "입장을 확인했어요")
+                    }
                 } else {
-                    print("뭔데...")
                     // 올바른 입장 코드를 입력해 주세요.
-                    owner.entryCodeInputView.showErrorComments()
+                    owner.entryCodeInputView.isInvalidEntryCodeTyped = false
                 }
             }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindUIComponents() {
@@ -94,6 +102,9 @@ class TicketEntryCodeViewController: BooltiViewController {
                 } else {
                     owner.entryCodeInputView.enableCheckButton.accept(true)
                 }
+
+                guard !owner.entryCodeInputView.isInvalidEntryCodeTyped else { return }
+                owner.entryCodeInputView.isInvalidEntryCodeTyped = true
             }
             .disposed(by: self.disposeBag)
     }

@@ -149,21 +149,35 @@ class EntryCodeInputView: UIView {
             .disposed(by: self.disposeBag)
     }
 
-    func showErrorComments() {
-        self.errorCommentLabel.isHidden = false
-        self.entryCodeInputTextField.layer.borderColor = UIColor.error.cgColor
-        self.entryCodeInputTextField.layer.borderWidth = 1
-
-        self.snp.updateConstraints { make in
-            make.height.equalTo(316)
+    var isInvalidEntryCodeTyped: Bool = true {
+        didSet {
+            self.setErrorCommentUI()
         }
     }
 
-//    func disableCheckButton() {
-//        self.checkButton.isEnabled = false
-//    }
-//
-//    func enableCheckButton() {
-//        self.checkButton.isEnabled = true
-//    }
+    private func setErrorCommentUI() {
+        self.errorCommentLabel.isHidden.toggle()
+        if self.isInvalidEntryCodeTyped {
+            self.entryCodeInputTextField.layer.borderColor = nil
+            self.entryCodeInputTextField.layer.borderWidth = 0
+            self.snp.updateConstraints { make in
+                make.height.equalTo(286)
+            }
+        } else {
+            self.entryCodeInputTextField.layer.borderColor = UIColor.error.cgColor
+            self.entryCodeInputTextField.layer.borderWidth = 1
+            self.snp.updateConstraints { make in
+                make.height.equalTo(316)
+            }
+        }
+        self.layoutIfNeeded()
+    }
+
+    //    func disableCheckButton() {
+    //        self.checkButton.isEnabled = false
+    //    }
+    //
+    //    func enableCheckButton() {
+    //        self.checkButton.isEnabled = true
+    //    }
 }

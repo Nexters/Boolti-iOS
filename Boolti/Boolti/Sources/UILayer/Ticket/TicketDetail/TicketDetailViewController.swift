@@ -150,7 +150,8 @@ class TicketDetailViewController: BooltiViewController {
         self.entryCodeButton.rx.tap
             .bind(with: self) { owner, _ in
                 let viewController = owner.ticketEntryCodeControllerFactory()
-                viewController.modalPresentationStyle = .overFullScreen
+                owner.modalPresentationStyle = .overFullScreen
+
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)

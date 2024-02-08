@@ -41,13 +41,12 @@ class TicketEntryCodeViewModel {
         self.input.didCheckButtonTapEvent
             .flatMap { self.validateEntryCode() }
             .subscribe(with: self) { owner, isValid in
-                print("🔥🔥🔥🔥🔥")
                 owner.output.isValidEntryCode.accept(isValid)
             }
             .disposed(by: self.disposeBag)
     }
 
     private func validateEntryCode() -> Single<Bool> {
-        return Single.just(false)
+        return Single.just(true)
     }
 }
