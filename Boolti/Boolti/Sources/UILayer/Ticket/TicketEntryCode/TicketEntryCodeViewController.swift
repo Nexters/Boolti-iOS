@@ -30,7 +30,7 @@ class TicketEntryCodeViewController: BooltiViewController {
         self.viewModel = viewModel
         super.init()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -96,26 +96,10 @@ class TicketEntryCodeViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        //        self.entryCodeInputView.textFieldText
-        //            .asDriver(onErrorJustReturn: "")
-        //            .drive(with: self) { owner, text in
-        //                print(text)
-        //                if text == "" {
-        //                    owner.entryCodeInputView.disableCheckButton()
-        //                } else {
-        //                    owner.entryCodeInputView.enableCheckButton()
-        //                }
-        //            }
-        //            .disposed(by: self.disposeBag)
-
         self.entryCodeInputView.textFieldText
             .asDriver(onErrorJustReturn: "")
             .drive(with: self) { owner, text in
-                if text == "" {
-                    owner.entryCodeInputView.enableCheckButton.accept(false)
-                } else {
-                    owner.entryCodeInputView.enableCheckButton.accept(true)
-                }
+                owner.entryCodeInputView.enableCheckButton.accept(!text.isEmpty)
 
                 guard !owner.entryCodeInputView.isInvalidEntryCodeTyped else { return }
                 owner.entryCodeInputView.isInvalidEntryCodeTyped = true

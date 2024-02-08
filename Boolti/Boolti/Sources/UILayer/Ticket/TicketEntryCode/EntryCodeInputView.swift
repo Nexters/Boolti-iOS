@@ -11,7 +11,7 @@ import RxSwift
 import RxRelay
 import RxCocoa
 
-class EntryCodeInputView: UIView {
+final class EntryCodeInputView: UIView {
 
     private let disposeBag = DisposeBag()
 
@@ -177,12 +177,4 @@ class EntryCodeInputView: UIView {
         }
         self.layoutIfNeeded()
     }
-
-    //    func disableCheckButton() {
-    //        self.checkButton.isEnabled = false
-    //    }
-    //
-    //    func enableCheckButton() {
-    //        self.checkButton.isEnabled = true
-    //    }
 }
