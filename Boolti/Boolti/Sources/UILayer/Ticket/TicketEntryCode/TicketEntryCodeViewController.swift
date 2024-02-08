@@ -88,7 +88,6 @@ class TicketEntryCodeViewController: BooltiViewController {
         RxKeyboard.instance.visibleHeight
             .skip(1)
             .drive(with: self) { owner, keyBoardHeight in
-                print(keyBoardHeight)
                 if keyBoardHeight == 0 {
                     owner.view.frame.origin.y = 0
                 } else {
