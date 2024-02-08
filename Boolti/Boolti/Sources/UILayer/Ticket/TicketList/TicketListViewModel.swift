@@ -85,11 +85,11 @@ final class TicketListViewModel {
             })
             .flatMap { self.fetchTicketList() }
             .subscribe(with: self) { owner, ticketItems in
+                owner.output.isLoading.accept(false)
                 if ticketItems.isEmpty {
                     owner.output.isTicketsExist.accept(false)
                 } else {
                     owner.output.sectionModels.accept(ticketItems)
-                    owner.output.isLoading.accept(false)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -102,7 +102,6 @@ final class TicketListViewModel {
     }
 
     private func fetchTicketList() -> Single<[TicketItemEntity]> {
-        print(UserDefaults.accessToken)
         // MARK: 의존성 networkService로 바꿔주기!..
         let networkProvider = self.authRepository.networkService
         let ticketListAPI = TicketAPI.list
