@@ -29,35 +29,4 @@ struct ConcertDetailEntity {
         let thumbnailPath: String
         let sequence: Int
     }
-    
-    init(id: Int = 0,
-         groupId: Int = 0,
-         name: String = "",
-         placeName: String = "",
-         date: Date = Date(),
-         runningTime: Int = 0,
-         streetAddress: String = "",
-         detailAddress: String = "",
-         notice: String = "",
-         salesStartTime: Date = Date(),
-         salesEndTime: Date = Date(),
-         posters: [Poster] = [],
-         hostName: String = "",
-         hostPhoneNumber: String = "") {
-        
-        self.id = id
-        self.groupId = groupId
-        self.name = name
-        self.placeName = placeName
-        self.date = date
-        self.runningTime = runningTime
-        self.streetAddress = streetAddress
-        self.detailAddress = detailAddress
-        self.notice = notice
-        self.salesStartTime = salesStartTime
-        self.salesEndTime = salesEndTime
-        self.posters = posters
-        self.hostName = hostName
-        self.hostPhoneNumber = hostPhoneNumber
-    }
 }

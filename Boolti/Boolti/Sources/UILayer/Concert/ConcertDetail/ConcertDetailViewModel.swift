@@ -25,18 +25,21 @@ final class ConcertDetailViewModel {
     private let concertAPIService: ConcertAPIServiceType
     
     struct Output {
-        let concertDetail: BehaviorRelay<ConcertDetailEntity>
+        let concertDetail = PublishRelay<ConcertDetailEntity>()
+        var startDday: Int = 0
+        var notice: String = ""
+        var streetAddress: String = ""
         let buttonState = BehaviorRelay<ConcertTicketingState>(value: .onSale)
     }
     
-    let output: Output
+    var output: Output
     
     // MARK: Init
     
     // TODO: DIContainer에서 concertId 주입받기
     init(concertAPIService: ConcertAPIService) {
         self.concertAPIService = concertAPIService
-        self.output = Output(concertDetail: .init(value: .init()))
+        self.output = Output()
         
         self.bindOutputs()
         self.fetchConcertDetail(concertId: 1)
@@ -72,8 +75,12 @@ extension ConcertDetailViewModel {
 
     private func fetchConcertDetail(concertId: Int) {
         self.concertAPIService.concertDetail(concertId: concertId).asObservable()
+            .do(onNext: { [weak self] entity in
+                self?.output.startDday = Date().getBetweenDay(to: entity.date)
+                self?.output.notice = entity.notice
+                self?.output.streetAddress = entity.streetAddress
+            })
             .bind(to: self.output.concertDetail)
             .disposed(by: self.disposeBag)
     }
-
 }

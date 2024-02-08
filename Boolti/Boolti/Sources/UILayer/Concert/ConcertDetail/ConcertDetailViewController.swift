@@ -114,7 +114,6 @@ extension ConcertDetailViewController {
     
     private func bindOutputs() {
         self.viewModel.output.concertDetail
-            .skip(1)
             .take(1)
             .bind(with: self) { owner, entity in
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name)
@@ -134,7 +133,7 @@ extension ConcertDetailViewController {
                     owner.ticketingButton.setTitle(state.rawValue, for: .normal)
                 case .beforeSale:
                     owner.ticketingButton.isEnabled = false
-                    owner.ticketingButton.setTitle("\(state.rawValue)\(Date().getBetweenDay(to: owner.viewModel.output.concertDetail.value.date))", for: .normal)
+                    owner.ticketingButton.setTitle("\(state.rawValue)\(owner.viewModel.output.startDday)", for: .normal)
                     owner.ticketingButton.setTitleColor(.orange01, for: .normal)
                 case .endSale, .endConcert:
                     owner.ticketingButton.isEnabled = false
@@ -147,7 +146,7 @@ extension ConcertDetailViewController {
     private func bindPlaceInfoView() {
         self.placeInfoView.didAddressCopyButtonTap()
             .emit(with: self) { owner, _ in
-                UIPasteboard.general.string = self.viewModel.output.concertDetail.value.streetAddress
+                UIPasteboard.general.string = self.viewModel.output.streetAddress
                 owner.showToast(message: "공연장 주소가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
@@ -156,7 +155,7 @@ extension ConcertDetailViewController {
     private func bindContentInfoView() {
         self.contentInfoView.didAddressExpandButtonTap()
             .emit(with: self) { owner, _ in
-                let content = owner.viewModel.output.concertDetail.value.notice
+                let content = owner.viewModel.output.notice
                 let viewController = owner.concertContentExpandViewControllerFactory(content)
                 
                 owner.navigationController?.pushViewController(viewController, animated: true)
@@ -179,13 +178,8 @@ extension ConcertDetailViewController {
         
         self.navigationView.didShareButtonTap()
             .emit(with: self) { owner, _ in
-                guard let url = URL(string: AppInfo.booltiShareLink),
-                      let poster = owner.viewModel.output.concertDetail.value.posters.first?.path
-                else { return }
-                
-                let image = KFImage(URL(string: poster))
-
-                let activityViewController = UIActivityViewController(activityItems: [url, image], applicationActivities: nil)
+                guard let url = URL(string: AppInfo.booltiShareLink) else { return }
+                let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
                 activityViewController.popoverPresentationController?.sourceView = owner.view
                 owner.present(activityViewController, animated: true, completion: nil)
             }
