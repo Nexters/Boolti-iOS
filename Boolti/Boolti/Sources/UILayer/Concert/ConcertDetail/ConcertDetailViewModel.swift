@@ -27,7 +27,7 @@ final class ConcertDetailViewModel {
     struct Output {
         let concertDetail = PublishRelay<ConcertDetailEntity>()
         var concertDetailEntity: ConcertDetailEntity?
-        let buttonState = BehaviorRelay<ConcertTicketingState>(value: .onSale)
+        let buttonState = BehaviorRelay<ConcertTicketingState>(value: .endSale)
     }
     
     var output: Output

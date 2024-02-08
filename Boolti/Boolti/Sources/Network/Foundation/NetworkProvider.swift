@@ -34,18 +34,22 @@ class NetworkProvider: NetworkProviderType {
                     #if DEBUG
                     do {
                         let data = response.data
-                        if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                            let prettyPrintedData = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        if let jsonArray = json as? [[String: Any]] {
+                            let prettyPrintedData = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
                             if let prettyPrintedString = String(data: prettyPrintedData, encoding: .utf8) {
                                 print("========================================")
-                                print("JSON Response:\n\(prettyPrintedString)")
+                                print("JSON Response (Array):\n\(prettyPrintedString)")
                                 print("========================================")
                             }
-                        } else {
-                            print("Error parsing JSON: Unable to convert response data to dictionary.")
+                        } else if let jsonDict = json as? [String: Any] {
+                            let prettyPrintedData = try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
+                            if let prettyPrintedString = String(data: prettyPrintedData, encoding: .utf8) {
+                                print("========================================")
+                                print("JSON Response (Dictionary):\n\(prettyPrintedString)")
+                                print("========================================")
+                            }
                         }
-                    } catch {
-                        print("Error parsing JSON: \(error.localizedDescription)")
                     }
                     #endif
                 },
