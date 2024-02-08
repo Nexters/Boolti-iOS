@@ -45,8 +45,9 @@ class TicketEntryCodeViewModel {
             }
             .disposed(by: self.disposeBag)
     }
-
+    
+    // API 올라오면 붙힐 예정!
     private func validateEntryCode() -> Single<Bool> {
-        return Single.just(true)
+        return Single.just(false)
     }
 }

@@ -124,6 +124,7 @@
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
 		87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */; };
+		8721400A2B749A5D007C3BC1 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 872140092B749A5D007C3BC1 /* RxKeyboard */; };
 		8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8724C4BE2B6221A500484BFC /* UIView+.swift */; };
 		8746ACFF2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746ACFE2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift */; };
 		8746AD012B67F7610037A1B1 /* TicketMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD002B67F7610037A1B1 /* TicketMainView.swift */; };
@@ -362,6 +363,7 @@
 				849FBD4C2B5E8BE9006EB865 /* FirebaseRemoteConfig in Frameworks */,
 				849FBD462B5E8BE9006EB865 /* FirebaseAnalyticsSwift in Frameworks */,
 				84781C642B5BE9C100D37921 /* Moya in Frameworks */,
+				8721400A2B749A5D007C3BC1 /* RxKeyboard in Frameworks */,
 				84781C952B5BF15A00D37921 /* RxKakaoSDKAuth in Frameworks */,
 				84B321A32B61543E007FD669 /* FirebaseMessaging in Frameworks */,
 				84781C992B5BF15A00D37921 /* RxKakaoSDKUser in Frameworks */,
@@ -1069,6 +1071,7 @@
 				8766B5582B641266004F266A /* Differentiator */,
 				8766B55A2B641266004F266A /* RxDataSources */,
 				87FB0D372B6BE7B900B42AF9 /* SwiftJWT */,
+				872140092B749A5D007C3BC1 /* RxKeyboard */,
 			);
 			productName = Boolti;
 			productReference = 84781BC92B5BDAFC00D37921 /* Boolti.app */;
@@ -1106,6 +1109,7 @@
 				849FBD402B5E8BE9006EB865 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8766B5572B641266004F266A /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				87FB0D362B6BE7B900B42AF9 /* XCRemoteSwiftPackageReference "Swift-JWT" */,
+				872140082B749A5D007C3BC1 /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 			);
 			productRefGroup = 84781BCA2B5BDAFC00D37921 /* Products */;
 			projectDirPath = "";
@@ -1569,6 +1573,14 @@
 				minimumVersion = 1.7.2;
 			};
 		};
+		872140082B749A5D007C3BC1 /* XCRemoteSwiftPackageReference "RxKeyboard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxKeyboard.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
 		8766B5572B641266004F266A /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
@@ -1702,6 +1714,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 87101EF82B5DF9A3004BD418 /* XCRemoteSwiftPackageReference "RxAppState" */;
 			productName = RxAppState;
+		};
+		872140092B749A5D007C3BC1 /* RxKeyboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 872140082B749A5D007C3BC1 /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
 		};
 		8766B5582B641266004F266A /* Differentiator */ = {
 			isa = XCSwiftPackageProductDependency;

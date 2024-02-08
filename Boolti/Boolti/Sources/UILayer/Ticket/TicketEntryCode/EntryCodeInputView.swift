@@ -18,6 +18,7 @@ class EntryCodeInputView: UIView {
     var textFieldText = PublishRelay<String>()
     var enableCheckButton = PublishRelay<Bool>()
     var didCheckButtonTap = PublishRelay<Void>()
+    var didCloseButtonTap = PublishRelay<Void>()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -146,6 +147,10 @@ class EntryCodeInputView: UIView {
 
         self.checkButton.rx.tap
             .bind(to: self.didCheckButtonTap)
+            .disposed(by: self.disposeBag)
+
+        self.closeButton.rx.tap
+            .bind(to: self.didCloseButtonTap)
             .disposed(by: self.disposeBag)
     }
 

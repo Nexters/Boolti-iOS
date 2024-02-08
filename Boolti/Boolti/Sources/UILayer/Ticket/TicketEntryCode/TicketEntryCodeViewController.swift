@@ -9,6 +9,7 @@ import UIKit
 
 import RxSwift
 import RxCocoa
+import RxKeyboard
 
 class TicketEntryCodeViewController: BooltiViewController {
 
@@ -44,6 +45,7 @@ class TicketEntryCodeViewController: BooltiViewController {
     }
 
     private func bindViewModel() {
+
         self.bindInputs()
         self.bindOutputs()
     }
@@ -59,6 +61,7 @@ class TicketEntryCodeViewController: BooltiViewController {
     }
 
     private func bindOutputs() {
+
         self.viewModel.output.isValidEntryCode
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, isValid in
@@ -81,6 +84,18 @@ class TicketEntryCodeViewController: BooltiViewController {
     }
 
     private func bindUIComponents() {
+
+        RxKeyboard.instance.visibleHeight
+            .skip(1)
+            .drive(with: self) { owner, keyBoardHeight in
+                print(keyBoardHeight)
+                if keyBoardHeight == 0 {
+                    owner.view.frame.origin.y = 0
+                } else {
+                    owner.view.frame.origin.y -= 50
+                }
+            }
+            .disposed(by: self.disposeBag)
 
         //        self.entryCodeInputView.textFieldText
         //            .asDriver(onErrorJustReturn: "")
@@ -105,6 +120,15 @@ class TicketEntryCodeViewController: BooltiViewController {
 
                 guard !owner.entryCodeInputView.isInvalidEntryCodeTyped else { return }
                 owner.entryCodeInputView.isInvalidEntryCodeTyped = true
+            }
+            .disposed(by: self.disposeBag)
+
+
+        self.entryCodeInputView.didCloseButtonTap
+            .take(1)
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
+                owner.dismiss(animated: true)
             }
             .disposed(by: self.disposeBag)
     }
