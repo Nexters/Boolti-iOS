@@ -9,6 +9,10 @@ import UIKit
 
 final class MyPageViewController: UIViewController {
 
+    private let logoutViewControllerFactory: () -> LogoutViewController
+    private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
+    private let qrScanViewControllerFactory: () -> QrScanViewController
+
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .home
@@ -44,8 +48,8 @@ final class MyPageViewController: UIViewController {
         return button
     }()
 
-    private let ticketingDetailsView = MypageContentView(title: "예매 내역")
-    private let qrScanView = MypageContentView(title: "QR 스캔")
+    private let ticketingReservationsNavigationView = MypageContentView(title: "예매 내역")
+    private let qrScanNavigationView = MypageContentView(title: "QR 스캔")
 
     override func viewWillLayoutSubviews() {
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
@@ -56,6 +60,22 @@ final class MyPageViewController: UIViewController {
         self.configureUI()
     }
 
+    init(
+        viewModel: MyPageViewModel,
+        logoutViewControllerViewControllerFactory: @escaping () -> LogoutViewController,
+        ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
+        qrScanViewControllerFactory: @escaping () -> QrScanViewController
+    ) {
+        self.logoutViewControllerFactory = logoutViewControllerViewControllerFactory
+        self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
+        self.qrScanViewControllerFactory = qrScanViewControllerFactory
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func configureUI() {
         self.view.backgroundColor = .black100
 
@@ -63,8 +83,8 @@ final class MyPageViewController: UIViewController {
             self.profileImageView,
             self.profileNameLabel,
             self.profileEmailView,
-            self.ticketingDetailsView,
-            self.qrScanView,
+            self.ticketingReservationsNavigationView,
+            self.qrScanNavigationView,
             self.logoutNavigationButton
         ])
 
@@ -84,16 +104,16 @@ final class MyPageViewController: UIViewController {
             make.top.equalTo(self.profileNameLabel.snp.bottom).offset(4)
         }
 
-        self.ticketingDetailsView.snp.makeConstraints { make in
+        self.ticketingReservationsNavigationView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(66)
             make.top.equalTo(self.profileImageView.snp.bottom).offset(32)
         }
 
-        self.qrScanView.snp.makeConstraints { make in
+        self.qrScanNavigationView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(66)
-            make.top.equalTo(self.ticketingDetailsView.snp.bottom).offset(12)
+            make.top.equalTo(self.ticketingReservationsNavigationView.snp.bottom).offset(12)
         }
 
         self.logoutNavigationButton.snp.makeConstraints { make in
