@@ -1,5 +1,5 @@
 //
-//  ConcertAPIService.swift
+//  ConcertRepository.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 2/7/24.
@@ -7,7 +7,7 @@
 
 import RxSwift
 
-final class ConcertAPIService: ConcertAPIServiceType {
+final class ConcertRepository: ConcertRepositoryType {
     
     let networkService: NetworkProviderType
     private let disposeBag = DisposeBag()

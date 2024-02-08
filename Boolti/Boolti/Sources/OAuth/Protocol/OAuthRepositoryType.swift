@@ -1,5 +1,5 @@
 //
-//  OAuthRepositoryType.swift
+//  OAuthAPIServiceType.swift
 //  Boolti
 //
 //  Created by Miro on 1/23/24.

@@ -1,5 +1,5 @@
 //
-//  AuthAPIService.swift
+//  AuthRepository.swift
 //  Boolti
 //
 //  Created by Miro on 1/23/24.
@@ -14,7 +14,7 @@ import RxKakaoSDKUser
 import RxSwift
 import RxMoya
 
-final class AuthAPIService: AuthAPIServiceType {
+final class AuthRepository: AuthRepositoryType {
 
     typealias isSignUpRequired = Bool
     typealias AuthToken = (String, String)

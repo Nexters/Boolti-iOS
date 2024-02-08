@@ -9,11 +9,11 @@ import Foundation
 
 final class LoginViewDIContainer {
 
-    private let authAPIService: AuthAPIServiceType
-    private let socialLoginAPIService: OAuthAPIServiceType
+    private let authRepository: AuthRepositoryType
+    private let socialLoginAPIService: OAuthRepositoryType
 
-    init(authAPIService: AuthAPIServiceType, socialLoginAPIService: OAuthAPIServiceType) {
-        self.authAPIService = authAPIService
+    init(authRepository: AuthRepositoryType, socialLoginAPIService: OAuthRepositoryType) {
+        self.authRepository = authRepository
         self.socialLoginAPIService = socialLoginAPIService
     }
 
@@ -33,7 +33,7 @@ final class LoginViewDIContainer {
 
     private func createLoginViewModel() -> LoginViewModel {
         let viewModel = LoginViewModel(
-            authAPIService: self.authAPIService,
+            authRepository: self.authRepository,
             socialLoginAPIService: self.socialLoginAPIService
         )
 
@@ -41,6 +41,6 @@ final class LoginViewDIContainer {
     }
 
     private func createTermsAgreementViewDIContainer(identityCode: String, provider: OAuthProvider) -> TermsAgreementDIContainer {
-        return TermsAgreementDIContainer(identityCode: identityCode, provider: provider ,authAPIService: self.authAPIService)
+        return TermsAgreementDIContainer(identityCode: identityCode, provider: provider ,authRepository: self.authRepository)
     }
 }

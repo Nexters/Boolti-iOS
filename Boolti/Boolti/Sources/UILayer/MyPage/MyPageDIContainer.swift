@@ -9,10 +9,10 @@ import Foundation
 
 final class MyPageDIContainer {
 
-    private let authAPIService: AuthAPIServiceType
+    private let authRepository: AuthRepositoryType
 
-    init(authAPIService: AuthAPIServiceType) {
-        self.authAPIService = authAPIService
+    init(authRepository: AuthRepositoryType) {
+        self.authRepository = authRepository
     }
 
     func createMyPageViewController() -> MyPageViewController {

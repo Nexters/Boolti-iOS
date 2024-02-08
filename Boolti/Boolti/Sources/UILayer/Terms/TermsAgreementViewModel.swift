@@ -23,16 +23,16 @@ final class TermsAgreementViewModel {
     let input: Input
     let output: Output
 
-    private let authAPIService: AuthAPIServiceType
+    private let authRepository: AuthRepositoryType
     private let identityCode: String
     private let provider: OAuthProvider
 
     private let disposeBag = DisposeBag()
 
-    init(identityCode: String, provider: OAuthProvider, authAPIService: AuthAPIServiceType) {
+    init(identityCode: String, provider: OAuthProvider, authRepository: AuthRepositoryType) {
         self.identityCode = identityCode
         self.provider = provider
-        self.authAPIService = authAPIService
+        self.authRepository = authRepository
 
         self.input = Input()
         self.output = Output()
@@ -43,7 +43,7 @@ final class TermsAgreementViewModel {
     private func bindInputs() {
         self.input.didAgreementButtonTapEvent
             .subscribe(with: self) { owner, _ in
-                owner.authAPIService.signUp(provider: owner.provider, identityToken: owner.identityCode)
+                owner.authRepository.signUp(provider: owner.provider, identityToken: owner.identityCode)
                 owner.output.didsignUpFinished.accept(())
             }
             .disposed(by: self.disposeBag)

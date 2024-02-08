@@ -27,16 +27,16 @@ final class LoginViewModel {
     let input: Input
     let output: Output
 
-    private let authAPIService: AuthAPIServiceType
-    private let socialLoginAPIService: OAuthAPIServiceType
+    private let authRepository: AuthRepositoryType
+    private let socialLoginAPIService: OAuthRepositoryType
 
     var identityToken: String?
     var provider: OAuthProvider?
 
     private let disposeBag = DisposeBag()
 
-    init(authAPIService: AuthAPIServiceType, socialLoginAPIService: OAuthAPIServiceType) {
-        self.authAPIService = authAPIService
+    init(authRepository: AuthRepositoryType, socialLoginAPIService: OAuthRepositoryType) {
+        self.authRepository = authRepository
         self.socialLoginAPIService = socialLoginAPIService
         
         self.input = Input()
@@ -52,7 +52,7 @@ final class LoginViewModel {
                     .flatMap({ OAuthResponse -> Single<Bool> in
                         let accessToken = OAuthResponse.accessToken
                         owner.identityToken = accessToken
-                        return owner.authAPIService.fetch(withProviderToken: accessToken, provider: provider)
+                        return owner.authRepository.fetch(withProviderToken: accessToken, provider: provider)
                     })
                     .subscribe(with: self) { owner, isSignUpRequired in
                         if isSignUpRequired {

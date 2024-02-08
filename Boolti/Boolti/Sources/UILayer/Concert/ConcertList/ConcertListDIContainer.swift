@@ -9,10 +9,10 @@ import UIKit
 
 final class ConcertListDIContainer {
 
-    private let concertAPIService: ConcertAPIService
+    private let concertRepository: ConcertRepository
 
-    init(concertAPIService: ConcertAPIService) {
-        self.concertAPIService = concertAPIService
+    init(concertRepository: ConcertRepository) {
+        self.concertRepository = concertRepository
     }
     
     func createConcertListViewController() -> UIViewController {
@@ -40,7 +40,7 @@ final class ConcertListDIContainer {
     }
     
     private func createConcertDetailDIContainer() -> ConcertDetailDIContainer {
-        return ConcertDetailDIContainer(concertAPIService: self.concertAPIService)
+        return ConcertDetailDIContainer(concertRepository: self.concertRepository)
     }
 
 }

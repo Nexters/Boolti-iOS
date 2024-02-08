@@ -19,7 +19,7 @@ enum TicketListViewDestination {
 
 final class TicketListViewModel {
 
-    private let authAPIService: AuthAPIServiceType
+    private let authRepository: AuthRepositoryType
     private let disposeBag = DisposeBag()
 
     // VC에서 일어나는 것
@@ -43,8 +43,8 @@ final class TicketListViewModel {
     let input: Input
     let output: Output
 
-    init(authAPIService: AuthAPIServiceType) {
-        self.authAPIService = authAPIService
+    init(authRepository: AuthRepositoryType) {
+        self.authRepository = authRepository
         
         self.input = Input()
         self.output = Output()
@@ -96,14 +96,14 @@ final class TicketListViewModel {
     }
 
     private func isAccessTokenAvailable() -> Bool {
-        let token = authAPIService.fetchTokens()
+        let token = authRepository.fetchTokens()
         let accessToken = token.0
         return (!accessToken.isEmpty)
     }
 
     private func fetchTicketList() -> Single<[TicketItemEntity]> {
         // MARK: 의존성 networkService로 바꿔주기!..
-        let networkProvider = self.authAPIService.networkService
+        let networkProvider = self.authRepository.networkService
         let ticketListAPI = TicketAPI.list
         return networkProvider.request(ticketListAPI)
             .map([TicketListItemResponseDTO].self)

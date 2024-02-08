@@ -12,7 +12,7 @@ import Firebase
 
 final class SplashViewModel {
     
-    private let authAPIservice: AuthAPIServiceType
+    private let authRepository: AuthRepositoryType
     private let navigationDelegate: SplashViewModelDelegate
 
     private let remoteConfig = RemoteConfig.remoteConfig()
@@ -23,10 +23,10 @@ final class SplashViewModel {
     
     let output: Output
     
-    init(authAPIService: AuthAPIServiceType, delegate: SplashViewModelDelegate) {
+    init(authRepository: AuthRepositoryType, delegate: SplashViewModelDelegate) {
         self.output = Output()
         
-        self.authAPIservice = authAPIService
+        self.authRepository = authRepository
         self.navigationDelegate = delegate
         self.initRemoteConfig()
     }

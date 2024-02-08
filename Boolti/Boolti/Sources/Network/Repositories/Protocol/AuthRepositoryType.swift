@@ -1,5 +1,5 @@
 //
-//  AuthAPIServiceType.swift
+//  AuthRepositoryType.swift
 //  Boolti
 //
 //  Created by Miro on 1/22/24.
@@ -8,7 +8,7 @@
 import RxSwift
 import Moya
 
-protocol AuthAPIServiceType {
+protocol AuthRepositoryType {
 
     var networkService: NetworkProviderType { get }
     func fetchTokens() -> (String, String)

@@ -1,5 +1,5 @@
 //
-//  RefreshAuthAPIService.swift
+//  RefreshAuthRepository.swift
 //  Boolti
 //
 //  Created by Miro on 1/31/24.
@@ -11,7 +11,7 @@ import Moya
 import RxSwift
 import RxMoya
 
-final class RefreshAuthAPIService {
+final class RefreshAuthRepository {
 
     private let provider =  MoyaProvider<AuthAPI>()
     private let disposeBag = DisposeBag()

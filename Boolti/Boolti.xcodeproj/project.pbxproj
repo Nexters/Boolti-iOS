@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D84032B6F5C610078D352 /* TicketingPeriodView.swift */; };
 		841D77D22B73B0C10068B1C5 /* ConcertAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D12B73B0C10068B1C5 /* ConcertAPI.swift */; };
-		841D77D42B73B1B00068B1C5 /* ConcertAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D32B73B1B00068B1C5 /* ConcertAPIService.swift */; };
-		841D77D62B73B3210068B1C5 /* ConcertAPIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D52B73B3210068B1C5 /* ConcertAPIServiceType.swift */; };
+		841D77D42B73B1B00068B1C5 /* ConcertRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */; };
+		841D77D62B73B3210068B1C5 /* ConcertRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D52B73B3210068B1C5 /* ConcertRepositoryType.swift */; };
 		841D77D82B73D2A20068B1C5 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D72B73D2A20068B1C5 /* String+.swift */; };
 		841D77DB2B745FB40068B1C5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 841D77DA2B745FB40068B1C5 /* Kingfisher */; };
 		841D77DD2B7462980068B1C5 /* TicketItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D3B2B6C09B500B42AF9 /* TicketItemEntity.swift */; };
@@ -131,7 +131,7 @@
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
-		87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */; };
+		87101EFE2B5DFCD2004BD418 /* AuthRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFD2B5DFCD2004BD418 /* AuthRepositoryType.swift */; };
 		8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8724C4BE2B6221A500484BFC /* UIView+.swift */; };
 		8746AD012B67F7610037A1B1 /* TicketMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD002B67F7610037A1B1 /* TicketMainView.swift */; };
 		8746AD102B680A290037A1B1 /* SelectedTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD0F2B680A290037A1B1 /* SelectedTicketView.swift */; };
@@ -153,7 +153,7 @@
 		8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9F2B5FDDAB008503B5 /* LoginViewDIContainer.swift */; };
 		8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA12B5FDE0D008503B5 /* LoginViewModel.swift */; };
 		8757BAA42B5FDEA2008503B5 /* OAuthAPIServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA32B5FDEA2008503B5 /* OAuthAPIServiceType.swift */; };
-		8757BAA62B5FDED7008503B5 /* OAuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA52B5FDED7008503B5 /* OAuthAPIService.swift */; };
+		8757BAA62B5FDED7008503B5 /* OAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA52B5FDED7008503B5 /* OAuthRepository.swift */; };
 		8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA72B5FDF0F008503B5 /* OAuth.swift */; };
 		8757BAAA2B5FDF29008503B5 /* KakaoOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAA92B5FDF29008503B5 /* KakaoOAuth.swift */; };
 		8757BAAC2B5FDF69008503B5 /* AppleOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAAB2B5FDF69008503B5 /* AppleOAuth.swift */; };
@@ -196,8 +196,8 @@
 /* Begin PBXFileReference section */
 		840D84032B6F5C610078D352 /* TicketingPeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingPeriodView.swift; sourceTree = "<group>"; };
 		841D77D12B73B0C10068B1C5 /* ConcertAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertAPI.swift; sourceTree = "<group>"; };
-		841D77D32B73B1B00068B1C5 /* ConcertAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertAPIService.swift; sourceTree = "<group>"; };
-		841D77D52B73B3210068B1C5 /* ConcertAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertAPIServiceType.swift; sourceTree = "<group>"; };
+		841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertRepository.swift; sourceTree = "<group>"; };
+		841D77D52B73B3210068B1C5 /* ConcertRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertRepositoryType.swift; sourceTree = "<group>"; };
 		841D77D72B73D2A20068B1C5 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		841D77E02B7464250068B1C5 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailEntity.swift; sourceTree = "<group>"; };
@@ -294,7 +294,7 @@
 		84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingEntity.swift; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
-		87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIServiceType.swift; sourceTree = "<group>"; };
+		87101EFD2B5DFCD2004BD418 /* AuthRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryType.swift; sourceTree = "<group>"; };
 		8724C4BE2B6221A500484BFC /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		8746ACFE2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketListCollectionViewCell.swift; sourceTree = "<group>"; };
 		8746AD002B67F7610037A1B1 /* TicketMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketMainView.swift; sourceTree = "<group>"; };
@@ -317,7 +317,7 @@
 		8757BA9F2B5FDDAB008503B5 /* LoginViewDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewDIContainer.swift; sourceTree = "<group>"; };
 		8757BAA12B5FDE0D008503B5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		8757BAA32B5FDEA2008503B5 /* OAuthAPIServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthAPIServiceType.swift; sourceTree = "<group>"; };
-		8757BAA52B5FDED7008503B5 /* OAuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthAPIService.swift; sourceTree = "<group>"; };
+		8757BAA52B5FDED7008503B5 /* OAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthRepository.swift; sourceTree = "<group>"; };
 		8757BAA72B5FDF0F008503B5 /* OAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		8757BAA92B5FDF29008503B5 /* KakaoOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoOAuth.swift; sourceTree = "<group>"; };
 		8757BAAB2B5FDF69008503B5 /* AppleOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleOAuth.swift; sourceTree = "<group>"; };
@@ -394,21 +394,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		84360F6E2B6BF6C5009510D9 /* Services */ = {
+		84360F6E2B6BF6C5009510D9 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
 				84360F6F2B6BF6D4009510D9 /* Protocol */,
 				84360F702B6BF70E009510D9 /* Auth */,
-				841D77D32B73B1B00068B1C5 /* ConcertAPIService.swift */,
+				841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */,
 			);
-			path = Services;
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 		84360F6F2B6BF6D4009510D9 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				87101EFD2B5DFCD2004BD418 /* AuthAPIServiceType.swift */,
-				841D77D52B73B3210068B1C5 /* ConcertAPIServiceType.swift */,
+				87101EFD2B5DFCD2004BD418 /* AuthRepositoryType.swift */,
+				841D77D52B73B3210068B1C5 /* ConcertRepositoryType.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -546,7 +546,7 @@
 				84781BEB2B5BE38900D37921 /* Foundation */,
 				84781C792B5BEBDA00D37921 /* DTO */,
 				84781C852B5BED8D00D37921 /* APIs */,
-				84360F6E2B6BF6C5009510D9 /* Services */,
+				84360F6E2B6BF6C5009510D9 /* Repositories */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1043,7 +1043,7 @@
 			isa = PBXGroup;
 			children = (
 				8757BAB12B6006AB008503B5 /* Protocol */,
-				8757BAA52B5FDED7008503B5 /* OAuthAPIService.swift */,
+				8757BAA52B5FDED7008503B5 /* OAuthRepository.swift */,
 				8757BAA92B5FDF29008503B5 /* KakaoOAuth.swift */,
 				8757BAAB2B5FDF69008503B5 /* AppleOAuth.swift */,
 				8757BAAD2B60067A008503B5 /* OAuthProvider.swift */,
@@ -1239,8 +1239,8 @@
 				8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */,
 				840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */,
 				84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */,
-				87101EFE2B5DFCD2004BD418 /* AuthAPIServiceType.swift in Sources */,
-				841D77D42B73B1B00068B1C5 /* ConcertAPIService.swift in Sources */,
+				87101EFE2B5DFCD2004BD418 /* AuthRepositoryType.swift in Sources */,
+				841D77D42B73B1B00068B1C5 /* ConcertRepository.swift in Sources */,
 				8753CA772B71F004002871C7 /* TicketListItemResponseDTO.swift in Sources */,
 				849FBD512B5E920A006EB865 /* AppInfo.swift in Sources */,
 				84FBBE0B2B6888CB009462E9 /* InvitationCodeView.swift in Sources */,
@@ -1281,7 +1281,7 @@
 				84896A452B6A672800CB3E33 /* TicketingCompletionViewController.swift in Sources */,
 				84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */,
 				84896A552B6A8E1500CB3E33 /* DepositDetailView.swift in Sources */,
-				8757BAA62B5FDED7008503B5 /* OAuthAPIService.swift in Sources */,
+				8757BAA62B5FDED7008503B5 /* OAuthRepository.swift in Sources */,
 				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
 				8753CA732B71EA68002871C7 /* TicketAPI.swift in Sources */,
 				84781CC02B5BF98600D37921 /* MypageViewController.swift in Sources */,
@@ -1290,7 +1290,7 @@
 				84DF59E52B726E3F000816DA /* ConcertContentExpandViewModel.swift in Sources */,
 				84DF59E12B726E0A000816DA /* ConcertContentExpandDIContainer.swift in Sources */,
 				84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */,
-				841D77D62B73B3210068B1C5 /* ConcertAPIServiceType.swift in Sources */,
+				841D77D62B73B3210068B1C5 /* ConcertRepositoryType.swift in Sources */,
 				876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */,
 				84781CC52B5BF9DE00D37921 /* TicketListViewController.swift in Sources */,
 				876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */,
