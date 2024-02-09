@@ -18,21 +18,14 @@ final class ConcertListViewController: UIViewController {
     private let concertDetailViewControllerFactory: () -> ConcertDetailViewController
     
     // MARK: UI Component
-
-    let nextButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("다음", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)
-
-        return button
+    
+    private let concertCollectionView: UICollectionView = {
+        let layout = ConcertCollectionViewFlowLayout(stickyIndexPath: IndexPath(item: 1, section: 0))
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return collectionView
     }()
 
-    let safeView: UIView = {
-        let view = UIView()
 
-        view.backgroundColor = .grey50
-        return view
-    }()
 
     // MARK: Init
     
@@ -54,26 +47,25 @@ final class ConcertListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .grey95
-
-        view.addSubview(nextButton)
-        view.addSubview(safeView)
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nextButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-        ])
-
-        self.nextButton.rx.tap
-            .bind(with: self, onNext: { owner, _ in
-                let viewController = self.concertDetailViewControllerFactory()
-                self.navigationController?.pushViewController(viewController, animated: true)
-            })
-            .disposed(by: self.disposeBag)
+        self.configureUI()
+        self.configureConstraints()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+}
+
+// MARK: - UI
+
+extension ConcertListViewController {
+    
+    private func configureUI() {
+        self.view.backgroundColor = .grey95
+    }
+    
+    private func configureConstraints() {
+        
     }
 }

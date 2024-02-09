@@ -1,0 +1,75 @@
+//
+//  ConcertCollectionViewCell.swift
+//  Boolti
+//
+//  Created by Juhyeon Byun on 2/9/24.
+//
+
+import UIKit
+
+final class ConcertCollectionViewCell: UICollectionViewCell {
+    
+    // MARK: Properties
+    
+    private let posterImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 8
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.grey80.cgColor
+        return imageView
+    }()
+    
+    private let datetime: UILabel = {
+        let label = UILabel()
+        label.font = .body1
+        label.textColor = .grey30
+        return label
+    }()
+    
+    private let name: UILabel = {
+        let label = UILabel()
+        label.font = .point1
+        label.textColor = .grey05
+        return label
+    }()
+    
+    // MARK: Init
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.configureUI()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+}
+
+// MARK: - Methods
+
+extension ConcertCollectionViewCell {
+    
+    func setData(concertEntity: ConcertEntity) {
+        self.posterImageView.setImage(with: concertEntity.posterPath)
+        self.datetime.text = concertEntity.dateTime.format(.dateTime)
+        self.name.text = concertEntity.name
+    }
+}
+
+// MARK: - UI
+
+extension ConcertCollectionViewCell {
+    
+    private func configureUI() {
+        self.addSubviews([self.posterImageView,
+                          self.datetime,
+                          self.name])
+    }
+    
+    private func configureConstraints() {
+        self.posterImageView.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+            make.height.equalTo(self.posterImageView.snp.width).multipliedBy(1.406)
+        }
+    }
+}
