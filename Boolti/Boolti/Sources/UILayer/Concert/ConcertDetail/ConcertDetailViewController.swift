@@ -103,15 +103,10 @@ final class ConcertDetailViewController: BooltiViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .grey95
-        
         self.configureUI()
         self.configureConstraints()
         self.configureToastView(isButtonExisted: true)
-        self.bindLoginEnterView()
-        self.bindPlaceInfoView()
-        self.bindContentInfoView()
-        self.bindNavigationBar()
+        self.bindUIComponents()
         self.bindInputs()
         self.bindOutputs()
     }
@@ -187,6 +182,13 @@ extension ConcertDetailViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+    }
+    
+    private func bindUIComponents() {
+        self.bindLoginEnterView()
+        self.bindPlaceInfoView()
+        self.bindContentInfoView()
+        self.bindNavigationBar()
     }
     
     private func bindLoginEnterView() {
@@ -270,6 +272,8 @@ extension ConcertDetailViewController {
                                self.buttonBackgroundView,
                                self.ticketingButton,
                                self.loginEnterView])
+        
+        self.view.backgroundColor = .grey95
     }
     
     private func configureConstraints() {
