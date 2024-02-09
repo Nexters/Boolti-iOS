@@ -58,6 +58,7 @@ final class MyPageViewController: UIViewController {
         let button = UIButton()
         button.setTitle("로그아웃", for: .normal)
         button.setUnderline(font: .pretendardR(14), textColor: .grey50)
+        button.isHidden = true
 
         return button
     }()
@@ -149,7 +150,7 @@ final class MyPageViewController: UIViewController {
         self.logoutNavigationButton.rx.tap
             .bind(with: self) { owner, _ in
                 guard let viewController = owner.createViewController(.logout) as? LogoutViewController else { return }
-                viewController.modalPresentationStyle = .overFullScreen
+                viewController.modalPresentationStyle = .fullScreen
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
@@ -161,10 +162,10 @@ final class MyPageViewController: UIViewController {
     }
 
     private func bindInputs() {
-        self.rx.viewDidAppear
+        self.rx.viewWillAppear
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, _ in
-                owner.viewModel.input.viewDidAppearEvent.onNext(())
+                owner.viewModel.input.viewWillAppearEvent.onNext(())
             }
             .disposed(by: self.disposeBag)
     }
@@ -176,14 +177,16 @@ final class MyPageViewController: UIViewController {
                 if isLoaded {
                     owner.updateProfileUI()
                 } else {
-                    owner.logoutNavigationButton.isHidden = true
-                    owner.loginNavigationButton.isHidden = true
+                    owner.resetProfileUI()
                 }
             }
             .disposed(by: self.disposeBag)
     }
 
     private func updateProfileUI() {
+        self.loginNavigationButton.isHidden.toggle()
+        self.logoutNavigationButton.isHidden.toggle()
+
         let profileImageURLPath = UserDefaults.userImageURLPath
         let userName = UserDefaults.userName
         let userEmail = UserDefaults.userEmail
@@ -191,6 +194,15 @@ final class MyPageViewController: UIViewController {
         self.profileImageView.setImage(with: profileImageURLPath)
         self.profileNameLabel.text = userName
         self.profileEmailLabel.text = userEmail
+    }
+
+    private func resetProfileUI() {
+        self.logoutNavigationButton.isHidden.toggle()
+        self.loginNavigationButton.isHidden.toggle()
+
+        self.profileImageView.image = .home
+        self.profileNameLabel.text = "불티 로그인 하러가기"
+        self.profileEmailLabel.text = "원하는 공연 티켓을 예매해보세요!"
     }
 
 

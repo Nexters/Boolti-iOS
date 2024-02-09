@@ -30,7 +30,7 @@ class NetworkProvider: NetworkProviderType {
             .filterSuccessfulStatusCodes()
             .do(
                 onSuccess: { response in
-//                    print("SUCCESS: \(requestString) (\(response.statusCode))")
+                    print("SUCCESS: \(requestString) (\(response.statusCode))")
 //                    #if DEBUG
 //                    do {
 //                        let data = response.data

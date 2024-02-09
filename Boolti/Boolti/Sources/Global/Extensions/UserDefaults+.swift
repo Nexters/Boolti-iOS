@@ -43,7 +43,7 @@ extension UserDefaults {
     }
 
     static func removeAllTokens() {
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.accessToken.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.refreshToken.rawValue)
+        UserDefaults.accessToken = ""
+        UserDefaults.refreshToken = ""
     }
 }

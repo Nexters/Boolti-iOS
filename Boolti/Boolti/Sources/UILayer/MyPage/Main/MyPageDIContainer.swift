@@ -50,7 +50,7 @@ final class MyPageDIContainer {
     }
 
     private func createLogoutDIContainer() -> LogoutDIContainer {
-        return LogoutDIContainer(networkService: self.authRepository.networkService)
+        return LogoutDIContainer(authRepository: self.authRepository)
     }
 
     private func createTicketReservationsDIContainer() -> TicketReservationsDIContainer {

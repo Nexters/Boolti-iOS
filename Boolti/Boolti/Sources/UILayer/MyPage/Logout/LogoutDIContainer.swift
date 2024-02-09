@@ -9,10 +9,10 @@ import Foundation
 
 final class LogoutDIContainer {
 
-    private let networkService: NetworkProviderType
+    private let authRepository: AuthRepositoryType
 
-    init(networkService: NetworkProviderType) {
-        self.networkService = networkService
+    init(authRepository: AuthRepositoryType) {
+        self.authRepository = authRepository
     }
 
     func createLogoutViewController() -> LogoutViewController {
@@ -20,6 +20,6 @@ final class LogoutDIContainer {
     }
 
     private func createLogoutViewModel() -> LogoutViewModel {
-        return LogoutViewModel(logoutRepository: LogoutRepository(networkService: self.networkService))
+        return LogoutViewModel(logoutRepository: LogoutRepository(authRepository: authRepository))
     }
 }

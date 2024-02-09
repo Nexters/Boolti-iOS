@@ -16,7 +16,7 @@ final class MyPageViewModel {
     private let networkService: NetworkProviderType
 
     struct Input {
-        var viewDidAppearEvent = PublishSubject<Void>()
+        var viewWillAppearEvent = PublishSubject<Void>()
     }
 
     struct Output {
@@ -39,7 +39,7 @@ final class MyPageViewModel {
     }
 
     private func bindInputs() {
-        self.input.viewDidAppearEvent
+        self.input.viewWillAppearEvent
             .subscribe(with: self) { owner, _ in
                 if owner.isAccessTokenAvailable() {
                     owner.output.isAccessTokenLoaded.accept(true)

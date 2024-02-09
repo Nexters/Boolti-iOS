@@ -11,6 +11,7 @@ import RxSwift
 import RxMoya
 
 protocol LogoutRepositoryType {
+    var authRepository: AuthRepositoryType { get }
     var networkService: NetworkProviderType { get }
     func logout() -> Single<Void>
 }
@@ -18,14 +19,19 @@ protocol LogoutRepositoryType {
 final class LogoutRepository: LogoutRepositoryType {
 
     var networkService: NetworkProviderType
+    var authRepository: AuthRepositoryType
 
-    init(networkService: NetworkProviderType) {
-        self.networkService = networkService
+    init(authRepository: AuthRepositoryType) {
+        self.authRepository = authRepository
+        self.networkService = authRepository.networkService
     }
 
     func logout() -> Single<Void> {
         let api = LogoutAPI.logout
         return self.networkService.request(api)
+            .do(onSuccess: { [weak self] _ in
+                self?.authRepository.removeAllTokens()
+            })
             .map { _ in return () }
     }
 }
