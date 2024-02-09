@@ -39,7 +39,7 @@ extension SearchBarCollectionViewCell {
     
     private func configureConstraints() {
         self.searchBar.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview()
             make.verticalEdges.equalToSuperview().inset(16)
         }
     }
