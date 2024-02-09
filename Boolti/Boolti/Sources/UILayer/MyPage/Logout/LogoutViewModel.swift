@@ -25,10 +25,10 @@ final class LogoutViewModel {
 
     private let disposeBag = DisposeBag()
 
-    private let logoutRepository: LogoutRepositoryType
+    private let authRepository: AuthRepositoryType
 
-    init(logoutRepository: LogoutRepositoryType) {
-        self.logoutRepository = logoutRepository
+    init(authRepository: AuthRepositoryType) {
+        self.authRepository = authRepository
 
         self.input = Input()
         self.output = Output()
@@ -46,6 +46,6 @@ final class LogoutViewModel {
     }
 
     private func logoutAccount() -> Single<Void> {
-        return self.logoutRepository.logout()
+        return self.authRepository.logout()
     }
 }

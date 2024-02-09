@@ -20,6 +20,6 @@ final class LogoutDIContainer {
     }
 
     private func createLogoutViewModel() -> LogoutViewModel {
-        return LogoutViewModel(logoutRepository: LogoutRepository(authRepository: authRepository))
+        return LogoutViewModel(authRepository: self.authRepository)
     }
 }

@@ -15,4 +15,5 @@ protocol AuthRepositoryType {
     func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<Bool>
     func signUp(provider: OAuthProvider, identityToken: String?)
     func removeAllTokens()
+    func logout() -> Single<Void>
 }

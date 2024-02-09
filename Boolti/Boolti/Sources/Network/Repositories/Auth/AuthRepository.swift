@@ -138,4 +138,13 @@ final class AuthRepository: AuthRepositoryType {
     func removeAllTokens() {
         UserDefaults.removeAllTokens()
     }
+    
+    func logout() -> Single<Void> {
+        let api = AuthAPI.logout
+        return self.networkService.request(api)
+            .do(onSuccess: { [weak self] _ in
+                self?.removeAllTokens()
+            })
+            .map { _ in return () }
+    }
 }
