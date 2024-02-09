@@ -21,6 +21,7 @@ class TicketReservationsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .pretendardR(14)
         label.textColor = .grey50
+        label.text = "상세 보기"
 
         return label
     }()
@@ -68,16 +69,26 @@ class TicketReservationsTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.configureUI()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
 
+    func setData(with ticketReservation: TicketReservationEntity) {
+        self.configureUI()
+
+        self.reservationDateLabel.text = ticketReservation.reservationDate
+        self.concertPosterImageView.setImage(with: ticketReservation.concertImageURLPath)
+        self.reservationStatusLabel.text = ticketReservation.reservationStatus.rawValue
+        self.concertTitleLabel.text = ticketReservation.concertTitle
+        self.reservationDetailLabel.text = "\(ticketReservation.ticketName) / \(ticketReservation.ticketCount)매 / \(ticketReservation.ticketPrice)매"
+
+    }
+
     private func configureUI() {
         self.backgroundColor = .grey90
-        
+
         self.addSubviews([
             self.reservationDateLabel,
             self.detailNavigationLabel,
@@ -111,21 +122,20 @@ class TicketReservationsTableViewCell: UITableViewCell {
         }
 
         self.reservationStatusLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.concertPosterImageView.snp.top).inset(3)
+            make.top.equalTo(self.concertPosterImageView.snp.top).inset(5)
             make.left.equalTo(self.concertPosterImageView.snp.right).offset(16)
         }
 
         self.concertTitleLabel.snp.makeConstraints { make in
             make.left.equalTo(self.reservationStatusLabel)
-            make.top.equalTo(self.reservationStatusLabel.snp.bottom).offset(6)
+            make.centerY.equalTo(self.concertPosterImageView)
+            make.right.equalToSuperview().inset(20)
         }
 
         self.reservationDetailLabel.snp.makeConstraints { make in
             make.left.equalTo(self.reservationStatusLabel)
-            make.top.equalTo(self.concertTitleLabel.snp.bottom).offset(4)
+            make.bottom.equalTo(self.concertPosterImageView.snp.bottom).inset(5)
         }
-
-
     }
 
 }

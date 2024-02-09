@@ -165,6 +165,13 @@ final class MyPageViewController: UIViewController {
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
+
+        self.ticketingReservationsNavigationView.didNavigationButtonTap
+            .bind(with: self) { owner, _ in
+                guard let viewController = owner.createViewController(.ticketReservations) as? TicketReservationsViewController else { return }
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {

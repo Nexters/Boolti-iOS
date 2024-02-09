@@ -7,7 +7,14 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 class MypageContentView: UIView {
+
+    let didNavigationButtonTap = PublishSubject<Void>()
+
+    private let disposeBag = DisposeBag()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -28,6 +35,7 @@ class MypageContentView: UIView {
         super.init(frame: .zero)
         self.titleLabel.text = title
         self.configureUI()
+        self.bindUIComponents()
     }
     
     required init?(coder: NSCoder) {
@@ -51,5 +59,11 @@ class MypageContentView: UIView {
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(20)
         }
+    }
+
+    private func bindUIComponents() {
+        self.navigateButton.rx.tap
+            .bind(to: self.didNavigationButtonTap)
+            .disposed(by: self.disposeBag)
     }
 }
