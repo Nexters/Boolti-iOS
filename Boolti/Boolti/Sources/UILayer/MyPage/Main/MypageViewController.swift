@@ -198,13 +198,19 @@ final class MyPageViewController: UIViewController {
         self.loginNavigationButton.isHidden = true
         self.logoutNavigationButton.isHidden = false
 
-        let profileImageURLPath = UserDefaults.userImageURLPath
         let userName = UserDefaults.userName
         let userEmail = UserDefaults.userEmail
 
-        self.profileImageView.setImage(with: profileImageURLPath)
         self.profileNameLabel.text = userName
         self.profileEmailLabel.text = userEmail
+        
+        let profileImageURLPath = UserDefaults.userImageURLPath
+
+        if profileImageURLPath.isEmpty {
+            self.profileImageView.image = .home
+        } else {
+            self.profileImageView.setImage(with: profileImageURLPath)
+        }
     }
 
     private func resetProfileUI() {
