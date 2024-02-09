@@ -57,8 +57,9 @@ final class AuthRepository: AuthRepositoryType {
     private func setKakaoUserInformation() {
         UserApi.shared.rx.me()
             .subscribe(with: self, onSuccess: { owner, user in
+
                 let email = user.kakaoAccount?.email ?? ""
-                let nickName = user.kakaoAccount?.name ?? ""
+                let nickName = user.kakaoAccount?.profile?.nickname ?? ""
                 let imagePath = user.kakaoAccount?.profile?.profileImageUrl?.absoluteString ?? ""
 
                 UserDefaults.userName = nickName
@@ -83,7 +84,7 @@ final class AuthRepository: AuthRepositoryType {
             .subscribe(with: self, onSuccess: { owner, user in
                 let email = user.kakaoAccount?.email ?? ""
                 let phoneNumber = user.kakaoAccount?.phoneNumber ?? ""
-                let nickName = user.kakaoAccount?.name ?? ""
+                let nickName = user.kakaoAccount?.profile?.nickname ?? ""
                 let userID = user.id ?? 0
                 let imagePath = user.kakaoAccount?.profile?.profileImageUrl?.absoluteString ?? ""
 

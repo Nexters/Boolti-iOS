@@ -5,17 +5,17 @@
 //  Created by Miro on 1/20/24.
 //
 
-import Foundation
+import UIKit
 
 final class MyPageDIContainer {
 
-    private let networkService: NetworkProviderType
+    private let authRepository: AuthRepositoryType
 
     init(authRepository: AuthRepositoryType) {
-        self.networkService = authRepository.networkService
+        self.authRepository = authRepository
     }
 
-    func createMyPageViewController() -> MyPageViewController {
+    func createMyPageViewController() -> UIViewController {
         let logoutViewControllerFactory = {
             let DIContainer = self.createLogoutDIContainer()
             let viewController = DIContainer.createLogoutViewController()
@@ -44,15 +44,17 @@ final class MyPageDIContainer {
             qrScanViewControllerFactory: QrScanViewControllerFactory
         )
 
-        return viewController
+        let navigationController = UINavigationController(rootViewController: viewController)
+
+        return navigationController
     }
 
     private func createLogoutDIContainer() -> LogoutDIContainer {
-        return LogoutDIContainer(networkService: self.networkService)
+        return LogoutDIContainer(networkService: self.authRepository.networkService)
     }
 
     private func createTicketReservationsDIContainer() -> TicketReservationsDIContainer {
-        return TicketReservationsDIContainer(networkService: self.networkService)
+        return TicketReservationsDIContainer(networkService: self.authRepository.networkService)
     }
 
     private func createqrScanDIContainer() -> QrScanDIContainer {
@@ -60,6 +62,6 @@ final class MyPageDIContainer {
     }
 
     private func createMyPageViewModel() -> MyPageViewModel {
-        return MyPageViewModel(networkService: self.networkService)
+        return MyPageViewModel(authRepository: self.authRepository, networkService: self.authRepository.networkService)
     }
 }

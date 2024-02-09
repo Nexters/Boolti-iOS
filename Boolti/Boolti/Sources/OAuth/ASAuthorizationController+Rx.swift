@@ -41,7 +41,7 @@ extension Reactive where Base: ASAuthorizationController {
                       let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
                       let appleIdentityToken = appleIDCredential.identityToken
                 else { return nil }
-
+                UserDefaults.userName = appleIDCredential.fullName?.description ?? ""
                 UserDefaults.userId = appleIDCredential.user
                 UserDefaults.userEmail = appleIDCredential.email ?? ""
 

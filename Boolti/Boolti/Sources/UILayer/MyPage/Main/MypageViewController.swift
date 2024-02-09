@@ -9,6 +9,7 @@ import UIKit
 
 import RxSwift
 import RxCocoa
+import RxAppState
 
 final class MyPageViewController: UIViewController {
 
@@ -17,6 +18,7 @@ final class MyPageViewController: UIViewController {
     private let qrScanViewControllerFactory: () -> QrScanViewController
 
     private let disposeBag = DisposeBag()
+    private let viewModel: MyPageViewModel
 
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -29,20 +31,27 @@ final class MyPageViewController: UIViewController {
 
     private let profileNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "김불티 Kim Boolti"
+        label.text = "불티 로그인 하러가기"
         label.font = .subhead2
         label.textColor = .grey10
 
         return label
     }()
 
-    private let profileEmailView: UILabel = {
+    private let profileEmailLabel: UILabel = {
         let label = UILabel()
-        label.text = "boolti1234@gmail.com"
+        label.text = "원하는 공연 티켓을 예매해보세요!"
         label.font = .body3
         label.textColor = .grey30
 
         return label
+    }()
+
+    private let loginNavigationButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.navigate, for: .normal)
+
+        return button
     }()
 
     private let logoutNavigationButton: UIButton = {
@@ -64,6 +73,7 @@ final class MyPageViewController: UIViewController {
         super.viewDidLoad()
         self.configureUI()
         self.bindUIComponents()
+        self.bindViewModel()
     }
 
     init(
@@ -72,6 +82,7 @@ final class MyPageViewController: UIViewController {
         ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
         qrScanViewControllerFactory: @escaping () -> QrScanViewController
     ) {
+        self.viewModel = viewModel
         self.logoutViewControllerFactory = logoutViewControllerViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.qrScanViewControllerFactory = qrScanViewControllerFactory
@@ -88,7 +99,8 @@ final class MyPageViewController: UIViewController {
         self.view.addSubviews([
             self.profileImageView,
             self.profileNameLabel,
-            self.profileEmailView,
+            self.profileEmailLabel,
+            self.loginNavigationButton,
             self.ticketingReservationsNavigationView,
             self.qrScanNavigationView,
             self.logoutNavigationButton
@@ -105,9 +117,14 @@ final class MyPageViewController: UIViewController {
             make.top.equalTo(self.profileImageView.snp.top).offset(8)
         }
 
-        self.profileEmailView.snp.makeConstraints { make in
+        self.profileEmailLabel.snp.makeConstraints { make in
             make.left.equalTo(self.profileNameLabel)
             make.top.equalTo(self.profileNameLabel.snp.bottom).offset(4)
+        }
+
+        self.loginNavigationButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.centerY.equalTo(self.profileImageView.snp.centerY)
         }
 
         self.ticketingReservationsNavigationView.snp.makeConstraints { make in
@@ -136,6 +153,44 @@ final class MyPageViewController: UIViewController {
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func bindViewModel() {
+        self.bindInputs()
+        self.bindOutputs()
+    }
+
+    private func bindInputs() {
+        self.rx.viewDidAppear
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.viewDidAppearEvent.onNext(())
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindOutputs() {
+        self.viewModel.output.isAccessTokenLoaded
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isLoaded in
+                if isLoaded {
+                    owner.updateProfileUI()
+                } else {
+                    owner.logoutNavigationButton.isHidden = true
+                    owner.loginNavigationButton.isHidden = true
+                }
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func updateProfileUI() {
+        let profileImageURLPath = UserDefaults.userImageURLPath
+        let userName = UserDefaults.userName
+        let userEmail = UserDefaults.userEmail
+
+        self.profileImageView.setImage(with: profileImageURLPath)
+        self.profileNameLabel.text = userName
+        self.profileEmailLabel.text = userEmail
     }
 
 

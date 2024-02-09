@@ -39,8 +39,13 @@ final class LogoutViewModel {
     private func bindInputs() {
         self.input.didLogoutConfirmButtonTap
             .flatMap { self.logoutAccount() }
+            .do(onNext: { _ in
+                // 회원 토큰 초기화하기!
+                UserDefaults.accessToken = ""
+                UserDefaults.refreshToken = ""
+            })
             .subscribe(with: self) { owner, _ in
-                // VC에게 알리기!..
+                owner.output.didLogoutAccount.accept(())
             }
             .disposed(by: self.disposeBag)
     }
