@@ -12,6 +12,7 @@ import Moya
 enum ConcertAPI {
 
     case detail(requestDTO: ConcertDetailRequestDTO)
+    case salesTicket(requestDTO: SalesTicketRequestDTO)
 }
 
 extension ConcertAPI: ServiceAPI {
@@ -20,6 +21,8 @@ extension ConcertAPI: ServiceAPI {
         switch self {
         case .detail(let DTO):
             return "/papi/v1/show/\(DTO.id)"
+        case .salesTicket(let DTO):
+            return "/api/v1/sales-ticket-type/\(DTO.showId)"
         }
     }
     

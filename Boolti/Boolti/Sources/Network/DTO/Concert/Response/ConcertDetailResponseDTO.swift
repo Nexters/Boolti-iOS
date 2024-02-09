@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ConcertDetailResponseDTO: Codable {
+struct ConcertDetailResponseDTO: Decodable {
     
     let id: Int
     let groupId: Int
@@ -28,7 +28,7 @@ struct ConcertDetailResponseDTO: Codable {
     let hostName: String
     let hostPhoneNumber: String
     
-    struct ShowImg: Codable {
+    struct ShowImg: Decodable {
         let id: Int
         let showId: Int
         let path: String

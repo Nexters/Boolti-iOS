@@ -29,7 +29,8 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
          ticketingDetailViewControllerFactory: @escaping (SalesTicketEntity) -> TicketingDetailViewController) {
         self.viewModel = viewModel
         self.ticketingDetailViewControllerFactory = ticketingDetailViewControllerFactory
-        super.init(nibName: nil, bundle: nil)
+        
+        super.init()
     }
     
     required init?(coder: NSCoder) {
@@ -37,14 +38,21 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     }
     
     // MARK: Life Cycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.configureUI()
         self.configureConstraints()
+        self.configureLoadingIndicatorView()
         self.bindInputs()
         self.bindOutputs()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewModel.fetchSalesTicket() {
+            self.showContentView(.ticketTypeList)
+        }
     }
 }
 
@@ -68,16 +76,8 @@ extension TicketSelectionViewController {
                 owner.pushTicketingDetailViewController()
             }
             .disposed(by: self.disposeBag)
-    }
-    
-    private func bindOutputs() {
-        self.viewModel.output.tickets
-            .bind(to: ticketTypeView.tableView.rx.items(cellIdentifier: TicketTypeTableViewCell.className, cellType: TicketTypeTableViewCell.self)) { index, item, cell in
-                cell.selectionStyle = .none
-                cell.setData(entity: item)
-            }.disposed(by: self.disposeBag)
         
-        self.viewModel.output.selectedTickets
+        self.viewModel.input.selectedTickets
             .bind(to: selectedTicketView.tableView.rx.items(cellIdentifier: SelectedTicketTableViewCell.className, cellType: SelectedTicketTableViewCell.self)) { index, item, cell in
                 cell.selectionStyle = .none
                 cell.setData(entity: item)
@@ -88,6 +88,18 @@ extension TicketSelectionViewController {
                         owner.viewModel.input.didDeleteButtonTap.onNext(item.id)
                     })
                     .disposed(by: cell.disposeBag)
+            }.disposed(by: self.disposeBag)
+    }
+    
+    private func bindOutputs() {
+        self.viewModel.output.isLoading
+            .bind(to: self.isLoading)
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.salesTickets
+            .bind(to: ticketTypeView.tableView.rx.items(cellIdentifier: TicketTypeTableViewCell.className, cellType: TicketTypeTableViewCell.self)) { index, item, cell in
+                cell.selectionStyle = .none
+                cell.setData(entity: item)
             }.disposed(by: self.disposeBag)
         
         self.viewModel.output.totalPrice
@@ -110,18 +122,18 @@ extension TicketSelectionViewController {
         case .ticketTypeList:
             self.ticketTypeView.isHidden = false
             self.selectedTicketView.isHidden = true
-            self.setDetent(contentHeight: CGFloat(self.viewModel.output.tickets.value.count) * self.ticketTypeView.cellHeight, contentType: .ticketTypeList)
+            self.setDetent(contentHeight: CGFloat(self.viewModel.output.salesTicketEntity?.count ?? 0) * self.ticketTypeView.cellHeight, contentType: .ticketTypeList)
         case .selectedTicket:
             self.ticketTypeView.isHidden = true
             self.selectedTicketView.isHidden = false
-            self.setDetent(contentHeight: CGFloat(self.viewModel.output.selectedTickets.value.count) * self.selectedTicketView.cellHeight + 122, contentType: .selectedTicket)
+            self.setDetent(contentHeight: CGFloat(self.viewModel.input.selectedTickets.value.count) * self.selectedTicketView.cellHeight + 122, contentType: .selectedTicket)
         }
     }
     
     private func pushTicketingDetailViewController() {
         
         // 1차 MVP - 티켓 한 개 선택
-        guard let selectedTicket = self.viewModel.output.selectedTickets.value.first else { return }
+        guard let selectedTicket = self.viewModel.input.selectedTickets.value.first else { return }
         let viewController = self.ticketingDetailViewControllerFactory(selectedTicket)
         
         guard let presentingViewController = self.presentingViewController as? HomeTabBarController else { return }
@@ -140,7 +152,6 @@ extension TicketSelectionViewController {
         self.setTitle("티켓 선택")
         
         self.contentView.addSubviews([self.ticketTypeView, self.selectedTicketView])
-        self.showContentView(.ticketTypeList)
     }
     
     private func configureConstraints() {
