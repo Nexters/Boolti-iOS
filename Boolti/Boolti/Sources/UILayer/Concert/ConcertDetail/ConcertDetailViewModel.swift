@@ -113,8 +113,9 @@ extension ConcertDetailViewModel {
 extension ConcertDetailViewModel {
  
     private func fetchConcertDetail(concertId: Int) {
-        self.concertRepository.concertDetail(concertId: concertId).asObservable()
+        self.concertRepository.concertDetail(concertId: concertId)
             .do { self.output.concertDetailEntity = $0 }
+            .asObservable()
             .bind(to: self.output.concertDetail)
             .disposed(by: self.disposeBag)
     }
