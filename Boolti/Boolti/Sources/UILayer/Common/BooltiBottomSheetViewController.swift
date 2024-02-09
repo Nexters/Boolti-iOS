@@ -15,7 +15,7 @@ enum BottomSheetContentType {
     case selectedTicket
 }
 
-class BooltiBottomSheetViewController: UIViewController {
+class BooltiBottomSheetViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -67,6 +67,7 @@ extension BooltiBottomSheetViewController {
     private func configureUI() {
         self.view.backgroundColor = .grey85
         self.navigationController?.navigationBar.isHidden = true
+        self.sheetPresentationController?.detents = [.medium()]
         
         self.view.addSubviews([titleView, contentView])
         self.titleView.addSubview(titleLabel)

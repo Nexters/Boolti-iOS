@@ -14,15 +14,22 @@ import Kingfisher
 final class ConcertDetailViewController: BooltiViewController {
     
     // MARK: Properties
+
+    typealias Content = String
+    typealias ConcertId = Int
     
     private let viewModel: ConcertDetailViewModel
     private let disposeBag = DisposeBag()
     
-    private let concertContentExpandViewControllerFactory: (String) -> ConcertContentExpandViewController
+    private let loginViewControllerFactory: () -> LoginViewController
+    private let concertContentExpandViewControllerFactory: (Content) -> ConcertContentExpandViewController
+    private let ticketSelectionViewControllerFactory: (ConcertId) -> TicketSelectionViewController
     
     // MARK: UI Component
     
     private let navigationView = BooltiNavigationBar(type: .concertDetail)
+
+    private let loginEnterView = LoginEnterView()
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -76,9 +83,13 @@ final class ConcertDetailViewController: BooltiViewController {
     // MARK: Init
     
     init(viewModel: ConcertDetailViewModel,
-         concertContentExpandViewControllerFactory: @escaping (String) -> ConcertContentExpandViewController) {
+         loginViewControllerFactory: @escaping () -> LoginViewController,
+         concertContentExpandViewControllerFactory: @escaping (Content) -> ConcertContentExpandViewController,
+         ticketSelectionViewControllerFactory: @escaping (ConcertId) -> TicketSelectionViewController) {
         self.viewModel = viewModel
+        self.loginViewControllerFactory = loginViewControllerFactory
         self.concertContentExpandViewControllerFactory = concertContentExpandViewControllerFactory
+        self.ticketSelectionViewControllerFactory = ticketSelectionViewControllerFactory
         
         super.init()
     }
@@ -92,14 +103,11 @@ final class ConcertDetailViewController: BooltiViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .grey95
-        
         self.configureUI()
         self.configureConstraints()
         self.configureToastView(isButtonExisted: true)
-        self.bindPlaceInfoView()
-        self.bindContentInfoView()
-        self.bindNavigationView()
+        self.bindUIComponents()
+        self.bindInputs()
         self.bindOutputs()
     }
     
@@ -111,6 +119,12 @@ final class ConcertDetailViewController: BooltiViewController {
 // MARK: - Methods
 
 extension ConcertDetailViewController {
+    
+    private func bindInputs() {
+        self.ticketingButton.rx.tap
+            .bind(to: self.viewModel.input.didTicketingButtonTap)
+            .disposed(by: self.disposeBag)
+    }
     
     private func bindOutputs() {
         self.viewModel.output.concertDetail
@@ -141,6 +155,48 @@ extension ConcertDetailViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.showLoginEnterView
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, show in
+                owner.loginEnterView.isHidden = !show
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.navigate
+            .asDriver(onErrorJustReturn: .login)
+            .drive(with: self) { owner, destination in
+                switch destination {
+                case .login:
+                    let viewController = owner.loginViewControllerFactory()
+                    viewController.modalPresentationStyle = .overFullScreen
+                    owner.present(viewController, animated: true) {
+                        owner.loginEnterView.isHidden = true
+                    }
+                case .contentExpand(let content):
+                    let viewController = owner.concertContentExpandViewControllerFactory(content)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                case .ticketSelection(let concertId):
+                    let viewController = owner.ticketSelectionViewControllerFactory(concertId)
+                    owner.present(viewController, animated: true)
+                }
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindUIComponents() {
+        self.bindLoginEnterView()
+        self.bindPlaceInfoView()
+        self.bindContentInfoView()
+        self.bindNavigationBar()
+    }
+    
+    private func bindLoginEnterView() {
+        self.loginEnterView.loginButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.viewModel.output.navigate.accept(.login)
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func bindPlaceInfoView() {
@@ -155,15 +211,12 @@ extension ConcertDetailViewController {
     private func bindContentInfoView() {
         self.contentInfoView.didAddressExpandButtonTap()
             .emit(with: self) { owner, _ in
-                guard let content = owner.viewModel.output.concertDetailEntity?.notice else { return }
-                let viewController = owner.concertContentExpandViewControllerFactory(content)
-                
-                owner.navigationController?.pushViewController(viewController, animated: true)
+                owner.viewModel.input.didExpandButtonTap.accept(())
             }
             .disposed(by: self.disposeBag)
     }
     
-    private func bindNavigationView() {
+    private func bindNavigationBar() {
         self.navigationView.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
@@ -217,13 +270,20 @@ extension ConcertDetailViewController {
         self.view.addSubviews([self.navigationView,
                                self.scrollView,
                                self.buttonBackgroundView,
-                               self.ticketingButton])
+                               self.ticketingButton,
+                               self.loginEnterView])
+        
+        self.view.backgroundColor = .grey95
     }
     
     private func configureConstraints() {
         self.navigationView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.loginEnterView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         self.scrollView.snp.makeConstraints { make in

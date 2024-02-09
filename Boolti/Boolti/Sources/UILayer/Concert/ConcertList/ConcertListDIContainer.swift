@@ -9,9 +9,12 @@ import UIKit
 
 final class ConcertListDIContainer {
 
+    private let authRepository: AuthRepository
     private let concertRepository: ConcertRepository
 
-    init(concertRepository: ConcertRepository) {
+    init(authRepository: AuthRepository,
+         concertRepository: ConcertRepository) {
+        self.authRepository = authRepository
         self.concertRepository = concertRepository
     }
     
@@ -40,7 +43,7 @@ final class ConcertListDIContainer {
     }
     
     private func createConcertDetailDIContainer() -> ConcertDetailDIContainer {
-        return ConcertDetailDIContainer(concertRepository: self.concertRepository)
+        return ConcertDetailDIContainer(authRepository: self.authRepository, concertRepository: self.concertRepository)
     }
 
 }

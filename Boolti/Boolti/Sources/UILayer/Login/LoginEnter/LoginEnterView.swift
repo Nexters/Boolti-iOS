@@ -51,6 +51,8 @@ class LoginEnterView: UIView {
 
     private func configureUI() {
 
+        self.backgroundColor = .grey95
+
         self.addSubviews([
             self.backgroundImageView,
             self.headerTitleLabel,

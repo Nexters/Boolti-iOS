@@ -24,4 +24,13 @@ final class ConcertRepository: ConcertRepositoryType {
             .map(ConcertDetailResponseDTO.self)
             .map { $0.convertToConcertDetailEntity() }
     }
+    
+    func salesTicket(concertId: Int) -> Single<[SalesTicketEntity]> {
+        let salesTicketRequestDTO = SalesTicketRequestDTO(showId: concertId)
+        let api = ConcertAPI.salesTicket(requestDTO: salesTicketRequestDTO)
+        
+        return networkService.request(api)
+            .map(SalesTicketResponseDTO.self)
+            .map { $0.convertToSalesTicketEntities() }
+    }
 }
