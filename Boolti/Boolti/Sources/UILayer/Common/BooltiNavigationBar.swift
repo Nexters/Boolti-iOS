@@ -77,8 +77,11 @@ extension BooltiNavigationBar {
 extension BooltiNavigationBar {
     
     private func configureDefaultConstraints() {
-        self.snp.makeConstraints { make in
-            make.height.equalTo(88)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 44
+            self.snp.makeConstraints { make in
+                make.height.equalTo(statusBarHeight + 44)
+            }
         }
     }
     

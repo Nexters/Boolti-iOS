@@ -49,7 +49,7 @@ final class TicketInfoView: UIView {
         self.configureUI()
         self.configureConstraints()
         
-        self.setData(entity: .init(id: 1, showId: 1, ticketType: .sales, ticketName: "일반 티켓 A", price: 5000, quantity: 100))
+        self.setData(entity: .init(id: 1, concertId: 1, ticketType: .sales, ticketName: "일반 티켓 A", price: 5000, quantity: 100))
     }
     
     required init?(coder: NSCoder) {
