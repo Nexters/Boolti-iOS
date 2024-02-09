@@ -13,6 +13,7 @@ import SwiftJWT
 import RxKakaoSDKUser
 import RxSwift
 import RxMoya
+import Kingfisher
 
 final class AuthRepository: AuthRepositoryType {
 
@@ -36,14 +37,36 @@ final class AuthRepository: AuthRepositoryType {
 
         return networkService.request(api)
             .map(LoginResponseDTO.self)
-            .do { loginReponseDTO in
+            .do { [weak self] loginReponseDTO in
                 guard let accessToken = loginReponseDTO.accessToken,
                       let refreshToken = loginReponseDTO.refreshToken else { return }
                 print(accessToken)
                 UserDefaults.accessToken = accessToken
                 UserDefaults.refreshToken = refreshToken
+
+                switch provider {
+                case .kakao:
+                    self?.setKakaoUserInformation()
+                case .apple:
+                    return
+                }
             }
             .map { $0.signUpRequired }
+    }
+
+    private func setKakaoUserInformation() {
+        UserApi.shared.rx.me()
+            .subscribe(with: self, onSuccess: { owner, user in
+
+                let email = user.kakaoAccount?.email ?? ""
+                let nickName = user.kakaoAccount?.profile?.nickname ?? ""
+                let imagePath = user.kakaoAccount?.profile?.profileImageUrl?.absoluteString ?? ""
+
+                UserDefaults.userName = nickName
+                UserDefaults.userEmail = email
+                UserDefaults.userImageURLPath = imagePath
+            })
+            .disposed(by: self.disposeBag)
     }
 
     // 회원가입 API 활용해서 AccessToken, RefreshToken 가져오기
@@ -59,11 +82,11 @@ final class AuthRepository: AuthRepositoryType {
     private func signUpKakao() {
         UserApi.shared.rx.me()
             .subscribe(with: self, onSuccess: { owner, user in
-                guard let email = user.kakaoAccount?.email else { return }
-                guard let phoneNumber = user.kakaoAccount?.phoneNumber else { return }
-                guard let nickName = user.kakaoAccount?.name else { return }
-                guard let userID = user.id else { return }
-                guard let imagePath = user.kakaoAccount?.profile?.profileImageUrl?.absoluteString else { return }
+                let email = user.kakaoAccount?.email ?? ""
+                let phoneNumber = user.kakaoAccount?.phoneNumber ?? ""
+                let nickName = user.kakaoAccount?.profile?.nickname ?? ""
+                let userID = user.id ?? 0
+                let imagePath = user.kakaoAccount?.profile?.profileImageUrl?.absoluteString ?? ""
 
                 let requestDTO = SignUpRequestDTO(
                     nickname: nickName,
@@ -112,8 +135,16 @@ final class AuthRepository: AuthRepositoryType {
             .disposed(by: self.disposeBag)
     }
 
-
     func removeAllTokens() {
         UserDefaults.removeAllTokens()
+    }
+    
+    func logout() -> Single<Void> {
+        let api = AuthAPI.logout
+        return self.networkService.request(api)
+            .do(onSuccess: { [weak self] _ in
+                self?.removeAllTokens()
+            })
+            .map { _ in return () }
     }
 }

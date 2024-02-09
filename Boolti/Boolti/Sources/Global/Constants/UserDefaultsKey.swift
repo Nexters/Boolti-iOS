@@ -7,6 +7,9 @@
 
 enum UserDefaultsKey: String, CaseIterable {
     case userId
+    case userName
+    case userEmail
+    case userImageURLPath
     case accessToken
     case refreshToken
     case deviceToken

@@ -10,9 +10,18 @@ import Foundation
 extension UserDefaults {
     
     // MARK: - Properties
-    @UserDefault<Int>(key: UserDefaultsKey.userId.rawValue, defaultValue: -1)
+    @UserDefault<String>(key: UserDefaultsKey.userId.rawValue, defaultValue: "")
     static var userId
-    
+
+    @UserDefault<String>(key: UserDefaultsKey.userName.rawValue, defaultValue: "")
+    static var userName
+
+    @UserDefault<String>(key: UserDefaultsKey.userEmail.rawValue, defaultValue: "")
+    static var userEmail
+
+    @UserDefault<String>(key: UserDefaultsKey.userImageURLPath.rawValue, defaultValue: "")
+    static var userImageURLPath
+
     @UserDefault<String>(key: UserDefaultsKey.accessToken.rawValue, defaultValue: "")
     static var accessToken
     
@@ -34,7 +43,7 @@ extension UserDefaults {
     }
 
     static func removeAllTokens() {
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.accessToken.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.refreshToken.rawValue)
+        UserDefaults.accessToken = ""
+        UserDefaults.refreshToken = ""
     }
 }
