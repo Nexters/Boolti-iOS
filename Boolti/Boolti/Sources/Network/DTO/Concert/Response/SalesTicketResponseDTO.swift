@@ -34,7 +34,7 @@ extension SalesTicketResponseDTO {
             }
             
             return SalesTicketEntity(id: ticket.id,
-                                     showId: ticket.showId,
+                                     concertId: ticket.showId,
                                      ticketType: ticketType,
                                      ticketName: ticket.ticketName,
                                      price: ticket.price,
