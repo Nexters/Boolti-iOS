@@ -13,6 +13,7 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
     
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = .grey70
         imageView.layer.cornerRadius = 8
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.grey80.cgColor
@@ -37,11 +38,19 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         self.configureUI()
+        self.configureConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    // MARK: - Override
+    
+    override func prepareForReuse() {
+        self.resetData()
     }
 }
 
@@ -53,6 +62,12 @@ extension ConcertCollectionViewCell {
         self.posterImageView.setImage(with: concertEntity.posterPath)
         self.datetime.text = concertEntity.dateTime.format(.dateTime)
         self.name.text = concertEntity.name
+    }
+    
+    private func resetData() {
+        self.posterImageView.image = nil
+        self.datetime.text = nil
+        self.name.text = nil
     }
 }
 
@@ -70,6 +85,18 @@ extension ConcertCollectionViewCell {
         self.posterImageView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
             make.height.equalTo(self.posterImageView.snp.width).multipliedBy(1.406)
+        }
+        
+        self.datetime.snp.makeConstraints { make in
+            make.top.equalTo(self.posterImageView.snp.bottom).offset(12)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(22)
+        }
+        
+        self.name.snp.makeConstraints { make in
+            make.top.equalTo(self.datetime.snp.bottom).offset(2)
+            make.horizontalEdges.bottom.equalToSuperview()
+            make.height.equalTo(52)
         }
     }
 }
