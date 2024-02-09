@@ -16,6 +16,14 @@ final class MyPageDIContainer {
     }
 
     func createMyPageViewController() -> UIViewController {
+
+        let loginViewControllerFactory: () -> LoginViewController = {
+            let DIContainer = self.createLoginViewDIContainer()
+
+            let viewController = DIContainer.createLoginViewController()
+            return viewController
+        }
+
         let logoutViewControllerFactory = {
             let DIContainer = self.createLogoutDIContainer()
             let viewController = DIContainer.createLogoutViewController()
@@ -39,7 +47,8 @@ final class MyPageDIContainer {
 
         let viewController = MyPageViewController(
             viewModel: self.createMyPageViewModel(),
-            logoutViewControllerViewControllerFactory: logoutViewControllerFactory,
+            loginViewControllerFactory: loginViewControllerFactory,
+            logoutViewControllerFactory: logoutViewControllerFactory,
             ticketReservationsViewControllerFactory: ticketReservationsViewControllerFactory,
             qrScanViewControllerFactory: QrScanViewControllerFactory
         )
@@ -59,6 +68,10 @@ final class MyPageDIContainer {
 
     private func createqrScanDIContainer() -> QrScanDIContainer {
         return QrScanDIContainer()
+    }
+
+    private func createLoginViewDIContainer() -> LoginViewDIContainer {
+        return LoginViewDIContainer(authRepository: self.authRepository, socialLoginAPIService: OAuthRepository())
     }
 
     private func createMyPageViewModel() -> MyPageViewModel {

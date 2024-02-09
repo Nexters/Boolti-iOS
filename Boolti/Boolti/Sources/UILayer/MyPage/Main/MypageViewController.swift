@@ -13,6 +13,7 @@ import RxAppState
 
 final class MyPageViewController: UIViewController {
 
+    private let loginViewControllerFactory: () -> LoginViewController
     private let logoutViewControllerFactory: () -> LogoutViewController
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
     private let qrScanViewControllerFactory: () -> QrScanViewController
@@ -79,12 +80,14 @@ final class MyPageViewController: UIViewController {
 
     init(
         viewModel: MyPageViewModel,
-        logoutViewControllerViewControllerFactory: @escaping () -> LogoutViewController,
+        loginViewControllerFactory: @escaping () -> LoginViewController,
+        logoutViewControllerFactory: @escaping () -> LogoutViewController,
         ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
         qrScanViewControllerFactory: @escaping () -> QrScanViewController
     ) {
         self.viewModel = viewModel
-        self.logoutViewControllerFactory = logoutViewControllerViewControllerFactory
+        self.loginViewControllerFactory = loginViewControllerFactory
+        self.logoutViewControllerFactory = logoutViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.qrScanViewControllerFactory = qrScanViewControllerFactory
         super.init(nibName: nil, bundle: nil)
@@ -154,6 +157,14 @@ final class MyPageViewController: UIViewController {
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
+
+        self.loginNavigationButton.rx.tap
+            .bind(with: self) { owner, _ in
+                guard let viewController = owner.createViewController(.login) as? LoginViewController else { return }
+                viewController.modalPresentationStyle = .fullScreen
+                owner.present(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {
@@ -184,8 +195,8 @@ final class MyPageViewController: UIViewController {
     }
 
     private func updateProfileUI() {
-        self.loginNavigationButton.isHidden.toggle()
-        self.logoutNavigationButton.isHidden.toggle()
+        self.loginNavigationButton.isHidden = true
+        self.logoutNavigationButton.isHidden = false
 
         let profileImageURLPath = UserDefaults.userImageURLPath
         let userName = UserDefaults.userName
@@ -197,8 +208,8 @@ final class MyPageViewController: UIViewController {
     }
 
     private func resetProfileUI() {
-        self.logoutNavigationButton.isHidden.toggle()
-        self.loginNavigationButton.isHidden.toggle()
+        self.logoutNavigationButton.isHidden = true
+        self.loginNavigationButton.isHidden = false
 
         self.profileImageView.image = .home
         self.profileNameLabel.text = "불티 로그인 하러가기"
@@ -208,6 +219,7 @@ final class MyPageViewController: UIViewController {
 
     private func createViewController(_ next: MyPageDestination) -> UIViewController {
         switch next {
+        case .login: return loginViewControllerFactory()
         case .logout: return logoutViewControllerFactory()
         case .qrScan: return qrScanViewControllerFactory()
         case .ticketReservations: return ticketReservationsViewControllerFactory()
