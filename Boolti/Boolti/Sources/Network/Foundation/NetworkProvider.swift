@@ -34,6 +34,9 @@ class NetworkProvider: NetworkProviderType {
                     #if DEBUG
                     do {
                         let data = response.data
+
+                        guard !data.isEmpty else { return }
+
                         let json = try JSONSerialization.jsonObject(with: data, options: [])
                         if let jsonArray = json as? [[String: Any]] {
                             let prettyPrintedData = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
