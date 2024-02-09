@@ -21,7 +21,7 @@ final class AuthInterceptor: RequestInterceptor {
 
         var urlRequest = urlRequest
 
-        if let urlString = urlRequest.url?.absoluteString, urlString.contains("/api") {
+        if let urlString = urlRequest.url?.absoluteString, urlString.contains("/api") || urlString.contains("/logout") {
             urlRequest.headers.add(.authorization(bearerToken: UserDefaults.accessToken))
         }
 

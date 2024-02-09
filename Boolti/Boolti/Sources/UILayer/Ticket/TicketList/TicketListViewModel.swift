@@ -96,7 +96,7 @@ final class TicketListViewModel {
     }
 
     private func isAccessTokenAvailable() -> Bool {
-        let token = authRepository.fetchTokens()
+        let token = self.authRepository.fetchTokens()
         let accessToken = token.0
         return (!accessToken.isEmpty)
     }

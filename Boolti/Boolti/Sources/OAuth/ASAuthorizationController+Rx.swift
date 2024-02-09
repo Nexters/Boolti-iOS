@@ -36,11 +36,14 @@ extension Reactive where Base: ASAuthorizationController {
 
     var identityTokenDelegate: Observable<String?> {
         delegate.methodInvoked(#selector(ASAuthorizationControllerDelegate.authorizationController(controller:didCompleteWithAuthorization:)))
-            .map { parameters in
+            .map { parameters -> String? in
                 guard let authorization = parameters[1] as? ASAuthorization,
                       let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
                       let appleIdentityToken = appleIDCredential.identityToken
                 else { return nil }
+                UserDefaults.userName = appleIDCredential.fullName?.description ?? ""
+                UserDefaults.userId = appleIDCredential.user
+                UserDefaults.userEmail = appleIDCredential.email ?? ""
 
                 guard let identityToken = String(data: appleIdentityToken, encoding: .utf8) else { return nil }
 
