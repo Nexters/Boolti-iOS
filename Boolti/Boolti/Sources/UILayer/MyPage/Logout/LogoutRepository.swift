@@ -27,7 +27,7 @@ final class LogoutRepository: LogoutRepositoryType {
     }
 
     func logout() -> Single<Void> {
-        let api = LogoutAPI.logout
+        let api = AuthAPI.logout
         return self.networkService.request(api)
             .do(onSuccess: { [weak self] _ in
                 self?.authRepository.removeAllTokens()
