@@ -132,6 +132,7 @@
 		84FEF6192B68ACDD00EBB64F /* TicketingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */; };
 		870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099AD2B77434A001779FB /* TicketDetailRequestDTO.swift */; };
 		870099B32B7744B5001779FB /* TicketReservationItemResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */; };
+		870099B52B77476E001779FB /* TicketReservationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B42B77476E001779FB /* TicketReservationAPI.swift */; };
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
@@ -314,6 +315,7 @@
 		84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingEntity.swift; sourceTree = "<group>"; };
 		870099AD2B77434A001779FB /* TicketDetailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailRequestDTO.swift; sourceTree = "<group>"; };
 		870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemResponseDTO.swift; sourceTree = "<group>"; };
+		870099B42B77476E001779FB /* TicketReservationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationAPI.swift; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryType.swift; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 				84781C862B5BED9A00D37921 /* ServiceAPI.swift */,
 				84975BE82B60E04500F903E7 /* AuthAPI.swift */,
 				8753CA722B71EA68002871C7 /* TicketAPI.swift */,
+				870099B42B77476E001779FB /* TicketReservationAPI.swift */,
 				841D77D12B73B0C10068B1C5 /* ConcertAPI.swift */,
 			);
 			path = APIs;
@@ -1458,6 +1461,7 @@
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
 				8746AD012B67F7610037A1B1 /* TicketMainView.swift in Sources */,
 				84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */,
+				870099B52B77476E001779FB /* TicketReservationAPI.swift in Sources */,
 				841D77D22B73B0C10068B1C5 /* ConcertAPI.swift in Sources */,
 				876667542B73A82300DDB2B5 /* EntryCodeInputView.swift in Sources */,
 				84FEF6172B68A6D100EBB64F /* UIResponder+.swift in Sources */,
