@@ -77,10 +77,11 @@ class TicketReservationsTableViewCell: UITableViewCell {
 
     func setData(with ticketReservation: TicketReservationItemEntity) {
         self.configureUI()
-
-        self.reservationDateLabel.text = ticketReservation.reservationDate
+        
+        self.reservationDateLabel.text = ticketReservation.reservationDate.formatToDate().format(.dateTime)
         self.concertPosterImageView.setImage(with: ticketReservation.concertImageURLPath)
-        self.reservationStatusLabel.text = ticketReservation.reservationStatus.rawValue
+        self.reservationStatusLabel.text = ticketReservation.reservationStatus.description
+        self.reservationStatusLabel.textColor = ticketReservation.reservationStatus.color
         self.concertTitleLabel.text = ticketReservation.concertTitle
         self.reservationDetailLabel.text = "\(ticketReservation.ticketName) / \(ticketReservation.ticketCount)매 / \(ticketReservation.ticketPrice)매"
 

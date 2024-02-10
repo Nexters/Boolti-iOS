@@ -56,7 +56,7 @@ final class DatetimeInfoView: UIView {
 extension DatetimeInfoView {
     
     func setData(date: Date, runningTime: Int) {
-        self.datetimeLabel.text = "\(date.format(.dateSlashTime)) (\(runningTime)분)"
+        self.datetimeLabel.text = "\(date.format(.dateDayTimeWithSlash)) (\(runningTime)분)"
         
         self.snp.makeConstraints { make in
             make.height.equalTo(114 + self.datetimeLabel.getLabelHeight())

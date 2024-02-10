@@ -49,7 +49,7 @@ extension TicketDetailResponseDTO {
         isoDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 
         let date = isoDateFormatter.date(from: self.showDate) ?? Date()
-        let formatterDate = date.format(.date)
+        let formatterDate = date.format(.dateDay)
 
 
         /// 공연 장소
