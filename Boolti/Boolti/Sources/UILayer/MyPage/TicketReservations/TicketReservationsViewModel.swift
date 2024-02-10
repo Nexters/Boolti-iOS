@@ -24,10 +24,10 @@ final class TicketReservationsViewModel {
     let output: Output
 
     private let disposeBag = DisposeBag()
-    private let networkService: NetworkProviderType
+    private let ticketReservationsRepository: TicketReservationsRepositoryType
 
-    init(networkService: NetworkProviderType) {
-        self.networkService = networkService
+    init(ticketReservationsRepository: TicketReservationsRepositoryType) {
+        self.ticketReservationsRepository = ticketReservationsRepository
 
         self.input = Input()
         self.output = Output()
@@ -44,7 +44,4 @@ final class TicketReservationsViewModel {
             }
             .disposed(by: self.disposeBag)
     }
-
-
-
 }

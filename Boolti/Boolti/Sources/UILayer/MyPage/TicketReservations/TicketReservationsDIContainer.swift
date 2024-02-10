@@ -20,6 +20,8 @@ final class TicketReservationsDIContainer {
     }
 
     private func createTicketResercationsViewModel() -> TicketReservationsViewModel {
-        return TicketReservationsViewModel(networkService: self.networkService)
+        return TicketReservationsViewModel(
+            ticketReservationsRepository: TicketReservationRepository(networkService: self.networkService)
+        )
     }
 }
