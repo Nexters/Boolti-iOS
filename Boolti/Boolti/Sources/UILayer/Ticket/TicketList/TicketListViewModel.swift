@@ -33,7 +33,7 @@ final class TicketListViewModel {
     struct Output {
         let navigation = PublishRelay<TicketListViewDestination>()
         let isLoading = PublishRelay<Bool>()
-        let isAccessTokenLoaded = PublishRelay<Bool>()
+        let isAccessTokenLoaded = BehaviorRelay<Bool>(value: false)
         let isTicketsExist = PublishRelay<Bool>()
         let sectionModels: BehaviorRelay<[TicketItemEntity]> = BehaviorRelay(value: [])
     }
@@ -61,6 +61,7 @@ final class TicketListViewModel {
     private func bindViewDidAppearEvent() {
         self.input.viewDidAppearEvent
             .subscribe(with: self) { owner, _ in
+                guard !owner.output.isAccessTokenLoaded.value else { return }
                 if owner.isAccessTokenAvailable() {
                     owner.output.isAccessTokenLoaded.accept(true)
                 } else {
