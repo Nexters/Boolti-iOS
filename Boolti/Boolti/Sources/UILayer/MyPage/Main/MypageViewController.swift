@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxAppState
+import RxGesture
 
 final class MyPageViewController: UIViewController {
 
@@ -151,25 +152,18 @@ final class MyPageViewController: UIViewController {
 
     private func bindUIComponents() {
         self.logoutNavigationButton.rx.tap
-            .bind(with: self) { owner, _ in
-                guard let viewController = owner.createViewController(.logout) as? LogoutViewController else { return }
-                viewController.modalPresentationStyle = .fullScreen
-                owner.present(viewController, animated: true)
-            }
+            .bind(to: self.viewModel.input.didLogoutButtonTapEvent)
             .disposed(by: self.disposeBag)
 
         self.loginNavigationButton.rx.tap
-            .bind(with: self) { owner, _ in
-                guard let viewController = owner.createViewController(.login) as? LoginViewController else { return }
-                viewController.modalPresentationStyle = .fullScreen
-                owner.present(viewController, animated: true)
-            }
+            .bind(to: self.viewModel.input.didLoginButtonTapEvent)
             .disposed(by: self.disposeBag)
 
-        self.ticketingReservationsNavigationView.didNavigationButtonTap
-            .bind(with: self) { owner, _ in
-                guard let viewController = owner.createViewController(.ticketReservations) as? TicketReservationsViewController else { return }
-                owner.navigationController?.pushViewController(viewController, animated: true)
+        self.ticketingReservationsNavigationView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didTicketingReservationsViewTapEvent.onNext(())
             }
             .disposed(by: self.disposeBag)
     }
@@ -181,15 +175,15 @@ final class MyPageViewController: UIViewController {
 
     private func bindInputs() {
         self.rx.viewWillAppear
-            .asDriver(onErrorJustReturn: true)
-            .drive(with: self) { owner, _ in
+            .bind(with: self, onNext: { owner, destination in
                 owner.viewModel.input.viewWillAppearEvent.onNext(())
-            }
+            })
             .disposed(by: self.disposeBag)
     }
 
     private func bindOutputs() {
         self.viewModel.output.isAccessTokenLoaded
+            .skip(1)
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, isLoaded in
                 if isLoaded {
@@ -199,18 +193,29 @@ final class MyPageViewController: UIViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+
+        self.viewModel.output.navigation
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self, onNext: { owner, destination in
+                let viewController = owner.createViewController(destination)
+                switch destination {
+                case .login, .logout, .qrScan:
+                    viewController.modalPresentationStyle = .fullScreen
+                    owner.present(viewController, animated: true)
+                case .ticketReservations:
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+            })
+            .disposed(by: self.disposeBag)
     }
 
     private func updateProfileUI() {
         self.loginNavigationButton.isHidden = true
         self.logoutNavigationButton.isHidden = false
 
-        let userName = UserDefaults.userName
-        let userEmail = UserDefaults.userEmail
+        self.profileNameLabel.text =  UserDefaults.userName
+        self.profileEmailLabel.text = UserDefaults.userEmail
 
-        self.profileNameLabel.text = userName
-        self.profileEmailLabel.text = userEmail
-        
         let profileImageURLPath = UserDefaults.userImageURLPath
 
         if profileImageURLPath.isEmpty {

@@ -12,8 +12,6 @@ import RxCocoa
 
 class MypageContentView: UIView {
 
-    let didNavigationButtonTap = PublishSubject<Void>()
-
     private let disposeBag = DisposeBag()
 
     private let titleLabel: UILabel = {
@@ -24,18 +22,17 @@ class MypageContentView: UIView {
         return label
     }()
 
-    private let navigateButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.navigate, for: .normal)
+    private let navigateImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .navigate
 
-        return button
+        return imageView
     }()
 
     init(title: String) {
         super.init(frame: .zero)
         self.titleLabel.text = title
         self.configureUI()
-        self.bindUIComponents()
     }
     
     required init?(coder: NSCoder) {
@@ -47,7 +44,7 @@ class MypageContentView: UIView {
 
         self.addSubviews([
             self.titleLabel,
-            self.navigateButton
+            self.navigateImageView
         ])
 
         self.titleLabel.snp.makeConstraints { make in
@@ -55,15 +52,9 @@ class MypageContentView: UIView {
             make.left.equalToSuperview().inset(20)
         }
 
-        self.navigateButton.snp.makeConstraints { make in
+        self.navigateImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(20)
         }
-    }
-
-    private func bindUIComponents() {
-        self.navigateButton.rx.tap
-            .bind(to: self.didNavigationButtonTap)
-            .disposed(by: self.disposeBag)
     }
 }

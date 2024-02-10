@@ -45,6 +45,7 @@ final class TicketReservationsViewController: BooltiViewController {
     }
 
     private func configureUI() {
+        self.view.backgroundColor = .black100
         self.navigationController?.navigationBar.isHidden = true
 
         self.view.addSubviews([

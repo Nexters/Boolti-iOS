@@ -134,6 +134,7 @@
 		870099B32B7744B5001779FB /* TicketReservationItemResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */; };
 		870099B52B77476E001779FB /* TicketReservationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B42B77476E001779FB /* TicketReservationAPI.swift */; };
 		870099B72B77489A001779FB /* TicketReservationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B62B77489A001779FB /* TicketReservationsRepository.swift */; };
+		870099BA2B775A9C001779FB /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 870099B92B775A9C001779FB /* RxGesture */; };
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
@@ -421,6 +422,7 @@
 				84B321992B61543E007FD669 /* FirebaseAnalytics in Frameworks */,
 				849FBD442B5E8BE9006EB865 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				8766B55B2B641266004F266A /* RxDataSources in Frameworks */,
+				870099BA2B775A9C001779FB /* RxGesture in Frameworks */,
 				84781C662B5BE9C100D37921 /* ReactiveMoya in Frameworks */,
 				841D77DB2B745FB40068B1C5 /* Kingfisher in Frameworks */,
 				84B321A72B61543E007FD669 /* FirebaseRemoteConfigSwift in Frameworks */,
@@ -1256,6 +1258,7 @@
 				87FB0D372B6BE7B900B42AF9 /* SwiftJWT */,
 				841D77DA2B745FB40068B1C5 /* Kingfisher */,
 				872140092B749A5D007C3BC1 /* RxKeyboard */,
+				870099B92B775A9C001779FB /* RxGesture */,
 			);
 			productName = Boolti;
 			productReference = 84781BC92B5BDAFC00D37921 /* Boolti.app */;
@@ -1295,6 +1298,7 @@
 				87FB0D362B6BE7B900B42AF9 /* XCRemoteSwiftPackageReference "Swift-JWT" */,
 				872140082B749A5D007C3BC1 /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 				841D77D92B745FB40068B1C5 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				870099B82B775A9C001779FB /* XCRemoteSwiftPackageReference "RxGesture" */,
 			);
 			productRefGroup = 84781BCA2B5BDAFC00D37921 /* Products */;
 			projectDirPath = "";
@@ -1778,6 +1782,14 @@
 				minimumVersion = 10.0.0;
 			};
 		};
+		870099B82B775A9C001779FB /* XCRemoteSwiftPackageReference "RxGesture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
 		87101EF82B5DF9A3004BD418 /* XCRemoteSwiftPackageReference "RxAppState" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pixeldock/RxAppState.git";
@@ -1927,6 +1939,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 849FBD402B5E8BE9006EB865 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfigSwift;
+		};
+		870099B92B775A9C001779FB /* RxGesture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 870099B82B775A9C001779FB /* XCRemoteSwiftPackageReference "RxGesture" */;
+			productName = RxGesture;
 		};
 		87101EF92B5DF9A3004BD418 /* RxAppState */ = {
 			isa = XCSwiftPackageProductDependency;
