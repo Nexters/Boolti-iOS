@@ -26,9 +26,12 @@ final class TicketReservationsViewController: BooltiViewController {
         return tableView
     }()
 
+    private let navigationBar = BooltiNavigationBar(type: .ticketReservations)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
+        self.bindUIComponents()
         self.bindViewModel()
     }
 
@@ -42,16 +45,37 @@ final class TicketReservationsViewController: BooltiViewController {
     }
 
     private func configureUI() {
+        self.navigationController?.navigationBar.isHidden = true
+
         self.view.addSubviews([
+            self.navigationBar,
             self.tableView
         ])
 
-        self.tableView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
-        }
+        self.configureConstraints()
 
         self.tableView.rx
             .setDelegate(self)
+            .disposed(by: self.disposeBag)
+    }
+
+    private func configureConstraints() {
+
+        self.navigationBar.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+        }
+
+        self.tableView.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom).offset(20)
+            make.horizontalEdges.bottom.equalTo(self.view.safeAreaLayoutGuide)
+        }
+    }
+
+    private func bindUIComponents() {
+        self.navigationBar.didBackButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
             .disposed(by: self.disposeBag)
     }
 
@@ -74,8 +98,7 @@ final class TicketReservationsViewController: BooltiViewController {
                 cellIdentifier: TicketReservationsTableViewCell.className,
                 cellType: TicketReservationsTableViewCell.self
             )) { index, item, cell in
-                print("뭔데!...")
-                print(item)
+                cell.selectionStyle = .none
                 cell.setData(with: item)
             }
             .disposed(by: self.disposeBag)
