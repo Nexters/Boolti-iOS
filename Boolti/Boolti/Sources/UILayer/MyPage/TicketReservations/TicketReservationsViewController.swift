@@ -87,7 +87,7 @@ final class TicketReservationsViewController: BooltiViewController {
     private func bindInputs() {
         self.rx.viewWillAppear
             .bind(with: self, onNext: { owner, _ in
-                self.viewModel.input.viewWillAppearEvent.accept(())
+                owner.viewModel.input.viewWillAppearEvent.accept(())
             })
             .disposed(by: self.disposeBag)
     }

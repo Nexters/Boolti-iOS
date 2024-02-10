@@ -37,11 +37,14 @@ final class TicketReservationsViewModel {
 
     private func bindInputs() {
         self.input.viewWillAppearEvent
-            .subscribe(with: self) { owner, _ in
-                owner.output.tickerReservations.accept([
-                    TicketReservationItemEntity(reservationID: 1, reservationStatus: .reservationCompleted, reservationDate: "2024-02-09T11:54:42.567Z", concertTitle: "윤민이의 임재범 고해", concertImageURLPath: "https://booltiapi.s3.ap-northeast-2.amazonaws.com/show/1/1.jpg", ticketName: "일반석", ticketCount: 2, ticketPrice: 10000),TicketReservationItemEntity(reservationID: 1, reservationStatus: .reservationCompleted, reservationDate: "2024-02-09T11:54:42.567Z", concertTitle: "윤민이의 임재범 고해", concertImageURLPath: "https://booltiapi.s3.ap-northeast-2.amazonaws.com/show/1/1.jpg", ticketName: "일반석", ticketCount: 2, ticketPrice: 10000),TicketReservationItemEntity(reservationID: 1, reservationStatus: .reservationCompleted, reservationDate: "2024-02-09T11:54:42.567Z", concertTitle: "윤민이의 임재범 고해", concertImageURLPath: "https://booltiapi.s3.ap-northeast-2.amazonaws.com/show/1/1.jpg", ticketName: "일반석", ticketCount: 2, ticketPrice: 10000),
-                ])
+            .flatMap { self.fetchTicketReservations() }
+            .subscribe(with: self) { owner, ticketReservations in
+                owner.output.tickerReservations.accept(ticketReservations)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func fetchTicketReservations() -> Single<[TicketReservationItemEntity]> {
+        return self.ticketReservationsRepository.ticketReservations()
     }
 }
