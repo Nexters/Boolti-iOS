@@ -26,6 +26,13 @@ final class TicketReservationsViewController: BooltiViewController {
         return tableView
     }()
 
+    private let emptyReservationsStackView: EmptyReservationsStackView = {
+        let stackView = EmptyReservationsStackView()
+        stackView.isHidden = true
+
+        return stackView
+    }()
+
     private let navigationBar = BooltiNavigationBar(type: .ticketReservations)
 
     override func viewDidLoad() {
@@ -50,6 +57,7 @@ final class TicketReservationsViewController: BooltiViewController {
 
         self.view.addSubviews([
             self.navigationBar,
+            self.emptyReservationsStackView,
             self.tableView
         ])
 
@@ -64,6 +72,10 @@ final class TicketReservationsViewController: BooltiViewController {
 
         self.navigationBar.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
+        }
+
+        self.emptyReservationsStackView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
 
         self.tableView.snp.makeConstraints { make in
@@ -95,10 +107,19 @@ final class TicketReservationsViewController: BooltiViewController {
 
     private func bindOutputs() {
         self.viewModel.output.tickerReservations
+            .flatMap({ [weak self] ticketReservations in
+                guard !ticketReservations.isEmpty else {
+                    self?.emptyReservationsStackView.isHidden = false
+                    self?.tableView.isHidden = true
+                    return Observable.just([])
+                }
+                return Observable.just(ticketReservations)
+            })
             .bind(to: self.tableView.rx.items(
                 cellIdentifier: TicketReservationsTableViewCell.className,
                 cellType: TicketReservationsTableViewCell.self
             )) { index, item, cell in
+                guard let item = item as? TicketReservationItemEntity else { return }
                 cell.selectionStyle = .none
                 cell.setData(with: item)
             }

@@ -135,6 +135,7 @@
 		870099B52B77476E001779FB /* TicketReservationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B42B77476E001779FB /* TicketReservationAPI.swift */; };
 		870099B72B77489A001779FB /* TicketReservationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B62B77489A001779FB /* TicketReservationsRepository.swift */; };
 		870099BA2B775A9C001779FB /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 870099B92B775A9C001779FB /* RxGesture */; };
+		870099BE2B7767E7001779FB /* EmptyReservationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099BD2B7767E7001779FB /* EmptyReservationsView.swift */; };
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
@@ -319,6 +320,7 @@
 		870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemResponseDTO.swift; sourceTree = "<group>"; };
 		870099B42B77476E001779FB /* TicketReservationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationAPI.swift; sourceTree = "<group>"; };
 		870099B62B77489A001779FB /* TicketReservationsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationsRepository.swift; sourceTree = "<group>"; };
+		870099BD2B7767E7001779FB /* EmptyReservationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyReservationsView.swift; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryType.swift; sourceTree = "<group>"; };
@@ -991,6 +993,22 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
+		870099BB2B7767AB001779FB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				870099BD2B7767E7001779FB /* EmptyReservationsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		870099BC2B7767B4001779FB /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		8710D93E2B74E42C00309FBF /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1025,8 +1043,9 @@
 			isa = PBXGroup;
 			children = (
 				8710D94B2B74FA7D00309FBF /* TicketReservationsViewController.swift */,
+				870099BC2B7767B4001779FB /* Cell */,
+				870099BB2B7767AB001779FB /* Views */,
 				870099B62B77489A001779FB /* TicketReservationsRepository.swift */,
-				87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */,
 				8710D94F2B74FA9A00309FBF /* TicketReservationsDIContainer.swift */,
 				8710D94D2B74FA8B00309FBF /* TicketReservationsViewModel.swift */,
 			);
@@ -1454,6 +1473,7 @@
 				841D77D62B73B3210068B1C5 /* ConcertRepositoryType.swift in Sources */,
 				8710D9462B74FA5700309FBF /* QrScanViewController.swift in Sources */,
 				876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */,
+				870099BE2B7767E7001779FB /* EmptyReservationsView.swift in Sources */,
 				8710D9542B74FAB500309FBF /* LogoutViewController.swift in Sources */,
 				84781CC52B5BF9DE00D37921 /* TicketListViewController.swift in Sources */,
 				876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */,
