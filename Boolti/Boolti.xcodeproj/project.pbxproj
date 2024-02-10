@@ -130,6 +130,8 @@
 		84FBBE0B2B6888CB009462E9 /* InvitationCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE0A2B6888CB009462E9 /* InvitationCodeView.swift */; };
 		84FEF6172B68A6D100EBB64F /* UIResponder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEF6162B68A6D100EBB64F /* UIResponder+.swift */; };
 		84FEF6192B68ACDD00EBB64F /* TicketingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */; };
+		870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099AD2B77434A001779FB /* TicketDetailRequestDTO.swift */; };
+		870099B32B7744B5001779FB /* TicketReservationItemResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */; };
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
@@ -196,7 +198,7 @@
 		877563DA2B6E0CDA001504FE /* TicketListFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877563D92B6E0CDA001504FE /* TicketListFooterView.swift */; };
 		878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */; };
 		87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */; };
-		87A3716F2B76534B0061814E /* TicketReservationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716E2B76534B0061814E /* TicketReservationEntity.swift */; };
+		87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */; };
 		87D2FAB22B6E96D20027FBE1 /* TicketDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB12B6E96D20027FBE1 /* TicketDetailViewController.swift */; };
 		87D2FAB42B6E977C0027FBE1 /* TicketDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB32B6E977C0027FBE1 /* TicketDetailDIContainer.swift */; };
 		87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */; };
@@ -310,6 +312,8 @@
 		84FBBE0A2B6888CB009462E9 /* InvitationCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationCodeView.swift; sourceTree = "<group>"; };
 		84FEF6162B68A6D100EBB64F /* UIResponder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+.swift"; sourceTree = "<group>"; };
 		84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingEntity.swift; sourceTree = "<group>"; };
+		870099AD2B77434A001779FB /* TicketDetailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailRequestDTO.swift; sourceTree = "<group>"; };
+		870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemResponseDTO.swift; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		87101EFD2B5DFCD2004BD418 /* AuthRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryType.swift; sourceTree = "<group>"; };
@@ -374,7 +378,7 @@
 		877563D92B6E0CDA001504FE /* TicketListFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketListFooterView.swift; sourceTree = "<group>"; };
 		878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASAuthorizationController+Rx.swift"; sourceTree = "<group>"; };
 		87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationsTableViewCell.swift; sourceTree = "<group>"; };
-		87A3716E2B76534B0061814E /* TicketReservationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationEntity.swift; sourceTree = "<group>"; };
+		87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemEntity.swift; sourceTree = "<group>"; };
 		87D2FAB12B6E96D20027FBE1 /* TicketDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailViewController.swift; sourceTree = "<group>"; };
 		87D2FAB32B6E977C0027FBE1 /* TicketDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailDIContainer.swift; sourceTree = "<group>"; };
 		87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailViewModel.swift; sourceTree = "<group>"; };
@@ -473,7 +477,7 @@
 				84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */,
 				842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */,
 				87FB0D3B2B6C09B500B42AF9 /* TicketItemEntity.swift */,
-				87A3716E2B76534B0061814E /* TicketReservationEntity.swift */,
+				87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -626,6 +630,8 @@
 		84781C792B5BEBDA00D37921 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				870099AF2B77443B001779FB /* Reservation */,
+				870099AA2B7742DC001779FB /* Ticket */,
 				84781C7A2B5BEBE500D37921 /* Auth */,
 				84DC6F632B728792001F9576 /* Concert */,
 			);
@@ -658,8 +664,6 @@
 				876E41562B5F972A006BEEB7 /* LoginResponseDTO.swift */,
 				8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */,
 				876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */,
-				8753CA762B71F004002871C7 /* TicketListItemResponseDTO.swift */,
-				8753CA7A2B7225AA002871C7 /* TicketDetailResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -928,6 +932,56 @@
 				84FBBE082B67DF88009462E9 /* PolicyView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		870099AA2B7742DC001779FB /* Ticket */ = {
+			isa = PBXGroup;
+			children = (
+				870099AC2B7742EF001779FB /* Response */,
+				870099AB2B7742EA001779FB /* Request */,
+			);
+			path = Ticket;
+			sourceTree = "<group>";
+		};
+		870099AB2B7742EA001779FB /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				870099AD2B77434A001779FB /* TicketDetailRequestDTO.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		870099AC2B7742EF001779FB /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				8753CA762B71F004002871C7 /* TicketListItemResponseDTO.swift */,
+				8753CA7A2B7225AA002871C7 /* TicketDetailResponseDTO.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		870099AF2B77443B001779FB /* Reservation */ = {
+			isa = PBXGroup;
+			children = (
+				870099B12B774450001779FB /* Response */,
+				870099B02B774445001779FB /* Request */,
+			);
+			path = Reservation;
+			sourceTree = "<group>";
+		};
+		870099B02B774445001779FB /* Request */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		870099B12B774450001779FB /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 		8710D93E2B74E42C00309FBF /* Views */ = {
@@ -1287,6 +1341,7 @@
 				84E5124D2B6E7736002658D1 /* ConcertDetailViewController.swift in Sources */,
 				84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */,
 				84E5124B2B6E71FD002658D1 /* ConcertDetailDIContainer.swift in Sources */,
+				870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
 				84625A112B63B48D00CC9077 /* SalesTicketEntity.swift in Sources */,
 				8746AD162B680A700037A1B1 /* SelectedTicketTableViewCell.swift in Sources */,
@@ -1361,8 +1416,9 @@
 				84781CC72B5BF9F700D37921 /* TicketListDIContainer.swift in Sources */,
 				842183732B71D75D00A52E1C /* ConcertDetailEntity.swift in Sources */,
 				84C6E0032B7320280023BAE6 /* ConcertDetailResponseDTO.swift in Sources */,
+				870099B32B7744B5001779FB /* TicketReservationItemResponseDTO.swift in Sources */,
 				8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */,
-				87A3716F2B76534B0061814E /* TicketReservationEntity.swift in Sources */,
+				87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */,
 				8746AD202B6932B30037A1B1 /* ConcertEnterView.swift in Sources */,
 				8753CA7B2B7225AA002871C7 /* TicketDetailResponseDTO.swift in Sources */,
 				87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */,

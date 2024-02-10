@@ -75,7 +75,7 @@ class TicketReservationsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    func setData(with ticketReservation: TicketReservationEntity) {
+    func setData(with ticketReservation: TicketReservationItemEntity) {
         self.configureUI()
 
         self.reservationDateLabel.text = ticketReservation.reservationDate
