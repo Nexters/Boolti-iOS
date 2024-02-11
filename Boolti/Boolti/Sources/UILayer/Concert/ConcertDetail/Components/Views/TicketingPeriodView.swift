@@ -46,7 +46,7 @@ final class TicketingPeriodView: UIView {
 extension TicketingPeriodView {
     
     func setData(startDate: Date, endDate: Date) {
-        self.periodLabel.text = "\(startDate.format(.date)) - \(endDate.format(.date))"
+        self.periodLabel.text = "\(startDate.format(.dateDay)) - \(endDate.format(.dateDay))"
     }
 }
 

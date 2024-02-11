@@ -12,7 +12,7 @@ import Moya
 enum TicketAPI {
 
     case list
-    case detail(ticketID: String)
+    case detail(requestDTO: TicketDetailRequestDTO)
 }
 
 extension TicketAPI: ServiceAPI {
@@ -21,8 +21,8 @@ extension TicketAPI: ServiceAPI {
         switch self {
         case .list:
             return "/api/v1/tickets"
-        case .detail(ticketID: let id):
-            return "/api/v1/ticket/\(id)"
+        case .detail(requestDTO: let DTO):
+            return "/api/v1/ticket/\(DTO.ticketID)"
         }
     }
     

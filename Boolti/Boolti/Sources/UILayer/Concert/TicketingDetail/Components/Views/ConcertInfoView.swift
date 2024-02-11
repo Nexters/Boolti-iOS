@@ -71,7 +71,7 @@ extension ConcertInfoView {
         self.poster.setImage(with: posterURL)
         self.titleLabel.text = title
         self.titleLabel.setLineSpacing(lineSpacing: 6)
-        self.datetimeLabel.text = datetime.format(.dateTime)
+        self.datetimeLabel.text = datetime.format(.dateDayTime)
     }
 }
 

@@ -21,6 +21,7 @@ class TicketReservationsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .pretendardR(14)
         label.textColor = .grey50
+        label.text = "상세 보기"
 
         return label
     }()
@@ -30,6 +31,14 @@ class TicketReservationsTableViewCell: UITableViewCell {
         imageView.image = .navigate
 
         return imageView
+    }()
+
+    private let seperationLineView: UIView = {
+        let view = UIView()
+        view.layer.borderColor = UIColor.grey85.cgColor
+        view.layer.borderWidth = 1
+
+        return view
     }()
 
     private let concertPosterImageView: UIImageView = {
@@ -66,22 +75,41 @@ class TicketReservationsTableViewCell: UITableViewCell {
         return label
     }()
 
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.configureUI()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
 
-    private func configureUI() {
-        self.backgroundColor = .grey90
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.contentView.frame = self.contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0))
+    }
+
+    func setData(with ticketReservation: TicketReservationItemEntity) {
+        self.configureUI()
         
-        self.addSubviews([
+        self.reservationDateLabel.text = ticketReservation.reservationDate.formatToDate().format(.dateTime)
+        self.concertPosterImageView.setImage(with: ticketReservation.concertImageURLPath)
+        self.reservationStatusLabel.text = ticketReservation.reservationStatus.description
+        self.reservationStatusLabel.textColor = ticketReservation.reservationStatus.color
+        self.concertTitleLabel.text = ticketReservation.concertTitle
+        self.reservationDetailLabel.text = "\(ticketReservation.ticketName) / \(ticketReservation.ticketCount)매 / \(ticketReservation.ticketPrice)매"
+
+    }
+
+    private func configureUI() {
+        self.backgroundColor = .black100
+        self.contentView.backgroundColor = .grey90
+
+        self.contentView.addSubviews([
             self.reservationDateLabel,
             self.detailNavigationLabel,
             self.detailNavigationImage,
+            self.seperationLineView,
             self.concertPosterImageView,
             self.reservationStatusLabel,
             self.concertTitleLabel,
@@ -103,6 +131,12 @@ class TicketReservationsTableViewCell: UITableViewCell {
             make.right.equalTo(self.detailNavigationImage.snp.left)
         }
 
+        self.seperationLineView.snp.makeConstraints { make in
+            make.top.equalTo(self.reservationDateLabel.snp.bottom).offset(14)
+            make.height.equalTo(1)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
         self.concertPosterImageView.snp.makeConstraints { make in
             make.height.equalTo(84)
             make.width.equalTo(60)
@@ -111,21 +145,20 @@ class TicketReservationsTableViewCell: UITableViewCell {
         }
 
         self.reservationStatusLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.concertPosterImageView.snp.top).inset(3)
+            make.top.equalTo(self.concertPosterImageView.snp.top).inset(5)
             make.left.equalTo(self.concertPosterImageView.snp.right).offset(16)
         }
 
         self.concertTitleLabel.snp.makeConstraints { make in
             make.left.equalTo(self.reservationStatusLabel)
-            make.top.equalTo(self.reservationStatusLabel.snp.bottom).offset(6)
+            make.centerY.equalTo(self.concertPosterImageView)
+            make.right.equalToSuperview().inset(20)
         }
 
         self.reservationDetailLabel.snp.makeConstraints { make in
             make.left.equalTo(self.reservationStatusLabel)
-            make.top.equalTo(self.concertTitleLabel.snp.bottom).offset(4)
+            make.bottom.equalTo(self.concertPosterImageView.snp.bottom).inset(5)
         }
-
-
     }
 
 }

@@ -60,7 +60,8 @@ class TicketDetailViewModel {
 
     private func fetchTicketDetailItem() -> Single<TicketDetailItemEntity> {
         // MARK: 의존성 networkService로 바꿔주기!..
-        let ticketDetailAPI = TicketAPI.detail(ticketID: self.ticketID)
+        let ticketDetailRequestDTO = TicketDetailRequestDTO(ticketID: self.ticketID)
+        let ticketDetailAPI = TicketAPI.detail(requestDTO: ticketDetailRequestDTO)
 
         return networkService.request(ticketDetailAPI)
             .map(TicketDetailResponseDTO.self)

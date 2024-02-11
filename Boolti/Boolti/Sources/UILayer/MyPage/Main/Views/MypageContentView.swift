@@ -7,7 +7,12 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 class MypageContentView: UIView {
+
+    private let disposeBag = DisposeBag()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -17,11 +22,11 @@ class MypageContentView: UIView {
         return label
     }()
 
-    private let navigateButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.navigate, for: .normal)
+    private let navigateImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .navigate
 
-        return button
+        return imageView
     }()
 
     init(title: String) {
@@ -39,7 +44,7 @@ class MypageContentView: UIView {
 
         self.addSubviews([
             self.titleLabel,
-            self.navigateButton
+            self.navigateImageView
         ])
 
         self.titleLabel.snp.makeConstraints { make in
@@ -47,7 +52,7 @@ class MypageContentView: UIView {
             make.left.equalToSuperview().inset(20)
         }
 
-        self.navigateButton.snp.makeConstraints { make in
+        self.navigateImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(20)
         }

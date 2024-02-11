@@ -144,7 +144,6 @@ class TicketDetailView: UIView {
         ])
         
         self.configureConstraints()
-        self.bindUIComponents()
     }
 
     private func configureConstraints() {
