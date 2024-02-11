@@ -19,8 +19,6 @@ enum DateFormatType: String {
 extension DateFormatType {
 
     var formatter: DateFormatter {
-        let formatter = ISO8601DateFormatter()
-
         guard let formatter = DateFormatType.cachedFormatters[self] else {
             let generatedFormatter = DateFormatType.makeFormatter(withDateFormat: self)
             DateFormatType.cachedFormatters[self] = generatedFormatter
