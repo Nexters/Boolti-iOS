@@ -50,6 +50,7 @@ final class ConcertListViewController: UIViewController {
         self.configureUI()
         self.configureConstraints()
         
+        self.bindInputs()
         self.bindOutputs()
         self.configureCollectionView()
     }
@@ -57,8 +58,7 @@ final class ConcertListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // TODO: 로그인 확인, 예매내역 확인, 닉네임 넣기
-        
+        self.viewModel.confirmCheckingTickets()
         self.viewModel.fetchConcertList(concertName: nil)
     }
     
@@ -73,6 +73,17 @@ final class ConcertListViewController: UIViewController {
 // MARK: - Methods
 
 extension ConcertListViewController {
+    
+    private func bindInputs() {
+        let tapGesture = UITapGestureRecognizer()
+        self.view.addGestureRecognizer(tapGesture)
+
+        tapGesture.rx.event
+            .bind(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
+            })
+            .disposed(by: self.disposeBag)
+    }
     
     private func bindOutputs() {
         self.viewModel.output.concerts
@@ -103,6 +114,10 @@ extension ConcertListViewController: UICollectionViewDelegate {
             debugPrint("예매 내역으로 이동")
         }
     }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -126,6 +141,7 @@ extension ConcertListViewController: UICollectionViewDataSource {
         switch indexPath.section {
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CheckingTicketCollectionViewCell.className, for: indexPath) as? CheckingTicketCollectionViewCell else { return UICollectionViewCell() }
+            cell.isHidden = self.viewModel.output.checkingTicketCount.value == 0
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.className, for: indexPath) as? TitleCollectionViewCell else { return UICollectionViewCell() }
@@ -155,7 +171,7 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.section {
         case 0:
-            return CGSize(width: self.mainCollectionView.frame.width - 40, height: 52)
+            return CGSize(width: self.mainCollectionView.frame.width - 40, height:  CGFloat(self.viewModel.output.checkingTicketCount.value) * 51 + 1)
         case 1:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 96)
         case 2:

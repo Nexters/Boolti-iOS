@@ -32,6 +32,7 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .point1
         label.textColor = .grey05
+        label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
     }()

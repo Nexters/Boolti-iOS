@@ -19,6 +19,7 @@ final class ConcertListViewModel {
     
     struct Output {
         let concerts = BehaviorRelay<[ConcertEntity]>(value: [])
+        let checkingTicketCount = BehaviorRelay<Int>(value: 0)
     }
     
     let output: Output
@@ -40,5 +41,19 @@ extension ConcertListViewModel {
             .asObservable()
             .bind(to: self.output.concerts)
             .disposed(by: self.disposeBag)
+    }
+    
+    func confirmCheckingTickets() {
+        if UserDefaults.accessToken.isEmpty {
+            self.output.checkingTicketCount.accept(0)
+        } else {
+            let count = self.fetchCheckingTickets()
+            self.output.checkingTicketCount.accept(count)
+        }
+    }
+    
+    private func fetchCheckingTickets() -> Int {
+        // 여기서 티켓 예매 내역 확인
+        return 1
     }
 }
