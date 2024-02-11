@@ -34,7 +34,7 @@ final class TicketSelectionDIContainer {
     }
     
     private func createTicketingDetailViewDIContainer() -> TicketingDetailDIContainer {
-        return TicketingDetailDIContainer()
+        return TicketingDetailDIContainer(concertRepository: self.concertRepository)
     }
 
     private func createTicketSelectionViewModel(concertId: Int) -> TicketSelectionViewModel {

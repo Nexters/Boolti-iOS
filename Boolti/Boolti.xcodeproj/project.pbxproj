@@ -518,13 +518,10 @@
 		84625A0F2B63B46600CC9077 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				84D1C3792B792D0D00527998 /* Concert */,
 				8753CA7C2B7228F2002871C7 /* TicketDetailItemEntity.swift */,
-				84625A102B63B48D00CC9077 /* SalesTicketEntity.swift */,
-				84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */,
-				842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */,
 				87FB0D3B2B6C09B500B42AF9 /* TicketItemEntity.swift */,
 				87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */,
-				840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -880,6 +877,17 @@
 				84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		84D1C3792B792D0D00527998 /* Concert */ = {
+			isa = PBXGroup;
+			children = (
+				840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */,
+				842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */,
+				84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */,
+				84625A102B63B48D00CC9077 /* SalesTicketEntity.swift */,
+			);
+			path = Concert;
 			sourceTree = "<group>";
 		};
 		84DC6F632B728792001F9576 /* Concert */ = {

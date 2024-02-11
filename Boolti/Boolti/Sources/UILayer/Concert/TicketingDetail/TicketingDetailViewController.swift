@@ -93,18 +93,20 @@ final class TicketingDetailViewController: BooltiViewController {
         self.configureKeyboardNotification()
         self.bindInputs()
         self.bindOutputs()
-        self.bindNavigationView()
-        self.bindUserInputView()
-        self.bindPolicyView()
-        
-        // 확인용 - 공연 리스트 뷰 만들어지면 연결
-        concertInfoView.setData(posterURL: "", title: "2024 TOGETHER LUCKY CLUB", datetime: Date())
+        self.bindUIComponents()
+        self.viewModel.fetchConcertDetail()
     }
 }
 
 // MARK: - Methods
 
 extension TicketingDetailViewController {
+    
+    private func bindUIComponents() {
+        self.bindNavigationView()
+        self.bindUserInputView()
+        self.bindPolicyView()
+    }
     
     private func bindInputs() {
         self.payButton.rx.tap
@@ -125,6 +127,15 @@ extension TicketingDetailViewController {
     }
     
     private func bindOutputs() {
+        self.viewModel.output.concertDetail
+            .debug()
+            .bind(with: self) { owner, concertDetailEntity in
+                owner.concertInfoView.setData(posterURL: concertDetailEntity.posters.first!.thumbnailPath,
+                                              title: concertDetailEntity.name,
+                                              datetime: concertDetailEntity.date)
+            }
+            .disposed(by: self.disposeBag)
+        
         self.viewModel.selectedTicket
             .take(1)
             .bind(with: self, onNext: { owner, entity in

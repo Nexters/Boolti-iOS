@@ -9,11 +9,11 @@ import UIKit
 
 final class TicketingDetailDIContainer {
 
-//    private let ticketAPIService: TicketAPIService
-//
-//    init(ticketAPIService: TicketAPIService) {
-//        self.ticketAPIService = ticketAPIService
-//    }
+    private let concertRepository: ConcertRepository
+
+    init(concertRepository: ConcertRepository) {
+        self.concertRepository = concertRepository
+    }
 
     func createTicketingDetailViewController(selectedTicket: SalesTicketEntity) -> TicketingDetailViewController {
         let viewModel = createTicketingDetailViewModel(selectedTicket: selectedTicket)
@@ -38,7 +38,7 @@ final class TicketingDetailDIContainer {
     }
 
     private func createTicketingDetailViewModel(selectedTicket: SalesTicketEntity) -> TicketingDetailViewModel {
-        return TicketingDetailViewModel(selectedTicket: selectedTicket)
+        return TicketingDetailViewModel(concertRepository: self.concertRepository, selectedTicket: selectedTicket)
     }
 
 }

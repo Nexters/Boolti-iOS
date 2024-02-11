@@ -12,8 +12,9 @@ import RxRelay
 
 final class TicketingDetailViewModel {
     
-//    private let ticketAPIService: TicketAPIServiceType
+    // MARK: Properties
     
+    private let concertRepository: ConcertRepositoryType
     private let disposeBag = DisposeBag()
     
     struct Input {
@@ -22,6 +23,7 @@ final class TicketingDetailViewModel {
 
     struct Output {
         let invitationCodeState = BehaviorRelay<InvitationCodeState>(value: .empty)
+        let concertDetail = PublishRelay<ConcertDetailEntity>()
     }
 
     let input: Input
@@ -29,13 +31,12 @@ final class TicketingDetailViewModel {
     
     let selectedTicket: BehaviorRelay<SalesTicketEntity>
 
-//    init(ticketAPIService: TicketAPIService) {
-//        self.ticketAPIService = ticketAPIService
-    init(selectedTicket: SalesTicketEntity) {
+    init(concertRepository: ConcertRepository,
+         selectedTicket: SalesTicketEntity) {
+        self.concertRepository = concertRepository
         self.input = Input()
         self.output = Output()
         self.selectedTicket = BehaviorRelay<SalesTicketEntity>(value: selectedTicket)
-        
         self.bindInputs()
     }
 }
@@ -51,6 +52,18 @@ extension TicketingDetailViewModel {
                 // 서버에서 state 확인 후 수정
                 owner.output.invitationCodeState.accept(.verified)
             }
+            .disposed(by: self.disposeBag)
+    }
+}
+
+// MARK: - Network
+
+extension TicketingDetailViewModel {
+    
+    func fetchConcertDetail() {
+        self.concertRepository.concertDetail(concertId: self.selectedTicket.value.concertId)
+            .asObservable()
+            .bind(to: self.output.concertDetail)
             .disposed(by: self.disposeBag)
     }
 }
