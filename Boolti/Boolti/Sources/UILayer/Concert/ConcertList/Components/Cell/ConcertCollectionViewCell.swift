@@ -64,6 +64,8 @@ extension ConcertCollectionViewCell {
         self.posterImageView.setImage(with: concertEntity.posterPath)
         self.datetime.text = concertEntity.dateTime.format(.dateTime)
         self.name.text = concertEntity.name
+        
+        self.name.setLineSpacing(lineSpacing: 8)
     }
     
     private func resetData() {
@@ -96,7 +98,7 @@ extension ConcertCollectionViewCell {
         }
         
         self.name.snp.makeConstraints { make in
-            make.top.equalTo(self.datetime.snp.bottom).offset(2)
+            make.top.equalTo(self.datetime.snp.bottom).offset(4)
             make.horizontalEdges.equalToSuperview()
             make.height.lessThanOrEqualTo(52)
         }

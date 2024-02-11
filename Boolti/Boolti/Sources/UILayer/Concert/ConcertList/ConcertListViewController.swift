@@ -50,6 +50,7 @@ final class ConcertListViewController: UIViewController {
         self.configureUI()
         self.configureConstraints()
         
+        self.bindOutputs()
         self.configureCollectionView()
     }
     
@@ -70,6 +71,15 @@ final class ConcertListViewController: UIViewController {
 // MARK: - Methods
 
 extension ConcertListViewController {
+    
+    private func bindOutputs() {
+        viewModel.output.concerts
+            .asDriver()
+            .drive(with: self) { owner, concerts in
+                owner.mainCollectionView.reloadData()
+            }
+            .disposed(by: self.disposeBag)
+    }
     
     private func configureCollectionView() {
         self.mainCollectionView.delegate = self
