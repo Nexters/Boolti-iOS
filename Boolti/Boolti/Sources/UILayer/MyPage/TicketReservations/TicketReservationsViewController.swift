@@ -14,7 +14,12 @@ import RxDataSources
 
 final class TicketReservationsViewController: BooltiViewController {
 
+    typealias ReservationID = String
+
+    private let ticketReservationDetailViewControllerFactory: (ReservationID) -> TicketReservationDetailViewController
+
     private let viewModel: TicketReservationsViewModel
+
     private let disposeBag = DisposeBag()
 
     private let tableView: UITableView = {
@@ -35,6 +40,20 @@ final class TicketReservationsViewController: BooltiViewController {
 
     private let navigationBar = BooltiNavigationBar(type: .ticketReservations)
 
+    init(ticketReservationDetailViewControllerFactory: @escaping (ReservationID) -> TicketReservationDetailViewController,viewModel: TicketReservationsViewModel) {
+        self.viewModel = viewModel
+        self.ticketReservationDetailViewControllerFactory = ticketReservationDetailViewControllerFactory
+        super.init()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
@@ -42,10 +61,7 @@ final class TicketReservationsViewController: BooltiViewController {
         self.bindViewModel()
     }
 
-    init(viewModel: TicketReservationsViewModel) {
-        self.viewModel = viewModel
-        super.init()
-    }
+
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -94,7 +110,8 @@ final class TicketReservationsViewController: BooltiViewController {
         self.tableView.rx.modelSelected(TicketReservationItemEntity.self)
             .asDriver()
             .drive(with: self) { owner, ticketReservationItemEntity in
-
+                let viewController = owner.ticketReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
+                owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
