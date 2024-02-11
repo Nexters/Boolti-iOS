@@ -25,8 +25,6 @@ final class ConcertListViewController: UIViewController {
         return collectionView
     }()
 
-
-
     // MARK: Init
     
     init(
@@ -54,6 +52,8 @@ final class ConcertListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        self.viewModel.fetchConcertList(concertName: nil)
     }
 }
 

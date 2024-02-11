@@ -7,5 +7,40 @@
 
 import Foundation
 
+import RxSwift
+import RxRelay
+
 final class ConcertListViewModel {
+    
+    // MARK: Properties
+    
+    private let disposeBag = DisposeBag()
+    private let concertRepository: ConcertRepositoryType
+    
+    struct Output {
+        let concerts = PublishRelay<[ConcertEntity]>()
+        var concertsEntities: [ConcertEntity]?
+    }
+    
+    var output: Output
+    
+    // MARK: Init
+    
+    init(concertRepository: ConcertRepository) {
+        self.output = Output()
+        self.concertRepository = concertRepository
+    }
+}
+
+// MARK: - Network
+
+extension ConcertListViewModel {
+    
+    func fetchConcertList(concertName: String?) {
+        self.concertRepository.concertList(concertName: concertName)
+            .do { self.output.concertsEntities = $0 }
+            .asObservable()
+            .bind(to: self.output.concerts)
+            .disposed(by: self.disposeBag)
+    }
 }

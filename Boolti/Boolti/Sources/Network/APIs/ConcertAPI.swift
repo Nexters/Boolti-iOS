@@ -11,6 +11,7 @@ import Moya
 
 enum ConcertAPI {
 
+    case list(requesDTO: ConcertListRequestDTO)
     case detail(requestDTO: ConcertDetailRequestDTO)
     case salesTicket(requestDTO: SalesTicketRequestDTO)
 }
@@ -19,6 +20,8 @@ extension ConcertAPI: ServiceAPI {
 
     var path: String {
         switch self {
+        case .list:
+            return "/papi/v1/shows/search"
         case .detail(let DTO):
             return "/papi/v1/show/\(DTO.id)"
         case .salesTicket(let DTO):
@@ -31,6 +34,14 @@ extension ConcertAPI: ServiceAPI {
     }
 
     var task: Moya.Task {
-        return .requestPlain
+        switch self {
+        case .list(let DTO):
+            let query: [String: Any] = [
+                "nameLike": DTO.nameLike ?? ""
+            ]
+            return .requestParameters(parameters: query, encoding: URLEncoding.queryString)
+        default:
+            return .requestPlain
+        }
     }
 }

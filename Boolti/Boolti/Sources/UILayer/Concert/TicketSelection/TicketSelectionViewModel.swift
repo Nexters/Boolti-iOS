@@ -26,7 +26,7 @@ final class TicketSelectionViewModel {
     struct Output {
         let isLoading = PublishRelay<Bool>()
         let salesTickets = PublishRelay<[SalesTicketEntity]>()
-        var salesTicketEntity: [SalesTicketEntity]?
+        var salesTicketEntities: [SalesTicketEntity]?
         let totalPrice = BehaviorRelay<Int>(value: 0)
         let showTicketTypeView = PublishRelay<Void>()
     }
@@ -96,7 +96,7 @@ extension TicketSelectionViewModel {
     func fetchSalesTicket(completion: @escaping () -> ()) {
         self.output.isLoading.accept(true)
         self.concertRepository.salesTicket(concertId: self.concertId).asObservable()
-            .do { self.output.salesTicketEntity = $0 }
+            .do { self.output.salesTicketEntities = $0 }
             .subscribe(with: self) { owner, tickets in
                 owner.output.salesTickets.accept(tickets)
                 owner.output.isLoading.accept(false)

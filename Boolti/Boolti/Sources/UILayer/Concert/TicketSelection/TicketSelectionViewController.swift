@@ -122,7 +122,7 @@ extension TicketSelectionViewController {
         case .ticketTypeList:
             self.ticketTypeView.isHidden = false
             self.selectedTicketView.isHidden = true
-            self.setDetent(contentHeight: CGFloat(self.viewModel.output.salesTicketEntity?.count ?? 0) * self.ticketTypeView.cellHeight, contentType: .ticketTypeList)
+            self.setDetent(contentHeight: CGFloat(self.viewModel.output.salesTicketEntities?.count ?? 0) * self.ticketTypeView.cellHeight, contentType: .ticketTypeList)
         case .selectedTicket:
             self.ticketTypeView.isHidden = true
             self.selectedTicketView.isHidden = false

@@ -39,7 +39,7 @@ final class ConcertListDIContainer {
     }
     
     private func createConcertListViewModel() -> ConcertListViewModel {
-        return ConcertListViewModel()
+        return ConcertListViewModel(concertRepository: self.concertRepository)
     }
     
     private func createConcertDetailDIContainer() -> ConcertDetailDIContainer {
