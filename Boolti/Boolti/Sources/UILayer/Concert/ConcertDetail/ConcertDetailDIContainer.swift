@@ -25,8 +25,8 @@ final class ConcertDetailDIContainer {
     
     // MARK: - Methods
     
-    func createConcertDetailViewController() -> ConcertDetailViewController {
-        let viewModel = createConcertDetailViewModel()
+    func createConcertDetailViewController(concertId: Int) -> ConcertDetailViewController {
+        let viewModel = createConcertDetailViewModel(concertId: concertId)
         
         let loginViewControllerFactory: () -> LoginViewController = {
             let DIContainer = self.createLoginViewDIContainer()
@@ -74,8 +74,9 @@ final class ConcertDetailDIContainer {
         return TicketSelectionDIContainer(concertRepository: self.concertRepository)
     }
     
-    private func createConcertDetailViewModel() -> ConcertDetailViewModel {
-        return ConcertDetailViewModel(concertRepository: self.concertRepository)
+    private func createConcertDetailViewModel(concertId: Int) -> ConcertDetailViewModel {
+        return ConcertDetailViewModel(concertRepository: self.concertRepository,
+                                      concertId: concertId)
     }
 
 }

@@ -48,15 +48,15 @@ final class ConcertDetailViewModel {
     
     // MARK: Init
     
-    // TODO: DIContainer에서 concertId 주입받기
-    init(concertRepository: ConcertRepository) {
+    init(concertRepository: ConcertRepository,
+         concertId: Int) {
         self.concertRepository = concertRepository
         self.input = Input()
         self.output = Output()
         
         self.bindInputs()
         self.bindOutputs()
-        self.fetchConcertDetail(concertId: 3)
+        self.fetchConcertDetail(concertId: concertId)
     }
 }
 

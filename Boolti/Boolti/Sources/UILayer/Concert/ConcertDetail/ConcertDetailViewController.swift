@@ -147,7 +147,7 @@ extension ConcertDetailViewController {
                     owner.ticketingButton.setTitle(state.rawValue, for: .normal)
                 case .beforeSale:
                     owner.ticketingButton.isEnabled = false
-                    owner.ticketingButton.setTitle("\(state.rawValue)\(Date().getBetweenDay(to: owner.viewModel.output.concertDetailEntity?.date ?? Date()))", for: .normal)
+                    owner.ticketingButton.setTitle("\(state.rawValue)\(Date().getBetweenDay(to: owner.viewModel.output.concertDetailEntity?.salesStartTime ?? Date()))", for: .normal)
                     owner.ticketingButton.setTitleColor(.orange01, for: .normal)
                 case .endSale, .endConcert:
                     owner.ticketingButton.isEnabled = false
