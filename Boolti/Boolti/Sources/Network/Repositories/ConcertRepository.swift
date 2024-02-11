@@ -16,7 +16,7 @@ final class ConcertRepository: ConcertRepositoryType {
         self.networkService = networkService
     }
     
-    func concertList(concertName: String?) -> RxSwift.Single<[ConcertEntity]> {
+    func concertList(concertName: String?) -> Single<[ConcertEntity]> {
         let concertListRequestDTO = ConcertListRequestDTO(nameLike: concertName)
         let api = ConcertAPI.list(requesDTO: concertListRequestDTO)
         
