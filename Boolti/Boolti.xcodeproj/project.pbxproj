@@ -444,6 +444,7 @@
 				84360F6F2B6BF6D4009510D9 /* Protocol */,
 				84360F702B6BF70E009510D9 /* Auth */,
 				841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */,
+				870099B62B77489A001779FB /* TicketReservationsRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1045,7 +1046,6 @@
 				8710D94B2B74FA7D00309FBF /* TicketReservationsViewController.swift */,
 				870099BC2B7767B4001779FB /* Cell */,
 				870099BB2B7767AB001779FB /* Views */,
-				870099B62B77489A001779FB /* TicketReservationsRepository.swift */,
 				8710D94F2B74FA9A00309FBF /* TicketReservationsDIContainer.swift */,
 				8710D94D2B74FA8B00309FBF /* TicketReservationsViewModel.swift */,
 			);

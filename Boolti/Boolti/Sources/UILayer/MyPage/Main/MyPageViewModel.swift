@@ -67,7 +67,7 @@ final class MyPageViewModel {
 
         self.input.didTicketingReservationsViewTapEvent
             .subscribe(with: self) { owner, _ in
-                guard owner.output.isAccessTokenLoaded.value == true else {
+                guard owner.output.isAccessTokenLoaded.value else {
                     return owner.output.navigation.accept(.login)
                 }
                 owner.output.navigation.accept(.ticketReservations)

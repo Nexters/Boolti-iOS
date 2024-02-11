@@ -108,10 +108,9 @@ final class TicketReservationsViewController: BooltiViewController {
     private func bindOutputs() {
         self.viewModel.output.tickerReservations
             .flatMap({ [weak self] ticketReservations in
-                guard !ticketReservations.isEmpty else {
+                if ticketReservations.isEmpty {
                     self?.emptyReservationsStackView.isHidden = false
                     self?.tableView.isHidden = true
-                    return Observable.just([])
                 }
                 return Observable.just(ticketReservations)
             })
@@ -119,7 +118,6 @@ final class TicketReservationsViewController: BooltiViewController {
                 cellIdentifier: TicketReservationsTableViewCell.className,
                 cellType: TicketReservationsTableViewCell.self
             )) { index, item, cell in
-                guard let item = item as? TicketReservationItemEntity else { return }
                 cell.selectionStyle = .none
                 cell.setData(with: item)
             }

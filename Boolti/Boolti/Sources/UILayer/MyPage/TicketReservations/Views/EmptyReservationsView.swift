@@ -1,5 +1,5 @@
 //
-//  EmptyReservationsView.swift
+//  EmptyReservationsStackView.swift
 //  Boolti
 //
 //  Created by Miro on 2/10/24.
