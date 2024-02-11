@@ -90,6 +90,13 @@ final class TicketReservationsViewController: BooltiViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
+
+        self.tableView.rx.modelSelected(TicketReservationItemEntity.self)
+            .asDriver()
+            .drive(with: self) { owner, ticketReservationItemEntity in
+
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {
