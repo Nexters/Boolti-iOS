@@ -9,6 +9,8 @@ import UIKit
 
 final class ConcertListDIContainer {
 
+    typealias ConcertId = Int
+
     private let authRepository: AuthRepository
     private let concertRepository: ConcertRepository
 
@@ -21,10 +23,10 @@ final class ConcertListDIContainer {
     func createConcertListViewController() -> UIViewController {
         let viewModel = createConcertListViewModel()
         
-        let concertDetailViewControllerFactory: () -> ConcertDetailViewController = {
+        let concertDetailViewControllerFactory: (ConcertId) -> ConcertDetailViewController = { concertId in
             let DIContainer = self.createConcertDetailDIContainer()
 
-            let viewController = DIContainer.createConcertDetailViewController()
+            let viewController = DIContainer.createConcertDetailViewController(concertId: concertId)
             return viewController
         }
 

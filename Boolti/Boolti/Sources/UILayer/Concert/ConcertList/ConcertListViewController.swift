@@ -13,9 +13,11 @@ final class ConcertListViewController: UIViewController {
     
     // MARK: Properties
     
+    typealias ConcertId = Int
+    
     private let viewModel: ConcertListViewModel
     private let disposeBag = DisposeBag()
-    private let concertDetailViewControllerFactory: () -> ConcertDetailViewController
+    private let concertDetailViewControllerFactory: (ConcertId) -> ConcertDetailViewController
     
     // MARK: UI Component
     
@@ -31,7 +33,7 @@ final class ConcertListViewController: UIViewController {
     
     init(
         viewModel: ConcertListViewModel,
-        concertDetailViewControllerFactory: @escaping () -> ConcertDetailViewController
+        concertDetailViewControllerFactory: @escaping (ConcertId) -> ConcertDetailViewController
     ) {
         self.viewModel = viewModel
         self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
@@ -50,7 +52,6 @@ final class ConcertListViewController: UIViewController {
         self.configureUI()
         self.configureConstraints()
         
-        self.bindInputs()
         self.bindOutputs()
         self.configureCollectionView()
     }
@@ -73,17 +74,6 @@ final class ConcertListViewController: UIViewController {
 // MARK: - Methods
 
 extension ConcertListViewController {
-    
-    private func bindInputs() {
-        let tapGesture = UITapGestureRecognizer()
-        self.view.addGestureRecognizer(tapGesture)
-
-        tapGesture.rx.event
-            .bind(with: self, onNext: { owner, _ in
-                owner.view.endEditing(true)
-            })
-            .disposed(by: self.disposeBag)
-    }
     
     private func bindOutputs() {
         self.viewModel.output.concerts
@@ -112,6 +102,10 @@ extension ConcertListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             debugPrint("예매 내역으로 이동")
+        }
+        else if indexPath.section == 3 {
+            let viewController = concertDetailViewControllerFactory(self.viewModel.output.concerts.value[indexPath.row].id)
+            self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
     
@@ -184,7 +178,7 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         switch section {
         case 3:
-            return UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: 12, left: 0, bottom: 20, right: 0)
         default:
             return .zero
         }
