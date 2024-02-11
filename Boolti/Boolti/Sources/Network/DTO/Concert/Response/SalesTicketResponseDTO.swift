@@ -23,11 +23,11 @@ extension SalesTicketResponseDTO {
     func convertToSalesTicketEntities() -> [SalesTicketEntity] {
         return self.map { ticket in
             var ticketType: SalesTicketEntity.TicketType = .invite
-            
+
             switch ticket.ticketType {
-            case TicketType.invitation.rawValue:
+            case SalesTicketEntity.TicketType.invite.rawValue:
                 ticketType = .invite
-            case TicketType.sale.rawValue:
+            case SalesTicketEntity.TicketType.sales.rawValue:
                 ticketType = .sales
             default:
                 break
