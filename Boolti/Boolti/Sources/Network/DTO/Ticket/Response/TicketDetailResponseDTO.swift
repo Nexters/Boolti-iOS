@@ -1,5 +1,5 @@
 //
-//  TicketListItemResponseDTO.swift
+//  TicketDetailResponseDTO.swift
 //  Boolti
 //
 //  Created by Miro on 2/6/24.
@@ -7,22 +7,29 @@
 
 import UIKit
 
-struct TicketListItemResponseDTO: Decodable {
+struct TicketDetailResponseDTO: Decodable {
 
     let ticketId: Int
     let showName: String
     let placeName: String
-    let showDate: String
     let showImgPath: String
+    let showDate: String
+    let streetAddress: String
+    let detailAddress: String
     let ticketType: String
     let ticketName: String
+    let notice: String
     let entryCode: String
     let usedAt: String?
+    let hostName: String
+    let hostPhoneNumber: String
 }
 
-extension TicketListItemResponseDTO {
 
-    func convertToTicketItemEntity() -> TicketItemEntity {
+
+extension TicketDetailResponseDTO {
+
+    func convertToTicketDetailItemEntity() -> TicketDetailItemEntity {
         /// 티켓 타입
         let ticketType = self.ticketType == "SALE" ? TicketType.sale : TicketType.invitation
 
@@ -42,8 +49,8 @@ extension TicketListItemResponseDTO {
         isoDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 
         let date = isoDateFormatter.date(from: self.showDate) ?? Date()
-        let formatterDate = date.format(.date)
-        
+        let formatterDate = date.format(.dateDay)
+
 
         /// 공연 장소
         let location = self.placeName
@@ -55,11 +62,18 @@ extension TicketListItemResponseDTO {
         /// 티켓 ID
         let ticketID = self.ticketId
 
-        /// 사용된 ticket
+        /// Host Name, PhoneNumber
+        let hostName = self.hostName
+        let hostPhoneNumber = self.hostPhoneNumber
+
+        /// 사용된 ticket인지
         let usedTime = self.usedAt
 
+        /// 안내사항
+        let notice = self.notice
 
-        return TicketItemEntity(
+
+        return TicketDetailItemEntity(
             ticketType: ticketType,
             ticketName: ticketName,
             poster: posterImage,
@@ -67,7 +81,10 @@ extension TicketListItemResponseDTO {
             date: formatterDate,
             location: location,
             qrCode: qrCodeImage,
+            notice: notice,
             ticketID: ticketID,
+            hostName: hostName,
+            hostPhoneNumber: hostPhoneNumber,
             usedTime: usedTime
         )
     }

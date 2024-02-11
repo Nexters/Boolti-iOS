@@ -9,15 +9,18 @@ import Foundation
 
 enum DateFormatType: String {
     case simple = "M월 d일"
-    case date = "yyyy.MM.dd (E)"
-    case dateTime = "yyyy.MM.dd (E) HH:mm"
-    case dateSlashTime = "yyyy.MM.dd (E) / HH:mm"
+    case dateDay = "yyyy.MM.dd (E)"
+    case dateDayTime = "yyyy.MM.dd (E) HH:mm"
+    case dateTime = "yyyy.MM.dd HH:mm"
+    case dateDayTimeWithSlash = "yyyy.MM.dd (E) / HH:mm"
     case isoDateTime = "yyyy-MM-dd'T'HH:mm:ss"
 }
 
 extension DateFormatType {
 
     var formatter: DateFormatter {
+        let formatter = ISO8601DateFormatter()
+
         guard let formatter = DateFormatType.cachedFormatters[self] else {
             let generatedFormatter = DateFormatType.makeFormatter(withDateFormat: self)
             DateFormatType.cachedFormatters[self] = generatedFormatter

@@ -51,7 +51,7 @@ extension DepositDetailView {
         self.bank.text = "신한은행"
         self.account.text = "1234-56-7890123"
         self.accountHolder.text = "박불티"
-        self.depositDeadline.text = depositDeadline.format(.dateTime)
+        self.depositDeadline.text = depositDeadline.format(.dateDayTime)
     }
 }
 
