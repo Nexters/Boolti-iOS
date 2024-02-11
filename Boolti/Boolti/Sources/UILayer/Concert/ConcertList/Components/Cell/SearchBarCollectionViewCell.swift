@@ -7,13 +7,16 @@
 
 import UIKit
 
+import RxCocoa
+
 final class SearchBarCollectionViewCell: UICollectionViewCell {
     
-    // MARK: Properties
+    // MARK: UI Component
     
-    private let searchBarTextField: BooltiTextField = {
+    let searchBarTextField: BooltiTextField = {
         let textField = BooltiTextField(withRightButton: true)
         textField.setPlaceHolderText(placeholder: "공연명으로 검색해 주세요")
+        textField.returnKeyType = .done
         return textField
     }()
     
@@ -38,6 +41,18 @@ final class SearchBarCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - Methods
+
+extension SearchBarCollectionViewCell {
+    
+    func didSearchTap() -> Signal<Void> {
+        let doneTapSignal = self.searchBarTextField.rx.controlEvent(.editingDidEndOnExit).asSignal()
+        let searchButtonTapSignal = self.searchButton.rx.tap.asSignal()
+
+        return Signal.merge(doneTapSignal, searchButtonTapSignal)
+    }
+}
+
+// MARK: - UI
 
 extension SearchBarCollectionViewCell {
     

@@ -57,6 +57,8 @@ final class ConcertListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // TODO: 로그인 확인, 예매내역 확인, 닉네임 넣기
+        
         self.viewModel.fetchConcertList(concertName: nil)
     }
     
@@ -73,7 +75,7 @@ final class ConcertListViewController: UIViewController {
 extension ConcertListViewController {
     
     private func bindOutputs() {
-        viewModel.output.concerts
+        self.viewModel.output.concerts
             .asDriver()
             .drive(with: self) { owner, concerts in
                 owner.mainCollectionView.reloadData()
@@ -98,7 +100,7 @@ extension ConcertListViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            debugPrint("입금 확인중 선택")
+            debugPrint("예매 내역으로 이동")
         }
     }
 }
@@ -130,6 +132,13 @@ extension ConcertListViewController: UICollectionViewDataSource {
             return cell
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchBarCollectionViewCell.className, for: indexPath) as? SearchBarCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.didSearchTap()
+                .emit(with: self) { owner, _ in
+                    self.viewModel.fetchConcertList(concertName: cell.searchBarTextField.text)
+                }
+                .disposed(by: self.disposeBag)
+            
             return cell
         default:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConcertCollectionViewCell.className, for: indexPath) as? ConcertCollectionViewCell else { return UICollectionViewCell() }
