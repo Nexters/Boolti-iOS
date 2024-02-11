@@ -15,7 +15,9 @@ final class TitleCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .point4
         label.textColor = .grey05
+        label.numberOfLines = 2
         label.text = "불티 유저님, 오늘은\n어떤 공연을 즐겨볼까요?"
+        label.setLineSpacing(lineSpacing: 6)
         return label
     }()
     

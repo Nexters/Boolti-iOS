@@ -15,6 +15,7 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey70
         imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.grey80.cgColor
         return imageView
@@ -31,6 +32,7 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .point1
         label.textColor = .grey05
+        label.numberOfLines = 0
         return label
     }()
     
@@ -95,8 +97,8 @@ extension ConcertCollectionViewCell {
         
         self.name.snp.makeConstraints { make in
             make.top.equalTo(self.datetime.snp.bottom).offset(2)
-            make.horizontalEdges.bottom.equalToSuperview()
-            make.height.equalTo(52)
+            make.horizontalEdges.equalToSuperview()
+            make.height.lessThanOrEqualTo(52)
         }
     }
 }

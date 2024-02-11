@@ -21,7 +21,8 @@ final class CheckingTicketCollectionViewCell: UICollectionViewCell {
     
     private let navigateImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .navigate
+        imageView.image = .navigate.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = .grey05
         return imageView
     }()
     
@@ -44,15 +45,18 @@ final class CheckingTicketCollectionViewCell: UICollectionViewCell {
 extension CheckingTicketCollectionViewCell {
     
     private func configureUI() {
-        self.addSubviews([self.checkingTitle,
-                          self.navigateImageView])
-        
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.bounds
         gradientLayer.colors = [UIColor.init("#FF6827").cgColor, UIColor.init("#EB955B").cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
         gradientLayer.locations = [0.0, 1.0]
         self.layer.addSublayer(gradientLayer)
-        self.layer.cornerRadius = 8
+        self.layer.cornerRadius = 4
+        self.clipsToBounds = true
+        
+        self.addSubviews([self.checkingTitle,
+                          self.navigateImageView])
     }
     
     private func configureConstraints() {

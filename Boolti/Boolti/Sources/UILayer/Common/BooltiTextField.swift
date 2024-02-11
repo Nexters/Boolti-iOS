@@ -8,19 +8,15 @@
 import UIKit
 
 final class BooltiTextField: UITextField {
-    
-    // MARK: UI Component
-    
-    var searchButton: UIButton?
 
     // MARK: Init
     
-    init(backgroundColor: UIColor = .grey85, isSearchBar: Bool = false) {
+    init(backgroundColor: UIColor = .grey85, withRightButton: Bool = false) {
         super.init(frame: .zero)
         self.configureUI(backgroundColor: backgroundColor)
         self.configureConstraints()
         
-        if isSearchBar { self.addSearchButton() }
+        if withRightButton { self.addRightPadding() }
     }
 
     required init?(coder: NSCoder) {
@@ -65,23 +61,9 @@ extension BooltiTextField {
         self.leftViewMode = ViewMode.always
     }
     
-    private func addSearchButton() {
-        self.searchButton = {
-            let button = UIButton()
-            button.setImage(.search, for: .normal)
-            return button
-        }()
-        
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: self.frame.height))
-        paddingView.addSubview(self.searchButton ?? UIButton())
-        
-        self.searchButton?.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.left.equalTo(paddingView)
-            make.height.width.equalTo(24)
-        }
-        
+    private func addRightPadding() {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 48, height: self.frame.height))
         self.rightView = paddingView
-        self.rightViewMode = ViewMode.always
+        self.rightViewMode = .always
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConcertCollectionViewFlowLayout: UICollectionViewFlowLayout {
+final class ConcertCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     // MARK: Properties
 

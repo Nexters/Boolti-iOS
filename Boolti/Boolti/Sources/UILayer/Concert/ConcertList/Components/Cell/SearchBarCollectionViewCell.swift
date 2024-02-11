@@ -11,7 +11,17 @@ final class SearchBarCollectionViewCell: UICollectionViewCell {
     
     // MARK: Properties
     
-    private let searchBar = BooltiTextField(isSearchBar: true)
+    private let searchBarTextField: BooltiTextField = {
+        let textField = BooltiTextField(withRightButton: true)
+        textField.setPlaceHolderText(placeholder: "공연명으로 검색해 주세요")
+        return textField
+    }()
+    
+    private let searchButton = {
+        let button = UIButton()
+        button.setImage(.search, for: .normal)
+        return button
+    }()
     
     // MARK: Init
     
@@ -32,15 +42,21 @@ final class SearchBarCollectionViewCell: UICollectionViewCell {
 extension SearchBarCollectionViewCell {
     
     private func configureUI() {
-        self.addSubview(self.searchBar)
+        self.addSubviews([self.searchBarTextField, self.searchButton])
         
         self.backgroundColor = .grey95
     }
     
     private func configureConstraints() {
-        self.searchBar.snp.makeConstraints { make in
+        self.searchBarTextField.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.verticalEdges.equalToSuperview().inset(16)
+        }
+    
+        self.searchButton.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalTo(self.searchBarTextField.snp.right).offset(-12)
+            make.height.width.equalTo(24)
         }
     }
 }
