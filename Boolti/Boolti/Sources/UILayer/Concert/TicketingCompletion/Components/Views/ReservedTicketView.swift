@@ -15,6 +15,7 @@ final class ReservedTicketView: UIView {
         let view = UIImageView()
         view.backgroundColor = .grey30
         view.layer.cornerRadius = 4
+        view.clipsToBounds = true
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey80.cgColor
         return view
