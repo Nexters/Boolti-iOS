@@ -35,7 +35,7 @@ final class InvitationCodeView: UIView {
     
     let codeTextField: BooltiTextField = {
         let textField = BooltiTextField()
-        textField.setPlaceHolderText(placeholder: "예) B123456")
+        textField.setPlaceHolderText(placeholder: "초청 코드를 입력해 주세요")
         textField.keyboardType = .namePhonePad
         textField.returnKeyType = .done
         textField.layer.borderColor = UIColor.error.cgColor
