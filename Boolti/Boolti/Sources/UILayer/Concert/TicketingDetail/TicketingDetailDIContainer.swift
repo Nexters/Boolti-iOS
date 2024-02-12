@@ -15,7 +15,7 @@ final class TicketingDetailDIContainer {
         self.concertRepository = concertRepository
     }
 
-    func createTicketingDetailViewController(selectedTicket: SalesTicketEntity) -> TicketingDetailViewController {
+    func createTicketingDetailViewController(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewController {
         let viewModel = createTicketingDetailViewModel(selectedTicket: selectedTicket)
         
         let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController = { ticketingEntity in
@@ -37,7 +37,7 @@ final class TicketingDetailDIContainer {
         return TicketingCompletionDIContainer()
     }
 
-    private func createTicketingDetailViewModel(selectedTicket: SalesTicketEntity) -> TicketingDetailViewModel {
+    private func createTicketingDetailViewModel(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewModel {
         return TicketingDetailViewModel(concertRepository: self.concertRepository, selectedTicket: selectedTicket)
     }
 

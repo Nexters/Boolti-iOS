@@ -20,20 +20,20 @@ typealias SalesTicketResponseDTO = [SalesTicketResponseDTOElement]
 
 extension SalesTicketResponseDTO {
     
-    func convertToSalesTicketEntities() -> [SalesTicketEntity] {
+    func convertToSalesTicketEntities() -> [SelectedTicketEntity] {
         return self.map { ticket in
-            var ticketType: SalesTicketEntity.TicketType = .invite
+            var ticketType: SelectedTicketEntity.TicketType = .invite
 
             switch ticket.ticketType {
-            case SalesTicketEntity.TicketType.invite.rawValue:
+            case SelectedTicketEntity.TicketType.invite.rawValue:
                 ticketType = .invite
-            case SalesTicketEntity.TicketType.sales.rawValue:
+            case SelectedTicketEntity.TicketType.sales.rawValue:
                 ticketType = .sales
             default:
                 break
             }
             
-            return SalesTicketEntity(id: ticket.id,
+            return SelectedTicketEntity(id: ticket.id,
                                      concertId: ticket.showId,
                                      ticketType: ticketType,
                                      ticketName: ticket.ticketName,

@@ -16,6 +16,7 @@ enum ConcertAPI {
     case salesTicket(requestDTO: SalesTicketRequestDTO)
     case salesTicketing(requestDTO: SalesTicketingRequestDTO)
     case checkInvitationCode(requestDTO: CheckInvitationCodeRequestDTO)
+    case invitationTicketing(requestDTO: InvitationTicketingRequestDTO)
 }
 
 extension ConcertAPI: ServiceAPI {
@@ -32,12 +33,14 @@ extension ConcertAPI: ServiceAPI {
             return "/api/v1/reservation/sales-ticket"
         case .checkInvitationCode:
             return "api/v1/check/invite-code"
+        case .invitationTicketing:
+            return "/api/v1/reservation/invite-ticket"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .salesTicketing:
+        case .salesTicketing, .invitationTicketing:
             return .post
         default:
             return .get
@@ -60,6 +63,8 @@ extension ConcertAPI: ServiceAPI {
                 "inviteCode": DTO.inviteCode
             ]
             return .requestParameters(parameters: query, encoding: URLEncoding.queryString)
+        case .invitationTicketing(let DTO):
+            return .requestJSONEncodable(DTO)
         default:
             return .requestPlain
         }

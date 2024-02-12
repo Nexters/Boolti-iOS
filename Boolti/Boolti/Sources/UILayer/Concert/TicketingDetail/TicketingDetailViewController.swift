@@ -144,7 +144,9 @@ extension TicketingDetailViewController {
     private func bindOutputs() {
         self.viewModel.output.navigateToCompletion
             .bind(with: self) { owner, _ in
-                let viewController = owner.ticketingCompletionViewControllerFactory(self.viewModel.input.ticketingEntity!)
+                guard let ticketingEntity = self.viewModel.input.ticketingEntity else { return }
+                
+                let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)

@@ -10,7 +10,7 @@ import Foundation
 struct TicketingEntity {
     let ticketHolder: userInfo
     let depositor: userInfo?
-    let selectedTicket: [SalesTicketEntity]
+    let selectedTicket: [SelectedTicketEntity]
 
     // 현재는 계좌이체만 가능
     let paymentMethod: String

@@ -30,14 +30,14 @@ final class TicketingDetailViewModel {
     var input: Input
     let output: Output
     
-    let selectedTicket: BehaviorRelay<SalesTicketEntity>
+    let selectedTicket: BehaviorRelay<SelectedTicketEntity>
 
     init(concertRepository: ConcertRepository,
-         selectedTicket: SalesTicketEntity) {
+         selectedTicket: SelectedTicketEntity) {
         self.concertRepository = concertRepository
         self.input = Input()
         self.output = Output()
-        self.selectedTicket = BehaviorRelay<SalesTicketEntity>(value: selectedTicket)
+        self.selectedTicket = BehaviorRelay<SelectedTicketEntity>(value: selectedTicket)
     }
 }
 
@@ -54,8 +54,7 @@ extension TicketingDetailViewModel {
     
     func salesTicketing(ticketHolderName: String, ticketHolderPhoneNumber: String,
                         depositorName: String, depositorPhoneNumber: String) {
-        self.concertRepository.salesTicketing(concertId: self.selectedTicket.value.concertId,
-                                              selectedTicket: self.selectedTicket.value,
+        self.concertRepository.salesTicketing(selectedTicket: self.selectedTicket.value,
                                               ticketHolderName: ticketHolderName,
                                               ticketHolderPhoneNumber: ticketHolderPhoneNumber,
                                               depositorName: depositorName,
@@ -67,7 +66,6 @@ extension TicketingDetailViewModel {
     }
     
     func checkInvitationCode(invitationCode: String) {
-        debugPrint(self.selectedTicket.value.concertId, self.selectedTicket.value.id)
         self.concertRepository.checkInvitationCode(concertId: self.selectedTicket.value.concertId,
                                                    ticketId: self.selectedTicket.value.id,
                                                    invitationCode: invitationCode)
@@ -79,10 +77,16 @@ extension TicketingDetailViewModel {
         .disposed(by: self.disposeBag)
     }
     
-    func invitationTicketing(ticketHolderName: String, ticketHolderPhoneNumber: String,
+    func invitationTicketing(ticketHolderName: String,
+                             ticketHolderPhoneNumber: String,
                              invitationCode: String) {
-        debugPrint(ticketHolderName, ticketHolderPhoneNumber, invitationCode)
-        
-        // TODO: 초청코드 티켓팅 연결
+        self.concertRepository.invitationTicketing(selectedTicket: self.selectedTicket.value,
+                                                   ticketHolderName: ticketHolderName,
+                                                   ticketHolderPhoneNumber: ticketHolderPhoneNumber,
+                                                   invitationCode: invitationCode)
+        .subscribe(with: self) { owner, _ in
+            owner.output.navigateToCompletion.onNext(())
+        }
+        .disposed(by: self.disposeBag)
     }
 }

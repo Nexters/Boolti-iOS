@@ -18,15 +18,15 @@ final class TicketSelectionViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let didTicketSelect = PublishSubject<SalesTicketEntity>()
+        let didTicketSelect = PublishSubject<SelectedTicketEntity>()
         let didDeleteButtonTap = PublishSubject<Int>()
-        let selectedTickets = BehaviorRelay<[SalesTicketEntity]>(value: [])
+        let selectedTickets = BehaviorRelay<[SelectedTicketEntity]>(value: [])
     }
 
     struct Output {
         let isLoading = PublishRelay<Bool>()
-        let salesTickets = PublishRelay<[SalesTicketEntity]>()
-        var salesTicketEntities: [SalesTicketEntity]?
+        let salesTickets = PublishRelay<[SelectedTicketEntity]>()
+        var salesTicketEntities: [SelectedTicketEntity]?
         let totalPrice = BehaviorRelay<Int>(value: 0)
         let showTicketTypeView = PublishRelay<Void>()
     }
