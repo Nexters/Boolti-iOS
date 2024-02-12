@@ -193,6 +193,15 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
             return 0
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        switch section {
+        case 3:
+            return 28
+        default:
+            return 0
+        }
+    }
 }
 
 // MARK: - UI
