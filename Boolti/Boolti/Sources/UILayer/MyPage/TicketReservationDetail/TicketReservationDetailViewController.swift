@@ -52,48 +52,49 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private let accountHolderNameView = ReservationHorizontalStackView(title: "예금주", alignment: .left)
     private let depositDeadLineView = ReservationHorizontalStackView(title: "입금 마감일", alignment: .left)
 
-    private lazy var depositAccountInformationStackView = ReservationCollapsableStackView(title: "입금 계좌 정보", contentViews: [
-        self.bankNameView,
-        self.accountNumberView,
-        self.accountHolderNameView,
-        self.depositDeadLineView
-    ], isHidden: false)
+    private lazy var depositAccountInformationStackView = ReservationCollapsableStackView(
+        title: "입금 계좌 정보",
+        contentViews: [self.bankNameView, self.accountNumberView, self.accountHolderNameView, self.depositDeadLineView],
+        isHidden: false
+    )
 
     private let paymentMethodView = ReservationHorizontalStackView(title: "결제 수단", alignment: .right)
     private let totalPaymentAmountView = ReservationHorizontalStackView(title: "총 결제 금액", alignment: .right)
     private let paymentStatusView = ReservationHorizontalStackView(title: "결제 상태", alignment: .right)
 
-    private lazy var paymentInformationStackView = ReservationCollapsableStackView(title: "결제 정보", contentViews: [
-        self.paymentMethodView,
-        self.totalPaymentAmountView,
-        self.paymentStatusView,
-    ], isHidden: false)
+    private lazy var paymentInformationStackView = ReservationCollapsableStackView(
+        title: "결제 정보",
+        contentViews: [self.paymentMethodView, self.totalPaymentAmountView, self.paymentStatusView],
+        isHidden: false
+    )
 
     private let ticketTypeView = ReservationHorizontalStackView(title: "티켓 종류", alignment: .right)
     private let ticketCountView = ReservationHorizontalStackView(title: "티켓 개수", alignment: .right)
     private let ticketingDateView = ReservationHorizontalStackView(title: "발권 일시", alignment: .right)
 
-    private lazy var ticketInformationStackView = ReservationCollapsableStackView(title: "티켓 정보", contentViews: [
-        self.ticketTypeView,
-        self.ticketCountView,
-        self.ticketingDateView,
-    ], isHidden: false)
+    private lazy var ticketInformationStackView = ReservationCollapsableStackView(
+        title: "티켓 정보",
+        contentViews: [self.ticketTypeView, self.ticketCountView, self.ticketingDateView],
+        isHidden: false
+    )
 
     private let purchasernNameView = ReservationHorizontalStackView(title: "이름", alignment: .right)
     private let purchaserPhoneNumberView = ReservationHorizontalStackView(title: "연락처", alignment: .right)
 
-    private lazy var purchaserInformationStackView = ReservationCollapsableStackView(title: "예매자 정보", contentViews: [
-        self.purchasernNameView,
-        self.purchaserPhoneNumberView,
-    ], isHidden: true)
+    private lazy var purchaserInformationStackView = ReservationCollapsableStackView(
+        title: "예매자 정보",
+        contentViews: [self.purchasernNameView, self.purchaserPhoneNumberView],
+        isHidden: true
+    )
 
     private let depositorNameView = ReservationHorizontalStackView(title: "이름", alignment: .right)
     private let depositorPhoneNumberView = ReservationHorizontalStackView(title: "연락처", alignment: .right)
 
-    private lazy var depositorInformationStackView = ReservationCollapsableStackView(title: "입금자 정보", contentViews: [
-        self.depositorNameView,
-        self.depositorPhoneNumberView,
-    ], isHidden: true)
+    private lazy var depositorInformationStackView = ReservationCollapsableStackView(
+        title: "입금자 정보",
+        contentViews: [self.depositorNameView, self.depositorPhoneNumberView],
+        isHidden: true
+    )
 
     private let reversalPolicyView = ReversalPolicyView(isWithoutBorder: true)
 

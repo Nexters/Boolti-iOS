@@ -62,6 +62,10 @@ final class ReservationCollapsableStackView: UIStackView {
         self.backgroundColor = .grey90
         self.titleLabel.text = title
 
+        if !isHidden {
+            self.viewCollapseButton.isSelected.toggle()
+        }
+
         let collapsableSubviews = contentViews + [self.additionalSpacingView]
         collapsableSubviews.forEach { $0.isHidden = isHidden }
 
