@@ -157,7 +157,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         self.scrollView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationBar.snp.bottom)
-            make.bottom.horizontalEdges.equalToSuperview()
+            make.bottom.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide)
         }
 
         self.contentStackView.snp.makeConstraints { make in
@@ -197,6 +197,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
             .bind(with: self) { owner, accountNumber in
                 UIPasteboard.general.string = accountNumber
                 owner.showToast(message: "계좌번호 복사완료")
+            }
+            .disposed(by: self.disposeBag)
+
+        self.reversalPolicyView.didViewCollapseButtonTap
+            .bind(with: self) { owner, _ in
+                owner.scrollToBottom()
             }
             .disposed(by: self.disposeBag)
     }
@@ -281,5 +287,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.depositorInformationStackView.isHidden = true
         self.reversalPolicyView.isHidden = true
         self.requestRefundButton.isHidden = true
+    }
+
+    private func scrollToBottom() {
+        let scrollViewPaddingFromNavigationBar = CGFloat(0)
+        let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.size.height + scrollViewPaddingFromNavigationBar)
+
+        self.scrollView.setContentOffset(bottomOffset, animated: true)
     }
 }
