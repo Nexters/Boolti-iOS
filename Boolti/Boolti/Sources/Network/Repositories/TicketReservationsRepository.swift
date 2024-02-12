@@ -28,4 +28,5 @@ class TicketReservationRepository: TicketReservationsRepositoryType {
             .map([TicketReservationItemResponseDTO].self)
             .map { $0.map { $0.convertToTicketReservationItemEntity() }}
     }
+
 }
