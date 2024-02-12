@@ -14,7 +14,7 @@ final class PaymentCompletionView: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "결제가 완료되었어요"
-        label.font = .point1
+        label.font = .point4
         label.textColor = .grey05
         return label
     }()
