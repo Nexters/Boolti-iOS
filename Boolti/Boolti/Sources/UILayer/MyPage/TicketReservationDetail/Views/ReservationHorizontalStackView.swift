@@ -89,7 +89,7 @@ final class ReservationHorizontalStackView: UIStackView {
         }
 
         self.contentLabel.snp.makeConstraints { make in
-            make.width.equalTo(235)
+            make.width.greaterThanOrEqualTo(235)
             make.height.equalTo(32)
         }
     }

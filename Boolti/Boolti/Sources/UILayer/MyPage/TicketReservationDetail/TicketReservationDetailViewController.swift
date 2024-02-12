@@ -16,6 +16,8 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private let viewModel: TicketReservationDetailViewModel
     private let disposeBag = DisposeBag()
 
+    private let navigationBar = BooltiNavigationBar(type: .ticketReservationDetail)
+
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .black
@@ -28,7 +30,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
-        stackView.alignment = .leading
+        stackView.alignment = .center
         stackView.spacing = 12
 
         return stackView
@@ -93,14 +95,23 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.depositorPhoneNumberView,
     ])
 
-    private let reveralPolicyView = ReversalPolicyView(isWithoutBorder: true)
+    private let reversalPolicyView = ReversalPolicyView(isWithoutBorder: true)
+
+    private let requestRefundButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("환불 요청하기", for: .normal)
+        button.setTitleColor(.grey90, for: .normal)
+        button.titleLabel?.font = .subhead1
+        button.backgroundColor = .grey20
+        button.layer.cornerRadius = 4
+
+        return button
+    }()
 
     init(viewModel: TicketReservationDetailViewModel) {
         self.viewModel = viewModel
         super.init()
     }
-
-    private let navigationBar = BooltiNavigationBar(type: .ticketReservationDetail)
 
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
@@ -121,7 +132,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
     }
 
     private func configureUI() {
-        self.view.backgroundColor = .red
+//        self.view.backgroundColor = .red
         self.navigationController?.navigationBar.isHidden = true
 
         self.view.addSubviews([
@@ -133,12 +144,17 @@ final class TicketReservationDetailViewController: BooltiViewController {
     }
 
     private func configureConstraints() {
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return
+        }
+        let screenWidth = window.screen.bounds.width
+
         self.navigationBar.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
         }
 
         self.scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom).offset(50)
+            make.top.equalTo(self.navigationBar.snp.bottom)
             make.bottom.horizontalEdges.equalToSuperview()
         }
 
@@ -146,7 +162,19 @@ final class TicketReservationDetailViewController: BooltiViewController {
             make.edges.equalToSuperview()
         }
 
+        self.reservationIDLabel.snp.makeConstraints { make in
+            make.width.equalTo(screenWidth)
+        }
 
+        self.requestRefundButton.snp.makeConstraints { make in
+            make.height.equalTo(48)
+            make.width.equalTo(screenWidth-40)
+        }
+
+        self.addArrangedSubViews()
+    }
+
+    private func addArrangedSubViews() {
         self.contentStackView.addArrangedSubviews([
             self.reservationIDLabel,
             self.concertInformationView,
@@ -155,7 +183,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.ticketInformationStackView,
             self.purchaserInformationStackView,
             self.depositorInformationStackView,
-            self.reveralPolicyView
+            self.reversalPolicyView,
+            self.requestRefundButton
         ])
+
+        self.contentStackView.setCustomSpacing(40, after: self.reversalPolicyView)
     }
 }
