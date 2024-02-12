@@ -57,7 +57,7 @@ final class DepositSummaryView: UIView {
 extension DepositSummaryView {
     
     func setData(date: Date, price: Int) {
-        let formattedDate = date.addingTimeInterval(-24 * 60 * 60).format(.simple)
+        let formattedDate = date.format(.simple)
         let formattedPrice = "\(price.formattedCurrency())원"
         self.datePriceLabel.text = "\(formattedDate)까지 아래 계좌로\n\(formattedPrice)을 입금해주세요"
         self.datePriceLabel.setLineSpacing(lineSpacing: 6)

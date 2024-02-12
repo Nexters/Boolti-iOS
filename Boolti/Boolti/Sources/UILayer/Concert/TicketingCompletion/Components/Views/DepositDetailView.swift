@@ -52,7 +52,7 @@ extension DepositDetailView {
         self.account.text = "1234-56-7890123"
         self.accountHolder.text = "박불티"
         
-        guard let endOfDay = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: date.addingTimeInterval(-24 * 60 * 60)) else { return }
+        guard let endOfDay = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: date) else { return }
         self.depositDeadline.text = endOfDay.format(.dateDayTime)
     }
 }
