@@ -125,6 +125,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         super.viewDidLoad()
         self.configureUI()
         self.configureConstraints()
+        self.bindUIComponents()
     }
 
     required init?(coder: NSCoder) {
@@ -187,5 +188,16 @@ final class TicketReservationDetailViewController: BooltiViewController {
         ])
 
         self.contentStackView.setCustomSpacing(40, after: self.reversalPolicyView)
+    }
+
+
+
+    private func bindUIComponents() {
+        self.accountNumberView.didCopyButtonTap
+            .bind(with: self) { owner, accountNumber in
+                UIPasteboard.general.string = accountNumber
+                owner.showToast(message: "계좌번호 복사완료")
+            }
+            .disposed(by: self.disposeBag)
     }
 }

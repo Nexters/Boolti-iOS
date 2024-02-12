@@ -7,12 +7,20 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+import RxRelay
+
 enum ReservationContentAlignment {
     case left
     case right
 }
 
 final class ReservationHorizontalStackView: UIStackView {
+
+    private let disposeBag = DisposeBag()
+
+    let didCopyButtonTap = PublishRelay<String>()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -56,6 +64,7 @@ final class ReservationHorizontalStackView: UIStackView {
 
         self.configureUI(title: title, alignment: alignment, isCopyButtonExist: isCopyButtonExist)
         self.configureConstraints()
+        self.bindUIComponents()
     }
 
     required init(coder: NSCoder) {
@@ -73,7 +82,7 @@ final class ReservationHorizontalStackView: UIStackView {
         self.axis = .horizontal
         self.alignment = .fill
         self.spacing = 20
-        
+
         self.contentLabel.addSubview(self.copyButton)
         self.configureAlignment(alignment)
         self.addArrangedSubviews([
@@ -119,5 +128,16 @@ final class ReservationHorizontalStackView: UIStackView {
             make.right.equalToSuperview()
             make.centerY.equalToSuperview()
         }
+
+    }
+
+    private func bindUIComponents() {
+
+        guard !copyButton.isHidden else { return }
+        self.copyButton.rx.tap
+            .bind(with: self, onNext: { owner, _ in
+                owner.didCopyButtonTap.accept(owner.contentLabel.text ?? "")
+            })
+            .disposed(by: self.disposeBag)
     }
 }

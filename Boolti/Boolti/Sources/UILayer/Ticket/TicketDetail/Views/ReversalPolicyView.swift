@@ -39,7 +39,7 @@ class ReversalPolicyView: UIStackView {
 
     private let reversalPolicyLabel: BooltiPaddingLabel = {
         let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 0, left: 20, bottom: 24, right: 20))
-        label.text = "- 공연장 입장은 공연 30분 전부터 가능합니다. \n- 본 티켓은 타인에게 양도할 수 없습니다. \n- 입구에서 동봉한 티켓 이미지와 본인 확인이 가능한 신분증을 스태프에게 확인 후 입장 가능합니다. \n- 사전에 함께 구매하신 굿즈는 동봉한 교환증 이미지와 본인 확인이 가능한 신분증을 스태프에게 확인 후 수령 가능합니다. \n- 공연장 내 물품보관함이 별도로 존재하지 않으니 소지품을 최대한 간소화하여 오시기 바랍니다. \n- 공연장 내에서는 주류 반입이 금지되어 있습니다. 또한 캐리어 및 폭죽, 레이저와 같은 위험물질은 반입이 금지되어 있습니다."
+        label.text = "- 티켓 판매 기간 내 발권 취소 및 환불은 서비스 내 처리가 가능하며, 판매 기간 이후에는 주최자에게 직접 연락 바랍니다. \n- 티켓 판매 기간 내 환불 신청은 발권 후 마이 > 예매 내역 > 예매 상세에서 가능합니다. \n- 계좌 이체를 통한 환불은 환불 계좌 정보가 필요하며 영업일 기준 약 1~2일이 소요됩니다. \n- 환불 수수료는 부과되지 않습니다. \n- 기타 사항은 카카오톡 채널 @스튜디오불티로 문의 부탁드립니다."
         label.setLineSpacing(lineSpacing: 6)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
