@@ -19,14 +19,16 @@ final class TicketingDetailViewModel {
     
     struct Input {
         let didUseButtonTap = PublishSubject<Void>()
+        var ticketingEntity: TicketingEntity?
     }
 
     struct Output {
         let invitationCodeState = BehaviorRelay<InvitationCodeState>(value: .empty)
         let concertDetail = PublishRelay<ConcertDetailEntity>()
+        let navigateToCompletion = PublishSubject<Void>()
     }
 
-    let input: Input
+    var input: Input
     let output: Output
     
     let selectedTicket: BehaviorRelay<SalesTicketEntity>
@@ -65,5 +67,26 @@ extension TicketingDetailViewModel {
             .asObservable()
             .bind(to: self.output.concertDetail)
             .disposed(by: self.disposeBag)
+    }
+    
+    func salesTicketing(ticketHolderName: String, ticketHolderPhoneNumber: String,
+                        depositorName: String, depositorPhoneNumber: String) {
+        self.concertRepository.salesTicketing(concertId: self.selectedTicket.value.concertId,
+                                              selectedTicket: self.selectedTicket.value,
+                                              ticketHolderName: ticketHolderName,
+                                              ticketHolderPhoneNumber: ticketHolderPhoneNumber,
+                                              depositorName: depositorName,
+                                              depositorPhoneNumber: depositorPhoneNumber)
+        .subscribe(with: self) { owner, _ in
+            owner.output.navigateToCompletion.onNext(())
+        }
+        .disposed(by: self.disposeBag)
+    }
+    
+    func invitationTicketing(ticketHolderName: String, ticketHolderPhoneNumber: String,
+                             invitationCode: String) {
+        debugPrint(ticketHolderName, ticketHolderPhoneNumber, invitationCode)
+        
+        // TODO: 초청코드 티켓팅 연결
     }
 }

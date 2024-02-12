@@ -5,6 +5,8 @@
 //  Created by Juhyeon Byun on 2/7/24.
 //
 
+import Foundation
+
 import RxSwift
 
 final class ConcertRepository: ConcertRepositoryType {
@@ -41,5 +43,27 @@ final class ConcertRepository: ConcertRepositoryType {
         return networkService.request(api)
             .map(SalesTicketResponseDTO.self)
             .map { $0.convertToSalesTicketEntities() }
+    }
+    
+    func salesTicketing(concertId: Int,
+                        selectedTicket: SalesTicketEntity,
+                        ticketHolderName: String,
+                        ticketHolderPhoneNumber: String,
+                        depositorName: String,
+                        depositorPhoneNumber: String) -> Single<SalesTicketingResponseDTO> {
+        let salesTicketingRequestDTO = SalesTicketingRequestDTO(userId: UserDefaults.userId,
+                                                                showId: concertId,
+                                                                salesTicketTypeId: selectedTicket.id,
+                                                                ticketCount: 1,
+                                                                reservationName: ticketHolderName,
+                                                                reservationPhoneNumber: ticketHolderPhoneNumber,
+                                                                depositorName: depositorName,
+                                                                depositorPhoneNumber: depositorPhoneNumber,
+                                                                paymentAmount: selectedTicket.price,
+                                                                means: "ACCOUNT_TRANSFER")
+        let api = ConcertAPI.salesTicketing(requestDTO: salesTicketingRequestDTO)
+        
+        return networkService.request(api)
+            .map(SalesTicketingResponseDTO.self)
     }
 }

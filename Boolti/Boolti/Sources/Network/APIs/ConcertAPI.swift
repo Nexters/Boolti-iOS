@@ -14,6 +14,7 @@ enum ConcertAPI {
     case list(requesDTO: ConcertListRequestDTO)
     case detail(requestDTO: ConcertDetailRequestDTO)
     case salesTicket(requestDTO: SalesTicketRequestDTO)
+    case salesTicketing(requestDTO: SalesTicketingRequestDTO)
 }
 
 extension ConcertAPI: ServiceAPI {
@@ -26,11 +27,18 @@ extension ConcertAPI: ServiceAPI {
             return "/papi/v1/show/\(DTO.id)"
         case .salesTicket(let DTO):
             return "/api/v1/sales-ticket-type/\(DTO.showId)"
+        case .salesTicketing:
+            return "/api/v1/reservation/sales-ticket"
         }
     }
     
     var method: Moya.Method {
-        return .get
+        switch self {
+        case .salesTicketing:
+            return .post
+        default:
+            return .get
+        }
     }
 
     var task: Moya.Task {
@@ -40,6 +48,8 @@ extension ConcertAPI: ServiceAPI {
                 "nameLike": DTO.nameLike ?? ""
             ]
             return .requestParameters(parameters: query, encoding: URLEncoding.queryString)
+        case .salesTicketing(let DTO):
+            return .requestJSONEncodable(DTO)
         default:
             return .requestPlain
         }

@@ -16,7 +16,6 @@ final class TitleCollectionViewCell: UICollectionViewCell {
         label.font = .point4
         label.textColor = .grey05
         label.numberOfLines = 2
-        label.text = "불티 유저님, 오늘은\n어떤 공연을 즐겨볼까요?"
         label.setLineSpacing(lineSpacing: 6)
         return label
     }()
@@ -30,6 +29,15 @@ final class TitleCollectionViewCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError()
+    }
+}
+
+// MARK: - Methods
+
+extension TitleCollectionViewCell {
+    
+    func setTitle() {
+        self.titleLabel.text = "\(UserDefaults.userName.isEmpty ? "불티 유저" : UserDefaults.userName)님, 오늘은\n어떤 공연을 즐겨볼까요?"
     }
 }
 

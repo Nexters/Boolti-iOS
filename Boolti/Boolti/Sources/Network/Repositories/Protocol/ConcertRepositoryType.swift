@@ -13,4 +13,10 @@ protocol ConcertRepositoryType {
     func concertList(concertName: String?) -> Single<[ConcertEntity]>
     func concertDetail(concertId: Int) -> Single<ConcertDetailEntity>
     func salesTicket(concertId: Int) -> Single<[SalesTicketEntity]>
+    func salesTicketing(concertId: Int,
+                        selectedTicket: SalesTicketEntity,
+                        ticketHolderName: String,
+                        ticketHolderPhoneNumber: String,
+                        depositorName: String,
+                        depositorPhoneNumber: String) -> Single<SalesTicketingResponseDTO>
 }

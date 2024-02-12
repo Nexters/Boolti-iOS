@@ -111,10 +111,25 @@ extension TicketingDetailViewController {
     private func bindInputs() {
         self.payButton.rx.tap
             .bind(with: self, onNext: { owner, _ in
-                
-                // 테스트용 데이터
-                let viewController = self.ticketingCompletionViewControllerFactory(TicketingEntity(ticketHolder: TicketingEntity.userInfo(name: .init(), phoneNumber: .init()), depositor: nil, selectedTicket: [self.viewModel.selectedTicket.value], paymentMethod: "", invitationCode: "asdf"))
-                self.navigationController?.pushViewController(viewController, animated: true)
+                guard let ticketHolderName = owner.ticketHolderInputView.nameTextField.text,
+                      let ticketHolderPhoneNumber = owner.ticketHolderInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "")
+                else { return }
+                        
+                if owner.viewModel.selectedTicket.value.ticketType == .sales {
+                    guard let depositorName = owner.depositorInputView.nameTextField.text,
+                          let depositorPhoneNumber = owner.depositorInputView.phoneNumberTextField.text else { return }
+                    
+                    owner.viewModel.salesTicketing(ticketHolderName: ticketHolderName,
+                                             ticketHolderPhoneNumber: ticketHolderPhoneNumber,
+                                             depositorName: depositorName.isEmpty ? ticketHolderName : depositorName,
+                                             depositorPhoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorPhoneNumber)
+                } else {
+                    guard let invitationCode = owner.invitationCodeView.codeTextField.text else { return }
+                    
+                    owner.viewModel.invitationTicketing(ticketHolderName: ticketHolderName,
+                                                        ticketHolderPhoneNumber: ticketHolderPhoneNumber,
+                                                        invitationCode: invitationCode)
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -127,6 +142,13 @@ extension TicketingDetailViewController {
     }
     
     private func bindOutputs() {
+        self.viewModel.output.navigateToCompletion
+            .bind(with: self) { owner, _ in
+                let viewController = owner.ticketingCompletionViewControllerFactory(self.viewModel.input.ticketingEntity!)
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
         self.viewModel.output.concertDetail
             .debug()
             .bind(with: self) { owner, concertDetailEntity in
@@ -173,15 +195,6 @@ extension TicketingDetailViewController {
     
     private func bindUserInputView() {
         [self.ticketHolderInputView, self.depositorInputView].forEach { inputView in
-            inputView.nameTextField.rx.text
-                .orEmpty
-                .distinctUntilChanged()
-                .asDriver(onErrorJustReturn: "")
-                .drive(with: self, onNext: { owner, changedText in
-                    debugPrint(changedText)
-                })
-                .disposed(by: self.disposeBag)
-            
             inputView.phoneNumberTextField.rx.text
                 .orEmpty
                 .distinctUntilChanged()

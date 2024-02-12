@@ -10,7 +10,7 @@ import Foundation
 extension UserDefaults {
     
     // MARK: - Properties
-    @UserDefault<String>(key: UserDefaultsKey.userId.rawValue, defaultValue: "")
+    @UserDefault<Int>(key: UserDefaultsKey.userId.rawValue, defaultValue: -1)
     static var userId
 
     @UserDefault<String>(key: UserDefaultsKey.userName.rawValue, defaultValue: "")
@@ -42,8 +42,13 @@ extension UserDefaults {
             .forEach { UserDefaults.standard.removeObject(forKey: $0.rawValue) }
     }
 
-    static func removeAllTokens() {
+    static func removeAllUserInfo() {
         UserDefaults.accessToken = ""
         UserDefaults.refreshToken = ""
+        UserDefaults.deviceToken = ""
+        UserDefaults.userId = -1
+        UserDefaults.userName = ""
+        UserDefaults.userEmail = ""
+        UserDefaults.userImageURLPath = ""
     }
 }
