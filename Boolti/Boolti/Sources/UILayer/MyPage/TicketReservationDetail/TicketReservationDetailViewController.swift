@@ -20,7 +20,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .black
+        scrollView.backgroundColor = .grey95
         scrollView.showsVerticalScrollIndicator = false
 
         return scrollView

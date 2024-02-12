@@ -24,10 +24,8 @@ final class ConcertInformationView: UIView {
         let label = UILabel()
         label.font = .aggroB(20)
         label.textColor = .grey05
-        label.text = "2024 TOGETHER LUCKY CLUB"
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
-        label.setLineSpacing(lineSpacing: 4)
 
         return label
     }()
@@ -61,6 +59,10 @@ final class ConcertInformationView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        self.concertTitleLabel.setLineSpacing(lineSpacing: 4)
     }
 
     func setData(posterImageURLPath: String, concertTitle: String, ticketType: TicketType, ticketCount: String ) {
