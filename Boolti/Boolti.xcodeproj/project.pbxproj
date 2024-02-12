@@ -169,6 +169,8 @@
 		8726054B2B793BCF005CD0D4 /* ReservationHorizontalStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8726054A2B793BCF005CD0D4 /* ReservationHorizontalStackView.swift */; };
 		8726054D2B79CDF3005CD0D4 /* ConcertInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8726054C2B79CDF3005CD0D4 /* ConcertInformationView.swift */; };
 		8726054F2B79FD49005CD0D4 /* TicketReservationDetailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8726054E2B79FD49005CD0D4 /* TicketReservationDetailRequestDTO.swift */; };
+		872605512B79FDE8005CD0D4 /* TicketReservationDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872605502B79FDE8005CD0D4 /* TicketReservationDetailResponseDTO.swift */; };
+		872605532B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872605522B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift */; };
 		8746AD012B67F7610037A1B1 /* TicketMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD002B67F7610037A1B1 /* TicketMainView.swift */; };
 		8746AD102B680A290037A1B1 /* SelectedTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD0F2B680A290037A1B1 /* SelectedTicketView.swift */; };
 		8746AD122B680A3E0037A1B1 /* TicketTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD112B680A3E0037A1B1 /* TicketTypeView.swift */; };
@@ -368,6 +370,8 @@
 		8726054A2B793BCF005CD0D4 /* ReservationHorizontalStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationHorizontalStackView.swift; sourceTree = "<group>"; };
 		8726054C2B79CDF3005CD0D4 /* ConcertInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertInformationView.swift; sourceTree = "<group>"; };
 		8726054E2B79FD49005CD0D4 /* TicketReservationDetailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailRequestDTO.swift; sourceTree = "<group>"; };
+		872605502B79FDE8005CD0D4 /* TicketReservationDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailResponseDTO.swift; sourceTree = "<group>"; };
+		872605522B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailEntity.swift; sourceTree = "<group>"; };
 		8746ACFE2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketListCollectionViewCell.swift; sourceTree = "<group>"; };
 		8746AD002B67F7610037A1B1 /* TicketMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketMainView.swift; sourceTree = "<group>"; };
 		8746AD0F2B680A290037A1B1 /* SelectedTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTicketView.swift; sourceTree = "<group>"; };
@@ -539,6 +543,7 @@
 				87FB0D3B2B6C09B500B42AF9 /* TicketItemEntity.swift */,
 				87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */,
 				840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */,
+				872605522B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1049,6 +1054,7 @@
 			isa = PBXGroup;
 			children = (
 				870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */,
+				872605502B79FDE8005CD0D4 /* TicketReservationDetailResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1454,6 +1460,7 @@
 				870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
 				84625A112B63B48D00CC9077 /* SalesTicketEntity.swift in Sources */,
+				872605532B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift in Sources */,
 				8746AD162B680A700037A1B1 /* SelectedTicketTableViewCell.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
 				84FBBE052B67A952009462E9 /* TicketInfoView.swift in Sources */,
@@ -1602,6 +1609,7 @@
 				8757BAAA2B5FDF29008503B5 /* KakaoOAuth.swift in Sources */,
 				84E5124F2B6E773F002658D1 /* ConcertDetailViewModel.swift in Sources */,
 				8746AD122B680A3E0037A1B1 /* TicketTypeView.swift in Sources */,
+				872605512B79FDE8005CD0D4 /* TicketReservationDetailResponseDTO.swift in Sources */,
 				877563DA2B6E0CDA001504FE /* TicketListFooterView.swift in Sources */,
 				878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */,
 				876BF1702B6A5FEF00DB4BCB /* RefreshAuthRepository.swift in Sources */,
