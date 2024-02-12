@@ -38,10 +38,10 @@ final class PolicyView: UIView {
         let label = UILabel()
         label.font = .body1
         label.textColor = .grey50
-        label.text = "-하단에 나열된 내용은 전부 임시 텍스트 입니다.\n-입장 확인이 된 티켓이 있을경우 환불이 불가합니다.\n-환불 방법 : 티켓 예매 상세내역 > 예매취소"
+        label.lineBreakMode = .byWordWrapping
+        label.text = "• 티켓 판매 기간 내 발권 취소 및 환불은 서비스 내 처리가 가능하며, 판매 기간 이후에는 주최자에게 직접 연락 바랍니다.\n• 티켓 판매 기간 내 환불 신청은 발권 후 마이 > 예매 내역 > 예매 상세에서 가능합니다.\n• 계좌 이체를 통한 환불은 환불 계좌 정보가 필요하며 영업일 기준 약 1~2일이 소요됩니다.\n• 환불 수수료는 부과되지 않습니다.\n• 기타 사항은 카카오톡 채널 @스튜디오불티로 문의 부탁드립니다."
         label.setLineSpacing(lineSpacing: 6)
         label.isHidden = true
-        label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
     }()

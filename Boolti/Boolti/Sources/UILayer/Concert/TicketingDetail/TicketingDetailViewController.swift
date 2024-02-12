@@ -117,7 +117,7 @@ extension TicketingDetailViewController {
                         
                 if owner.viewModel.selectedTicket.value.ticketType == .sales {
                     guard let depositorName = owner.depositorInputView.nameTextField.text,
-                          let depositorPhoneNumber = owner.depositorInputView.phoneNumberTextField.text else { return }
+                          let depositorPhoneNumber = owner.depositorInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "") else { return }
                     
                     owner.viewModel.salesTicketing(ticketHolderName: ticketHolderName,
                                              ticketHolderPhoneNumber: ticketHolderPhoneNumber,
