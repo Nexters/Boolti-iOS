@@ -28,6 +28,11 @@ final class ReservationCollapsableStackView: UIStackView {
         return button
     }()
 
+    private let additionalSpacingView: UIView = {
+        let view = UIView()
+        return view
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -49,7 +54,7 @@ final class ReservationCollapsableStackView: UIStackView {
         self.backgroundColor = .grey90
         self.titleLabel.text = title
         
-        let subviews = [self.titleView] + contentViews
+        let subviews = [self.titleView] + contentViews + [self.additionalSpacingView]
         self.addArrangedSubviews(subviews)
 
         self.titleView.addSubviews([
@@ -78,6 +83,10 @@ final class ReservationCollapsableStackView: UIStackView {
         self.viewCollapseButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(20)
+        }
+
+        self.additionalSpacingView.snp.makeConstraints { make in
+            make.height.equalTo(30)
         }
     }
 }

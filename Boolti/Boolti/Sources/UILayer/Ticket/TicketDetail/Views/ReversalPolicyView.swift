@@ -50,23 +50,34 @@ class ReversalPolicyView: UIStackView {
         return label
     }()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        self.configureUI()
+    init(isWithoutBorder: Bool = false) {
+        super.init(frame: .zero)
+        self.configureUI(isWithoutBorder)
         self.bindUIComponents()
     }
-    
+
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func configureUI() {
+    private func configureUI(_ isWithoutBoard: Bool) {
         self.axis = .vertical
         self.clipsToBounds = true
-        self.layer.cornerRadius = 8
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.grey80.cgColor
+
+        var titleViewWidth: CGFloat
+
+        if !isWithoutBoard {
+            self.layer.cornerRadius = 8
+            self.layer.borderWidth = 1
+            self.layer.borderColor = UIColor.grey80.cgColor
+            titleViewWidth = 317
+        } else {
+            guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+                return
+            }
+            titleViewWidth = window.screen.bounds.width
+            self.backgroundColor = .grey90
+        }
 
         self.titleView.addSubviews([
             self.titleLabel, self.viewCollapseButton
@@ -77,22 +88,19 @@ class ReversalPolicyView: UIStackView {
             self.reversalPolicyLabel
         ])
 
-        self.snp.makeConstraints { make in
-            make.width.greaterThanOrEqualTo(317)
-        }
-
         self.titleView.snp.makeConstraints { make in
+            make.width.equalTo(titleViewWidth)
             make.height.equalTo(66)
         }
 
         self.titleLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(20)
+            make.left.equalTo(self.titleView.snp.left).inset(20)
         }
 
         self.viewCollapseButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(20)
+            make.right.equalTo(self.titleView.snp.right).inset(20)
         }
 
         self.reversalPolicyLabel.snp.makeConstraints { make in
