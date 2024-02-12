@@ -144,6 +144,7 @@ extension TicketingDetailViewController {
     private func bindOutputs() {
         self.viewModel.output.navigateToCompletion
             .bind(with: self) { owner, _ in
+                debugPrint(self.viewModel.input.ticketingEntity)
                 guard let ticketingEntity = self.viewModel.input.ticketingEntity else { return }
                 
                 let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)

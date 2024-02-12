@@ -24,7 +24,7 @@ final class DepositSummaryView: UIView {
         label.numberOfLines = 2
         label.text = "입금 마감일까지 입금이 확인되지 않는 경우\n주문이 자동 취소됩니다."
         label.font = .body1
-        label.textColor = .grey30
+        label.textColor = .grey50
         label.setLineSpacing(lineSpacing: 6)
         return label
     }()
@@ -57,7 +57,7 @@ final class DepositSummaryView: UIView {
 extension DepositSummaryView {
     
     func setData(date: Date, price: Int) {
-        let formattedDate = date.format(.simple)
+        let formattedDate = date.addingTimeInterval(-24 * 60 * 60).format(.simple)
         let formattedPrice = "\(price.formattedCurrency())원"
         self.datePriceLabel.text = "\(formattedDate)까지 아래 계좌로\n\(formattedPrice)을 입금해주세요"
         self.datePriceLabel.setLineSpacing(lineSpacing: 6)

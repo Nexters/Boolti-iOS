@@ -110,10 +110,9 @@ extension TicketingCompletionViewController {
                     self.topContentView = self.depositSummaryView
                 }
                 
-                // TODO: 공연 이름도 가져와야함! entity 수정필요
-                self.depositSummaryView.setData(date: Date(), price: selectedTicket.price)
-                self.reservedTicketView.setData(concert: "2024 TOGETHER LUCKY CLUB", selectedTicket: selectedTicket)
-                self.depositDetailView.setData(depositDeadline: Date())
+                self.depositSummaryView.setData(date: data.concert.date, price: selectedTicket.price)
+                self.reservedTicketView.setData(concert: data.concert, selectedTicket: selectedTicket)
+                self.depositDetailView.setData(date: data.concert.date)
             }
             .disposed(by: self.disposeBag)
     }

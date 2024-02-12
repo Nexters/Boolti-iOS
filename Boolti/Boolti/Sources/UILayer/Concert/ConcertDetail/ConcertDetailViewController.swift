@@ -113,6 +113,7 @@ final class ConcertDetailViewController: BooltiViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 }
 

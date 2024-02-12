@@ -24,11 +24,12 @@ final class TicketingDetailViewModel {
     struct Output {
         let invitationCodeState = BehaviorRelay<InvitationCodeState>(value: .empty)
         let concertDetail = PublishRelay<ConcertDetailEntity>()
+        var concertDetailEntity: ConcertDetailEntity?
         let navigateToCompletion = PublishSubject<Void>()
     }
 
     var input: Input
-    let output: Output
+    var output: Output
     
     let selectedTicket: BehaviorRelay<SelectedTicketEntity>
 
@@ -47,6 +48,7 @@ extension TicketingDetailViewModel {
     
     func fetchConcertDetail() {
         self.concertRepository.concertDetail(concertId: self.selectedTicket.value.concertId)
+            .do { self.output.concertDetailEntity = $0 }
             .asObservable()
             .bind(to: self.output.concertDetail)
             .disposed(by: self.disposeBag)
@@ -60,6 +62,14 @@ extension TicketingDetailViewModel {
                                               depositorName: depositorName,
                                               depositorPhoneNumber: depositorPhoneNumber)
         .subscribe(with: self) { owner, _ in
+            let ticketingEntity = TicketingEntity(concert: owner.output.concertDetailEntity!,
+                                                  ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
+                                                                                         phoneNumber: ticketHolderPhoneNumber),
+                                                  depositor: TicketingEntity.userInfo(name: depositorName,
+                                                                                      phoneNumber: depositorPhoneNumber),
+                                                  selectedTicket: [owner.selectedTicket.value])
+            owner.input.ticketingEntity = ticketingEntity
+            
             owner.output.navigateToCompletion.onNext(())
         }
         .disposed(by: self.disposeBag)
@@ -85,6 +95,13 @@ extension TicketingDetailViewModel {
                                                    ticketHolderPhoneNumber: ticketHolderPhoneNumber,
                                                    invitationCode: invitationCode)
         .subscribe(with: self) { owner, _ in
+            let ticketingEntity = TicketingEntity(concert: owner.output.concertDetailEntity!,
+                                                  ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
+                                                                                         phoneNumber: ticketHolderPhoneNumber),
+                                                  selectedTicket: [owner.selectedTicket.value],
+                                                  invitationCode: invitationCode)
+            owner.input.ticketingEntity = ticketingEntity
+            
             owner.output.navigateToCompletion.onNext(())
         }
         .disposed(by: self.disposeBag)
