@@ -20,5 +20,3 @@ struct TicketItemEntity: Hashable {
     let ticketID: Int
     let usedTime: String?
 }
-
-

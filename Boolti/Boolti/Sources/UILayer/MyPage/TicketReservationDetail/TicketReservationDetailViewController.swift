@@ -70,12 +70,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
     ], isHidden: false)
 
     private let ticketTypeView = ReservationHorizontalStackView(title: "티켓 종류", alignment: .right)
-    private let numberOfTicketsView = ReservationHorizontalStackView(title: "티켓 개수", alignment: .right)
+    private let ticketCountView = ReservationHorizontalStackView(title: "티켓 개수", alignment: .right)
     private let ticketingDateView = ReservationHorizontalStackView(title: "발권 일시", alignment: .right)
 
     private lazy var ticketInformationStackView = ReservationCollapsableStackView(title: "티켓 정보", contentViews: [
         self.ticketTypeView,
-        self.numberOfTicketsView,
+        self.ticketCountView,
         self.ticketingDateView,
     ], isHidden: false)
 
@@ -126,6 +126,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.configureUI()
         self.configureConstraints()
         self.bindUIComponents()
+        self.bindViewModel()
     }
 
     required init?(coder: NSCoder) {
@@ -190,8 +191,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.contentStackView.setCustomSpacing(40, after: self.reversalPolicyView)
     }
 
-
-
     private func bindUIComponents() {
         self.accountNumberView.didCopyButtonTap
             .bind(with: self) { owner, accountNumber in
@@ -199,5 +198,87 @@ final class TicketReservationDetailViewController: BooltiViewController {
                 owner.showToast(message: "계좌번호 복사완료")
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func bindViewModel() {
+        self.bindInputs()
+        self.bindOutputs()
+    }
+
+    private func bindInputs() {
+        self.rx.viewWillAppear
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.input.viewWillAppearEvent.accept(())
+            })
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindOutputs() {
+        self.viewModel.output.tickerReservationDetail
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, entity in
+                owner.setData(with: entity)
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+
+    private func setData(with entity: TicketReservationDetailEntity) {
+
+        // 콘서트 정보
+        self.reservationIDLabel.text = "No. \(entity.reservationID)"
+        self.concertInformationView.setData(
+            posterImageURLPath: entity.concertPosterImageURLPath,
+            concertTitle: entity.concertTitle,
+            ticketType: entity.ticketType,
+            ticketCount: entity.ticketCount
+        )
+
+        // 결제 정보
+        self.paymentMethodView.setData("초청 코드")
+        self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
+        self.paymentStatusView.setData(entity.reservationStatus.description)
+
+        // 티켓 정보
+        self.ticketTypeView.setData(entity.ticketType.rawValue)
+        self.ticketCountView.setData(entity.ticketCount)
+        self.ticketingDateView.setData(entity.ticketingDate ?? "")
+
+        // 예매자 정보
+        self.purchasernNameView.setData(entity.purchaseName)
+        self.purchaserPhoneNumberView.setData(entity.purchaserPhoneNumber)
+
+        let ticketType = entity.ticketType
+
+        switch ticketType {
+        case .sale:
+            self.setAdditionalDataForSale(with: entity)
+        case .invitation:
+            self.configureInvitationUI()
+        }
+    }
+
+    private func setAdditionalDataForSale(with entity: TicketReservationDetailEntity) {
+        let paymentMethod = PaymentMethod(rawValue: entity.paymentMethod)!
+        // 결제 수단
+        self.paymentMethodView.setData(paymentMethod.description)
+
+        // 입금 계좌 정보
+        self.bankNameView.setData(entity.bankName)
+        self.accountNumberView.setData(entity.accountNumber)
+        self.accountHolderNameView.setData(entity.accountHolderName)
+        self.depositDeadLineView.setData(entity.depositDeadLine)
+
+        // 입금자 정보
+        self.depositorNameView.setData(entity.depositorName)
+        self.depositorPhoneNumberView.setData(entity.depositorPhoneNumber)
+    }
+
+    private func configureInvitationUI() {
+        self.depositAccountInformationStackView.isHidden = true
+        self.depositorInformationStackView.isHidden = true
+        self.reversalPolicyView.isHidden = true
+        self.requestRefundButton.isHidden = true
     }
 }

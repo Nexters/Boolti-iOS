@@ -63,6 +63,12 @@ final class ConcertInformationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func setData(posterImageURLPath: String, concertTitle: String, ticketType: TicketType, ticketCount: String ) {
+        self.concertPosterImageView.setImage(with: posterImageURLPath)
+        self.concertTitleLabel.text = concertTitle
+        self.ticketInformationLabel.text = "\(ticketType.rawValue) / \(ticketCount) 매"
+    }
+
     private func configureUI() {
         self.addSubviews([
             self.concertPosterImageView,

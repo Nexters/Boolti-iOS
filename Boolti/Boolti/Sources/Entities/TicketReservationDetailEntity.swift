@@ -7,6 +7,19 @@
 
 import Foundation
 
+enum PaymentMethod: String {
+
+    case accountTransfer = "ACCOUNT_TRANSFER"
+    case card = "CARD"
+
+    var description: String {
+        switch self {
+        case .accountTransfer: "계좌 이체"
+        case .card: "카드 결제"
+        }
+    }
+}
+
 struct TicketReservationDetailEntity {
 
     let reservationID: String
