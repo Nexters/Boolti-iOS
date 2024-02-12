@@ -19,4 +19,7 @@ protocol ConcertRepositoryType {
                         ticketHolderPhoneNumber: String,
                         depositorName: String,
                         depositorPhoneNumber: String) -> Single<SalesTicketingResponseDTO>
+    func checkInvitationCode(concertId: Int,
+                             ticketId: Int,
+                             invitationCode: String) -> Single<InvitationCodeStateEntity>
 }

@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-final class ConcertRepository: ConcertRepositoryType {
+final class ConcertRepository: ConcertRepositoryType {    
     
     let networkService: NetworkProviderType
     private let disposeBag = DisposeBag()
@@ -65,5 +65,16 @@ final class ConcertRepository: ConcertRepositoryType {
         
         return networkService.request(api)
             .map(SalesTicketingResponseDTO.self)
+    }
+    
+    func checkInvitationCode(concertId: Int, ticketId: Int, invitationCode: String) -> Single<InvitationCodeStateEntity> {
+        let checkInvitationCodeRequestDTO = CheckInvitationCodeRequestDTO(showId: concertId,
+                                                                          salesTicketTypeId: ticketId,
+                                                                          inviteCode: invitationCode)
+        let api = ConcertAPI.checkInvitationCode(requestDTO: checkInvitationCodeRequestDTO)
+        
+        return self.networkService.request(api)
+            .map(CheckInvitationCodeResponseDTO.self)
+            .map { $0.convertToInvitationCodeEntity() }
     }
 }

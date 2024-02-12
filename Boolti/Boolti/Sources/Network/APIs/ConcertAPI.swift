@@ -15,6 +15,7 @@ enum ConcertAPI {
     case detail(requestDTO: ConcertDetailRequestDTO)
     case salesTicket(requestDTO: SalesTicketRequestDTO)
     case salesTicketing(requestDTO: SalesTicketingRequestDTO)
+    case checkInvitationCode(requestDTO: CheckInvitationCodeRequestDTO)
 }
 
 extension ConcertAPI: ServiceAPI {
@@ -29,6 +30,8 @@ extension ConcertAPI: ServiceAPI {
             return "/api/v1/sales-ticket-type/\(DTO.showId)"
         case .salesTicketing:
             return "/api/v1/reservation/sales-ticket"
+        case .checkInvitationCode:
+            return "api/v1/check/invite-code"
         }
     }
     
@@ -50,6 +53,13 @@ extension ConcertAPI: ServiceAPI {
             return .requestParameters(parameters: query, encoding: URLEncoding.queryString)
         case .salesTicketing(let DTO):
             return .requestJSONEncodable(DTO)
+        case .checkInvitationCode(let DTO):
+            let query: [String: Any] = [
+                "showId": DTO.showId,
+                "salesTicketTypeId": DTO.salesTicketTypeId,
+                "inviteCode": DTO.inviteCode
+            ]
+            return .requestParameters(parameters: query, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }

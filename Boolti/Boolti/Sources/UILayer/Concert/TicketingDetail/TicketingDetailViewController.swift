@@ -262,10 +262,13 @@ extension TicketingDetailViewController {
         
         self.invitationCodeView.didUseButtonTap()
             .emit(with: self) { owner, _ in
-                if let codeInput = owner.invitationCodeView.codeTextField.text, codeInput.trimmingCharacters(in: .whitespaces).isEmpty {
+                guard let code = owner.invitationCodeView.codeTextField.text?.trimmingCharacters(in: .whitespaces)
+                else { return }
+                
+                if code.isEmpty {
                     owner.viewModel.output.invitationCodeState.accept(.empty)
                 } else {
-                    owner.viewModel.input.didUseButtonTap.onNext(())
+                    owner.viewModel.checkInvitationCode(invitationCode: code)
                 }
             }
             .disposed(by: self.disposeBag)

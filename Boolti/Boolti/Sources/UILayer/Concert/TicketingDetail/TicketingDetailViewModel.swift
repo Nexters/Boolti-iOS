@@ -18,7 +18,6 @@ final class TicketingDetailViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let didUseButtonTap = PublishSubject<Void>()
         var ticketingEntity: TicketingEntity?
     }
 
@@ -39,22 +38,6 @@ final class TicketingDetailViewModel {
         self.input = Input()
         self.output = Output()
         self.selectedTicket = BehaviorRelay<SalesTicketEntity>(value: selectedTicket)
-        self.bindInputs()
-    }
-}
-
-// MARK: - Methods
-
-extension TicketingDetailViewModel {
-    
-    private func bindInputs() {
-        self.input.didUseButtonTap
-            .subscribe(with: self) { owner, _ in
-                
-                // 서버에서 state 확인 후 수정
-                owner.output.invitationCodeState.accept(.verified)
-            }
-            .disposed(by: self.disposeBag)
     }
 }
 
@@ -80,6 +63,19 @@ extension TicketingDetailViewModel {
         .subscribe(with: self) { owner, _ in
             owner.output.navigateToCompletion.onNext(())
         }
+        .disposed(by: self.disposeBag)
+    }
+    
+    func checkInvitationCode(invitationCode: String) {
+        debugPrint(self.selectedTicket.value.concertId, self.selectedTicket.value.id)
+        self.concertRepository.checkInvitationCode(concertId: self.selectedTicket.value.concertId,
+                                                   ticketId: self.selectedTicket.value.id,
+                                                   invitationCode: invitationCode)
+        .subscribe(with: self, onSuccess: { owner, invitationCodeEntity in
+            owner.output.invitationCodeState.accept(invitationCodeEntity.codeState)
+        }, onFailure: { owner, _ in
+            owner.output.invitationCodeState.accept(.incorrect)
+        })
         .disposed(by: self.disposeBag)
     }
     
