@@ -42,7 +42,6 @@ final class TicketReservationDetailViewModel {
         self.input.viewWillAppearEvent
             .flatMap { self.fetchReservationDetail() }
             .subscribe(with: self, onNext: { owner, ticketReservationDetail in
-                print(ticketReservationDetail)
                 owner.output.tickerReservationDetail.accept(ticketReservationDetail)
             })
             .disposed(by: self.disposeBag)

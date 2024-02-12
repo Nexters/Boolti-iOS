@@ -205,6 +205,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
                 owner.scrollToBottom()
             }
             .disposed(by: self.disposeBag)
+
+        self.navigationBar.didBackButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {
@@ -229,7 +235,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
     }
-
 
     private func setData(with entity: TicketReservationDetailEntity) {
 
