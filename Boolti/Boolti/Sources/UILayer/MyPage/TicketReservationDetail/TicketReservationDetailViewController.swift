@@ -43,6 +43,8 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return label
     }()
 
+    private let concertInformationView = ConcertInformationView()
+
     private let bankNameView = ReservationHorizontalStackView(title: "은행명", alignment: .left)
     private let accountNumberView = ReservationHorizontalStackView(title: "계좌번호", alignment: .left)
     private let accountHolderNameView = ReservationHorizontalStackView(title: "예금주", alignment: .left)
@@ -147,6 +149,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         self.contentStackView.addArrangedSubviews([
             self.reservationIDLabel,
+            self.concertInformationView,
             self.depositAccountInformationStackView,
             self.paymentInformationStackView,
             self.ticketInformationStackView,
