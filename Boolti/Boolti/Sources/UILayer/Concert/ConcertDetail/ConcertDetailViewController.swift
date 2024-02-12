@@ -102,7 +102,7 @@ final class ConcertDetailViewController: BooltiViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.configureUI()
         self.configureConstraints()
         self.configureToastView(isButtonExisted: true)
