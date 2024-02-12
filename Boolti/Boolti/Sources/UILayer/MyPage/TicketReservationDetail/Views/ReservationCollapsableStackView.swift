@@ -7,7 +7,14 @@
 
 import UIKit
 
+import RxSwift
+import RxRelay
+
 final class ReservationCollapsableStackView: UIStackView {
+
+    let didViewCollapseButtonTap = PublishRelay<Void>()
+
+    private let disposeBag = DisposeBag()
 
     private let titleView: UIView = {
         let view = UIView()
@@ -37,24 +44,28 @@ final class ReservationCollapsableStackView: UIStackView {
         super.init(frame: frame)
     }
 
-    init(title: String, contentViews: [ReservationHorizontalStackView]) {
+    init(title: String, contentViews: [ReservationHorizontalStackView], isHidden: Bool) {
 
         super.init(frame: .zero)
-        self.configreUI(title: title, contentViews: contentViews)
+        self.configreUI(title: title, contentViews: contentViews, isHidden: isHidden)
+        self.bindUIComponents()
     }
 
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func configreUI(title: String, contentViews: [ReservationHorizontalStackView]) {
+    private func configreUI(title: String, contentViews: [ReservationHorizontalStackView], isHidden: Bool) {
 
         self.axis = .vertical
         self.alignment = .center
         self.backgroundColor = .grey90
         self.titleLabel.text = title
-        
-        let subviews = [self.titleView] + contentViews + [self.additionalSpacingView]
+
+        let collapsableSubviews = contentViews + [self.additionalSpacingView]
+        collapsableSubviews.forEach { $0.isHidden = isHidden }
+
+        let subviews = [self.titleView] + collapsableSubviews
         self.addArrangedSubviews(subviews)
 
         self.titleView.addSubviews([
@@ -89,4 +100,21 @@ final class ReservationCollapsableStackView: UIStackView {
             make.height.equalTo(30)
         }
     }
+
+    private func bindUIComponents() {
+        let collapsableSubviews = self.arrangedSubviews.filter { $0 != self.titleView }
+        self.viewCollapseButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.viewCollapseButton.isSelected.toggle()
+
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                    collapsableSubviews.forEach { $0.isHidden.toggle() }
+                    owner.layoutIfNeeded()
+                }, completion: nil)
+
+                owner.didViewCollapseButtonTap.accept(())
+            }
+            .disposed(by: self.disposeBag)
+    }
+
 }
