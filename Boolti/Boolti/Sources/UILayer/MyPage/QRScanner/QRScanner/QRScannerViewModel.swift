@@ -47,8 +47,7 @@ final class QRScannerViewModel {
         self.input = Input()
         self.output = Output()
         
-//        self.qrScannerEntity = qrScannerEntity
-        self.qrScannerEntity = QRScannerEntity(concertId: 0, concertName: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십", concertEndDatetime: Date(), entranceCode: "12345")
+        self.qrScannerEntity = qrScannerEntity
         self.bindInputs()
     }
 }

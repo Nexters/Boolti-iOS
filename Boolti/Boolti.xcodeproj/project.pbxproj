@@ -38,6 +38,10 @@
 		84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A0D2B63B2E600CC9077 /* TicketSelectionDIContainer.swift */; };
 		84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A152B63C33D00CC9077 /* UITableViewCell+.swift */; };
 		84625A182B63E05700CC9077 /* BooltiPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */; };
+		846F5F372B7BBDBD000F86AE /* QRScannerListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F5F362B7BBDBD000F86AE /* QRScannerListResponseDTO.swift */; };
+		846F5F3A2B7BBEC4000F86AE /* QRAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F5F392B7BBEC4000F86AE /* QRAPI.swift */; };
+		846F5F3C2B7BBF18000F86AE /* QRRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F5F3B2B7BBF18000F86AE /* QRRepositoryType.swift */; };
+		846F5F3E2B7BBF60000F86AE /* QRRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F5F3D2B7BBF60000F86AE /* QRRepository.swift */; };
 		84781BCD2B5BDAFC00D37921 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781BCC2B5BDAFC00D37921 /* AppDelegate.swift */; };
 		84781BCF2B5BDAFC00D37921 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84781BCE2B5BDAFC00D37921 /* SceneDelegate.swift */; };
 		84781BD62B5BDAFD00D37921 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84781BD52B5BDAFD00D37921 /* Assets.xcassets */; };
@@ -277,6 +281,10 @@
 		84625A102B63B48D00CC9077 /* SelectedTicketEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTicketEntity.swift; sourceTree = "<group>"; };
 		84625A152B63C33D00CC9077 /* UITableViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+.swift"; sourceTree = "<group>"; };
 		84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiPaddingLabel.swift; sourceTree = "<group>"; };
+		846F5F362B7BBDBD000F86AE /* QRScannerListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerListResponseDTO.swift; sourceTree = "<group>"; };
+		846F5F392B7BBEC4000F86AE /* QRAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRAPI.swift; sourceTree = "<group>"; };
+		846F5F3B2B7BBF18000F86AE /* QRRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRRepositoryType.swift; sourceTree = "<group>"; };
+		846F5F3D2B7BBF60000F86AE /* QRRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRRepository.swift; sourceTree = "<group>"; };
 		84781BC92B5BDAFC00D37921 /* Boolti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boolti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84781BCC2B5BDAFC00D37921 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84781BCE2B5BDAFC00D37921 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -541,6 +549,7 @@
 				84360F702B6BF70E009510D9 /* Auth */,
 				841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */,
 				870099B62B77489A001779FB /* TicketReservationsRepository.swift */,
+				846F5F3D2B7BBF60000F86AE /* QRRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -550,6 +559,7 @@
 			children = (
 				87101EFD2B5DFCD2004BD418 /* AuthRepositoryType.swift */,
 				841D77D52B73B3210068B1C5 /* ConcertRepositoryType.swift */,
+				846F5F3B2B7BBF18000F86AE /* QRRepositoryType.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -608,6 +618,22 @@
 				876C65DF2B73907D000F2746 /* TicketType.swift */,
 			);
 			path = TicketList;
+			sourceTree = "<group>";
+		};
+		846F5F342B7BBDA5000F86AE /* QR */ = {
+			isa = PBXGroup;
+			children = (
+				846F5F352B7BBDAE000F86AE /* Response */,
+			);
+			path = QR;
+			sourceTree = "<group>";
+		};
+		846F5F352B7BBDAE000F86AE /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				846F5F362B7BBDBD000F86AE /* QRScannerListResponseDTO.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 		84781BC02B5BDAFC00D37921 = {
@@ -751,6 +777,7 @@
 				870099AA2B7742DC001779FB /* Ticket */,
 				84781C7A2B5BEBE500D37921 /* Auth */,
 				84DC6F632B728792001F9576 /* Concert */,
+				846F5F342B7BBDA5000F86AE /* QR */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -794,6 +821,7 @@
 				8753CA722B71EA68002871C7 /* TicketAPI.swift */,
 				870099B42B77476E001779FB /* TicketReservationAPI.swift */,
 				841D77D12B73B0C10068B1C5 /* ConcertAPI.swift */,
+				846F5F392B7BBEC4000F86AE /* QRAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -1611,6 +1639,7 @@
 				840B39652B78DD6000E7F8C8 /* UICollectionViewCell+.swift in Sources */,
 				8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */,
 				876BF16C2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift in Sources */,
+				846F5F3C2B7BBF18000F86AE /* QRRepositoryType.swift in Sources */,
 				8746AD142B680A5C0037A1B1 /* TicketTypeTableViewCell.swift in Sources */,
 				84FBBDFB2B675834009462E9 /* UIStackView+.swift in Sources */,
 				87D2FAB22B6E96D20027FBE1 /* TicketDetailViewController.swift in Sources */,
@@ -1658,6 +1687,7 @@
 				84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */,
 				84A0248E2B7B997A0095A56E /* QRScannerViewController.swift in Sources */,
 				84896A552B6A8E1500CB3E33 /* DepositDetailView.swift in Sources */,
+				846F5F3E2B7BBF60000F86AE /* QRRepository.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* OAuthRepository.swift in Sources */,
 				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
 				8753CA732B71EA68002871C7 /* TicketAPI.swift in Sources */,
@@ -1669,6 +1699,7 @@
 				84D1C3812B7938CB00527998 /* TicketingResponseDTO.swift in Sources */,
 				8710D94A2B74FA6F00309FBF /* QRScannerListDIContainer.swift in Sources */,
 				8753CA702B70E322002871C7 /* TicketEntryCodeViewModel.swift in Sources */,
+				846F5F372B7BBDBD000F86AE /* QRScannerListResponseDTO.swift in Sources */,
 				84DF59E52B726E3F000816DA /* ConcertContentExpandViewModel.swift in Sources */,
 				84DF59E12B726E0A000816DA /* ConcertContentExpandDIContainer.swift in Sources */,
 				84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */,
@@ -1705,6 +1736,7 @@
 				84A024882B7B8AA70095A56E /* QRScannerEntity.swift in Sources */,
 				872605492B793A3F005CD0D4 /* ReservationCollapsableStackView.swift in Sources */,
 				8710D9482B74FA6600309FBF /* QRScannerListViewModel.swift in Sources */,
+				846F5F3A2B7BBEC4000F86AE /* QRAPI.swift in Sources */,
 				84EC6A642B6CF973009AC6BB /* BooltiToastView.swift in Sources */,
 				87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */,
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,

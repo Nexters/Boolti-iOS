@@ -81,14 +81,11 @@ final class QRScannerListViewController: UIViewController {
         self.configureConstraints()
         self.bindNavigationBar()
         self.bindScannerTableView()
-        
-        self.viewModel.output.qrScanners.accept([QRScannerEntity(concertId: 0, concertName: "2024 TOGETHER LUCKY Club", concertEndDatetime: Date(), entranceCode: "1234"), QRScannerEntity(concertId: 2, concertName: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십", concertEndDatetime: Date(), entranceCode: "123433")])
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
-        
-        // scanner data fetch
+        self.viewModel.fetchQRList()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

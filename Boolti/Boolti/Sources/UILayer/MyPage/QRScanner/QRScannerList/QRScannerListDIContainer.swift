@@ -9,6 +9,12 @@ import Foundation
 
 final class QRScannerListDIContainer {
     
+    private let qrRepository: QRRepositoryType
+
+    init(qrRepository: QRRepositoryType) {
+        self.qrRepository = qrRepository
+    }
+    
     func createQRScannerListViewController() -> QRScannerListViewController {
         let viewModel = createQRScannerListViewModel()
         
@@ -33,6 +39,6 @@ final class QRScannerListDIContainer {
     }
     
     private func createQRScannerListViewModel() -> QRScannerListViewModel {
-        return QRScannerListViewModel()
+        return QRScannerListViewModel(qrRepository: self.qrRepository)
     }
 }

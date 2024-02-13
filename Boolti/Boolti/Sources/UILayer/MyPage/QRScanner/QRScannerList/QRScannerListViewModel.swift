@@ -15,6 +15,7 @@ final class QRScannerListViewModel {
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
+    private let qrRepository: QRRepositoryType
     
     struct Output {
         let qrScanners = PublishRelay<[QRScannerEntity]>()
@@ -24,8 +25,9 @@ final class QRScannerListViewModel {
     
     // MARK: Init
     
-    init() {
+    init(qrRepository: QRRepositoryType) {
         self.output = Output()
+        self.qrRepository = qrRepository
     }
 }
 
@@ -33,4 +35,10 @@ final class QRScannerListViewModel {
 
 extension QRScannerListViewModel {
     
+    func fetchQRList() {
+        self.qrRepository.scannerList()
+            .asObservable()
+            .bind(to: self.output.qrScanners)
+            .disposed(by: self.disposeBag)
+    }
 }

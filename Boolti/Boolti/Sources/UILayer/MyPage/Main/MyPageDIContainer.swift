@@ -68,7 +68,7 @@ final class MyPageDIContainer {
     }
 
     private func createQRScannerListDIContainer() -> QRScannerListDIContainer {
-        return QRScannerListDIContainer()
+        return QRScannerListDIContainer(qrRepository: QRRepository(networkService: self.authRepository.networkService))
     }
 
     private func createLoginViewDIContainer() -> LoginViewDIContainer {
