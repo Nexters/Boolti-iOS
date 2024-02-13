@@ -44,7 +44,7 @@ final class ReservationCollapsableStackView: UIStackView {
         super.init(frame: frame)
     }
 
-    init(title: String, contentViews: [ReservationHorizontalStackView], isHidden: Bool) {
+    init(title: String, contentViews: [UIView], isHidden: Bool) {
 
         super.init(frame: .zero)
         self.configreUI(title: title, contentViews: contentViews, isHidden: isHidden)
@@ -55,9 +55,10 @@ final class ReservationCollapsableStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func configreUI(title: String, contentViews: [ReservationHorizontalStackView], isHidden: Bool) {
+    private func configreUI(title: String, contentViews: [UIView], isHidden: Bool) {
 
         self.axis = .vertical
+        self.spacing = spacing
         self.alignment = .center
         self.backgroundColor = .grey90
         self.titleLabel.text = title
@@ -110,12 +111,7 @@ final class ReservationCollapsableStackView: UIStackView {
         self.viewCollapseButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.viewCollapseButton.isSelected.toggle()
-
-                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                    collapsableSubviews.forEach { $0.isHidden.toggle() }
-                    owner.layoutIfNeeded()
-                }, completion: nil)
-
+                collapsableSubviews.forEach { $0.isHidden.toggle() }
                 owner.didViewCollapseButtonTap.accept(())
             }
             .disposed(by: self.disposeBag)

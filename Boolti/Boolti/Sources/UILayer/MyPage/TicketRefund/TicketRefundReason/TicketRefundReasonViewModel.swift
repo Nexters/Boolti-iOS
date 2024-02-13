@@ -8,7 +8,7 @@
 import Foundation
 
 final class TicketRefundReasonViewModel {
-    private let reservationID: String
+    let reservationID: String
 
     init(reservationID: String) {
         self.reservationID = reservationID

@@ -12,6 +12,11 @@ import RxCocoa
 
 class TicketRefundReasonViewController: BooltiViewController {
 
+    typealias ReservationID = String
+    typealias ReasonText = String
+
+    private let ticketRefundRequestViewControllerFactory: (ReservationID, ReasonText) -> TicketRefundRequestViewController
+
     private let viewModel: TicketRefundReasonViewModel
     private let disposeBag = DisposeBag()
 
@@ -19,7 +24,7 @@ class TicketRefundReasonViewController: BooltiViewController {
 
     private let mainTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "신고 사유를 입력해주세요"
+        label.text = "환불 이유를 입력해 주세요"
         label.font = .point4
         label.textColor = .grey05
         return label
@@ -38,7 +43,8 @@ class TicketRefundReasonViewController: BooltiViewController {
 
     private let nextButton = BooltiButton(title: "다음")
 
-    init(viewModel: TicketRefundReasonViewModel) {
+    init(ticketRefundRequestViewControllerFactory: @escaping (ReservationID, ReasonText) -> TicketRefundRequestViewController, viewModel: TicketRefundReasonViewModel) {
+        self.ticketRefundRequestViewControllerFactory = ticketRefundRequestViewControllerFactory
         self.viewModel = viewModel
         super.init()
     }
@@ -67,6 +73,7 @@ class TicketRefundReasonViewController: BooltiViewController {
             self.nextButton
         ])
         self.view.backgroundColor = .grey95
+        self.nextButton.isEnabled = false
     }
 
     private func configureConstraints() {
@@ -102,8 +109,8 @@ class TicketRefundReasonViewController: BooltiViewController {
 
         self.nextButton.rx.tap
             .bind(with: self) { owner, _ in
-//                owner.navigationController?.popToRootViewController(animated: true)
-//                owner.showToast(message: "신고를 완료했어요")
+                let viewController = owner.ticketRefundRequestViewControllerFactory(owner.viewModel.reservationID, owner.reasonTextView.text)
+                owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
 
