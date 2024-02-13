@@ -153,9 +153,9 @@ final class AuthRepository: AuthRepositoryType {
             .map(UserResponseDTO.self)
             .subscribe(with: self) { owner, user in
                 UserDefaults.userId = user.id
-                UserDefaults.userName = user.nickname
-                UserDefaults.userEmail = user.email
-                UserDefaults.userImageURLPath = user.imgPath
+                UserDefaults.userName = user.nickname ?? ""
+                UserDefaults.userEmail = user.email ?? ""
+                UserDefaults.userImageURLPath = user.imgPath ?? ""
             }
             .disposed(by: self.disposeBag)
     }

@@ -10,7 +10,7 @@ import Foundation
 struct UserResponseDTO: Decodable {
 
     let id: Int
-    let nickname: String
-    let email: String
-    let imgPath: String
+    let nickname: String?
+    let email: String?
+    let imgPath: String?
 }

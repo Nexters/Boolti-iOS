@@ -1154,10 +1154,10 @@
 		8710D9432B74FA1300309FBF /* TicketReservations */ = {
 			isa = PBXGroup;
 			children = (
-				8710D94B2B74FA7D00309FBF /* TicketReservationsViewController.swift */,
 				870099BC2B7767B4001779FB /* Cell */,
 				870099BB2B7767AB001779FB /* Views */,
 				8710D94F2B74FA9A00309FBF /* TicketReservationsDIContainer.swift */,
+				8710D94B2B74FA7D00309FBF /* TicketReservationsViewController.swift */,
 				8710D94D2B74FA8B00309FBF /* TicketReservationsViewModel.swift */,
 			);
 			path = TicketReservations;

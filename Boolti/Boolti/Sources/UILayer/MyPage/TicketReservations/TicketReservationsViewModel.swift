@@ -39,6 +39,7 @@ final class TicketReservationsViewModel {
         self.input.viewWillAppearEvent
             .flatMap { self.fetchTicketReservations() }
             .subscribe(with: self) { owner, ticketReservations in
+                // 카카오 로그인일 때만 여기 안들어옴!
                 owner.output.tickerReservations.accept(ticketReservations)
             }
             .disposed(by: self.disposeBag)
