@@ -38,8 +38,8 @@ final class PlaceInfoView: UIView {
         config.imagePadding = 6
         
         let button = UIButton(configuration: config)
-        button.setImage(.placeCopy, for: .normal)
-        
+        button.setImage(.copy, for: .normal)
+
         return button
     }()
 

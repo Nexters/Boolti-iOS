@@ -78,14 +78,15 @@ extension TicketSelectionViewController {
             .disposed(by: self.disposeBag)
         
         self.viewModel.input.selectedTickets
-            .bind(to: selectedTicketView.tableView.rx.items(cellIdentifier: SelectedTicketTableViewCell.className, cellType: SelectedTicketTableViewCell.self)) { index, item, cell in
+            .bind(to: selectedTicketView.tableView.rx.items(cellIdentifier: SelectedTicketTableViewCell.className, cellType: SelectedTicketTableViewCell.self)) { [weak self] index, item, cell in
+                guard let self else { return }
                 cell.selectionStyle = .none
                 cell.setData(entity: item)
                 
                 cell.didDeleteButtonTap
                     .asDriver()
-                    .drive(with: self, onNext: { owner, _ in
-                        owner.viewModel.input.didDeleteButtonTap.onNext(item.id)
+                    .drive(onNext: { _ in
+                        self.viewModel.input.didDeleteButtonTap.onNext(item.id)
                     })
                     .disposed(by: cell.disposeBag)
             }.disposed(by: self.disposeBag)
