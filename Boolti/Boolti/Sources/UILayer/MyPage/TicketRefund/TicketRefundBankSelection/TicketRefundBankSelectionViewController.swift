@@ -33,15 +33,25 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .grey85
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.register(TicketRefundBankCollectionViewCell.self, forCellWithReuseIdentifier: TicketRefundBankCollectionViewCell.className)
         return collectionView
     }()
 
+    private lazy var buttonDimmedBackgroundView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 16))
 
-    let contentView: UIView = {
-        let view = UIView()
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.colors = [UIColor.clear.cgColor, UIColor.grey85.cgColor]
+        view.layer.insertSublayer(gradient, at: 0)
+
         return view
     }()
+
+    private let finishSelectionButton = BooltiButton(title: "선택 완료하기")
+
+    var selectedItem: ((BankEntity) -> ())?
 
     override init() {
         super.init()
@@ -63,12 +73,18 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
 
     private func configureUI() {
         self.view.backgroundColor = .grey85
+        self.finishSelectionButton.isEnabled = false
         self.navigationController?.navigationBar.isHidden = true
         self.sheetPresentationController?.detents = [.custom(resolver: { _ in
             return 647
         })]
 
-        self.view.addSubviews([self.titleView, self.collectionView])
+        self.view.addSubviews([
+            self.titleView,
+            self.collectionView,
+            self.finishSelectionButton,
+            self.buttonDimmedBackgroundView
+        ])
         self.titleView.addSubview(titleLabel)
 
         self.configureCollectionView()
@@ -82,7 +98,18 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
     private func bindUIComponents() {
         self.collectionView.rx.itemSelected
             .subscribe(with: self) { owner, selectedIndexPath in
+                owner.selectedItem?(BankEntity.all[selectedIndexPath.row])
                 owner.updateCellUI(selectedIndexPath)
+
+                if !owner.finishSelectionButton.isEnabled {
+                    owner.finishSelectionButton.isEnabled.toggle()
+                }
+            }
+            .disposed(by: self.disposeBag)
+
+        self.finishSelectionButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
             }
             .disposed(by: self.disposeBag)
     }
@@ -115,8 +142,20 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
         self.collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.titleView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            make.bottom.equalTo(self.finishSelectionButton.snp.top)
         }
+
+        self.buttonDimmedBackgroundView.snp.makeConstraints { make in
+            make.bottom.equalTo(self.finishSelectionButton.snp.top)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(16)
+        }
+
+        self.finishSelectionButton.snp.makeConstraints { make in
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
     }
 
     private func configureBottomSheet() {

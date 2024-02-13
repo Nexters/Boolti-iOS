@@ -152,6 +152,11 @@ class TicketRefundRequestViewController: BooltiViewController {
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
                 let viewController = TicketRefundBankSelectionViewController()
+
+                viewController.selectedItem = { item in
+                    owner.selectRefundBankView.setData(with: item.bankName)
+                }
+
                 self.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)

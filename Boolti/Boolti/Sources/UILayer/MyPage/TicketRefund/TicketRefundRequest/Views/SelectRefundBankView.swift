@@ -33,7 +33,11 @@ class SelectRefundBankView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    func setData(with bankName: String) {
+        self.bankNameLabel.text = bankName
+    }
+
     private func configureUI() {
         self.backgroundColor = .grey85
 
