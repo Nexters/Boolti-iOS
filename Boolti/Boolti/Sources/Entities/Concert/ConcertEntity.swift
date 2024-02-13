@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ConcertEntity {
+struct ConcertEntity: Equatable {
     let id: Int
     let name: String
     let dateTime: Date

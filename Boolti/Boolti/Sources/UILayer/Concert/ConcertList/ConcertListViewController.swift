@@ -75,14 +75,16 @@ extension ConcertListViewController {
     private func bindOutputs() {
         self.viewModel.output.checkingTicketCount
             .skip(1)
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: 0)
             .drive(with: self) { owner, concerts in
-                owner.mainCollectionView.reloadSections([0], animationStyle: .automatic)
+                owner.mainCollectionView.reloadSections([0, 1], animationStyle: .automatic)
             }
             .disposed(by: self.disposeBag)
         
         self.viewModel.output.concerts
             .skip(1)
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
             .drive(with: self) { owner, concerts in
                 owner.mainCollectionView.reloadSections([3], animationStyle: .automatic)
