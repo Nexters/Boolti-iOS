@@ -20,6 +20,7 @@ enum NavigationType {
     case report
     case ticketReservationDetail
     case qrScannerList
+    case qrScanner(concertName: String)
 }
 
 final class BooltiNavigationBar: UIView {
@@ -61,6 +62,7 @@ final class BooltiNavigationBar: UIView {
         case .report: self.configureReportUI()
         case .ticketReservationDetail: self.configureTicketReservationDetailUI()
         case .qrScannerList: self.configureQRScannerListUI()
+        case .qrScanner(let concertName): self.configureQRScannerUI(title: concertName)
         }
     }
     
@@ -152,6 +154,14 @@ extension BooltiNavigationBar {
         self.addSubviews([self.titleLabel, self.backButton])
         self.configureConcertContentExpandConstraints()
     }
+    
+    private func configureQRScannerUI(title: String) {
+        self.titleLabel.text = title
+        self.titleLabel.clipsToBounds = true
+
+        self.addSubviews([self.titleLabel, self.closeButton])
+        self.configureQRScannerConstraints()
+    }
 
     private func configureTicketDetailConstraints() {
         self.backButton.snp.makeConstraints { make in
@@ -225,6 +235,21 @@ extension BooltiNavigationBar {
         self.titleLabel.snp.makeConstraints { make in
             make.left.equalTo(self.backButton.snp.right).offset(4)
             make.bottom.equalToSuperview().inset(10)
+        }
+    }
+    
+    private func configureQRScannerConstraints() {
+        self.titleLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(20)
+            make.right.equalTo(self.closeButton.snp.left).offset(-20)
+            make.bottom.equalToSuperview().inset(10)
+        }
+        
+        self.closeButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.width.height.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+            
         }
     }
 }

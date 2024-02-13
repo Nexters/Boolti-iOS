@@ -13,8 +13,12 @@ final class QRScannerListViewController: UIViewController {
     
     // MARK: Properties
     
+    typealias ConcertName = String
+    
     private let viewModel: QRScannerListViewModel
     private let disposeBag = DisposeBag()
+    
+    private let qrScannerViewControllerFactory: (ConcertName) -> QRScannerViewController
     
     // MARK: UI Component
     
@@ -58,8 +62,10 @@ final class QRScannerListViewController: UIViewController {
     
     // MARK: Init
 
-    init(viewModel: QRScannerListViewModel) {
+    init(viewModel: QRScannerListViewModel,
+         qrScannerViewControllerFactory: @escaping (ConcertName) -> QRScannerViewController) {
         self.viewModel = viewModel
+        self.qrScannerViewControllerFactory = qrScannerViewControllerFactory
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -122,11 +128,9 @@ extension QRScannerListViewController {
         self.scannerTableView.rx.modelSelected(QRScannerEntity.self)
             .asDriver()
             .drive(with: self) { owner, qrScannerEntity in
-                debugPrint(qrScannerEntity)
-                
-                // TODO: qr 화면으로 이동
-//                let viewController = owner.ticketReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
-//                owner.navigationController?.pushViewController(viewController, animated: true)
+                let viewController = owner.qrScannerViewControllerFactory(qrScannerEntity.concertName)
+                viewController.modalPresentationStyle = .overFullScreen
+                owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }

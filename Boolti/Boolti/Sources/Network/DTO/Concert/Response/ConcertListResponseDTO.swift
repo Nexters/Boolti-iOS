@@ -13,7 +13,7 @@ struct ConcertListResponseDTOElement: Decodable {
     let date: String
     let salesStartTime: String
     let salesEndTime: String
-    let showImg: String
+    let showImg: String?
 }
 
 typealias ConcertListResponseDTO = [ConcertListResponseDTOElement]
@@ -25,7 +25,7 @@ extension ConcertListResponseDTO {
             return ConcertEntity(id: concert.id,
                                  name: concert.name,
                                  dateTime: concert.date.formatToDate(),
-                                 posterPath: concert.showImg)
+                                 posterPath: concert.showImg ?? "")
         }
     }
 }
