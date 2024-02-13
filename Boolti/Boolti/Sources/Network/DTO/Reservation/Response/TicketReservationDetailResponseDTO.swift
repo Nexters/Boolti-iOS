@@ -18,8 +18,8 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let accountNumber: String
     let accountHolder: String
     let salesEndTime: String
-    let meansType: String
-    let totalAmountPrice: Int
+    let meansType: String?
+    let totalAmountPrice: Int?
     let reservationStatus: String
     let completedTimeStamp: String?
     let reservationName: String
@@ -33,6 +33,8 @@ extension TicketReservationDetailResponseDTO {
 
         let ticketType = self.salesTicketType == "SALE" ? TicketType.sale : TicketType.invitation
         let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.cancelled
+        let totalAmountPrice = self.totalAmountPrice ?? 0
+        let paymentType = self.meansType ?? "초청코드" 
 
         return TicketReservationDetailEntity(
             reservationID: String(self.reservationId),
@@ -44,8 +46,8 @@ extension TicketReservationDetailResponseDTO {
             accountNumber: self.accountNumber,
             accountHolderName: self.accountHolder,
             depositDeadLine: self.salesEndTime,
-            paymentMethod: self.meansType,
-            totalPaymentAmount: String(self.totalAmountPrice),
+            paymentMethod: paymentType,
+            totalPaymentAmount: String(totalAmountPrice),
             reservationStatus: reservationStatus,
             ticketingDate: self.completedTimeStamp,
             purchaseName: self.reservationName,

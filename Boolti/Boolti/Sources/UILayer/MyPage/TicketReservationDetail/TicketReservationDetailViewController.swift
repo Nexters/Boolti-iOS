@@ -287,9 +287,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
     }
 
     private func setAdditionalDataForSale(with entity: TicketReservationDetailEntity) {
-        let paymentMethod = PaymentMethod(rawValue: entity.paymentMethod)!
-        // 결제 수단
-        self.paymentMethodView.setData(paymentMethod.description)
+        if entity.paymentMethod == "초청 코드" {
+            self.paymentMethodView.setData("초청코드")
+        } else {
+            let paymentMethod = PaymentMethod(rawValue: entity.paymentMethod)!
+            self.paymentMethodView.setData(paymentMethod.description)
+        }
 
         // 입금 계좌 정보
         self.bankNameView.setData(entity.bankName)
