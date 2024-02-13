@@ -21,7 +21,8 @@ final class QRScannerListDIContainer {
         let qrScannerViewControllerFactory: (QRScannerEntity) -> QRScannerViewController = { qrScannerEntity in
             let DIContainer = self.createQRScannerDIContainer()
 
-            let viewController = DIContainer.createQRScannerViewController(qrScannerEntity: qrScannerEntity)
+            let viewController = DIContainer.createQRScannerViewController(qrRepository: self.qrRepository,
+                                                                           qrScannerEntity: qrScannerEntity)
             return viewController
         }
         

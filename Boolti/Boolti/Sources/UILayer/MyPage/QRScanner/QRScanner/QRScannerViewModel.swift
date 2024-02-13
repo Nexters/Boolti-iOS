@@ -27,6 +27,7 @@ final class QRScannerViewModel {
     }
     
     private let disposeBag = DisposeBag()
+    private let qrRepository: QRRepositoryType
     
     struct Input {
         let detectQRCode = PublishRelay<String>()
@@ -43,10 +44,11 @@ final class QRScannerViewModel {
     
     // MARK: Init
     
-    init(qrScannerEntity: QRScannerEntity) {
+    init(qrRepository: QRRepositoryType,
+         qrScannerEntity: QRScannerEntity) {
         self.input = Input()
         self.output = Output()
-        
+        self.qrRepository = qrRepository
         self.qrScannerEntity = qrScannerEntity
         self.bindInputs()
     }
@@ -70,6 +72,13 @@ extension QRScannerViewModel {
 extension QRScannerViewModel {
     
     private func entranceCodeCheck(detectedCode: String) {
-        self.output.showCheckLabel.accept(.invalid)
+        self.qrRepository.qrScan(concertId: self.qrScannerEntity.concertId,
+                                 entranceCode: detectedCode)
+        .subscribe(with: self, onSuccess: { owner, isValid in
+            owner.output.showCheckLabel.accept(.valid)
+        }, onFailure: { owner, _ in
+            owner.output.showCheckLabel.accept(.invalid)
+        })
+        .disposed(by: self.disposeBag)
     }
 }

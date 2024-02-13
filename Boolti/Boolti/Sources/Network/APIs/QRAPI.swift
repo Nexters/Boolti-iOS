@@ -12,6 +12,7 @@ import Moya
 enum QRAPI {
     
     case scannerlist
+    case qrScan(requestDTO: QRScanRequestDTO)
 }
 
 extension QRAPI: ServiceAPI {
@@ -20,14 +21,26 @@ extension QRAPI: ServiceAPI {
         switch self {
         case .scannerlist:
             return "/api/v1/host/shows"
+        case .qrScan:
+            return "/api/v1/ticket/entrance"
         }
     }
     
     var method: Moya.Method {
-        return .get
+        switch self {
+        case .scannerlist:
+            return .get
+        case .qrScan:
+            return .post
+        }
     }
 
     var task: Moya.Task {
-        return .requestPlain
+        switch self {
+        case .scannerlist:
+            return .requestPlain
+        case .qrScan(let DTO):
+            return .requestJSONEncodable(DTO)
+        }
     }
 }

@@ -25,4 +25,12 @@ final class QRRepository: QRRepositoryType {
             .map(QRScannerListResponseDTO.self)
             .map { $0.convertToQRScannerEntities() }
     }
+    
+    func qrScan(concertId: Int, entranceCode: String) -> Single<Bool> {
+        let qrScanRequestDTO = QRScanRequestDTO(showId: concertId, entryCode: entranceCode)
+        let api = QRAPI.qrScan(requestDTO: qrScanRequestDTO)
+        
+        return networkService.request(api)
+            .map(Bool.self)
+    }
 }

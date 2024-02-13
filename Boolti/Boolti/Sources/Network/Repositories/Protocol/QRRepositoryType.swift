@@ -11,4 +11,5 @@ protocol QRRepositoryType {
     
     var networkService: NetworkProviderType { get }
     func scannerList() -> Single<[QRScannerEntity]>
+    func qrScan(concertId: Int, entranceCode: String) -> Single<Bool>
 }
