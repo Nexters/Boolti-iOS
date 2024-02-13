@@ -9,15 +9,13 @@ import Foundation
 
 final class QRScannerListDIContainer {
     
-    typealias ConcertName = String
-    
     func createQRScannerListViewController() -> QRScannerListViewController {
         let viewModel = createQRScannerListViewModel()
         
-        let qrScannerViewControllerFactory: (ConcertName) -> QRScannerViewController = { concertName in
+        let qrScannerViewControllerFactory: (QRScannerEntity) -> QRScannerViewController = { qrScannerEntity in
             let DIContainer = self.createQRScannerDIContainer()
 
-            let viewController = DIContainer.createQRScannerViewController(concertName: concertName)
+            let viewController = DIContainer.createQRScannerViewController(qrScannerEntity: qrScannerEntity)
             return viewController
         }
         

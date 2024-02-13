@@ -13,12 +13,10 @@ final class QRScannerListViewController: UIViewController {
     
     // MARK: Properties
     
-    typealias ConcertName = String
-    
     private let viewModel: QRScannerListViewModel
     private let disposeBag = DisposeBag()
     
-    private let qrScannerViewControllerFactory: (ConcertName) -> QRScannerViewController
+    private let qrScannerViewControllerFactory: (QRScannerEntity) -> QRScannerViewController
     
     // MARK: UI Component
     
@@ -63,7 +61,7 @@ final class QRScannerListViewController: UIViewController {
     // MARK: Init
 
     init(viewModel: QRScannerListViewModel,
-         qrScannerViewControllerFactory: @escaping (ConcertName) -> QRScannerViewController) {
+         qrScannerViewControllerFactory: @escaping (QRScannerEntity) -> QRScannerViewController) {
         self.viewModel = viewModel
         self.qrScannerViewControllerFactory = qrScannerViewControllerFactory
         
@@ -128,7 +126,7 @@ extension QRScannerListViewController {
         self.scannerTableView.rx.modelSelected(QRScannerEntity.self)
             .asDriver()
             .drive(with: self) { owner, qrScannerEntity in
-                let viewController = owner.qrScannerViewControllerFactory(qrScannerEntity.concertName)
+                let viewController = owner.qrScannerViewControllerFactory(qrScannerEntity)
                 viewController.modalPresentationStyle = .overFullScreen
                 owner.present(viewController, animated: true)
             }

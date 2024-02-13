@@ -5,34 +5,64 @@
 //  Created by Juhyeon Byun on 2/13/24.
 //
 
-import Foundation
+import UIKit
 
 import RxSwift
+import RxRelay
 
 final class QRScannerViewModel {
     
     // MARK: Properties
     
+    enum entranceCodeState: String {
+        case valid = "입장을 확인했어요"
+        case invalid = "확인이 필요합니다"
+        
+        var textColor: UIColor {
+            switch self {
+            case .valid: .grey10
+            case .invalid: .error
+            }
+        }
+    }
+    
+    private let disposeBag = DisposeBag()
+    
     struct Input {
-        let detectQR = PublishSubject<Void>()
+        let detectQRCode = PublishRelay<String>()
     }
     
     struct Output {
+        let showCheckLabel = PublishRelay<entranceCodeState>()
     }
     
     let input: Input
     let output: Output
     
-    let concertName: String
+    let qrScannerEntity: QRScannerEntity
     
     // MARK: Init
     
-    init(concertName: String) {
+    init(qrScannerEntity: QRScannerEntity) {
         self.input = Input()
         self.output = Output()
         
-//        self.concertName = concertName
-        self.concertName = "2024 TOGETHER LUCKY Club"
+//        self.qrScannerEntity = qrScannerEntity
+        self.qrScannerEntity = QRScannerEntity(concertId: 0, concertName: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십", concertEndDatetime: Date(), entranceCode: "12345")
+        self.bindInputs()
+    }
+}
+
+// MARK: - Methods
+
+extension QRScannerViewModel {
+    
+    private func bindInputs() {
+        self.input.detectQRCode
+            .bind(with: self) { owner, detectedCode in
+                owner.entranceCodeCheck(detectedCode: detectedCode)
+            }
+            .disposed(by: self.disposeBag)
     }
 }
 
@@ -40,4 +70,7 @@ final class QRScannerViewModel {
 
 extension QRScannerViewModel {
     
+    private func entranceCodeCheck(detectedCode: String) {
+        self.output.showCheckLabel.accept(.invalid)
+    }
 }

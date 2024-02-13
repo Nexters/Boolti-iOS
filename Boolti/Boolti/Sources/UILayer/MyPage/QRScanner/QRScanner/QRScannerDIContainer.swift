@@ -9,8 +9,8 @@ import Foundation
 
 final class QRScannerDIContainer {
     
-    func createQRScannerViewController(concertName: String) -> QRScannerViewController {
-        let viewModel = createQRScannerViewModel(concertName: concertName)
+    func createQRScannerViewController(qrScannerEntity: QRScannerEntity) -> QRScannerViewController {
+        let viewModel = createQRScannerViewModel(qrScannerEntity: qrScannerEntity)
         
         let viewController = QRScannerViewController(
             viewModel: viewModel
@@ -19,7 +19,7 @@ final class QRScannerDIContainer {
         return viewController
     }
     
-    private func createQRScannerViewModel(concertName: String) -> QRScannerViewModel {
-        return QRScannerViewModel(concertName: concertName)
+    private func createQRScannerViewModel(qrScannerEntity: QRScannerEntity) -> QRScannerViewModel {
+        return QRScannerViewModel(qrScannerEntity: qrScannerEntity)
     }
 }

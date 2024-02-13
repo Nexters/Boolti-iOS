@@ -21,7 +21,32 @@ final class QRScannerViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private lazy var navigationBar = BooltiNavigationBar(type: .qrScanner(concertName: self.viewModel.concertName))
+    private lazy var navigationBar = BooltiNavigationBar(type: .qrScanner(concertName: self.viewModel.qrScannerEntity.concertName))
+    
+    private let entranceCodeButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
+        config.title = "입장코드 보기"
+        config.attributedTitle?.font = .pretendardR(12)
+        config.baseForegroundColor = .grey50
+        config.imagePadding = 4
+        
+        let button = UIButton(configuration: config)
+        button.setImage(.entranceCode, for: .normal)
+
+        return button
+    }()
+    
+    private let checkLabel: BooltiPaddingLabel = {
+        let label = BooltiPaddingLabel(padding: .init(top: 12, left: 16, bottom: 12, right: 16))
+        label.text = "입장을 확인했어요"
+        label.backgroundColor = .grey80.withAlphaComponent(0.8)
+        label.textColor = .grey10
+        label.font = .pretendardR(14)
+        label.layer.cornerRadius = 4
+        label.clipsToBounds = true
+        return label
+    }()
     
     // MARK: Init
 
@@ -42,7 +67,8 @@ final class QRScannerViewController: BooltiViewController {
         
         self.configureUI()
         self.configureConstraints()
-        self.bindNavigationBar()
+        self.bindUIComponents()
+        self.bindOutputs()
         self.configureQRScanner()
         self.configureToastView(isButtonExisted: false)
     }
@@ -51,11 +77,41 @@ final class QRScannerViewController: BooltiViewController {
 // MARK: - Methods
 
 extension QRScannerViewController {
+    
+    private func bindOutputs() {
+        self.viewModel.output.showCheckLabel
+            .observe(on: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: .invalid)
+            .drive(with: self) { owner, state in
+                owner.checkLabel.text = state.rawValue
+                owner.checkLabel.textColor = state.textColor
+                owner.checkLabel.isHidden = false
+                
+                UIView.animate(
+                    withDuration: 0.3,
+                    delay: 1,
+                    animations: {
+                        owner.checkLabel.alpha = 0
+                    },
+                    completion: { _ in
+                        owner.checkLabel.alpha = 1.0
+                        owner.checkLabel.isHidden = true
+                    })
+            }
+            .disposed(by: self.disposeBag)
+    }
 
-    private func bindNavigationBar() {
+
+    private func bindUIComponents() {
         self.navigationBar.didCloseButtonTap()
             .emit(with: self) { owner, _ in
                 owner.dismiss(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.entranceCodeButton.rx.tap
+            .bind(with: self) { owner, _ in
+                debugPrint("버튼 선택")
             }
             .disposed(by: self.disposeBag)
     }
@@ -108,15 +164,26 @@ extension QRScannerViewController {
 extension QRScannerViewController {
 
     private func configureUI() {
-        self.view.addSubviews([self.navigationBar])
+        self.view.addSubviews([self.navigationBar, self.entranceCodeButton, self.checkLabel])
 
         self.view.backgroundColor = .grey95
+        self.checkLabel.isHidden = true
     }
 
     private func configureConstraints() {
         self.navigationBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.entranceCodeButton.snp.makeConstraints { make in
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-10)
+            make.centerX.equalToSuperview()
+        }
+        
+        self.checkLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-20)
+            make.centerX.equalToSuperview()
         }
     }
 }
@@ -129,11 +196,11 @@ extension QRScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
                         from connection: AVCaptureConnection) {
         if presentedViewController == nil,
            let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
-           let stringValue = metadataObject.stringValue {
+           let detectedCode = metadataObject.stringValue {
             self.captureSession.stopRunning()
-
-            DispatchQueue.main.async {
-                self.showToast(message: stringValue)
+            self.viewModel.input.detectQRCode.accept(detectedCode)
+            
+            DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
                 self.captureSession.startRunning()
             }
         }

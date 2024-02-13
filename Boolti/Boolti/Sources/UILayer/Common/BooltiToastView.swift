@@ -52,18 +52,19 @@ extension BooltiToastView {
             .asDriver(onErrorJustReturn: "")
             .throttle(.seconds(2))
             .drive(with: self) { owner, message in
-                self.toastLabel.text = message
+                owner.toastLabel.text = message
                 
                 UIView.animate(
                     withDuration: 0.3,
                     delay: 1,
+                    options: [],
                     animations: {
-                        self.isHidden = false
-                        self.alpha = 0
+                        owner.isHidden = false
+                        owner.alpha = 0
                     },
                     completion: { _ in
-                        self.alpha = 1.0
-                        self.isHidden = true
+                        owner.alpha = 1.0
+                        owner.isHidden = true
                     })
             }
             .disposed(by: self.disposeBag)
