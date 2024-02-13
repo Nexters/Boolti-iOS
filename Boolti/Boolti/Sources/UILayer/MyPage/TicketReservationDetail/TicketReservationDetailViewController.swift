@@ -13,6 +13,10 @@ import RxCocoa
 
 final class TicketReservationDetailViewController: BooltiViewController {
 
+    typealias ReservationID = String
+
+    private let ticketRefundReasonlViewControllerFactory: (ReservationID) -> TicketRefundReasonViewController
+
     private let viewModel: TicketReservationDetailViewModel
     private let disposeBag = DisposeBag()
 
@@ -109,7 +113,11 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return button
     }()
 
-    init(viewModel: TicketReservationDetailViewModel) {
+    init(
+        ticketRefundReasonlViewControllerFactory: @escaping (ReservationID) -> TicketRefundReasonViewController,
+        viewModel: TicketReservationDetailViewModel
+    ) {
+        self.ticketRefundReasonlViewControllerFactory = ticketRefundReasonlViewControllerFactory
         self.viewModel = viewModel
         super.init()
     }
@@ -209,6 +217,13 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.requestRefundButton.rx.tap
+            .bind(with: self) { owner, _ in
+                let viewController = owner.ticketRefundReasonlViewControllerFactory(owner.viewModel.reservationID)
+                owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }

@@ -26,7 +26,7 @@ final class TicketReservationDetailViewModel {
     private let disposeBag = DisposeBag()
 
     private let ticketReservationsRepository: TicketReservationsRepositoryType
-    private let reservationID: String
+    let reservationID: String
 
     init(reservationID: String, ticketReservationsRepository: TicketReservationsRepositoryType) {
         self.reservationID = reservationID
