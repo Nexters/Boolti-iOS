@@ -23,6 +23,9 @@ final class AuthInterceptor: RequestInterceptor {
 
         if let urlString = urlRequest.url?.absoluteString, urlString.contains("/api") || urlString.contains("/logout") {
             urlRequest.headers.add(.authorization(bearerToken: UserDefaults.accessToken))
+            
+            debugPrint("🔥 요청한 AccessToken: \(UserDefaults.accessToken) 🔥")
+            debugPrint("🔥 요청한 userId: \(UserDefaults.userId) 🔥")
         }
 
         completion(.success(urlRequest))

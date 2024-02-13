@@ -48,6 +48,14 @@ final class QRScannerListViewController: UIViewController {
         return label
     }()
     
+    private let scannerTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.contentInset = .init(top: 20, left: 0, bottom: 20, right: 0)
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .grey95
+        return tableView
+    }()
+    
     // MARK: Init
 
     init(viewModel: QRScannerListViewModel) {
@@ -68,6 +76,19 @@ final class QRScannerListViewController: UIViewController {
         self.configureUI()
         self.configureConstraints()
         self.bindNavigationBar()
+        self.bindScannerTableView()
+        
+        self.viewModel.output.qrScanners.accept([QRScannerEntity(concertId: 0, concertName: "2024 TOGETHER LUCKY Club", concertEndDatetime: Date(), entranceCode: "1234"), QRScannerEntity(concertId: 2, concertName: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십", concertEndDatetime: Date(), entranceCode: "123433")])
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+        
+        // scanner data fetch
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
     }
 }
 
@@ -82,6 +103,33 @@ extension QRScannerListViewController {
             }
             .disposed(by: self.disposeBag)
     }
+    
+    private func bindScannerTableView() {
+        self.scannerTableView.register(QRScannerListTableViewCell.self, forCellReuseIdentifier: QRScannerListTableViewCell.className)
+
+        Observable.just(104)
+            .bind(to: self.scannerTableView.rx.rowHeight)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.output.qrScanners
+            .do { self.emtpyLabelStackView.isHidden = !$0.isEmpty }
+            .bind(to: self.scannerTableView.rx.items(cellIdentifier: QRScannerListTableViewCell.className, cellType: QRScannerListTableViewCell.self)) { index, item, cell in
+                cell.selectionStyle = .none
+                cell.setData(concertName: item.concertName)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.scannerTableView.rx.modelSelected(QRScannerEntity.self)
+            .asDriver()
+            .drive(with: self) { owner, qrScannerEntity in
+                debugPrint(qrScannerEntity)
+                
+                // TODO: qr 화면으로 이동
+//                let viewController = owner.ticketReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
+//                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
 }
 
 // MARK: - UI
@@ -90,6 +138,7 @@ extension QRScannerListViewController {
     
     private func configureUI() {
         self.view.addSubviews([self.navigationBar,
+                               self.scannerTableView,
                                self.emtpyLabelStackView])
         
         self.view.backgroundColor = .grey95
@@ -103,6 +152,11 @@ extension QRScannerListViewController {
 
         self.emtpyLabelStackView.snp.makeConstraints { make in
             make.center.equalToSuperview()
+        }
+        
+        self.scannerTableView.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
     }
 }
