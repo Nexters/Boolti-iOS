@@ -12,6 +12,7 @@ import RxSwift
 protocol TicketReservationsRepositoryType {
     var networkService: NetworkProviderType { get }
     func ticketReservations() -> Single<[TicketReservationItemEntity]>
+    func ticketReservationDetail(with reservationID: String) -> Single<TicketReservationDetailEntity>
 }
 
 class TicketReservationRepository: TicketReservationsRepositoryType {
@@ -28,4 +29,13 @@ class TicketReservationRepository: TicketReservationsRepositoryType {
             .map([TicketReservationItemResponseDTO].self)
             .map { $0.map { $0.convertToTicketReservationItemEntity() }}
     }
+
+    func ticketReservationDetail(with reservationID: String) -> Single<TicketReservationDetailEntity> {
+        let requestDTO = TicketReservationDetailRequestDTO(reservationID: reservationID)
+        let api = TicketReservationAPI.detail(requestDTO: requestDTO)
+        return self.networkService.request(api)
+            .map(TicketReservationDetailResponseDTO.self)
+            .map { $0.convertToTicketReservationDetailEntity() }
+    }
+
 }

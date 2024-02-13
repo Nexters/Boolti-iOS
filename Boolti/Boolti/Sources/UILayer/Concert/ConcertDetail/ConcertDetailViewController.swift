@@ -23,6 +23,7 @@ final class ConcertDetailViewController: BooltiViewController {
     
     private let loginViewControllerFactory: () -> LoginViewController
     private let concertContentExpandViewControllerFactory: (Content) -> ConcertContentExpandViewController
+    private let reportViewControllerFactory: () -> ReportViewController
     private let ticketSelectionViewControllerFactory: (ConcertId) -> TicketSelectionViewController
     
     // MARK: UI Component
@@ -85,10 +86,12 @@ final class ConcertDetailViewController: BooltiViewController {
     init(viewModel: ConcertDetailViewModel,
          loginViewControllerFactory: @escaping () -> LoginViewController,
          concertContentExpandViewControllerFactory: @escaping (Content) -> ConcertContentExpandViewController,
+         reportViewControllerFactory: @escaping () -> ReportViewController,
          ticketSelectionViewControllerFactory: @escaping (ConcertId) -> TicketSelectionViewController) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.concertContentExpandViewControllerFactory = concertContentExpandViewControllerFactory
+        self.reportViewControllerFactory = reportViewControllerFactory
         self.ticketSelectionViewControllerFactory = ticketSelectionViewControllerFactory
         
         super.init()
@@ -102,7 +105,7 @@ final class ConcertDetailViewController: BooltiViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.configureUI()
         self.configureConstraints()
         self.configureToastView(isButtonExisted: true)
@@ -203,7 +206,7 @@ extension ConcertDetailViewController {
     private func bindPlaceInfoView() {
         self.placeInfoView.didAddressCopyButtonTap()
             .emit(with: self) { owner, _ in
-                UIPasteboard.general.string = self.viewModel.output.concertDetailEntity?.streetAddress
+                UIPasteboard.general.string = owner.viewModel.output.concertDetailEntity?.streetAddress
                 owner.showToast(message: "공연장 주소가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
@@ -249,8 +252,8 @@ extension ConcertDetailViewController {
                 let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 
                 let reportAction = UIAlertAction(title: "신고하기", style: .default) { _ in
-                    // TODO: 신고하기 페이지로 이동
-                    debugPrint("신고하기 페이지로 이동")
+                    let viewController = owner.reportViewControllerFactory()
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                  }
                  alertController.addAction(reportAction)
 

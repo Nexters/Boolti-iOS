@@ -42,6 +42,13 @@ final class ConcertDetailDIContainer {
             return viewController
         }
         
+        let reportViewControllerFactory: () -> ReportViewController = {
+            let DIContainer = self.createReportDIContainer()
+
+            let viewController = DIContainer.createReportViewController()
+            return viewController
+        }
+        
         let ticketSelectionViewControllerFactory: (ConcertId) -> TicketSelectionViewController = { concertId in
             let DIContainer = self.createTicketSelectionDIContainer()
 
@@ -53,6 +60,7 @@ final class ConcertDetailDIContainer {
             viewModel: viewModel, 
             loginViewControllerFactory: loginViewControllerFactory,
             concertContentExpandViewControllerFactory: concertContentExpandViewControllerFactory,
+            reportViewControllerFactory: reportViewControllerFactory,
             ticketSelectionViewControllerFactory: ticketSelectionViewControllerFactory
         )
 
@@ -68,6 +76,10 @@ final class ConcertDetailDIContainer {
     
     private func createConcertContentExpandDIContainer() -> ConcertContentExpandDIContainer {
         return ConcertContentExpandDIContainer()
+    }
+    
+    private func createReportDIContainer() -> ReportDIContainer {
+        return ReportDIContainer()
     }
     
     private func createTicketSelectionDIContainer() -> TicketSelectionDIContainer {

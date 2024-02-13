@@ -17,6 +17,8 @@ enum NavigationType {
     case ticketDetail
     case concertContentExpand
     case ticketReservations
+    case report
+    case ticketReservationDetail
 }
 
 final class BooltiNavigationBar: UIView {
@@ -54,6 +56,8 @@ final class BooltiNavigationBar: UIView {
         case .ticketDetail: self.configureTicketDetailUI()
         case .concertContentExpand: self.configureConcertContentExpandUI()
         case .ticketReservations: self.configureTicketReservationsUI()
+        case .report: self.configureReportUI()
+        case .ticketReservationDetail: self.configureTicketReservationDetailUI()
         }
     }
     
@@ -126,6 +130,20 @@ extension BooltiNavigationBar {
 
     private func configureTicketReservationsUI() {
         self.titleLabel.text = "예매 내역"
+
+        self.addSubviews([self.titleLabel, self.backButton])
+        self.configureConcertContentExpandConstraints()
+    }
+    
+    private func configureReportUI() {
+        self.titleLabel.text = "신고하기"
+
+        self.addSubviews([self.titleLabel, self.backButton])
+        self.configureConcertContentExpandConstraints()
+    }
+
+    private func configureTicketReservationDetailUI() {
+        self.titleLabel.text = "예매 내역 상세"
 
         self.addSubviews([self.titleLabel, self.backButton])
         self.configureConcertContentExpandConstraints()
