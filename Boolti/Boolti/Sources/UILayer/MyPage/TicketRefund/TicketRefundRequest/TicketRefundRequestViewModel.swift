@@ -32,8 +32,8 @@ final class TicketRefundRequestViewModel {
     private let disposeBag = DisposeBag()
 
 
-    private let reservationID: String
-    private let reasonText: String
+    let reservationID: String
+    let reasonText: String
     private let ticketReservationsRepository: TicketReservationsRepositoryType
 
     init(reservationID: String, reasonText: String, ticketReservationsRepository: TicketReservationsRepositoryType) {

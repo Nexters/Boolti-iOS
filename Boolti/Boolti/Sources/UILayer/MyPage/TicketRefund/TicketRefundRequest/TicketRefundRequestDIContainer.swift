@@ -9,6 +9,8 @@ import Foundation
 
 final class TicketRefundRequestDIContainer {
 
+    typealias ReservationID = String
+    typealias ReasonText = String
 
     private let ticketReservationRepository: TicketReservationsRepositoryType
 
@@ -18,7 +20,19 @@ final class TicketRefundRequestDIContainer {
     
     func createTicketRefundRequestViewController(reservationID: String, reasonText: String) -> TicketRefundRequestViewController {
 
-        return TicketRefundRequestViewController(viewModel: self.ticketRefundRequestViewModel(reservationID: reservationID, reasonText: reasonText))
+        let ticketRefundConfirmViewControllerFactory: (ReservationID, ReasonText, RefundAccountInformation) -> TicketRefundConfirmViewController = {
+            (reservationID, reasonText, refundAccountInformation) in
+
+            let DIContainer = self.createTicketRefundConfirmDIContainer()
+            let viewController = DIContainer.createTicketRefundConfirmViewController(reservationID: reservationID, reasonText: reasonText, refundAccoundInformation: refundAccountInformation)
+
+            return viewController
+        }
+
+        return TicketRefundRequestViewController(
+            ticketRefundConfirmViewControllerFactory: ticketRefundConfirmViewControllerFactory,
+            viewModel: self.ticketRefundRequestViewModel(reservationID: reservationID, reasonText: reasonText)
+        )
     }
 
 
@@ -26,4 +40,7 @@ final class TicketRefundRequestDIContainer {
         return TicketRefundRequestViewModel(reservationID: reservationID, reasonText: reasonText, ticketReservationsRepository: ticketReservationRepository)
     }
 
+    private func createTicketRefundConfirmDIContainer() -> TicketRefundConfirmDIContainer {
+        return TicketRefundConfirmDIContainer(ticketReservationRepository: self.ticketReservationRepository)
+    }
 }

@@ -15,6 +15,11 @@ import RxKeyboard
 
 class TicketRefundRequestViewController: BooltiViewController {
 
+    typealias ReservationID = String
+    typealias ReasonText = String
+
+    private let ticketRefundConfirmViewControllerFactory: (ReservationID, ReasonText, RefundAccountInformation) -> TicketRefundConfirmViewController
+
     private let viewModel: TicketRefundRequestViewModel
     private let disposeBag = DisposeBag()
 
@@ -58,7 +63,11 @@ class TicketRefundRequestViewController: BooltiViewController {
 
     private let requestRefundButton = BooltiButton(title: "환불 요청하기")
 
-    init(viewModel: TicketRefundRequestViewModel) {
+    init(
+        ticketRefundConfirmViewControllerFactory: @escaping (ReservationID, ReasonText, RefundAccountInformation) -> TicketRefundConfirmViewController,
+        viewModel: TicketRefundRequestViewModel
+    ) {
+        self.ticketRefundConfirmViewControllerFactory = ticketRefundConfirmViewControllerFactory
         self.viewModel = viewModel
         super.init()
     }
@@ -251,6 +260,24 @@ class TicketRefundRequestViewController: BooltiViewController {
             .drive(with: self) { owner, _ in
                 guard let text = owner.refundAccountNumberView.accountNumberTextField.text else { return }
                 owner.viewModel.input.refundAccountNumberText.accept(text)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.requestRefundButton.rx.tap
+            .bind(with: self) { owner, _ in
+                let input = owner.viewModel.input
+                let refundAccountInfomration = RefundAccountInformation(
+                    accountHolderName: input.accoundHolderNameText.value,
+                    accountHolderPhoneNumber: input.accountHolderPhoneNumberText.value,
+                    accountBankName: owner.selectRefundBankView.bankNameLabel.text ?? "",
+                    accountNumber: input.refundAccountNumberText.value
+                )
+                let viewController = owner.ticketRefundConfirmViewControllerFactory(
+                    owner.viewModel.reservationID,
+                    owner.viewModel.reasonText,
+                    refundAccountInfomration
+                )
+                owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
