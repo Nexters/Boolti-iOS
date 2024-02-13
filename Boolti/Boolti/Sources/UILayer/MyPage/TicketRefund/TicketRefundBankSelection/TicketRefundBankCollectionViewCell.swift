@@ -11,7 +11,6 @@ class TicketRefundBankCollectionViewCell: UICollectionViewCell {
     
     private let bankImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .nong
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -43,6 +42,11 @@ class TicketRefundBankCollectionViewCell: UICollectionViewCell {
             self.bankImageView,
             self.bankNameLabel
         ])
+    }
+
+    func setData(with entity: BankEntity) {
+        self.bankImageView.image = entity.bankIconImage
+        self.bankNameLabel.text = entity.bankName
     }
 
     private func configureConstraints() {

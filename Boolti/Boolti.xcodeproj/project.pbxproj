@@ -184,6 +184,7 @@
 		8730F0202B7B520A00D4F339 /* SelectRefundBankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8730F01F2B7B520A00D4F339 /* SelectRefundBankView.swift */; };
 		8730F0222B7B5D8200D4F339 /* TicketRefundBankSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8730F0212B7B5D8200D4F339 /* TicketRefundBankSelectionViewController.swift */; };
 		8730F0242B7B664600D4F339 /* TicketRefundBankCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8730F0232B7B664600D4F339 /* TicketRefundBankCollectionViewCell.swift */; };
+		8730F02C2B7B704200D4F339 /* BankEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8730F02B2B7B704200D4F339 /* BankEntity.swift */; };
 		8746AD012B67F7610037A1B1 /* TicketMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD002B67F7610037A1B1 /* TicketMainView.swift */; };
 		8746AD102B680A290037A1B1 /* SelectedTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD0F2B680A290037A1B1 /* SelectedTicketView.swift */; };
 		8746AD122B680A3E0037A1B1 /* TicketTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD112B680A3E0037A1B1 /* TicketTypeView.swift */; };
@@ -398,6 +399,7 @@
 		8730F01F2B7B520A00D4F339 /* SelectRefundBankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRefundBankView.swift; sourceTree = "<group>"; };
 		8730F0212B7B5D8200D4F339 /* TicketRefundBankSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundBankSelectionViewController.swift; sourceTree = "<group>"; };
 		8730F0232B7B664600D4F339 /* TicketRefundBankCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundBankCollectionViewCell.swift; sourceTree = "<group>"; };
+		8730F02B2B7B704200D4F339 /* BankEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankEntity.swift; sourceTree = "<group>"; };
 		8746ACFE2B65F9AF0037A1B1 /* TicketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketListCollectionViewCell.swift; sourceTree = "<group>"; };
 		8746AD002B67F7610037A1B1 /* TicketMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketMainView.swift; sourceTree = "<group>"; };
 		8746AD0F2B680A290037A1B1 /* SelectedTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTicketView.swift; sourceTree = "<group>"; };
@@ -1222,6 +1224,7 @@
 			isa = PBXGroup;
 			children = (
 				8730F0212B7B5D8200D4F339 /* TicketRefundBankSelectionViewController.swift */,
+				8730F02B2B7B704200D4F339 /* BankEntity.swift */,
 				8730F0232B7B664600D4F339 /* TicketRefundBankCollectionViewCell.swift */,
 			);
 			path = TicketRefundBankSelection;
@@ -1547,6 +1550,7 @@
 				8769BF9D2B6267CC00DA9A67 /* BooltiButton.swift in Sources */,
 				841D77E12B7464250068B1C5 /* UIImageView+.swift in Sources */,
 				84E512532B6E9E0B002658D1 /* ConcertPosterView.swift in Sources */,
+				8730F02C2B7B704200D4F339 /* BankEntity.swift in Sources */,
 				872605422B793223005CD0D4 /* TicketReservationDetailDIContainer.swift in Sources */,
 				8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */,
 				84E5124D2B6E7736002658D1 /* ConcertDetailViewController.swift in Sources */,

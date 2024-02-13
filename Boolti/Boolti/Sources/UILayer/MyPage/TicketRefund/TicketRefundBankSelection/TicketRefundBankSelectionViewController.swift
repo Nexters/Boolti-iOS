@@ -105,13 +105,12 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
     }
 
     private func bindOuputs() {
-        var array = ["first","second","third","fourth","fifth","6","7","8","9","10","11","12", "1","1", "first","second","third","fourth","fifth","6","7","8","9","10","11","12", "1","1"]
-        let data = Observable<[String]>.of(array)
-        data.asObservable()
+        Observable.of(BankEntity.all)
+            .asObservable()
             .bind(to: self.collectionView.rx
                 .items(cellIdentifier: TicketRefundBankCollectionViewCell.className, cellType: TicketRefundBankCollectionViewCell.self)
-            ) { index, recommend, cell in
-                print("Good")
+            ) { index, entity, cell in
+                cell.setData(with: entity)
             }
             .disposed(by: self.disposeBag)
     }
