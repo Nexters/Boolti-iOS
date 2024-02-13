@@ -116,13 +116,15 @@ extension QRScannerListViewController {
             .do { self.emtpyLabelStackView.isHidden = !$0.isEmpty }
             .bind(to: self.scannerTableView.rx.items(cellIdentifier: QRScannerListTableViewCell.className, cellType: QRScannerListTableViewCell.self)) { index, item, cell in
                 cell.selectionStyle = .none
-                cell.setData(concertName: item.concertName)
+                cell.setData(concertName: item.concertName, isConcertEnd: item.isConcertEnd)
             }
             .disposed(by: self.disposeBag)
         
         self.scannerTableView.rx.modelSelected(QRScannerEntity.self)
             .asDriver()
             .drive(with: self) { owner, qrScannerEntity in
+                guard !qrScannerEntity.isConcertEnd else { return }
+                
                 let viewController = owner.qrScannerViewControllerFactory(qrScannerEntity)
                 viewController.modalPresentationStyle = .overFullScreen
                 owner.present(viewController, animated: true)

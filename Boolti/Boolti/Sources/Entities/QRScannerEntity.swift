@@ -10,6 +10,6 @@ import Foundation
 struct QRScannerEntity {
     let concertId: Int
     let concertName: String
-    let concertEndDatetime: Date
+    let isConcertEnd: Bool
     let entranceCode: String
 }

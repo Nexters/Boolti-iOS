@@ -27,7 +27,8 @@ final class QRScannerListTableViewCell: UITableViewCell {
     
     private let scannerImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .qrScanner
+        imageView.image = .qrScanner.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = .grey05
         return imageView
     }()
     
@@ -55,9 +56,14 @@ final class QRScannerListTableViewCell: UITableViewCell {
 
 extension QRScannerListTableViewCell {
     
-    func setData(concertName: String) {
+    func setData(concertName: String, isConcertEnd: Bool) {
         self.concertNameLabel.text = concertName
         self.concertNameLabel.setLineSpacing(lineSpacing: 6)
+        
+        if isConcertEnd {
+            self.concertNameLabel.textColor = .grey50
+            self.scannerImageView.tintColor = .grey50
+        }
     }
     
     private func resetData() {
