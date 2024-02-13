@@ -11,7 +11,8 @@ final class TicketRefundConfirmViewModel {
     
     private let reasonText: String
     private let reservationID: String
-    private let refundAccountInformation: RefundAccountInformation
+    let refundAccountInformation: RefundAccountInformation
+    
     private let ticketReservationRepository: TicketReservationsRepositoryType
 
     init(reasonText: String, reservationID: String, refundAccountInformation: RefundAccountInformation, ticketReservationRepository: TicketReservationsRepositoryType) {

@@ -236,6 +236,7 @@
 		877CAFC72B7BC2ED004799C8 /* TicketRefundConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CAFC62B7BC2ED004799C8 /* TicketRefundConfirmViewController.swift */; };
 		877CAFC92B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CAFC82B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift */; };
 		877CAFCB2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CAFCA2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift */; };
+		877CAFCE2B7BD281004799C8 /* RefundConfirmContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CAFCD2B7BD281004799C8 /* RefundConfirmContentView.swift */; };
 		878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */; };
 		87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */; };
 		87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */; };
@@ -455,6 +456,7 @@
 		877CAFC62B7BC2ED004799C8 /* TicketRefundConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundConfirmViewController.swift; sourceTree = "<group>"; };
 		877CAFC82B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundConfirmViewModel.swift; sourceTree = "<group>"; };
 		877CAFCA2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundConfirmDIContainer.swift; sourceTree = "<group>"; };
+		877CAFCD2B7BD281004799C8 /* RefundConfirmContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefundConfirmContentView.swift; sourceTree = "<group>"; };
 		878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASAuthorizationController+Rx.swift"; sourceTree = "<group>"; };
 		87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationsTableViewCell.swift; sourceTree = "<group>"; };
 		87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemEntity.swift; sourceTree = "<group>"; };
@@ -1241,6 +1243,7 @@
 		8730F00E2B7B106300D4F339 /* TicketRefundConfirm */ = {
 			isa = PBXGroup;
 			children = (
+				877CAFCC2B7BD22E004799C8 /* Views */,
 				877CAFC62B7BC2ED004799C8 /* TicketRefundConfirmViewController.swift */,
 				877CAFC82B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift */,
 				877CAFCA2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift */,
@@ -1415,6 +1418,14 @@
 				878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */,
 			);
 			path = OAuth;
+			sourceTree = "<group>";
+		};
+		877CAFCC2B7BD22E004799C8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				877CAFCD2B7BD281004799C8 /* RefundConfirmContentView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		87D2FAB02B6E96BE0027FBE1 /* TicketDetail */ = {
@@ -1603,6 +1614,7 @@
 				84781BF02B5BE3C000D37921 /* NetworkProviderType.swift in Sources */,
 				8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */,
 				84781C9D2B5BF68900D37921 /* RootDIContainer.swift in Sources */,
+				877CAFCE2B7BD281004799C8 /* RefundConfirmContentView.swift in Sources */,
 				843918FA2B7A82B200CC62AA /* ReportDIContainer.swift in Sources */,
 				8753CA7D2B7228F2002871C7 /* TicketDetailItemEntity.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
