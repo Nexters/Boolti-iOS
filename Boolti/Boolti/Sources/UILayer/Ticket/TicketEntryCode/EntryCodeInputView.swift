@@ -148,6 +148,7 @@ final class EntryCodeInputView: UIView {
             .disposed(by: self.disposeBag)
 
         self.checkButton.rx.tap
+            .throttle(.seconds(3), latest: false, scheduler: MainScheduler.instance)
             .bind(to: self.didCheckButtonTap)
             .disposed(by: self.disposeBag)
 
