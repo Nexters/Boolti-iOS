@@ -66,6 +66,7 @@ class TicketRefundRequestViewController: BooltiViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
+        self.bindViewModel()
     }
 
     private func configureUI() {
@@ -131,4 +132,34 @@ class TicketRefundRequestViewController: BooltiViewController {
         let subview = self.accountHolderView.arrangedSubviews[1]
         self.accountHolderView.setCustomSpacing(16, after: subview)
     }
+
+    private func bindViewModel() {
+        self.bindInputs()
+        self.bindOutputs()
+    }
+
+    private func bindInputs() {
+        self.rx.viewWillAppear
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.input.viewWillAppearEvent.accept(())
+            })
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindOutputs() {
+        self.viewModel.output.tickerReservationDetail
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, entity in
+                owner.concertInformationView.setData(
+                    posterImageURLPath: entity.concertPosterImageURLPath,
+                    concertTitle: entity.concertTitle,
+                    ticketType: entity.ticketType,
+                    ticketCount: entity.ticketCount
+                )
+            }
+            .disposed(by: self.disposeBag)
+
+    }
+
 }
