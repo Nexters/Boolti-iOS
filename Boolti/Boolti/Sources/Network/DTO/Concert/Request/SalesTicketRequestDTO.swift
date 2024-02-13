@@ -9,5 +9,5 @@ import Foundation
 
 struct SalesTicketRequestDTO {
     
-    let showId: Int
+    let showId: Int 
 }
