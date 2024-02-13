@@ -24,6 +24,13 @@ class TicketRefundBankCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
+    override var isSelected: Bool {
+        didSet {
+            self.layer.borderColor = UIColor.grey10.cgColor
+            self.layer.borderWidth = self.isSelected ? 1.0 : 0
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configureUI()

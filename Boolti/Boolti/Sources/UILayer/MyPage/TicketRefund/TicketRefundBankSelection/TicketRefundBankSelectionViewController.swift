@@ -56,8 +56,9 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
 
         self.configureUI()
         self.configureConstraints()
-        self.configureDefaultBottomSheet()
-        self.bindOuputs()
+        self.configureBottomSheet()
+        self.bindUIComponents()
+        self.bindOutputs()
     }
 
     private func configureUI() {
@@ -78,6 +79,27 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
     }
 
+    private func bindUIComponents() {
+        self.collectionView.rx.itemSelected
+            .subscribe(with: self) { owner, selectedIndexPath in
+                owner.updateCellUI(selectedIndexPath)
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func updateCellUI(_ selectedIndexPath: ControlEvent<IndexPath>.Element) {
+        if let selectedCell = self.collectionView.cellForItem(at: selectedIndexPath) {
+            selectedCell.alpha = 1.0
+        }
+
+        for item in 0..<self.collectionView.numberOfItems(inSection: 0) {
+            let indexPath = IndexPath(item: item, section: 0)
+            if let cell = self.collectionView.cellForItem(at: indexPath), indexPath != selectedIndexPath {
+                cell.alpha = 0.4
+            }
+        }
+    }
+
     private func configureConstraints() {
         self.titleView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -91,20 +113,20 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
         }
 
         self.collectionView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleView.snp.bottom)
+            make.top.equalTo(self.titleView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
 
-    private func configureDefaultBottomSheet() {
+    private func configureBottomSheet() {
         if let sheet = sheetPresentationController {
             sheet.prefersGrabberVisible = true
             sheet.preferredCornerRadius = 16.0
         }
     }
 
-    private func bindOuputs() {
+    private func bindOutputs() {
         Observable.of(BankEntity.all)
             .asObservable()
             .bind(to: self.collectionView.rx
