@@ -102,7 +102,7 @@ final class ConcertDetailViewController: BooltiViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.configureUI()
         self.configureConstraints()
         self.configureToastView(isButtonExisted: true)
@@ -202,7 +202,7 @@ extension ConcertDetailViewController {
     private func bindPlaceInfoView() {
         self.placeInfoView.didAddressCopyButtonTap()
             .emit(with: self) { owner, _ in
-                UIPasteboard.general.string = self.viewModel.output.concertDetailEntity?.streetAddress
+                UIPasteboard.general.string = owner.viewModel.output.concertDetailEntity?.streetAddress
                 owner.showToast(message: "공연장 주소가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
