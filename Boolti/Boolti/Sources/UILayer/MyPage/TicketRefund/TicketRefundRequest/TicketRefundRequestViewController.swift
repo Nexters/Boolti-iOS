@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxAppState
 import RxCocoa
+import RxGesture
 
 class TicketRefundRequestViewController: BooltiViewController {
 
@@ -144,6 +145,15 @@ class TicketRefundRequestViewController: BooltiViewController {
             .drive(with: self, onNext: { owner, _ in
                 owner.viewModel.input.viewWillAppearEvent.accept(())
             })
+            .disposed(by: self.disposeBag)
+
+        self.selectRefundBankView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                let viewController = TicketRefundBankSelectionViewController()
+                self.present(viewController, animated: true)
+            }
             .disposed(by: self.disposeBag)
     }
 
