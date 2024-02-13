@@ -23,9 +23,10 @@ class RefundHorizontalStackView: UIView {
         return textField
     }()
 
-    init(title: String) {
+    init(title: String, placeHolder: String) {
         super.init(frame: .zero)
         self.titleLabel.text = title
+        self.contentTextField.setPlaceHolderText(placeholder: placeHolder)
         self.configureUI()
     }
     
