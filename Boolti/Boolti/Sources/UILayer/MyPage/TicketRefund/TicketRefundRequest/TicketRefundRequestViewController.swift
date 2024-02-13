@@ -62,7 +62,7 @@ class TicketRefundRequestViewController: BooltiViewController {
         self.viewModel = viewModel
         super.init()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -180,6 +180,40 @@ class TicketRefundRequestViewController: BooltiViewController {
                 )
             }
             .disposed(by: self.disposeBag)
+
+        self.viewModel.output.isValidAccoundHolderName
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, isValid in
+                owner.accountHolderNameView.isValidTextTyped = isValid
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.isValidAccoundHolderPhoneNumber
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, isValid in
+                owner.accountHolderPhoneNumberView.isValidTextTyped = isValid
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.isValidrefundAccountNumber
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, isValid in
+                owner.refundAccountNumberView.isValidTextTyped = isValid
+            }
+            .disposed(by: self.disposeBag)
+
+        Observable.combineLatest(
+            self.viewModel.output.isValidAccoundHolderName,
+            self.viewModel.output.isValidAccoundHolderPhoneNumber,
+            self.viewModel.output.isValidrefundAccountNumber
+        )
+            .asDriver(onErrorDriveWith: .never())
+            .drive { [weak self] (isValidName, isValidPhoneNumber, isValidNumber) in
+                // bankNameLabel도 rx로 바꿔야함!.. 다른 로직으로 검증!..
+                let isBankSelected = self?.selectRefundBankView.bankNameLabel.text != "은행 선택"
+                self?.requestRefundButton.isEnabled = isValidName && isValidPhoneNumber && isValidNumber && isBankSelected
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindUIComponents() {
@@ -191,7 +225,7 @@ class TicketRefundRequestViewController: BooltiViewController {
                 if keyBoardHeight == 0 {
                     owner.view.frame.origin.y = 0
                 } else {
-                    owner.view.frame.origin.y -= (keyBoardHeight - height + 620)
+                    owner.view.frame.origin.y -= (keyBoardHeight - height + 650)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -200,7 +234,7 @@ class TicketRefundRequestViewController: BooltiViewController {
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
                 guard let text = owner.accountHolderNameView.contentTextField.text else { return }
-                    owner.accountHolderNameView.isValidTextTyped = owner.checkName(text)
+                owner.viewModel.input.accoundHolderNameText.accept(text)
             })
             .disposed(by: self.disposeBag)
 
@@ -208,7 +242,7 @@ class TicketRefundRequestViewController: BooltiViewController {
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
                 guard let text = owner.accountHolderPhoneNumberView.contentTextField.text else { return }
-                owner.accountHolderPhoneNumberView.isValidTextTyped = owner.checkPhoneNumber(text)
+                owner.viewModel.input.accountHolderPhoneNumberText.accept(text)
             })
             .disposed(by: self.disposeBag)
 
@@ -216,24 +250,9 @@ class TicketRefundRequestViewController: BooltiViewController {
             .asDriver()
             .drive(with: self) { owner, _ in
                 guard let text = owner.refundAccountNumberView.accountNumberTextField.text else { return }
-                var isValid = owner.checkAccountNumber(text)
-                owner.refundAccountNumberView.isValidTextTyped = isValid
+                owner.viewModel.input.refundAccountNumberText.accept(text)
             }
             .disposed(by: self.disposeBag)
     }
 
-    private func checkName(_ text: String) -> Bool {
-        let koreanPattern = "^[가-힣]*$"
-        return text.range(of: koreanPattern, options: .regularExpression) != nil
-    }
-
-    private func checkPhoneNumber(_ text: String) -> Bool {
-        guard text.hasPrefix("010") else { return false }
-        return true
-    }
-
-    private func checkAccountNumber(_ text: String) -> Bool {
-        let phoneNumberPattern = #"^\d{11,13}$"#
-        return text.range(of: phoneNumberPattern, options: .regularExpression) != nil
-    }
 }

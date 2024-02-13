@@ -9,7 +9,7 @@ import UIKit
 
 class SelectRefundBankView: UIView {
 
-    private let bankNameLabel: UILabel = {
+    let bankNameLabel: UILabel = {
         let label = UILabel()
         label.font = .body3
         label.text = "은행 선택"
