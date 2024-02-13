@@ -18,7 +18,7 @@ final class TicketReservationsDIContainer {
     }
 
     func createTicketReservationsViewController() -> TicketReservationsViewController {
-        let ticketReservationsViewControllerFactory: (ReservationID) -> TicketReservationDetailViewController = { reservationID in
+        let ticketReservationDetailViewControllerFactory: (ReservationID) -> TicketReservationDetailViewController = { reservationID in
             let DIContainer = self.createTicketReservationDetailDIContainer()
 
             let viewController = DIContainer.createTicketReservationDetailViewController(reservationID: reservationID)
@@ -26,7 +26,9 @@ final class TicketReservationsDIContainer {
             return viewController
         }
 
-        return TicketReservationsViewController(ticketReservationDetailViewControllerFactory: ticketReservationsViewControllerFactory, viewModel: self.createTicketResercationsViewModel())
+        return TicketReservationsViewController(
+            ticketReservationDetailViewControllerFactory: ticketReservationDetailViewControllerFactory,
+            viewModel: self.createTicketResercationsViewModel())
     }
 
     private func createTicketResercationsViewModel() -> TicketReservationsViewModel {

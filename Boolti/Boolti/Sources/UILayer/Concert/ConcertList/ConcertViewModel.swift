@@ -16,6 +16,7 @@ final class ConcertListViewModel {
     
     private let disposeBag = DisposeBag()
     private let concertRepository: ConcertRepositoryType
+    private let ticketReservationRepository: TicketReservationRepository
     
     struct Output {
         let concerts = BehaviorRelay<[ConcertEntity]>(value: [])
@@ -26,9 +27,11 @@ final class ConcertListViewModel {
     
     // MARK: Init
     
-    init(concertRepository: ConcertRepository) {
+    init(concertRepository: ConcertRepository,
+         ticketReservationRepository: TicketReservationRepository) {
         self.output = Output()
         self.concertRepository = concertRepository
+        self.ticketReservationRepository = ticketReservationRepository
     }
 }
 
@@ -47,13 +50,18 @@ extension ConcertListViewModel {
         if UserDefaults.accessToken.isEmpty {
             self.output.checkingTicketCount.accept(0)
         } else {
-            let count = self.fetchCheckingTickets()
-            self.output.checkingTicketCount.accept(count)
+            self.fetchCheckingTickets()
         }
     }
     
-    private func fetchCheckingTickets() -> Int {
-        // 여기서 티켓 예매 내역 확인
-        return 1
+    private func fetchCheckingTickets() {
+        self.ticketReservationRepository.ticketReservations()
+            .asObservable()
+            .subscribe(with: self, onNext: { owner, ticketReservations in
+                let waitingForDepositReservations = ticketReservations.filter { $0.reservationStatus == .waitingForDeposit }
+                let count = waitingForDepositReservations.count > 0 ? 1 : 0
+                owner.output.checkingTicketCount.accept(count)
+            })
+            .disposed(by: self.disposeBag)
     }
 }
