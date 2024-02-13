@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TicketEntryCodeRequestDTO: Encodable {
+struct TicketEntryCodeRequestDTO {
     let ticketID: String
     let concertID: String
     let entryCode: String

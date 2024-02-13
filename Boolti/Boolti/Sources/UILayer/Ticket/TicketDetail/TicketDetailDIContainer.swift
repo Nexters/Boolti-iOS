@@ -20,9 +20,9 @@ class TicketDetailDIContainer {
 
     func createTicketDetailController(ticketID: String) -> TicketDetailViewController {
         let ticketEntryCodeViewControllerFactory = { (ticketID: String, concertID: String) in
-            let DIContainer = self.createTicketEntryCodeDIContainer(ticketID: ticketID, concertID: concertID)
+            let DIContainer = self.createTicketEntryCodeDIContainer()
 
-            let viewController = DIContainer.createTicketEntryCodeViewController()
+            let viewController = DIContainer.createTicketEntryCodeViewController(ticketID: ticketID, concertID: concertID)
             return viewController
         }
 
@@ -34,8 +34,8 @@ class TicketDetailDIContainer {
         return viewController
     }
 
-    private func createTicketEntryCodeDIContainer(ticketID: String, concertID: String) -> TicketEntryCodeDIContainer {
-        return TicketEntryCodeDIContainer(ticketID: ticketID, concertID: concertID, networkService: self.networkService)
+    private func createTicketEntryCodeDIContainer() -> TicketEntryCodeDIContainer {
+        return TicketEntryCodeDIContainer(networkService: self.networkService)
     }
 
     private func createTicketDetailViewModel(ticketID: String) -> TicketDetailViewModel {

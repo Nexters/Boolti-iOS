@@ -45,7 +45,6 @@ class TicketEntryCodeViewModel {
         self.input.didCheckButtonTapEvent
             .flatMap { self.validateEntryCode(entryCode: $0) }
             .subscribe(with: self) { owner, isValid in
-                print(isValid)
                 owner.output.isValidEntryCode.accept(isValid)
             }
             .disposed(by: self.disposeBag)
@@ -59,6 +58,7 @@ class TicketEntryCodeViewModel {
             guard let self else { return Disposables.create() }
             
             self.networkService.request(api)
+                .filterSuccessfulStatusCodes()
                 .subscribe { _ in
                     observer.onNext(true)
                     observer.onCompleted()

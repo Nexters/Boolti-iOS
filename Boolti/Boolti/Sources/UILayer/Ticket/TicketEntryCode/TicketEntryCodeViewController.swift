@@ -58,7 +58,6 @@ class TicketEntryCodeViewController: BooltiViewController {
             })
             .bind(with: self, onNext: { owner, _ in
                 let inputEntryCode = owner.entryCodeInputView.textFieldText.value
-                print(inputEntryCode)
                 owner.viewModel.input.didCheckButtonTapEvent.onNext(inputEntryCode)
             })
             .disposed(by: self.disposeBag)
@@ -101,7 +100,6 @@ class TicketEntryCodeViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
 
         self.entryCodeInputView.textFieldText
-            .skip(1)
             .asDriver(onErrorJustReturn: "")
             .drive(with: self) { owner, text in
                 owner.entryCodeInputView.enableCheckButton.accept(!text.isEmpty)
@@ -110,7 +108,6 @@ class TicketEntryCodeViewController: BooltiViewController {
                 owner.entryCodeInputView.isInvalidEntryCodeTyped = true
             }
             .disposed(by: self.disposeBag)
-
 
         self.entryCodeInputView.didCloseButtonTap
             .take(1)
