@@ -50,6 +50,9 @@ final class AuthRepository: AuthRepositoryType {
                 case .apple:
                     return
                 }
+                
+                // userId 저장하기 위함
+                self?.userInfo()
             }
             .map { $0.signUpRequired }
     }
@@ -134,17 +137,27 @@ final class AuthRepository: AuthRepositoryType {
             }
             .disposed(by: self.disposeBag)
     }
-
-    func removeAllTokens() {
-        UserDefaults.removeAllTokens()
-    }
     
     func logout() -> Single<Void> {
         let api = AuthAPI.logout
         return self.networkService.request(api)
-            .do(onSuccess: { [weak self] _ in
-                self?.removeAllTokens()
+            .do(onSuccess: {  _ in
+                UserDefaults.removeAllUserInfo()
             })
             .map { _ in return () }
     }
+    
+    func userInfo() {
+        let api = AuthAPI.user
+        return self.networkService.request(api)
+            .map(UserResponseDTO.self)
+            .subscribe(with: self) { owner, user in
+                UserDefaults.userId = user.id
+                UserDefaults.userName = user.nickname ?? ""
+                UserDefaults.userEmail = user.email ?? ""
+                UserDefaults.userImageURLPath = user.imgPath ?? ""
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
 }

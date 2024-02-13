@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SalesTicketEntity {
+struct SelectedTicketEntity {
     // 일단 여러 티켓 살 수 없음을 가정해서 매수는 1개로 고정
     let id: Int
     let concertId: Int

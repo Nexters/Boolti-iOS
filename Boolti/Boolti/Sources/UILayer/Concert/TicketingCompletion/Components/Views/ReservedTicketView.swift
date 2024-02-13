@@ -15,6 +15,7 @@ final class ReservedTicketView: UIView {
         let view = UIImageView()
         view.backgroundColor = .grey30
         view.layer.cornerRadius = 4
+        view.clipsToBounds = true
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey80.cgColor
         return view
@@ -32,7 +33,7 @@ final class ReservedTicketView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .subhead2
+        label.font = .point1
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.setLineSpacing(lineSpacing: 4)
@@ -72,11 +73,12 @@ final class ReservedTicketView: UIView {
 
 extension ReservedTicketView {
     
-    func setData(concert: String, selectedTicket: SalesTicketEntity) {
-        self.titleLabel.text = concert
+    func setData(concert: ConcertDetailEntity, selectedTicket: SelectedTicketEntity) {
+        self.titleLabel.text = concert.name
         self.titleLabel.setLineSpacing(lineSpacing: 4)
         self.ticketDetailLabel.text = "\(selectedTicket.ticketName) / 1매"
         self.priceLabel.text = "\(selectedTicket.price.formattedCurrency())원"
+        self.poster.setImage(with: concert.posters.first?.thumbnailPath ?? "")
     }
 }
 

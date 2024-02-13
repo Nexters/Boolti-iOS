@@ -60,7 +60,7 @@ final class TicketTypeTableViewCell: UITableViewCell {
 
 extension TicketTypeTableViewCell {
 
-    func setData(entity: SalesTicketEntity) {
+    func setData(entity: SelectedTicketEntity) {
         self.nameLabel.text = entity.ticketName
         self.inventoryLabel.text = "\(entity.quantity)매 남음"
 

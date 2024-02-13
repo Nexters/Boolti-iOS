@@ -19,23 +19,6 @@ final class PaymentCompletionView: UIView {
         return label
     }()
     
-    private let infoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "예매자 정보 확인 후 티켓이 발권됩니다."
-        label.font = .body1
-        label.textColor = .grey30
-        return label
-    }()
-    
-    private lazy var stackView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .vertical
-        view.spacing = 8
-        view.alignment = .leading
-        view.addArrangedSubviews([self.titleLabel, self.infoLabel])
-        return view
-    }()
-    
     // MARK: Init
     
     init() {
@@ -55,17 +38,17 @@ final class PaymentCompletionView: UIView {
 extension PaymentCompletionView {
     
     private func configureUI() {
-        self.addSubviews([self.stackView])
+        self.addSubviews([self.titleLabel])
     }
     
     private func configureConstraints() {
         self.snp.makeConstraints { make in
-            make.height.equalTo(104)
+            make.height.equalTo(74)
         }
         
-        self.stackView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.edges.equalToSuperview().inset(20)
+        self.titleLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }

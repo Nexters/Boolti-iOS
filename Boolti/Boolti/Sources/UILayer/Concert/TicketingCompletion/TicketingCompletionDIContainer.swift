@@ -9,12 +9,6 @@ import UIKit
 
 final class TicketingCompletionDIContainer {
 
-//    private let ticketAPIService: TicketAPIService
-//
-//    init(ticketAPIService: TicketAPIService) {
-//        self.ticketAPIService = ticketAPIService
-//    }
-
     func createTicketingCompletionViewController(ticketingEntity: TicketingEntity) -> TicketingCompletionViewController {
         let viewModel = createTicketingCompletionViewModel(ticketingEntity: ticketingEntity)
         
