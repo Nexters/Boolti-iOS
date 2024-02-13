@@ -19,6 +19,7 @@ enum NavigationType {
     case ticketReservations
     case report
     case ticketReservationDetail
+    case qrScannerList
 }
 
 final class BooltiNavigationBar: UIView {
@@ -47,6 +48,7 @@ final class BooltiNavigationBar: UIView {
     init(type: NavigationType) {
         super.init(frame: .zero)
         
+        self.backgroundColor = .grey95
         self.configureDefaultConstraints()
         
         switch type {
@@ -58,6 +60,7 @@ final class BooltiNavigationBar: UIView {
         case .ticketReservations: self.configureTicketReservationsUI()
         case .report: self.configureReportUI()
         case .ticketReservationDetail: self.configureTicketReservationDetailUI()
+        case .qrScannerList: self.configureQRScannerListUI()
         }
     }
     
@@ -93,15 +96,12 @@ extension BooltiNavigationBar {
     
     private func configureTicketingDetailUI() {
         self.titleLabel.text = "결제하기"
-        self.backgroundColor = .grey95
         
         self.addSubviews([self.backButton, self.titleLabel])
         self.configureTicketingDetailConstraints()
     }
     
     private func configureTicketingCompletionUI() {
-        self.backgroundColor = .grey95
-        
         self.addSubviews([self.homeButton, self.closeButton])
         self.configureTicketingCompletionConstraints()
     }
@@ -114,15 +114,12 @@ extension BooltiNavigationBar {
     }
 
     private func configureTicketDetailUI() {
-        self.backgroundColor = .grey95
-
         self.addSubview(self.backButton)
         self.configureTicketDetailConstraints()
     }
     
     private func configureConcertContentExpandUI() {
         self.titleLabel.text = "공연 내용"
-        self.backgroundColor = .grey95
         
         self.addSubviews([self.backButton, self.titleLabel])
         self.configureConcertContentExpandConstraints()
@@ -144,6 +141,13 @@ extension BooltiNavigationBar {
 
     private func configureTicketReservationDetailUI() {
         self.titleLabel.text = "예매 내역 상세"
+
+        self.addSubviews([self.titleLabel, self.backButton])
+        self.configureConcertContentExpandConstraints()
+    }
+    
+    private func configureQRScannerListUI() {
+        self.titleLabel.text = "QR 스캔"
 
         self.addSubviews([self.titleLabel, self.backButton])
         self.configureConcertContentExpandConstraints()

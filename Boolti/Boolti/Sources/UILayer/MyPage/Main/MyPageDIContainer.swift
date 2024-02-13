@@ -54,6 +54,7 @@ final class MyPageDIContainer {
         )
 
         let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.isHidden = true
 
         return navigationController
     }
