@@ -23,7 +23,7 @@ final class BooltiToastView: UIView {
     let toastLabel: BooltiPaddingLabel = {
         let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 12.0, left: 16.0, bottom: 12.0, right: 16.0))
         label.textColor = .grey10
-        label.backgroundColor = .grey80
+        label.backgroundColor = .grey80.withAlphaComponent(0.8)
         label.font = .body1
         label.layer.cornerRadius = 4
         label.layer.masksToBounds = true
