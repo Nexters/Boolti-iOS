@@ -84,7 +84,7 @@ final class TermsAgreementViewController: UIViewController {
         self.view.addSubview(self.bottomSheetLayerView)
         self.bottomSheetLayerView.addSubviews([self.greetingLabel, self.subtitleLabel, self.agreementButton])
 
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = .black100.withAlphaComponent(0.5)
         self.configureConstraints()
     }
 
