@@ -11,6 +11,7 @@ import RxSwift
 import RxAppState
 import RxCocoa
 import RxGesture
+import RxKeyboard
 
 class TicketRefundRequestViewController: BooltiViewController {
 
@@ -20,8 +21,16 @@ class TicketRefundRequestViewController: BooltiViewController {
     private let navigationBar = BooltiNavigationBar(type: .defaultUI(backButtonTitle: "환불 요청하기"))
     private let concertInformationView = ConcertInformationView()
 
-    private let accountHolderNameView = RefundHorizontalStackView(title: "이름", placeHolder: "실명을 입력해 주세요")
-    private let accountHolderPhoneNumberView = RefundHorizontalStackView(title: "연락처", placeHolder: "숫자만 입력해 주세요")
+    private let accountHolderNameView = AccountContentView(
+        title: "이름",
+        placeHolder: "실명을 입력해 주세요",
+        errorComment: "이름을 올바르게 입력해 주세요"
+    )
+    private let accountHolderPhoneNumberView = AccountContentView(
+        title: "연락처",
+        placeHolder: "숫자만 입력해 주세요",
+        errorComment: "연락처를 올바르게 입력해 주세요"
+    )
     private lazy var accountHolderView = ReservationCollapsableStackView(
         title: "예금주 정보",
         contentViews: [self.accountHolderNameView, self.accountHolderPhoneNumberView],
@@ -45,13 +54,7 @@ class TicketRefundRequestViewController: BooltiViewController {
     }()
 
     private let selectRefundBankView = SelectRefundBankView()
-
-    private let accountNumberTextField: BooltiTextField = {
-        let textField = BooltiTextField()
-        textField.setPlaceHolderText(placeholder: "계좌번호를 입력해 주세요")
-
-        return textField
-    }()
+    private let refundAccountNumberView = RefundAccountNumberView()
 
     private let requestRefundButton = BooltiButton(title: "환불 요청하기")
 
@@ -68,16 +71,19 @@ class TicketRefundRequestViewController: BooltiViewController {
         super.viewDidLoad()
         self.configureUI()
         self.bindViewModel()
+        self.bindUIComponents()
     }
 
     private func configureUI() {
         self.view.backgroundColor = .grey95
         self.requestRefundButton.isEnabled = false
+        self.accountHolderPhoneNumberView.contentTextField.keyboardType = .phonePad
+        self.refundAccountNumberView.accountNumberTextField.keyboardType = .phonePad
 
         self.refundAccountInformationView.addSubviews([
             self.refundAccountTitleLabel,
             self.selectRefundBankView,
-            self.accountNumberTextField
+            self.refundAccountNumberView
         ])
 
         self.view.addSubviews([
@@ -101,7 +107,7 @@ class TicketRefundRequestViewController: BooltiViewController {
         }
 
         self.refundAccountInformationView.snp.makeConstraints { make in
-            make.height.equalTo(194)
+            make.height.equalTo(205)
             make.top.equalTo(self.accountHolderView.snp.bottom).offset(12)
             make.horizontalEdges.equalToSuperview()
         }
@@ -116,7 +122,7 @@ class TicketRefundRequestViewController: BooltiViewController {
             make.top.equalTo(self.refundAccountTitleLabel.snp.bottom).offset(20)
         }
 
-        self.accountNumberTextField.snp.makeConstraints { make in
+        self.refundAccountNumberView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.top.equalTo(self.selectRefundBankView.snp.bottom).offset(12)
         }
@@ -174,7 +180,60 @@ class TicketRefundRequestViewController: BooltiViewController {
                 )
             }
             .disposed(by: self.disposeBag)
-
     }
 
+    private func bindUIComponents() {
+        RxKeyboard.instance.visibleHeight
+            .skip(1)
+            .drive(with: self) { owner, keyBoardHeight in
+                let height = owner.view.bounds.height
+
+                if keyBoardHeight == 0 {
+                    owner.view.frame.origin.y = 0
+                } else {
+                    owner.view.frame.origin.y -= (keyBoardHeight - height + 620)
+                }
+            }
+            .disposed(by: self.disposeBag)
+
+        self.accountHolderNameView.contentTextField.rx.controlEvent(.editingDidEnd)
+            .asDriver()
+            .drive(with: self, onNext: { owner, _ in
+                guard let text = owner.accountHolderNameView.contentTextField.text else { return }
+                    owner.accountHolderNameView.isValidTextTyped = owner.checkName(text)
+            })
+            .disposed(by: self.disposeBag)
+
+        self.accountHolderPhoneNumberView.contentTextField.rx.controlEvent(.editingDidEnd)
+            .asDriver()
+            .drive(with: self, onNext: { owner, _ in
+                guard let text = owner.accountHolderPhoneNumberView.contentTextField.text else { return }
+                owner.accountHolderPhoneNumberView.isValidTextTyped = owner.checkPhoneNumber(text)
+            })
+            .disposed(by: self.disposeBag)
+
+        self.refundAccountNumberView.accountNumberTextField.rx.controlEvent(.editingDidEnd)
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                guard let text = owner.refundAccountNumberView.accountNumberTextField.text else { return }
+                var isValid = owner.checkAccountNumber(text)
+                owner.refundAccountNumberView.isValidTextTyped = isValid
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func checkName(_ text: String) -> Bool {
+        let koreanPattern = "^[가-힣]*$"
+        return text.range(of: koreanPattern, options: .regularExpression) != nil
+    }
+
+    private func checkPhoneNumber(_ text: String) -> Bool {
+        guard text.hasPrefix("010") else { return false }
+        return true
+    }
+
+    private func checkAccountNumber(_ text: String) -> Bool {
+        let phoneNumberPattern = #"^\d{11,13}$"#
+        return text.range(of: phoneNumberPattern, options: .regularExpression) != nil
+    }
 }
