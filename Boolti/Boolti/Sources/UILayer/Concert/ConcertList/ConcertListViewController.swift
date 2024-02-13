@@ -59,15 +59,9 @@ final class ConcertListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.tabBarController?.tabBar.isHidden = false
         self.viewModel.confirmCheckingTickets()
         self.viewModel.fetchConcertList(concertName: nil)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 }
 
@@ -89,7 +83,7 @@ extension ConcertListViewController {
         self.mainCollectionView.dataSource = self
         
         self.mainCollectionView.register(CheckingTicketCollectionViewCell.self, forCellWithReuseIdentifier: CheckingTicketCollectionViewCell.className)
-        self.mainCollectionView.register(TitleCollectionViewCell.self, forCellWithReuseIdentifier: TitleCollectionViewCell.className)
+        self.mainCollectionView.register(ConcertListMainTitleCollectionViewCell.self, forCellWithReuseIdentifier: ConcertListMainTitleCollectionViewCell.className)
         self.mainCollectionView.register(SearchBarCollectionViewCell.self, forCellWithReuseIdentifier: SearchBarCollectionViewCell.className)
         self.mainCollectionView.register(ConcertCollectionViewCell.self, forCellWithReuseIdentifier: ConcertCollectionViewCell.className)
     }
@@ -138,7 +132,7 @@ extension ConcertListViewController: UICollectionViewDataSource {
             cell.isHidden = self.viewModel.output.checkingTicketCount.value == 0
             return cell
         case 1:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.className, for: indexPath) as? TitleCollectionViewCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConcertListMainTitleCollectionViewCell.className, for: indexPath) as? ConcertListMainTitleCollectionViewCell else { return UICollectionViewCell() }
             cell.setTitle()
             return cell
         case 2:

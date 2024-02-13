@@ -35,12 +35,6 @@ extension UserDefaults {
     static var isFirstLaunch
     
     // MARK: - Custom Methods
-    
-    // UserDefaults에 저장된 모든 유저 정보를 제거하는 메서드
-    static func removeAllUserDefaulsKeys() {
-        UserDefaultsKey.allCases
-            .forEach { UserDefaults.standard.removeObject(forKey: $0.rawValue) }
-    }
 
     static func removeAllUserInfo() {
         UserDefaults.accessToken = ""

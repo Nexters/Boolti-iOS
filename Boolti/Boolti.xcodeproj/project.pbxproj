@@ -12,7 +12,7 @@
 		840B39592B7670FC00E7F8C8 /* ConcertEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */; };
 		840B395B2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B395A2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift */; };
 		840B395D2B768B0800E7F8C8 /* CheckingTicketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B395C2B768B0800E7F8C8 /* CheckingTicketCollectionViewCell.swift */; };
-		840B395F2B76966E00E7F8C8 /* TitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B395E2B76966E00E7F8C8 /* TitleCollectionViewCell.swift */; };
+		840B395F2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B395E2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift */; };
 		840B39612B78CE6300E7F8C8 /* ConcertListRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39602B78CE6300E7F8C8 /* ConcertListRequestDTO.swift */; };
 		840B39632B78CEF700E7F8C8 /* ConcertListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39622B78CEF700E7F8C8 /* ConcertListResponseDTO.swift */; };
 		840B39652B78DD6000E7F8C8 /* UICollectionViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39642B78DD6000E7F8C8 /* UICollectionViewCell+.swift */; };
@@ -246,10 +246,10 @@
 /* Begin PBXFileReference section */
 		840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
-		840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertEntity.swift; sourceTree = "<group>"; };
+		840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConcertEntity.swift; path = Concert/ConcertEntity.swift; sourceTree = "<group>"; };
 		840B395A2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B395C2B768B0800E7F8C8 /* CheckingTicketCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckingTicketCollectionViewCell.swift; sourceTree = "<group>"; };
-		840B395E2B76966E00E7F8C8 /* TitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCollectionViewCell.swift; sourceTree = "<group>"; };
+		840B395E2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListMainTitleCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39602B78CE6300E7F8C8 /* ConcertListRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListRequestDTO.swift; sourceTree = "<group>"; };
 		840B39622B78CEF700E7F8C8 /* ConcertListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListResponseDTO.swift; sourceTree = "<group>"; };
 		840B39642B78DD6000E7F8C8 /* UICollectionViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+.swift"; sourceTree = "<group>"; };
@@ -508,7 +508,7 @@
 				840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */,
 				840B395A2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift */,
 				840B395C2B768B0800E7F8C8 /* CheckingTicketCollectionViewCell.swift */,
-				840B395E2B76966E00E7F8C8 /* TitleCollectionViewCell.swift */,
+				840B395E2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -935,7 +935,6 @@
 		84D1C3792B792D0D00527998 /* Concert */ = {
 			isa = PBXGroup;
 			children = (
-				840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */,
 				842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */,
 				84FEF6182B68ACDD00EBB64F /* salesTicketingEntity.swift */,
 				84625A102B63B48D00CC9077 /* SelectedTicketEntity.swift */,
@@ -1508,7 +1507,7 @@
 				870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
 				84625A112B63B48D00CC9077 /* SelectedTicketEntity.swift in Sources */,
-				84625A112B63B48D00CC9077 /* SalesTicketEntity.swift in Sources */,
+				84625A112B63B48D00CC9077 /* SelectedTicketEntity.swift in Sources */,
 				872605532B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift in Sources */,
 				8746AD162B680A700037A1B1 /* SelectedTicketTableViewCell.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
@@ -1579,7 +1578,7 @@
 				8757BAA42B5FDEA2008503B5 /* OAuthAPIServiceType.swift in Sources */,
 				8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */,
 				87D2FABE2B6F89060027FBE1 /* TicketInquiryView.swift in Sources */,
-				840B395F2B76966E00E7F8C8 /* TitleCollectionViewCell.swift in Sources */,
+				840B395F2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift in Sources */,
 				87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */,
 				84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */,
 				84D1C37F2B79379200527998 /* SalesTicketingRequestDTO.swift in Sources */,

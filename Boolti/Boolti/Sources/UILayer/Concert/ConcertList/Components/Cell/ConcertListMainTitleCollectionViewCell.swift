@@ -1,5 +1,5 @@
 //
-//  TitleCollectionViewCell.swift
+//  ConcertListMainTitleCollectionViewCell.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 2/10/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TitleCollectionViewCell: UICollectionViewCell {
+final class ConcertListMainTitleCollectionViewCell: UICollectionViewCell {
     
     // MARK: UI Component
     
@@ -33,7 +33,7 @@ final class TitleCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Methods
 
-extension TitleCollectionViewCell {
+extension ConcertListMainTitleCollectionViewCell {
     
     func setTitle() {
         self.titleLabel.text = "\(UserDefaults.userName.isEmpty ? "불티 유저" : UserDefaults.userName)님, 오늘은\n어떤 공연을 즐겨볼까요?"
@@ -43,7 +43,7 @@ extension TitleCollectionViewCell {
 
 // MARK: - UI
 
-extension TitleCollectionViewCell {
+extension ConcertListMainTitleCollectionViewCell {
     
     private func configureUI() {
         self.addSubview(self.titleLabel)
