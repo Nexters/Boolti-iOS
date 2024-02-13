@@ -49,7 +49,8 @@ final class RootViewController: UIViewController {
                 let viewController = self?.createViewController(destination) ?? UIViewController()
                 switch destination {
                 case .splash:
-                    viewController.modalPresentationStyle = .fullScreen
+                    viewController.modalPresentationStyle = .overFullScreen
+                    viewController.modalTransitionStyle = .crossDissolve
                     self?.present(viewController, animated: true, completion: nil)
                 case .homeTab:
                     if let presentedViewController = self?.presentedViewController {

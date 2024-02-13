@@ -11,16 +11,20 @@ import RxSwift
 
 final class SplashViewController: UIViewController {
 
-    // 여기서 Token이 있는 지 확인해서
-    // 아예 AuthenticationRepository에 Home에서 해당 Token을 넣어주는 것도 좋을 듯
-    // Authentication은 프로퍼티로 토큰을 갖고!..
-    
     // MARK: Properties
 
     private let viewModel: SplashViewModel
     private let disposeBag = DisposeBag()
     
     private let updatePopupViewControllerFactory: () -> UpdatePopupViewController
+    
+    // MARK: UI Component
+    
+    private let logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .splashLogo
+        return imageView
+    }()
     
     // MARK: Life Cycle
     
@@ -39,9 +43,8 @@ final class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO: 화면 넘어가는 거 확인용. 나중에 지워야함!
-        self.view.backgroundColor = .orange
-        
+        self.configureUI()
+        self.configureConstraints()
         self.bind()
         self.viewModel.checkUpdateRequired()
     }
@@ -66,7 +69,7 @@ extension SplashViewController {
     
     private func navigateToHomeTab() {
         Observable.just("")
-//            .delay(.seconds(2), scheduler: MainScheduler.instance)
+            .delay(.seconds(2), scheduler: MainScheduler.instance)
             .take(1)
             .subscribe(with: self, onNext: { owner, _ in
                 owner.viewModel.navigateToHomeTab()
@@ -79,5 +82,23 @@ extension SplashViewController {
         viewController.modalPresentationStyle = .overFullScreen
         
         self.present(viewController, animated: true)
+    }
+}
+
+// MARK: - UI
+
+extension SplashViewController {
+    
+    private func configureUI() {
+        self.view.addSubview(self.logoImageView)
+        
+        self.view.backgroundColor = .grey95
+    }
+    
+    private func configureConstraints() {
+        self.logoImageView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.size.equalTo(106)
+        }
     }
 }
