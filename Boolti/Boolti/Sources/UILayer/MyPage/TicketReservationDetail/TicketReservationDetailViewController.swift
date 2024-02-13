@@ -295,8 +295,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
     }
 
     private func scrollToBottom() {
-        let scrollViewPaddingFromNavigationBar = CGFloat(0)
-        let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.size.height + scrollViewPaddingFromNavigationBar)
+        let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.size.height)
 
         self.scrollView.setContentOffset(bottomOffset, animated: true)
     }
