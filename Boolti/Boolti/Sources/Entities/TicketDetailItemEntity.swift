@@ -18,6 +18,7 @@ struct TicketDetailItemEntity {
     let qrCode: UIImage
     let notice: String
     let ticketID: Int
+    let concertID: Int
     let hostName: String
     let hostPhoneNumber: String
     let usedTime: String?

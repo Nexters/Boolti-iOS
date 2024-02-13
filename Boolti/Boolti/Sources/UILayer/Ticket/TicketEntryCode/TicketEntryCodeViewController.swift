@@ -56,7 +56,10 @@ class TicketEntryCodeViewController: BooltiViewController {
             .do(onNext: { [weak self] _ in
                 self?.view.endEditing(true)
             })
-            .bind(to: self.viewModel.input.didCheckButtonTapEvent)
+            .bind(with: self, onNext: { owner, _ in
+                let inputEntryCode = owner.entryCodeInputView.textFieldText.value
+                owner.viewModel.input.didCheckButtonTapEvent.onNext(inputEntryCode)
+            })
             .disposed(by: self.disposeBag)
     }
 
@@ -105,7 +108,6 @@ class TicketEntryCodeViewController: BooltiViewController {
                 owner.entryCodeInputView.isInvalidEntryCodeTyped = true
             }
             .disposed(by: self.disposeBag)
-
 
         self.entryCodeInputView.didCloseButtonTap
             .take(1)

@@ -13,7 +13,10 @@ import RxAppState
 
 class TicketDetailViewController: BooltiViewController {
 
-    private let ticketEntryCodeControllerFactory: () -> TicketEntryCodeViewController
+    typealias TicketID = String
+    typealias ConcertID = String
+
+    private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
 
     private let viewModel: TicketDetailViewModel
 
@@ -72,7 +75,7 @@ class TicketDetailViewController: BooltiViewController {
 
     init(
         viewModel: TicketDetailViewModel,
-        ticketEntryCodeViewControllerFactory: @escaping () -> TicketEntryCodeViewController
+        ticketEntryCodeViewControllerFactory: @escaping (TicketID, ConcertID) -> TicketEntryCodeViewController
     ) {
         self.viewModel = viewModel
         self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
@@ -149,7 +152,11 @@ class TicketDetailViewController: BooltiViewController {
 
         self.entryCodeButton.rx.tap
             .bind(with: self) { owner, _ in
-                let viewController = owner.ticketEntryCodeControllerFactory()
+                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
+                let ticketID = String(ticketDetail.ticketID)
+                let concertID = String(ticketDetail.concertID)
+
+                let viewController = owner.ticketEntryCodeControllerFactory(ticketID, concertID)
                 viewController.modalPresentationStyle = .overFullScreen
                 owner.present(viewController, animated: true)
             }
@@ -173,6 +180,7 @@ class TicketDetailViewController: BooltiViewController {
     private func bindOutput() {
         self.viewModel.output.fetchedTicketDetail
             .bind(with: self) { owner, ticketDetailItem in
+                guard let ticketDetailItem else { return }
                 owner.ticketDetailView.setData(with: ticketDetailItem)
             }
             .disposed(by: self.disposeBag)

@@ -15,13 +15,13 @@ class TicketEntryCodeDIContainer {
         self.networkService = networkService
     }
 
-    func createTicketEntryCodeViewController() -> TicketEntryCodeViewController {
-        let viewController = TicketEntryCodeViewController(viewModel: self.ticketEntryCodeViewModel())
+    func createTicketEntryCodeViewController(ticketID: String, concertID: String) -> TicketEntryCodeViewController {
+        let viewController = TicketEntryCodeViewController(viewModel: self.ticketEntryCodeViewModel(ticketID: ticketID, concertID: concertID))
 
         return viewController
     }
 
-    private func ticketEntryCodeViewModel() -> TicketEntryCodeViewModel {
-        return TicketEntryCodeViewModel(networkService: self.networkService)
+    private func ticketEntryCodeViewModel(ticketID: String, concertID: String) -> TicketEntryCodeViewModel {
+        return TicketEntryCodeViewModel(ticketID: ticketID, concertID: concertID, networkService: self.networkService)
     }
 }
