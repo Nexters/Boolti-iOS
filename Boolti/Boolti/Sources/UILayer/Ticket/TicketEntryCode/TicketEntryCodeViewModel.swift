@@ -58,7 +58,6 @@ class TicketEntryCodeViewModel {
             guard let self else { return Disposables.create() }
             
             self.networkService.request(api)
-                .filterSuccessfulStatusCodes()
                 .subscribe { _ in
                     observer.onNext(true)
                     observer.onCompleted()
