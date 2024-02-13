@@ -14,7 +14,7 @@ import RxRelay
 class TicketEntryCodeViewModel {
 
     struct Input {
-        var didCheckButtonTapEvent = PublishSubject<Void>()
+        var didCheckButtonTapEvent = PublishSubject<String>()
     }
 
     struct Output {
@@ -25,10 +25,14 @@ class TicketEntryCodeViewModel {
     let output: Output
 
     private let disposeBag = DisposeBag()
-
     private let networkService: NetworkProviderType
 
-    init(networkService: NetworkProviderType) {
+    private let ticketID: String
+    private let concertID: String
+
+    init(ticketID: String, concertID: String, networkService: NetworkProviderType) {
+        self.ticketID = ticketID
+        self.concertID = concertID
         self.networkService = networkService
 
         self.input = Input()
@@ -39,15 +43,32 @@ class TicketEntryCodeViewModel {
 
     private func bindInputs() {
         self.input.didCheckButtonTapEvent
-            .flatMap { self.validateEntryCode() }
+            .flatMap { self.validateEntryCode(entryCode: $0) }
             .subscribe(with: self) { owner, isValid in
+                print(isValid)
                 owner.output.isValidEntryCode.accept(isValid)
             }
             .disposed(by: self.disposeBag)
     }
     
-    // API 올라오면 붙힐 예정!
-    private func validateEntryCode() -> Single<Bool> {
-        return Single.just(false)
+    private func validateEntryCode(entryCode: String) -> Observable<Bool> {
+        let requestDTO = TicketEntryCodeRequestDTO(ticketID: self.ticketID, concertID: self.concertID, entryCode: entryCode)
+
+        let api = TicketAPI.entryCode(requestDTO: requestDTO)
+        return Observable.create { [weak self] observer in
+            guard let self else { return Disposables.create() }
+            
+            self.networkService.request(api)
+                .subscribe { _ in
+                    observer.onNext(true)
+                    observer.onCompleted()
+                } onFailure: { _ in
+                    observer.onNext(false)
+                    observer.onCompleted()
+                }
+                .disposed(by: self.disposeBag)
+
+            return Disposables.create()
+        }
     }
 }

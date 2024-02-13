@@ -10,6 +10,7 @@ import UIKit
 struct TicketDetailResponseDTO: Decodable {
 
     let ticketId: Int
+    let showId: Int
     let showName: String
     let placeName: String
     let showImgPath: String
@@ -62,6 +63,9 @@ extension TicketDetailResponseDTO {
         /// 티켓 ID
         let ticketID = self.ticketId
 
+        /// ConcertID
+        let concertID = self.showId
+
         /// Host Name, PhoneNumber
         let hostName = self.hostName
         let hostPhoneNumber = self.hostPhoneNumber
@@ -83,6 +87,7 @@ extension TicketDetailResponseDTO {
             qrCode: qrCodeImage,
             notice: notice,
             ticketID: ticketID,
+            concertID: concertID,
             hostName: hostName,
             hostPhoneNumber: hostPhoneNumber,
             usedTime: usedTime

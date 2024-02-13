@@ -24,6 +24,7 @@ class TicketReservationRepository: TicketReservationsRepositoryType {
     }
 
     func ticketReservations() -> Single<[TicketReservationItemEntity]> {
+
         let api = TicketReservationAPI.reservations
         return self.networkService.request(api)
             .map([TicketReservationItemResponseDTO].self)

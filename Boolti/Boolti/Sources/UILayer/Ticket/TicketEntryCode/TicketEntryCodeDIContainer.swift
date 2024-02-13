@@ -10,8 +10,12 @@ import Foundation
 class TicketEntryCodeDIContainer {
 
     private let networkService: NetworkProviderType
+    private let ticketID: String
+    private let concertID: String
 
-    init(networkService: NetworkProviderType) {
+    init(ticketID: String, concertID: String, networkService: NetworkProviderType) {
+        self.ticketID = ticketID
+        self.concertID = concertID
         self.networkService = networkService
     }
 
@@ -22,6 +26,6 @@ class TicketEntryCodeDIContainer {
     }
 
     private func ticketEntryCodeViewModel() -> TicketEntryCodeViewModel {
-        return TicketEntryCodeViewModel(networkService: self.networkService)
+        return TicketEntryCodeViewModel(ticketID: self.ticketID, concertID: self.concertID, networkService: self.networkService)
     }
 }

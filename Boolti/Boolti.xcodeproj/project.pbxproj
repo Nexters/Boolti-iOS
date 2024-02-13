@@ -205,6 +205,7 @@
 		876667542B73A82300DDB2B5 /* EntryCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876667532B73A82300DDB2B5 /* EntryCodeInputView.swift */; };
 		8766B5592B641266004F266A /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 8766B5582B641266004F266A /* Differentiator */; };
 		8766B55B2B641266004F266A /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 8766B55A2B641266004F266A /* RxDataSources */; };
+		87681BDD2B7A695B008BF59F /* TicketEntryCodeRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87681BDC2B7A695B008BF59F /* TicketEntryCodeRequestDTO.swift */; };
 		8769BF962B625DB200DA9A67 /* TermsAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */; };
 		8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */; };
 		8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */; };
@@ -409,6 +410,7 @@
 		8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponseDTO.swift; sourceTree = "<group>"; };
 		876577142B613F8D00BC6805 /* Boolti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Boolti.entitlements; sourceTree = "<group>"; };
 		876667532B73A82300DDB2B5 /* EntryCodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeInputView.swift; sourceTree = "<group>"; };
+		87681BDC2B7A695B008BF59F /* TicketEntryCodeRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEntryCodeRequestDTO.swift; sourceTree = "<group>"; };
 		8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewController.swift; sourceTree = "<group>"; };
 		8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementViewModel.swift; sourceTree = "<group>"; };
 		8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementDIContainer.swift; sourceTree = "<group>"; };
@@ -1037,6 +1039,7 @@
 			isa = PBXGroup;
 			children = (
 				870099AD2B77434A001779FB /* TicketDetailRequestDTO.swift */,
+				87681BDC2B7A695B008BF59F /* TicketEntryCodeRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1518,6 +1521,7 @@
 				84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */,
 				8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */,
 				8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */,
+				87681BDD2B7A695B008BF59F /* TicketEntryCodeRequestDTO.swift in Sources */,
 				8726054D2B79CDF3005CD0D4 /* ConcertInformationView.swift in Sources */,
 				8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */,
 				840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */,

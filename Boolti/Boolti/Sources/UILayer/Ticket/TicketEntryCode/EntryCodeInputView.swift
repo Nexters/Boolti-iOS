@@ -15,7 +15,7 @@ final class EntryCodeInputView: UIView {
 
     private let disposeBag = DisposeBag()
 
-    var textFieldText = PublishRelay<String>()
+    var textFieldText = BehaviorRelay<String>(value: "")
     var enableCheckButton = PublishRelay<Bool>()
     var didCheckButtonTap = PublishRelay<Void>()
     var didCloseButtonTap = PublishRelay<Void>()
@@ -44,7 +44,9 @@ final class EntryCodeInputView: UIView {
     private let entryCodeInputTextField: BooltiTextField = {
         let textField = BooltiTextField(backgroundColor: .grey80)
         textField.setPlaceHolderText(placeholder: "입장 코드를 입력해 주세요.", foregroundColor: .grey60)
-
+        textField.autocorrectionType = .no
+        textField.spellCheckingType = .no
+        
         return textField
     }()
 
