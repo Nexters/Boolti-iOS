@@ -13,11 +13,14 @@ import RxSwift
 final class QRScannerViewController: BooltiViewController {
     
     // MARK: Properties
+    
+    typealias EntranceCode = String
 
     private let captureSession = AVCaptureSession()
     
     private let viewModel: QRScannerViewModel
     private let disposeBag = DisposeBag()
+    private let entranceCodeViewControllerFactory: (EntranceCode) -> EntranceCodeViewController
     
     // MARK: UI Component
     
@@ -50,8 +53,10 @@ final class QRScannerViewController: BooltiViewController {
     
     // MARK: Init
 
-    init(viewModel: QRScannerViewModel) {
+    init(viewModel: QRScannerViewModel,
+         entranceCodeViewControllerFactory: @escaping (EntranceCode) -> EntranceCodeViewController) {
         self.viewModel = viewModel
+        self.entranceCodeViewControllerFactory = entranceCodeViewControllerFactory
         
         super.init()
     }
@@ -111,7 +116,9 @@ extension QRScannerViewController {
         
         self.entranceCodeButton.rx.tap
             .bind(with: self) { owner, _ in
-                debugPrint("버튼 선택")
+                let viewController = owner.entranceCodeViewControllerFactory(owner.viewModel.qrScannerEntity.entranceCode)
+                viewController.modalPresentationStyle = .overFullScreen
+                owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
