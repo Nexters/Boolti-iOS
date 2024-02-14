@@ -61,13 +61,14 @@ extension TicketingDetailViewModel {
                                               ticketHolderPhoneNumber: ticketHolderPhoneNumber,
                                               depositorName: depositorName,
                                               depositorPhoneNumber: depositorPhoneNumber)
-        .subscribe(with: self) { owner, _ in
+        .subscribe(with: self) { owner, response in
             let ticketingEntity = TicketingEntity(concert: owner.output.concertDetailEntity!,
                                                   ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
                                                                                          phoneNumber: ticketHolderPhoneNumber),
                                                   depositor: TicketingEntity.userInfo(name: depositorName,
                                                                                       phoneNumber: depositorPhoneNumber),
-                                                  selectedTicket: [owner.selectedTicket.value])
+                                                  selectedTicket: [owner.selectedTicket.value],
+                                                  reservationId: response.reservationId)
             owner.input.ticketingEntity = ticketingEntity
             
             owner.output.navigateToCompletion.onNext(())
@@ -99,6 +100,7 @@ extension TicketingDetailViewModel {
                                                   ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
                                                                                          phoneNumber: ticketHolderPhoneNumber),
                                                   selectedTicket: [owner.selectedTicket.value],
+                                                  reservationId: -1,
                                                   invitationCode: invitationCode)
             owner.input.ticketingEntity = ticketingEntity
             
