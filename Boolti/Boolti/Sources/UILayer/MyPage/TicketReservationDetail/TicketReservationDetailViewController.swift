@@ -272,7 +272,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         // 티켓 정보
         self.ticketTypeView.setData(entity.ticketType.rawValue)
         self.ticketCountView.setData(entity.ticketCount)
-        self.ticketingDateView.setData(entity.ticketingDate ?? "")
+        self.ticketingDateView.setData(entity.ticketingDate?.formatToDate().format(.dateDayTime) ?? "")
 
         // 예매자 정보
         self.purchasernNameView.setData(entity.purchaseName)
@@ -300,7 +300,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.bankNameView.setData(entity.bankName)
         self.accountNumberView.setData(entity.accountNumber)
         self.accountHolderNameView.setData(entity.accountHolderName)
-        self.depositDeadLineView.setData(entity.depositDeadLine)
+        self.depositDeadLineView.setData(entity.depositDeadLine.formatToDate().format(.dateDayTime))
 
         // 입금자 정보
         self.depositorNameView.setData(entity.depositorName)

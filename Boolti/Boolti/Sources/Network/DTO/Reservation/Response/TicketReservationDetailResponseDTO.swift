@@ -47,7 +47,7 @@ extension TicketReservationDetailResponseDTO {
             accountHolderName: self.accountHolder,
             depositDeadLine: self.salesEndTime,
             paymentMethod: paymentType,
-            totalPaymentAmount: String(totalAmountPrice),
+            totalPaymentAmount: totalAmountPrice.formattedCurrency(),
             reservationStatus: reservationStatus,
             ticketingDate: self.completedTimeStamp,
             purchaseName: self.reservationName,
