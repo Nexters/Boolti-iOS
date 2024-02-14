@@ -25,8 +25,7 @@ class TicketRefundBankCollectionViewCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet {
-            self.layer.borderColor = UIColor.grey10.cgColor
-            self.layer.borderWidth = self.isSelected ? 1.0 : 0
+            self.updateSelectionUI()
         }
     }
 
@@ -38,6 +37,14 @@ class TicketRefundBankCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.bankImageView.image = nil
+        self.bankNameLabel.text = nil
+        self.layer.borderWidth = 0
     }
     
     private func configureUI() {
@@ -53,6 +60,12 @@ class TicketRefundBankCollectionViewCell: UICollectionViewCell {
     func setData(with entity: BankEntity) {
         self.bankImageView.image = entity.bankIconImage
         self.bankNameLabel.text = entity.bankName
+    }
+    
+    private func updateSelectionUI() {
+        self.layer.borderColor = self.isSelected ? UIColor.grey10.cgColor : nil
+        self.layer.borderWidth = self.isSelected ? 1.0 : 0
+        self.alpha = self.isSelected ? 1.0 : 0.4
     }
 
     private func configureConstraints() {

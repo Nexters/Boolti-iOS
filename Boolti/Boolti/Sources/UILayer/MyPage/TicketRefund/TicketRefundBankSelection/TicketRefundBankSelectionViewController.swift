@@ -32,6 +32,7 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
         layout.scrollDirection = .vertical
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.contentInset = .init(top: 0, left: 0, bottom: 20, right: 0)
         collectionView.backgroundColor = .grey85
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(TicketRefundBankCollectionViewCell.self, forCellWithReuseIdentifier: TicketRefundBankCollectionViewCell.className)
@@ -51,6 +52,7 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
 
     private let finishSelectionButton = BooltiButton(title: "선택 완료하기")
 
+    var isBankSelected: Bool = false
     var selectedItem: ((BankEntity) -> ())?
 
     override init() {
@@ -98,6 +100,9 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
     private func bindUIComponents() {
         self.collectionView.rx.itemSelected
             .subscribe(with: self) { owner, selectedIndexPath in
+                owner.isBankSelected = true
+                
+                // TODO: 선택 완료했을 때만 넘어가야함
                 owner.selectedItem?(BankEntity.all[selectedIndexPath.row])
                 owner.updateCellUI(selectedIndexPath)
 
@@ -115,14 +120,10 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
     }
 
     private func updateCellUI(_ selectedIndexPath: ControlEvent<IndexPath>.Element) {
-        if let selectedCell = self.collectionView.cellForItem(at: selectedIndexPath) {
-            selectedCell.alpha = 1.0
-        }
-
         for item in 0..<self.collectionView.numberOfItems(inSection: 0) {
             let indexPath = IndexPath(item: item, section: 0)
-            if let cell = self.collectionView.cellForItem(at: indexPath), indexPath != selectedIndexPath {
-                cell.alpha = 0.4
+            if let cell = self.collectionView.cellForItem(at: indexPath) as? TicketRefundBankCollectionViewCell {
+                cell.isSelected = (indexPath == selectedIndexPath)
             }
         }
     }
@@ -186,5 +187,13 @@ extension TicketRefundBankSelectionViewController: UICollectionViewDelegateFlowL
         let cellHeight = cellWidth * 0.69
 
         return CGSize(width: cellWidth, height: cellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? TicketRefundBankCollectionViewCell {
+            if isBankSelected {
+                cell.alpha = cell.isSelected ? 1.0 : 0.4
+            }
+        }
     }
 }
