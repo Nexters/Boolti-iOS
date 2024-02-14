@@ -19,7 +19,6 @@ class TicketRefundBankCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .body1
         label.textColor = .grey15
-        label.text = "카카오뱅크"
 
         return label
     }()

@@ -281,6 +281,12 @@ class TicketRefundRequestViewController: BooltiViewController {
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
+        
+        self.navigationBar.didBackButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
 }
