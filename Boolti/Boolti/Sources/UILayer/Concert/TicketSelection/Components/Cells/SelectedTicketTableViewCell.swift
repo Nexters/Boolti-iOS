@@ -87,13 +87,17 @@ extension SelectedTicketTableViewCell {
     private func configureUI() {
         self.backgroundColor = .clear
 
-        self.contentView.addSubviews([nameLabel, inventoryLabel, priceLabel, deleteButton])
+        self.contentView.addSubviews([self.nameLabel,
+                                      self.inventoryLabel,
+                                      self.priceLabel,
+                                      self.deleteButton])
     }
 
     private func configureConstraints() {
         self.nameLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(16)
             make.left.equalToSuperview().inset(24)
+            make.width.lessThanOrEqualTo(self.frame.width * 0.7)
         }
 
         self.inventoryLabel.snp.makeConstraints { make in
