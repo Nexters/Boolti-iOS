@@ -25,6 +25,8 @@ extension ConcertListResponseDTO {
             return ConcertEntity(id: concert.id,
                                  name: concert.name,
                                  dateTime: concert.date.formatToDate(),
+                                 salesStartTime: concert.salesStartTime.formatToDate(),
+                                 salesEndTime: concert.salesEndTime.formatToDate(),
                                  posterPath: concert.showImg ?? "")
         }
     }
