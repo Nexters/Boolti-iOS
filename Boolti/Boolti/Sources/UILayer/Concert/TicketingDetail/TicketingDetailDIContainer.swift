@@ -34,7 +34,7 @@ final class TicketingDetailDIContainer {
     }
     
     private func createTicketingCompletionDIContainer() -> TicketingCompletionDIContainer {
-        return TicketingCompletionDIContainer()
+        return TicketingCompletionDIContainer(ticketReservationsRepository: TicketReservationRepository(networkService: self.concertRepository.networkService))
     }
 
     private func createTicketingDetailViewModel(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewModel {
