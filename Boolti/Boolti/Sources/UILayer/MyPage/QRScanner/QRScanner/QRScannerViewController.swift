@@ -204,6 +204,7 @@ extension QRScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         if presentedViewController == nil,
            let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
            let detectedCode = metadataObject.stringValue {
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             self.captureSession.stopRunning()
             self.viewModel.input.detectQRCode.accept(detectedCode)
             
