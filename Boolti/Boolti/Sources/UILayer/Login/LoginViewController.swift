@@ -17,7 +17,7 @@ final class LoginViewController: UIViewController {
     let viewModel: LoginViewModel
     private let disposeBag = DisposeBag()
 
-    private let termsAgreementViewControllerFactory: (IdentityCode, OAuthProvider) -> TermsAgreementViewController
+    private let termsAgreementControllerFactory: (IdentityCode, OAuthProvider) -> TermsAgreementViewController
 
     private let headerTitleLabel: UILabel = {
         let label = UILabel()
@@ -58,17 +58,16 @@ final class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 아래는 navigation controller의 색상으로 갈거므로 삭제될 예정
-        self.view.backgroundColor = .black
+
         self.configureUI()
         self.bindViewModel()
     }
 
     init(viewModel: LoginViewModel,
-         termsAgreementViewControllerFactory: @escaping (IdentityCode, OAuthProvider) -> TermsAgreementViewController
+         termsAgreementControllerFactory: @escaping (IdentityCode, OAuthProvider) -> TermsAgreementViewController
     ) {
         self.viewModel = viewModel
-        self.termsAgreementViewControllerFactory = termsAgreementViewControllerFactory
+        self.termsAgreementControllerFactory = termsAgreementControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -77,6 +76,8 @@ final class LoginViewController: UIViewController {
     }
 
     private func configureUI() {
+        self.view.backgroundColor = .grey95
+        
         self.view.addSubviews([
             self.closeButton,
             self.headerTitleLabel,
@@ -148,12 +149,12 @@ final class LoginViewController: UIViewController {
     private func bindOutput() {
         self.viewModel.output.didloginFinished
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, isFirstSignedUp in
-                guard isFirstSignedUp else {
+            .drive(with: self) { owner, isSignupRequired in
+                if isSignupRequired {
+                    owner.presentTermsAgreementViewController()
+                } else {
                     owner.dismiss(animated: true)
-                    return
                 }
-                owner.presentTermsAgreementViewController()
             }
             .disposed(by: self.disposeBag)
     }
@@ -161,8 +162,8 @@ final class LoginViewController: UIViewController {
     private func presentTermsAgreementViewController() {
         guard let identityToken = self.viewModel.identityToken else { return }
         guard let provider = self.viewModel.provider else { return }
-        let viewController = self.termsAgreementViewControllerFactory(identityToken, provider)
-        viewController.modalPresentationStyle = .fullScreen
+        let viewController = self.termsAgreementControllerFactory(identityToken, provider)
+        viewController.modalPresentationStyle = .overFullScreen
         self.present(viewController, animated: true)
     }
 }

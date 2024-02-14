@@ -44,10 +44,13 @@ extension Reactive where Base: ASAuthorizationController {
 
                 guard let identityToken = String(data: appleIdentityToken, encoding: .utf8) else { return nil }
 
+                let familyName = appleIDCredential.fullName?.familyName ?? ""
+                let givenName = appleIDCredential.fullName?.givenName ?? ""
+                let email = appleIDCredential.email ?? ""
+                
+                UserDefaults.userName = "\(familyName)\(givenName)"
+                UserDefaults.userEmail = email
                 return identityToken
             }
     }
-
 }
-
-

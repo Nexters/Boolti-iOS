@@ -55,11 +55,7 @@ final class LoginViewModel {
                         return owner.authRepository.fetch(withProviderToken: accessToken, provider: provider)
                     })
                     .subscribe(with: self) { owner, isSignUpRequired in
-                        if isSignUpRequired {
-                            owner.output.didloginFinished.accept(true)
-                        } else {
-                            owner.output.didloginFinished.accept(false)
-                        }
+                        owner.output.didloginFinished.accept(isSignUpRequired)
                     }
                     .disposed(by: owner.disposeBag)
                 }
