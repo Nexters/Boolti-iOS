@@ -115,7 +115,7 @@ class TicketListCollectionViewCell: UICollectionViewCell {
     }
 
     func setData(with item: TicketItemEntity) {
-        self.backgroundImageView.image = item.poster
+        self.backgroundImageView.setImage(with: item.posterURLPath)
         self.numberLabel.text = " ・ 1매"
         self.ticketTypeLabel.text = item.ticketName
         self.ticketMainView.setData(with: item)

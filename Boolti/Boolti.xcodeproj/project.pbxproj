@@ -123,6 +123,10 @@
 		84A7133F2B7C6D8C000BABCB /* EntranceCodeDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7133E2B7C6D8C000BABCB /* EntranceCodeDIContainer.swift */; };
 		84A713412B7C6D96000BABCB /* EntranceCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A713402B7C6D96000BABCB /* EntranceCodeViewController.swift */; };
 		84A713432B7C6DEA000BABCB /* EntranceCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A713422B7C6DEA000BABCB /* EntranceCodeViewModel.swift */; };
+		84A713452B7C83AE000BABCB /* QRMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A713442B7C83AE000BABCB /* QRMaker.swift */; };
+		84A713482B7C898E000BABCB /* QRExpandDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A713472B7C898E000BABCB /* QRExpandDIContainer.swift */; };
+		84A7134A2B7C8999000BABCB /* QRExpandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A713492B7C8999000BABCB /* QRExpandViewController.swift */; };
+		84A7134C2B7C89A1000BABCB /* QRExpandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7134B2B7C89A1000BABCB /* QRExpandViewModel.swift */; };
 		84B321992B61543E007FD669 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321982B61543E007FD669 /* FirebaseAnalytics */; };
 		84B3219B2B61543E007FD669 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 84B3219A2B61543E007FD669 /* FirebaseAnalyticsOnDeviceConversion */; };
 		84B3219D2B61543E007FD669 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 84B3219C2B61543E007FD669 /* FirebaseAnalyticsSwift */; };
@@ -359,6 +363,10 @@
 		84A7133E2B7C6D8C000BABCB /* EntranceCodeDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceCodeDIContainer.swift; sourceTree = "<group>"; };
 		84A713402B7C6D96000BABCB /* EntranceCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceCodeViewController.swift; sourceTree = "<group>"; };
 		84A713422B7C6DEA000BABCB /* EntranceCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceCodeViewModel.swift; sourceTree = "<group>"; };
+		84A713442B7C83AE000BABCB /* QRMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRMaker.swift; sourceTree = "<group>"; };
+		84A713472B7C898E000BABCB /* QRExpandDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRExpandDIContainer.swift; sourceTree = "<group>"; };
+		84A713492B7C8999000BABCB /* QRExpandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRExpandViewController.swift; sourceTree = "<group>"; };
+		84A7134B2B7C89A1000BABCB /* QRExpandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRExpandViewModel.swift; sourceTree = "<group>"; };
 		84C6E0022B7320280023BAE6 /* ConcertDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailResponseDTO.swift; sourceTree = "<group>"; };
 		84D1C37E2B79379200527998 /* SalesTicketingRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesTicketingRequestDTO.swift; sourceTree = "<group>"; };
 		84D1C3802B7938CB00527998 /* TicketingResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingResponseDTO.swift; sourceTree = "<group>"; };
@@ -777,6 +785,7 @@
 			isa = PBXGroup;
 			children = (
 				84781C742B5BEB5600D37921 /* UserDefault.swift */,
+				84A713442B7C83AE000BABCB /* QRMaker.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -902,9 +911,10 @@
 		84781CC32B5BF9C600D37921 /* Ticket */ = {
 			isa = PBXGroup;
 			children = (
-				8753CA6A2B70E15A002871C7 /* TicketEntryCode */,
-				87D2FAB02B6E96BE0027FBE1 /* TicketDetail */,
 				84625A122B63B74800CC9077 /* TicketList */,
+				87D2FAB02B6E96BE0027FBE1 /* TicketDetail */,
+				84A713462B7C896B000BABCB /* QRExpand */,
+				8753CA6A2B70E15A002871C7 /* TicketEntryCode */,
 			);
 			path = Ticket;
 			sourceTree = "<group>";
@@ -1035,6 +1045,16 @@
 				84A713422B7C6DEA000BABCB /* EntranceCodeViewModel.swift */,
 			);
 			path = EntranceCode;
+			sourceTree = "<group>";
+		};
+		84A713462B7C896B000BABCB /* QRExpand */ = {
+			isa = PBXGroup;
+			children = (
+				84A713472B7C898E000BABCB /* QRExpandDIContainer.swift */,
+				84A713492B7C8999000BABCB /* QRExpandViewController.swift */,
+				84A7134B2B7C89A1000BABCB /* QRExpandViewModel.swift */,
+			);
+			path = QRExpand;
 			sourceTree = "<group>";
 		};
 		84D1C3792B792D0D00527998 /* Concert */ = {
@@ -1463,8 +1483,8 @@
 			isa = PBXGroup;
 			children = (
 				8753CA712B70E5FB002871C7 /* Views */,
-				87D2FAB12B6E96D20027FBE1 /* TicketDetailViewController.swift */,
 				87D2FAB32B6E977C0027FBE1 /* TicketDetailDIContainer.swift */,
+				87D2FAB12B6E96D20027FBE1 /* TicketDetailViewController.swift */,
 				87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */,
 			);
 			path = TicketDetail;
@@ -1615,6 +1635,7 @@
 				84E5124B2B6E71FD002658D1 /* ConcertDetailDIContainer.swift in Sources */,
 				870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
+				84A713482B7C898E000BABCB /* QRExpandDIContainer.swift in Sources */,
 				872605532B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift in Sources */,
 				8746AD162B680A700037A1B1 /* SelectedTicketTableViewCell.swift in Sources */,
 				84A713412B7C6D96000BABCB /* EntranceCodeViewController.swift in Sources */,
@@ -1749,6 +1770,7 @@
 				841D77D82B73D2A20068B1C5 /* String+.swift in Sources */,
 				8746AD102B680A290037A1B1 /* SelectedTicketView.swift in Sources */,
 				84D1C3832B79B71600527998 /* UserResponseDTO.swift in Sources */,
+				84A713452B7C83AE000BABCB /* QRMaker.swift in Sources */,
 				8710D94E2B74FA8B00309FBF /* TicketReservationsViewModel.swift in Sources */,
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,
 				8757BA972B5FA6B0008503B5 /* AuthRepository.swift in Sources */,
@@ -1781,11 +1803,13 @@
 				840B39592B7670FC00E7F8C8 /* ConcertEntity.swift in Sources */,
 				8453D7FE2B7539770048F103 /* SalesTicketRequestDTO.swift in Sources */,
 				8710D9502B74FA9A00309FBF /* TicketReservationsDIContainer.swift in Sources */,
+				84A7134A2B7C8999000BABCB /* QRExpandViewController.swift in Sources */,
 				84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */,
 				8757BAAA2B5FDF29008503B5 /* KakaoOAuth.swift in Sources */,
 				84E5124F2B6E773F002658D1 /* ConcertDetailViewModel.swift in Sources */,
 				8746AD122B680A3E0037A1B1 /* TicketTypeView.swift in Sources */,
 				872605512B79FDE8005CD0D4 /* TicketReservationDetailResponseDTO.swift in Sources */,
+				84A7134C2B7C89A1000BABCB /* QRExpandViewModel.swift in Sources */,
 				877563DA2B6E0CDA001504FE /* TicketListFooterView.swift in Sources */,
 				878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */,
 				876BF1702B6A5FEF00DB4BCB /* RefreshAuthRepository.swift in Sources */,

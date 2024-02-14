@@ -15,7 +15,6 @@ final class ConcertInformationView: UIView {
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.grey50.cgColor
         imageView.clipsToBounds = true
-        imageView.image = .mockPoster
 
         return imageView
     }()

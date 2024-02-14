@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxAppState
+import RxGesture
 
 class TicketDetailViewController: BooltiViewController {
 
@@ -17,6 +18,7 @@ class TicketDetailViewController: BooltiViewController {
     typealias ConcertID = String
 
     private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
+    private let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController
 
     private let viewModel: TicketDetailViewModel
 
@@ -75,10 +77,12 @@ class TicketDetailViewController: BooltiViewController {
 
     init(
         viewModel: TicketDetailViewModel,
-        ticketEntryCodeViewControllerFactory: @escaping (TicketID, ConcertID) -> TicketEntryCodeViewController
+        ticketEntryCodeViewControllerFactory: @escaping (TicketID, ConcertID) -> TicketEntryCodeViewController,
+        qrExpandViewControllerFactory: @escaping (UIImage) -> QRExpandViewController
     ) {
         self.viewModel = viewModel
         self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
+        self.qrExpandViewControllerFactory = qrExpandViewControllerFactory
         super.init()
     }
 
@@ -147,6 +151,17 @@ class TicketDetailViewController: BooltiViewController {
         self.ticketDetailView.didCopyAddressButtonTap
             .bind(with: self) { owner, _ in
                 owner.showToast(message: "공연장 주소가 복사되었어요.")
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.ticketDetailView.ticketMainInformationView.ticketMainView.qrCodeImageView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                guard let qrCodeImage = owner.viewModel.output.fetchedTicketDetail.value?.qrCode else { return }
+                let viewController = owner.qrExpandViewControllerFactory(qrCodeImage)
+                viewController.modalPresentationStyle = .overFullScreen
+                owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
 

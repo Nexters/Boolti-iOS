@@ -5,7 +5,7 @@
 //  Created by Miro on 2/4/24.
 //
 
-import Foundation
+import UIKit
 
 class TicketDetailDIContainer {
 
@@ -25,10 +25,18 @@ class TicketDetailDIContainer {
             let viewController = DIContainer.createTicketEntryCodeViewController(ticketID: ticketID, concertID: concertID)
             return viewController
         }
+        
+        let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController = { qrCodeImage in
+            let DIContainer = self.createQRExpandDIContainer()
+
+            let viewController = DIContainer.createQRExpandViewController(qrCodeImage: qrCodeImage)
+            return viewController
+        }
 
         let viewController = TicketDetailViewController(
             viewModel: self.createTicketDetailViewModel(ticketID: ticketID),
-            ticketEntryCodeViewControllerFactory: ticketEntryCodeViewControllerFactory
+            ticketEntryCodeViewControllerFactory: ticketEntryCodeViewControllerFactory,
+            qrExpandViewControllerFactory: qrExpandViewControllerFactory
         )
 
         return viewController
@@ -36,6 +44,10 @@ class TicketDetailDIContainer {
 
     private func createTicketEntryCodeDIContainer() -> TicketEntryCodeDIContainer {
         return TicketEntryCodeDIContainer(networkService: self.networkService)
+    }
+    
+    private func createQRExpandDIContainer() -> QRExpandDIContainer {
+        return QRExpandDIContainer()
     }
 
     private func createTicketDetailViewModel(ticketID: String) -> TicketDetailViewModel {
