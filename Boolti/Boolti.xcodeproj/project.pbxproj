@@ -1408,9 +1408,9 @@
 			isa = PBXGroup;
 			children = (
 				8746AD182B6903FA0037A1B1 /* LoginEnter */,
+				8757BA9F2B5FDDAB008503B5 /* LoginViewDIContainer.swift */,
 				8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */,
 				8757BAA12B5FDE0D008503B5 /* LoginViewModel.swift */,
-				8757BA9F2B5FDDAB008503B5 /* LoginViewDIContainer.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";

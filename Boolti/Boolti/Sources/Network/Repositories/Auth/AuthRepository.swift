@@ -40,19 +40,14 @@ final class AuthRepository: AuthRepositoryType {
             .do { [weak self] loginReponseDTO in
                 guard let accessToken = loginReponseDTO.accessToken,
                       let refreshToken = loginReponseDTO.refreshToken else { return }
-                print(accessToken)
                 UserDefaults.accessToken = accessToken
                 UserDefaults.refreshToken = refreshToken
 
-                switch provider {
-                case .kakao:
-                    self?.setKakaoUserInformation()
-                case .apple:
-                    return
-                }
-                
-                // userId 저장하기 위함
                 self?.userInfo()
+                
+                if provider == .kakao {
+                    self?.setKakaoUserInformation()
+                }
             }
             .map { $0.signUpRequired }
     }
@@ -72,7 +67,6 @@ final class AuthRepository: AuthRepositoryType {
             .disposed(by: self.disposeBag)
     }
 
-    // 회원가입 API 활용해서 AccessToken, RefreshToken 가져오기
     func signUp(provider: OAuthProvider, identityToken: String?) {
         switch provider {
         case .kakao:
@@ -113,8 +107,8 @@ final class AuthRepository: AuthRepositoryType {
         let oauthIdentity = jwt.claims.sub
 
         let requestDTO = SignUpRequestDTO(
-            nickname: nil,
-            email: nil,
+            nickname: UserDefaults.userName,
+            email: UserDefaults.userEmail,
             phoneNumber: nil,
             oauthType: "APPLE",
             oauthIdentity: oauthIdentity,
@@ -134,6 +128,8 @@ final class AuthRepository: AuthRepositoryType {
                 
                 UserDefaults.accessToken = accessToken
                 UserDefaults.refreshToken = refreshToken
+                
+                self.userInfo()
             }
             .disposed(by: self.disposeBag)
     }
