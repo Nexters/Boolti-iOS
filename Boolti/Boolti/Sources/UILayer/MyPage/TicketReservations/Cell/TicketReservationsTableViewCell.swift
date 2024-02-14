@@ -97,7 +97,7 @@ class TicketReservationsTableViewCell: UITableViewCell {
         self.reservationStatusLabel.text = ticketReservation.reservationStatus.description
         self.reservationStatusLabel.textColor = ticketReservation.reservationStatus.color
         self.concertTitleLabel.text = ticketReservation.concertTitle
-        self.reservationDetailLabel.text = "\(ticketReservation.ticketName) / \(ticketReservation.ticketCount)매 / \(ticketReservation.ticketPrice)원"
+        self.reservationDetailLabel.text = "\(ticketReservation.ticketName) / \(ticketReservation.ticketCount)매 / \(ticketReservation.ticketPrice.formattedCurrency())원"
 
     }
 

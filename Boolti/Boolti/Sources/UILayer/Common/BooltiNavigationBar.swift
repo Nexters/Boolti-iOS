@@ -11,6 +11,7 @@ import RxCocoa
 import SnapKit
 
 enum NavigationType {
+    case defaultUI(backButtonTitle: String)
     case ticketingDetail
     case ticketingCompletion
     case concertDetail
@@ -53,6 +54,7 @@ final class BooltiNavigationBar: UIView {
         self.configureDefaultConstraints()
         
         switch type {
+        case .defaultUI(let title): self.configureDefaultUI(title)
         case .ticketingDetail: self.configureTicketingDetailUI()
         case .ticketingCompletion: self.configureTicketingCompletionUI()
         case .concertDetail: self.configureConcertDetailUI()
@@ -95,7 +97,15 @@ extension BooltiNavigationBar {
             }
         }
     }
-    
+
+    private func configureDefaultUI(_ title: String) {
+        self.titleLabel.text = title
+        self.backgroundColor = .grey95
+
+        self.addSubviews([self.backButton, self.titleLabel])
+        self.configureTicketingDetailConstraints()
+    }
+
     private func configureTicketingDetailUI() {
         self.titleLabel.text = "결제하기"
         

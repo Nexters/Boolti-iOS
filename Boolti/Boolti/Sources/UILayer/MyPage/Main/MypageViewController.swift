@@ -181,9 +181,9 @@ final class MyPageViewController: UIViewController {
     }
 
     private func bindInputs() {
-        self.rx.viewWillAppear
+        self.rx.viewDidAppear
             .bind(with: self, onNext: { owner, destination in
-                owner.viewModel.input.viewWillAppearEvent.onNext(())
+                owner.viewModel.input.viewDidAppearEvent.onNext(())
             })
             .disposed(by: self.disposeBag)
     }
