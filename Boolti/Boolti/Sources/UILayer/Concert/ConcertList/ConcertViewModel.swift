@@ -20,7 +20,7 @@ final class ConcertListViewModel {
     
     struct Output {
         let concerts = BehaviorRelay<[ConcertEntity]>(value: [])
-        let checkingTicketCount = BehaviorRelay<Int>(value: 0)
+        let checkingTicketCount = BehaviorRelay<Int>(value: -1)
     }
     
     let output: Output
@@ -48,7 +48,7 @@ extension ConcertListViewModel {
     
     func confirmCheckingTickets() {
         if UserDefaults.accessToken.isEmpty {
-            self.output.checkingTicketCount.accept(0)
+            self.output.checkingTicketCount.accept(-1)
         } else {
             self.fetchCheckingTickets()
         }
