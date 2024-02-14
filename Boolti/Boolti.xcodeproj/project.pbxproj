@@ -1359,10 +1359,10 @@
 		8730F00A2B7B0FEC00D4F339 /* TicketRefund */ = {
 			isa = PBXGroup;
 			children = (
-				8730F00E2B7B106300D4F339 /* TicketRefundConfirm */,
-				8730F00D2B7B104F00D4F339 /* TicketRefundBankSelection */,
-				8730F00C2B7B103700D4F339 /* TicketRefundRequest */,
 				8730F00B2B7B100700D4F339 /* TicketRefundReason */,
+				8730F00C2B7B103700D4F339 /* TicketRefundRequest */,
+				8730F00D2B7B104F00D4F339 /* TicketRefundBankSelection */,
+				8730F00E2B7B106300D4F339 /* TicketRefundConfirm */,
 			);
 			path = TicketRefund;
 			sourceTree = "<group>";

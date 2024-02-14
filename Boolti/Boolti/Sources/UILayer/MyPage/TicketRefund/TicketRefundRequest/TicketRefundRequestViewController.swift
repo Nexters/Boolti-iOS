@@ -246,6 +246,30 @@ class TicketRefundRequestViewController: BooltiViewController {
                 owner.viewModel.input.accoundHolderNameText.accept(text)
             })
             .disposed(by: self.disposeBag)
+        
+        self.accountHolderPhoneNumberView.contentTextField.rx.controlEvent(.editingDidBegin)
+            .asDriver()
+            .drive(with: self, onNext: { owner, _ in
+                guard let text = owner.accountHolderPhoneNumberView.contentTextField.text else { return }
+                
+                owner.accountHolderPhoneNumberView.contentTextField.text = text.replacingOccurrences(of: "-", with: "")
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.accountHolderPhoneNumberView.contentTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: "")
+            .drive(with: self, onNext: { owner, changedText in
+                let formattedNumber = changedText.formatPhoneNumber()
+                owner.accountHolderPhoneNumberView.contentTextField.text = formattedNumber
+                
+                if formattedNumber.count > 13 {
+                    owner.accountHolderPhoneNumberView.contentTextField.deleteBackward()
+                }
+            })
+            .disposed(by: self.disposeBag)
+
 
         self.accountHolderPhoneNumberView.contentTextField.rx.controlEvent(.editingDidEnd)
             .asDriver()
@@ -288,5 +312,4 @@ class TicketRefundRequestViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
     }
-
 }

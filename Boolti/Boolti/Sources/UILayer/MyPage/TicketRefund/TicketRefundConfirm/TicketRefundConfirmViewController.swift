@@ -77,6 +77,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         self.view.backgroundColor = .grey95
         self.setData()
         self.configureConstraints()
+        self.configureToastView(isButtonExisted: false)
         self.bindViewModel()
         self.bindUIComponents()
     }
@@ -84,7 +85,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
     private func setData() {
         let information = self.viewModel.refundAccountInformation
         let holderName = information.accountHolderName
-        let holderPhoneNumber = information.accountHolderPhoneNumber
+        let holderPhoneNumber = information.accountHolderPhoneNumber.formatPhoneNumber()
         let accountBankName = information.accountBankName
         let accountNumber = information.accountNumber
 
@@ -194,6 +195,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
                 guard let ticketRefundVC = rootviewController.viewControllers.filter({ $0 is TicketRefundRequestViewController
                 })[0] as? TicketRefundRequestViewController else { return }
 
+                owner.showToast(message: "환불 요청이 완료되었어요")
                 owner.dismiss(animated: true) {
                     ticketRefundVC.navigationController?.popToViewController(ticketReservationDetailViewController, animated: true)
                 }
