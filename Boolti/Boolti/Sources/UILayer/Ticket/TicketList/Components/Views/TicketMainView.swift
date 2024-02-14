@@ -72,7 +72,7 @@ class TicketMainView: UIView {
         return label
     }()
 
-    private let qrCodeImageView: UIImageView = {
+    let qrCodeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 4
         imageView.clipsToBounds = true

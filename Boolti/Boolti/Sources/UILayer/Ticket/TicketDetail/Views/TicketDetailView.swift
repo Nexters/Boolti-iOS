@@ -56,7 +56,7 @@ class TicketDetailView: UIView {
         return view
     }()
 
-    private var ticketMainInformationView = TicketMainInformationView()
+    let ticketMainInformationView = TicketMainInformationView()
     private let ticketNoticeView = TicketNoticeView()
     private let ticketInquiryView = TicketInquiryView()
 
