@@ -34,7 +34,7 @@ class TicketMainInformationView: UIView {
         let ticketItem = TicketItemEntity(
             ticketType: item.ticketType,
             ticketName: item.ticketName,
-            poster: item.poster,
+            posterURLPath: item.posterURLPath,
             title: item.title,
             date: item.date,
             location: item.location,

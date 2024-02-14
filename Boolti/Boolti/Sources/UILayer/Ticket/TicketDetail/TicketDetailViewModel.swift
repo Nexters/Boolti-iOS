@@ -19,7 +19,7 @@ class TicketDetailViewModel {
 
     struct Output {
         let isLoading = PublishRelay<Bool>()
-        let fetchedTicketDetail = PublishRelay<TicketDetailItemEntity>()
+        let fetchedTicketDetail = BehaviorRelay<TicketDetailItemEntity?>(value: nil)
     }
 
     let input: Input

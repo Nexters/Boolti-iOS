@@ -18,7 +18,7 @@ final class TicketSelectionDIContainer {
     func createTicketSelectionViewController(concertId: Int) -> TicketSelectionViewController {
         let viewModel = createTicketSelectionViewModel(concertId: concertId)
         
-        let ticketingDetailViewControllerFactory: (SalesTicketEntity) -> TicketingDetailViewController = { selectedTicket in
+        let ticketingDetailViewControllerFactory: (SelectedTicketEntity) -> TicketingDetailViewController = { selectedTicket in
             let DIContainer = self.createTicketingDetailViewDIContainer()
 
             let viewController = DIContainer.createTicketingDetailViewController(selectedTicket: selectedTicket)
@@ -34,7 +34,7 @@ final class TicketSelectionDIContainer {
     }
     
     private func createTicketingDetailViewDIContainer() -> TicketingDetailDIContainer {
-        return TicketingDetailDIContainer()
+        return TicketingDetailDIContainer(concertRepository: self.concertRepository)
     }
 
     private func createTicketSelectionViewModel(concertId: Int) -> TicketSelectionViewModel {

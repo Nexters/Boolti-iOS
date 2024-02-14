@@ -11,13 +11,14 @@ struct TicketDetailItemEntity {
 
     let ticketType: TicketType
     let ticketName: String
-    let poster: UIImage
+    let posterURLPath: String
     let title: String
     let date: String
     let location: String
     let qrCode: UIImage
     let notice: String
     let ticketID: Int
+    let concertID: Int
     let hostName: String
     let hostPhoneNumber: String
     let usedTime: String?

@@ -9,13 +9,13 @@ import UIKit
 
 final class TicketingDetailDIContainer {
 
-//    private let ticketAPIService: TicketAPIService
-//
-//    init(ticketAPIService: TicketAPIService) {
-//        self.ticketAPIService = ticketAPIService
-//    }
+    private let concertRepository: ConcertRepository
 
-    func createTicketingDetailViewController(selectedTicket: SalesTicketEntity) -> TicketingDetailViewController {
+    init(concertRepository: ConcertRepository) {
+        self.concertRepository = concertRepository
+    }
+
+    func createTicketingDetailViewController(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewController {
         let viewModel = createTicketingDetailViewModel(selectedTicket: selectedTicket)
         
         let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController = { ticketingEntity in
@@ -37,8 +37,8 @@ final class TicketingDetailDIContainer {
         return TicketingCompletionDIContainer()
     }
 
-    private func createTicketingDetailViewModel(selectedTicket: SalesTicketEntity) -> TicketingDetailViewModel {
-        return TicketingDetailViewModel(selectedTicket: selectedTicket)
+    private func createTicketingDetailViewModel(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewModel {
+        return TicketingDetailViewModel(concertRepository: self.concertRepository, selectedTicket: selectedTicket)
     }
 
 }

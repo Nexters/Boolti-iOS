@@ -17,7 +17,7 @@ final class MyPageViewController: UIViewController {
     private let loginViewControllerFactory: () -> LoginViewController
     private let logoutViewControllerFactory: () -> LogoutViewController
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
-    private let qrScanViewControllerFactory: () -> QrScanViewController
+    private let qrScanViewControllerFactory: () -> QRScannerListViewController
 
     private let disposeBag = DisposeBag()
     private let viewModel: MyPageViewModel
@@ -66,7 +66,7 @@ final class MyPageViewController: UIViewController {
     }()
 
     private let ticketingReservationsNavigationView = MypageContentView(title: "예매 내역")
-    private let qrScanNavigationView = MypageContentView(title: "QR 스캔")
+    private let qrScannerListNavigationView = MypageContentView(title: "QR 스캔")
 
     override func viewWillLayoutSubviews() {
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
@@ -84,7 +84,7 @@ final class MyPageViewController: UIViewController {
         loginViewControllerFactory: @escaping () -> LoginViewController,
         logoutViewControllerFactory: @escaping () -> LogoutViewController,
         ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
-        qrScanViewControllerFactory: @escaping () -> QrScanViewController
+        qrScanViewControllerFactory: @escaping () -> QRScannerListViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
@@ -107,7 +107,7 @@ final class MyPageViewController: UIViewController {
             self.profileEmailLabel,
             self.loginNavigationButton,
             self.ticketingReservationsNavigationView,
-            self.qrScanNavigationView,
+            self.qrScannerListNavigationView,
             self.logoutNavigationButton
         ])
 
@@ -138,7 +138,7 @@ final class MyPageViewController: UIViewController {
             make.top.equalTo(self.profileImageView.snp.bottom).offset(32)
         }
 
-        self.qrScanNavigationView.snp.makeConstraints { make in
+        self.qrScannerListNavigationView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(66)
             make.top.equalTo(self.ticketingReservationsNavigationView.snp.bottom).offset(12)
@@ -164,6 +164,14 @@ final class MyPageViewController: UIViewController {
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
                 owner.viewModel.input.didTicketingReservationsViewTapEvent.onNext(())
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.qrScannerListNavigationView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didQRScannerListViewTapEvent.onNext(())
             }
             .disposed(by: self.disposeBag)
     }
@@ -199,10 +207,10 @@ final class MyPageViewController: UIViewController {
             .drive(with: self, onNext: { owner, destination in
                 let viewController = owner.createViewController(destination)
                 switch destination {
-                case .login, .logout, .qrScan:
+                case .login, .logout:
                     viewController.modalPresentationStyle = .fullScreen
                     owner.present(viewController, animated: true)
-                case .ticketReservations:
+                case .ticketReservations, .qrScannerList:
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             })
@@ -239,7 +247,7 @@ final class MyPageViewController: UIViewController {
         switch next {
         case .login: return loginViewControllerFactory()
         case .logout: return logoutViewControllerFactory()
-        case .qrScan: return qrScanViewControllerFactory()
+        case .qrScannerList: return qrScanViewControllerFactory()
         case .ticketReservations: return ticketReservationsViewControllerFactory()
         }
     }

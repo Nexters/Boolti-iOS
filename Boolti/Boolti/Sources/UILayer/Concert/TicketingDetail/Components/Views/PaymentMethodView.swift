@@ -55,7 +55,7 @@ final class PaymentMethodView: UIView {
         let label = UILabel()
         label.text = "다음 페이지에서 계좌 번호를 안내해 드릴게요"
         label.font = .body1
-        label.textColor = .grey40
+        label.textColor = .grey50
         return label
     }()
     

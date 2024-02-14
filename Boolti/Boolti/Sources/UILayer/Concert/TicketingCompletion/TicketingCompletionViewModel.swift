@@ -12,8 +12,6 @@ import RxRelay
 
 final class TicketingCompletionViewModel {
     
-//    private let ticketAPIService: TicketAPIServiceType
-    
     private let disposeBag = DisposeBag()
     
     struct Input {
@@ -24,8 +22,6 @@ final class TicketingCompletionViewModel {
     
     let ticketingData: BehaviorRelay<TicketingEntity>
 
-//    init(ticketAPIService: TicketAPIService) {
-//        self.ticketAPIService = ticketAPIService
     init(ticketingEntity: TicketingEntity) {
         self.input = Input()
         self.ticketingData = BehaviorRelay<TicketingEntity>(value: ticketingEntity)

@@ -24,6 +24,7 @@ final class TicketReservationsViewController: BooltiViewController {
 
     private let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.contentInset = .init(top: 20, left: 0, bottom: 0, right: 0)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .grey95
         tableView.showsVerticalScrollIndicator = false
@@ -93,7 +94,7 @@ final class TicketReservationsViewController: BooltiViewController {
         }
 
         self.tableView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom).offset(20)
+            make.top.equalTo(self.navigationBar.snp.bottom)
             make.horizontalEdges.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }

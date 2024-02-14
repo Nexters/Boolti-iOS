@@ -49,7 +49,8 @@ final class HomeTabBarDIContainer {
     private func createConcertListDIContainer() -> ConcertListDIContainer {
         return ConcertListDIContainer(
             authRepository: AuthRepository(networkService: rootDIContainer.networkProvider),
-            concertRepository: ConcertRepository(networkService: rootDIContainer.networkProvider)
+            concertRepository: ConcertRepository(networkService: rootDIContainer.networkProvider),
+            ticketReservationRepository: TicketReservationRepository(networkService: rootDIContainer.networkProvider)
         )
     }
 

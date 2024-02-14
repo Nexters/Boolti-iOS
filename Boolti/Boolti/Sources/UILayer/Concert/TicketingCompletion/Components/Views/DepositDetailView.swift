@@ -47,11 +47,13 @@ final class DepositDetailView: UIView {
 
 extension DepositDetailView {
     
-    func setData(depositDeadline: Date) {
+    func setData(date: Date) {
         self.bank.text = "신한은행"
         self.account.text = "1234-56-7890123"
         self.accountHolder.text = "박불티"
-        self.depositDeadline.text = depositDeadline.format(.dateDayTime)
+        
+        guard let endOfDay = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: date) else { return }
+        self.depositDeadline.text = endOfDay.format(.dateDayTime)
     }
 }
 
@@ -65,10 +67,9 @@ extension DepositDetailView {
         label.font = .body1
         
         if title.isEmpty {
-            label.text = "신한 은행"
             label.textColor = .grey15
         } else {
-            label.textColor = .grey50
+            label.textColor = .grey30
         }
         return label
     }
@@ -85,7 +86,9 @@ extension DepositDetailView {
         self.addSubviews([self.titleStackView, self.detailStackView])
         
         self.backgroundColor = .grey90
-        self.layer.cornerRadius = 8
+        self.layer.cornerRadius = 4
+        
+        self.detailStackView.alignment = .trailing
     }
     
     private func configureConstraints() {

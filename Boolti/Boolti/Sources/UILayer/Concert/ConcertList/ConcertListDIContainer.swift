@@ -13,11 +13,14 @@ final class ConcertListDIContainer {
 
     private let authRepository: AuthRepository
     private let concertRepository: ConcertRepository
+    private let ticketReservationRepository: TicketReservationRepository
 
     init(authRepository: AuthRepository,
-         concertRepository: ConcertRepository) {
+         concertRepository: ConcertRepository,
+         ticketReservationRepository: TicketReservationRepository) {
         self.authRepository = authRepository
         self.concertRepository = concertRepository
+        self.ticketReservationRepository = ticketReservationRepository
     }
     
     func createConcertListViewController() -> UIViewController {
@@ -29,10 +32,18 @@ final class ConcertListDIContainer {
             let viewController = DIContainer.createConcertDetailViewController(concertId: concertId)
             return viewController
         }
+        
+        let ticketReservationsViewControllerFactory = {
+            let DIContainer = self.createTicketReservationsDIContainer()
+            let viewController = DIContainer.createTicketReservationsViewController()
+
+            return viewController
+        }
 
         let viewController = ConcertListViewController(
             viewModel: viewModel,
-            concertDetailViewControllerFactory: concertDetailViewControllerFactory
+            concertDetailViewControllerFactory: concertDetailViewControllerFactory,
+            ticketReservationsViewControllerFactory: ticketReservationsViewControllerFactory
         )
 
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -41,7 +52,12 @@ final class ConcertListDIContainer {
     }
     
     private func createConcertListViewModel() -> ConcertListViewModel {
-        return ConcertListViewModel(concertRepository: self.concertRepository)
+        return ConcertListViewModel(concertRepository: self.concertRepository,
+                                    ticketReservationRepository: self.ticketReservationRepository)
+    }
+    
+    private func createTicketReservationsDIContainer() -> TicketReservationsDIContainer {
+        return TicketReservationsDIContainer(networkService: self.authRepository.networkService)
     }
     
     private func createConcertDetailDIContainer() -> ConcertDetailDIContainer {

@@ -16,7 +16,7 @@ struct TicketReservationItemResponseDTO: Decodable {
     let showImg: String
     let salesTicketName: String
     let ticketCount: Int
-    let ticketPrice: Int
+    let ticketPrice: Int?
 }
 
 extension TicketReservationItemResponseDTO {
@@ -39,7 +39,7 @@ extension TicketReservationItemResponseDTO {
             concertImageURLPath: concertImageURLPath,
             ticketName: ticketName,
             ticketCount: ticketCount,
-            ticketPrice: ticketPrice
+            ticketPrice: ticketPrice ?? 0
         )
     }
 }

@@ -20,6 +20,7 @@ final class MyPageViewModel {
         var didLogoutButtonTapEvent = PublishSubject<Void>()
         var didLoginButtonTapEvent = PublishSubject<Void>()
         var didTicketingReservationsViewTapEvent = PublishSubject<Void>()
+        var didQRScannerListViewTapEvent = PublishSubject<Void>()
     }
 
     struct Output {
@@ -71,6 +72,15 @@ final class MyPageViewModel {
                     return owner.output.navigation.accept(.login)
                 }
                 owner.output.navigation.accept(.ticketReservations)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.input.didQRScannerListViewTapEvent
+            .subscribe(with: self) { owner, _ in
+                guard owner.output.isAccessTokenLoaded.value else {
+                    return owner.output.navigation.accept(.login)
+                }
+                owner.output.navigation.accept(.qrScannerList)
             }
             .disposed(by: self.disposeBag)
     }

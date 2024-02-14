@@ -15,6 +15,7 @@ enum AuthAPI {
     case logout
     case signup(requestDTO: SignUpRequestDTO)
     case refresh(requestDTO: TokenRefreshRequestDTO)
+    case user
 }
 
 extension AuthAPI: ServiceAPI {
@@ -29,16 +30,23 @@ extension AuthAPI: ServiceAPI {
             return "/papi/v1/signup/sns"
         case .refresh:
             return "/papi/v1/login/refresh"
+        case .user:
+            return "/api/v1/user"
         }
     }
 
     var method: Moya.Method {
-        return .post
+        switch self {
+        case .user:
+            return .get
+        default:
+            return .post
+        }
     }
 
     var headers: [String : String]? {
         switch self {
-        case .logout:
+        case .logout, .user:
             return nil
         case .login, .refresh, .signup:
             return ["Content-Type": "application/json"]
@@ -56,7 +64,7 @@ extension AuthAPI: ServiceAPI {
                 params = ["idToken": DTO.accessToken]
             }
             return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
-        case .logout:
+        case .logout, .user:
             return .requestPlain
         case .signup(let DTO):
             return .requestJSONEncodable(DTO)
