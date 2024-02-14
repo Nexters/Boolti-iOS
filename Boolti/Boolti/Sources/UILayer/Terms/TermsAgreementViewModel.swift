@@ -17,7 +17,7 @@ final class TermsAgreementViewModel {
     }
 
     struct Output {
-        var didsignUpFinished = PublishRelay<Void>()
+        var didSignUpFinished = PublishRelay<Void>()
     }
 
     let input: Input
@@ -43,8 +43,8 @@ final class TermsAgreementViewModel {
     private func bindInputs() {
         self.input.didAgreementButtonTapEvent
             .subscribe(with: self) { owner, _ in
-                owner.authRepository.signUp(provider: owner.provider, identityToken: owner.identityCode)
-                owner.output.didsignUpFinished.accept(())
+//                owner.authRepository.signUp(provider: owner.provider, identityToken: owner.identityCode)
+                owner.output.didSignUpFinished.accept(())
             }
             .disposed(by: self.disposeBag)
     }

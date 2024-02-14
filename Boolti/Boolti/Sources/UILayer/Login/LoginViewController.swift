@@ -153,7 +153,8 @@ final class LoginViewController: UIViewController {
                 if isSignupRequired {
                     owner.presentTermsAgreementViewController()
                 } else {
-                    owner.dismiss(animated: true)
+                    owner.presentTermsAgreementViewController()
+//                    owner.dismiss(animated: true)
                 }
             }
             .disposed(by: self.disposeBag)

@@ -39,18 +39,18 @@ extension Reactive where Base: ASAuthorizationController {
             .map { parameters -> String? in
                 guard let authorization = parameters[1] as? ASAuthorization,
                       let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
-                      let appleIdentityToken = appleIDCredential.identityToken,
-                      let familyName = appleIDCredential.fullName?.familyName,
-                      let givenName = appleIDCredential.fullName?.givenName,
-                      let appleEmail = appleIDCredential.email
+                      let appleIdentityToken = appleIDCredential.identityToken
                 else { return nil }
 
                 guard let identityToken = String(data: appleIdentityToken, encoding: .utf8) else { return nil }
 
+                let familyName = appleIDCredential.fullName?.familyName ?? ""
+                let givenName = appleIDCredential.fullName?.givenName ?? ""
+                let email = appleIDCredential.email ?? ""
+                
                 UserDefaults.userName = "\(familyName)\(givenName)"
-                UserDefaults.userEmail = appleEmail
+                UserDefaults.userEmail = email
                 return identityToken
             }
     }
-
 }
