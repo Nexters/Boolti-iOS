@@ -16,6 +16,21 @@ extension UILabel {
             let style = NSMutableParagraphStyle()
             style.lineSpacing = lineSpacing
             style.lineBreakMode = .byTruncatingTail
+            style.lineBreakStrategy = .hangulWordPriority
+            attributeString.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: NSMakeRange(0, attributeString.length))
+            self.attributedText = attributeString
+        }
+    }
+    
+    /// 행간 + headIndent 조정 메서드 (정책에서 쓰임)
+    func setLineSpacingAndHeadIndent(lineSpacing: CGFloat) {
+        if let text = self.text {
+            let attributeString = NSMutableAttributedString(string: text)
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = lineSpacing
+            style.lineBreakMode = .byTruncatingTail
+            style.lineBreakStrategy = .hangulWordPriority
+            style.headIndent = 10
             attributeString.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: NSMakeRange(0, attributeString.length))
             self.attributedText = attributeString
         }
