@@ -94,7 +94,7 @@ extension QRScannerViewController {
                 
                 UIView.animate(
                     withDuration: 0.3,
-                    delay: 1,
+                    delay: 2,
                     animations: {
                         owner.checkLabel.alpha = 0
                     },
