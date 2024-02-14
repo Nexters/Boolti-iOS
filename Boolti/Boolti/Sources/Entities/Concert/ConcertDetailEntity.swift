@@ -22,6 +22,7 @@ struct ConcertDetailEntity {
     let posters: [Poster]
     let hostName: String
     let hostPhoneNumber: String
+    let reservationStatus: Bool
     
     struct Poster {
         let id: Int

@@ -87,10 +87,15 @@ extension ConcertDetailViewModel {
     private func bindOutputs() {
         self.output.concertDetail
             .bind(with: self, onNext: { owner, concert in
+                if concert.reservationStatus {
+                    owner.output.buttonState.accept(.alreadyReserved)
+                    return
+                }
+                
                 var state: ConcertTicketingState = .onSale
                 
                 if Date().compare(concert.salesStartTime) == .orderedAscending {
-                    state = .beforeSale
+                    state = .beforeSale(startDate: concert.salesStartTime)
                 }
                 else if Date().compare(concert.salesEndTime) == .orderedAscending {
                     state = .onSale
