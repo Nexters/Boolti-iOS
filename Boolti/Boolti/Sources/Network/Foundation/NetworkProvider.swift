@@ -35,7 +35,15 @@ class NetworkProvider: NetworkProviderType {
                         let data = response.data
 
                         guard !data.isEmpty else { return }
-
+                        
+                        if let stringValue = String(data: data, encoding: .utf8),
+                           let boolValue = Bool(stringValue) {
+                            print("========================================")
+                            print("Boolean Response: \(boolValue)")
+                            print("========================================")
+                            return
+                        }
+                        
                         let json = try JSONSerialization.jsonObject(with: data, options: [])
                         if let jsonArray = json as? [[String: Any]] {
                             let prettyPrintedData = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
@@ -52,6 +60,10 @@ class NetworkProvider: NetworkProviderType {
                                 print("========================================")
                             }
                         }
+                    } catch {
+                        print("========================================")
+                        print("Response Decoding Error")
+                        print("========================================")
                     }
                     #endif
                 },
