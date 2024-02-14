@@ -13,6 +13,7 @@ protocol TicketReservationsRepositoryType {
     var networkService: NetworkProviderType { get }
     func ticketReservations() -> Single<[TicketReservationItemEntity]>
     func ticketReservationDetail(with reservationID: String) -> Single<TicketReservationDetailEntity>
+    func requestRefund(with requestDTO: TicketRefundRequestDTO) -> Single<Void>
 }
 
 class TicketReservationRepository: TicketReservationsRepositoryType {
@@ -38,4 +39,9 @@ class TicketReservationRepository: TicketReservationsRepositoryType {
             .map { $0.convertToTicketReservationDetailEntity() }
     }
 
+    func requestRefund(with requestDTO: TicketRefundRequestDTO) -> Single<Void> {
+        let api = TicketReservationAPI.requestRefund(requestDTO: requestDTO)
+        return self.networkService.request(api)
+            .map { _ in () }
+    }
 }

@@ -7,9 +7,15 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+import RxRelay
+
 final class TicketRefundConfirmViewController: BooltiViewController {
 
     private let viewModel: TicketRefundConfirmViewModel
+
+    private let disposeBag = DisposeBag()
 
     private let contentBackGroundView: UIView = {
         let view = UIView()
@@ -71,6 +77,8 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         self.view.backgroundColor = .grey95
         self.setData()
         self.configureConstraints()
+        self.bindViewModel()
+        self.bindUIComponents()
     }
 
     private func setData() {
@@ -147,5 +155,49 @@ final class TicketRefundConfirmViewController: BooltiViewController {
             make.centerX.equalToSuperview()
             make.bottom.equalTo(self.contentBackGroundView.snp.bottom).inset(20)
         }
+    }
+
+    private func bindUIComponents() {
+        self.closeButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindViewModel() {
+        self.bindInput()
+        self.bindOutput()
+    }
+
+    private func bindInput() {
+        self.requestRefundButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didRequestFundButtonTapEvent.accept(())
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindOutput() {
+        self.viewModel.output.didRequestFundCompleted
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                // MARK: dismiss pop 하는 로직 제대로 공부해서 수정하기
+                guard let homeTabBarController = owner.presentingViewController as? HomeTabBarController else { return }
+                guard let rootviewController = homeTabBarController.children[2] as? UINavigationController else { return }
+                print(rootviewController.viewControllers)
+                guard let ticketReservationDetailViewController = rootviewController.viewControllers.filter({ $0 is TicketReservationDetailViewController
+                })[0] as? TicketReservationDetailViewController else { return }
+                print(ticketReservationDetailViewController)
+                guard let ticketRefundVC = rootviewController.viewControllers.filter({ $0 is TicketRefundRequestViewController
+                })[0] as? TicketRefundRequestViewController else { return }
+
+                owner.dismiss(animated: true) {
+                    ticketRefundVC.navigationController?.popToViewController(ticketReservationDetailViewController, animated: true)
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
 }
