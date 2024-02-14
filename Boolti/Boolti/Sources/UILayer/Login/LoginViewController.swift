@@ -17,7 +17,7 @@ final class LoginViewController: UIViewController {
     let viewModel: LoginViewModel
     private let disposeBag = DisposeBag()
 
-    private let termsAgreementViewControllerFactory: (IdentityCode, OAuthProvider) -> TermsAgreementViewController
+    private let termsAgreementControllerFactory: (IdentityCode, OAuthProvider) -> TermsAgreementViewController
 
     private let headerTitleLabel: UILabel = {
         let label = UILabel()
@@ -65,10 +65,10 @@ final class LoginViewController: UIViewController {
     }
 
     init(viewModel: LoginViewModel,
-         termsAgreementViewControllerFactory: @escaping (IdentityCode, OAuthProvider) -> TermsAgreementViewController
+         termsAgreementControllerFactory: @escaping (IdentityCode, OAuthProvider) -> TermsAgreementViewController
     ) {
         self.viewModel = viewModel
-        self.termsAgreementViewControllerFactory = termsAgreementViewControllerFactory
+        self.termsAgreementControllerFactory = termsAgreementControllerFactory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -161,7 +161,7 @@ final class LoginViewController: UIViewController {
     private func presentTermsAgreementViewController() {
         guard let identityToken = self.viewModel.identityToken else { return }
         guard let provider = self.viewModel.provider else { return }
-        let viewController = self.termsAgreementViewControllerFactory(identityToken, provider)
+        let viewController = self.termsAgreementControllerFactory(identityToken, provider)
         viewController.modalPresentationStyle = .fullScreen
         self.present(viewController, animated: true)
     }

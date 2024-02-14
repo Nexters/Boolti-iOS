@@ -1443,9 +1443,9 @@
 		8769BF942B625D8C00DA9A67 /* Terms */ = {
 			isa = PBXGroup;
 			children = (
+				8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */,
 				8769BF952B625DB200DA9A67 /* TermsAgreementViewController.swift */,
 				8769BF972B625DBF00DA9A67 /* TermsAgreementViewModel.swift */,
-				8769BF992B625DC900DA9A67 /* TermsAgreementDIContainer.swift */,
 			);
 			path = Terms;
 			sourceTree = "<group>";

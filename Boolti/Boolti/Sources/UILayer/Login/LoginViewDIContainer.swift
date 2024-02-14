@@ -26,7 +26,7 @@ final class LoginViewDIContainer {
             return viewController
         }
 
-        let viewController = LoginViewController(viewModel: createLoginViewModel(), termsAgreementViewControllerFactory: termsAgreementControllerFactory)
+        let viewController = LoginViewController(viewModel: createLoginViewModel(), termsAgreementControllerFactory: termsAgreementControllerFactory)
 
         return viewController
     }
