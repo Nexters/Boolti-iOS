@@ -10,7 +10,7 @@ import AVFoundation
 
 import RxSwift
 
-final class QRScannerViewController: BooltiViewController {
+final class QRScannerViewController: UIViewController {
     
     // MARK: Properties
     
@@ -42,7 +42,6 @@ final class QRScannerViewController: BooltiViewController {
     
     private let checkLabel: BooltiPaddingLabel = {
         let label = BooltiPaddingLabel(padding: .init(top: 12, left: 16, bottom: 12, right: 16))
-        label.text = "입장을 확인했어요"
         label.backgroundColor = .grey80.withAlphaComponent(0.8)
         label.textColor = .grey10
         label.font = .pretendardR(14)
@@ -58,7 +57,7 @@ final class QRScannerViewController: BooltiViewController {
         self.viewModel = viewModel
         self.entranceCodeViewControllerFactory = entranceCodeViewControllerFactory
         
-        super.init()
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -70,12 +69,11 @@ final class QRScannerViewController: BooltiViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.configureQRScanner()
         self.configureUI()
         self.configureConstraints()
         self.bindUIComponents()
         self.bindOutputs()
-        self.configureQRScanner()
-        self.configureToastView(isButtonExisted: false)
     }
 }
 
@@ -189,7 +187,7 @@ extension QRScannerViewController {
         }
         
         self.checkLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-20)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-100)
             make.centerX.equalToSuperview()
         }
     }
