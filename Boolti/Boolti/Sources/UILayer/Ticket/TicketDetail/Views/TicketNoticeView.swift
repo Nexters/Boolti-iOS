@@ -9,7 +9,7 @@ import UIKit
 
 final class TicketNoticeView: UIView {
 
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "안내사항 for 주최자"
         label.font = .subhead2
@@ -18,7 +18,7 @@ final class TicketNoticeView: UIView {
         return label
     }()
 
-    private let noticeLabel: UILabel = {
+    let noticeLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping

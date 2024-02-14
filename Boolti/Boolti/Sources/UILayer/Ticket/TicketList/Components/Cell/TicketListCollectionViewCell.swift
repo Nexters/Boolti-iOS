@@ -213,7 +213,6 @@ class TicketListCollectionViewCell: UICollectionViewCell {
             let height = self.bounds.height * 0.813
             let width = self.bounds.width * 0.053
 
-    
             path.move(to: CGPoint(x: width, y: height))
             path.addLine(to: CGPoint(x: self.bounds.width * 0.947, y: height))
             path.close()
@@ -221,7 +220,7 @@ class TicketListCollectionViewCell: UICollectionViewCell {
             let shapeLayer = CAShapeLayer()
             shapeLayer.path = path.cgPath
             shapeLayer.lineWidth = 2
-            shapeLayer.lineDashPattern = [3, 3]
+            shapeLayer.lineDashPattern = [7, 7]
             shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
             self.layer.addSublayer(shapeLayer)
         }
