@@ -52,7 +52,7 @@ extension TicketingCompletionViewModel {
     private func bindInputs() {
         self.input.didCopyButtonTap
             .bind(with: self) { owner, _ in
-                UIPasteboard.general.string = "신한은행 1234-56-7890123 박불티"
+                UIPasteboard.general.string = owner.copyData
             }
             .disposed(by: self.disposeBag)
     }
