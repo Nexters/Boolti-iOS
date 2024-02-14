@@ -37,6 +37,22 @@ extension TicketDetailResponseDTO {
         /// QR 코드 이미지
         let qrCodeImage = QRMaker.shared.makeQR(identifier: self.entryCode) ?? .qrCode
 
+
+        // TicketListItem과 동일한 로직을 반복함 따라서 굳이 두번 하지 말고, VC에서 넘겨주는 것도 하나의 방법일듯!..
+        var ticketStatus: TicketStatus
+        let formattedShowDate: Date = self.showDate.formatToDate()
+
+        if let usedAt {
+            // 밤에하는 공연의 경우 다른 방법으로 compare해줘야함!
+            if Date().getBetweenDay(to: formattedShowDate) < 0 {
+                ticketStatus = .concertEnd
+            } else {
+                ticketStatus = .entryCompleted
+            }
+        } else {
+            ticketStatus = .notUsed
+        }
+
         return TicketDetailItemEntity(
             ticketType: ticketType,
             ticketName: self.ticketName,
@@ -50,7 +66,7 @@ extension TicketDetailResponseDTO {
             concertID: self.showId,
             hostName: self.hostName,
             hostPhoneNumber: self.hostPhoneNumber,
-            usedTime: self.usedAt
+            ticketStatus: ticketStatus
         )
     }
 }

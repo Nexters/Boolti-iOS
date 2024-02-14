@@ -255,10 +255,10 @@ final class TicketListViewController: BooltiViewController {
 
         self.viewModel.output.sectionModels
             .asDriver(onErrorJustReturn: [])
-            .drive(with: self, onNext: { owner, ticketItems in
-                print(ticketItems)
-                owner.applySnapshot(ticketItems)
-                owner.ticketPageCount.accept(ticketItems.count)
+            .map { $0.sorted { $0.date < $1.date } }
+            .drive(with: self, onNext: { owner, sortedTicketItems in
+                owner.applySnapshot(sortedTicketItems)
+                owner.ticketPageCount.accept(sortedTicketItems.count)
             })
             .disposed(by: self.disposeBag)
 

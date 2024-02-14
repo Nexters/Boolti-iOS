@@ -21,5 +21,5 @@ struct TicketDetailItemEntity {
     let concertID: Int
     let hostName: String
     let hostPhoneNumber: String
-    let usedTime: String?
+    let ticketStatus: TicketStatus
 }

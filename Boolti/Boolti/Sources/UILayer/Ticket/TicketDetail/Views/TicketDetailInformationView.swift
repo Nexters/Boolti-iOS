@@ -64,6 +64,21 @@ class TicketDetailInformationView: UIView {
         return imageView
     }()
 
+    private let stampImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+
+        return imageView
+    }()
+
+    private let dimmedView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.init("#000000").withAlphaComponent(0.8)
+        view.isHidden = true
+
+        return view
+    }()
+
     init() {
         super.init(frame: .zero)
         self.configureUI()
@@ -81,11 +96,14 @@ class TicketDetailInformationView: UIView {
         self.qrCodeImageView.image = item.qrCode
         self.titleLabel.setLineSpacing(lineSpacing: 4)
         self.configureGradient()
+        self.configureStamp(with: item)
     }
 
     private func configureUI() {
         self.addSubviews([
             self.qrCodeImageView,
+            self.dimmedView,
+            self.stampImageView,
             self.verticalInformationStackView
         ])
         self.configureConstraints()
@@ -109,6 +127,15 @@ class TicketDetailInformationView: UIView {
             make.right.equalToSuperview().inset(20)
             make.width.height.equalTo(70)
         }
+
+        self.dimmedView.snp.makeConstraints { make in
+            make.width.height.equalTo(70)
+            make.center.equalTo(self.qrCodeImageView)
+        }
+
+        self.stampImageView.snp.makeConstraints { make in
+            make.center.equalTo(self.qrCodeImageView)
+        }
     }
 
     private func configureGradient() {
@@ -119,6 +146,16 @@ class TicketDetailInformationView: UIView {
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
         gradientLayer.locations = [0.0, 1.0]
         self.layer.insertSublayer(gradientLayer, at: 0)
+    }
+
+    private func configureStamp(with item: TicketDetailItemEntity) {
+        let ticketStatus = item.ticketStatus
+        guard let stampImage = ticketStatus.stampImage else { return }
+
+        self.dimmedView.isHidden = false
+        self.stampImageView.isHidden = false
+
+        self.stampImageView.image = stampImage
     }
 
 }
