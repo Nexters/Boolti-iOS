@@ -12,8 +12,6 @@ import RxCocoa
 
 class TicketDetailView: UIView {
 
-//    private var isLayoutConfigured = false
-
     private let disposeBag = DisposeBag()
 
     let didCopyAddressButtonTap = PublishRelay<Void>()
@@ -67,7 +65,7 @@ class TicketDetailView: UIView {
         return imageView
     }()
 
-    private let ticketDetailInformationView = TicketDetailInformationView()
+    let ticketDetailInformationView = TicketDetailInformationView()
 
     private let rightCircleView: UIView = {
         let view = UIView()
@@ -166,15 +164,15 @@ class TicketDetailView: UIView {
             self.booltiLogoImageView,
             self.ticketTypeLabel,
             self.posterImageView,
+            self.backgroundBorderView,
             self.ticketDetailInformationView,
             self.ticketNoticeView,
             self.ticketInquiryView,
             self.horizontalButtonStackView,
-            self.backgroundBorderView,
             self.rightCircleView,
             self.leftCircleView
         ])
-        
+
         self.configureConstraints()
     }
 

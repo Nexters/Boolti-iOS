@@ -154,17 +154,17 @@ class TicketDetailViewController: BooltiViewController {
                 owner.showToast(message: "공연장 주소가 복사되었어요.")
             }
             .disposed(by: self.disposeBag)
-//        
-//        self.ticketDetailView.ticketMainInformationView.ticketMainView.qrCodeImageView.rx.tapGesture()
-//            .when(.recognized)
-//            .asDriver(onErrorDriveWith: .never())
-//            .drive(with: self) { owner, _ in
-//                guard let qrCodeImage = owner.viewModel.output.fetchedTicketDetail.value?.qrCode else { return }
-//                let viewController = owner.qrExpandViewControllerFactory(qrCodeImage)
-//                viewController.modalPresentationStyle = .overFullScreen
-//                owner.present(viewController, animated: true)
-//            }
-//            .disposed(by: self.disposeBag)
+        
+        self.ticketDetailView.ticketDetailInformationView.qrCodeImageView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                guard let qrCodeImage = owner.viewModel.output.fetchedTicketDetail.value?.qrCode else { return }
+                let viewController = owner.qrExpandViewControllerFactory(qrCodeImage)
+                viewController.modalPresentationStyle = .overFullScreen
+                owner.present(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
 
         self.entryCodeButton.rx.tap
             .bind(with: self) { owner, _ in

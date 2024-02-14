@@ -7,6 +7,23 @@
 
 import UIKit
 
+enum TicketStatus {
+    case concertEnd
+    case notUsed
+    case entryCompleted
+
+    var stampImage: UIImage? {
+        switch self {
+        case .entryCompleted:
+            return .entryCompleteStamp
+        case .concertEnd:
+            return .concertEndStamp
+        case .notUsed:
+            return nil
+        }
+    }
+}
+
 struct TicketListItemResponseDTO: Decodable {
 
     let ticketId: Int
@@ -29,6 +46,20 @@ extension TicketListItemResponseDTO {
         /// QR 코드 이미지
         let qrCodeImage = QRMaker.shared.makeQR(identifier: self.entryCode) ?? .qrCode
 
+        var ticketStatus: TicketStatus
+        let formattedShowDate: Date = self.showDate.formatToDate()
+
+        if let usedAt {
+            // 밤에하는 공연의 경우 다른 방법으로 compare해줘야함!
+            if Date().getBetweenDay(to: formattedShowDate) < 0 {
+                ticketStatus = .concertEnd
+            } else {
+                ticketStatus = .entryCompleted
+            }
+        } else {
+            ticketStatus = .notUsed
+        }
+
         return TicketItemEntity(
             ticketType: ticketType,
             ticketName: self.ticketName,
@@ -38,7 +69,7 @@ extension TicketListItemResponseDTO {
             location: self.placeName,
             qrCode: qrCodeImage,
             ticketID: self.ticketId,
-            usedTime: self.usedAt
+            ticketStatus: ticketStatus
         )
     }
 }

@@ -28,10 +28,7 @@ class TicketListCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
 
-    private let ticketInformationView: TicketInformationView = {
-        let ticketInformationView = TicketInformationView()
-        return ticketInformationView
-    }()
+    private let ticketInformationView = TicketInformationView()
 
     private lazy var rightCircleView: UIView = {
         let view = UIView()

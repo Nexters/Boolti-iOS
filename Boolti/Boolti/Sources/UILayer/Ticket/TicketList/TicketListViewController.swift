@@ -256,6 +256,7 @@ final class TicketListViewController: BooltiViewController {
         self.viewModel.output.sectionModels
             .asDriver(onErrorJustReturn: [])
             .drive(with: self, onNext: { owner, ticketItems in
+                print(ticketItems)
                 owner.applySnapshot(ticketItems)
                 owner.ticketPageCount.accept(ticketItems.count)
             })
