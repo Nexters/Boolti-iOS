@@ -162,6 +162,7 @@ class TicketDetailViewController: BooltiViewController {
 
         self.ticketDetailView.didCopyAddressButtonTap
             .bind(with: self) { owner, _ in
+                UIPasteboard.general.string = owner.viewModel.output.fetchedTicketDetail.value?.location
                 owner.showToast(message: "공연장 주소가 복사되었어요.")
             }
             .disposed(by: self.disposeBag)
