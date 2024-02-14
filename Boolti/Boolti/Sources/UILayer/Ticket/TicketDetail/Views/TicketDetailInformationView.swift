@@ -1,20 +1,20 @@
-////
-////  TicketMainView.swift
-////  Boolti
-////
-////  Created by Miro on 1/30/24.
-////
+//
+//  TicketMainInformationView.swift
+//  Boolti
+//
+//  Created by Miro on 2/4/24.
+//
 
 import UIKit
 
-class TicketInformationView: UIView {
+class TicketDetailInformationView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grey10
         label.font = .aggroB(20)
         label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 2
+        label.numberOfLines = 4
 
         return label
     }()
@@ -65,23 +65,22 @@ class TicketInformationView: UIView {
     }()
 
     init() {
-        super.init(frame: CGRect())
+        super.init(frame: .zero)
         self.configureUI()
+        self.backgroundColor = .clear
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setData(with item: TicketItemEntity, limitNumberOfLines: Bool = false) {
+    func setData(with item: TicketDetailItemEntity) {
         self.dateLabel.text = item.date
         self.locationLabel.text = " | \(item.location)"
         self.titleLabel.text = item.title
         self.qrCodeImageView.image = item.qrCode
         self.titleLabel.setLineSpacing(lineSpacing: 4)
-
-        guard limitNumberOfLines else { return }
-        self.titleLabel.numberOfLines = 4
+        self.configureGradient()
     }
 
     private func configureUI() {
@@ -95,37 +94,31 @@ class TicketInformationView: UIView {
     private func configureConstraints() {
 
         self.snp.makeConstraints { make in
-            make.height.equalTo(75)
-        }
-
-        self.qrCodeImageView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview()
-            make.width.height.equalTo(70)
+            make.height.greaterThanOrEqualTo(75)
         }
 
         self.verticalInformationStackView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.centerY.equalTo(self.qrCodeImageView.snp.centerY)
+            make.left.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
             make.right.equalTo(self.qrCodeImageView.snp.left).offset(-12)
+            make.bottom.equalToSuperview()
+        }
+
+        self.qrCodeImageView.snp.makeConstraints { make in
+            make.top.equalTo(self.verticalInformationStackView.snp.top).inset(7)
+            make.right.equalToSuperview().inset(20)
+            make.width.height.equalTo(70)
         }
     }
 
-//    private func configureSeperateLine() {
-//        let path = UIBezierPath()
-//
-//        let posterImageViewBottonY = self.posterImageView.bounds.height
-//        let stackViewTopY = self.verticalInformationStackView.frame.origin.y
-//
-//        path.move(to: CGPoint(x: 0, y: (posterImageViewBottonY + stackViewTopY)/2))
-//        path.addLine(to: CGPoint(x: self.bounds.width, y: (posterImageViewBottonY + stackViewTopY)/2))
-//        path.close()
-//
-//        let shapeLayer = CAShapeLayer()
-//        shapeLayer.path = path.cgPath
-//        shapeLayer.lineWidth = 2
-//        shapeLayer.lineDashPattern = [2, 2]
-//        shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
-//        self.layer.addSublayer(shapeLayer)
-//    }
+    private func configureGradient() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.bounds
+        gradientLayer.colors = [UIColor.init("#000000").withAlphaComponent(0.0).cgColor, UIColor.init("#000000").withAlphaComponent(0.7).cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        gradientLayer.locations = [0.0, 1.0]
+        self.layer.insertSublayer(gradientLayer, at: 0)
+    }
+
 }

@@ -12,7 +12,7 @@ import RxCocoa
 
 class TicketDetailView: UIView {
 
-    private var isLayoutConfigured = false
+//    private var isLayoutConfigured = false
 
     private let disposeBag = DisposeBag()
 
@@ -26,7 +26,6 @@ class TicketDetailView: UIView {
         return view
     }()
 
-
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -35,40 +34,49 @@ class TicketDetailView: UIView {
         return imageView
     }()
 
-    private let backgroundGradientView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 8
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.grey80.cgColor
+    private let posterImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
 
-        return view
+        return imageView
     }()
 
-    private lazy var rightCircleView: UIView = {
-        let view = UIView()
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.grey80.cgColor
-        view.backgroundColor = .black
+    private let ticketDetailInformationView = TicketDetailInformationView()
 
-        return view
-    }()
+//    private let backgroundGradientView: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = .clear
+//        view.clipsToBounds = true
+//        view.layer.cornerRadius = 8
+//        view.layer.borderWidth = 1
+//        view.layer.borderColor = UIColor.grey80.cgColor
+//
+//        return view
+//    }()
 
-    private lazy var leftCircleView: UIView = {
-        let view = UIView()
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.grey80.cgColor
-        view.backgroundColor = .black
+//    private lazy var rightCircleView: UIView = {
+//        let view = UIView()
+//        view.layer.borderWidth = 1
+//        view.layer.borderColor = UIColor.grey80.cgColor
+//        view.backgroundColor = .black
+//
+//        return view
+//    }()
 
-        return view
-    }()
+//    private lazy var leftCircleView: UIView = {
+//        let view = UIView()
+//        view.layer.borderWidth = 1
+//        view.layer.borderColor = UIColor.grey80.cgColor
+//        view.backgroundColor = .black
+//
+//        return view
+//    }()
 
-    let ticketMainInformationView = TicketMainInformationView()
     private let ticketNoticeView = TicketNoticeView()
     private let ticketInquiryView = TicketInquiryView()
 
-    // BooltiButton이랑 붙히는 거 추후에 진행할 예정
+//     BooltiButton이랑 붙히는 거 추후에 진행할 예정
     private let copyAddressButton: UIButton = {
         let button = UIButton()
         button.setTitle("공연장 주소 복사", for: .normal)
@@ -107,7 +115,7 @@ class TicketDetailView: UIView {
     init() {
         super.init(frame: .zero)
         self.configureUI()
-        self.bindUIComponents()
+//        self.bindUIComponents()
     }
 
     required init?(coder: NSCoder) {
@@ -115,24 +123,26 @@ class TicketDetailView: UIView {
     }
     
     // 아래 로직은 추후에 바꿀 예정!
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        if !isLayoutConfigured {
-            self.configureBackGroundBlurViewEffect()
-            self.configureBackGroundGradientView()
-            self.isLayoutConfigured = true
-        }
-        // 아래 로직 변경해야함!..
-        self.configureCircleViews()
-        self.updateDetailViewHeight()
-    }
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//
+//        if !isLayoutConfigured {
+//            self.configureBackGroundBlurViewEffect()
+//            self.configureBackGroundGradientView()
+//            self.isLayoutConfigured = true
+//        }
+//        // 아래 로직 변경해야함!..
+//        self.configureCircleViews()
+//        self.updateDetailViewHeight()
+//    }
 
     func setData(with item: TicketDetailItemEntity) {
-        self.ticketMainInformationView.setData(with: item)
+        self.ticketDetailInformationView.setData(with: item)
+        self.posterImageView.setImage(with: item.posterURLPath)
         self.backgroundImageView.setImage(with: item.posterURLPath)
         self.ticketInquiryView.setData(with: "\(item.hostName) (\(item.hostPhoneNumber))")
         self.ticketNoticeView.setData(with: item.notice)
+        self.configureBackGroundBlurViewEffect()
     }
 
     private func configureUI() {
@@ -143,13 +153,14 @@ class TicketDetailView: UIView {
         self.addSubviews([
             self.backgroundImageView,
             self.upperTagView,
-            self.backgroundGradientView,
-            self.ticketMainInformationView,
+            self.posterImageView,
+            self.ticketDetailInformationView,
+//            self.backgroundGradientView,
             self.ticketNoticeView,
             self.ticketInquiryView,
             self.horizontalButtonStackView,
-            self.rightCircleView,
-            self.leftCircleView
+//            self.rightCircleView,
+//            self.leftCircleView
         ])
         
         self.configureConstraints()
@@ -158,7 +169,6 @@ class TicketDetailView: UIView {
     private func configureConstraints() {
 
         self.snp.makeConstraints { make in
-            make.width.greaterThanOrEqualTo(317)
             make.height.equalTo(1000)
         }
 
@@ -167,21 +177,38 @@ class TicketDetailView: UIView {
             make.height.equalTo(34)
         }
 
+        self.posterImageView.snp.makeConstraints { make in
+            make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
+            make.height.equalTo(371)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
+        self.ticketDetailInformationView.snp.makeConstraints { make in
+            make.top.equalTo(self.posterImageView.snp.bottom).offset(40)
+            make.horizontalEdges.equalToSuperview()
+        }
+
         self.backgroundImageView.snp.makeConstraints { make in
-            make.height.equalTo(590)
-            make.top.horizontalEdges.equalToSuperview()
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(self.ticketDetailInformationView.snp.bottom)
         }
 
-        self.backgroundGradientView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+//        self.backgroundImageView.snp.makeConstraints { make in
+//            make.height.equalTo(590)
+//            make.top.horizontalEdges.equalToSuperview()
+//        }
 
-        self.ticketMainInformationView.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalToSuperview()
-        }
+//        self.backgroundGradientView.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
+
+//        self.ticketMainInformationView.snp.makeConstraints { make in
+//            make.top.horizontalEdges.equalToSuperview()
+//        }
 
         self.ticketNoticeView.snp.makeConstraints { make in
-            make.top.equalTo(ticketMainInformationView.snp.bottom)
+            make.top.equalTo(ticketDetailInformationView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview()
         }
 
@@ -204,69 +231,94 @@ class TicketDetailView: UIView {
         }
     }
 
-    private func updateDetailViewHeight() {
-        let height = self.ticketMainInformationView.bounds.height + self.ticketNoticeView.bounds.height + self.ticketInquiryView.bounds.height + self.horizontalButtonStackView.bounds.height + CGFloat(25)
-
-        self.snp.updateConstraints { make in
-            make.height.equalTo(height)
-        }
-    }
-
-    private func bindUIComponents() {
-        self.copyAddressButton.rx.tap
-            .bind(to: self.didCopyAddressButtonTap)
-            .disposed(by: self.disposeBag)
-
-        self.showConcertDetailButton.rx.tap
-            .bind(to: didShowConcertDetailButtonTap)
-            .disposed(by: self.disposeBag)
-    }
 
     private func configureBackGroundBlurViewEffect() {
-
-        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffect = UIBlurEffect(style: .regular)
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
-        visualEffectView.frame = self.bounds
-        visualEffectView.alpha = 0.8
+        visualEffectView.frame = self.backgroundImageView.bounds
+        self.backgroundImageView.addSubview(visualEffectView)
 
-        self.insertSubview(visualEffectView, aboveSubview: self.backgroundImageView)
+        self.configureBackGroundGradient()
     }
 
-    private func configureBackGroundGradientView() {
+    private func configureBackGroundGradient() {
         let gradientLayer: CAGradientLayer = CAGradientLayer()
-        gradientLayer.colors = [
-            UIColor(red: 0.77, green: 0.79, blue: 0.80, alpha: 0.01).cgColor,
-            UIColor.black.cgColor
-        ]
+        gradientLayer.colors = [UIColor(red: 0.77, green: 0.79, blue: 0.80, alpha: 0.7).cgColor,
+                                UIColor(red: 0.04, green: 0.04, blue: 0.04, alpha: 0.7).cgColor]
 
-        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
 
-        gradientLayer.locations = [0.0, 0.6]
-
-        gradientLayer.frame = self.bounds
-        self.backgroundGradientView.layer.addSublayer(gradientLayer)
+        gradientLayer.frame = self.backgroundImageView.bounds
+        self.backgroundImageView.layer.addSublayer(gradientLayer)
+        self.backgroundImageView.bringSubviewToFront(self.upperTagView)
     }
 
-    private func configureCircleViews() {
 
-//        let centerY = self.ticketMainInformationView.ticketMainView.posterImageView.bounds.height
-        let centerY = CGFloat(10)
-        guard centerY != 0 else { return }
-
-        self.rightCircleView.snp.makeConstraints { make in
-            make.centerX.equalTo(self.snp.right)
-            make.width.height.equalTo(centerY * 0.05)
-            make.centerY.equalTo(centerY * 1.18)
-        }
-
-        self.leftCircleView.snp.makeConstraints { make in
-            make.centerX.equalTo(self.snp.left)
-            make.width.height.equalTo(centerY * 0.05)
-            make.centerY.equalTo(centerY * 1.18)
-        }
-
-        self.rightCircleView.layer.cornerRadius = centerY * 0.025
-        self.leftCircleView.layer.cornerRadius = centerY * 0.025
-    }
+//
+//    private func updateDetailViewHeight() {
+//        let height = self.ticketMainInformationView.bounds.height + self.ticketNoticeView.bounds.height + self.ticketInquiryView.bounds.height + self.horizontalButtonStackView.bounds.height + CGFloat(25)
+//
+//        self.snp.updateConstraints { make in
+//            make.height.equalTo(height)
+//        }
+//    }
+//
+//    private func bindUIComponents() {
+//        self.copyAddressButton.rx.tap
+//            .bind(to: self.didCopyAddressButtonTap)
+//            .disposed(by: self.disposeBag)
+//
+//        self.showConcertDetailButton.rx.tap
+//            .bind(to: didShowConcertDetailButtonTap)
+//            .disposed(by: self.disposeBag)
+//    }
+//
+//    private func configureBackGroundBlurViewEffect() {
+//
+//        let blurEffect = UIBlurEffect(style: .light)
+//        let visualEffectView = UIVisualEffectView(effect: blurEffect)
+//        visualEffectView.frame = self.bounds
+//        visualEffectView.alpha = 0.8
+//
+//        self.insertSubview(visualEffectView, aboveSubview: self.backgroundImageView)
+//    }
+//
+//    private func configureBackGroundGradientView() {
+//        let gradientLayer: CAGradientLayer = CAGradientLayer()
+//        gradientLayer.colors = [
+//            UIColor(red: 0.77, green: 0.79, blue: 0.80, alpha: 0.01).cgColor,
+//            UIColor.black.cgColor
+//        ]
+//
+//        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+//        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
+//
+//        gradientLayer.locations = [0.0, 0.6]
+//
+//        gradientLayer.frame = self.bounds
+//        self.backgroundGradientView.layer.addSublayer(gradientLayer)
+//    }
+//
+//    private func configureCircleViews() {
+//
+////        let centerY = self.ticketMainInformationView.ticketMainView.posterImageView.bounds.height
+//        let centerY = CGFloat(10)
+//        guard centerY != 0 else { return }
+//
+//        self.rightCircleView.snp.makeConstraints { make in
+//            make.centerX.equalTo(self.snp.right)
+//            make.width.height.equalTo(centerY * 0.05)
+//            make.centerY.equalTo(centerY * 1.18)
+//        }
+//
+//        self.leftCircleView.snp.makeConstraints { make in
+//            make.centerX.equalTo(self.snp.left)
+//            make.width.height.equalTo(centerY * 0.05)
+//            make.centerY.equalTo(centerY * 1.18)
+//        }
+//
+//        self.rightCircleView.layer.cornerRadius = centerY * 0.025
+//        self.leftCircleView.layer.cornerRadius = centerY * 0.025
+//    }
 }

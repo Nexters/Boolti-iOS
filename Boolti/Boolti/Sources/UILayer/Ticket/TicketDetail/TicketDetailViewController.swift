@@ -93,7 +93,6 @@ class TicketDetailViewController: BooltiViewController {
         self.scrollView.addSubview(self.contentStackView)
         self.entryCodeView.addSubview(self.entryCodeButton)
 
-        self.configureConstraints()
 
         self.contentStackView.addArrangedSubviews([
             self.ticketDetailView,
@@ -102,6 +101,7 @@ class TicketDetailViewController: BooltiViewController {
         ])
 
         self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
+        self.configureConstraints()
     }
 
     private func configureConstraints() {
@@ -116,15 +116,16 @@ class TicketDetailViewController: BooltiViewController {
             make.horizontalEdges.equalToSuperview().inset(25)
         }
 
+        self.ticketDetailView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+        }
+
         self.entryCodeView.snp.makeConstraints { make in
             make.height.equalTo(70)
         }
 
         self.entryCodeButton.snp.makeConstraints { make in
             make.center.equalToSuperview()
-        }
-
-        self.entryCodeButton.snp.makeConstraints { make in
             make.height.equalTo(60)
         }
 

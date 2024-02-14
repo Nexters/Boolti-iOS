@@ -40,10 +40,10 @@ final class ConcertListViewModel {
 extension ConcertListViewModel {
     
     func fetchConcertList(concertName: String?) {
-        self.concertRepository.concertList(concertName: concertName)
-            .asObservable()
-            .bind(to: self.output.concerts)
-            .disposed(by: self.disposeBag)
+//        self.concertRepository.concertList(concertName: concertName)
+//            .asObservable()
+//            .bind(to: self.output.concerts)
+//            .disposed(by: self.disposeBag)
     }
     
     func confirmCheckingTickets() {
