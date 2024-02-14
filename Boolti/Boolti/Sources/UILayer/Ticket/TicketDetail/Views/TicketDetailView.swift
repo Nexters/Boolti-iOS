@@ -16,6 +16,9 @@ class TicketDetailView: UIView {
 
     let didCopyAddressButtonTap = PublishRelay<Void>()
     let didShowConcertDetailButtonTap = PublishRelay<Void>()
+    
+    // 더 좋은 방법 생각해보기!..
+    private var isSeperatedLineConfigured = false
 
     private let upperTagView: UIView = {
         let view = UIView()
@@ -282,6 +285,10 @@ class TicketDetailView: UIView {
     }
 
     private func configureSeperateLine() {
+
+        guard !self.isSeperatedLineConfigured else { return }
+        self.isSeperatedLineConfigured = true
+
         let path = UIBezierPath()
 
         path.move(to: CGPoint(x: 20, y: 475))

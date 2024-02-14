@@ -32,6 +32,14 @@ class TicketDetailViewController: BooltiViewController {
         return scrollView
     }()
 
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
+        refreshControl.tintColor = .grey30
+
+        return refreshControl
+    }()
+
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -66,7 +74,7 @@ class TicketDetailViewController: BooltiViewController {
         self.configureLoadingIndicatorView()
         self.bindUIComponents()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
     }
@@ -90,7 +98,10 @@ class TicketDetailViewController: BooltiViewController {
         self.view.backgroundColor = .black
 
         self.view.addSubviews([self.navigationBar, self.scrollView])
-        self.scrollView.addSubview(self.contentStackView)
+        self.scrollView.addSubviews([
+            self.refreshControl,
+            self.contentStackView
+        ])
         self.entryCodeView.addSubview(self.entryCodeButton)
 
 
@@ -154,7 +165,7 @@ class TicketDetailViewController: BooltiViewController {
                 owner.showToast(message: "공연장 주소가 복사되었어요.")
             }
             .disposed(by: self.disposeBag)
-        
+
         self.ticketDetailView.ticketDetailInformationView.qrCodeImageView.rx.tapGesture()
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
@@ -195,6 +206,9 @@ class TicketDetailViewController: BooltiViewController {
 
     private func bindOutput() {
         self.viewModel.output.fetchedTicketDetail
+            .do(onNext: { [weak self] _ in
+                self?.refreshControl.endRefreshing()
+            })
             .bind(with: self) { owner, ticketDetailItem in
                 guard let ticketDetailItem else { return }
                 owner.ticketDetailView.setData(with: ticketDetailItem)
@@ -213,5 +227,12 @@ class TicketDetailViewController: BooltiViewController {
         let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollViewPaddingFromNavigationBar)
 
         self.scrollView.setContentOffset(bottomOffset, animated: true)
+    }
+}
+
+extension TicketDetailViewController {
+    // Rx로 뺄 계획!
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        self.viewModel.input.refreshControlEvent.onNext(())
     }
 }

@@ -15,6 +15,7 @@ class TicketDetailViewModel {
 
     struct Input {
         var viewWillAppearEvent = PublishSubject<Void>()
+        var refreshControlEvent = PublishSubject<Void>()
     }
 
     struct Output {
@@ -50,6 +51,14 @@ class TicketDetailViewModel {
             .do(onNext: { _ in
                 self.output.isLoading.accept(true)
             })
+            .flatMap { self.fetchTicketDetailItem() }
+            .subscribe(with: self) { owner, ticketDetailItem in
+                owner.output.fetchedTicketDetail.accept(ticketDetailItem)
+                owner.output.isLoading.accept(false)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.input.refreshControlEvent
             .flatMap { self.fetchTicketDetailItem() }
             .subscribe(with: self) { owner, ticketDetailItem in
                 owner.output.fetchedTicketDetail.accept(ticketDetailItem)
