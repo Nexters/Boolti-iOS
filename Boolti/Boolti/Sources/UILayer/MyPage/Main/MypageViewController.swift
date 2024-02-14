@@ -24,7 +24,6 @@ final class MyPageViewController: UIViewController {
 
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .home
         imageView.backgroundColor = .grey80
         imageView.clipsToBounds = true
 
@@ -221,13 +220,13 @@ final class MyPageViewController: UIViewController {
         self.loginNavigationButton.isHidden = true
         self.logoutNavigationButton.isHidden = false
 
-        self.profileNameLabel.text =  UserDefaults.userName
-        self.profileEmailLabel.text = UserDefaults.userEmail
+        self.profileNameLabel.text =  UserDefaults.userName.isEmpty ? "불티 유저 닉네임" : UserDefaults.userName
+        self.profileEmailLabel.text = UserDefaults.userEmail.isEmpty ? "boolti@gmail.com" : UserDefaults.userEmail
 
         let profileImageURLPath = UserDefaults.userImageURLPath
 
         if profileImageURLPath.isEmpty {
-            self.profileImageView.image = .home
+            self.profileImageView.image = .defaultProfile
         } else {
             self.profileImageView.setImage(with: profileImageURLPath)
         }
@@ -237,7 +236,7 @@ final class MyPageViewController: UIViewController {
         self.logoutNavigationButton.isHidden = true
         self.loginNavigationButton.isHidden = false
 
-        self.profileImageView.image = .home
+        self.profileImageView.image = .defaultProfile
         self.profileNameLabel.text = "불티 로그인 하러가기"
         self.profileEmailLabel.text = "원하는 공연 티켓을 예매해보세요!"
     }
