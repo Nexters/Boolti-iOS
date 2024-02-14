@@ -7,23 +7,7 @@
 
 import UIKit
 
-class TicketMainView: UIView {
-
-    let posterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.layer.cornerRadius = 8
-        imageView.clipsToBounds = true
-
-        return imageView
-    }()
-
-    private let numberLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .grey05
-        label.font = .caption
-
-        return label
-    }()
+class TicketInformationView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -80,11 +64,6 @@ class TicketMainView: UIView {
         return imageView
     }()
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.configureSeperateLine()
-    }
-
     init() {
         super.init(frame: CGRect())
         self.configureUI()
@@ -95,7 +74,6 @@ class TicketMainView: UIView {
     }
 
     func setData(with item: TicketItemEntity, limitNumberOfLines: Bool = false) {
-        self.posterImageView.setImage(with: item.posterURLPath)
         self.dateLabel.text = item.date
         self.locationLabel.text = " | \(item.location)"
         self.titleLabel.text = item.title
@@ -108,51 +86,46 @@ class TicketMainView: UIView {
 
     private func configureUI() {
         self.addSubviews([
-            self.posterImageView,
             self.qrCodeImageView,
             self.verticalInformationStackView
         ])
-
         self.configureConstraints()
     }
 
     private func configureConstraints() {
-        self.posterImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(self.posterImageView.snp.width).multipliedBy(1.4)
-        }
 
-        self.verticalInformationStackView.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualTo(self.posterImageView.snp.bottom).offset(40)
-            make.bottom.equalToSuperview()
-            make.right.equalTo(self.qrCodeImageView.snp.left).offset(-12)
-            make.left.equalToSuperview()
+        self.snp.makeConstraints { make in
+            make.height.equalTo(75)
         }
 
         self.qrCodeImageView.snp.makeConstraints { make in
-            make.centerY.equalTo(self.verticalInformationStackView.snp.centerY)
+            make.centerY.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(self.posterImageView.snp.height).multipliedBy(0.18)
-            make.width.equalTo(self.qrCodeImageView.snp.height)
+            make.width.height.equalTo(70)
+        }
+
+        self.verticalInformationStackView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.centerY.equalTo(self.qrCodeImageView.snp.centerY)
+            make.right.equalTo(self.qrCodeImageView.snp.left).offset(-12)
         }
     }
 
-    private func configureSeperateLine() {
-        let path = UIBezierPath()
-
-        let posterImageViewBottonY = self.posterImageView.bounds.height
-        let stackViewTopY = self.verticalInformationStackView.frame.origin.y
-
-        path.move(to: CGPoint(x: 0, y: (posterImageViewBottonY + stackViewTopY)/2))
-        path.addLine(to: CGPoint(x: self.bounds.width, y: (posterImageViewBottonY + stackViewTopY)/2))
-        path.close()
-
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        shapeLayer.lineWidth = 2
-        shapeLayer.lineDashPattern = [2, 2]
-        shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
-        self.layer.addSublayer(shapeLayer)
-    }
+//    private func configureSeperateLine() {
+//        let path = UIBezierPath()
+//
+//        let posterImageViewBottonY = self.posterImageView.bounds.height
+//        let stackViewTopY = self.verticalInformationStackView.frame.origin.y
+//
+//        path.move(to: CGPoint(x: 0, y: (posterImageViewBottonY + stackViewTopY)/2))
+//        path.addLine(to: CGPoint(x: self.bounds.width, y: (posterImageViewBottonY + stackViewTopY)/2))
+//        path.close()
+//
+//        let shapeLayer = CAShapeLayer()
+//        shapeLayer.path = path.cgPath
+//        shapeLayer.lineWidth = 2
+//        shapeLayer.lineDashPattern = [2, 2]
+//        shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
+//        self.layer.addSublayer(shapeLayer)
+//    }
 }

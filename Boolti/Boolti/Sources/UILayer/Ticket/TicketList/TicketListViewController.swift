@@ -136,7 +136,7 @@ final class TicketListViewController: BooltiViewController {
                 trailing: 6
             )
 
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.72))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.68))
 
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,

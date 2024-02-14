@@ -9,8 +9,6 @@ import UIKit
 
 class TicketMainInformationView: UIView {
 
-    let ticketMainView = TicketMainView()
-
     private let upperTagView: UIView = {
         let view = UIView()
         view.backgroundColor = .white.withAlphaComponent(0.4)
@@ -42,14 +40,14 @@ class TicketMainInformationView: UIView {
             ticketID: item.ticketID,
             usedTime: item.usedTime
         )
-        self.ticketMainView.setData(with: ticketItem, limitNumberOfLines: true)
+//        self.ticketMainView.setData(with: ticketItem, limitNumberOfLines: true)
     }
 
     private func configureUI() {
 
         self.addSubviews([
             self.upperTagView,
-            self.ticketMainView
+//            self.ticketMainView
         ])
 
 
@@ -58,10 +56,10 @@ class TicketMainInformationView: UIView {
             make.height.equalTo(34)
         }
 
-        self.ticketMainView.snp.makeConstraints { make in
-            make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(20)
-        }
+//        self.ticketMainView.snp.makeConstraints { make in
+//            make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
+//            make.horizontalEdges.equalToSuperview().inset(20)
+//            make.bottom.equalToSuperview().inset(20)
+//        }
     }
 }

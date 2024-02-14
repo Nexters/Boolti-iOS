@@ -19,6 +19,14 @@ class TicketDetailView: UIView {
     let didCopyAddressButtonTap = PublishRelay<Void>()
     let didShowConcertDetailButtonTap = PublishRelay<Void>()
 
+    private let upperTagView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white.withAlphaComponent(0.4)
+
+        return view
+    }()
+
+
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -134,6 +142,7 @@ class TicketDetailView: UIView {
 
         self.addSubviews([
             self.backgroundImageView,
+            self.upperTagView,
             self.backgroundGradientView,
             self.ticketMainInformationView,
             self.ticketNoticeView,
@@ -151,6 +160,11 @@ class TicketDetailView: UIView {
         self.snp.makeConstraints { make in
             make.width.greaterThanOrEqualTo(317)
             make.height.equalTo(1000)
+        }
+
+        self.upperTagView.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+            make.height.equalTo(34)
         }
 
         self.backgroundImageView.snp.makeConstraints { make in
@@ -236,7 +250,8 @@ class TicketDetailView: UIView {
 
     private func configureCircleViews() {
 
-        let centerY = self.ticketMainInformationView.ticketMainView.posterImageView.bounds.height
+//        let centerY = self.ticketMainInformationView.ticketMainView.posterImageView.bounds.height
+        let centerY = CGFloat(10)
         guard centerY != 0 else { return }
 
         self.rightCircleView.snp.makeConstraints { make in

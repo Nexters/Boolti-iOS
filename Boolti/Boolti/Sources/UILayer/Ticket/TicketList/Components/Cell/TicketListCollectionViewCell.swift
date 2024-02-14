@@ -20,6 +20,19 @@ class TicketListCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
 
+    private let posterImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
+
+        return imageView
+    }()
+
+    private let ticketInformationView: TicketInformationView = {
+        let ticketInformationView = TicketInformationView()
+        return ticketInformationView
+    }()
+
     private lazy var rightCircleView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1
@@ -84,8 +97,6 @@ class TicketListCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    private var ticketMainView = TicketMainView()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configureUI()
@@ -99,9 +110,10 @@ class TicketListCollectionViewCell: UICollectionViewCell {
         self.backgroundImageView.addSubview(self.upperTagView)
         self.addSubviews([
             self.backgroundImageView,
+            self.posterImageView,
             self.upperTagLabelStackView,
             self.booltiLogoImageView,
-            self.ticketMainView,
+            self.ticketInformationView,
             self.rightCircleView,
             self.leftCircleView
         ])
@@ -112,13 +124,16 @@ class TicketListCollectionViewCell: UICollectionViewCell {
         self.configureBackGroundBlurViewEffect()
         self.configureConstraints()
         self.configureBorder()
+        self.configureSeperateLine()
     }
 
     func setData(with item: TicketItemEntity) {
         self.backgroundImageView.setImage(with: item.posterURLPath)
+        self.posterImageView.setImage(with: item.posterURLPath)
+        // MARK 요거 정리하기!
         self.numberLabel.text = " ・ 1매"
         self.ticketTypeLabel.text = item.ticketName
-        self.ticketMainView.setData(with: item)
+        self.ticketInformationView.setData(with: item)
     }
 
     private func configureBorder() {
@@ -159,20 +174,25 @@ class TicketListCollectionViewCell: UICollectionViewCell {
             make.height.equalTo(self.snp.height).multipliedBy(0.06)
         }
 
-        self.ticketMainView.snp.makeConstraints { make in
+        self.ticketInformationView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.053)
+            make.bottom.equalToSuperview().inset(self.bounds.height * 0.038)
+        }
+
+        self.posterImageView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.053)
             make.top.equalTo(self.upperTagView.snp.bottom).offset(self.bounds.height * 0.038)
-            make.bottom.equalToSuperview().inset(self.bounds.height * 0.038)
+            make.height.equalTo(self.posterImageView.snp.width).multipliedBy(1.4)
         }
 
         self.upperTagLabelStackView.snp.makeConstraints { make in
             make.centerY.equalTo(self.upperTagView.snp.centerY)
-            make.left.equalTo(self.ticketMainView)
+            make.left.equalTo(self.ticketInformationView)
         }
 
         self.booltiLogoImageView.snp.makeConstraints { make in
-            make.top.equalTo(self.upperTagLabelStackView)
-            make.right.equalTo(self.ticketMainView)
+            make.centerY.equalTo(self.upperTagView.snp.centerY)
+            make.right.equalTo(self.ticketInformationView)
         }
 
         self.rightCircleView.snp.makeConstraints { make in
@@ -187,4 +207,22 @@ class TicketListCollectionViewCell: UICollectionViewCell {
             make.centerX.equalTo(self.snp.left)
         }
     }
+
+        private func configureSeperateLine() {
+            let path = UIBezierPath()
+            let height = self.bounds.height * 0.813
+            let width = self.bounds.width * 0.053
+
+    
+            path.move(to: CGPoint(x: width, y: height))
+            path.addLine(to: CGPoint(x: self.bounds.width * 0.947, y: height))
+            path.close()
+    
+            let shapeLayer = CAShapeLayer()
+            shapeLayer.path = path.cgPath
+            shapeLayer.lineWidth = 2
+            shapeLayer.lineDashPattern = [3, 3]
+            shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
+            self.layer.addSublayer(shapeLayer)
+        }
 }
