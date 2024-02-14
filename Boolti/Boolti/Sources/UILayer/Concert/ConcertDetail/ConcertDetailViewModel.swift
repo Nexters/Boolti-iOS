@@ -5,7 +5,7 @@
 //  Created by Juhyeon Byun on 2/3/24.
 //
 
-import Foundation
+import UIKit
 
 import RxRelay
 import RxSwift
@@ -20,11 +20,38 @@ final class ConcertDetailViewModel {
     
     // MARK: Properties
     
-    enum ConcertTicketingState: String {
-        case onSale = "예매하기"
-        case beforeSale = "예매 시작 D-"
-        case endSale = "예매 마감"
-        case endConcert = "공연 종료"
+    enum ConcertTicketingState {
+        case onSale
+        case beforeSale(startDate: Date)
+        case endSale
+        case endConcert
+        case alreadyReserved
+        
+        var title: String {
+            switch self {
+            case .onSale: "예매하기"
+            case .beforeSale(let startDate):
+                "예매 시작 D-\(Date().getBetweenDay(to: startDate))"
+            case .endSale: "예매 마감"
+            case .endConcert: "공연 종료"
+            case .alreadyReserved: "이미 예매한 공연"
+            }
+        }
+        
+        var titleColor: UIColor {
+            switch self {
+            case .beforeSale: .orange01
+            case .onSale: .white00
+            default: .grey50
+            }
+        }
+        
+        var isEnabled: Bool {
+            switch self {
+            case .onSale: true
+            default: false
+            }
+        }
     }
     
     private let disposeBag = DisposeBag()
