@@ -38,9 +38,9 @@ final class MyPageDIContainer {
             return viewController
         }
 
-        let QrScanViewControllerFactory = {
-            let DIContainer = self.createqrScanDIContainer()
-            let viewController = DIContainer.createQrScanViewController()
+        let QRScannerListViewControllerFactory = {
+            let DIContainer = self.createQRScannerListDIContainer()
+            let viewController = DIContainer.createQRScannerListViewController()
 
             return viewController
         }
@@ -50,10 +50,11 @@ final class MyPageDIContainer {
             loginViewControllerFactory: loginViewControllerFactory,
             logoutViewControllerFactory: logoutViewControllerFactory,
             ticketReservationsViewControllerFactory: ticketReservationsViewControllerFactory,
-            qrScanViewControllerFactory: QrScanViewControllerFactory
+            qrScanViewControllerFactory: QRScannerListViewControllerFactory
         )
 
         let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.isHidden = true
 
         return navigationController
     }
@@ -66,8 +67,8 @@ final class MyPageDIContainer {
         return TicketReservationsDIContainer(networkService: self.authRepository.networkService)
     }
 
-    private func createqrScanDIContainer() -> QrScanDIContainer {
-        return QrScanDIContainer()
+    private func createQRScannerListDIContainer() -> QRScannerListDIContainer {
+        return QRScannerListDIContainer(qrRepository: QRRepository(networkService: self.authRepository.networkService))
     }
 
     private func createLoginViewDIContainer() -> LoginViewDIContainer {
