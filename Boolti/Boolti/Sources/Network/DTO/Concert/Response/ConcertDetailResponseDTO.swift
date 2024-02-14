@@ -27,6 +27,7 @@ struct ConcertDetailResponseDTO: Decodable {
     let showImg: [ShowImg]
     let hostName: String
     let hostPhoneNumber: String
+    let reservationStatus: Bool
     
     struct ShowImg: Decodable {
         let id: Int
@@ -63,7 +64,8 @@ struct ConcertDetailResponseDTO: Decodable {
             salesEndTime: self.salesEndTime.formatToDate(),
             posters: posters,
             hostName: self.hostName,
-            hostPhoneNumber: self.hostPhoneNumber
+            hostPhoneNumber: self.hostPhoneNumber,
+            reservationStatus: self.reservationStatus
         )
     }
 }

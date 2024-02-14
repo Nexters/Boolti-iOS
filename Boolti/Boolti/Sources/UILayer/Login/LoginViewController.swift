@@ -29,7 +29,7 @@ final class LoginViewController: UIViewController {
 
     private let subTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "지금 불티에서 티켓을 불티나게 팔아보세요!"
+        label.text = "지금 티켓을 예매하고 공연을 즐겨보세요!"
         label.font = .body3
         label.textColor = .grey30
         return label
