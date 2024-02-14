@@ -122,7 +122,7 @@ class TicketDetailView: UIView {
 
     func setData(with item: TicketDetailItemEntity) {
         self.ticketMainInformationView.setData(with: item)
-        self.backgroundImageView.image = item.poster
+        self.backgroundImageView.setImage(with: item.posterURLPath)
         self.ticketInquiryView.setData(with: "\(item.hostName) (\(item.hostPhoneNumber))")
         self.ticketNoticeView.setData(with: item.notice)
     }

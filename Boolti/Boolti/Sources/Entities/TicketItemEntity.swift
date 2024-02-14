@@ -12,7 +12,7 @@ struct TicketItemEntity: Hashable {
     let id = UUID()
     let ticketType: TicketType
     let ticketName: String
-    let poster: UIImage
+    let posterURLPath: String
     let title: String
     let date: String
     let location: String

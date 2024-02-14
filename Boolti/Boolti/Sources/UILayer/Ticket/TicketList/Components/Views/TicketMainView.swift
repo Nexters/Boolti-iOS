@@ -94,7 +94,7 @@ class TicketMainView: UIView {
     }
 
     func setData(with item: TicketItemEntity, limitNumberOfLines: Bool = false) {
-        self.posterImageView.image = item.poster
+        self.posterImageView.setImage(with: item.posterURLPath)
         self.dateLabel.text = item.date
         self.locationLabel.text = " | \(item.location)"
         self.titleLabel.text = item.title
