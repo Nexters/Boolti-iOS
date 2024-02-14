@@ -8,7 +8,7 @@
 import Foundation
 
 class TicketDetailDIContainer {
-    
+
     // 일단 필요할 지는 모르겠으나! authRepository
     private let authRepository: AuthRepositoryType
     private let networkService: NetworkProviderType
@@ -19,10 +19,10 @@ class TicketDetailDIContainer {
     }
 
     func createTicketDetailController(ticketID: String) -> TicketDetailViewController {
-        let ticketEntryCodeViewControllerFactory = {
+        let ticketEntryCodeViewControllerFactory = { (ticketID: String, concertID: String) in
             let DIContainer = self.createTicketEntryCodeDIContainer()
 
-            let viewController = DIContainer.createTicketEntryCodeViewController()
+            let viewController = DIContainer.createTicketEntryCodeViewController(ticketID: ticketID, concertID: concertID)
             return viewController
         }
 
