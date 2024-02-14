@@ -203,13 +203,21 @@ extension QRScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
                         from connection: AVCaptureConnection) {
         if presentedViewController == nil,
            let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
-           let detectedCode = metadataObject.stringValue {
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            self.captureSession.stopRunning()
-            self.viewModel.input.detectQRCode.accept(detectedCode)
-            
-            DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-                self.captureSession.startRunning()
+           let detectedJson = metadataObject.stringValue?.data(using: .utf8) {
+            do {
+                let decodedCode = try JSONDecoder().decode(String.self, from: detectedJson)
+
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                self.captureSession.stopRunning()
+                self.viewModel.input.detectQRCode.accept(decodedCode)
+                
+                debugPrint("🚪 인식된 입장 코드: \(decodedCode) 🚪")
+                
+                DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+                    self.captureSession.startRunning()
+                }
+            } catch {
+                self.viewModel.output.showCheckLabel.accept(.invalid)
             }
         }
     }

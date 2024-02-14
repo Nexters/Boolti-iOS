@@ -123,6 +123,7 @@
 		84A7133F2B7C6D8C000BABCB /* EntranceCodeDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7133E2B7C6D8C000BABCB /* EntranceCodeDIContainer.swift */; };
 		84A713412B7C6D96000BABCB /* EntranceCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A713402B7C6D96000BABCB /* EntranceCodeViewController.swift */; };
 		84A713432B7C6DEA000BABCB /* EntranceCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A713422B7C6DEA000BABCB /* EntranceCodeViewModel.swift */; };
+		84A713452B7C83AE000BABCB /* QRMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A713442B7C83AE000BABCB /* QRMaker.swift */; };
 		84B321992B61543E007FD669 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 84B321982B61543E007FD669 /* FirebaseAnalytics */; };
 		84B3219B2B61543E007FD669 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 84B3219A2B61543E007FD669 /* FirebaseAnalyticsOnDeviceConversion */; };
 		84B3219D2B61543E007FD669 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 84B3219C2B61543E007FD669 /* FirebaseAnalyticsSwift */; };
@@ -359,6 +360,7 @@
 		84A7133E2B7C6D8C000BABCB /* EntranceCodeDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceCodeDIContainer.swift; sourceTree = "<group>"; };
 		84A713402B7C6D96000BABCB /* EntranceCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceCodeViewController.swift; sourceTree = "<group>"; };
 		84A713422B7C6DEA000BABCB /* EntranceCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceCodeViewModel.swift; sourceTree = "<group>"; };
+		84A713442B7C83AE000BABCB /* QRMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRMaker.swift; sourceTree = "<group>"; };
 		84C6E0022B7320280023BAE6 /* ConcertDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailResponseDTO.swift; sourceTree = "<group>"; };
 		84D1C37E2B79379200527998 /* SalesTicketingRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesTicketingRequestDTO.swift; sourceTree = "<group>"; };
 		84D1C3802B7938CB00527998 /* TicketingResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingResponseDTO.swift; sourceTree = "<group>"; };
@@ -777,6 +779,7 @@
 			isa = PBXGroup;
 			children = (
 				84781C742B5BEB5600D37921 /* UserDefault.swift */,
+				84A713442B7C83AE000BABCB /* QRMaker.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1749,6 +1752,7 @@
 				841D77D82B73D2A20068B1C5 /* String+.swift in Sources */,
 				8746AD102B680A290037A1B1 /* SelectedTicketView.swift in Sources */,
 				84D1C3832B79B71600527998 /* UserResponseDTO.swift in Sources */,
+				84A713452B7C83AE000BABCB /* QRMaker.swift in Sources */,
 				8710D94E2B74FA8B00309FBF /* TicketReservationsViewModel.swift in Sources */,
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,
 				8757BA972B5FA6B0008503B5 /* AuthRepository.swift in Sources */,

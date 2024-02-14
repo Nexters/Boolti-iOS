@@ -27,8 +27,7 @@ extension TicketListItemResponseDTO {
         let ticketType = self.ticketType == "SALE" ? TicketType.sale : TicketType.invitation
 
         /// QR 코드 이미지
-        // 여기서 QR 코드 이미지로 변환할 예정
-        let qrCodeImage: UIImage = .qrCode
+        let qrCodeImage = QRMaker.shared.makeQR(identifier: self.entryCode) ?? .qrCode
 
         return TicketItemEntity(
             ticketType: ticketType,
