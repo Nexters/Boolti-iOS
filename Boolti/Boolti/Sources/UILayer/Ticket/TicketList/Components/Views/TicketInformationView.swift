@@ -94,7 +94,15 @@ class TicketInformationView: UIView {
         self.titleLabel.text = item.title
         self.qrCodeImageView.image = item.qrCode
         self.titleLabel.setLineSpacing(lineSpacing: 4)
-        self.configureStamp(with: item)
+        self.configureStamp(with: item.ticketStatus)
+    }
+    
+    func resetData() {
+        self.dateLabel.text = nil
+        self.locationLabel.text = nil
+        self.titleLabel.text = nil
+        self.qrCodeImageView.image = .qrCode
+        self.configureStamp(with: .notUsed)
     }
 
     private func configureUI() {
@@ -135,9 +143,12 @@ class TicketInformationView: UIView {
         }
     }
 
-    private func configureStamp(with item: TicketItemEntity) {
-        let ticketStatus = item.ticketStatus
-        guard let stampImage = ticketStatus.stampImage else { return }
+    private func configureStamp(with status: TicketStatus) {
+        guard let stampImage = status.stampImage else {
+            self.dimmedView.isHidden = true
+            self.stampImageView.isHidden = true
+            return
+        }
 
         self.dimmedView.isHidden = false
         self.stampImageView.isHidden = false
