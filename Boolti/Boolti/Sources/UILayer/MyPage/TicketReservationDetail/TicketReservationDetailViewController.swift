@@ -13,6 +13,10 @@ import RxCocoa
 
 final class TicketReservationDetailViewController: BooltiViewController {
 
+    typealias ReservationID = String
+
+    private let ticketRefundReasonlViewControllerFactory: (ReservationID) -> TicketRefundReasonViewController
+
     private let viewModel: TicketReservationDetailViewModel
     private let disposeBag = DisposeBag()
 
@@ -109,7 +113,11 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return button
     }()
 
-    init(viewModel: TicketReservationDetailViewModel) {
+    init(
+        ticketRefundReasonlViewControllerFactory: @escaping (ReservationID) -> TicketRefundReasonViewController,
+        viewModel: TicketReservationDetailViewModel
+    ) {
+        self.ticketRefundReasonlViewControllerFactory = ticketRefundReasonlViewControllerFactory
         self.viewModel = viewModel
         super.init()
     }
@@ -211,6 +219,13 @@ final class TicketReservationDetailViewController: BooltiViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
+
+        self.requestRefundButton.rx.tap
+            .bind(with: self) { owner, _ in
+                let viewController = owner.ticketRefundReasonlViewControllerFactory(owner.viewModel.reservationID)
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {
@@ -252,10 +267,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
         self.paymentStatusView.setData(entity.reservationStatus.description)
 
+        self.configureRefundButton(with: entity.reservationStatus)
+
         // 티켓 정보
         self.ticketTypeView.setData(entity.ticketType.rawValue)
         self.ticketCountView.setData(entity.ticketCount)
-        self.ticketingDateView.setData(entity.ticketingDate ?? "")
+        self.ticketingDateView.setData(entity.ticketingDate?.formatToDate().format(.dateDayTime) ?? "")
 
         // 예매자 정보
         self.purchasernNameView.setData(entity.purchaseName)
@@ -272,19 +289,32 @@ final class TicketReservationDetailViewController: BooltiViewController {
     }
 
     private func setAdditionalDataForSale(with entity: TicketReservationDetailEntity) {
-        let paymentMethod = PaymentMethod(rawValue: entity.paymentMethod)!
-        // 결제 수단
-        self.paymentMethodView.setData(paymentMethod.description)
+        if entity.paymentMethod == "초청 코드" {
+            self.paymentMethodView.setData("초청코드")
+        } else {
+            let paymentMethod = PaymentMethod(rawValue: entity.paymentMethod)!
+            self.paymentMethodView.setData(paymentMethod.description)
+        }
 
         // 입금 계좌 정보
         self.bankNameView.setData(entity.bankName)
         self.accountNumberView.setData(entity.accountNumber)
         self.accountHolderNameView.setData(entity.accountHolderName)
-        self.depositDeadLineView.setData(entity.depositDeadLine)
+        self.depositDeadLineView.setData(entity.depositDeadLine.formatToDate().format(.dateDayTime))
 
         // 입금자 정보
         self.depositorNameView.setData(entity.depositorName)
         self.depositorPhoneNumberView.setData(entity.depositorPhoneNumber)
+    }
+
+    private func configureRefundButton(with reservationStatus: ReservationStatus) {
+        switch reservationStatus {
+        case .reservationCompleted:
+            self.requestRefundButton.isHidden = false
+            return
+        case .waitingForRefund, .refundCompleted, .cancelled, .waitingForDeposit:
+            self.requestRefundButton.isHidden = true
+        }
     }
 
     private func configureInvitationUI() {

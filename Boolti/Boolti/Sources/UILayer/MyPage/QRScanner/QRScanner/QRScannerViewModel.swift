@@ -16,11 +16,12 @@ final class QRScannerViewModel {
     
     enum entranceCodeState: String {
         case valid = "입장을 확인했어요"
-        case invalid = "확인이 필요합니다"
+        case invalid = "유효하지 않은 QR 입니다"
+        case notToday = "입장 확인은 공연 당일에만 가능해요"
         
         var textColor: UIColor {
             switch self {
-            case .valid: .grey10
+            case .valid, .notToday: .grey10
             case .invalid: .error
             }
         }
@@ -76,8 +77,12 @@ extension QRScannerViewModel {
                                  entranceCode: detectedCode)
         .subscribe(with: self, onSuccess: { owner, isValid in
             owner.output.showCheckLabel.accept(.valid)
-        }, onFailure: { owner, _ in
-            owner.output.showCheckLabel.accept(.invalid)
+        }, onFailure: { owner, error in
+            if error.localizedDescription.contains("428") {
+                owner.output.showCheckLabel.accept(.notToday)
+            } else {
+                owner.output.showCheckLabel.accept(.invalid)
+            }
         })
         .disposed(by: self.disposeBag)
     }

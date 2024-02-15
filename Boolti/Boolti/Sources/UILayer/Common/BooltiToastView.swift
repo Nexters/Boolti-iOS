@@ -56,7 +56,7 @@ extension BooltiToastView {
                 
                 UIView.animate(
                     withDuration: 0.3,
-                    delay: 1,
+                    delay: 2,
                     options: [],
                     animations: {
                         owner.isHidden = false

@@ -27,6 +27,7 @@ class NetworkProvider: NetworkProviderType {
         let endpoint = MultiTarget.target(api)
 
         return provider.rx.request(endpoint)
+//            .filterSuccessfulStatusCodes()
             .do(
                 onSuccess: { response in
                     print("SUCCESS: \(requestString) (\(response.statusCode))")

@@ -17,7 +17,7 @@ final class ConcertPosterView: UIView {
     private let disposeBag = DisposeBag()
     
     private let scrollViewWidth: CGFloat = 299 * (UIScreen.main.bounds.width / 375)
-    private let scrollViewHeight: CGFloat = 419 * (UIScreen.main.bounds.height / 812)
+    private lazy var scrollViewHeight: CGFloat = self.scrollViewWidth * 419 / 299
     
     // MARK: UI Component
 

@@ -47,13 +47,15 @@ final class DepositDetailView: UIView {
 
 extension DepositDetailView {
     
-    func setData(date: Date) {
-        self.bank.text = "신한은행"
-        self.account.text = "1234-56-7890123"
-        self.accountHolder.text = "박불티"
-        
-        guard let endOfDay = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: date) else { return }
+    func setSalesEndTime(salesEndTime: Date) {
+        guard let endOfDay = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: salesEndTime) else { return }
         self.depositDeadline.text = endOfDay.format(.dateDayTime)
+    }
+    
+    func setBankData(reservation: TicketReservationDetailEntity) {
+        self.bank.text = reservation.bankName
+        self.account.text = reservation.accountNumber
+        self.accountHolder.text = reservation.accountHolderName
     }
 }
 

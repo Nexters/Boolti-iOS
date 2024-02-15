@@ -192,7 +192,7 @@ extension TicketingDetailViewController {
                 .distinctUntilChanged()
                 .asDriver(onErrorJustReturn: "")
                 .drive(with: self, onNext: { owner, changedText in
-                    let formattedNumber = self.formatPhoneNumber(phoneNumber: changedText)
+                    let formattedNumber = changedText.formatPhoneNumber()
                     inputView.phoneNumberTextField.text = formattedNumber
                     
                     if formattedNumber.count > 13 {
@@ -201,17 +201,6 @@ extension TicketingDetailViewController {
                 })
                 .disposed(by: self.disposeBag)
         }
-    }
-    
-    private func formatPhoneNumber(phoneNumber: String) -> String {
-        var formattedNumber = ""
-        for (index, number) in Array(phoneNumber.replacingOccurrences(of: "-", with: "")).enumerated() {
-            if index == 3 || index == 7 {
-                formattedNumber.append("-")
-            }
-            formattedNumber.append(number)
-        }
-        return formattedNumber
     }
     
     private func checkInputViewTextFieldFilled(inputType: UserInfoInputType)  -> Observable<Bool> {

@@ -144,18 +144,9 @@ extension ConcertDetailViewController {
 
         self.viewModel.output.buttonState
             .bind(with: self) { owner, state in
-                switch state {
-                case .onSale:
-                    owner.ticketingButton.isEnabled = true
-                    owner.ticketingButton.setTitle(state.rawValue, for: .normal)
-                case .beforeSale:
-                    owner.ticketingButton.isEnabled = false
-                    owner.ticketingButton.setTitle("\(state.rawValue)\(Date().getBetweenDay(to: owner.viewModel.output.concertDetailEntity?.salesStartTime ?? Date()))", for: .normal)
-                    owner.ticketingButton.setTitleColor(.orange01, for: .normal)
-                case .endSale, .endConcert:
-                    owner.ticketingButton.isEnabled = false
-                    owner.ticketingButton.setTitle(state.rawValue, for: .normal)
-                }
+                owner.ticketingButton.isEnabled = state.isEnabled
+                owner.ticketingButton.setTitle(state.title, for: .normal)
+                owner.ticketingButton.setTitleColor(state.titleColor, for: .normal)
             }
             .disposed(by: self.disposeBag)
         
