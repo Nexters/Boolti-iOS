@@ -19,14 +19,12 @@ struct TicketDetailResponseDTO: Decodable {
     let detailAddress: String
     let ticketType: String
     let ticketName: String
-    let notice: String
+    let ticketNotice: String
     let entryCode: String
     let usedAt: String?
     let hostName: String
     let hostPhoneNumber: String
 }
-
-
 
 extension TicketDetailResponseDTO {
 
@@ -64,7 +62,7 @@ extension TicketDetailResponseDTO {
             date: self.showDate.formatToDate().format(.dateDay),
             location: self.placeName,
             qrCode: qrCodeImage,
-            notice: self.notice,
+            notice: self.ticketNotice,
             ticketID: self.ticketId,
             concertID: self.showId,
             hostName: self.hostName,

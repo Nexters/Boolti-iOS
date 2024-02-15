@@ -117,5 +117,4 @@ final class ReservationCollapsableStackView: UIStackView {
             }
             .disposed(by: self.disposeBag)
     }
-
 }
