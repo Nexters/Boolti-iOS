@@ -109,7 +109,7 @@ class ReversalPolicyView: UIStackView {
         }
 
         self.reversalPolicyLabel.snp.makeConstraints { make in
-            make.height.equalTo(230)
+            make.height.equalTo(250)
         }
     }
 

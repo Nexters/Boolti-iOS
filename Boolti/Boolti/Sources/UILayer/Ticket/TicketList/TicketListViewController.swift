@@ -136,7 +136,7 @@ final class TicketListViewController: BooltiViewController {
                 trailing: 6
             )
 
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.72))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.68))
 
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
@@ -255,9 +255,10 @@ final class TicketListViewController: BooltiViewController {
 
         self.viewModel.output.sectionModels
             .asDriver(onErrorJustReturn: [])
-            .drive(with: self, onNext: { owner, ticketItems in
-                owner.applySnapshot(ticketItems)
-                owner.ticketPageCount.accept(ticketItems.count)
+            .map { $0.sorted { $0.date < $1.date } }
+            .drive(with: self, onNext: { owner, sortedTicketItems in
+                owner.applySnapshot(sortedTicketItems)
+                owner.ticketPageCount.accept(sortedTicketItems.count)
             })
             .disposed(by: self.disposeBag)
 

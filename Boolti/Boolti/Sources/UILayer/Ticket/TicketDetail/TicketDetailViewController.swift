@@ -19,6 +19,7 @@ class TicketDetailViewController: BooltiViewController {
 
     private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
     private let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController
+    private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
 
     private let viewModel: TicketDetailViewModel
 
@@ -30,6 +31,14 @@ class TicketDetailViewController: BooltiViewController {
         scrollView.showsVerticalScrollIndicator = false
 
         return scrollView
+    }()
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
+        refreshControl.tintColor = .grey30
+
+        return refreshControl
     }()
 
     private let contentStackView: UIStackView = {
@@ -66,7 +75,7 @@ class TicketDetailViewController: BooltiViewController {
         self.configureLoadingIndicatorView()
         self.bindUIComponents()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
     }
@@ -78,11 +87,13 @@ class TicketDetailViewController: BooltiViewController {
     init(
         viewModel: TicketDetailViewModel,
         ticketEntryCodeViewControllerFactory: @escaping (TicketID, ConcertID) -> TicketEntryCodeViewController,
-        qrExpandViewControllerFactory: @escaping (UIImage) -> QRExpandViewController
+        qrExpandViewControllerFactory: @escaping (UIImage) -> QRExpandViewController,
+        concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController
     ) {
         self.viewModel = viewModel
         self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
         self.qrExpandViewControllerFactory = qrExpandViewControllerFactory
+        self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
         super.init()
     }
 
@@ -90,10 +101,12 @@ class TicketDetailViewController: BooltiViewController {
         self.view.backgroundColor = .black
 
         self.view.addSubviews([self.navigationBar, self.scrollView])
-        self.scrollView.addSubview(self.contentStackView)
+        self.scrollView.addSubviews([
+            self.refreshControl,
+            self.contentStackView
+        ])
         self.entryCodeView.addSubview(self.entryCodeButton)
 
-        self.configureConstraints()
 
         self.contentStackView.addArrangedSubviews([
             self.ticketDetailView,
@@ -102,6 +115,7 @@ class TicketDetailViewController: BooltiViewController {
         ])
 
         self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
+        self.configureConstraints()
     }
 
     private func configureConstraints() {
@@ -116,15 +130,16 @@ class TicketDetailViewController: BooltiViewController {
             make.horizontalEdges.equalToSuperview().inset(25)
         }
 
+        self.ticketDetailView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+        }
+
         self.entryCodeView.snp.makeConstraints { make in
             make.height.equalTo(70)
         }
 
         self.entryCodeButton.snp.makeConstraints { make in
             make.center.equalToSuperview()
-        }
-
-        self.entryCodeButton.snp.makeConstraints { make in
             make.height.equalTo(60)
         }
 
@@ -150,11 +165,20 @@ class TicketDetailViewController: BooltiViewController {
 
         self.ticketDetailView.didCopyAddressButtonTap
             .bind(with: self) { owner, _ in
+                UIPasteboard.general.string = owner.viewModel.output.fetchedTicketDetail.value?.location
                 owner.showToast(message: "공연장 주소가 복사되었어요.")
             }
             .disposed(by: self.disposeBag)
-        
-        self.ticketDetailView.ticketMainInformationView.ticketMainView.qrCodeImageView.rx.tapGesture()
+
+        self.ticketDetailView.didShowConcertDetailButtonTap
+            .bind(with: self) { owner, _ in
+                guard let concertId = owner.viewModel.output.fetchedTicketDetail.value?.concertID else { return }
+                let viewController = owner.concertDetailViewControllerFactory(concertId)
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.ticketDetailView.ticketDetailInformationView.qrCodeImageView.rx.tapGesture()
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
@@ -194,6 +218,9 @@ class TicketDetailViewController: BooltiViewController {
 
     private func bindOutput() {
         self.viewModel.output.fetchedTicketDetail
+            .do(onNext: { [weak self] _ in
+                self?.refreshControl.endRefreshing()
+            })
             .bind(with: self) { owner, ticketDetailItem in
                 guard let ticketDetailItem else { return }
                 owner.ticketDetailView.setData(with: ticketDetailItem)
@@ -212,5 +239,12 @@ class TicketDetailViewController: BooltiViewController {
         let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollViewPaddingFromNavigationBar)
 
         self.scrollView.setContentOffset(bottomOffset, animated: true)
+    }
+}
+
+extension TicketDetailViewController {
+    // Rx로 뺄 계획!
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        self.viewModel.input.refreshControlEvent.onNext(())
     }
 }

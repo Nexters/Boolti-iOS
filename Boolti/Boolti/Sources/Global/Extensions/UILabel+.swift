@@ -36,6 +36,20 @@ extension UILabel {
         }
     }
     
+    /// 행간 조정 메서드 + 중앙 정렬
+    func setLineSpacingAndAlignCenter(lineSpacing: CGFloat) {
+        if let text = self.text {
+            let attributeString = NSMutableAttributedString(string: text)
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = lineSpacing
+            style.lineBreakMode = .byTruncatingTail
+            style.lineBreakStrategy = .hangulWordPriority
+            style.alignment = .center
+            attributeString.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: NSMakeRange(0, attributeString.length))
+            self.attributedText = attributeString
+        }
+    }
+    
     /// 특정 문자열 컬러 변경하는 메서드
     func setSubStringColor(to targetString: [String], with color: UIColor) {
         if let labelText = self.text, labelText.count > 0 {

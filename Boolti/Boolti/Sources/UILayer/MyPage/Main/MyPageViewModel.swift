@@ -19,6 +19,7 @@ final class MyPageViewModel {
         var viewDidAppearEvent = PublishSubject<Void>()
         var didLogoutButtonTapEvent = PublishSubject<Void>()
         var didLoginButtonTapEvent = PublishSubject<Void>()
+        var didResignButtonTapEvent = PublishSubject<Void>()
         var didTicketingReservationsViewTapEvent = PublishSubject<Void>()
         var didQRScannerListViewTapEvent = PublishSubject<Void>()
     }
@@ -63,6 +64,12 @@ final class MyPageViewModel {
         self.input.didLogoutButtonTapEvent
             .subscribe(with: self) { owner, _ in
                 owner.output.navigation.accept(.logout)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.input.didResignButtonTapEvent
+            .subscribe(with: self) { owner, _ in
+                owner.output.navigation.accept(.resign)
             }
             .disposed(by: self.disposeBag)
 

@@ -10,6 +10,7 @@ import Foundation
 enum MyPageDestination {
     case login
     case logout
+    case resign
     case qrScannerList
     case ticketReservations
 }
