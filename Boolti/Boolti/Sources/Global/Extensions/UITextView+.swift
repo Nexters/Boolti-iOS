@@ -18,9 +18,11 @@ extension UITextView {
             style.lineSpacing = lineSpacing
             style.lineBreakStrategy = .hangulWordPriority
 
-            mutableAttributedText.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: NSMakeRange(0, mutableAttributedText.length))
-            mutableAttributedText.addAttribute(NSAttributedString.Key.font, value: font, range: NSMakeRange(0, mutableAttributedText.length))
-            mutableAttributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: textColor, range: NSMakeRange(0, mutableAttributedText.length))
+            mutableAttributedText
+                .addAttributes([.paragraphStyle: style,
+                                                 .font: font,
+                                                 .foregroundColor: textColor],
+                               range: NSMakeRange(0, mutableAttributedText.length))
 
             self.attributedText = mutableAttributedText
         }
