@@ -30,6 +30,13 @@ final class MyPageDIContainer {
 
             return viewController
         }
+        
+        let resignViewControllerFactory = {
+            let DIContainer = self.createResignDIContainer()
+            let viewController = DIContainer.createResignViewController()
+
+            return viewController
+        }
 
         let ticketReservationsViewControllerFactory = {
             let DIContainer = self.createTicketReservationsDIContainer()
@@ -49,6 +56,7 @@ final class MyPageDIContainer {
             viewModel: self.createMyPageViewModel(),
             loginViewControllerFactory: loginViewControllerFactory,
             logoutViewControllerFactory: logoutViewControllerFactory,
+            resignViewControllerFactory: resignViewControllerFactory,
             ticketReservationsViewControllerFactory: ticketReservationsViewControllerFactory,
             qrScanViewControllerFactory: QRScannerListViewControllerFactory
         )
@@ -61,6 +69,10 @@ final class MyPageDIContainer {
 
     private func createLogoutDIContainer() -> LogoutDIContainer {
         return LogoutDIContainer(authRepository: self.authRepository)
+    }
+    
+    private func createResignDIContainer() -> ResignDIContainer {
+        return ResignDIContainer(authRepository: self.authRepository)
     }
 
     private func createTicketReservationsDIContainer() -> TicketReservationsDIContainer {

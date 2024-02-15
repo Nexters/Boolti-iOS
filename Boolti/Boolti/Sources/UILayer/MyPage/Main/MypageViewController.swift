@@ -16,6 +16,7 @@ final class MyPageViewController: UIViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
     private let logoutViewControllerFactory: () -> LogoutViewController
+    private let resignViewControllerFactory: () -> ResignViewController
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
     private let qrScanViewControllerFactory: () -> QRScannerListViewController
 
@@ -66,6 +67,7 @@ final class MyPageViewController: UIViewController {
 
     private let ticketingReservationsNavigationView = MypageContentView(title: "예매 내역")
     private let qrScannerListNavigationView = MypageContentView(title: "QR 스캔")
+    private let resignNavigationView = MypageContentView(title: "회원 탈퇴")
 
     override func viewWillLayoutSubviews() {
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
@@ -82,14 +84,17 @@ final class MyPageViewController: UIViewController {
         viewModel: MyPageViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
         logoutViewControllerFactory: @escaping () -> LogoutViewController,
+        resignViewControllerFactory: @escaping () -> ResignViewController,
         ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
         qrScanViewControllerFactory: @escaping () -> QRScannerListViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.logoutViewControllerFactory = logoutViewControllerFactory
+        self.resignViewControllerFactory = resignViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.qrScanViewControllerFactory = qrScanViewControllerFactory
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -107,8 +112,11 @@ final class MyPageViewController: UIViewController {
             self.loginNavigationButton,
             self.ticketingReservationsNavigationView,
             self.qrScannerListNavigationView,
+            self.resignNavigationView,
             self.logoutNavigationButton
         ])
+        
+        self.resignNavigationView.isHidden = true
 
         self.profileImageView.snp.makeConstraints { make in
             make.height.width.equalTo(70)
@@ -142,6 +150,12 @@ final class MyPageViewController: UIViewController {
             make.height.equalTo(66)
             make.top.equalTo(self.ticketingReservationsNavigationView.snp.bottom).offset(12)
         }
+        
+        self.resignNavigationView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(66)
+            make.top.equalTo(self.qrScannerListNavigationView.snp.bottom).offset(12)
+        }
 
         self.logoutNavigationButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -163,6 +177,15 @@ final class MyPageViewController: UIViewController {
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
                 owner.viewModel.input.didTicketingReservationsViewTapEvent.onNext(())
+            }
+            .disposed(by: self.disposeBag)
+        
+        // TODO: 임시로 회원 탈퇴 로그아웃 처리
+        self.resignNavigationView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didResignButtonTapEvent.onNext(())
             }
             .disposed(by: self.disposeBag)
         
@@ -206,7 +229,7 @@ final class MyPageViewController: UIViewController {
             .drive(with: self, onNext: { owner, destination in
                 let viewController = owner.createViewController(destination)
                 switch destination {
-                case .login, .logout:
+                case .login, .logout, .resign:
                     viewController.modalPresentationStyle = .fullScreen
                     owner.present(viewController, animated: true)
                 case .ticketReservations, .qrScannerList:
@@ -219,6 +242,7 @@ final class MyPageViewController: UIViewController {
     private func updateProfileUI() {
         self.loginNavigationButton.isHidden = true
         self.logoutNavigationButton.isHidden = false
+        self.resignNavigationView.isHidden = false
 
         self.profileNameLabel.text =  UserDefaults.userName.isEmpty ? "불티 유저" : UserDefaults.userName
         self.profileEmailLabel.text = UserDefaults.userEmail.isEmpty ? "-" : UserDefaults.userEmail
@@ -235,6 +259,7 @@ final class MyPageViewController: UIViewController {
     private func resetProfileUI() {
         self.logoutNavigationButton.isHidden = true
         self.loginNavigationButton.isHidden = false
+        self.resignNavigationView.isHidden = true
 
         self.profileImageView.image = .defaultProfile
         self.profileNameLabel.text = "불티 로그인 하러가기"
@@ -246,6 +271,7 @@ final class MyPageViewController: UIViewController {
         switch next {
         case .login: return loginViewControllerFactory()
         case .logout: return logoutViewControllerFactory()
+        case .resign: return resignViewControllerFactory()
         case .qrScannerList: return qrScanViewControllerFactory()
         case .ticketReservations: return ticketReservationsViewControllerFactory()
         }
