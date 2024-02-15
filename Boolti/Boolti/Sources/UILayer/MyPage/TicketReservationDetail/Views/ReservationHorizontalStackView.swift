@@ -78,17 +78,20 @@ final class ReservationHorizontalStackView: UIStackView {
     ) {
         self.copyButton.isHidden = !isCopyButtonExist
         self.titleLabel.text = title
+        self.isUserInteractionEnabled = true
 
         self.axis = .horizontal
         self.alignment = .fill
         self.spacing = 20
 
-        self.contentLabel.addSubview(self.copyButton)
         self.configureAlignment(alignment)
         self.addArrangedSubviews([
             self.titleLabel,
             self.contentLabel
         ])
+        // 왜 이거하면 되는 지 공부해보기
+        self.contentLabel.addSubview(self.copyButton)
+        self.contentLabel.isUserInteractionEnabled = true
     }
 
     func setData(_ content: String) {
@@ -132,7 +135,6 @@ final class ReservationHorizontalStackView: UIStackView {
     }
 
     private func bindUIComponents() {
-
         guard !copyButton.isHidden else { return }
         self.copyButton.rx.tap
             .bind(with: self, onNext: { owner, _ in
