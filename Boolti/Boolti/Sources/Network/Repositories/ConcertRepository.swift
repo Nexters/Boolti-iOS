@@ -12,7 +12,6 @@ import RxSwift
 final class ConcertRepository: ConcertRepositoryType {
     
     let networkService: NetworkProviderType
-    private let disposeBag = DisposeBag()
     
     init(networkService: NetworkProviderType) {
         self.networkService = networkService
