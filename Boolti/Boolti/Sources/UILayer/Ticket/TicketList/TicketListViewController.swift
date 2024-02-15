@@ -172,8 +172,11 @@ final class TicketListViewController: BooltiViewController {
             let visibleCellItems = visibleItems.filter {
               $0.representedElementKind != TicketListViewController.ticketListFooterViewKind
             }
+
+            let inset = (environment.container.contentSize.width)*0.05
             // 현재 Page 관련 정보!..
-            let currentPage = Int(max(0, round(offset.x / environment.container.contentSize.width)))
+            let currentPage = Int(max(0, floor((offset.x + inset) / ((environment.container.contentSize.width)*0.88))))
+
             self?.currentTicketPage.accept(currentPage+1)
 
             visibleCellItems.forEach { item in
