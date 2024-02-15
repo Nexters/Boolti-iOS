@@ -75,7 +75,7 @@ final class TicketDetailView: UIView {
         let view = UIView()
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey80.cgColor
-        view.backgroundColor = .black
+        view.backgroundColor = .grey95
 
         return view
     }()
@@ -84,7 +84,7 @@ final class TicketDetailView: UIView {
         let view = UIView()
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey80.cgColor
-        view.backgroundColor = .black
+        view.backgroundColor = .grey95
 
         return view
     }()
@@ -159,7 +159,7 @@ final class TicketDetailView: UIView {
 
     private func configureUI() {
         self.layer.cornerRadius = 8
-        self.backgroundColor = .black
+        self.backgroundColor = .grey95
         self.clipsToBounds = true
 
         self.addSubviews([

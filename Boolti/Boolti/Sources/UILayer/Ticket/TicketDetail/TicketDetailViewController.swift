@@ -27,7 +27,7 @@ final class TicketDetailViewController: BooltiViewController {
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .black
+        scrollView.backgroundColor = .grey95
         scrollView.showsVerticalScrollIndicator = false
 
         return scrollView
@@ -98,7 +98,7 @@ final class TicketDetailViewController: BooltiViewController {
     }
 
     private func configureUI() {
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = .grey95
 
         self.view.addSubviews([self.navigationBar, self.scrollView])
         self.scrollView.addSubviews([
