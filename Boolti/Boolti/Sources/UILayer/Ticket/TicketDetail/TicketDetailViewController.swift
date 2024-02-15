@@ -19,6 +19,7 @@ class TicketDetailViewController: BooltiViewController {
 
     private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
     private let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController
+    private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
 
     private let viewModel: TicketDetailViewModel
 
@@ -86,11 +87,13 @@ class TicketDetailViewController: BooltiViewController {
     init(
         viewModel: TicketDetailViewModel,
         ticketEntryCodeViewControllerFactory: @escaping (TicketID, ConcertID) -> TicketEntryCodeViewController,
-        qrExpandViewControllerFactory: @escaping (UIImage) -> QRExpandViewController
+        qrExpandViewControllerFactory: @escaping (UIImage) -> QRExpandViewController,
+        concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController
     ) {
         self.viewModel = viewModel
         self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
         self.qrExpandViewControllerFactory = qrExpandViewControllerFactory
+        self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
         super.init()
     }
 
@@ -164,6 +167,14 @@ class TicketDetailViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 UIPasteboard.general.string = owner.viewModel.output.fetchedTicketDetail.value?.location
                 owner.showToast(message: "공연장 주소가 복사되었어요.")
+            }
+            .disposed(by: self.disposeBag)
+
+        self.ticketDetailView.didShowConcertDetailButtonTap
+            .bind(with: self) { owner, _ in
+                guard let concertId = owner.viewModel.output.fetchedTicketDetail.value?.concertID else { return }
+                let viewController = owner.concertDetailViewControllerFactory(concertId)
+                owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
 

@@ -9,9 +9,10 @@ import UIKit
 
 class TicketDetailDIContainer {
 
-    // 일단 필요할 지는 모르겠으나! authRepository
     private let authRepository: AuthRepositoryType
     private let networkService: NetworkProviderType
+    
+    typealias ConcertId = Int
 
     init(authRepository: AuthRepositoryType) {
         self.authRepository = authRepository
@@ -26,6 +27,13 @@ class TicketDetailDIContainer {
             return viewController
         }
         
+        let concertDetailViewControllerFactory: (ConcertId) -> ConcertDetailViewController = { concertId in
+            let DIContainer = self.createConcertDetailDIContainer()
+
+            let viewController = DIContainer.createConcertDetailViewController(concertId: concertId)
+            return viewController
+        }
+        
         let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController = { qrCodeImage in
             let DIContainer = self.createQRExpandDIContainer()
 
@@ -36,7 +44,8 @@ class TicketDetailDIContainer {
         let viewController = TicketDetailViewController(
             viewModel: self.createTicketDetailViewModel(ticketID: ticketID),
             ticketEntryCodeViewControllerFactory: ticketEntryCodeViewControllerFactory,
-            qrExpandViewControllerFactory: qrExpandViewControllerFactory
+            qrExpandViewControllerFactory: qrExpandViewControllerFactory,
+            concertDetailViewControllerFactory: concertDetailViewControllerFactory
         )
 
         return viewController
@@ -52,5 +61,10 @@ class TicketDetailDIContainer {
 
     private func createTicketDetailViewModel(ticketID: String) -> TicketDetailViewModel {
         return TicketDetailViewModel(ticketID: ticketID, networkService: self.networkService)
+    }
+    
+    private func createConcertDetailDIContainer() -> ConcertDetailDIContainer {
+        return ConcertDetailDIContainer(authRepository: AuthRepository(networkService: self.networkService),
+                                        concertRepository: ConcertRepository(networkService: self.networkService))
     }
 }
