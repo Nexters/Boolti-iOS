@@ -152,6 +152,7 @@
 		84DF59E12B726E0A000816DA /* ConcertContentExpandDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF59E02B726E0A000816DA /* ConcertContentExpandDIContainer.swift */; };
 		84DF59E32B726E21000816DA /* ConcertContentExpandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF59E22B726E21000816DA /* ConcertContentExpandViewController.swift */; };
 		84DF59E52B726E3F000816DA /* ConcertContentExpandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF59E42B726E3F000816DA /* ConcertContentExpandViewModel.swift */; };
+		84E48AC12B7E224600F8BFD0 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E48AC02B7E224600F8BFD0 /* UITextView+.swift */; };
 		84E5124B2B6E71FD002658D1 /* ConcertDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5124A2B6E71FD002658D1 /* ConcertDetailDIContainer.swift */; };
 		84E5124D2B6E7736002658D1 /* ConcertDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5124C2B6E7736002658D1 /* ConcertDetailViewController.swift */; };
 		84E5124F2B6E773F002658D1 /* ConcertDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5124E2B6E773F002658D1 /* ConcertDetailViewModel.swift */; };
@@ -404,6 +405,7 @@
 		84DF59E02B726E0A000816DA /* ConcertContentExpandDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertContentExpandDIContainer.swift; sourceTree = "<group>"; };
 		84DF59E22B726E21000816DA /* ConcertContentExpandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertContentExpandViewController.swift; sourceTree = "<group>"; };
 		84DF59E42B726E3F000816DA /* ConcertContentExpandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertContentExpandViewModel.swift; sourceTree = "<group>"; };
+		84E48AC02B7E224600F8BFD0 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		84E5124A2B6E71FD002658D1 /* ConcertDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailDIContainer.swift; sourceTree = "<group>"; };
 		84E5124C2B6E7736002658D1 /* ConcertDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailViewController.swift; sourceTree = "<group>"; };
 		84E5124E2B6E773F002658D1 /* ConcertDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailViewModel.swift; sourceTree = "<group>"; };
@@ -827,6 +829,7 @@
 				84886E872B6FB166005D2329 /* UIColor+.swift */,
 				841D77D72B73D2A20068B1C5 /* String+.swift */,
 				841D77E02B7464250068B1C5 /* UIImageView+.swift */,
+				84E48AC02B7E224600F8BFD0 /* UITextView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1965,6 +1968,7 @@
 				8710D9582B74FAC800309FBF /* LogoutDIContainer.swift in Sources */,
 				840B395B2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift in Sources */,
 				848CBF062B6547FA00239303 /* TicketingDetailViewController.swift in Sources */,
+				84E48AC12B7E224600F8BFD0 /* UITextView+.swift in Sources */,
 				84886E882B6FB166005D2329 /* UIColor+.swift in Sources */,
 				876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */,
 				84781CCE2B5C005600D37921 /* ConcertListViewController.swift in Sources */,
