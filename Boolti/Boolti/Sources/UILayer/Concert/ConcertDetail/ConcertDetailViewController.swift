@@ -28,7 +28,7 @@ final class ConcertDetailViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationBar(type: .concertDetail)
+    private let navigationBar = BooltiNavigationBar(type: .concertDetail)
 
     private let loginEnterView = LoginEnterView()
 
@@ -211,19 +211,19 @@ extension ConcertDetailViewController {
     }
     
     private func bindNavigationBar() {
-        self.navigationView.didBackButtonTap()
+        self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
         
-        self.navigationView.didHomeButtonTap()
+        self.navigationBar.didHomeButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popToRootViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
         
-        self.navigationView.didShareButtonTap()
+        self.navigationBar.didShareButtonTap()
             .emit(with: self) { owner, _ in
                 guard let url = URL(string: AppInfo.booltiShareLink),
                       let posterURL = owner.viewModel.output.concertDetailEntity?.posters.first?.path
@@ -237,7 +237,7 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.navigationView.didMoreButtonTap()
+        self.navigationBar.didMoreButtonTap()
             .emit(with: self) { owner, _ in
                 let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 
@@ -261,7 +261,7 @@ extension ConcertDetailViewController {
 extension ConcertDetailViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.navigationView,
+        self.view.addSubviews([self.navigationBar,
                                self.scrollView,
                                self.buttonBackgroundView,
                                self.ticketingButton,
@@ -271,7 +271,7 @@ extension ConcertDetailViewController {
     }
     
     private func configureConstraints() {
-        self.navigationView.snp.makeConstraints { make in
+        self.navigationBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
@@ -281,7 +281,7 @@ extension ConcertDetailViewController {
         }
         
         self.scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationView.snp.bottom)
+            make.top.equalTo(self.navigationBar.snp.bottom)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(self.ticketingButton.snp.top)
         }
