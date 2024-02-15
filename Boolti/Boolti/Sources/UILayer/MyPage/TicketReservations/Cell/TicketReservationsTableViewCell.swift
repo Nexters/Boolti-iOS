@@ -102,7 +102,7 @@ class TicketReservationsTableViewCell: UITableViewCell {
     }
 
     private func configureUI() {
-        self.backgroundColor = .black100
+        self.backgroundColor = .grey95
         self.contentView.backgroundColor = .grey90
 
         self.contentView.addSubviews([
