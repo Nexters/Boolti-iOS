@@ -275,7 +275,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         // 티켓 정보
         self.ticketTypeView.setData(entity.ticketType.rawValue)
         self.ticketCountView.setData(entity.ticketCount)
-        self.ticketingDateView.setData(entity.ticketingDate?.formatToDate().format(.dateDayTime) ?? "")
+        self.ticketingDateView.setData(entity.ticketingDate?.formatToDate().format(.dateDayTime) ?? "발권 전")
 
         // 예매자 정보
         self.purchasernNameView.setData(entity.purchaseName)
