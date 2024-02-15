@@ -13,7 +13,7 @@ import RxCocoa
 import RxGesture
 import RxKeyboard
 
-class TicketRefundRequestViewController: BooltiViewController {
+final class TicketRefundRequestViewController: BooltiViewController {
 
     typealias ReservationID = String
     typealias ReasonText = String

@@ -11,7 +11,7 @@ import RxSwift
 import RxMoya
 import RxRelay
 
-class TicketEntryCodeViewModel {
+final class TicketEntryCodeViewModel {
 
     struct Input {
         var didCheckButtonTapEvent = PublishSubject<String>()

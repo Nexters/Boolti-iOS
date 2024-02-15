@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TicketRefundReasonViewController: BooltiViewController {
+final class TicketRefundReasonViewController: BooltiViewController {
 
     typealias ReservationID = String
     typealias ReasonText = String

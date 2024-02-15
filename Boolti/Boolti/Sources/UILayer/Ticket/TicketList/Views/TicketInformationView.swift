@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TicketInformationView: UIView {
+final class TicketInformationView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()

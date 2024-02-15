@@ -12,7 +12,7 @@ import RxCocoa
 import RxAppState
 import RxGesture
 
-class TicketDetailViewController: BooltiViewController {
+final class TicketDetailViewController: BooltiViewController {
 
     typealias TicketID = String
     typealias ConcertID = String

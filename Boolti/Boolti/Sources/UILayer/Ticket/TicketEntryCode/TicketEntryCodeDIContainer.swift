@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TicketEntryCodeDIContainer {
+final class TicketEntryCodeDIContainer {
 
     private let networkService: NetworkProviderType
 

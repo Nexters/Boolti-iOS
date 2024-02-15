@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TicketListCollectionViewCell: UICollectionViewCell {
+final class TicketListCollectionViewCell: UICollectionViewCell {
 
     private var backgroundImageView: UIImageView = {
         let imageView = UIImageView()

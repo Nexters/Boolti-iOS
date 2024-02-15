@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxRelay
 
-class ReversalPolicyView: UIStackView {
+final class ReversalPolicyView: UIStackView {
 
     private let disposeBag = DisposeBag()
 

@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TicketRefundBankSelectionViewController: BooltiViewController {
+final class TicketRefundBankSelectionViewController: BooltiViewController {
 
     private let disposeBag = DisposeBag()
 

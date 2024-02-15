@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TicketDetailView: UIView {
+final class TicketDetailView: UIView {
 
     private let disposeBag = DisposeBag()
 
