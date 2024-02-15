@@ -49,11 +49,15 @@ extension TicketListItemResponseDTO {
         var ticketStatus: TicketStatus = .notUsed
         let formattedShowDate: Date = self.showDate.formatToDate()
 
-        if Date() > formattedShowDate {
-            if let usedAt {
+        if let usedAt {
+            // 밤에하는 공연의 경우 다른 방법으로 compare해줘야함!
+            if Date().getBetweenDay(to: formattedShowDate) < 0 {
+                ticketStatus = .concertEnd
+            } else {
                 ticketStatus = .entryCompleted
             }
-            ticketStatus = .concertEnd
+        } else {
+            ticketStatus = .notUsed
         }
 
         return TicketItemEntity(
