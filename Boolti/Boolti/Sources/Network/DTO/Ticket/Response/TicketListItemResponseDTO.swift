@@ -57,7 +57,11 @@ extension TicketListItemResponseDTO {
                 ticketStatus = .entryCompleted
             }
         } else {
-            ticketStatus = .notUsed
+            if Date().getBetweenDay(to: formattedShowDate) < 0 {
+                ticketStatus = .concertEnd
+            } else {
+                ticketStatus = .notUsed
+            }
         }
 
         return TicketItemEntity(
