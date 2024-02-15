@@ -144,6 +144,9 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private func configureUI() {
         self.navigationController?.navigationBar.isHidden = true
+        self.contentStackView.isUserInteractionEnabled = true
+        self.depositAccountInformationStackView.isUserInteractionEnabled = true
+        self.configureToastView(isButtonExisted: false)
 
         self.view.addSubviews([
             self.navigationBar,

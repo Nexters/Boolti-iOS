@@ -62,6 +62,7 @@ final class ReservationCollapsableStackView: UIStackView {
         self.alignment = .center
         self.backgroundColor = .grey90
         self.titleLabel.text = title
+        self.isUserInteractionEnabled = true
 
         if !isHidden {
             self.viewCollapseButton.isSelected.toggle()
