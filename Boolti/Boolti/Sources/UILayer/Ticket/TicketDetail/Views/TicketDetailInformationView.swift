@@ -140,7 +140,9 @@ class TicketDetailInformationView: UIView {
 
     private func configureGradient() {
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.bounds
+        let bounds = CGRect(x: 1, y: 0, width: self.bounds.width-2, height: self.bounds.height)
+        
+        gradientLayer.frame = bounds
         gradientLayer.colors = [UIColor.init("#000000").withAlphaComponent(0.0).cgColor, UIColor.init("#000000").withAlphaComponent(0.7).cgColor]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)

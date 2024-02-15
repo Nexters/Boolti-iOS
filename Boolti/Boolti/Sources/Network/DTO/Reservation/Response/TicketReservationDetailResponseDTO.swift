@@ -24,8 +24,8 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let completedTimeStamp: String?
     let reservationName: String
     let reservationPhoneNumber: String
-    let depositorName: String
-    let depositorPhoneNumber: String
+    let depositorName: String?
+    let depositorPhoneNumber: String?
 }
 
 extension TicketReservationDetailResponseDTO {
@@ -34,7 +34,7 @@ extension TicketReservationDetailResponseDTO {
         let ticketType = self.salesTicketType == "SALE" ? TicketType.sale : TicketType.invitation
         let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.cancelled
         let totalAmountPrice = self.totalAmountPrice ?? 0
-        let paymentType = self.meansType ?? "초청코드" 
+        let paymentType = self.meansType ?? "초청코드"
 
         return TicketReservationDetailEntity(
             reservationID: String(self.reservationId),
@@ -52,8 +52,8 @@ extension TicketReservationDetailResponseDTO {
             ticketingDate: self.completedTimeStamp,
             purchaseName: self.reservationName,
             purchaserPhoneNumber: self.reservationPhoneNumber,
-            depositorName: self.depositorName,
-            depositorPhoneNumber: self.depositorPhoneNumber
+            depositorName: self.depositorName ?? "",
+            depositorPhoneNumber: self.depositorPhoneNumber ?? ""
         )
     }
 }

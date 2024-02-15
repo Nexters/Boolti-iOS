@@ -16,7 +16,7 @@ class TicketDetailView: UIView {
 
     let didCopyAddressButtonTap = PublishRelay<Void>()
     let didShowConcertDetailButtonTap = PublishRelay<Void>()
-    
+
     // 더 좋은 방법 생각해보기!..
     private var isSeperatedLineConfigured = false
 
@@ -56,6 +56,7 @@ class TicketDetailView: UIView {
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
 
         return imageView
     }()
@@ -91,7 +92,7 @@ class TicketDetailView: UIView {
     private let ticketNoticeView = TicketNoticeView()
     private let ticketInquiryView = TicketInquiryView()
 
-//     BooltiButton이랑 붙히는 거 추후에 진행할 예정
+    //     BooltiButton이랑 붙히는 거 추후에 진행할 예정
     private let copyAddressButton: UIButton = {
         let button = UIButton()
         button.setTitle("공연장 주소 복사", for: .normal)
