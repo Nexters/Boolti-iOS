@@ -103,7 +103,7 @@ final class MyPageViewController: UIViewController {
     }
     
     private func configureUI() {
-        self.view.backgroundColor = .black100
+        self.view.backgroundColor = .grey95
 
         self.view.addSubviews([
             self.profileImageView,

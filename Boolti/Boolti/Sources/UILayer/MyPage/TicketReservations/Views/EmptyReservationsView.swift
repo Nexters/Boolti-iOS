@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EmptyReservationsStackView: UIStackView {
+final class EmptyReservationsStackView: UIStackView {
 
     private let mainTitleLabel: UILabel = {
         let label = UILabel()

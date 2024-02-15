@@ -12,7 +12,7 @@ import RxCocoa
 import RxAppState
 import RxGesture
 
-class TicketDetailViewController: BooltiViewController {
+final class TicketDetailViewController: BooltiViewController {
 
     typealias TicketID = String
     typealias ConcertID = String
@@ -27,7 +27,7 @@ class TicketDetailViewController: BooltiViewController {
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .black
+        scrollView.backgroundColor = .grey95
         scrollView.showsVerticalScrollIndicator = false
 
         return scrollView
@@ -98,7 +98,7 @@ class TicketDetailViewController: BooltiViewController {
     }
 
     private func configureUI() {
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = .grey95
 
         self.view.addSubviews([self.navigationBar, self.scrollView])
         self.scrollView.addSubviews([

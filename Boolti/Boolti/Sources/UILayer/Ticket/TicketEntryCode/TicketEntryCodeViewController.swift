@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxKeyboard
 
-class TicketEntryCodeViewController: BooltiViewController {
+final class TicketEntryCodeViewController: BooltiViewController {
 
     private let viewModel: TicketEntryCodeViewModel
 

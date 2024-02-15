@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RefundConfirmContentView: UIView {
+final class RefundConfirmContentView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()

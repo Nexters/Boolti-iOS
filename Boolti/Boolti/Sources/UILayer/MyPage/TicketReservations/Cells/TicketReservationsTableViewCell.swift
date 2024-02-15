@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TicketReservationsTableViewCell: UITableViewCell {
+final class TicketReservationsTableViewCell: UITableViewCell {
 
     private let reservationDateLabel: UILabel = {
         let label = UILabel()

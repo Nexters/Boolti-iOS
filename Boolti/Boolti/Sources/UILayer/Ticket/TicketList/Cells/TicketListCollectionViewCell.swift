@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TicketListCollectionViewCell: UICollectionViewCell {
+final class TicketListCollectionViewCell: UICollectionViewCell {
 
     private var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -34,7 +34,7 @@ class TicketListCollectionViewCell: UICollectionViewCell {
         let view = UIView()
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey50.cgColor
-        view.backgroundColor = .black
+        view.backgroundColor = .grey95
 
         return view
     }()
@@ -43,7 +43,7 @@ class TicketListCollectionViewCell: UICollectionViewCell {
         let view = UIView()
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey50.cgColor
-        view.backgroundColor = .black
+        view.backgroundColor = .grey95
 
         return view
     }()

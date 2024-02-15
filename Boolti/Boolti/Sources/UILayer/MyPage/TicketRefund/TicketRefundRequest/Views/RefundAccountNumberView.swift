@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RefundAccountNumberView: UIView {
+final class RefundAccountNumberView: UIView {
 
     let accountNumberTextField: BooltiTextField = {
         let textField = BooltiTextField()

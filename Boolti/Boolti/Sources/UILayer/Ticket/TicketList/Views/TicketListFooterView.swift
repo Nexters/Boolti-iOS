@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TicketListFooterView: UICollectionReusableView {
+final class TicketListFooterView: UICollectionReusableView {
 
     private let backgroundView: UIView = {
         let view = UIView()

@@ -23,7 +23,7 @@ final class TicketingDetailViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationBar(type: .ticketingDetail)
+    private let navigationBar = BooltiNavigationBar(type: .ticketingDetail)
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -103,7 +103,7 @@ final class TicketingDetailViewController: BooltiViewController {
 extension TicketingDetailViewController {
     
     private func bindUIComponents() {
-        self.bindNavigationView()
+        self.bindNavigationBar()
         self.bindUserInputView()
         self.bindPolicyView()
     }
@@ -177,8 +177,8 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
-    private func bindNavigationView() {
-        self.navigationView.didBackButtonTap()
+    private func bindNavigationBar() {
+        self.navigationBar.didBackButtonTap()
             .emit(with: self, onNext: { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             })
@@ -350,7 +350,7 @@ extension TicketingDetailViewController: UIScrollViewDelegate {
 extension TicketingDetailViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.scrollView, self.navigationView, self.payButton])
+        self.view.addSubviews([self.scrollView, self.navigationBar, self.payButton])
         self.scrollView.addSubviews([self.stackView])
         
         self.view.backgroundColor = .grey95
@@ -358,13 +358,13 @@ extension TicketingDetailViewController {
     }
     
     private func configureConstraints() {
-        self.navigationView.snp.makeConstraints { make in
+        self.navigationBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
         
         self.scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationView.snp.bottom)
+            make.top.equalTo(self.navigationBar.snp.bottom)
             make.width.equalToSuperview()
             make.bottom.equalTo(self.payButton.snp.top).offset(-8)
         }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TicketRefundBankCollectionViewCell: UICollectionViewCell {
+final class TicketRefundBankCollectionViewCell: UICollectionViewCell {
     
     private let bankImageView: UIImageView = {
         let imageView = UIImageView()

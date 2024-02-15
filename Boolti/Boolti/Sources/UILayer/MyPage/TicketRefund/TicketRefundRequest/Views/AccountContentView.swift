@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AccountContentView: UIView {
+final class AccountContentView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()

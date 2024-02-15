@@ -38,7 +38,7 @@ final class TicketListViewController: BooltiViewController {
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
-        collectionView.backgroundColor = .black
+        collectionView.backgroundColor = .grey95
         collectionView.alwaysBounceVertical = false
         collectionView.register(
             TicketListCollectionViewCell.self,
