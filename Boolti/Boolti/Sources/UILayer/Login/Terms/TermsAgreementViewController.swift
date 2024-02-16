@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import SafariServices
 
-final class TermsAgreementViewController: UIViewController {
+final class TermsAgreementViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -58,7 +58,7 @@ final class TermsAgreementViewController: UIViewController {
     
     init(viewModel: TermsAgreementViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {

@@ -11,7 +11,7 @@ import RxSwift
 import RxMoya
 import Moya
 
-class NetworkProvider: NetworkProviderType {
+final class NetworkProvider: NetworkProviderType {
 
     private let provider: MoyaProvider<MultiTarget>
 
@@ -27,10 +27,10 @@ class NetworkProvider: NetworkProviderType {
         let endpoint = MultiTarget.target(api)
 
         return provider.rx.request(endpoint)
-//            .filterSuccessfulStatusCodes()
             .do(
                 onSuccess: { response in
-                    print("SUCCESS: \(requestString) (\(response.statusCode))")
+                    debugPrint("⭕️ SUCCESS: \(requestString) (\(response.statusCode))")
+                    
                     #if DEBUG
                     do {
                         let data = response.data
@@ -68,11 +68,39 @@ class NetworkProvider: NetworkProviderType {
                     }
                     #endif
                 },
-                onError: { response in
-                    print("ERROR: \(requestString) (\(response.localizedDescription))")
+                onError: { error in
+                    if let moyaError = error as? MoyaError {
+                        if let response = moyaError.response {
+                            debugPrint("❌ ERROR: \(requestString) (\(response.statusCode))")
+                            
+                            #if DEBUG
+                            let data = response.data
+                            
+                            guard !data.isEmpty else { return }
+                            
+                            let json = try JSONSerialization.jsonObject(with: data, options: [])
+                            if let jsonDict = json as? [String: Any] {
+                                let prettyPrintedData = try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
+                                if let prettyPrintedString = String(data: prettyPrintedData, encoding: .utf8) {
+                                    print("========================================")
+                                    print("ERROR Response:\n\(prettyPrintedString)")
+                                    print("========================================")
+                                }
+                            }
+                            #endif
+                            
+                            if response.statusCode == 500 {
+                                NotificationCenter.default.post(name: Notification.Name("ServerErrorNotification"), object: nil)
+                            }
+                        } else {
+                            debugPrint("❌ ERROR: \(requestString) (No response)")
+                        }
+                    } else {
+                        debugPrint("❌ ERROR: \(requestString) (\(error.localizedDescription))")
+                    }
                 },
                 onSubscribed: {
-                    print("REQUEST: \(requestString)")
+                    debugPrint("❓ REQUEST: \(requestString)")
                 }
             )
     }

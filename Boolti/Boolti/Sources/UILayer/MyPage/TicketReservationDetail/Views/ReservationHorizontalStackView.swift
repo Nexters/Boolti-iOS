@@ -27,7 +27,6 @@ final class ReservationHorizontalStackView: UIStackView {
         label.font = .pretendardR(16)
         label.textColor = .grey30
         label.textAlignment = .left
-        label.text = "은행명"
 
         return label
     }()
@@ -36,7 +35,6 @@ final class ReservationHorizontalStackView: UIStackView {
         let label = UILabel()
         label.font = .pretendardR(16)
         label.textColor = .grey15
-        label.text = "신한은행"
 
         return label
     }()

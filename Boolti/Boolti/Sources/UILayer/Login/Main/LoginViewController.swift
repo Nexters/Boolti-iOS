@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class LoginViewController: UIViewController {
+final class LoginViewController: BooltiViewController {
 
     typealias IdentityCode = String
 
@@ -68,7 +68,7 @@ final class LoginViewController: UIViewController {
     ) {
         self.viewModel = viewModel
         self.termsAgreementControllerFactory = termsAgreementControllerFactory
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {

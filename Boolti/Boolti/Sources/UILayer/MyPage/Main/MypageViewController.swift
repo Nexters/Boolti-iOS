@@ -12,7 +12,7 @@ import RxCocoa
 import RxAppState
 import RxGesture
 
-final class MyPageViewController: UIViewController {
+final class MyPageViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
     private let logoutViewControllerFactory: () -> LogoutViewController
@@ -95,7 +95,7 @@ final class MyPageViewController: UIViewController {
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.qrScanViewControllerFactory = qrScanViewControllerFactory
         
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {

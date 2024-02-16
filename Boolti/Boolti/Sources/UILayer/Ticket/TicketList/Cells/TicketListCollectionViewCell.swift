@@ -28,7 +28,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
 
-    private let ticketInformationView = TicketInformationView()
+    let ticketInformationView = TicketInformationView()
 
     private lazy var rightCircleView: UIView = {
         let view = UIView()
@@ -212,18 +212,17 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
     }
 
         private func configureSeperateLine() {
-            let path = UIBezierPath()
+            let path = CGMutablePath()
             let height = self.bounds.height * 0.813
             let width = self.bounds.width * 0.053
 
             path.move(to: CGPoint(x: width, y: height))
             path.addLine(to: CGPoint(x: self.bounds.width * 0.947, y: height))
-            path.close()
 
             let shapeLayer = CAShapeLayer()
-            shapeLayer.path = path.cgPath
+            shapeLayer.path = path
             shapeLayer.lineWidth = 2
-            shapeLayer.lineDashPattern = [7, 7]
+            shapeLayer.lineDashPattern = [5, 5]
             shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
             self.layer.addSublayer(shapeLayer)
         }
