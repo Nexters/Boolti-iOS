@@ -29,7 +29,8 @@ final class NetworkProvider: NetworkProviderType {
         return provider.rx.request(endpoint)
             .do(
                 onSuccess: { response in
-                    print("⭕️ SUCCESS: \(requestString) (\(response.statusCode))")
+                    debugPrint("⭕️ SUCCESS: \(requestString) (\(response.statusCode))")
+                    
                     #if DEBUG
                     do {
                         let data = response.data
@@ -70,8 +71,9 @@ final class NetworkProvider: NetworkProviderType {
                 onError: { error in
                     if let moyaError = error as? MoyaError {
                         if let response = moyaError.response {
-                            print("❌ ERROR: \(requestString) (\(response.statusCode))")
+                            debugPrint("❌ ERROR: \(requestString) (\(response.statusCode))")
                             
+                            #if DEBUG
                             let data = response.data
                             
                             guard !data.isEmpty else { return }
@@ -85,19 +87,20 @@ final class NetworkProvider: NetworkProviderType {
                                     print("========================================")
                                 }
                             }
+                            #endif
                             
                             if response.statusCode == 500 {
                                 NotificationCenter.default.post(name: Notification.Name("ServerErrorNotification"), object: nil)
                             }
                         } else {
-                            print("❌ ERROR: \(requestString) (No response)")
+                            debugPrint("❌ ERROR: \(requestString) (No response)")
                         }
                     } else {
-                        print("❌ ERROR: \(requestString) (\(error.localizedDescription))")
+                        debugPrint("❌ ERROR: \(requestString) (\(error.localizedDescription))")
                     }
                 },
                 onSubscribed: {
-                    print("❓ REQUEST: \(requestString)")
+                    debugPrint("❓ REQUEST: \(requestString)")
                 }
             )
     }
