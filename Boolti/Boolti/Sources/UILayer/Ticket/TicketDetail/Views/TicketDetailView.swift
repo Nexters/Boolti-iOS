@@ -287,17 +287,13 @@ final class TicketDetailView: UIView {
 
     private func configureSeperateLine() {
 
-        guard !self.isSeperatedLineConfigured else { return }
-        self.isSeperatedLineConfigured = true
-
-        let path = UIBezierPath()
+        let path = CGMutablePath()
 
         path.move(to: CGPoint(x: 20, y: 475))
         path.addLine(to: CGPoint(x: self.bounds.width-20, y: 475))
-        path.close()
 
         let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
+        shapeLayer.path = path
         shapeLayer.lineWidth = 2
         shapeLayer.lineDashPattern = [5, 5]
         shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor
