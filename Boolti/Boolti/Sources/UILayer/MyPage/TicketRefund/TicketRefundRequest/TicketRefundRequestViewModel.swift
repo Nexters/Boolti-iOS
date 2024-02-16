@@ -92,7 +92,7 @@ final class TicketRefundRequestViewModel {
     }
 
     private func checkAccountNumber(_ text: String) -> Bool {
-        let phoneNumberPattern = #"^\d{11,13}$"#
+        let phoneNumberPattern = #"^\d{11,14}$"#
         return text.range(of: phoneNumberPattern, options: .regularExpression) != nil
     }
 
