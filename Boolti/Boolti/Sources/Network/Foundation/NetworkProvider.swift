@@ -11,7 +11,7 @@ import RxSwift
 import RxMoya
 import Moya
 
-class NetworkProvider: NetworkProviderType {
+final class NetworkProvider: NetworkProviderType {
 
     private let provider: MoyaProvider<MultiTarget>
 
@@ -27,10 +27,9 @@ class NetworkProvider: NetworkProviderType {
         let endpoint = MultiTarget.target(api)
 
         return provider.rx.request(endpoint)
-//            .filterSuccessfulStatusCodes()
             .do(
                 onSuccess: { response in
-                    print("SUCCESS: \(requestString) (\(response.statusCode))")
+                    print("⭕️ SUCCESS: \(requestString) (\(response.statusCode))")
                     #if DEBUG
                     do {
                         let data = response.data
@@ -68,11 +67,23 @@ class NetworkProvider: NetworkProviderType {
                     }
                     #endif
                 },
-                onError: { response in
-                    print("ERROR: \(requestString) (\(response.localizedDescription))")
+                onError: { error in
+                    if let moyaError = error as? MoyaError {
+                        if let response = moyaError.response {
+                            print("❌ ERROR: \(requestString) (\(response.statusCode))")
+                            
+                            if response.statusCode == 500 {
+                                NotificationCenter.default.post(name: Notification.Name("ServerErrorNotification"), object: nil)
+                            }
+                        } else {
+                            print("❌ ERROR: \(requestString) (No response)")
+                        }
+                    } else {
+                        print("❌ ERROR: \(requestString) (\(error.localizedDescription))")
+                    }
                 },
                 onSubscribed: {
-                    print("REQUEST: \(requestString)")
+                    print("❓ REQUEST: \(requestString)")
                 }
             )
     }
