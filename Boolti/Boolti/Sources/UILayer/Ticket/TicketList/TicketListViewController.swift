@@ -19,6 +19,7 @@ final class TicketListViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
     private let ticketDetailControllerFactory: (TicketID) -> TicketDetailViewController
+    private let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController
 
     private enum Section {
         case concertList
@@ -73,11 +74,13 @@ final class TicketListViewController: BooltiViewController {
     init(
         viewModel: TicketListViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
+        qrExpandViewControllerFactory: @escaping (UIImage) -> QRExpandViewController,
         ticketDetailViewControllerFactory: @escaping (TicketID) -> TicketDetailViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.ticketDetailControllerFactory = ticketDetailViewControllerFactory
+        self.qrExpandViewControllerFactory = qrExpandViewControllerFactory
         super.init()
     }
 
@@ -282,19 +285,36 @@ final class TicketListViewController: BooltiViewController {
     private func configureCollectionViewDatasource() {
         self.datasource = UICollectionViewDiffableDataSource(
             collectionView: self.collectionView,
-            cellProvider: { collectionView, indexPath, item in
+            cellProvider: { [weak self ] collectionView, indexPath, item in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TicketListCollectionViewCell.self), for: indexPath) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
                 cell.setData(with: item)
+                guard item.ticketStatus == .notUsed else { return UICollectionViewCell() }
+                self?.bindQRCodeExpandView(cell)
 
             return cell
         })
 
-        self.datasource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+        self.datasource?.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: TicketListFooterView.self), for: indexPath)
 
-            self.bind(supplementaryView)
+            self?.bind(supplementaryView)
             return supplementaryView
         }
+    }
+
+    private func bindQRCodeExpandView(_ cell: TicketListCollectionViewCell) {
+        let qrCodeImageView = cell.ticketInformationView.qrCodeImageView
+
+        qrCodeImageView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                guard let QRCodeImage = qrCodeImageView.image else { return }
+                let viewController = owner.qrExpandViewControllerFactory(QRCodeImage)
+                viewController.modalPresentationStyle = .overFullScreen
+                owner.present(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bind(_ footerView: UICollectionReusableView) {

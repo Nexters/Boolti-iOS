@@ -33,7 +33,6 @@ final class ConcertInformationView: UIView {
         let label = UILabel()
         label.font = .body1
         label.textColor = .grey30
-        label.text = "일반 티켓 B / 1매"
 
         return label
     }()

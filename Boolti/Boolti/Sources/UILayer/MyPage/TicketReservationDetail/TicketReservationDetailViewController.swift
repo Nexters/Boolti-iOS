@@ -44,7 +44,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
         let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 0))
         label.textColor = .grey50
         label.font = .pretendardR(14)
-        label.text = "No. 1234567890"
 
         return label
     }()
