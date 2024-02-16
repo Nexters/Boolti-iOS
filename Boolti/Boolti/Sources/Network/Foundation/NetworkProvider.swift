@@ -72,6 +72,20 @@ final class NetworkProvider: NetworkProviderType {
                         if let response = moyaError.response {
                             print("❌ ERROR: \(requestString) (\(response.statusCode))")
                             
+                            let data = response.data
+                            
+                            guard !data.isEmpty else { return }
+                            
+                            let json = try JSONSerialization.jsonObject(with: data, options: [])
+                            if let jsonDict = json as? [String: Any] {
+                                let prettyPrintedData = try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
+                                if let prettyPrintedString = String(data: prettyPrintedData, encoding: .utf8) {
+                                    print("========================================")
+                                    print("ERROR Response:\n\(prettyPrintedString)")
+                                    print("========================================")
+                                }
+                            }
+                            
                             if response.statusCode == 500 {
                                 NotificationCenter.default.post(name: Notification.Name("ServerErrorNotification"), object: nil)
                             }
