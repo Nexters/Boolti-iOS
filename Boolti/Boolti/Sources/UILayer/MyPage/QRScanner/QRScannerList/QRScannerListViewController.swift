@@ -9,7 +9,7 @@ import UIKit
 
 import RxSwift
 
-final class QRScannerListViewController: UIViewController {
+final class QRScannerListViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -65,7 +65,7 @@ final class QRScannerListViewController: UIViewController {
         self.viewModel = viewModel
         self.qrScannerViewControllerFactory = qrScannerViewControllerFactory
         
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {

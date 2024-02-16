@@ -9,7 +9,7 @@ import UIKit
 
 import RxSwift
 
-final class QRExpandViewController: UIViewController {
+final class QRExpandViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -39,7 +39,7 @@ final class QRExpandViewController: UIViewController {
     init(viewModel: QRExpandViewModel) {
         self.viewModel = viewModel
         
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {

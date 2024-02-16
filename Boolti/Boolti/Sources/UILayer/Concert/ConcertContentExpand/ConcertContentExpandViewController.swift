@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ConcertContentExpandViewController: UIViewController {
+final class ConcertContentExpandViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -34,7 +34,7 @@ final class ConcertContentExpandViewController: UIViewController {
     
     init(viewModel: ConcertContentExpandViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+        super.init()
         
         self.configureUI()
         self.configureConstraints()

@@ -10,7 +10,7 @@ import AVFoundation
 
 import RxSwift
 
-final class QRScannerViewController: UIViewController {
+final class QRScannerViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -57,7 +57,7 @@ final class QRScannerViewController: UIViewController {
         self.viewModel = viewModel
         self.entranceCodeViewControllerFactory = entranceCodeViewControllerFactory
         
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {

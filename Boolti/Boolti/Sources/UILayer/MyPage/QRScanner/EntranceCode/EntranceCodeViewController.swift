@@ -9,7 +9,7 @@ import UIKit
 
 import RxSwift
 
-final class EntranceCodeViewController: UIViewController {
+final class EntranceCodeViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -48,7 +48,7 @@ final class EntranceCodeViewController: UIViewController {
     init(viewModel: EntranceCodeViewModel) {
         self.viewModel = viewModel
         
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {
