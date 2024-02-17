@@ -31,7 +31,7 @@ final class MyPageViewController: BooltiViewController {
     private let resignNavigationButton: UIButton = {
         let button = UIButton()
         button.setTitle("회원 탈퇴", for: .normal)
-        button.setUnderline(font: .pretendardR(14), textColor: .grey50)
+        button.setUnderline(font: .pretendardR(14), textColor: .grey60)
         button.isHidden = true
 
         return button

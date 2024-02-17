@@ -16,6 +16,7 @@ final class MypageProfileView: UIView {
         imageView.backgroundColor = .grey80
         imageView.layer.cornerRadius = 35
         imageView.clipsToBounds = true
+        imageView.layer.borderColor = UIColor.grey80.cgColor
 
         return imageView
     }()
@@ -79,8 +80,10 @@ extension MypageProfileView {
 
         if profileImageURLPath.isEmpty {
             self.profileImageView.image = .defaultProfile
+            self.profileImageView.layer.borderWidth = 0
         } else {
             self.profileImageView.setImage(with: profileImageURLPath)
+            self.profileImageView.layer.borderWidth = 1
         }
     }
 
