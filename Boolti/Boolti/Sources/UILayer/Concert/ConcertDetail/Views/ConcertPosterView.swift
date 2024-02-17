@@ -37,8 +37,8 @@ final class ConcertPosterView: UIView {
     
     private let pageControl = UIPageControl()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .point3
         label.textColor = .grey05
         label.numberOfLines = 0
@@ -65,7 +65,8 @@ extension ConcertPosterView {
     func setData(images: [ConcertDetailEntity.Poster], title: String) {
         self.addContentScrollView(images: images)
         self.titleLabel.text = title
-        self.titleLabel.setLineSpacing(lineSpacing: 6)
+        
+        self.pageControl.isHidden = images.count <= 1
     }
     
     private func addContentScrollView(images: [ConcertDetailEntity.Poster]) {
@@ -79,12 +80,13 @@ extension ConcertPosterView {
 
             imageView.frame.origin.x = self.scrollViewWidth * CGFloat(index)
             
-            let gradientLayer = CAGradientLayer()
-            gradientLayer.frame = imageView.bounds
-            gradientLayer.colors = [UIColor.clear.cgColor, UIColor.grey95.withAlphaComponent(0.5).cgColor]
-            gradientLayer.locations = [0.85, 1.0]
-            imageView.layer.addSublayer(gradientLayer)
-
+            if images.count > 1 {
+                let gradientLayer = CAGradientLayer()
+                gradientLayer.frame = imageView.bounds
+                gradientLayer.colors = [UIColor.clear.cgColor, UIColor.grey95.withAlphaComponent(0.5).cgColor]
+                gradientLayer.locations = [0.85, 1.0]
+                imageView.layer.addSublayer(gradientLayer)
+            }
             
             self.scrollView.addSubview(imageView)
         }
