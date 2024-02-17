@@ -19,35 +19,53 @@ final class LoginViewController: BooltiViewController {
 
     private let termsAgreementControllerFactory: (IdentityCode, OAuthProvider) -> TermsAgreementViewController
 
-    private let headerTitleLabel: UILabel = {
-        let label = UILabel()
+    private let headerTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .headline2
         label.text = "불티나게 팔리는 티켓, 불티"
-        label.font = .headline1
         label.textColor = .grey05
         return label
     }()
 
-    private let subTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "지금 티켓을 예매하고 공연을 즐겨보세요!"
+    private let subTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body3
+        label.text = "지금 티켓을 예매하고 공연을 즐겨보세요!"
         label.textColor = .grey30
         return label
     }()
 
     private let kakaoLoginButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.kakaoLoginButton, for: .normal)
+        var config = UIButton.Configuration.plain()
+        config.title = "카카오톡으로 시작하기"
+        config.attributedTitle?.font = .subhead1
+        config.baseForegroundColor = .black100
+        config.background.backgroundColor = UIColor.init("#FFE833")
+        config.imagePadding = 20
+
+        let button = UIButton(configuration: config)
+        button.layer.cornerRadius = 12
 
         return button
     }()
+    
+    private let kakaoIconImageView = UIImageView(image: .kakao)
 
     private let appleLoginButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.appleLoginButton, for: .normal)
+        var config = UIButton.Configuration.plain()
+        config.title = "Apple로 시작하기"
+        config.attributedTitle?.font = .subhead1
+        config.baseForegroundColor = .black100
+        config.background.backgroundColor = UIColor.init("#F6F7FF")
+        config.imagePadding = 20
+
+        let button = UIButton(configuration: config)
+        button.layer.cornerRadius = 12
 
         return button
     }()
+    
+    private let appleIconImageView = UIImageView(image: .apple)
 
     private let closeButton: UIButton = {
         let button = UIButton()
@@ -55,6 +73,8 @@ final class LoginViewController: BooltiViewController {
 
         return button
     }()
+    
+    // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +83,8 @@ final class LoginViewController: BooltiViewController {
         self.bindViewModel()
     }
 
+    // MARK: Init
+    
     init(viewModel: LoginViewModel,
          termsAgreementControllerFactory: @escaping (IdentityCode, OAuthProvider) -> TermsAgreementViewController
     ) {
@@ -74,48 +96,12 @@ final class LoginViewController: BooltiViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
-    private func configureUI() {
-        self.view.backgroundColor = .grey95
-        
-        self.view.addSubviews([
-            self.closeButton,
-            self.headerTitleLabel,
-            self.subTitleLabel,
-            self.kakaoLoginButton,
-            self.appleLoginButton
-        ])
+// MARK: - Methods
 
-        self.closeButton.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(10)
-            make.left.equalToSuperview().inset(20)
-        }
-
-        self.subTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.view.snp.centerY).offset(-40)
-        }
-
-        self.headerTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.subTitleLabel.snp.top).offset(-6)
-        }
-
-        self.kakaoLoginButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.height.equalTo(48)
-            make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(self.view.snp.centerY)
-        }
-
-        self.appleLoginButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.horizontalEdges.equalTo(self.kakaoLoginButton)
-            make.height.equalTo(48)
-            make.top.equalTo(self.kakaoLoginButton.snp.bottom).offset(12)
-        }
-    }
-
+extension LoginViewController {
+    
     private func bindViewModel() {
         self.bindInput()
         self.bindOutput()
@@ -165,5 +151,65 @@ final class LoginViewController: BooltiViewController {
         let viewController = self.termsAgreementControllerFactory(identityToken, provider)
         viewController.modalPresentationStyle = .overFullScreen
         self.present(viewController, animated: true)
+    }
+}
+
+// MARK: - UI
+
+extension LoginViewController {
+
+    private func configureUI() {
+        self.view.backgroundColor = .grey95
+        
+        self.view.addSubviews([
+            self.closeButton,
+            self.headerTitleLabel,
+            self.subTitleLabel,
+            self.kakaoLoginButton,
+            self.kakaoIconImageView,
+            self.appleLoginButton,
+            self.appleIconImageView
+        ])
+
+        self.closeButton.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(10)
+            make.left.equalToSuperview().inset(20)
+        }
+        
+        self.headerTitleLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(self.subTitleLabel.snp.top).offset(-6)
+        }
+
+        self.subTitleLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(self.view.snp.centerY).offset(-48)
+        }
+
+        self.kakaoLoginButton.snp.makeConstraints { make in
+            make.top.equalTo(self.view.snp.centerY)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(48)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        self.kakaoIconImageView.snp.makeConstraints { make in
+            make.size.equalTo(20)
+            make.centerY.equalTo(self.kakaoLoginButton)
+            make.left.equalTo(self.kakaoLoginButton).offset(20)
+        }
+
+        self.appleLoginButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(self.kakaoLoginButton.snp.bottom).offset(12)
+            make.horizontalEdges.equalTo(self.kakaoLoginButton)
+            make.height.equalTo(48)
+        }
+        
+        self.appleIconImageView.snp.makeConstraints { make in
+            make.size.equalTo(20)
+            make.centerY.equalTo(self.appleLoginButton)
+            make.left.equalTo(self.appleLoginButton).offset(20)
+        }
     }
 }
