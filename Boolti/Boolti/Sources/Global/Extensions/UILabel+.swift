@@ -111,17 +111,17 @@ extension UILabel {
         return self.sizeThatFits(CGSize(width: self.frame.width, height: CGFloat.greatestFiniteMagnitude)).height
     }
     
-    /// 특정 label에 하이퍼링크 넣는 함수
-    func setHyperlinkedStyle(to targetString: String) {
-        if let labelText = self.text, labelText.count > 0 {
-            let attributedString = NSMutableAttributedString(string: labelText)
-            let linkAttributes : [NSAttributedString.Key: Any] = [
+    /// 특정 label에 under line 넣는 함수
+    func setUnderLine(to targetString: String) {
+        if let existingAttributedString = self.attributedText {
+            let attributedString = NSMutableAttributedString(attributedString: existingAttributedString)
+            let linkAttributes: [NSAttributedString.Key: Any] = [
                 .underlineStyle: NSUnderlineStyle.single.rawValue
             ]
             
-            attributedString.setAttributes(
+            attributedString.addAttributes(
                 linkAttributes,
-                range: (labelText as NSString).range(of: targetString)
+                range: (attributedString.string as NSString).range(of: targetString)
             )
             
             attributedText = attributedString
