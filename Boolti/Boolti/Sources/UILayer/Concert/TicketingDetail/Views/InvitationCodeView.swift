@@ -37,7 +37,6 @@ final class InvitationCodeView: UIView {
         let textField = BooltiTextField()
         textField.setPlaceHolderText(placeholder: "초청 코드를 입력해 주세요")
         textField.keyboardType = .namePhonePad
-        textField.returnKeyType = .done
         textField.layer.borderColor = UIColor.error.cgColor
         return textField
     }()
@@ -63,6 +62,7 @@ final class InvitationCodeView: UIView {
         
         self.configureUI()
         self.configureConstraints()
+        self.bindUIComponents()
     }
     
     required init?(coder: NSCoder) {
@@ -73,6 +73,16 @@ final class InvitationCodeView: UIView {
 // MARK: - Methods
 
 extension InvitationCodeView {
+    
+    private func bindUIComponents() {
+        self.codeTextField.rx.controlEvent(.editingChanged)
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                guard let text = owner.codeTextField.text else { return }
+                owner.codeTextField.text = text.uppercased()
+            }
+            .disposed(by: self.disposeBag)
+    }
     
     func didUseButtonTap() -> Signal<Void> {
         return self.useButton.rx.tap.asSignal()
