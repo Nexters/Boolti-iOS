@@ -30,8 +30,8 @@ final class ResignViewController: BooltiViewController {
         return button
     }()
 
-    private let askingResignLabel: UILabel = {
-        let label = UILabel()
+    private let askingResignLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.text = "탈퇴하시겠어요?"
         label.font = .subhead2
         label.textColor = .grey15
@@ -39,11 +39,11 @@ final class ResignViewController: BooltiViewController {
         return label
     }()
     
-    private let askingResignSubLabel: UILabel = {
-        let label = UILabel()
+    private let askingResignSubLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.text = "탈퇴일로부터 30일 이내에 재로그인 시\n계정 삭제를 취소할 수 있습니다.\n30일이 지나면 계정 및 정보가 영구 삭제됩니다."
         label.numberOfLines = 0
-        label.setLineSpacingAndAlignCenter(lineSpacing: 4)
+        label.textAlignment = .center
         label.font = .body1
         label.textColor = .grey30
 
@@ -81,8 +81,7 @@ final class ResignViewController: BooltiViewController {
         ])
 
         self.resignBackgroundView.snp.makeConstraints { make in
-            make.height.equalTo(230)
-            make.width.equalTo(311)
+            make.horizontalEdges.equalToSuperview().inset(32)
             make.center.equalToSuperview()
         }
 
@@ -98,9 +97,10 @@ final class ResignViewController: BooltiViewController {
         }
 
         self.confirmLogoutButton.snp.makeConstraints { make in
-            make.width.equalTo(271)
+            make.horizontalEdges.equalTo(self.resignBackgroundView).inset(20)
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.resignBackgroundView.snp.bottom).inset(20)
+            make.top.equalTo(self.askingResignSubLabel.snp.bottom).offset(28)
+            make.bottom.equalTo(self.resignBackgroundView).inset(20)
         }
 
         self.closeButton.snp.makeConstraints { make in

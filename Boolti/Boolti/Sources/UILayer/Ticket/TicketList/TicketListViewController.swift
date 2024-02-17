@@ -56,8 +56,7 @@ final class TicketListViewController: BooltiViewController {
 
     private let loginEnterView: LoginEnterView = {
         let view = LoginEnterView()
-        // 색깔은 바꿔줄 예정!..
-        view.backgroundColor = .black100
+        view.backgroundColor = .grey95
         view.isHidden = true
 
         return view
