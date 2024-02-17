@@ -11,9 +11,9 @@ import SnapKit
 
 class LoginEnterView: UIView {
 
-    private let headerTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "지금 로그인하고 \n원하는 공연의 티켓을 \n구매해보세요!"
+    private let headerTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.text = "지금 로그인하고\n원하는 공연의 티켓을\n예매해 보세요!"
         label.textAlignment = .center
         label.numberOfLines = 3
         label.font = .headline1
@@ -22,11 +22,8 @@ class LoginEnterView: UIView {
         return label
     }()
 
-    private let backgroundImageView: UIImageView = {
-        let imageView = UIImageView(image: .popupBackground)
-
-        return imageView
-    }()
+    private let topBackgroundImageView = UIImageView(image: .popupBackground)
+    private let bottomBackgroundImageView = UIImageView(image: .popupBackground)
 
 
     let loginButton: UIButton = {
@@ -50,30 +47,36 @@ class LoginEnterView: UIView {
     }
 
     private func configureUI() {
-
         self.backgroundColor = .grey95
 
         self.addSubviews([
-            self.backgroundImageView,
+            self.topBackgroundImageView,
             self.headerTitleLabel,
-            self.loginButton
+            self.loginButton,
+            self.bottomBackgroundImageView
         ])
         
-        self.backgroundImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(25)
+        self.topBackgroundImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(575)
         }
 
         self.headerTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(self.backgroundImageView)
-            make.centerY.equalTo(self.backgroundImageView)
+            make.centerX.equalTo(self.topBackgroundImageView)
+            make.centerY.equalTo(self.topBackgroundImageView)
         }
 
         self.loginButton.snp.makeConstraints { make in
-            make.centerX.equalTo(self.backgroundImageView)
-            make.top.equalTo(self.headerTitleLabel.snp.bottom).offset(41)
-            make.width.equalTo(145)
-            make.height.equalTo(50)
+            make.centerX.equalTo(self.topBackgroundImageView)
+            make.top.equalTo(self.headerTitleLabel.snp.bottom).offset(28)
+            make.width.equalTo(141)
+            make.height.equalTo(48)
+        }
+        
+        self.bottomBackgroundImageView.snp.makeConstraints { make in
+            make.top.equalTo(self.topBackgroundImageView.snp.bottom).offset(40)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }
