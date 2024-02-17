@@ -159,6 +159,7 @@
 		84E5124F2B6E773F002658D1 /* ConcertDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5124E2B6E773F002658D1 /* ConcertDetailViewModel.swift */; };
 		84E512532B6E9E0B002658D1 /* ConcertPosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E512522B6E9E0B002658D1 /* ConcertPosterView.swift */; };
 		84EC6A642B6CF973009AC6BB /* BooltiToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */; };
+		84FBB2CA2B80D0E8001F4211 /* BooltiUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */; };
 		84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF22B673877009462E9 /* ConcertInfoView.swift */; };
 		84FBBDFB2B675834009462E9 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDFA2B675834009462E9 /* UIStackView+.swift */; };
 		84FBBDFD2B675E78009462E9 /* OTSBAggroB.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84FBBDFC2B675E78009462E9 /* OTSBAggroB.otf */; };
@@ -413,6 +414,7 @@
 		84E5124E2B6E773F002658D1 /* ConcertDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailViewModel.swift; sourceTree = "<group>"; };
 		84E512522B6E9E0B002658D1 /* ConcertPosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertPosterView.swift; sourceTree = "<group>"; };
 		84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiToastView.swift; sourceTree = "<group>"; };
+		84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiUILabel.swift; sourceTree = "<group>"; };
 		84FBBDF22B673877009462E9 /* ConcertInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertInfoView.swift; sourceTree = "<group>"; };
 		84FBBDFA2B675834009462E9 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		84FBBDFC2B675E78009462E9 /* OTSBAggroB.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OTSBAggroB.otf; sourceTree = "<group>"; };
@@ -1548,6 +1550,7 @@
 				84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */,
 				876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */,
 				8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */,
+				84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */,
 				84FBBE002B677187009462E9 /* BooltiTextField.swift */,
 				847AA70D2B62B55500E5B55C /* BooltiNavigationBar.swift */,
 				84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */,
@@ -1787,6 +1790,7 @@
 				8730F0102B7B107F00D4F339 /* TicketRefundReasonViewController.swift in Sources */,
 				8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */,
 				87681BDD2B7A695B008BF59F /* TicketEntryCodeRequestDTO.swift in Sources */,
+				84FBB2CA2B80D0E8001F4211 /* BooltiUILabel.swift in Sources */,
 				8726054D2B79CDF3005CD0D4 /* ConcertInformationView.swift in Sources */,
 				8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */,
 				840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */,
