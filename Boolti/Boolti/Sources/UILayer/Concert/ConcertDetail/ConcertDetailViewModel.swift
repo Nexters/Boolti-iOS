@@ -73,17 +73,19 @@ final class ConcertDetailViewModel {
     let input: Input
     var output: Output
     
+    let concertId: Int
+    
     // MARK: Init
     
     init(concertRepository: ConcertRepository,
          concertId: Int) {
         self.concertRepository = concertRepository
+        self.concertId = concertId
         self.input = Input()
         self.output = Output()
         
         self.bindInputs()
         self.bindOutputs()
-        self.fetchConcertDetail(concertId: concertId)
     }
 }
 
@@ -144,8 +146,8 @@ extension ConcertDetailViewModel {
 
 extension ConcertDetailViewModel {
  
-    private func fetchConcertDetail(concertId: Int) {
-        self.concertRepository.concertDetail(concertId: concertId)
+    func fetchConcertDetail() {
+        self.concertRepository.concertDetail(concertId: self.concertId)
             .do { self.output.concertDetailEntity = $0 }
             .asObservable()
             .bind(to: self.output.concertDetail)
