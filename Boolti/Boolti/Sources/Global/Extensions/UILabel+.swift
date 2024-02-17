@@ -12,9 +12,9 @@ extension UILabel {
     private func getFontLineHeight(font: UIFont) -> CGFloat {
         switch self.font {
         case UIFont.caption:
-            return self.font.lineHeight + 6
+            return self.font.pointSize + 6
         default:
-            return self.font.lineHeight + 8
+            return self.font.pointSize + 8
         }
     }
     
@@ -29,7 +29,7 @@ extension UILabel {
             
             let attributes: [NSAttributedString.Key: Any] = [
             .paragraphStyle: style,
-            .baselineOffset: (lineHeight - font.lineHeight) / 4
+            .baselineOffset: (lineHeight - font.lineHeight) / 2
             ]
             
             let attributeString = NSAttributedString(string: text,
