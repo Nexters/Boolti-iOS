@@ -11,16 +11,16 @@ final class TicketingPeriodView: UIView {
     
     // MARK: UI Component
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.text = "•  티켓 예매 기간  •"
         label.font = .subhead1
         label.textColor = .grey15
         return label
     }()
     
-    private var periodLabel: UILabel = {
-        let label = UILabel()
+    private var periodLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead1
         label.textColor = .grey30
         return label
@@ -98,8 +98,8 @@ extension TicketingPeriodView {
         
         // 점선 만들기
         let linePath = UIBezierPath()
-        linePath.move(to: leftCenter)
-        linePath.addLine(to: rightCenter)
+        linePath.move(to: CGPoint(x: insetRect.minX + 9, y: insetRect.midY))
+        linePath.addLine(to: CGPoint(x: insetRect.maxX - 9, y: insetRect.midY))
         
         let lineLayer = CAShapeLayer()
         lineLayer.strokeColor = UIColor.black100.cgColor
