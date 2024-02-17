@@ -63,8 +63,7 @@ class LoginEnterView: UIView {
         }
 
         self.headerTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(self.topBackgroundImageView)
-            make.centerY.equalTo(self.topBackgroundImageView)
+            make.center.equalTo(self.topBackgroundImageView)
         }
 
         self.loginButton.snp.makeConstraints { make in

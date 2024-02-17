@@ -220,13 +220,6 @@ final class TicketListViewController: BooltiViewController {
             .asDriver()
             .drive(self.viewModel.input.didloginButtonTapEvent)
             .disposed(by: self.disposeBag)
-
-        self.concertEnterView.navigateToHomeButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                owner.tabBarController?.selectedIndex = 0
-            }
-            .disposed(by: self.disposeBag)
     }
 
     private func bindOutput() {
