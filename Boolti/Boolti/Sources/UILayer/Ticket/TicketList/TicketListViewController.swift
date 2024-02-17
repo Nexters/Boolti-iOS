@@ -56,7 +56,6 @@ final class TicketListViewController: BooltiViewController {
 
     private let loginEnterView: LoginEnterView = {
         let view = LoginEnterView()
-        view.backgroundColor = .grey95
         view.isHidden = true
 
         return view
@@ -64,7 +63,6 @@ final class TicketListViewController: BooltiViewController {
 
     private let concertEnterView: ConcertEnterView = {
         let view = ConcertEnterView()
-        view.backgroundColor = .black100
         view.isHidden = true
 
         return view
