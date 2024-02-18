@@ -25,11 +25,11 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         return view
     }()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "환불 정보를 확인해 주세요"
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey15
+        label.text = "환불 정보를 확인해 주세요"
 
         return label
     }()
@@ -110,9 +110,8 @@ final class TicketRefundConfirmViewController: BooltiViewController {
 
     private func configureConstraints() {
         self.contentBackGroundView.snp.makeConstraints { make in
-            make.height.equalTo(334)
-            make.width.equalTo(311)
-            make.center.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(32)
         }
 
         self.closeButton.snp.makeConstraints { make in
@@ -126,36 +125,39 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         }
 
         self.refundInformationContentBackgroundView.snp.makeConstraints { make in
-            make.width.equalTo(271)
+            make.horizontalEdges.equalTo(self.contentBackGroundView).inset(20)
             make.height.equalTo(144)
-            make.centerX.equalToSuperview()
             make.top.equalTo(self.titleLabel.snp.bottom).offset(24)
         }
 
         self.accountHolderNameView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
+            make.horizontalEdges.equalTo(self.refundInformationContentBackgroundView).inset(20)
             make.top.equalTo(self.refundInformationContentBackgroundView.snp.top).inset(16)
         }
 
         self.accountHolderPhoneNumberView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
+            make.horizontalEdges.equalTo(self.accountHolderNameView)
             make.top.equalTo(self.accountHolderNameView.snp.bottom).offset(8)
         }
 
         self.accountBankNameView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
+            make.horizontalEdges.equalTo(self.accountHolderNameView)
             make.top.equalTo(self.accountHolderPhoneNumberView.snp.bottom).offset(8)
         }
 
         self.accountNumberView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
+            make.horizontalEdges.equalTo(self.accountHolderNameView)
             make.top.equalTo(self.accountBankNameView.snp.bottom).offset(8)
         }
 
         self.requestRefundButton.snp.makeConstraints { make in
-            make.width.equalTo(271)
-            make.centerX.equalToSuperview()
+            make.horizontalEdges.equalTo(self.contentBackGroundView).inset(20)
             make.top.equalTo(self.refundInformationContentBackgroundView.snp.bottom).offset(28)
+            make.bottom.equalTo(self.contentBackGroundView).offset(-20)
         }
     }
 
