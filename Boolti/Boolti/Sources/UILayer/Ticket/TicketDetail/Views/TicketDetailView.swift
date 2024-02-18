@@ -64,6 +64,7 @@ final class TicketDetailView: UIView {
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 8
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
 
         return imageView

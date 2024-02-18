@@ -73,7 +73,7 @@ extension ConcertPosterView {
         for index in 0..<images.count{
             let imageView = UIImageView()
             imageView.setImage(with: images[index].path)
-            imageView.contentMode = .scaleToFill
+            imageView.contentMode = .scaleAspectFill
 
             let positionX = self.scrollViewHeight * CGFloat(index)
             imageView.frame = CGRect(x: positionX, y: 0, width: self.scrollViewWidth, height: self.scrollViewHeight)
