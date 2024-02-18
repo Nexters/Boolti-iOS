@@ -32,7 +32,7 @@ final class EntryCodeInputView: UIView {
     private let descriptionLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .body1
-        label.text = "입장 코드는 마이 > QR 스캔 > \n 해당 공연 스캐너에서 확인 가능해요"
+        label.text = "입장 코드는 주최자 계정의 마이 > QR 스캔 >\n해당 공연 스캐너에서 확인 가능해요"
         label.numberOfLines = 0
         label.textColor = .grey50
         label.setLineSpacing(lineSpacing: 5)
@@ -98,11 +98,6 @@ final class EntryCodeInputView: UIView {
     }
 
     private func configureConstraints() {
-        self.snp.makeConstraints { make in
-            make.width.equalTo(311)
-            make.height.equalTo(286)
-        }
-
         self.closeButton.snp.makeConstraints { make in
             make.top.right.equalToSuperview().inset(12)
         }
@@ -129,7 +124,8 @@ final class EntryCodeInputView: UIView {
         }
 
         self.checkButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(23)
+            make.top.equalTo(self.entryCodeInputTextField.snp.bottom).offset(28)
+            make.bottom.equalToSuperview().inset(20)
             make.horizontalEdges.equalTo(self.entryCodeInputTextField)
         }
     }
@@ -175,15 +171,15 @@ final class EntryCodeInputView: UIView {
             self.entryCodeInputTextField.layer.borderColor = nil
             self.entryCodeInputTextField.layer.borderWidth = 0
             self.checkButton.isEnabled = true
-            self.snp.updateConstraints { make in
-                make.height.equalTo(286)
+            self.checkButton.snp.updateConstraints { make in
+                make.top.equalTo(self.entryCodeInputTextField.snp.bottom).offset(28)
             }
         } else {
             self.entryCodeInputTextField.layer.borderColor = UIColor.error.cgColor
             self.entryCodeInputTextField.layer.borderWidth = 1
             self.checkButton.isEnabled = false
-            self.snp.updateConstraints { make in
-                make.height.equalTo(316)
+            self.checkButton.snp.updateConstraints { make in
+                make.top.equalTo(self.entryCodeInputTextField.snp.bottom).offset(58)
             }
         }
         self.layoutIfNeeded()

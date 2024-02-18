@@ -41,6 +41,7 @@ final class TicketEntryCodeViewController: BooltiViewController {
 
         self.entryCodeInputView.snp.makeConstraints { make in
             make.center.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(32)
         }
     }
 
