@@ -28,7 +28,6 @@ final class ConcertEnterView: UIView {
     }()
 
     private let topBackgroundImageView = UIImageView(image: .popupBackground)
-    private let bottomBackgroundImageView = UIImageView(image: .popupBackground)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,14 +44,13 @@ final class ConcertEnterView: UIView {
         self.addSubviews([
             self.topBackgroundImageView,
             self.headerTitleLabel,
-            self.subTitleLabel,
-            self.bottomBackgroundImageView
+            self.subTitleLabel
         ])
 
         self.topBackgroundImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.height.equalTo(575)
+            make.height.equalTo(570)
         }
 
         self.headerTitleLabel.snp.makeConstraints { make in
@@ -62,11 +60,6 @@ final class ConcertEnterView: UIView {
         self.subTitleLabel.snp.makeConstraints { make in
             make.centerX.equalTo(self.topBackgroundImageView)
             make.top.equalTo(self.headerTitleLabel.snp.bottom).offset(4)
-        }
-        
-        self.bottomBackgroundImageView.snp.makeConstraints { make in
-            make.top.equalTo(self.topBackgroundImageView.snp.bottom).offset(40)
-            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }
