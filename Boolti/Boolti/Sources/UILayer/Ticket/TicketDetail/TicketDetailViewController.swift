@@ -230,6 +230,13 @@ final class TicketDetailViewController: BooltiViewController {
             .bind(with: self) { owner, ticketDetailItem in
                 guard let ticketDetailItem else { return }
                 owner.ticketDetailView.setData(with: ticketDetailItem)
+                
+                // 오늘 공연 여부에 따라 숨김 처리
+                owner.entryCodeButton.isHidden = ticketDetailItem.date.formatToDate().compare(Date()) == .orderedSame
+                
+                if let _ = ticketDetailItem.usedAt {
+                    owner.entryCodeButton.isHidden = true
+                }
             }
             .disposed(by: self.disposeBag)
 
