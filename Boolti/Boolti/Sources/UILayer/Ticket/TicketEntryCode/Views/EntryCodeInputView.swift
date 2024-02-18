@@ -20,8 +20,8 @@ final class EntryCodeInputView: UIView {
     var didCheckButtonTap = PublishRelay<Void>()
     var didCloseButtonTap = PublishRelay<Void>()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.text = "입장 코드로 입장 확인"
         label.font = .subhead2
         label.textColor = .grey15
@@ -29,13 +29,13 @@ final class EntryCodeInputView: UIView {
         return label
     }()
 
-    private let descriptionLabel: UILabel = {
-        let label = UILabel()
+    private let descriptionLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.text = "입장 코드는 마이 > QR 스캔 > \n 해당 공연 스캐너에서 확인 가능해요"
         label.numberOfLines = 0
         label.textColor = .grey50
         label.font = .body1
-        label.setLineSpacing(lineSpacing: 3)
+        label.setLineSpacing(lineSpacing: 5)
         label.textAlignment = .center
 
         return label
@@ -43,7 +43,7 @@ final class EntryCodeInputView: UIView {
 
     private let entryCodeInputTextField: BooltiTextField = {
         let textField = BooltiTextField(backgroundColor: .grey80)
-        textField.setPlaceHolderText(placeholder: "입장 코드를 입력해 주세요.", foregroundColor: .grey60)
+        textField.setPlaceHolderText(placeholder: "입장 코드를 입력해 주세요", foregroundColor: .grey60)
         textField.autocorrectionType = .no
         textField.spellCheckingType = .no
         
@@ -55,9 +55,9 @@ final class EntryCodeInputView: UIView {
         return button
     }()
 
-    private let errorCommentLabel: UILabel = {
-        let label = UILabel()
-        label.text = "올바른 입장 코드를 입력해 주세요."
+    private let errorCommentLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.text = "올바른 입장 코드를 입력해 주세요"
         label.font = .body1
         label.textColor = .error
         label.isHidden = true
@@ -119,6 +119,7 @@ final class EntryCodeInputView: UIView {
 
         self.entryCodeInputTextField.snp.makeConstraints { make in
             make.top.equalTo(self.descriptionLabel.snp.bottom).offset(24)
+            make.height.equalTo(48)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 
@@ -128,7 +129,7 @@ final class EntryCodeInputView: UIView {
         }
 
         self.checkButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(23)
             make.horizontalEdges.equalTo(self.entryCodeInputTextField)
         }
     }
@@ -168,12 +169,14 @@ final class EntryCodeInputView: UIView {
         if self.isInvalidEntryCodeTyped {
             self.entryCodeInputTextField.layer.borderColor = nil
             self.entryCodeInputTextField.layer.borderWidth = 0
+            self.checkButton.isEnabled = true
             self.snp.updateConstraints { make in
                 make.height.equalTo(286)
             }
         } else {
             self.entryCodeInputTextField.layer.borderColor = UIColor.error.cgColor
             self.entryCodeInputTextField.layer.borderWidth = 1
+            self.checkButton.isEnabled = false
             self.snp.updateConstraints { make in
                 make.height.equalTo(316)
             }
