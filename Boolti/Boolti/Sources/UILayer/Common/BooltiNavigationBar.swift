@@ -120,7 +120,7 @@ extension BooltiNavigationBar {
     
     private func configureConcertDetailUI() {
         self.backgroundColor = .grey90
-        
+
         self.addSubviews([self.backButton, self.homeButton, self.shareButton, self.moreButton])
         self.configureConcertDetailConstraints()
     }
