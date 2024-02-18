@@ -102,7 +102,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
     )
 
     private let reversalPolicyView = ReversalPolicyView(isWithoutBorder: true)
-    private let blankSpaceView = UIView()
 
     private let requestRefundButton: UIButton = {
         let button = UIButton()
@@ -186,10 +185,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
             make.width.equalTo(screenWidth-40)
         }
 
-        self.blankSpaceView.snp.makeConstraints { make in
-            make.height.equalTo(40)
-        }
-
         self.addArrangedSubViews()
     }
 
@@ -203,11 +198,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.purchaserInformationStackView,
             self.depositorInformationStackView,
             self.reversalPolicyView,
-            self.requestRefundButton,
-            self.blankSpaceView
+            self.requestRefundButton
         ])
 
-        self.contentStackView.setCustomSpacing(0, after: self.requestRefundButton)
+        self.contentStackView.setCustomSpacing(40, after: self.reversalPolicyView)
     }
 
     private func bindUIComponents() {
