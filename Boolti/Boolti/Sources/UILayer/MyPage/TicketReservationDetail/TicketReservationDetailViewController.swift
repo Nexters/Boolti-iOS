@@ -30,12 +30,14 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return scrollView
     }()
 
-    private let contentStackView: UIStackView = {
+    private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 12
+        
+        stackView.setCustomSpacing(0, after: self.concertInformationView)
 
         return stackView
     }()

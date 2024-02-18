@@ -84,6 +84,7 @@ final class ConcertInformationView: UIView {
         self.concertPosterImageView.snp.makeConstraints { make in
             make.width.equalTo(70)
             make.height.equalTo(98)
+            make.centerY.equalToSuperview()
             make.left.equalToSuperview().inset(20)
         }
         

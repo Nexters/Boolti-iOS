@@ -77,10 +77,7 @@ final class ReservationHorizontalStackView: UIStackView {
         self.copyButton.isHidden = !isCopyButtonExist
         self.titleLabel.text = title
         self.isUserInteractionEnabled = true
-
         self.axis = .horizontal
-        self.alignment = .fill
-        self.spacing = 20
 
         self.configureAlignment(alignment)
         self.addArrangedSubviews([
@@ -100,8 +97,11 @@ final class ReservationHorizontalStackView: UIStackView {
 
         switch alignment {
         case .left:
+            self.spacing = 20
+            self.distribution = .fill
             self.contentLabel.textAlignment = .left
         case .right:
+            self.distribution = .equalSpacing
             self.contentLabel.textAlignment = .right
         }
     }
@@ -118,13 +118,8 @@ final class ReservationHorizontalStackView: UIStackView {
 
         self.titleLabel.snp.makeConstraints { make in
             make.width.equalTo(80)
-            make.height.equalTo(32)
         }
-
-        self.contentLabel.snp.makeConstraints { make in
-            make.height.equalTo(32)
-        }
-
+        
         self.copyButton.snp.makeConstraints { make in
             make.right.equalToSuperview()
             make.centerY.equalToSuperview()
