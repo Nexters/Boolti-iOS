@@ -1390,10 +1390,10 @@
 		872605472B793A18005CD0D4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8726054C2B79CDF3005CD0D4 /* ConcertInformationView.swift */,
 				872605482B793A3F005CD0D4 /* ReservationCollapsableStackView.swift */,
 				87F7DF422B8221D40068A6C9 /* ViewCollapseImageView.swift */,
 				8726054A2B793BCF005CD0D4 /* ReservationHorizontalStackView.swift */,
-				8726054C2B79CDF3005CD0D4 /* ConcertInformationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
