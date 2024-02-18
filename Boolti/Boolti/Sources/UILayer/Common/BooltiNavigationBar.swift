@@ -26,6 +26,15 @@ enum NavigationType {
 
 final class BooltiNavigationBar: UIView {
     
+    // MARK: Properties
+    
+    var statusBarHeight: CGFloat {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            return windowScene.statusBarManager?.statusBarFrame.height ?? 44
+        }
+        return 44
+    }
+    
     // MARK: UI Component
     
     private let titleLabel: UILabel = {
@@ -90,11 +99,8 @@ extension BooltiNavigationBar {
 extension BooltiNavigationBar {
     
     private func configureDefaultConstraints() {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            let statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 44
-            self.snp.makeConstraints { make in
-                make.height.equalTo(statusBarHeight + 44)
-            }
+        self.snp.makeConstraints { make in
+            make.height.equalTo(self.statusBarHeight + 44)
         }
     }
 
