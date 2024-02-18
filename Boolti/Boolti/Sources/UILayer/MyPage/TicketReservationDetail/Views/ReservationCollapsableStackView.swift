@@ -22,8 +22,8 @@ final class ReservationCollapsableStackView: UIStackView {
         return view
     }()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
         return label
@@ -54,7 +54,7 @@ final class ReservationCollapsableStackView: UIStackView {
     private func configreUI(title: String, contentViews: [UIView], isHidden: Bool) {
 
         self.axis = .vertical
-        self.spacing = spacing
+        self.spacing = 8
         self.alignment = .center
         self.backgroundColor = .grey90
         self.titleLabel.text = title
@@ -73,6 +73,8 @@ final class ReservationCollapsableStackView: UIStackView {
         self.titleView.addSubviews([
             self.titleLabel, self.viewCollapseImageView
         ])
+
+        self.setCustomSpacing(0, after: self.titleView)
 
         self.configureConstraints()
     }
