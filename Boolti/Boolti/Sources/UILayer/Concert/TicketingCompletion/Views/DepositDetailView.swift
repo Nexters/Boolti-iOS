@@ -49,7 +49,7 @@ extension DepositDetailView {
     
     func setSalesEndTime(salesEndTime: Date) {
         guard let endOfDay = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: salesEndTime) else { return }
-        self.depositDeadline.text = endOfDay.format(.dateDayTime)
+        self.depositDeadline.text = endOfDay.format(.dateTime)
     }
     
     func setBankData(reservation: TicketReservationDetailEntity) {

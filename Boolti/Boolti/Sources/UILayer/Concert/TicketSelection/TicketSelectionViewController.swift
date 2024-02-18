@@ -151,7 +151,7 @@ extension TicketSelectionViewController {
     
     private func configureUI() {
         self.setTitle("티켓 선택")
-        
+
         self.contentView.addSubviews([self.ticketTypeView, self.selectedTicketView])
         self.selectedTicketView.isHidden = true
     }

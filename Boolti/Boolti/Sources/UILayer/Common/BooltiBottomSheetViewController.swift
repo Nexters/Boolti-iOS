@@ -67,8 +67,8 @@ extension BooltiBottomSheetViewController {
     private func configureUI() {
         self.view.backgroundColor = .grey85
         self.navigationController?.navigationBar.isHidden = true
-        self.sheetPresentationController?.detents = [.medium()]
-        
+        self.sheetPresentationController?.detents = [.custom { _ in return 0}]
+
         self.view.addSubviews([titleView, contentView])
         self.titleView.addSubview(titleLabel)
     }

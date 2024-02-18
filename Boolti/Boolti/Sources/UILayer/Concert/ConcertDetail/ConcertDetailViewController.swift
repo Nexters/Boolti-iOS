@@ -69,11 +69,11 @@ final class ConcertDetailViewController: BooltiViewController {
     private let organizerInfoView = OrganizerInfoView()
     
     private lazy var buttonBackgroundView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 16))
-        
+        let view = UIView()
+
         let gradient = CAGradientLayer()
-        gradient.frame = view.bounds
-        gradient.colors = [UIColor.clear.cgColor, UIColor.grey95.cgColor]
+        gradient.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 24)
+        gradient.colors = [UIColor.grey95.withAlphaComponent(0.0).cgColor, UIColor.grey95.cgColor, UIColor.grey95.cgColor]
         view.layer.insertSublayer(gradient, at: 0)
 
         return view
@@ -296,7 +296,7 @@ extension ConcertDetailViewController {
         self.buttonBackgroundView.snp.makeConstraints { make in
             make.bottom.equalTo(self.ticketingButton.snp.top)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(16)
+            make.height.equalTo(24)
         }
         
         self.ticketingButton.snp.makeConstraints { make in

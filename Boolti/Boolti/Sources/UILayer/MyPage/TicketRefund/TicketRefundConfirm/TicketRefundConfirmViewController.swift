@@ -44,6 +44,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
     private let refundInformationContentBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .grey80
+        view.layer.cornerRadius = 4
 
         return view
     }()
@@ -121,7 +122,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
 
         self.titleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(311)
+            make.top.equalTo(self.closeButton.snp.bottom).offset(12)
         }
 
         self.refundInformationContentBackgroundView.snp.makeConstraints { make in
@@ -154,7 +155,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         self.requestRefundButton.snp.makeConstraints { make in
             make.width.equalTo(271)
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.contentBackGroundView.snp.bottom).inset(20)
+            make.top.equalTo(self.refundInformationContentBackgroundView.snp.bottom).offset(28)
         }
     }
 

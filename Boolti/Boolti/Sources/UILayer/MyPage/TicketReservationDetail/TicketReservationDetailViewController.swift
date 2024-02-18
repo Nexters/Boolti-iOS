@@ -100,6 +100,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
     )
 
     private let reversalPolicyView = ReversalPolicyView(isWithoutBorder: true)
+    private let blankSpaceView = UIView()
 
     private let requestRefundButton: UIButton = {
         let button = UIButton()
@@ -183,6 +184,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
             make.width.equalTo(screenWidth-40)
         }
 
+        self.blankSpaceView.snp.makeConstraints { make in
+            make.height.equalTo(40)
+        }
+
         self.addArrangedSubViews()
     }
 
@@ -196,10 +201,11 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.purchaserInformationStackView,
             self.depositorInformationStackView,
             self.reversalPolicyView,
-            self.requestRefundButton
+            self.requestRefundButton,
+            self.blankSpaceView
         ])
 
-        self.contentStackView.setCustomSpacing(40, after: self.reversalPolicyView)
+        self.contentStackView.setCustomSpacing(0, after: self.requestRefundButton)
     }
 
     private func bindUIComponents() {
@@ -273,7 +279,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         // 티켓 정보
         self.ticketTypeView.setData(entity.ticketType.rawValue)
-        self.ticketCountView.setData(entity.ticketCount)
+        self.ticketCountView.setData("\(entity.ticketCount)매")
         self.ticketingDateView.setData(entity.ticketingDate?.formatToDate().format(.dateDayTime) ?? "발권 전")
 
         // 예매자 정보
