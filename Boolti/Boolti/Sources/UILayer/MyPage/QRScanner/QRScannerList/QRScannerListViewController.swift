@@ -33,8 +33,8 @@ final class QRScannerListViewController: BooltiViewController {
     
     private let emptyMainTitle: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.text = "주최한 공연이 없어요"
         label.font = .headline1
+        label.text = "주최한 공연이 없어요"
         label.textColor = .grey05
         return label
     }()

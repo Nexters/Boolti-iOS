@@ -11,8 +11,8 @@ final class ConcertEnterView: UIView {
 
     private let headerTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.text = "아직 발권된 티켓이 없어요"
         label.font = .headline1
+        label.text = "아직 발권된 티켓이 없어요"
         label.textColor = .grey05
 
         return label
@@ -20,9 +20,9 @@ final class ConcertEnterView: UIView {
 
     private let subTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
+        label.font = .body3
         label.text = "티켓을 예매하고 공연을 즐겨보세요!"
         label.textColor = .grey30
-        label.font = .body3
 
         return label
     }()

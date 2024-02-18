@@ -312,6 +312,7 @@ final class TicketListViewController: BooltiViewController {
         footerView.isHidden = true
         Observable.combineLatest(self.currentTicketPage, self.ticketPageCount)
             .subscribe { (currentPage, pagesCount) in
+                guard pagesCount != 1 else { return }
                 footerView.isHidden = false
                 footerView.pageIndicatorLabel.text = "\(currentPage)/\(pagesCount)"
             }

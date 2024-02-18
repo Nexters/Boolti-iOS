@@ -22,4 +22,5 @@ struct TicketDetailItemEntity {
     let hostName: String
     let hostPhoneNumber: String
     let ticketStatus: TicketStatus
+    let usedAt: String?
 }

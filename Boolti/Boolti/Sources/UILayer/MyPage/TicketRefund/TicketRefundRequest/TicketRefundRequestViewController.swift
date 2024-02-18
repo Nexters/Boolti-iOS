@@ -121,7 +121,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
         }
 
         self.accountHolderView.snp.makeConstraints { make in
-            make.top.equalTo(self.concertInformationView.snp.bottom)
+            make.top.equalTo(self.concertInformationView.snp.bottom).offset(12)
         }
 
         self.refundAccountInformationView.snp.makeConstraints { make in

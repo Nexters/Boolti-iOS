@@ -54,7 +54,7 @@ final class TicketDetailViewController: BooltiViewController {
         return view
     }()
 
-    private let entryCodeButton: UIButton = {
+    let entryCodeButton: UIButton = {
         let button = UIButton()
         button.setTitle("입장 코드 입력하기", for: .normal)
         button.setUnderline(font: .pretendardR(14), textColor: .grey50)
@@ -64,6 +64,7 @@ final class TicketDetailViewController: BooltiViewController {
 
     private var ticketDetailView = TicketDetailView()
     private let reversalPolicyView = ReversalPolicyView()
+    private let blankSpaceView = UIView()
 
     private let disposeBag = DisposeBag()
 
@@ -111,7 +112,8 @@ final class TicketDetailViewController: BooltiViewController {
         self.contentStackView.addArrangedSubviews([
             self.ticketDetailView,
             self.reversalPolicyView,
-            self.entryCodeView
+            self.entryCodeView,
+            self.blankSpaceView
         ])
 
         self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
@@ -125,9 +127,9 @@ final class TicketDetailViewController: BooltiViewController {
         }
 
         self.scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom).offset(16)
+            make.top.equalTo(self.navigationBar.snp.bottom)
             make.bottom.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(25)
+            make.horizontalEdges.equalToSuperview().inset(29)
         }
 
         self.ticketDetailView.snp.makeConstraints { make in
@@ -141,6 +143,10 @@ final class TicketDetailViewController: BooltiViewController {
         self.entryCodeButton.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.height.equalTo(60)
+        }
+
+        self.blankSpaceView.snp.makeConstraints { make in
+            make.height.equalTo(40)
         }
 
         self.contentStackView.snp.makeConstraints { make in
@@ -166,7 +172,7 @@ final class TicketDetailViewController: BooltiViewController {
         self.ticketDetailView.didCopyAddressButtonTap
             .bind(with: self) { owner, _ in
                 UIPasteboard.general.string = owner.viewModel.output.fetchedTicketDetail.value?.location
-                owner.showToast(message: "공연장 주소가 복사되었어요.")
+                owner.showToast(message: "공연장 주소가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
 
@@ -224,6 +230,13 @@ final class TicketDetailViewController: BooltiViewController {
             .bind(with: self) { owner, ticketDetailItem in
                 guard let ticketDetailItem else { return }
                 owner.ticketDetailView.setData(with: ticketDetailItem)
+                
+                // 오늘 공연 여부에 따라 숨김 처리
+                owner.entryCodeButton.isHidden = ticketDetailItem.date.formatToDate().compare(Date()) == .orderedSame
+                
+                if let _ = ticketDetailItem.usedAt {
+                    owner.entryCodeButton.isHidden = true
+                }
             }
             .disposed(by: self.disposeBag)
 
