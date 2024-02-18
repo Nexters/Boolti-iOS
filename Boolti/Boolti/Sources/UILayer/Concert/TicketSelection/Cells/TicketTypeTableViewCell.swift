@@ -99,7 +99,7 @@ extension TicketTypeTableViewCell {
         self.inventoryLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalTo(self.nameLabel.snp.right).offset(8)
-            make.height.equalTo(26)
+            make.height.equalTo(24)
         }
 
         self.priceLabel.snp.makeConstraints { make in

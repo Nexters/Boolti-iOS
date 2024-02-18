@@ -90,7 +90,7 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
     }()
     
     private let stateLabel: BooltiPaddingLabel = {
-        let label = BooltiPaddingLabel(padding: .init(top: 7, left: 12, bottom: 7, right: 12))
+        let label = BooltiPaddingLabel(padding: .init(top: 6, left: 12, bottom: 6, right: 12))
         label.font = .caption
         label.layer.cornerRadius = 15
         label.clipsToBounds = true
