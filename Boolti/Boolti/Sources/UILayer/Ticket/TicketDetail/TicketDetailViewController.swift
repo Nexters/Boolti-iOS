@@ -54,7 +54,7 @@ final class TicketDetailViewController: BooltiViewController {
         return view
     }()
 
-    private let entryCodeButton: UIButton = {
+    let entryCodeButton: UIButton = {
         let button = UIButton()
         button.setTitle("입장 코드 입력하기", for: .normal)
         button.setUnderline(font: .pretendardR(14), textColor: .grey50)

@@ -164,6 +164,11 @@ final class EntryCodeInputView: UIView {
         }
     }
 
+    func setData(with data: EntryCodeResponse) {
+        self.errorCommentLabel.text = data.description
+        self.isInvalidEntryCodeTyped = false
+    }
+
     private func setErrorCommentUI() {
         self.errorCommentLabel.isHidden.toggle()
         if self.isInvalidEntryCodeTyped {

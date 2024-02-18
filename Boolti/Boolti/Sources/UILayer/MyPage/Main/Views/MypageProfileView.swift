@@ -31,8 +31,8 @@ final class MypageProfileView: UIView {
     
     private let profileNameLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.text = "불티 로그인 하러가기"
         label.font = .subhead2
+        label.text = "불티 로그인 하러가기"
         label.textColor = .grey10
 
         return label
@@ -40,8 +40,8 @@ final class MypageProfileView: UIView {
 
     private let profileEmailLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.text = "원하는 공연 티켓을 예매해보세요!"
         label.font = .body3
+        label.text = "원하는 공연 티켓을 예매해보세요!"
         label.textColor = .grey30
 
         return label
