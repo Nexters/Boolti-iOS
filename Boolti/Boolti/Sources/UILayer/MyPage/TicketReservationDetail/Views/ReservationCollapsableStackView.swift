@@ -9,10 +9,11 @@ import UIKit
 
 import RxSwift
 import RxRelay
+import RxGesture
 
 final class ReservationCollapsableStackView: UIStackView {
 
-    let didViewCollapseButtonTap = PublishRelay<Void>()
+    let didViewCollapseViewTap = PublishRelay<Void>()
 
     private let disposeBag = DisposeBag()
 
@@ -109,11 +110,11 @@ final class ReservationCollapsableStackView: UIStackView {
 
     private func bindUIComponents() {
         let collapsableSubviews = self.arrangedSubviews.filter { $0 != self.titleView }
-        self.viewCollapseButton.rx.tap
+        self.titleView.rx.tapGesture()
             .bind(with: self) { owner, _ in
                 owner.viewCollapseButton.isSelected.toggle()
                 collapsableSubviews.forEach { $0.isHidden.toggle() }
-                owner.didViewCollapseButtonTap.accept(())
+                owner.didViewCollapseViewTap.accept(())
             }
             .disposed(by: self.disposeBag)
     }
