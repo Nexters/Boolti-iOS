@@ -9,20 +9,20 @@ import UIKit
 
 final class TicketNoticeView: UIView {
 
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "안내사항 for 주최자"
+    let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
+        label.text = "안내사항 for 주최자"
         label.textColor = .grey15
 
         return label
     }()
 
-    let noticeLabel: UILabel = {
-        let label = UILabel()
+    let noticeLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .body1
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = .body1
         label.textColor = .grey50
 
         return label

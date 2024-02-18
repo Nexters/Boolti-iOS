@@ -10,7 +10,7 @@ import UIKit
 final class BooltiPaddingLabel: UILabel {
     
     private var padding = UIEdgeInsets(top: 4.0, left: 12.0, bottom: 4.0, right: 12.0)
-    
+
     convenience init(padding: UIEdgeInsets) {
         self.init()
         self.padding = padding

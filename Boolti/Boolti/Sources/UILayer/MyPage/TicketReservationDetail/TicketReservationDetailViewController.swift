@@ -30,12 +30,14 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return scrollView
     }()
 
-    private let contentStackView: UIStackView = {
+    private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 12
+        
+        stackView.setCustomSpacing(0, after: self.concertInformationView)
 
         return stackView
     }()
@@ -273,7 +275,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         // 티켓 정보
         self.ticketTypeView.setData(entity.ticketType.rawValue)
-        self.ticketCountView.setData(entity.ticketCount)
+        self.ticketCountView.setData("\(entity.ticketCount)매")
         self.ticketingDateView.setData(entity.ticketingDate?.formatToDate().format(.dateDayTime) ?? "발권 전")
 
         // 예매자 정보

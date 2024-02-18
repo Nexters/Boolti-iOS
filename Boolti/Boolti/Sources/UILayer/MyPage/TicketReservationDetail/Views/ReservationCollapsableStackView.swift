@@ -9,10 +9,11 @@ import UIKit
 
 import RxSwift
 import RxRelay
+import RxGesture
 
 final class ReservationCollapsableStackView: UIStackView {
 
-    let didViewCollapseButtonTap = PublishRelay<Void>()
+    let didViewCollapseViewTap = PublishRelay<Void>()
 
     private let disposeBag = DisposeBag()
 
@@ -21,24 +22,16 @@ final class ReservationCollapsableStackView: UIStackView {
         return view
     }()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
         return label
     }()
 
-    private let viewCollapseButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.chevronDown, for: .normal)
-        button.setImage(.chevronUp, for: .selected)
-        return button
-    }()
+    private var viewCollapseImageView = ViewCollapseImageView()
 
-    private let additionalSpacingView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    private let additionalSpacingView = UIView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,15 +51,13 @@ final class ReservationCollapsableStackView: UIStackView {
     private func configreUI(title: String, contentViews: [UIView], isHidden: Bool) {
 
         self.axis = .vertical
-        self.spacing = spacing
+        self.spacing = 16
         self.alignment = .center
         self.backgroundColor = .grey90
         self.titleLabel.text = title
         self.isUserInteractionEnabled = true
 
-        if !isHidden {
-            self.viewCollapseButton.isSelected.toggle()
-        }
+        self.viewCollapseImageView.isOpen = !isHidden
 
         let collapsableSubviews = contentViews + [self.additionalSpacingView]
         collapsableSubviews.forEach { $0.isHidden = isHidden }
@@ -75,8 +66,10 @@ final class ReservationCollapsableStackView: UIStackView {
         self.addArrangedSubviews(subviews)
 
         self.titleView.addSubviews([
-            self.titleLabel, self.viewCollapseButton
+            self.titleLabel, self.viewCollapseImageView
         ])
+
+        self.setCustomSpacing(0, after: self.titleView)
 
         self.configureConstraints()
     }
@@ -97,23 +90,25 @@ final class ReservationCollapsableStackView: UIStackView {
             make.left.equalToSuperview().inset(20)
         }
 
-        self.viewCollapseButton.snp.makeConstraints { make in
+        self.viewCollapseImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(20)
         }
 
         self.additionalSpacingView.snp.makeConstraints { make in
-            make.height.equalTo(30)
+            make.height.equalTo(14)
         }
     }
 
     private func bindUIComponents() {
         let collapsableSubviews = self.arrangedSubviews.filter { $0 != self.titleView }
-        self.viewCollapseButton.rx.tap
+        self.titleView.rx.tapGesture()
+            // 처음에 호출이됨..
+            .skip(1)
             .bind(with: self) { owner, _ in
-                owner.viewCollapseButton.isSelected.toggle()
+                owner.viewCollapseImageView.isOpen.toggle()
                 collapsableSubviews.forEach { $0.isHidden.toggle() }
-                owner.didViewCollapseButtonTap.accept(())
+                owner.didViewCollapseViewTap.accept(())
             }
             .disposed(by: self.disposeBag)
     }

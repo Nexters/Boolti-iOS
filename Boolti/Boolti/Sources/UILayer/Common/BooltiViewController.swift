@@ -76,7 +76,7 @@ extension BooltiViewController {
 
     @objc func showNetworkAlert() {
         let alertController = UIAlertController(title: "오류",
-                                                message: "네트워크 오류가 발생했습니다.\n잠시후 다시 시도해주세요.",
+                                                message: "네트워크 오류가 발생했습니다.\n잠시후 다시 시도해주세요",
                                                 preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default, handler: { _ in
             UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
@@ -92,7 +92,7 @@ extension BooltiViewController {
 
         let alertController = UIAlertController(
             title: "오류",
-            message: "로그인 세션이 만료되었습니다.\n앱을 다시 시작해주세요.",
+            message: "로그인 세션이 만료되었습니다.\n앱을 다시 시작해주세요",
             preferredStyle: .alert
         )
         let okAction = UIAlertAction(title: "다시 시작하기", style: .default, handler: { _ in

@@ -9,8 +9,8 @@ import UIKit
 
 final class RefundConfirmContentView: UIView {
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey30
         label.font = .body1
         label.textAlignment = .left
@@ -18,8 +18,8 @@ final class RefundConfirmContentView: UIView {
         return label
     }()
 
-    private let contentLabel: UILabel = {
-        let label = UILabel()
+    private let contentLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey15
         label.font = .body1
         label.textAlignment = .right
@@ -48,7 +48,6 @@ final class RefundConfirmContentView: UIView {
         ])
 
         self.snp.makeConstraints { make in
-            make.width.equalTo(231)
             make.height.equalTo(22)
         }
 

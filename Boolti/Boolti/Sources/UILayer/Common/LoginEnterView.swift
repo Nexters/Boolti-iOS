@@ -13,10 +13,10 @@ class LoginEnterView: UIView {
 
     private let headerTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
+        label.font = .headline1
         label.text = "지금 로그인하고\n원하는 공연의 티켓을\n예매해 보세요!"
         label.textAlignment = .center
         label.numberOfLines = 3
-        label.font = .headline1
         label.textColor = .grey05
 
         return label
