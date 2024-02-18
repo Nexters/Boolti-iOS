@@ -64,7 +64,6 @@ final class ConcertDetailViewModel {
     
     struct Output {
         let navigate = PublishRelay<ConcertDetailDestination>()
-        let showLoginEnterView = BehaviorRelay<Bool>(value: false)
         let concertDetail = PublishRelay<ConcertDetailEntity>()
         var concertDetailEntity: ConcertDetailEntity?
         let buttonState = BehaviorRelay<ConcertTicketingState>(value: .endSale)
@@ -104,7 +103,7 @@ extension ConcertDetailViewModel {
         self.input.didTicketingButtonTap
             .bind(with: self) { owner, _ in
                 if UserDefaults.accessToken.isEmpty {
-                    owner.output.showLoginEnterView.accept(true)
+                    owner.output.navigate.accept(.login)
                 } else {
                     guard let concertId = owner.output.concertDetailEntity?.id else { return }
                     owner.output.navigate.accept(.ticketSelection(concertId: concertId))

@@ -29,8 +29,6 @@ final class ConcertDetailViewController: BooltiViewController {
     // MARK: UI Component
     
     private let navigationBar = BooltiNavigationBar(type: .concertDetail)
-
-    private let loginEnterView = LoginEnterView()
     
     private let dimmedBackgroundView: UIView = {
         let view = UIView()
@@ -163,13 +161,6 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.viewModel.output.showLoginEnterView
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, show in
-                owner.loginEnterView.isHidden = !show
-            }
-            .disposed(by: self.disposeBag)
-        
         self.viewModel.output.navigate
             .asDriver(onErrorJustReturn: .login)
             .drive(with: self) { owner, destination in
@@ -177,9 +168,7 @@ extension ConcertDetailViewController {
                 case .login:
                     let viewController = owner.loginViewControllerFactory()
                     viewController.modalPresentationStyle = .overFullScreen
-                    owner.present(viewController, animated: true) {
-                        owner.loginEnterView.isHidden = true
-                    }
+                    owner.present(viewController, animated: true)
                 case .contentExpand(let content):
                     let viewController = owner.concertContentExpandViewControllerFactory(content)
                     owner.navigationController?.pushViewController(viewController, animated: true)
@@ -197,18 +186,9 @@ extension ConcertDetailViewController {
     }
     
     private func bindUIComponents() {
-        self.bindLoginEnterView()
         self.bindPlaceInfoView()
         self.bindContentInfoView()
         self.bindNavigationBar()
-    }
-    
-    private func bindLoginEnterView() {
-        self.loginEnterView.loginButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.viewModel.output.navigate.accept(.login)
-            }
-            .disposed(by: self.disposeBag)
     }
     
     private func bindPlaceInfoView() {
@@ -296,7 +276,6 @@ extension ConcertDetailViewController {
                                self.scrollView,
                                self.buttonBackgroundView,
                                self.ticketingButton,
-                               self.loginEnterView,
                                self.dimmedBackgroundView])
         
         self.view.backgroundColor = .grey95
@@ -306,10 +285,6 @@ extension ConcertDetailViewController {
         self.navigationBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-        }
-        
-        self.loginEnterView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         self.dimmedBackgroundView.snp.makeConstraints { make in
