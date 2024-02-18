@@ -86,6 +86,10 @@ final class BooltiNavigationBar: UIView {
 
 extension BooltiNavigationBar {
     
+    func setBackgroundColor(with color: UIColor) {
+        self.backgroundColor = color
+    }
+    
     private func makeButton(image: UIImage) -> UIButton {
         let button = UIButton(type: .system)
         button.setImage(image, for: .normal)

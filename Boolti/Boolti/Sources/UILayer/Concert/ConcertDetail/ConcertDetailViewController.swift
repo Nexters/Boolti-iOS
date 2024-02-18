@@ -44,6 +44,7 @@ final class ConcertDetailViewController: BooltiViewController {
         let scrollView = UIScrollView()
         scrollView.bounces = false
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.delegate = self
         
         scrollView.addSubviews([self.stackView])
         return scrollView
@@ -270,6 +271,19 @@ extension ConcertDetailViewController {
                 owner.present(alertController, animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension ConcertDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        if offset <= self.concertPosterView.frame.height {
+            self.navigationBar.setBackgroundColor(with: .grey90)
+        } else {
+            self.navigationBar.setBackgroundColor(with: .grey95)
+        }
     }
 }
 
