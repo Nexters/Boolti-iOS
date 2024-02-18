@@ -45,9 +45,18 @@ class BooltiViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(showNetworkAlert),
-                                               name: Notification.Name("ServerErrorNotification"),
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(showNetworkAlert),
+            name: Notification.Name("ServerErrorNotification"),
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(navigateToRoot),
+            name: Notification.Name.refreshTokenHasExpired,
+            object: nil
+        )
     }
 
     deinit {
@@ -78,7 +87,32 @@ extension BooltiViewController {
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
     }
-    
+
+    @objc func navigateToRoot() {
+
+        let alertController = UIAlertController(
+            title: "오류",
+            message: "로그인 세션이 만료되었습니다.\n앱을 다시 시작해주세요.",
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "다시 시작하기", style: .default, handler: { _ in
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+            let scenedelegate = windowScene.delegate as? SceneDelegate
+
+            let rootDIContainer = RootDIContainer()
+            let rootViewController = rootDIContainer.createRootViewController()
+
+            scenedelegate?.window?.rootViewController = rootViewController
+            scenedelegate?.window?.makeKeyAndVisible()
+
+        })
+        alertController.addAction(okAction)
+
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+
     func showToast(message: String) {
         self.toastView?.showToast.accept(message)
     }
