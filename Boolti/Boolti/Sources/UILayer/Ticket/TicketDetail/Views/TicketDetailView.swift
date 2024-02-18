@@ -41,7 +41,7 @@ final class TicketDetailView: UIView {
     // MARK: upperTagLabelStackView 처리하기
     private let ticketTypeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .grey80
+        label.textColor = .grey80.withAlphaComponent(0.8)
         label.font = .pretendardB(14)
 
         return label
@@ -64,8 +64,8 @@ final class TicketDetailView: UIView {
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 8
-        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
 
         return imageView
     }()

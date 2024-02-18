@@ -67,7 +67,8 @@ extension TicketDetailResponseDTO {
             concertID: self.showId,
             hostName: self.hostName,
             hostPhoneNumber: self.hostPhoneNumber,
-            ticketStatus: ticketStatus
+            ticketStatus: ticketStatus,
+            usedAt: self.usedAt
         )
     }
 }

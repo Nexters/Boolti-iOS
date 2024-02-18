@@ -11,10 +11,10 @@ import RxSwift
 import RxCocoa
 
 enum InvitationCodeState: String {
-    case verified = "사용되었습니다."
-    case used = "이미 사용된 초청코드입니다."
-    case incorrect = "초청 코드가 올바르지 않아요."
-    case empty = "초청 코드를 입력해 주세요."
+    case verified = "사용되었습니다"
+    case used = "이미 사용된 초청코드입니다"
+    case incorrect = "초청 코드가 올바르지 않아요"
+    case empty = "초청 코드를 입력해 주세요"
 }
 
 final class InvitationCodeView: UIView {

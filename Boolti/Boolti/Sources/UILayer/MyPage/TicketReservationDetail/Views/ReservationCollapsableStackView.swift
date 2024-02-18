@@ -22,8 +22,8 @@ final class ReservationCollapsableStackView: UIStackView {
         return view
     }()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
         return label
@@ -31,10 +31,7 @@ final class ReservationCollapsableStackView: UIStackView {
 
     private var viewCollapseImageView = ViewCollapseImageView()
 
-    private let additionalSpacingView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    private let additionalSpacingView = UIView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,15 +51,13 @@ final class ReservationCollapsableStackView: UIStackView {
     private func configreUI(title: String, contentViews: [UIView], isHidden: Bool) {
 
         self.axis = .vertical
-        self.spacing = spacing
+        self.spacing = 16
         self.alignment = .center
         self.backgroundColor = .grey90
         self.titleLabel.text = title
         self.isUserInteractionEnabled = true
 
-        if isHidden {
-            self.viewCollapseImageView.isOpen = false
-        }
+        self.viewCollapseImageView.isOpen = !isHidden
 
         let collapsableSubviews = contentViews + [self.additionalSpacingView]
         collapsableSubviews.forEach { $0.isHidden = isHidden }
@@ -73,6 +68,8 @@ final class ReservationCollapsableStackView: UIStackView {
         self.titleView.addSubviews([
             self.titleLabel, self.viewCollapseImageView
         ])
+
+        self.setCustomSpacing(0, after: self.titleView)
 
         self.configureConstraints()
     }
@@ -99,13 +96,15 @@ final class ReservationCollapsableStackView: UIStackView {
         }
 
         self.additionalSpacingView.snp.makeConstraints { make in
-            make.height.equalTo(30)
+            make.height.equalTo(14)
         }
     }
 
     private func bindUIComponents() {
         let collapsableSubviews = self.arrangedSubviews.filter { $0 != self.titleView }
         self.titleView.rx.tapGesture()
+            // 처음에 호출이됨..
+            .skip(1)
             .bind(with: self) { owner, _ in
                 owner.viewCollapseImageView.isOpen.toggle()
                 collapsableSubviews.forEach { $0.isHidden.toggle() }

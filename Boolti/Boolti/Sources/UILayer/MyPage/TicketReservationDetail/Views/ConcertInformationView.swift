@@ -20,8 +20,8 @@ final class ConcertInformationView: UIView {
         return imageView
     }()
 
-    private let concertTitleLabel: UILabel = {
-        let label = UILabel()
+    private let concertTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .aggroB(20)
         label.textColor = .grey05
         label.lineBreakMode = .byWordWrapping
@@ -30,8 +30,8 @@ final class ConcertInformationView: UIView {
         return label
     }()
 
-    private let ticketInformationLabel: UILabel = {
-        let label = UILabel()
+    private let ticketInformationLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body1
         label.textColor = .grey30
 
@@ -41,7 +41,7 @@ final class ConcertInformationView: UIView {
     private lazy var informationVerticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 6
+        stackView.spacing = 4
 
         stackView.addArrangedSubviews([
             self.concertTitleLabel,
@@ -57,11 +57,7 @@ final class ConcertInformationView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        self.concertTitleLabel.setLineSpacing(lineSpacing: 4)
+        fatalError()
     }
 
     func setData(posterImageURLPath: String, concertTitle: String, ticketType: TicketType, ticketCount: String ) {
@@ -89,14 +85,10 @@ final class ConcertInformationView: UIView {
         self.concertPosterImageView.snp.makeConstraints { make in
             make.width.equalTo(70)
             make.height.equalTo(98)
+            make.centerY.equalToSuperview()
             make.left.equalToSuperview().inset(20)
-            make.centerY.equalToSuperview().offset(-3)
         }
         
-        self.concertTitleLabel.snp.makeConstraints { make in
-            make.width.equalTo(249)
-        }
-
         self.informationVerticalStackView.snp.makeConstraints { make in
             make.centerY.equalTo(self.concertPosterImageView)
             make.left.equalTo(self.concertPosterImageView.snp.right).offset(16)
