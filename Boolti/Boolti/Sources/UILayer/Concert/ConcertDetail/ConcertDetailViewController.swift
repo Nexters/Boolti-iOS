@@ -81,7 +81,8 @@ final class ConcertDetailViewController: BooltiViewController {
 
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 24)
-        gradient.colors = [UIColor.grey95.withAlphaComponent(0.0).cgColor, UIColor.grey95.cgColor, UIColor.grey95.cgColor]
+        gradient.colors = [UIColor.grey95.withAlphaComponent(0.0).cgColor, UIColor.grey95.cgColor]
+        gradient.locations = [0.1, 0.7]
         view.layer.insertSublayer(gradient, at: 0)
 
         return view
