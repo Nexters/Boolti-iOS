@@ -33,8 +33,8 @@ final class ContentInfoView: UIView {
         return button
     }()
 
-    private let contentLabel: UILabel = {
-        let label = UILabel()
+    private let contentLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey30
         label.font = .body3
         label.numberOfLines = 0
@@ -70,7 +70,6 @@ extension ContentInfoView {
     
     func setData(content: String) {
         self.contentLabel.text = content
-        self.contentLabel.setLineSpacing(lineSpacing: 4)
         
         self.snp.makeConstraints { make in
             make.height.equalTo(106 + min(self.contentLabel.getLabelHeight(), 246))

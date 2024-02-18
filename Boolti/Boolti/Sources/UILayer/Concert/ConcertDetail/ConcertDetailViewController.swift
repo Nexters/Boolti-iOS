@@ -112,9 +112,11 @@ final class ConcertDetailViewController: BooltiViewController {
         self.bindUIComponents()
         self.bindInputs()
         self.bindOutputs()
+        self.viewModel.fetchConcertDetail()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
     }
 }

@@ -56,8 +56,6 @@ final class TicketListViewController: BooltiViewController {
 
     private let loginEnterView: LoginEnterView = {
         let view = LoginEnterView()
-        // 색깔은 바꿔줄 예정!..
-        view.backgroundColor = .black100
         view.isHidden = true
 
         return view
@@ -65,7 +63,6 @@ final class TicketListViewController: BooltiViewController {
 
     private let concertEnterView: ConcertEnterView = {
         let view = ConcertEnterView()
-        view.backgroundColor = .black100
         view.isHidden = true
 
         return view
@@ -220,13 +217,6 @@ final class TicketListViewController: BooltiViewController {
         self.loginEnterView.loginButton.rx.tap
             .asDriver()
             .drive(self.viewModel.input.didloginButtonTapEvent)
-            .disposed(by: self.disposeBag)
-
-        self.concertEnterView.navigateToHomeButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                owner.tabBarController?.selectedIndex = 0
-            }
             .disposed(by: self.disposeBag)
     }
 

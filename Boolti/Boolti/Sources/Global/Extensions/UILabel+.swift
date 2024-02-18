@@ -8,16 +8,53 @@
 import UIKit
 
 extension UILabel {
+
+    private func getFontLineHeight(font: UIFont) -> CGFloat {
+        switch self.font {
+        case UIFont.caption:
+            return self.font.pointSize + 6
+        default:
+            return self.font.pointSize + 8
+        }
+    }
+    
+    // label의 height 조절
+    func setLineHeight() {
+        if let text = self.text {
+            let lineHeight: CGFloat = self.getFontLineHeight(font: self.font)
+            
+            let style = NSMutableParagraphStyle()
+            style.maximumLineHeight = lineHeight
+            style.minimumLineHeight = lineHeight
+            
+            let attributes: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: style,
+            .baselineOffset: (lineHeight - font.lineHeight) / 2
+            ]
+            
+            let attributeString = NSAttributedString(string: text,
+                                                     attributes: attributes)
+            self.attributedText = attributeString
+        }
+    }
+    
+    // TODO: 아래 메서드 수정 예정 (행간 조절 말고, lineHeight 사용)
     
     /// 행간 조정 메서드
     func setLineSpacing(lineSpacing: CGFloat) {
         if let text = self.text {
-            let attributeString = NSMutableAttributedString(string: text)
             let style = NSMutableParagraphStyle()
+            
             style.lineSpacing = lineSpacing
             style.lineBreakMode = .byTruncatingTail
             style.lineBreakStrategy = .hangulWordPriority
-            attributeString.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: NSMakeRange(0, attributeString.length))
+            
+            let attributes: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: style
+            ]
+
+            let attributeString = NSMutableAttributedString(string: text,
+                                                            attributes: attributes)
             self.attributedText = attributeString
         }
     }
@@ -31,21 +68,7 @@ extension UILabel {
             style.lineBreakMode = .byTruncatingTail
             style.lineBreakStrategy = .hangulWordPriority
             style.headIndent = 10
-            attributeString.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: NSMakeRange(0, attributeString.length))
-            self.attributedText = attributeString
-        }
-    }
-    
-    /// 행간 조정 메서드 + 중앙 정렬
-    func setLineSpacingAndAlignCenter(lineSpacing: CGFloat) {
-        if let text = self.text {
-            let attributeString = NSMutableAttributedString(string: text)
-            let style = NSMutableParagraphStyle()
-            style.lineSpacing = lineSpacing
-            style.lineBreakMode = .byTruncatingTail
-            style.lineBreakStrategy = .hangulWordPriority
-            style.alignment = .center
-            attributeString.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: NSMakeRange(0, attributeString.length))
+            attributeString.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, attributeString.length))
             self.attributedText = attributeString
         }
     }
@@ -74,17 +97,17 @@ extension UILabel {
         return self.sizeThatFits(CGSize(width: self.frame.width, height: CGFloat.greatestFiniteMagnitude)).height
     }
     
-    /// 특정 label에 하이퍼링크 넣는 함수
-    func setHyperlinkedStyle(to targetString: String) {
-        if let labelText = self.text, labelText.count > 0 {
-            let attributedString = NSMutableAttributedString(string: labelText)
-            let linkAttributes : [NSAttributedString.Key: Any] = [
+    /// 특정 label에 under line 넣는 함수
+    func setUnderLine(to targetString: String) {
+        if let existingAttributedString = self.attributedText {
+            let attributedString = NSMutableAttributedString(attributedString: existingAttributedString)
+            let linkAttributes: [NSAttributedString.Key: Any] = [
                 .underlineStyle: NSUnderlineStyle.single.rawValue
             ]
             
-            attributedString.setAttributes(
+            attributedString.addAttributes(
                 linkAttributes,
-                range: (labelText as NSString).range(of: targetString)
+                range: (attributedString.string as NSString).range(of: targetString)
             )
             
             attributedText = attributedString

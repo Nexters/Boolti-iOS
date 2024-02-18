@@ -69,8 +69,7 @@ final class LogoutViewController: BooltiViewController {
         ])
 
         self.logoutBackgroundView.snp.makeConstraints { make in
-            make.height.equalTo(166)
-            make.width.equalTo(311)
+            make.horizontalEdges.equalToSuperview().inset(32)
             make.center.equalToSuperview()
         }
 
@@ -80,8 +79,9 @@ final class LogoutViewController: BooltiViewController {
         }
 
         self.confirmLogoutButton.snp.makeConstraints { make in
-            make.width.equalTo(271)
+            make.horizontalEdges.equalTo(self.logoutBackgroundView).inset(20)
             make.centerX.equalToSuperview()
+            make.top.equalTo(self.askingLogoutLabel.snp.bottom).offset(28)
             make.bottom.equalTo(self.logoutBackgroundView.snp.bottom).inset(20)
         }
 

@@ -23,55 +23,19 @@ final class MyPageViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: MyPageViewModel
 
-    private let profileImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.backgroundColor = .grey80
-        imageView.clipsToBounds = true
-
-        return imageView
-    }()
-
-    private let profileNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "불티 로그인 하러가기"
-        label.font = .subhead2
-        label.textColor = .grey10
-
-        return label
-    }()
-
-    private let profileEmailLabel: UILabel = {
-        let label = UILabel()
-        label.text = "원하는 공연 티켓을 예매해보세요!"
-        label.font = .body3
-        label.textColor = .grey30
-
-        return label
-    }()
-
-    private let loginNavigationButton: UIButton = {
+    private let profileView = MypageProfileView()
+    private let ticketingReservationsNavigationView = MypageContentView(title: "예매 내역")
+    private let qrScannerListNavigationView = MypageContentView(title: "QR 스캔")
+    private let logoutNavigationView = MypageContentView(title: "로그아웃")
+    
+    private let resignNavigationButton: UIButton = {
         let button = UIButton()
-        button.setImage(.navigate, for: .normal)
-
-        return button
-    }()
-
-    private let logoutNavigationButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("로그아웃", for: .normal)
-        button.setUnderline(font: .pretendardR(14), textColor: .grey50)
+        button.setTitle("회원 탈퇴", for: .normal)
+        button.setUnderline(font: .pretendardR(14), textColor: .grey60)
         button.isHidden = true
 
         return button
     }()
-
-    private let ticketingReservationsNavigationView = MypageContentView(title: "예매 내역")
-    private let qrScannerListNavigationView = MypageContentView(title: "QR 스캔")
-    private let resignNavigationView = MypageContentView(title: "회원 탈퇴")
-
-    override func viewWillLayoutSubviews() {
-        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,43 +70,24 @@ final class MyPageViewController: BooltiViewController {
         self.view.backgroundColor = .grey95
 
         self.view.addSubviews([
-            self.profileImageView,
-            self.profileNameLabel,
-            self.profileEmailLabel,
-            self.loginNavigationButton,
+            self.profileView,
             self.ticketingReservationsNavigationView,
             self.qrScannerListNavigationView,
-            self.resignNavigationView,
-            self.logoutNavigationButton
+            self.logoutNavigationView,
+            self.resignNavigationButton
         ])
         
-        self.resignNavigationView.isHidden = true
-
-        self.profileImageView.snp.makeConstraints { make in
-            make.height.width.equalTo(70)
-            make.left.equalToSuperview().inset(20)
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(40)
-        }
-
-        self.profileNameLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.profileImageView.snp.right).offset(12)
-            make.top.equalTo(self.profileImageView.snp.top).offset(8)
-        }
-
-        self.profileEmailLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.profileNameLabel)
-            make.top.equalTo(self.profileNameLabel.snp.bottom).offset(4)
-        }
-
-        self.loginNavigationButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(20)
-            make.centerY.equalTo(self.profileImageView.snp.centerY)
+        self.logoutNavigationView.isHidden = true
+        
+        self.profileView.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalToSuperview()
         }
 
         self.ticketingReservationsNavigationView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(66)
-            make.top.equalTo(self.profileImageView.snp.bottom).offset(32)
+            make.top.equalTo(self.profileView.snp.bottom)
         }
 
         self.qrScannerListNavigationView.snp.makeConstraints { make in
@@ -151,25 +96,26 @@ final class MyPageViewController: BooltiViewController {
             make.top.equalTo(self.ticketingReservationsNavigationView.snp.bottom).offset(12)
         }
         
-        self.resignNavigationView.snp.makeConstraints { make in
+        self.logoutNavigationView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(66)
             make.top.equalTo(self.qrScannerListNavigationView.snp.bottom).offset(12)
         }
 
-        self.logoutNavigationButton.snp.makeConstraints { make in
+        self.resignNavigationButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(40)
         }
     }
 
     private func bindUIComponents() {
-        self.logoutNavigationButton.rx.tap
-            .bind(to: self.viewModel.input.didLogoutButtonTapEvent)
-            .disposed(by: self.disposeBag)
-
-        self.loginNavigationButton.rx.tap
-            .bind(to: self.viewModel.input.didLoginButtonTapEvent)
+        self.profileView.rx.tapGesture()
+            .when(.recognized)
+            .filter{ _ in !self.viewModel.output.isAccessTokenLoaded.value }
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didLoginButtonTapEvent.onNext(())
+            }
             .disposed(by: self.disposeBag)
 
         self.ticketingReservationsNavigationView.rx.tapGesture()
@@ -180,21 +126,25 @@ final class MyPageViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
         
-        // TODO: 임시로 회원 탈퇴 로그아웃 처리
-        self.resignNavigationView.rx.tapGesture()
-            .when(.recognized)
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, _ in
-                owner.viewModel.input.didResignButtonTapEvent.onNext(())
-            }
-            .disposed(by: self.disposeBag)
-        
         self.qrScannerListNavigationView.rx.tapGesture()
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
                 owner.viewModel.input.didQRScannerListViewTapEvent.onNext(())
             }
+            .disposed(by: self.disposeBag)
+        
+        self.logoutNavigationView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didLogoutButtonTapEvent.onNext(())
+            }
+            .disposed(by: self.disposeBag)
+        
+        // TODO: 임시로 회원 탈퇴 로그아웃 처리
+        self.resignNavigationButton.rx.tap
+            .bind(to: self.viewModel.input.didResignButtonTapEvent)
             .disposed(by: self.disposeBag)
     }
 
@@ -217,8 +167,10 @@ final class MyPageViewController: BooltiViewController {
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, isLoaded in
                 if isLoaded {
+                    owner.profileView.updateProfileUI()
                     owner.updateProfileUI()
                 } else {
+                    owner.profileView.resetProfileUI()
                     owner.resetProfileUI()
                 }
             }
@@ -240,30 +192,13 @@ final class MyPageViewController: BooltiViewController {
     }
 
     private func updateProfileUI() {
-        self.loginNavigationButton.isHidden = true
-        self.logoutNavigationButton.isHidden = false
-        self.resignNavigationView.isHidden = false
-
-        self.profileNameLabel.text =  UserDefaults.userName.isEmpty ? "불티 유저" : UserDefaults.userName
-        self.profileEmailLabel.text = UserDefaults.userEmail.isEmpty ? "-" : UserDefaults.userEmail
-
-        let profileImageURLPath = UserDefaults.userImageURLPath
-
-        if profileImageURLPath.isEmpty {
-            self.profileImageView.image = .defaultProfile
-        } else {
-            self.profileImageView.setImage(with: profileImageURLPath)
-        }
+        self.resignNavigationButton.isHidden = false
+        self.logoutNavigationView.isHidden = false
     }
 
     private func resetProfileUI() {
-        self.logoutNavigationButton.isHidden = true
-        self.loginNavigationButton.isHidden = false
-        self.resignNavigationView.isHidden = true
-
-        self.profileImageView.image = .defaultProfile
-        self.profileNameLabel.text = "불티 로그인 하러가기"
-        self.profileEmailLabel.text = "원하는 공연 티켓을 예매해보세요!"
+        self.resignNavigationButton.isHidden = true
+        self.logoutNavigationView.isHidden = true
     }
 
 
