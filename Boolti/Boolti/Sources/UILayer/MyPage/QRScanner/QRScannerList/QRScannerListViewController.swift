@@ -33,9 +33,9 @@ final class QRScannerListViewController: BooltiViewController {
     
     private let emptyMainTitle: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.text = "주최한 공연이 없어요"
         label.font = .headline1
         label.textColor = .grey05
+        label.text = "주최한 공연이 없어요"
         return label
     }()
     
@@ -44,8 +44,8 @@ final class QRScannerListViewController: BooltiViewController {
         label.numberOfLines = 2
         label.font = .body3
         label.textColor = .grey30
-        label.text = "공연을 주최하고 QR 스캐너로\n관객 입장을 관리해 보세요"
         label.textAlignment = .center
+        label.text = "공연을 주최하고 QR 스캐너로\n관객 입장을 관리해 보세요"
         return label
     }()
     

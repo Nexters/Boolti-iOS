@@ -24,17 +24,17 @@ final class ReportViewController: BooltiViewController {
     private let mainTitle: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .point4
-        label.text = "신고 사유를 입력해주세요"
         label.textColor = .grey05
+        label.text = "신고 사유를 입력해주세요"
         return label
     }()
     
     private let subTitle: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.text = "관리자 확인 후 공연이 삭제되며\n적절한 사유가 아닌 경우 반려될 수 있어요"
         label.numberOfLines = 2
         label.font = .body3
         label.textColor = .grey30
+        label.text = "관리자 확인 후 공연이 삭제되며\n적절한 사유가 아닌 경우 반려될 수 있어요"
         return label
     }()
     

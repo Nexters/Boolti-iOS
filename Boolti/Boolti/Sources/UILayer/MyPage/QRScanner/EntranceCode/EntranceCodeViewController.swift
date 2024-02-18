@@ -28,9 +28,9 @@ final class EntranceCodeViewController: BooltiViewController {
     
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.text = "입장코드"
         label.font = .subhead2
         label.textColor = .grey15
+        label.text = "입장코드"
         return label
     }()
     

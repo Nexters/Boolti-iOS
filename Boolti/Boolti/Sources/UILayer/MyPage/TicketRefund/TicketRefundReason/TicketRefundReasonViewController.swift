@@ -25,8 +25,8 @@ final class TicketRefundReasonViewController: BooltiViewController {
     private let mainTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .point4
-        label.text = "환불 이유를 입력해 주세요"
         label.textColor = .grey05
+        label.text = "환불 이유를 입력해 주세요"
         return label
     }()
 

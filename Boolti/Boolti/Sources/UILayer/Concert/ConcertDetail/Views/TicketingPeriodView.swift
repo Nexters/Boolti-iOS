@@ -13,9 +13,9 @@ final class TicketingPeriodView: UIView {
 
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.text = "•  티켓 예매 기간  •"
         label.font = .subhead1
         label.textColor = .grey15
+        label.text = "•  티켓 예매 기간  •"
         return label
     }()
     
