@@ -47,7 +47,18 @@ final class TicketingDetailViewController: BooltiViewController {
     private let invitationCodeView = InvitationCodeView()
     
     private let policyView = PolicyView()
-    
+
+    private lazy var buttonBackgroundView: UIView = {
+        let view = UIView()
+
+        let gradient = CAGradientLayer()
+        gradient.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 16)
+        gradient.colors = [UIColor.grey95.withAlphaComponent(0.0).cgColor, UIColor.grey95.cgColor]
+        view.layer.insertSublayer(gradient, at: 0)
+
+        return view
+    }()
+
     private lazy var stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -350,7 +361,7 @@ extension TicketingDetailViewController: UIScrollViewDelegate {
 extension TicketingDetailViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.scrollView, self.navigationBar, self.payButton])
+        self.view.addSubviews([self.scrollView, self.navigationBar, self.buttonBackgroundView, self.payButton])
         self.scrollView.addSubviews([self.stackView])
         
         self.view.backgroundColor = .grey95
@@ -373,7 +384,12 @@ extension TicketingDetailViewController {
             make.verticalEdges.equalTo(self.scrollView)
             make.width.equalTo(self.scrollView)
         }
-        
+        self.buttonBackgroundView.snp.makeConstraints { make in
+            make.bottom.equalTo(self.scrollView.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(16)
+        }
+
         self.payButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)

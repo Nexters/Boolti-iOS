@@ -83,7 +83,6 @@ extension QRScannerViewController {
     
     private func bindOutputs() {
         self.viewModel.output.showCheckLabel
-            .observe(on: MainScheduler.instance)
             .asDriver(onErrorJustReturn: .invalid)
             .drive(with: self) { owner, state in
                 owner.checkLabel.text = state.rawValue

@@ -63,6 +63,14 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
     private let requestRefundButton = BooltiButton(title: "환불 요청하기")
 
+    let dimmedBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black100.withAlphaComponent(0.85)
+        view.isHidden = true
+
+        return view
+    }()
+
     init(
         ticketRefundConfirmViewControllerFactory: @escaping (ReservationID, ReasonText, RefundAccountInformation) -> TicketRefundConfirmViewController,
         viewModel: TicketRefundRequestViewModel
@@ -100,7 +108,8 @@ final class TicketRefundRequestViewController: BooltiViewController {
             self.concertInformationView,
             self.accountHolderView,
             self.refundAccountInformationView,
-            self.requestRefundButton
+            self.requestRefundButton,
+            self.dimmedBackgroundView
         ])
 
         self.navigationBar.snp.makeConstraints { make in
@@ -141,6 +150,10 @@ final class TicketRefundRequestViewController: BooltiViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
         }
 
+        self.dimmedBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
         self.configureAccountHolderViewSpacing()
     }
 
@@ -171,8 +184,9 @@ final class TicketRefundRequestViewController: BooltiViewController {
                 viewController.selectedItem = { item in
                     owner.selectRefundBankView.setData(with: item.bankName)
                 }
+                owner.dimmedBackgroundView.isHidden = false
 
-                self.present(viewController, animated: true)
+                owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
