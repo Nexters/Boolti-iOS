@@ -64,6 +64,7 @@ final class TicketDetailViewController: BooltiViewController {
 
     private var ticketDetailView = TicketDetailView()
     private let reversalPolicyView = ReversalPolicyView()
+    private let blankSpaceView = UIView()
 
     private let disposeBag = DisposeBag()
 
@@ -111,7 +112,8 @@ final class TicketDetailViewController: BooltiViewController {
         self.contentStackView.addArrangedSubviews([
             self.ticketDetailView,
             self.reversalPolicyView,
-            self.entryCodeView
+            self.entryCodeView,
+            self.blankSpaceView
         ])
 
         self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
@@ -125,9 +127,9 @@ final class TicketDetailViewController: BooltiViewController {
         }
 
         self.scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom).offset(16)
+            make.top.equalTo(self.navigationBar.snp.bottom)
             make.bottom.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(25)
+            make.horizontalEdges.equalToSuperview().inset(29)
         }
 
         self.ticketDetailView.snp.makeConstraints { make in
@@ -141,6 +143,10 @@ final class TicketDetailViewController: BooltiViewController {
         self.entryCodeButton.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.height.equalTo(60)
+        }
+
+        self.blankSpaceView.snp.makeConstraints { make in
+            make.height.equalTo(40)
         }
 
         self.contentStackView.snp.makeConstraints { make in
@@ -166,7 +172,7 @@ final class TicketDetailViewController: BooltiViewController {
         self.ticketDetailView.didCopyAddressButtonTap
             .bind(with: self) { owner, _ in
                 UIPasteboard.general.string = owner.viewModel.output.fetchedTicketDetail.value?.location
-                owner.showToast(message: "공연장 주소가 복사되었어요.")
+                owner.showToast(message: "공연장 주소가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
 

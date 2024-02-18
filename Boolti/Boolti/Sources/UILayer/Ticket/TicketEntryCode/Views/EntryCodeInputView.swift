@@ -22,8 +22,8 @@ final class EntryCodeInputView: UIView {
 
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.text = "입장 코드로 입장 확인"
         label.font = .subhead2
+        label.text = "입장 코드로 입장 확인"
         label.textColor = .grey15
 
         return label
@@ -31,10 +31,10 @@ final class EntryCodeInputView: UIView {
 
     private let descriptionLabel: BooltiUILabel = {
         let label = BooltiUILabel()
+        label.font = .body1
         label.text = "입장 코드는 마이 > QR 스캔 > \n 해당 공연 스캐너에서 확인 가능해요"
         label.numberOfLines = 0
         label.textColor = .grey50
-        label.font = .body1
         label.setLineSpacing(lineSpacing: 5)
         label.textAlignment = .center
 
@@ -57,8 +57,8 @@ final class EntryCodeInputView: UIView {
 
     private let errorCommentLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.text = "올바른 입장 코드를 입력해 주세요"
         label.font = .body1
+        label.text = "올바른 입장 코드를 입력해 주세요"
         label.textColor = .error
         label.isHidden = true
 
