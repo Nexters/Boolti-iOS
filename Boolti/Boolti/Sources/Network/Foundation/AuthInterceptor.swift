@@ -25,6 +25,7 @@ final class AuthInterceptor: RequestInterceptor {
         
         debugPrint("🔥 요청한 AccessToken: \(UserDefaults.accessToken) 🔥")
         debugPrint("🔥 요청한 userId: \(UserDefaults.userId) 🔥")
+        NotificationCenter.default.post(name: Notification.Name.refreshTokenHasExpired, object: nil)
 
         completion(.success(urlRequest))
     }
@@ -60,6 +61,10 @@ final class AuthInterceptor: RequestInterceptor {
                 completion(.retry)
             }, onFailure: { error in
                 // 이러면 로그인 화면으로 간다!..
+                UserDefaults.accessToken = ""
+                UserDefaults.refreshToken = ""
+
+                NotificationCenter.default.post(name: Notification.Name.refreshTokenHasExpired, object: nil)
                 completion(.doNotRetry)
             })
             .disposed(by: self.disposeBag)
