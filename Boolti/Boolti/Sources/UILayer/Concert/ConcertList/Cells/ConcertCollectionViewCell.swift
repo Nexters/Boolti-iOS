@@ -73,15 +73,15 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let datetime: UILabel = {
-        let label = UILabel()
+    private let datetime: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body1
         label.textColor = .grey30
         return label
     }()
     
-    private let name: UILabel = {
-        let label = UILabel()
+    private let name: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .point1
         label.textColor = .grey05
         label.lineBreakMode = .byWordWrapping
@@ -123,10 +123,8 @@ extension ConcertCollectionViewCell {
     
     func setData(concertEntity: ConcertEntity) {
         self.posterImageView.setImage(with: concertEntity.posterPath)
-        self.datetime.text = concertEntity.dateTime.format(.dateTime)
+        self.datetime.text = concertEntity.dateTime.format(.dateDayTime)
         self.name.text = concertEntity.name
-        
-        self.name.setLineSpacing(lineSpacing: 6)
         
         if Date().compare(concertEntity.salesStartTime) == .orderedAscending {
             self.concertState = .beforeSale(startSale: concertEntity.salesStartTime)
@@ -180,13 +178,11 @@ extension ConcertCollectionViewCell {
         self.datetime.snp.makeConstraints { make in
             make.top.equalTo(self.posterImageView.snp.bottom).offset(12)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(22)
         }
         
         self.name.snp.makeConstraints { make in
-            make.top.equalTo(self.datetime.snp.bottom).offset(4)
+            make.top.equalTo(self.datetime.snp.bottom).offset(2)
             make.horizontalEdges.equalToSuperview()
-            make.height.lessThanOrEqualTo(52)
         }
     }
 }

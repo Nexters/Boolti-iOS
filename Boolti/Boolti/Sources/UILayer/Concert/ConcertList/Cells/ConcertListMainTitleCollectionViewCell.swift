@@ -11,8 +11,8 @@ final class ConcertListMainTitleCollectionViewCell: UICollectionViewCell {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .point4
         label.textColor = .grey05
         label.numberOfLines = 2
@@ -37,7 +37,6 @@ extension ConcertListMainTitleCollectionViewCell {
     
     func setTitle() {
         self.titleLabel.text = "\(UserDefaults.userName.isEmpty ? "불티 유저" : UserDefaults.userName)님, 오늘은\n어떤 공연을 즐겨볼까요?"
-        self.titleLabel.setLineSpacing(lineSpacing: 6)
     }
 }
 

@@ -19,7 +19,7 @@ final class TermsAgreementViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     
     enum Text {
-        static let subtitle = "원활한 이용을 위해 서비스 이용약관 확인 후 \n동의해 주세요."
+        static let subtitle = "원활한 이용을 위해 서비스 이용약관 확인 후 \n동의해 주세요"
         static let terms = "서비스 이용약관"
     }
     
@@ -34,8 +34,9 @@ final class TermsAgreementViewController: BooltiViewController {
     }()
     
     private let agreementButton = BooltiButton(title: "약관 동의하고 시작하기")
-    private let greetingLabel: UILabel = {
-        let label = UILabel()
+    
+    private let greetingLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.text = "불티를 찾아주셔서 감사합니다"
         label.font = .headline1
         label.textColor = .grey05
@@ -43,12 +44,11 @@ final class TermsAgreementViewController: BooltiViewController {
         return label
     }()
     
-    private let subtitleLabel: UILabel = {
-        let label = UILabel()
+    private let subtitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .pretendardR(16)
         label.text = Text.subtitle
-        label.setLineSpacing(lineSpacing: 8)
-        label.setHyperlinkedStyle(to: Text.terms)
-        label.font = .body3
+        label.setUnderLine(to: Text.terms)
         label.numberOfLines = 2
         label.textColor = .grey30
         return label
@@ -134,17 +134,17 @@ extension TermsAgreementViewController {
     private func configureConstraints() {
         self.bottomSheetLayerView.snp.makeConstraints { make in
             make.horizontalEdges.bottom.equalToSuperview()
-            make.height.equalTo(self.bottomSheetLayerView.snp.width).multipliedBy(0.63)
         }
 
         self.greetingLabel.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(24)
             make.top.equalToSuperview().inset(30)
+            make.bottom.equalTo(self.subtitleLabel.snp.top).offset(-12)
+            make.horizontalEdges.equalToSuperview().inset(24)
         }
 
         self.subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.greetingLabel.snp.bottom).offset(20)
-            make.horizontalEdges.equalTo(self.greetingLabel)
+            make.bottom.equalTo(self.agreementButton.snp.top).offset(-26)
+            make.horizontalEdges.equalTo(self.agreementButton)
         }
 
         self.agreementButton.snp.makeConstraints { make in

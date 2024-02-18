@@ -9,41 +9,26 @@ import UIKit
 
 final class ConcertEnterView: UIView {
 
-    private let headerTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "아직 구매한 티켓이 없어요"
+    private let headerTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.text = "아직 발권된 티켓이 없어요"
         label.font = .headline1
         label.textColor = .grey05
 
         return label
     }()
 
-    private let subTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "티켓을 구매하고 공연을 즐겨보세요!"
+    private let subTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.text = "티켓을 예매하고 공연을 즐겨보세요!"
         label.textColor = .grey30
         label.font = .body3
 
         return label
     }()
 
-    private let backgroundImageView: UIImageView = {
-        let imageView = UIImageView(image: .popupBackground)
-
-        return imageView
-    }()
-
-
-    let navigateToHomeButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("공연 탐색하기", for: .normal)
-        button.titleLabel?.font = .subhead1
-        button.titleLabel?.textColor = .grey05
-        button.layer.cornerRadius = 4
-        button.backgroundColor = .orange01
-
-        return button
-    }()
+    private let topBackgroundImageView = UIImageView(image: .popupBackground)
+    private let bottomBackgroundImageView = UIImageView(image: .popupBackground)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,33 +40,33 @@ final class ConcertEnterView: UIView {
     }
 
     private func configureUI() {
+        self.backgroundColor = .grey95
 
         self.addSubviews([
-            self.backgroundImageView,
+            self.topBackgroundImageView,
             self.headerTitleLabel,
             self.subTitleLabel,
-            self.navigateToHomeButton
+            self.bottomBackgroundImageView
         ])
 
-        self.backgroundImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(25)
+        self.topBackgroundImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(575)
         }
 
         self.headerTitleLabel.snp.makeConstraints { make in
-            make.center.equalTo(self.backgroundImageView)
+            make.center.equalTo(self.topBackgroundImageView)
         }
 
         self.subTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(self.backgroundImageView)
+            make.centerX.equalTo(self.topBackgroundImageView)
             make.top.equalTo(self.headerTitleLabel.snp.bottom).offset(4)
         }
-
-        self.navigateToHomeButton.snp.makeConstraints { make in
-            make.centerX.equalTo(self.backgroundImageView)
-            make.top.equalTo(self.subTitleLabel.snp.bottom).offset(30)
-            make.width.equalTo(130)
-            make.height.equalTo(50)
+        
+        self.bottomBackgroundImageView.snp.makeConstraints { make in
+            make.top.equalTo(self.topBackgroundImageView.snp.bottom).offset(40)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }
