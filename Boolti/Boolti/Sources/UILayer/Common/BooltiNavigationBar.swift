@@ -217,7 +217,7 @@ extension BooltiNavigationBar {
         }
         
         self.homeButton.snp.makeConstraints { make in
-            make.left.equalTo(self.backButton.snp.right).offset(20)
+            make.left.equalTo(self.backButton.snp.right).offset(24)
             make.width.height.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }

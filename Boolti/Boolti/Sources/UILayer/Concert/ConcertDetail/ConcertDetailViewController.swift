@@ -31,6 +31,14 @@ final class ConcertDetailViewController: BooltiViewController {
     private let navigationBar = BooltiNavigationBar(type: .concertDetail)
 
     private let loginEnterView = LoginEnterView()
+    
+    private let dimmedBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black100.withAlphaComponent(0.85)
+        view.isHidden = true
+
+        return view
+    }()
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -118,6 +126,7 @@ final class ConcertDetailViewController: BooltiViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
+        self.dimmedBackgroundView.isHidden = true
     }
 }
 
@@ -174,6 +183,11 @@ extension ConcertDetailViewController {
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .ticketSelection(let concertId):
                     let viewController = owner.ticketSelectionViewControllerFactory(concertId)
+                    viewController.isDismissed = {
+                        owner.dimmedBackgroundView.isHidden = true
+                    }
+                    
+                    owner.dimmedBackgroundView.isHidden = false
                     owner.present(viewController, animated: true)
                 }
             }
@@ -267,7 +281,8 @@ extension ConcertDetailViewController {
                                self.scrollView,
                                self.buttonBackgroundView,
                                self.ticketingButton,
-                               self.loginEnterView])
+                               self.loginEnterView,
+                               self.dimmedBackgroundView])
         
         self.view.backgroundColor = .grey95
     }
@@ -280,6 +295,10 @@ extension ConcertDetailViewController {
         
         self.loginEnterView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+        
+        self.dimmedBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
         self.scrollView.snp.makeConstraints { make in
