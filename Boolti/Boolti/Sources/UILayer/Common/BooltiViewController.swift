@@ -14,15 +14,15 @@ class BooltiViewController: UIViewController {
     
     // MARK: UI Component
     
-    private var toastView: BooltiToastView?
-    private var popupView = BooltiPopupView()
-    private var loadingIndicatorView: BooltiLoadingIndicatorView?
+    private lazy var toastView = BooltiToastView()
+    private lazy var popupView = BooltiPopupView()
+    private lazy var loadingIndicatorView = BooltiLoadingIndicatorView(style: .large)
     
     // MARK: Properties
     
     var isLoading: Binder<Bool> {
         Binder(self) { [weak self] viewController, isLoading in
-            guard let self = self, let loadingIndicatorView = self.loadingIndicatorView else { return }
+            guard let self = self else { return }
             if isLoading {
                 viewController.view.bringSubviewToFront(loadingIndicatorView)
                 loadingIndicatorView.isLoading = true
@@ -105,7 +105,7 @@ extension BooltiViewController {
     }
 
     func showToast(message: String) {
-        self.toastView?.showToast.accept(message)
+        self.toastView.showToast.accept(message)
     }
 
     func showPopup(title: String) {
@@ -118,10 +118,8 @@ extension BooltiViewController {
 extension BooltiViewController {
     
     func configureLoadingIndicatorView() {
-        self.loadingIndicatorView = BooltiLoadingIndicatorView(style: .large)
-        
-        self.view.addSubview(self.loadingIndicatorView ?? BooltiLoadingIndicatorView(style: .large))
-        self.loadingIndicatorView?.snp.makeConstraints { make in
+        self.view.addSubview(self.loadingIndicatorView)
+        self.loadingIndicatorView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -137,8 +135,8 @@ extension BooltiViewController {
             .first?.windows.first else {
             return
         }
-        keyWindow.addSubview(self.toastView ?? BooltiToastView())
-        self.toastView?.snp.makeConstraints { make in
+        keyWindow.addSubview(self.toastView)
+        self.toastView.snp.makeConstraints { make in
             make.bottom.equalTo(keyWindow.safeAreaLayoutGuide).offset(-bottomOffset)
             make.centerX.equalTo(keyWindow)
         }
