@@ -60,30 +60,38 @@ extension UILabel {
     }
     
     /// 행간 + headIndent 조정 메서드 (정책에서 쓰임)
-    func setLineSpacingAndHeadIndent(lineSpacing: CGFloat) {
-        if let text = self.text {
-            let attributeString = NSMutableAttributedString(string: text)
+    func setHeadIndent() {
+        if let existingAttributedString = self.attributedText {
+            let attributedString = NSMutableAttributedString(attributedString: existingAttributedString)
             let style = NSMutableParagraphStyle()
-            style.lineSpacing = lineSpacing
-            style.lineBreakMode = .byTruncatingTail
+            
+            let lineHeight: CGFloat = self.getFontLineHeight(font: self.font)
+            style.maximumLineHeight = lineHeight
+            style.minimumLineHeight = lineHeight
+            
+            style.lineBreakMode = .byWordWrapping
             style.lineBreakStrategy = .hangulWordPriority
             style.headIndent = 10
-            attributeString.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, attributeString.length))
-            self.attributedText = attributeString
+            attributedString.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, attributedString.length))
+            self.attributedText = attributedString
         }
     }
 
-    /// 행간 조정 메서드 + 중앙 정렬
-    func setLineSpacingAndAlignCenter(lineSpacing: CGFloat) {
-        if let text = self.text {
-            let attributeString = NSMutableAttributedString(string: text)
+    /// 중앙 정렬
+    func setAlignCenter() {
+        if let existingAttributedString = self.attributedText {
+            let attributedString = NSMutableAttributedString(attributedString: existingAttributedString)
             let style = NSMutableParagraphStyle()
-            style.lineSpacing = lineSpacing
+            
+            let lineHeight: CGFloat = self.getFontLineHeight(font: self.font)
+            style.maximumLineHeight = lineHeight
+            style.minimumLineHeight = lineHeight
+            
             style.lineBreakMode = .byTruncatingTail
             style.lineBreakStrategy = .hangulWordPriority
             style.alignment = .center
-            attributeString.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, attributeString.length))
-            self.attributedText = attributeString
+            attributedString.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, attributedString.length))
+            self.attributedText = attributedString
         }
     }
     
