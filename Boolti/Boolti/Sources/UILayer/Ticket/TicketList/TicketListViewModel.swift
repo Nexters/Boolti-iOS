@@ -85,6 +85,7 @@ final class TicketListViewModel {
                 if ticketItems.isEmpty {
                     owner.output.isTicketsExist.accept(false)
                 } else {
+                    owner.output.isTicketsExist.accept(true)
                     owner.output.sectionModels.accept(ticketItems)
                 }
             }
