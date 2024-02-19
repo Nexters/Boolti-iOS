@@ -93,7 +93,7 @@ final class ReversalPolicyView: UIStackView {
         ])
 
         self.titleView.snp.makeConstraints { make in
-            make.width.equalTo(titleViewWidth)
+//            make.width.equalTo(titleViewWidth)
             make.height.equalTo(66)
         }
 

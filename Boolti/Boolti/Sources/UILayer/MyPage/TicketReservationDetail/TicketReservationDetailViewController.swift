@@ -180,6 +180,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
             make.width.equalTo(screenWidth)
         }
 
+        self.reversalPolicyView.snp.makeConstraints { make in
+            make.width.equalTo(screenWidth)
+        }
+
         self.requestRefundButton.snp.makeConstraints { make in
             make.height.equalTo(48)
             make.width.equalTo(screenWidth-40)
