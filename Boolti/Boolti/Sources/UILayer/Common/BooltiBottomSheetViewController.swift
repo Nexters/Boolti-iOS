@@ -28,8 +28,8 @@ class BooltiBottomSheetViewController: BooltiViewController {
         return view
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .subhead2
         return label

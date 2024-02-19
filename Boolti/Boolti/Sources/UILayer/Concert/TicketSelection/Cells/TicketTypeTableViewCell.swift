@@ -17,8 +17,8 @@ final class TicketTypeTableViewCell: UITableViewCell {
 
     // MARK: UI Component
 
-    private let nameLabel: UILabel = {
-        let label = UILabel()
+    private let nameLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .grey30
         return label
@@ -35,8 +35,8 @@ final class TicketTypeTableViewCell: UITableViewCell {
         return label
     }()
 
-    private let priceLabel: UILabel = {
-        let label = UILabel()
+    private let priceLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .grey15
         return label
@@ -53,6 +53,10 @@ final class TicketTypeTableViewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func prepareForReuse() {
+        self.resetData()
     }
 }
 
@@ -76,6 +80,13 @@ extension TicketTypeTableViewCell {
         if entity.ticketType == .invite {
             self.inventoryLabel.isHidden = true
         }
+    }
+    
+    func resetData() {
+        self.nameLabel.text = nil
+        self.inventoryLabel.text = nil
+        self.priceLabel.text = nil
+        self.inventoryLabel.isHidden = true
     }
 }
 

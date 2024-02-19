@@ -23,8 +23,6 @@ class LoginEnterView: UIView {
     }()
 
     private let topBackgroundImageView = UIImageView(image: .popupBackground)
-    private let bottomBackgroundImageView = UIImageView(image: .popupBackground)
-
 
     let loginButton: UIButton = {
         let button = UIButton()
@@ -52,14 +50,13 @@ class LoginEnterView: UIView {
         self.addSubviews([
             self.topBackgroundImageView,
             self.headerTitleLabel,
-            self.loginButton,
-            self.bottomBackgroundImageView
+            self.loginButton
         ])
         
         self.topBackgroundImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.height.equalTo(575)
+            make.height.equalTo(570)
         }
 
         self.headerTitleLabel.snp.makeConstraints { make in
@@ -71,11 +68,6 @@ class LoginEnterView: UIView {
             make.top.equalTo(self.headerTitleLabel.snp.bottom).offset(28)
             make.width.equalTo(141)
             make.height.equalTo(48)
-        }
-        
-        self.bottomBackgroundImageView.snp.makeConstraints { make in
-            make.top.equalTo(self.topBackgroundImageView.snp.bottom).offset(40)
-            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }

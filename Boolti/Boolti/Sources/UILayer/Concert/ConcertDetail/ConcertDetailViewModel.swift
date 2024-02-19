@@ -64,7 +64,6 @@ final class ConcertDetailViewModel {
     
     struct Output {
         let navigate = PublishRelay<ConcertDetailDestination>()
-        let showLoginEnterView = BehaviorRelay<Bool>(value: false)
         let concertDetail = PublishRelay<ConcertDetailEntity>()
         var concertDetailEntity: ConcertDetailEntity?
         let buttonState = BehaviorRelay<ConcertTicketingState>(value: .endSale)
@@ -104,7 +103,7 @@ extension ConcertDetailViewModel {
         self.input.didTicketingButtonTap
             .bind(with: self) { owner, _ in
                 if UserDefaults.accessToken.isEmpty {
-                    owner.output.showLoginEnterView.accept(true)
+                    owner.output.navigate.accept(.login)
                 } else {
                     guard let concertId = owner.output.concertDetailEntity?.id else { return }
                     owner.output.navigate.accept(.ticketSelection(concertId: concertId))
@@ -116,18 +115,17 @@ extension ConcertDetailViewModel {
     private func bindOutputs() {
         self.output.concertDetail
             .bind(with: self, onNext: { owner, concert in
-                if concert.reservationStatus {
-                    owner.output.buttonState.accept(.alreadyReserved)
-                    return
-                }
-                
                 var state: ConcertTicketingState = .onSale
                 
                 if Date().compare(concert.salesStartTime) == .orderedAscending {
                     state = .beforeSale(startDate: concert.salesStartTime)
                 }
                 else if Date().compare(concert.salesEndTime) == .orderedAscending {
-                    state = .onSale
+                    if concert.reservationStatus {
+                        state = .alreadyReserved
+                    } else {
+                        state = .onSale
+                    }
                 }
                 else if Date().compare(concert.date) == .orderedAscending {
                     state = .endSale

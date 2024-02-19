@@ -11,6 +11,7 @@ final class ConcertInformationView: UIView {
 
     private let concertPosterImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 4
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.grey50.cgColor

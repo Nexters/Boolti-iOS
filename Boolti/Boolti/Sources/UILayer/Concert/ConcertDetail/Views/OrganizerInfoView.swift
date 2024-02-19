@@ -11,16 +11,16 @@ final class OrganizerInfoView: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "주최자"
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .subhead2
+        label.text = "주최자"
         
         return label
     }()
     
-    private let organizerLabel: UILabel = {
+    private let organizerLabel: BooltiPaddingLabel = {
         let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
         label.textColor = .grey30
         label.font = .body3

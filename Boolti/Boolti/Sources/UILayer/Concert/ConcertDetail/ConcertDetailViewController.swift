@@ -29,13 +29,20 @@ final class ConcertDetailViewController: BooltiViewController {
     // MARK: UI Component
     
     private let navigationBar = BooltiNavigationBar(type: .concertDetail)
+    
+    private let dimmedBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black100.withAlphaComponent(0.85)
+        view.isHidden = true
 
-    private let loginEnterView = LoginEnterView()
+        return view
+    }()
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.bounces = false
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.delegate = self
         
         scrollView.addSubviews([self.stackView])
         return scrollView
@@ -73,7 +80,8 @@ final class ConcertDetailViewController: BooltiViewController {
 
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 24)
-        gradient.colors = [UIColor.grey95.withAlphaComponent(0.0).cgColor, UIColor.grey95.cgColor, UIColor.grey95.cgColor]
+        gradient.colors = [UIColor.grey95.withAlphaComponent(0.0).cgColor, UIColor.grey95.cgColor]
+        gradient.locations = [0.1, 0.7]
         view.layer.insertSublayer(gradient, at: 0)
 
         return view
@@ -118,6 +126,7 @@ final class ConcertDetailViewController: BooltiViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
+        self.dimmedBackgroundView.isHidden = true
     }
 }
 
@@ -152,13 +161,6 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.viewModel.output.showLoginEnterView
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, show in
-                owner.loginEnterView.isHidden = !show
-            }
-            .disposed(by: self.disposeBag)
-        
         self.viewModel.output.navigate
             .asDriver(onErrorJustReturn: .login)
             .drive(with: self) { owner, destination in
@@ -166,14 +168,17 @@ extension ConcertDetailViewController {
                 case .login:
                     let viewController = owner.loginViewControllerFactory()
                     viewController.modalPresentationStyle = .overFullScreen
-                    owner.present(viewController, animated: true) {
-                        owner.loginEnterView.isHidden = true
-                    }
+                    owner.present(viewController, animated: true)
                 case .contentExpand(let content):
                     let viewController = owner.concertContentExpandViewControllerFactory(content)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .ticketSelection(let concertId):
                     let viewController = owner.ticketSelectionViewControllerFactory(concertId)
+                    viewController.isDismissed = {
+                        owner.dimmedBackgroundView.isHidden = true
+                    }
+                    
+                    owner.dimmedBackgroundView.isHidden = false
                     owner.present(viewController, animated: true)
                 }
             }
@@ -181,18 +186,9 @@ extension ConcertDetailViewController {
     }
     
     private func bindUIComponents() {
-        self.bindLoginEnterView()
         self.bindPlaceInfoView()
         self.bindContentInfoView()
         self.bindNavigationBar()
-    }
-    
-    private func bindLoginEnterView() {
-        self.loginEnterView.loginButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.viewModel.output.navigate.accept(.login)
-            }
-            .disposed(by: self.disposeBag)
     }
     
     private func bindPlaceInfoView() {
@@ -258,6 +254,19 @@ extension ConcertDetailViewController {
     }
 }
 
+// MARK: - UIScrollViewDelegate
+
+extension ConcertDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        if offset <= self.concertPosterView.frame.height {
+            self.navigationBar.setBackgroundColor(with: .grey90)
+        } else {
+            self.navigationBar.setBackgroundColor(with: .grey95)
+        }
+    }
+}
+
 // MARK: - UI
 
 extension ConcertDetailViewController {
@@ -267,7 +276,7 @@ extension ConcertDetailViewController {
                                self.scrollView,
                                self.buttonBackgroundView,
                                self.ticketingButton,
-                               self.loginEnterView])
+                               self.dimmedBackgroundView])
         
         self.view.backgroundColor = .grey95
     }
@@ -278,8 +287,8 @@ extension ConcertDetailViewController {
             make.horizontalEdges.equalToSuperview()
         }
         
-        self.loginEnterView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        self.dimmedBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
         self.scrollView.snp.makeConstraints { make in

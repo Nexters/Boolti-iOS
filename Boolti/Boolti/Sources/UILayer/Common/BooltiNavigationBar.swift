@@ -26,10 +26,19 @@ enum NavigationType {
 
 final class BooltiNavigationBar: UIView {
     
+    // MARK: Properties
+    
+    var statusBarHeight: CGFloat {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            return windowScene.statusBarManager?.statusBarFrame.height ?? 44
+        }
+        return 44
+    }
+    
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
         return label
@@ -77,6 +86,10 @@ final class BooltiNavigationBar: UIView {
 
 extension BooltiNavigationBar {
     
+    func setBackgroundColor(with color: UIColor) {
+        self.backgroundColor = color
+    }
+    
     private func makeButton(image: UIImage) -> UIButton {
         let button = UIButton(type: .system)
         button.setImage(image, for: .normal)
@@ -90,11 +103,8 @@ extension BooltiNavigationBar {
 extension BooltiNavigationBar {
     
     private func configureDefaultConstraints() {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            let statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 44
-            self.snp.makeConstraints { make in
-                make.height.equalTo(statusBarHeight + 44)
-            }
+        self.snp.makeConstraints { make in
+            make.height.equalTo(self.statusBarHeight + 44)
         }
     }
 
@@ -217,7 +227,7 @@ extension BooltiNavigationBar {
         }
         
         self.homeButton.snp.makeConstraints { make in
-            make.left.equalTo(self.backButton.snp.right).offset(20)
+            make.left.equalTo(self.backButton.snp.right).offset(24)
             make.width.height.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }

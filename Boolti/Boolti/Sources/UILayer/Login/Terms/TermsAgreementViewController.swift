@@ -38,8 +38,8 @@ final class TermsAgreementViewController: BooltiViewController {
     private let greetingLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .headline1
-        label.text = "불티를 찾아주셔서 감사합니다"
         label.textColor = .grey05
+        label.text = "불티를 찾아주셔서 감사합니다"
         
         return label
     }()
@@ -47,10 +47,10 @@ final class TermsAgreementViewController: BooltiViewController {
     private let subtitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .pretendardR(16)
-        label.text = Text.subtitle
-        label.setUnderLine(to: Text.terms)
         label.numberOfLines = 2
         label.textColor = .grey30
+        label.text = Text.subtitle
+        label.setUnderLine(to: Text.terms)
         return label
     }()
     

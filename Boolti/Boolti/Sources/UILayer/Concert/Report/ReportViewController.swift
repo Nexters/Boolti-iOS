@@ -21,21 +21,20 @@ final class ReportViewController: BooltiViewController {
     
     private let navigationBar = BooltiNavigationBar(type: .report)
     
-    private let mainTitle: UILabel = {
-        let label = UILabel()
-        label.text = "신고 사유를 입력해주세요"
+    private let mainTitle: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .point4
         label.textColor = .grey05
+        label.text = "신고 사유를 입력해주세요"
         return label
     }()
     
-    private let subTitle: UILabel = {
-        let label = UILabel()
-        label.text = "관리자 확인 후 공연이 삭제되며\n적절한 사유가 아닌 경우 반려될 수 있어요"
+    private let subTitle: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.numberOfLines = 2
-        label.setLineSpacing(lineSpacing: 4)
         label.font = .body3
         label.textColor = .grey30
+        label.text = "관리자 확인 후 공연이 삭제되며\n적절한 사유가 아닌 경우 반려될 수 있어요"
         return label
     }()
     
@@ -158,7 +157,7 @@ extension ReportViewController {
         }
 
         self.subTitle.snp.makeConstraints { make in
-            make.top.equalTo(self.mainTitle.snp.bottom).offset(10)
+            make.top.equalTo(self.mainTitle.snp.bottom).offset(4)
             make.horizontalEdges.equalTo(self.mainTitle)
         }
         

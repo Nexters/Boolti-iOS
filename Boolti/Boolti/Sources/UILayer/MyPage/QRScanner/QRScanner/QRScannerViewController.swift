@@ -30,7 +30,7 @@ final class QRScannerViewController: BooltiViewController {
         var config = UIButton.Configuration.plain()
         config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
         config.title = "입장코드 보기"
-        config.attributedTitle?.font = .pretendardR(12)
+        config.attributedTitle?.font = .body1
         config.baseForegroundColor = .grey50
         config.imagePadding = 4
         
@@ -126,9 +126,9 @@ extension QRScannerViewController {
         }
 
         do {
-            let cameraHeight = 628 * UIScreen.main.bounds.height / 812
+            let cameraHeight = UIScreen.main.bounds.height - (self.navigationBar.statusBarHeight + 44) - 96
             let rectOfInterest = CGRect(x: 0,
-                                        y: (UIScreen.main.bounds.height - cameraHeight) / 2,
+                                        y: self.navigationBar.statusBarHeight + 44,
                                         width: UIScreen.main.bounds.width,
                                         height: cameraHeight)
 

@@ -13,11 +13,11 @@ final class ContentInfoView: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "공연 내용"
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .subhead2
+        label.text = "공연 내용"
         
         return label
     }()

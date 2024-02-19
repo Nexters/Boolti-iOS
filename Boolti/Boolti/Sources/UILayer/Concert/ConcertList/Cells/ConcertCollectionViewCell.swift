@@ -68,6 +68,7 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         imageView.backgroundColor = .grey70
         imageView.layer.cornerRadius = 8
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.grey80.cgColor
         return imageView

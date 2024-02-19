@@ -11,11 +11,11 @@ final class CheckingTicketCollectionViewCell: UICollectionViewCell {
     
     // MARK: Properties
     
-    private let checkingTitle: UILabel = {
-        let label = UILabel()
+    private let checkingTitle: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .pretendardR(15)
-        label.text = "입금 확인 중인 티켓이 있어요!"
         label.textColor = .grey05
+        label.text = "입금 확인 중인 티켓이 있어요!"
         return label
     }()
     
