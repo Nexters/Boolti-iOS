@@ -37,8 +37,8 @@ final class BooltiNavigationBar: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
         return label

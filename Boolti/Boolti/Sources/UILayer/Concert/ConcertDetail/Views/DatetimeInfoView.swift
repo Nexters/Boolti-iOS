@@ -11,17 +11,17 @@ final class DatetimeInfoView: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "일시"
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .subhead2
+        label.text = "일시"
         
         return label
     }()
     
-    private let datetimeLabel: UILabel = {
-        let label = UILabel()
+    private let datetimeLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey30
         label.font = .body3
         label.numberOfLines = 0

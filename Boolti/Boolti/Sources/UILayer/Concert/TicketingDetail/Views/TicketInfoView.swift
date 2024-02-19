@@ -72,8 +72,8 @@ extension TicketInfoView {
 
 extension TicketInfoView {
     
-    private func makeSelectedTitleLabel(title: String) -> UILabel {
-        let label = UILabel()
+    private func makeSelectedTitleLabel(title: String) -> BooltiUILabel {
+        let label = BooltiUILabel()
         label.font = .body3
         label.text = title
         label.textColor = .grey30

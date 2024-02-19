@@ -18,8 +18,8 @@ final class PlaceInfoView: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.text = "장소"
         label.textColor = .grey10
         label.font = .subhead2
@@ -44,16 +44,16 @@ final class PlaceInfoView: UIView {
     }()
 
     
-    private let placeNameLabel: UILabel = {
-        let label = UILabel()
+    private let placeNameLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .body3
         
         return label
     }()
     
-    let addressLabel: UILabel = {
-        let label = UILabel()
+    let addressLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey30
         label.font = .body3
         label.numberOfLines = 0
@@ -126,7 +126,7 @@ extension PlaceInfoView {
         }
         
         self.addressLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.placeNameLabel.snp.bottom).offset(12)
+            make.top.equalTo(self.placeNameLabel.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(self.placeNameLabel)
         }
         

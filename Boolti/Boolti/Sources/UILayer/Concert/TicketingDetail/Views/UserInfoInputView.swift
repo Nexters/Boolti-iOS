@@ -24,15 +24,15 @@ final class UserInfoInputView: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
         return label
     }()
     
-    private let nameLabel: UILabel = {
-        let label = UILabel()
+    private let nameLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body1
         label.textColor = .grey30
         label.text = "이름"
@@ -47,8 +47,8 @@ final class UserInfoInputView: UIView {
     }()
 
     
-    private let phoneNumberLabel: UILabel = {
-        let label = UILabel()
+    private let phoneNumberLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body1
         label.textColor = .grey30
         label.text = "연락처"
