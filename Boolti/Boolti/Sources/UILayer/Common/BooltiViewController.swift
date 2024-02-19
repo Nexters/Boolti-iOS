@@ -15,7 +15,7 @@ class BooltiViewController: UIViewController {
     // MARK: UI Component
     
     private lazy var toastView = BooltiToastView()
-    private lazy var popupView = BooltiPopupView()
+    private let popupView = BooltiPopupView()
     private lazy var loadingIndicatorView = BooltiLoadingIndicatorView(style: .large)
     
     // MARK: Properties
