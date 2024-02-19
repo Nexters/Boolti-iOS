@@ -11,21 +11,21 @@ import AVFoundation
 import RxSwift
 
 final class QRScannerViewController: BooltiViewController {
-    
+
     // MARK: Properties
-    
+
     typealias EntranceCode = String
 
     private let captureSession = AVCaptureSession()
-    
+
     private let viewModel: QRScannerViewModel
     private let disposeBag = DisposeBag()
     private let entranceCodeViewControllerFactory: (EntranceCode) -> EntranceCodeViewController
-    
+
     // MARK: UI Component
-    
+
     private lazy var navigationBar = BooltiNavigationBar(type: .qrScanner(concertName: self.viewModel.qrScannerEntity.concertName))
-    
+
     private let entranceCodeButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
@@ -33,13 +33,13 @@ final class QRScannerViewController: BooltiViewController {
         config.attributedTitle?.font = .body1
         config.baseForegroundColor = .grey50
         config.imagePadding = 4
-        
+
         let button = UIButton(configuration: config)
         button.setImage(.entranceCode, for: .normal)
 
         return button
     }()
-    
+
     private let checkLabel: BooltiPaddingLabel = {
         let label = BooltiPaddingLabel(padding: .init(top: 12, left: 16, bottom: 12, right: 16))
         label.backgroundColor = .grey80.withAlphaComponent(0.8)
@@ -49,26 +49,26 @@ final class QRScannerViewController: BooltiViewController {
         label.clipsToBounds = true
         return label
     }()
-    
+
     // MARK: Init
 
     init(viewModel: QRScannerViewModel,
          entranceCodeViewControllerFactory: @escaping (EntranceCode) -> EntranceCodeViewController) {
         self.viewModel = viewModel
         self.entranceCodeViewControllerFactory = entranceCodeViewControllerFactory
-        
+
         super.init()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError()
     }
 
     // MARK: Life Cycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.configureQRScanner()
         self.configureUI()
         self.configureConstraints()
@@ -80,7 +80,7 @@ final class QRScannerViewController: BooltiViewController {
 // MARK: - Methods
 
 extension QRScannerViewController {
-    
+
     private func bindOutputs() {
         self.viewModel.output.showCheckLabel
             .asDriver(onErrorJustReturn: .invalid)
@@ -88,7 +88,7 @@ extension QRScannerViewController {
                 owner.checkLabel.text = state.rawValue
                 owner.checkLabel.textColor = state.textColor
                 owner.checkLabel.isHidden = false
-                
+
                 UIView.animate(
                     withDuration: 0.3,
                     delay: 2,
@@ -110,7 +110,7 @@ extension QRScannerViewController {
                 owner.dismiss(animated: true)
             }
             .disposed(by: self.disposeBag)
-        
+
         self.entranceCodeButton.rx.tap
             .bind(with: self) { owner, _ in
                 let viewController = owner.entranceCodeViewControllerFactory(owner.viewModel.qrScannerEntity.entranceCode)
@@ -119,7 +119,7 @@ extension QRScannerViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
+
     private func configureQRScanner() {
         guard let captureDevice = AVCaptureDevice.default(for: .video) else {
             fatalError("No video device found")
@@ -179,12 +179,12 @@ extension QRScannerViewController {
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
-        
+
         self.entranceCodeButton.snp.makeConstraints { make in
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-10)
             make.centerX.equalToSuperview()
         }
-        
+
         self.checkLabel.snp.makeConstraints { make in
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-100)
             make.centerX.equalToSuperview()
@@ -198,23 +198,21 @@ extension QRScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ captureOutput: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
                         from connection: AVCaptureConnection) {
-        if presentedViewController == nil,
-           let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
-           let detectedJson = metadataObject.stringValue?.data(using: .utf8) {
-            do {
-                let decodedCode = try JSONDecoder().decode(String.self, from: detectedJson)
-
-                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-                self.captureSession.stopRunning()
-                self.viewModel.input.detectQRCode.accept(decodedCode)
-                
-                debugPrint("🚪 인식된 입장 코드: \(decodedCode) 🚪")
-                
-                DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-                    self.captureSession.startRunning()
-                }
-            } catch {
+        if presentedViewController == nil, let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject
+        {
+            guard let decodedCode = metadataObject.stringValue else {
                 self.viewModel.output.showCheckLabel.accept(.invalid)
+                return
+            }
+
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            self.captureSession.stopRunning()
+            self.viewModel.input.detectQRCode.accept(decodedCode)
+
+            debugPrint("🚪 인식된 입장 코드: \(decodedCode) 🚪")
+
+            DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+                self.captureSession.startRunning()
             }
         }
     }
