@@ -15,7 +15,7 @@ class BooltiViewController: UIViewController {
     // MARK: UI Component
     
     private var toastView: BooltiToastView?
-
+    private var popupView = BooltiPopupView()
     private var loadingIndicatorView: BooltiLoadingIndicatorView?
     
     // MARK: Properties
@@ -45,6 +45,7 @@ class BooltiViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.configurePopupView()
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(showNetworkAlert),
@@ -75,17 +76,7 @@ class BooltiViewController: UIViewController {
 extension BooltiViewController {
 
     @objc func showNetworkAlert() {
-        let alertController = UIAlertController(title: "오류",
-                                                message: "네트워크 오류가 발생했습니다.\n잠시후 다시 시도해주세요",
-                                                preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default, handler: { _ in
-            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                exit(1)
-            }
-        })
-        alertController.addAction(okAction)
-        self.present(alertController, animated: true, completion: nil)
+        self.popupView.showPopup.accept("네트워크 오류가 발생했습니다\n잠시후 다시 시도해주세요")
     }
 
     @objc func navigateToRoot() {
@@ -115,6 +106,10 @@ extension BooltiViewController {
 
     func showToast(message: String) {
         self.toastView?.showToast.accept(message)
+    }
+
+    func showPopup(title: String) {
+        self.popupView.showPopup.accept(title)
     }
 }
 
@@ -146,6 +141,19 @@ extension BooltiViewController {
         self.toastView?.snp.makeConstraints { make in
             make.bottom.equalTo(keyWindow.safeAreaLayoutGuide).offset(-bottomOffset)
             make.centerX.equalTo(keyWindow)
+        }
+    }
+    
+    private func configurePopupView() {
+        guard let keyWindow = UIApplication.shared.connectedScenes
+            .filter({ $0.activationState == .foregroundActive })
+            .compactMap({ $0 as? UIWindowScene })
+            .first?.windows.first else {
+            return
+        }
+        keyWindow.addSubview(self.popupView)
+        self.popupView.snp.makeConstraints { make in
+            make.edges.equalTo(keyWindow)
         }
     }
 }
