@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "Ticket.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "Ticket@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "Ticket@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "popup_background.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {

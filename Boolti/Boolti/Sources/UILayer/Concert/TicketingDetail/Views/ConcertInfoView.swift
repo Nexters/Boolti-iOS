@@ -34,8 +34,8 @@ final class ConcertInfoView: UIView {
         return view
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .point2
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -43,8 +43,8 @@ final class ConcertInfoView: UIView {
         return label
     }()
     
-    private let datetimeLabel: UILabel = {
-        let label = UILabel()
+    private let datetimeLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body1
         label.textColor = .grey30
         return label
@@ -71,7 +71,6 @@ extension ConcertInfoView {
     func setData(posterURL: String, title: String, datetime: Date) {
         self.poster.setImage(with: posterURL)
         self.titleLabel.text = title
-        self.titleLabel.setLineSpacing(lineSpacing: 6)
         self.datetimeLabel.text = datetime.format(.dateDayTime)
     }
 }

@@ -52,8 +52,9 @@ final class TicketingDetailViewController: BooltiViewController {
         let view = UIView()
 
         let gradient = CAGradientLayer()
-        gradient.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 16)
+        gradient.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 24)
         gradient.colors = [UIColor.grey95.withAlphaComponent(0.0).cgColor, UIColor.grey95.cgColor]
+        gradient.locations = [0.1, 0.7]
         view.layer.insertSublayer(gradient, at: 0)
 
         return view
@@ -387,7 +388,7 @@ extension TicketingDetailViewController {
         self.buttonBackgroundView.snp.makeConstraints { make in
             make.bottom.equalTo(self.scrollView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(16)
+            make.height.equalTo(24)
         }
 
         self.payButton.snp.makeConstraints { make in

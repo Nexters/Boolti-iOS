@@ -14,7 +14,7 @@ final class SelectedTicketView: UIView {
     // MARK: Properties
 
     private let disposeBag = DisposeBag()
-    let cellHeight: CGFloat = 94
+    let cellHeight: CGFloat = 96
 
     // MARK: UI Component
 
@@ -33,16 +33,16 @@ final class SelectedTicketView: UIView {
         return view
     }()
 
-    private let priceInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "1인 1매"
+    private let priceInfoLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .grey30
+        label.text = "1인 1매"
         return label
     }()
 
-    private let totalPriceLabel: UILabel = {
-        let label = UILabel()
+    private let totalPriceLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body4
         label.textColor = .orange01
         return label
@@ -105,18 +105,17 @@ extension SelectedTicketView {
         }
 
         self.priceInfoLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(24)
+            make.left.equalToSuperview().inset(24)
             make.centerY.equalTo(self.totalPriceLabel)
         }
 
         self.totalPriceLabel.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-24)
+            make.right.equalToSuperview().inset(24)
             make.bottom.equalTo(self.ticketingButton.snp.top).offset(-26)
         }
 
         self.ticketingButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.height.equalTo(48)
             make.bottom.equalToSuperview().inset(8)
         }
     }

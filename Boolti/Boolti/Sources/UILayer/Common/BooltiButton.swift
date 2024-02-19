@@ -11,8 +11,8 @@ import SnapKit
 
 final class BooltiButton: UIButton {
 
-    private let mainTitleLabel: UILabel = {
-        let label = UILabel()
+    private let mainTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead1
         return label
     }()

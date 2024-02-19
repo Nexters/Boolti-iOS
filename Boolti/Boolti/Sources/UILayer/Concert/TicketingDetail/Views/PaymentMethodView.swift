@@ -18,11 +18,11 @@ final class PaymentMethodView: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "결제 수단"
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
+        label.text = "결제 수단"
         return label
     }()
     
@@ -51,11 +51,11 @@ final class PaymentMethodView: UIView {
         return view
     }()
     
-    private let infoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "다음 페이지에서 계좌 번호를 안내해 드릴게요"
+    private let infoLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body1
         label.textColor = .grey50
+        label.text = "다음 페이지에서 계좌 번호를 안내해 드릴게요"
         return label
     }()
     
@@ -94,7 +94,7 @@ extension PaymentMethodView {
     
     private func configureConstraints() {
         self.snp.makeConstraints { make in
-            make.height.equalTo(166)
+            make.height.equalTo(168)
         }
         
         self.titleLabel.snp.makeConstraints { make in
@@ -109,7 +109,7 @@ extension PaymentMethodView {
         }
         
         self.infoIcon.snp.makeConstraints { make in
-            make.top.equalTo(self.depositButton.snp.bottom).offset(14)
+            make.top.equalTo(self.depositButton.snp.bottom).offset(12)
             make.left.equalTo(self.depositButton)
             make.height.width.equalTo(20)
         }

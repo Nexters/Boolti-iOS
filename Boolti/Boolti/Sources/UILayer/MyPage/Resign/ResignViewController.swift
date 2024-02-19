@@ -33,19 +33,19 @@ final class ResignViewController: BooltiViewController {
     private let askingResignLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .subhead2
-        label.text = "탈퇴하시겠어요?"
         label.textColor = .grey15
-
+        label.text = "탈퇴하시겠어요?"
+        
         return label
     }()
     
     private let askingResignSubLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.font = .body1
-        label.text = "탈퇴일로부터 30일 이내에 재로그인 시\n계정 삭제를 취소할 수 있습니다.\n30일이 지나면 계정 및 정보가 영구 삭제됩니다."
         label.numberOfLines = 0
-        label.textAlignment = .center
+        label.font = .body1
         label.textColor = .grey30
+        label.text = "탈퇴일로부터 30일 이내에 재로그인 시\n계정 삭제를 취소할 수 있습니다.\n30일이 지나면 계정 및 정보가 영구 삭제됩니다."
+        label.setAlignCenter()
 
         return label
     }()

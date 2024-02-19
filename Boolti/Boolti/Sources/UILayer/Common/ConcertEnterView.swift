@@ -12,8 +12,8 @@ final class ConcertEnterView: UIView {
     private let headerTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .headline1
-        label.text = "아직 발권된 티켓이 없어요"
         label.textColor = .grey05
+        label.text = "아직 발권된 티켓이 없어요"
 
         return label
     }()
@@ -21,14 +21,13 @@ final class ConcertEnterView: UIView {
     private let subTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .body3
-        label.text = "티켓을 예매하고 공연을 즐겨보세요!"
         label.textColor = .grey30
+        label.text = "티켓을 예매하고 공연을 즐겨보세요!"
 
         return label
     }()
 
     private let topBackgroundImageView = UIImageView(image: .popupBackground)
-    private let bottomBackgroundImageView = UIImageView(image: .popupBackground)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,14 +44,13 @@ final class ConcertEnterView: UIView {
         self.addSubviews([
             self.topBackgroundImageView,
             self.headerTitleLabel,
-            self.subTitleLabel,
-            self.bottomBackgroundImageView
+            self.subTitleLabel
         ])
 
         self.topBackgroundImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.height.equalTo(575)
+            make.height.equalTo(570)
         }
 
         self.headerTitleLabel.snp.makeConstraints { make in
@@ -62,11 +60,6 @@ final class ConcertEnterView: UIView {
         self.subTitleLabel.snp.makeConstraints { make in
             make.centerX.equalTo(self.topBackgroundImageView)
             make.top.equalTo(self.headerTitleLabel.snp.bottom).offset(4)
-        }
-        
-        self.bottomBackgroundImageView.snp.makeConstraints { make in
-            make.top.equalTo(self.topBackgroundImageView.snp.bottom).offset(40)
-            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }
