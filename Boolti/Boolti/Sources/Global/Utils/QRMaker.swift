@@ -17,9 +17,12 @@ final class QRMaker {
     private let encoder = JSONEncoder()
 
     func makeQR(identifier: String) -> UIImage? {
-        guard let jsonData = try? self.encoder.encode(identifier) else { return UIImage().withTintColor(.grey30) }
 
-        self.filter.setValue(jsonData, forKey: "inputMessage")
+        guard let qrData = identifier.data(using: .utf8) else {
+            return UIImage().withTintColor(.grey30)
+        }
+
+        self.filter.setValue(qrData, forKey: "inputMessage")
 
         if let qrCodeImage = self.filter.outputImage {
             let transform = CGAffineTransform(scaleX: 5, y: 5)

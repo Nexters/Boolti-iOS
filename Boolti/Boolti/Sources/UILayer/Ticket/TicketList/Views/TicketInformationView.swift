@@ -116,7 +116,6 @@ final class TicketInformationView: UIView {
     }
 
     private func configureConstraints() {
-
         self.snp.makeConstraints { make in
             make.height.equalTo(75)
         }
