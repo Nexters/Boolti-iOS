@@ -9,7 +9,7 @@ import UIKit
 
 import RxSwift
 
-final class ConcertListViewController: UIViewController {
+final class ConcertListViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -40,7 +40,7 @@ final class ConcertListViewController: UIViewController {
         self.viewModel = viewModel
         self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
 
     required init?(coder: NSCoder) {
