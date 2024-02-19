@@ -245,6 +245,8 @@ final class TicketListViewController: BooltiViewController {
             .subscribe(with: self) { owner, isTicketsExist in
                 if !isTicketsExist {
                     owner.concertEnterView.isHidden = false
+                } else {
+                    owner.concertEnterView.isHidden = true
                 }
             }
             .disposed(by: self.disposeBag)
@@ -278,8 +280,9 @@ final class TicketListViewController: BooltiViewController {
             cellProvider: { [weak self ] collectionView, indexPath, item in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TicketListCollectionViewCell.self), for: indexPath) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
                 cell.setData(with: item)
-                guard item.ticketStatus == .notUsed else { return UICollectionViewCell() }
-                self?.bindQRCodeExpandView(cell)
+                if item.ticketStatus == .notUsed {
+                    self?.bindQRCodeExpandView(cell)
+                }
 
             return cell
         })
