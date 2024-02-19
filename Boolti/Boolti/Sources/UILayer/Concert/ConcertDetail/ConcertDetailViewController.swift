@@ -217,7 +217,18 @@ extension ConcertDetailViewController {
         
         self.navigationBar.didHomeButtonTap()
             .emit(with: self) { owner, _ in
-                owner.navigationController?.popToRootViewController(animated: true)
+                if let tabBarController = owner.tabBarController,
+                   let navigationController = self.navigationController {
+                    if tabBarController.selectedIndex == 0 {
+                        navigationController.popToRootViewController(animated: true)
+                    } else {
+                        UIView.transition(with: tabBarController.view,
+                                          duration: 0.3,
+                                          options: .transitionCrossDissolve,
+                                          animations: { tabBarController.selectedIndex = 0 },
+                                          completion: { _ in navigationController.popToRootViewController(animated: false) })
+                    }
+                }
             }
             .disposed(by: self.disposeBag)
         
