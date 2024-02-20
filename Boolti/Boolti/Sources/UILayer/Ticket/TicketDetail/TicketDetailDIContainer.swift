@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TicketDetailDIContainer {
+final class TicketDetailDIContainer {
 
     private let authRepository: AuthRepositoryType
     private let networkService: NetworkProviderType

@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class MypageContentView: UIView {
+final class MypageContentView: UIView {
 
     private let disposeBag = DisposeBag()
 

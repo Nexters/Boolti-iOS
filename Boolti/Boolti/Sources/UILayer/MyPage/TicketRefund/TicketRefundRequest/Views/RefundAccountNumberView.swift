@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RefundAccountNumberView: UIView {
+final class RefundAccountNumberView: UIView {
 
     let accountNumberTextField: BooltiTextField = {
         let textField = BooltiTextField()
@@ -20,7 +20,7 @@ class RefundAccountNumberView: UIView {
         let label = UILabel()
         label.font = .pretendardR(14)
         label.textColor = .error
-        label.text = "계좌번호 확인 후 다시 입력해 주세요."
+        label.text = "계좌번호를 올바르게 입력해 주세요"
         label.isHidden = true
 
         return label

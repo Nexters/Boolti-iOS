@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxRelay
 
-class ReversalPolicyView: UIStackView {
+final class ReversalPolicyView: UIStackView {
 
     private let disposeBag = DisposeBag()
 
@@ -47,8 +47,7 @@ class ReversalPolicyView: UIStackView {
         • 기타 사항은 카카오톡 채널 @스튜디오불티로 문의 부탁드립니다.
         """
         label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.setLineSpacingAndHeadIndent(lineSpacing: 6)
+        label.setHeadIndent()
         label.font = .body1
         label.textColor = .grey50
         label.isHidden = true
@@ -94,7 +93,7 @@ class ReversalPolicyView: UIStackView {
         ])
 
         self.titleView.snp.makeConstraints { make in
-            make.width.equalTo(titleViewWidth)
+//            make.width.equalTo(titleViewWidth)
             make.height.equalTo(66)
         }
 
@@ -109,7 +108,7 @@ class ReversalPolicyView: UIStackView {
         }
 
         self.reversalPolicyLabel.snp.makeConstraints { make in
-            make.height.equalTo(250)
+            make.height.equalTo(290)
         }
     }
 

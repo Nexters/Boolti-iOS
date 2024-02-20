@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ConcertContentExpandViewController: UIViewController {
+final class ConcertContentExpandViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -21,21 +21,20 @@ final class ConcertContentExpandViewController: UIViewController {
     
     private let navigationBar = BooltiNavigationBar(type: .concertContentExpand)
     
-    private let contentLabel: UILabel = {
-        let label = UILabel()
-        label.font = .pretendardR(16)
-        label.textColor = .grey30
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        
-        return label
+    private let contentTextView: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = .clear
+        textView.isEditable = false
+        textView.font = .pretendardR(16)
+        textView.textColor = .grey30
+        return textView
     }()
     
     // MARK: Init
     
     init(viewModel: ConcertContentExpandViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+        super.init()
         
         self.configureUI()
         self.configureConstraints()
@@ -55,8 +54,8 @@ extension ConcertContentExpandViewController {
     private func bindOutputs() {
         self.viewModel.output.content
             .bind(with: self) { owner, content in
-                owner.contentLabel.text = content
-                owner.contentLabel.setLineSpacing(lineSpacing: 6)
+                owner.contentTextView.text = content
+                owner.contentTextView.setLineSpacing(lineSpacing: 6)
             }
             .disposed(by: self.disposeBag)
     }
@@ -75,7 +74,7 @@ extension ConcertContentExpandViewController {
 extension ConcertContentExpandViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.navigationBar, self.contentLabel])
+        self.view.addSubviews([self.navigationBar, self.contentTextView])
         
         self.view.backgroundColor = .grey95
     }
@@ -86,9 +85,10 @@ extension ConcertContentExpandViewController {
             make.horizontalEdges.equalToSuperview()
         }
         
-        self.contentLabel.snp.makeConstraints { make in
+        self.contentTextView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationBar.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
 }

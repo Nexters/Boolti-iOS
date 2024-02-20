@@ -28,14 +28,21 @@ final class ConcertDetailViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationBar(type: .concertDetail)
+    private let navigationBar = BooltiNavigationBar(type: .concertDetail)
+    
+    private let dimmedBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black100.withAlphaComponent(0.85)
+        view.isHidden = true
 
-    private let loginEnterView = LoginEnterView()
+        return view
+    }()
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.bounces = false
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.delegate = self
         
         scrollView.addSubviews([self.stackView])
         return scrollView
@@ -69,11 +76,12 @@ final class ConcertDetailViewController: BooltiViewController {
     private let organizerInfoView = OrganizerInfoView()
     
     private lazy var buttonBackgroundView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 16))
-        
+        let view = UIView()
+
         let gradient = CAGradientLayer()
-        gradient.frame = view.bounds
-        gradient.colors = [UIColor.clear.cgColor, UIColor.grey95.cgColor]
+        gradient.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 24)
+        gradient.colors = [UIColor.grey95.withAlphaComponent(0.0).cgColor, UIColor.grey95.cgColor]
+        gradient.locations = [0.1, 0.7]
         view.layer.insertSublayer(gradient, at: 0)
 
         return view
@@ -112,10 +120,13 @@ final class ConcertDetailViewController: BooltiViewController {
         self.bindUIComponents()
         self.bindInputs()
         self.bindOutputs()
+        self.viewModel.fetchConcertDetail()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
+        self.dimmedBackgroundView.isHidden = true
     }
 }
 
@@ -150,13 +161,6 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.viewModel.output.showLoginEnterView
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, show in
-                owner.loginEnterView.isHidden = !show
-            }
-            .disposed(by: self.disposeBag)
-        
         self.viewModel.output.navigate
             .asDriver(onErrorJustReturn: .login)
             .drive(with: self) { owner, destination in
@@ -164,14 +168,17 @@ extension ConcertDetailViewController {
                 case .login:
                     let viewController = owner.loginViewControllerFactory()
                     viewController.modalPresentationStyle = .overFullScreen
-                    owner.present(viewController, animated: true) {
-                        owner.loginEnterView.isHidden = true
-                    }
+                    owner.present(viewController, animated: true)
                 case .contentExpand(let content):
                     let viewController = owner.concertContentExpandViewControllerFactory(content)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .ticketSelection(let concertId):
                     let viewController = owner.ticketSelectionViewControllerFactory(concertId)
+                    viewController.isDismissed = {
+                        owner.dimmedBackgroundView.isHidden = true
+                    }
+                    
+                    owner.dimmedBackgroundView.isHidden = false
                     owner.present(viewController, animated: true)
                 }
             }
@@ -179,18 +186,9 @@ extension ConcertDetailViewController {
     }
     
     private func bindUIComponents() {
-        self.bindLoginEnterView()
         self.bindPlaceInfoView()
         self.bindContentInfoView()
         self.bindNavigationBar()
-    }
-    
-    private func bindLoginEnterView() {
-        self.loginEnterView.loginButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.viewModel.output.navigate.accept(.login)
-            }
-            .disposed(by: self.disposeBag)
     }
     
     private func bindPlaceInfoView() {
@@ -211,19 +209,19 @@ extension ConcertDetailViewController {
     }
     
     private func bindNavigationBar() {
-        self.navigationView.didBackButtonTap()
+        self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
         
-        self.navigationView.didHomeButtonTap()
+        self.navigationBar.didHomeButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popToRootViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
         
-        self.navigationView.didShareButtonTap()
+        self.navigationBar.didShareButtonTap()
             .emit(with: self) { owner, _ in
                 guard let url = URL(string: AppInfo.booltiShareLink),
                       let posterURL = owner.viewModel.output.concertDetailEntity?.posters.first?.path
@@ -237,7 +235,7 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.navigationView.didMoreButtonTap()
+        self.navigationBar.didMoreButtonTap()
             .emit(with: self) { owner, _ in
                 let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 
@@ -256,32 +254,45 @@ extension ConcertDetailViewController {
     }
 }
 
+// MARK: - UIScrollViewDelegate
+
+extension ConcertDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        if offset <= self.concertPosterView.frame.height {
+            self.navigationBar.setBackgroundColor(with: .grey90)
+        } else {
+            self.navigationBar.setBackgroundColor(with: .grey95)
+        }
+    }
+}
+
 // MARK: - UI
 
 extension ConcertDetailViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.navigationView,
+        self.view.addSubviews([self.navigationBar,
                                self.scrollView,
                                self.buttonBackgroundView,
                                self.ticketingButton,
-                               self.loginEnterView])
+                               self.dimmedBackgroundView])
         
         self.view.backgroundColor = .grey95
     }
     
     private func configureConstraints() {
-        self.navigationView.snp.makeConstraints { make in
+        self.navigationBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
         
-        self.loginEnterView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        self.dimmedBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
         self.scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationView.snp.bottom)
+            make.top.equalTo(self.navigationBar.snp.bottom)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(self.ticketingButton.snp.top)
         }
@@ -294,7 +305,7 @@ extension ConcertDetailViewController {
         self.buttonBackgroundView.snp.makeConstraints { make in
             make.bottom.equalTo(self.ticketingButton.snp.top)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(16)
+            make.height.equalTo(24)
         }
         
         self.ticketingButton.snp.makeConstraints { make in

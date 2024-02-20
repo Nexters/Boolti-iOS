@@ -13,7 +13,7 @@ import RxCocoa
 import RxGesture
 import RxKeyboard
 
-class TicketRefundRequestViewController: BooltiViewController {
+final class TicketRefundRequestViewController: BooltiViewController {
 
     typealias ReservationID = String
     typealias ReasonText = String
@@ -63,6 +63,14 @@ class TicketRefundRequestViewController: BooltiViewController {
 
     private let requestRefundButton = BooltiButton(title: "환불 요청하기")
 
+    let dimmedBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black100.withAlphaComponent(0.85)
+        view.isHidden = true
+
+        return view
+    }()
+
     init(
         ticketRefundConfirmViewControllerFactory: @escaping (ReservationID, ReasonText, RefundAccountInformation) -> TicketRefundConfirmViewController,
         viewModel: TicketRefundRequestViewModel
@@ -100,7 +108,8 @@ class TicketRefundRequestViewController: BooltiViewController {
             self.concertInformationView,
             self.accountHolderView,
             self.refundAccountInformationView,
-            self.requestRefundButton
+            self.requestRefundButton,
+            self.dimmedBackgroundView
         ])
 
         self.navigationBar.snp.makeConstraints { make in
@@ -112,7 +121,7 @@ class TicketRefundRequestViewController: BooltiViewController {
         }
 
         self.accountHolderView.snp.makeConstraints { make in
-            make.top.equalTo(self.concertInformationView.snp.bottom)
+            make.top.equalTo(self.concertInformationView.snp.bottom).offset(12)
         }
 
         self.refundAccountInformationView.snp.makeConstraints { make in
@@ -139,6 +148,10 @@ class TicketRefundRequestViewController: BooltiViewController {
         self.requestRefundButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
+        }
+
+        self.dimmedBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
 
         self.configureAccountHolderViewSpacing()
@@ -171,8 +184,9 @@ class TicketRefundRequestViewController: BooltiViewController {
                 viewController.selectedItem = { item in
                     owner.selectRefundBankView.setData(with: item.bankName)
                 }
+                owner.dimmedBackgroundView.isHidden = false
 
-                self.present(viewController, animated: true)
+                owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }

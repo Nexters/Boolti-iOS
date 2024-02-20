@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxKeyboard
 
-class TicketEntryCodeViewController: BooltiViewController {
+final class TicketEntryCodeViewController: BooltiViewController {
 
     private let viewModel: TicketEntryCodeViewModel
 
@@ -41,6 +41,7 @@ class TicketEntryCodeViewController: BooltiViewController {
 
         self.entryCodeInputView.snp.makeConstraints { make in
             make.center.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(32)
         }
     }
 
@@ -65,24 +66,24 @@ class TicketEntryCodeViewController: BooltiViewController {
 
     private func bindOutputs() {
 
-        self.viewModel.output.isValidEntryCode
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, isValid in
-                if isValid {
-                    // dismiss하고 토스트 이미지 띄우기
+        self.viewModel.output.entryCodeResponse
+            .asDriver(onErrorJustReturn: .mismatch)
+            .drive(with: self, onNext: { owner, response in
+                switch response {
+                case .valid:
                     guard let homeTabBarController = owner.presentingViewController as? HomeTabBarController else { return }
                     guard let rootviewController = homeTabBarController.children[1] as? UINavigationController else { return }
                     guard let ticketDetailViewController = rootviewController.viewControllers.filter({ $0 is TicketDetailViewController
                     })[0] as? TicketDetailViewController else { return }
 
                     owner.dismiss(animated: true) {
-                        ticketDetailViewController.showToast(message: "입장을 확인했어요")
+                        ticketDetailViewController.showToast(message: "사용되었어요")
+                        ticketDetailViewController.entryCodeButton.isHidden = true
                     }
-                } else {
-                    // 올바른 입장 코드를 입력해 주세요.
-                    owner.entryCodeInputView.isInvalidEntryCodeTyped = false
+                default:
+                    owner.entryCodeInputView.setData(with: response)
                 }
-            }
+            })
             .disposed(by: self.disposeBag)
     }
 

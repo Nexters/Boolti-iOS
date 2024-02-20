@@ -17,6 +17,7 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     let viewModel: TicketSelectionViewModel
     private let disposeBag = DisposeBag()
     private let ticketingDetailViewControllerFactory: (SelectedTicketEntity) -> TicketingDetailViewController
+    var isDismissed: (() -> ())?
     
     // MARK: UI Component
     
@@ -50,9 +51,17 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         self.viewModel.fetchSalesTicket() {
             self.showContentView(.ticketTypeList)
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.isDismissed?()
     }
 }
 
@@ -139,6 +148,7 @@ extension TicketSelectionViewController {
         
         guard let presentingViewController = self.presentingViewController as? HomeTabBarController else { return }
         guard let rootviewController = presentingViewController.children[0] as? UINavigationController else { return }
+        
         self.dismiss (animated: true) {
             rootviewController.pushViewController(viewController, animated: true)
         }
@@ -151,7 +161,7 @@ extension TicketSelectionViewController {
     
     private func configureUI() {
         self.setTitle("티켓 선택")
-        
+
         self.contentView.addSubviews([self.ticketTypeView, self.selectedTicketView])
         self.selectedTicketView.isHidden = true
     }

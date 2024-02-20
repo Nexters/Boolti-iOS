@@ -9,7 +9,7 @@ import UIKit
 
 import RxSwift
 
-final class QRScannerListViewController: UIViewController {
+final class QRScannerListViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -24,29 +24,28 @@ final class QRScannerListViewController: UIViewController {
     
     private lazy var emtpyLabelStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.spacing = 10
+        stackView.spacing = 4
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.addArrangedSubviews([self.emptyMainTitle, self.emptySubTitle])
         return stackView
     }()
     
-    private let emptyMainTitle: UILabel = {
-        let label = UILabel()
-        label.text = "주최한 공연이 없어요"
+    private let emptyMainTitle: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .headline1
         label.textColor = .grey05
+        label.text = "주최한 공연이 없어요"
         return label
     }()
     
-    private let emptySubTitle: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 2
+    private let emptySubTitle: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.numberOfLines = 0
         label.font = .body3
         label.textColor = .grey30
         label.text = "공연을 주최하고 QR 스캐너로\n관객 입장을 관리해 보세요"
-        label.setLineSpacing(lineSpacing: 6)
-        label.textAlignment = .center
+        label.setAlignCenter()
         return label
     }()
     
@@ -65,7 +64,7 @@ final class QRScannerListViewController: UIViewController {
         self.viewModel = viewModel
         self.qrScannerViewControllerFactory = qrScannerViewControllerFactory
         
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {

@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TicketRefundBankSelectionViewController: BooltiViewController {
+final class TicketRefundBankSelectionViewController: BooltiViewController {
 
     private let disposeBag = DisposeBag()
 
@@ -39,12 +39,13 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
         return collectionView
     }()
 
-    private lazy var buttonDimmedBackgroundView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 16))
+    private lazy var buttonBackgroundView: UIView = {
+        let view = UIView()
 
         let gradient = CAGradientLayer()
-        gradient.frame = view.bounds
-        gradient.colors = [UIColor.clear.cgColor, UIColor.grey85.cgColor]
+        gradient.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 24)
+        gradient.colors = [UIColor.grey85.withAlphaComponent(0.0).cgColor, UIColor.grey85.cgColor]
+        gradient.locations = [0.1, 0.7]
         view.layer.insertSublayer(gradient, at: 0)
 
         return view
@@ -54,6 +55,8 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
 
     var isBankSelected: Bool = false
     var selectedItem: ((BankEntity) -> ())?
+
+    // viewModel로 설정할 예정
 
     override init() {
         super.init()
@@ -73,6 +76,18 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
         self.bindOutputs()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // 아래의 로직 리팩토링하기! -> 화면 네비게이션 로직 + ViewModel 생성
+        guard let homeTabBarController = self.presentingViewController as? HomeTabBarController else { return }
+        guard let rootviewController = homeTabBarController.children[2] as? UINavigationController else { return }
+        guard let ticketRefundRequestViewController = rootviewController.viewControllers.filter({ $0 is TicketRefundRequestViewController
+        })[0] as? TicketRefundRequestViewController else { return }
+
+        ticketRefundRequestViewController.dimmedBackgroundView.isHidden = true
+    }
+
     private func configureUI() {
         self.view.backgroundColor = .grey85
         self.finishSelectionButton.isEnabled = false
@@ -85,7 +100,7 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
             self.titleView,
             self.collectionView,
             self.finishSelectionButton,
-            self.buttonDimmedBackgroundView
+            self.buttonBackgroundView
         ])
         self.titleView.addSubview(titleLabel)
 
@@ -146,17 +161,16 @@ class TicketRefundBankSelectionViewController: BooltiViewController {
             make.bottom.equalTo(self.finishSelectionButton.snp.top)
         }
 
-        self.buttonDimmedBackgroundView.snp.makeConstraints { make in
-            make.bottom.equalTo(self.finishSelectionButton.snp.top)
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(16)
-        }
-
         self.finishSelectionButton.snp.makeConstraints { make in
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 
+        self.buttonBackgroundView.snp.makeConstraints { make in
+            make.bottom.equalTo(self.finishSelectionButton.snp.top)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(24)
+        }
     }
 
     private func configureBottomSheet() {

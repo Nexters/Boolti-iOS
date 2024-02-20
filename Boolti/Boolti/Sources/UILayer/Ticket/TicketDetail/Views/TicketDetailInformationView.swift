@@ -7,10 +7,10 @@
 
 import UIKit
 
-class TicketDetailInformationView: UIView {
+final class TicketDetailInformationView: UIView {
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .aggroB(20)
         label.lineBreakMode = .byWordWrapping
@@ -40,16 +40,16 @@ class TicketDetailInformationView: UIView {
         return stackView
     }()
 
-    private let dateLabel: UILabel = {
-        let label = UILabel()
+    private let dateLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey30
         label.font = .body2
 
         return label
     }()
 
-    private let locationLabel: UILabel = {
-        let label = UILabel()
+    private let locationLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey30
         label.font = .body2
 
@@ -140,7 +140,9 @@ class TicketDetailInformationView: UIView {
 
     private func configureGradient() {
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.bounds
+        let bounds = CGRect(x: 1, y: 0, width: self.bounds.width-2, height: self.bounds.height)
+        
+        gradientLayer.frame = bounds
         gradientLayer.colors = [UIColor.init("#000000").withAlphaComponent(0.0).cgColor, UIColor.init("#000000").withAlphaComponent(0.7).cgColor]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)

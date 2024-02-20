@@ -18,7 +18,7 @@ final class TicketingCompletionViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationView = BooltiNavigationBar(type: .ticketingCompletion)
+    private let navigationBar = BooltiNavigationBar(type: .ticketingCompletion)
     
     private var topContentView = UIView()
     
@@ -84,13 +84,13 @@ final class TicketingCompletionViewController: BooltiViewController {
 extension TicketingCompletionViewController {
     
     private func bindInput() {
-        self.navigationView.didHomeButtonTap()
+        self.navigationBar.didHomeButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popToRootViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
         
-        self.navigationView.didCloseButtonTap()
+        self.navigationBar.didCloseButtonTap()
             .emit(with: self) { owner, _ in
                 guard let viewControllers = self.navigationController?.viewControllers else { return }
                 self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
@@ -138,7 +138,7 @@ extension TicketingCompletionViewController {
 extension TicketingCompletionViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.navigationView,
+        self.view.addSubviews([self.navigationBar,
                                self.topContentView,
                                self.underlineView,
                                self.reservedTicketView,
@@ -150,13 +150,13 @@ extension TicketingCompletionViewController {
     
     private func configureConstraints() {
         
-        self.navigationView.snp.makeConstraints { make in
+        self.navigationBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
         
         self.topContentView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationView.snp.bottom)
+            make.top.equalTo(self.navigationBar.snp.bottom)
             make.horizontalEdges.equalToSuperview()
         }
         

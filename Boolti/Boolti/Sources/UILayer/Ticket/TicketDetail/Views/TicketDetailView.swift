@@ -10,13 +10,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TicketDetailView: UIView {
+final class TicketDetailView: UIView {
 
     private let disposeBag = DisposeBag()
 
     let didCopyAddressButtonTap = PublishRelay<Void>()
     let didShowConcertDetailButtonTap = PublishRelay<Void>()
-    
+
     // 더 좋은 방법 생각해보기!..
     private var isSeperatedLineConfigured = false
 
@@ -41,7 +41,7 @@ class TicketDetailView: UIView {
     // MARK: upperTagLabelStackView 처리하기
     private let ticketTypeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .grey80
+        label.textColor = .grey80.withAlphaComponent(0.8)
         label.font = .pretendardB(14)
 
         return label
@@ -56,6 +56,7 @@ class TicketDetailView: UIView {
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
 
         return imageView
     }()
@@ -64,6 +65,7 @@ class TicketDetailView: UIView {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 8
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
 
         return imageView
     }()
@@ -74,7 +76,7 @@ class TicketDetailView: UIView {
         let view = UIView()
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey80.cgColor
-        view.backgroundColor = .black
+        view.backgroundColor = .grey95
 
         return view
     }()
@@ -83,7 +85,7 @@ class TicketDetailView: UIView {
         let view = UIView()
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey80.cgColor
-        view.backgroundColor = .black
+        view.backgroundColor = .grey95
 
         return view
     }()
@@ -91,7 +93,7 @@ class TicketDetailView: UIView {
     private let ticketNoticeView = TicketNoticeView()
     private let ticketInquiryView = TicketInquiryView()
 
-//     BooltiButton이랑 붙히는 거 추후에 진행할 예정
+    //     BooltiButton이랑 붙히는 거 추후에 진행할 예정
     private let copyAddressButton: UIButton = {
         let button = UIButton()
         button.setTitle("공연장 주소 복사", for: .normal)
@@ -158,7 +160,7 @@ class TicketDetailView: UIView {
 
     private func configureUI() {
         self.layer.cornerRadius = 8
-        self.backgroundColor = .black
+        self.backgroundColor = .grey95
         self.clipsToBounds = true
 
         self.addSubviews([
@@ -286,17 +288,13 @@ class TicketDetailView: UIView {
 
     private func configureSeperateLine() {
 
-        guard !self.isSeperatedLineConfigured else { return }
-        self.isSeperatedLineConfigured = true
-
-        let path = UIBezierPath()
+        let path = CGMutablePath()
 
         path.move(to: CGPoint(x: 20, y: 475))
         path.addLine(to: CGPoint(x: self.bounds.width-20, y: 475))
-        path.close()
 
         let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
+        shapeLayer.path = path
         shapeLayer.lineWidth = 2
         shapeLayer.lineDashPattern = [5, 5]
         shapeLayer.strokeColor = UIColor.init(white: 1, alpha: 0.3).cgColor

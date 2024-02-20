@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelectRefundBankView: UIView {
+final class SelectRefundBankView: UIView {
 
     let bankNameLabel: UILabel = {
         let label = UILabel()

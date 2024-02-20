@@ -40,7 +40,7 @@ final class AuthInterceptor: RequestInterceptor {
             completion(.doNotRetryWithError(error))
             return
         }
-        
+
         // 리프레시 요청 response의 statusCdoe가 401이면 재요청 하지 않음
         if let urlString = response.url?.absoluteString, urlString.hasSuffix("/refeshToken") {
             completion(.doNotRetry)
@@ -60,6 +60,10 @@ final class AuthInterceptor: RequestInterceptor {
                 completion(.retry)
             }, onFailure: { error in
                 // 이러면 로그인 화면으로 간다!..
+                UserDefaults.accessToken = ""
+                UserDefaults.refreshToken = ""
+
+                NotificationCenter.default.post(name: Notification.Name.refreshTokenHasExpired, object: nil)
                 completion(.doNotRetry)
             })
             .disposed(by: self.disposeBag)

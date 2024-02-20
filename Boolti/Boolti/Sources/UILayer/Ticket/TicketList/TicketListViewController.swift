@@ -19,6 +19,7 @@ final class TicketListViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
     private let ticketDetailControllerFactory: (TicketID) -> TicketDetailViewController
+    private let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController
 
     private enum Section {
         case concertList
@@ -38,7 +39,7 @@ final class TicketListViewController: BooltiViewController {
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
-        collectionView.backgroundColor = .black
+        collectionView.backgroundColor = .grey95
         collectionView.alwaysBounceVertical = false
         collectionView.register(
             TicketListCollectionViewCell.self,
@@ -55,8 +56,6 @@ final class TicketListViewController: BooltiViewController {
 
     private let loginEnterView: LoginEnterView = {
         let view = LoginEnterView()
-        // 색깔은 바꿔줄 예정!..
-        view.backgroundColor = .black100
         view.isHidden = true
 
         return view
@@ -64,7 +63,6 @@ final class TicketListViewController: BooltiViewController {
 
     private let concertEnterView: ConcertEnterView = {
         let view = ConcertEnterView()
-        view.backgroundColor = .black100
         view.isHidden = true
 
         return view
@@ -73,11 +71,13 @@ final class TicketListViewController: BooltiViewController {
     init(
         viewModel: TicketListViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
+        qrExpandViewControllerFactory: @escaping (UIImage) -> QRExpandViewController,
         ticketDetailViewControllerFactory: @escaping (TicketID) -> TicketDetailViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.ticketDetailControllerFactory = ticketDetailViewControllerFactory
+        self.qrExpandViewControllerFactory = qrExpandViewControllerFactory
         super.init()
     }
 
@@ -218,13 +218,6 @@ final class TicketListViewController: BooltiViewController {
             .asDriver()
             .drive(self.viewModel.input.didloginButtonTapEvent)
             .disposed(by: self.disposeBag)
-
-        self.concertEnterView.navigateToHomeButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                owner.tabBarController?.selectedIndex = 0
-            }
-            .disposed(by: self.disposeBag)
     }
 
     private func bindOutput() {
@@ -282,19 +275,36 @@ final class TicketListViewController: BooltiViewController {
     private func configureCollectionViewDatasource() {
         self.datasource = UICollectionViewDiffableDataSource(
             collectionView: self.collectionView,
-            cellProvider: { collectionView, indexPath, item in
+            cellProvider: { [weak self ] collectionView, indexPath, item in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TicketListCollectionViewCell.self), for: indexPath) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
                 cell.setData(with: item)
+                guard item.ticketStatus == .notUsed else { return UICollectionViewCell() }
+                self?.bindQRCodeExpandView(cell)
 
             return cell
         })
 
-        self.datasource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+        self.datasource?.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: TicketListFooterView.self), for: indexPath)
 
-            self.bind(supplementaryView)
+            self?.bind(supplementaryView)
             return supplementaryView
         }
+    }
+
+    private func bindQRCodeExpandView(_ cell: TicketListCollectionViewCell) {
+        let qrCodeImageView = cell.ticketInformationView.qrCodeImageView
+
+        qrCodeImageView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                guard let QRCodeImage = qrCodeImageView.image else { return }
+                let viewController = owner.qrExpandViewControllerFactory(QRCodeImage)
+                viewController.modalPresentationStyle = .overFullScreen
+                owner.present(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bind(_ footerView: UICollectionReusableView) {
@@ -302,6 +312,7 @@ final class TicketListViewController: BooltiViewController {
         footerView.isHidden = true
         Observable.combineLatest(self.currentTicketPage, self.ticketPageCount)
             .subscribe { (currentPage, pagesCount) in
+                guard pagesCount != 1 else { return }
                 footerView.isHidden = false
                 footerView.pageIndicatorLabel.text = "\(currentPage)/\(pagesCount)"
             }

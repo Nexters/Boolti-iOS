@@ -11,7 +11,7 @@ import RxSwift
 import RxRelay
 import RxMoya
 
-class TicketDetailViewModel {
+final class TicketDetailViewModel {
 
     struct Input {
         var viewWillAppearEvent = PublishSubject<Void>()

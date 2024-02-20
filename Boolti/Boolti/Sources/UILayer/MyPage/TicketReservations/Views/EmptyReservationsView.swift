@@ -7,10 +7,10 @@
 
 import UIKit
 
-class EmptyReservationsStackView: UIStackView {
+final class EmptyReservationsStackView: UIStackView {
 
-    private let mainTitleLabel: UILabel = {
-        let label = UILabel()
+    private let mainTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .headline1
         label.textColor = .grey05
         label.text = "예매 내역이 없어요"
@@ -18,8 +18,8 @@ class EmptyReservationsStackView: UIStackView {
         return label
     }()
 
-    private let subTitleLabel: UILabel = {
-        let label = UILabel()
+    private let subTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .grey30
         label.text = "티켓을 예매하고 공연을 즐겨보세요!"
@@ -39,6 +39,7 @@ class EmptyReservationsStackView: UIStackView {
     private func configureUI() {
         self.axis = .vertical
         self.alignment = .center
+        self.spacing = 4
 
         self.addArrangedSubviews([
             self.mainTitleLabel,

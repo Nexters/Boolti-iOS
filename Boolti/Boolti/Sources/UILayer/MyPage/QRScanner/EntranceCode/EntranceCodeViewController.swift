@@ -9,7 +9,7 @@ import UIKit
 
 import RxSwift
 
-final class EntranceCodeViewController: UIViewController {
+final class EntranceCodeViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -26,19 +26,26 @@ final class EntranceCodeViewController: UIViewController {
         return view
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "입장코드"
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey15
+        label.text = "입장코드"
         return label
     }()
     
-    private let codeTextField: BooltiTextField = {
-        let textField = BooltiTextField(backgroundColor: .grey80)
-        textField.isEnabled = false
-        textField.textAlignment = .center
-        return textField
+    private let codeBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey80
+        view.layer.cornerRadius = 4
+        return view
+    }()
+    
+    private let codeLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .body3
+        label.textColor = .grey15
+        return label
     }()
     
     private let confirmButton = BooltiButton(title: "확인")
@@ -48,7 +55,7 @@ final class EntranceCodeViewController: UIViewController {
     init(viewModel: EntranceCodeViewModel) {
         self.viewModel = viewModel
         
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {
@@ -84,11 +91,12 @@ extension EntranceCodeViewController {
     private func configureUI() {
         self.view.addSubviews([self.popUpBackgroundView,
                                self.titleLabel,
-                               self.codeTextField,
+                               self.codeBackgroundView,
+                               self.codeLabel,
                                self.confirmButton])
         
-        self.view.backgroundColor = .grey95
-        self.codeTextField.text = self.viewModel.entranceCode
+        self.view.backgroundColor = .black100.withAlphaComponent(0.85)
+        self.codeLabel.text = self.viewModel.entranceCode
     }
     
     private func configureConstraints() {
@@ -103,15 +111,20 @@ extension EntranceCodeViewController {
             make.top.equalTo(self.popUpBackgroundView).offset(32)
         }
         
-        self.codeTextField.snp.makeConstraints { make in
+        self.codeBackgroundView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(self.titleLabel.snp.bottom).offset(24)
+            make.height.equalTo(48)
             make.horizontalEdges.equalTo(self.popUpBackgroundView).inset(20)
+        }
+        
+        self.codeLabel.snp.makeConstraints { make in
+            make.center.equalTo(self.codeBackgroundView)
         }
         
         self.confirmButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(self.codeTextField.snp.bottom).offset(28)
+            make.top.equalTo(self.codeBackgroundView.snp.bottom).offset(28)
             make.horizontalEdges.equalTo(self.popUpBackgroundView).inset(20)
         }
     }

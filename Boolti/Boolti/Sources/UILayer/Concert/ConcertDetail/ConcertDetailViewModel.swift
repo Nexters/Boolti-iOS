@@ -64,7 +64,6 @@ final class ConcertDetailViewModel {
     
     struct Output {
         let navigate = PublishRelay<ConcertDetailDestination>()
-        let showLoginEnterView = BehaviorRelay<Bool>(value: false)
         let concertDetail = PublishRelay<ConcertDetailEntity>()
         var concertDetailEntity: ConcertDetailEntity?
         let buttonState = BehaviorRelay<ConcertTicketingState>(value: .endSale)
@@ -73,17 +72,19 @@ final class ConcertDetailViewModel {
     let input: Input
     var output: Output
     
+    let concertId: Int
+    
     // MARK: Init
     
     init(concertRepository: ConcertRepository,
          concertId: Int) {
         self.concertRepository = concertRepository
+        self.concertId = concertId
         self.input = Input()
         self.output = Output()
         
         self.bindInputs()
         self.bindOutputs()
-        self.fetchConcertDetail(concertId: concertId)
     }
 }
 
@@ -102,7 +103,7 @@ extension ConcertDetailViewModel {
         self.input.didTicketingButtonTap
             .bind(with: self) { owner, _ in
                 if UserDefaults.accessToken.isEmpty {
-                    owner.output.showLoginEnterView.accept(true)
+                    owner.output.navigate.accept(.login)
                 } else {
                     guard let concertId = owner.output.concertDetailEntity?.id else { return }
                     owner.output.navigate.accept(.ticketSelection(concertId: concertId))
@@ -114,18 +115,17 @@ extension ConcertDetailViewModel {
     private func bindOutputs() {
         self.output.concertDetail
             .bind(with: self, onNext: { owner, concert in
-                if concert.reservationStatus {
-                    owner.output.buttonState.accept(.alreadyReserved)
-                    return
-                }
-                
                 var state: ConcertTicketingState = .onSale
                 
                 if Date().compare(concert.salesStartTime) == .orderedAscending {
                     state = .beforeSale(startDate: concert.salesStartTime)
                 }
                 else if Date().compare(concert.salesEndTime) == .orderedAscending {
-                    state = .onSale
+                    if concert.reservationStatus {
+                        state = .alreadyReserved
+                    } else {
+                        state = .onSale
+                    }
                 }
                 else if Date().compare(concert.date) == .orderedAscending {
                     state = .endSale
@@ -144,8 +144,8 @@ extension ConcertDetailViewModel {
 
 extension ConcertDetailViewModel {
  
-    private func fetchConcertDetail(concertId: Int) {
-        self.concertRepository.concertDetail(concertId: concertId)
+    func fetchConcertDetail() {
+        self.concertRepository.concertDetail(concertId: self.concertId)
             .do { self.output.concertDetailEntity = $0 }
             .asObservable()
             .bind(to: self.output.concertDetail)

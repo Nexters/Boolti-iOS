@@ -30,12 +30,14 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return scrollView
     }()
 
-    private let contentStackView: UIStackView = {
+    private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 12
+        
+        stackView.setCustomSpacing(0, after: self.concertInformationView)
 
         return stackView
     }()
@@ -44,7 +46,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
         let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 0))
         label.textColor = .grey50
         label.font = .pretendardR(14)
-        label.text = "No. 1234567890"
 
         return label
     }()
@@ -144,6 +145,9 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private func configureUI() {
         self.navigationController?.navigationBar.isHidden = true
+        self.contentStackView.isUserInteractionEnabled = true
+        self.depositAccountInformationStackView.isUserInteractionEnabled = true
+        self.configureToastView(isButtonExisted: false)
 
         self.view.addSubviews([
             self.navigationBar,
@@ -173,6 +177,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
         }
 
         self.reservationIDLabel.snp.makeConstraints { make in
+            make.width.equalTo(screenWidth)
+        }
+
+        self.reversalPolicyView.snp.makeConstraints { make in
             make.width.equalTo(screenWidth)
         }
 
@@ -271,8 +279,8 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         // 티켓 정보
         self.ticketTypeView.setData(entity.ticketType.rawValue)
-        self.ticketCountView.setData(entity.ticketCount)
-        self.ticketingDateView.setData(entity.ticketingDate?.formatToDate().format(.dateDayTime) ?? "")
+        self.ticketCountView.setData("\(entity.ticketCount)매")
+        self.ticketingDateView.setData(entity.ticketingDate?.formatToDate().format(.dateDayTime) ?? "발권 전")
 
         // 예매자 정보
         self.purchasernNameView.setData(entity.purchaseName)
