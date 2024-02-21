@@ -24,16 +24,38 @@ final class QRExpandViewController: BooltiViewController {
         button.tintColor = .grey90
         return button
     }()
-    
+
+    private let contentBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey10
+        view.layer.cornerRadius = 8
+
+        return view
+    }()
+
     private let booltiLogoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .qrTopLogo
+        imageView.image = .greyBooltiLogo
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    
-    private let qrImageView = UIImageView()
-    
+
+    private let ticketNameLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.textColor = .grey85
+        label.font = .subhead1
+
+        return label
+    }()
+
+    private let qrImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 4
+        imageView.clipsToBounds = true
+
+        return imageView
+    }()
+
     // MARK: Init
     
     init(viewModel: QRExpandViewModel) {
@@ -73,11 +95,20 @@ extension QRExpandViewController {
 extension QRExpandViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.closeButton,
-                               self.booltiLogoImageView,
-                               self.qrImageView])
-        
+        self.view.addSubviews([
+            self.contentBackgroundView,
+            self.closeButton,
+        ])
+
+        self.contentBackgroundView.addSubviews([
+            self.ticketNameLabel,
+            self.qrImageView,
+            self.booltiLogoImageView
+        ])
+
         self.view.backgroundColor = .white00
+
+        self.ticketNameLabel.text = self.viewModel.output.ticketName
         self.qrImageView.image = self.viewModel.output.qrCodeImage
     }
     
@@ -87,15 +118,27 @@ extension QRExpandViewController {
             make.right.equalToSuperview().inset(20)
             make.size.equalTo(24)
         }
-        
+
+        self.contentBackgroundView.snp.makeConstraints { make in
+            make.width.equalTo(292)
+            make.height.equalTo(360)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-10)
+        }
+
         self.qrImageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.size.equalTo(260)
         }
-        
+
+        self.ticketNameLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().inset(16)
+        }
+
         self.booltiLogoImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.qrImageView.snp.top).offset(-20)
+            make.top.equalTo(self.qrImageView.snp.bottom).offset(12)
         }
     }
 }
