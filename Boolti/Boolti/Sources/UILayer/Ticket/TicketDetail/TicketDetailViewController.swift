@@ -16,9 +16,11 @@ final class TicketDetailViewController: BooltiViewController {
 
     typealias TicketID = String
     typealias ConcertID = String
+    typealias QRCodeImage = UIImage
+    typealias TicketName = String
 
     private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
-    private let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController
+    private let qrExpandViewControllerFactory: (QRCodeImage, TicketName) -> QRExpandViewController
     private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
 
     private let viewModel: TicketDetailViewModel
@@ -88,7 +90,7 @@ final class TicketDetailViewController: BooltiViewController {
     init(
         viewModel: TicketDetailViewModel,
         ticketEntryCodeViewControllerFactory: @escaping (TicketID, ConcertID) -> TicketEntryCodeViewController,
-        qrExpandViewControllerFactory: @escaping (UIImage) -> QRExpandViewController,
+        qrExpandViewControllerFactory: @escaping (QRCodeImage, TicketName) -> QRExpandViewController,
         concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController
     ) {
         self.viewModel = viewModel
@@ -188,8 +190,11 @@ final class TicketDetailViewController: BooltiViewController {
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                guard let qrCodeImage = owner.viewModel.output.fetchedTicketDetail.value?.qrCode else { return }
-                let viewController = owner.qrExpandViewControllerFactory(qrCodeImage)
+                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
+                let qrCodeImage = ticketDetail.qrCode
+                let ticketName = ticketDetail.ticketName
+
+                let viewController = owner.qrExpandViewControllerFactory(qrCodeImage, ticketName)
                 viewController.modalPresentationStyle = .overFullScreen
                 owner.present(viewController, animated: true)
             }

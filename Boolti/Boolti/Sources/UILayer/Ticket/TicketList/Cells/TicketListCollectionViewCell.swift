@@ -87,7 +87,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
 
-    private let ticketTypeLabel: UILabel = {
+    let ticketTypeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grey80.withAlphaComponent(0.8)
         label.font = .pretendardB(14)

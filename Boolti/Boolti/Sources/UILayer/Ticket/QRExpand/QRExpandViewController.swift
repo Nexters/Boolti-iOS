@@ -78,7 +78,7 @@ extension QRExpandViewController {
                                self.qrImageView])
         
         self.view.backgroundColor = .white00
-        self.qrImageView.image = self.viewModel.qrCodeImage
+        self.qrImageView.image = self.viewModel.output.qrCodeImage
     }
     
     private func configureConstraints() {

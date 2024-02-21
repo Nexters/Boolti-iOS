@@ -9,9 +9,9 @@ import UIKit
 
 final class QRExpandDIContainer {
     
-    func createQRExpandViewController(qrCodeImage: UIImage) -> QRExpandViewController {
-        let viewModel = createQRExpandViewModel(qrCodeImage: qrCodeImage)
-        
+    func createQRExpandViewController(qrCodeImage: UIImage, ticketName: String) -> QRExpandViewController {
+        let viewModel = createQRExpandViewModel(qrCodeImage: qrCodeImage, ticketName: ticketName)
+
         let viewController = QRExpandViewController(
             viewModel: viewModel
         )
@@ -19,7 +19,7 @@ final class QRExpandDIContainer {
         return viewController
     }
     
-    private func createQRExpandViewModel(qrCodeImage: UIImage) -> QRExpandViewModel {
-        return QRExpandViewModel(qrCodeImage: qrCodeImage)
+    private func createQRExpandViewModel(qrCodeImage: UIImage, ticketName: String) -> QRExpandViewModel {
+        return QRExpandViewModel(qrCodeImage: qrCodeImage, ticketName: ticketName)
     }
 }

@@ -10,12 +10,17 @@ import UIKit
 final class QRExpandViewModel {
     
     // MARK: Properties
-    
-    let qrCodeImage: UIImage
-    
+
+    struct Output {
+        let qrCodeImage: UIImage
+        let ticketName: String
+    }
+
+    let output: Output
+
     // MARK: Init
     
-    init(qrCodeImage: UIImage) {
-        self.qrCodeImage = qrCodeImage
+    init(qrCodeImage: UIImage, ticketName: String) {
+        self.output = Output(qrCodeImage: qrCodeImage, ticketName: ticketName)
     }
 }
