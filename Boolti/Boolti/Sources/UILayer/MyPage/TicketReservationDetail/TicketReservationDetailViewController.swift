@@ -275,7 +275,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
         self.paymentStatusView.setData(entity.reservationStatus.description)
 
-        self.configureRefundButton(with: entity.reservationStatus)
+        self.configureRefundButton(with: entity)
 
         // 티켓 정보
         self.ticketTypeView.setData(entity.ticketType.rawValue)
@@ -315,12 +315,15 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.depositorPhoneNumberView.setData(entity.depositorPhoneNumber)
     }
 
-    private func configureRefundButton(with reservationStatus: ReservationStatus) {
-        switch reservationStatus {
+    private func configureRefundButton(with entity: TicketReservationDetailEntity) {
+        switch entity.reservationStatus {
         case .reservationCompleted:
-            self.requestRefundButton.isHidden = false
-            return
-        case .waitingForRefund, .refundCompleted, .cancelled, .waitingForDeposit:
+            if Date() <= entity.salesEndTime.formatToDate() {
+                self.requestRefundButton.isHidden = false
+            } else {
+                self.requestRefundButton.isHidden = true
+            }
+        default:
             self.requestRefundButton.isHidden = true
         }
     }
