@@ -28,7 +28,7 @@ final class LoginViewModel {
     let output: Output
 
     private let authRepository: AuthRepositoryType
-    private let socialLoginAPIService: OAuthRepositoryType
+    private let oauthRepository: OAuthRepositoryType
 
     var identityToken: String?
     var provider: OAuthProvider?
@@ -37,7 +37,7 @@ final class LoginViewModel {
 
     init(authRepository: AuthRepositoryType, socialLoginAPIService: OAuthRepositoryType) {
         self.authRepository = authRepository
-        self.socialLoginAPIService = socialLoginAPIService
+        self.oauthRepository = socialLoginAPIService
         
         self.input = Input()
         self.output = Output()
@@ -48,7 +48,7 @@ final class LoginViewModel {
         self.input.loginButtonDidTapEvent
             .subscribe(with: self) { owner, provider in
                 owner.provider = provider
-                owner.socialLoginAPIService.authorize(provider: provider)
+                owner.oauthRepository.authorize(provider: provider)
                     .flatMap({ OAuthResponse -> Single<Bool> in
                         let accessToken = OAuthResponse.accessToken
                         owner.identityToken = accessToken

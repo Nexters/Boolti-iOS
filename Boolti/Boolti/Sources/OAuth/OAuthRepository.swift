@@ -20,5 +20,16 @@ final class OAuthRepository: OAuthRepositoryType {
         }
         return OAuth.authorize()
     }
+    
+    func resign(provider: OAuthProvider) -> Observable<Void> {
+        var OAuth: OAuth
 
+        switch provider {
+        case .kakao:
+            OAuth = KakaoOAuth()
+        case .apple:
+            OAuth = AppleOAuth()
+        }
+        return OAuth.resign()
+    }
 }

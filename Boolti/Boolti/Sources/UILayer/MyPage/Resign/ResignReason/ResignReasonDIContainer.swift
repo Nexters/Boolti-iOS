@@ -20,6 +20,7 @@ final class ResignReasonDIContainer {
     }
 
     private func createResignReasonViewModel() -> ResignReasonViewModel {
-        return ResignReasonViewModel(authRepository: self.authRepository)
+        return ResignReasonViewModel(authRepository: self.authRepository,
+                                     oauthRepository: OAuthRepository())
     }
 }

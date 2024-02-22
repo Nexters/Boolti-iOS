@@ -31,4 +31,7 @@ class AppleOAuth: OAuth {
           }
           .compactMap { $0 }
     }
+    
+    func resign() -> Observable<Void> {
+    }
 }

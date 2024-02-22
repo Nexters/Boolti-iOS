@@ -1374,9 +1374,9 @@
 		8710D9422B74FA0C00309FBF /* Logout */ = {
 			isa = PBXGroup;
 			children = (
+				8710D9572B74FAC800309FBF /* LogoutDIContainer.swift */,
 				8710D9532B74FAB500309FBF /* LogoutViewController.swift */,
 				8710D9552B74FAC100309FBF /* LogoutViewModel.swift */,
-				8710D9572B74FAC800309FBF /* LogoutDIContainer.swift */,
 			);
 			path = Logout;
 			sourceTree = "<group>";

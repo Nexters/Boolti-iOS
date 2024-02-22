@@ -11,8 +11,6 @@ import KakaoSDKUser
 
 struct KakaoOAuth: OAuth {
 
-    private let disposeBag = DisposeBag()
-
     private enum KakaoAuthError: Error {
         case invalidToken
     }
@@ -41,6 +39,20 @@ struct KakaoOAuth: OAuth {
                         return
                     }
                     observer.onNext(.init(accessToken: accessToken, provider: .kakao))
+                    observer.onCompleted()
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
+    func resign() -> Observable<Void> {
+        return Observable<Void>.create { observer in
+            UserApi.shared.unlink {(error) in
+                if let error = error {
+                    observer.onError(error)
+                }
+                else {
                     observer.onCompleted()
                 }
             }
