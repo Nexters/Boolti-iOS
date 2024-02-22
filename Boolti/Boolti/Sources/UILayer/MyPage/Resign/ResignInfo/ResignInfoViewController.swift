@@ -1,5 +1,5 @@
 //
-//  ResignViewController.swift
+//  ResignInfoViewController.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 2/15/24.
@@ -10,9 +10,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ResignViewController: BooltiViewController {
+final class ResignInfoViewController: BooltiViewController {
 
-    private var viewModel: ResignViewModel
+    private var viewModel: ResignInfoViewModel
 
     private let disposeBag = DisposeBag()
 
@@ -59,7 +59,7 @@ final class ResignViewController: BooltiViewController {
         self.bindViewModel()
     }
 
-    init(viewModel: ResignViewModel) {
+    init(viewModel: ResignInfoViewModel) {
         self.viewModel = viewModel
         super.init()
     }

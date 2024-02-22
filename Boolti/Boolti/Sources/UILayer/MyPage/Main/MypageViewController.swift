@@ -16,7 +16,7 @@ final class MyPageViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
     private let logoutViewControllerFactory: () -> LogoutViewController
-    private let resignViewControllerFactory: () -> ResignViewController
+    private let resignInfoViewControllerFactory: () -> ResignInfoViewController
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
     private let qrScanViewControllerFactory: () -> QRScannerListViewController
 
@@ -48,14 +48,14 @@ final class MyPageViewController: BooltiViewController {
         viewModel: MyPageViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
         logoutViewControllerFactory: @escaping () -> LogoutViewController,
-        resignViewControllerFactory: @escaping () -> ResignViewController,
+        resignInfoViewControllerFactory: @escaping () -> ResignInfoViewController,
         ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
         qrScanViewControllerFactory: @escaping () -> QRScannerListViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.logoutViewControllerFactory = logoutViewControllerFactory
-        self.resignViewControllerFactory = resignViewControllerFactory
+        self.resignInfoViewControllerFactory = resignInfoViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.qrScanViewControllerFactory = qrScanViewControllerFactory
         
@@ -206,7 +206,7 @@ final class MyPageViewController: BooltiViewController {
         switch next {
         case .login: return loginViewControllerFactory()
         case .logout: return logoutViewControllerFactory()
-        case .resign: return resignViewControllerFactory()
+        case .resign: return resignInfoViewControllerFactory()
         case .qrScannerList: return qrScanViewControllerFactory()
         case .ticketReservations: return ticketReservationsViewControllerFactory()
         }

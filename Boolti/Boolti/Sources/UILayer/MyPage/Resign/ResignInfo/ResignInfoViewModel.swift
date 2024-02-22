@@ -1,5 +1,5 @@
 //
-//  ResignViewModel.swift
+//  ResignInfoViewModel.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 2/15/24.
@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-final class ResignViewModel {
+final class ResignInfoViewModel {
 
     struct Input {
         let didResignConfirmButtonTap = PublishRelay<Void>()
