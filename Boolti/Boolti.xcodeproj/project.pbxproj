@@ -36,6 +36,9 @@
 		843918FE2B7A82E700CC62AA /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843918FD2B7A82E700CC62AA /* ReportViewModel.swift */; };
 		8453D7FC2B7539270048F103 /* SalesTicketResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453D7FB2B7539270048F103 /* SalesTicketResponseDTO.swift */; };
 		8453D7FE2B7539770048F103 /* SalesTicketRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453D7FD2B7539770048F103 /* SalesTicketRequestDTO.swift */; };
+		845D88532B87704A00179F60 /* ResignReasonDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88522B87704A00179F60 /* ResignReasonDIContainer.swift */; };
+		845D88552B87705700179F60 /* ResignReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88542B87705700179F60 /* ResignReasonViewController.swift */; };
+		845D88572B87706000179F60 /* ResignReasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88562B87706000179F60 /* ResignReasonViewModel.swift */; };
 		84625A042B6382C300CC9077 /* BooltiBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */; };
 		84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */; };
 		84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */; };
@@ -316,6 +319,9 @@
 		843918FD2B7A82E700CC62AA /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		8453D7FB2B7539270048F103 /* SalesTicketResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesTicketResponseDTO.swift; sourceTree = "<group>"; };
 		8453D7FD2B7539770048F103 /* SalesTicketRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesTicketRequestDTO.swift; sourceTree = "<group>"; };
+		845D88522B87704A00179F60 /* ResignReasonDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignReasonDIContainer.swift; sourceTree = "<group>"; };
+		845D88542B87705700179F60 /* ResignReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignReasonViewController.swift; sourceTree = "<group>"; };
+		845D88562B87706000179F60 /* ResignReasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignReasonViewModel.swift; sourceTree = "<group>"; };
 		84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBottomSheetViewController.swift; sourceTree = "<group>"; };
 		84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewController.swift; sourceTree = "<group>"; };
 		84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -614,6 +620,7 @@
 			isa = PBXGroup;
 			children = (
 				845D88502B876EDE00179F60 /* ResignInfo */,
+				845D88512B87700500179F60 /* ResignReason */,
 			);
 			path = Resign;
 			sourceTree = "<group>";
@@ -668,6 +675,16 @@
 				842C1C672B7DA93600EFE5A0 /* ResignInfoViewModel.swift */,
 			);
 			path = ResignInfo;
+			sourceTree = "<group>";
+		};
+		845D88512B87700500179F60 /* ResignReason */ = {
+			isa = PBXGroup;
+			children = (
+				845D88522B87704A00179F60 /* ResignReasonDIContainer.swift */,
+				845D88542B87705700179F60 /* ResignReasonViewController.swift */,
+				845D88562B87706000179F60 /* ResignReasonViewModel.swift */,
+			);
+			path = ResignReason;
 			sourceTree = "<group>";
 		};
 		84625A0C2B63B2D100CC9077 /* TicketSelection */ = {
@@ -1851,6 +1868,7 @@
 				8757BAA42B5FDEA2008503B5 /* OAuthAPIServiceType.swift in Sources */,
 				8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */,
 				87F7DF492B8275D30068A6C9 /* EntryCodeErrorEntity.swift in Sources */,
+				845D88552B87705700179F60 /* ResignReasonViewController.swift in Sources */,
 				87D2FABE2B6F89060027FBE1 /* TicketInquiryView.swift in Sources */,
 				840B395F2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift in Sources */,
 				87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */,
@@ -1918,6 +1936,7 @@
 				8730F01E2B7B38F700D4F339 /* AccountContentView.swift in Sources */,
 				841D77D82B73D2A20068B1C5 /* String+.swift in Sources */,
 				8746AD102B680A290037A1B1 /* SelectedTicketView.swift in Sources */,
+				845D88572B87706000179F60 /* ResignReasonViewModel.swift in Sources */,
 				84D1C3832B79B71600527998 /* UserResponseDTO.swift in Sources */,
 				84A713452B7C83AE000BABCB /* QRMaker.swift in Sources */,
 				8710D94E2B74FA8B00309FBF /* TicketReservationsViewModel.swift in Sources */,
@@ -1944,6 +1963,7 @@
 				8753CA6C2B70E17B002871C7 /* TicketEntryCodeViewController.swift in Sources */,
 				84E48AC32B7E53A000F8BFD0 /* TicketReservationsRepositoryType.swift in Sources */,
 				842C1C682B7DA93600EFE5A0 /* ResignInfoViewModel.swift in Sources */,
+				845D88532B87704A00179F60 /* ResignReasonDIContainer.swift in Sources */,
 				84A024882B7B8AA70095A56E /* QRScannerEntity.swift in Sources */,
 				872605492B793A3F005CD0D4 /* ReservationCollapsableStackView.swift in Sources */,
 				8710D9482B74FA6600309FBF /* QRScannerListViewModel.swift in Sources */,

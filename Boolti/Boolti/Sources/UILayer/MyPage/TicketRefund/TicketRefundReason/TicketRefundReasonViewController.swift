@@ -118,7 +118,7 @@ final class TicketRefundReasonViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 if owner.reasonTextView.textColor == .grey70 {
                     owner.reasonTextView.text = nil
-                    owner.reasonTextView.textColor = .white00
+                    owner.reasonTextView.textColor = .grey10
                 }
             }
             .disposed(by: self.disposeBag)

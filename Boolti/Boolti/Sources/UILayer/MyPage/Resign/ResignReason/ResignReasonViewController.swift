@@ -1,8 +1,8 @@
 //
-//  ReportViewController.swift
+//  ResignReasonViewController.swift
 //  Boolti
 //
-//  Created by Juhyeon Byun on 2/13/24.
+//  Created by Juhyeon Byun on 2/22/24.
 //
 
 import UIKit
@@ -10,31 +10,22 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ReportViewController: BooltiViewController {
+final class ResignReasonViewController: BooltiViewController {
     
     // MARK: Properties
     
-    private let viewModel: ReportViewModel
+    private var viewModel: ResignReasonViewModel
     private let disposeBag = DisposeBag()
     
     // MARK: UI Component
     
-    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "신고하기"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "회원 탈퇴"))
     
     private let mainTitle: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .point4
         label.textColor = .grey05
-        label.text = "신고 사유를 입력해주세요"
-        return label
-    }()
-    
-    private let subTitle: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.numberOfLines = 2
-        label.font = .body3
-        label.textColor = .grey30
-        label.text = "관리자 확인 후 공연이 삭제되며\n적절한 사유가 아닌 경우 반려될 수 있어요"
+        label.text = "탈퇴 이유를 입력해 주세요"
         return label
     }()
     
@@ -44,18 +35,17 @@ final class ReportViewController: BooltiViewController {
         textView.backgroundColor = .grey85
         textView.layer.cornerRadius = 4
         textView.font = .body3
-        textView.text = "예) 부적절한 목적을 가진 공연이에요"
+        textView.text = "예) 계정 탈퇴 후 재 가입할게요"
         textView.textColor = .grey70
         return textView
     }()
     
-    private let reportButton = BooltiButton(title: "신고하기")
-
+    private let resignButton = BooltiButton(title: "탈퇴하기")
+    
     // MARK: Init
     
-    init(viewModel: ReportViewModel) {
+    init(viewModel: ResignReasonViewModel) {
         self.viewModel = viewModel
-        
         super.init()
     }
     
@@ -78,7 +68,7 @@ final class ReportViewController: BooltiViewController {
 
 // MARK: - Methods
 
-extension ReportViewController {
+extension ResignReasonViewController {
 
     private func bindUIComponents() {
         self.navigationBar.didBackButtonTap()
@@ -87,10 +77,14 @@ extension ReportViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.reportButton.rx.tap
-            .bind(with: self) { owner, _ in
+        self.resignButton.rx.tap
+            .bind(to: self.viewModel.input.didResignConfirmButtonTap)
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.didResignAccount
+            .subscribe(with: self) { owner, _ in
+                owner.showToast(message: "회원 탈퇴가 완료되었어요")
                 owner.navigationController?.popToRootViewController(animated: true)
-                owner.showToast(message: "신고를 완료했어요")
             }
             .disposed(by: self.disposeBag)
         
@@ -109,10 +103,10 @@ extension ReportViewController {
                 
                 if changedText.isEmpty {
                     owner.reasonTextView.textColor = .grey70
-                    owner.reasonTextView.text = "예) 부적절한 목적을 가진 공연이에요"
-                    owner.reportButton.isEnabled = false
+                    owner.reasonTextView.text = "예) 계정 탈퇴 후 재 가입할게요"
+                    owner.resignButton.isEnabled = false
                 } else {
-                    owner.reportButton.isEnabled = true
+                    owner.resignButton.isEnabled = true
                 }
             }
             .disposed(by: self.disposeBag)
@@ -132,17 +126,16 @@ extension ReportViewController {
 
 // MARK: - UI
 
-extension ReportViewController {
+extension ResignReasonViewController {
     
     private func configureUI() {
         self.view.addSubviews([self.navigationBar,
                                self.mainTitle,
-                               self.subTitle,
                                self.reasonTextView,
-                               self.reportButton])
+                               self.resignButton])
         
         self.view.backgroundColor = .grey95
-        self.reportButton.isEnabled = false
+        self.resignButton.isEnabled = false
     }
     
     private func configureConstraints() {
@@ -155,19 +148,14 @@ extension ReportViewController {
             make.top.equalTo(self.navigationBar.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
-
-        self.subTitle.snp.makeConstraints { make in
-            make.top.equalTo(self.mainTitle.snp.bottom).offset(4)
-            make.horizontalEdges.equalTo(self.mainTitle)
-        }
         
         self.reasonTextView.snp.makeConstraints { make in
-            make.top.equalTo(self.subTitle.snp.bottom).offset(20)
+            make.top.equalTo(self.mainTitle.snp.bottom).offset(20)
             make.horizontalEdges.equalTo(self.mainTitle)
             make.height.equalTo(160)
         }
         
-        self.reportButton.snp.makeConstraints { make in
+        self.resignButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
         }
