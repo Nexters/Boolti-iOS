@@ -25,7 +25,6 @@ final class DatetimeInfoView: UIView {
         label.textColor = .grey30
         label.font = .body3
         label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
         
         return label
     }()
