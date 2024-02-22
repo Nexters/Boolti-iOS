@@ -53,11 +53,6 @@ final class TicketRefundReasonViewController: BooltiViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.navigationBar.isHidden = true
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()

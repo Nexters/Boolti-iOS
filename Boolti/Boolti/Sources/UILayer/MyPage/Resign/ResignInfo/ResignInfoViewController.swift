@@ -11,129 +11,125 @@ import RxSwift
 import RxCocoa
 
 final class ResignInfoViewController: BooltiViewController {
-
-    private var viewModel: ResignInfoViewModel
-
+    
+    // MARK: Properties
+    
+    private let viewModel: ResignInfoViewModel
     private let disposeBag = DisposeBag()
-
-    private let resignBackgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .grey85
-
-        return view
-    }()
-
-    private let closeButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.closeButton, for: .normal)
-
-        return button
-    }()
-
-    private let askingResignLabel: BooltiUILabel = {
+    
+    private let resignReasonViewControllerFactory: () -> ResignReasonViewController
+    
+    // MARK: UI Component
+    
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "회원 탈퇴"))
+    
+    private let mainTitle: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.font = .subhead2
-        label.textColor = .grey15
-        label.text = "탈퇴하시겠어요?"
-        
+        label.font = .point4
+        label.textColor = .grey05
+        label.text = "탈퇴 전, 꼭 읽어 보세요!"
         return label
     }()
     
-    private let askingResignSubLabel: BooltiUILabel = {
+    private let resignInfoLabel: BooltiUILabel = {
         let label = BooltiUILabel()
+        label.font = .body3
+        label.textColor = .grey50
         label.numberOfLines = 0
-        label.font = .body1
-        label.textColor = .grey30
-        label.text = "탈퇴일로부터 30일 이내에 재로그인 시\n계정 삭제를 취소할 수 있습니다.\n30일이 지나면 계정 및 정보가 영구 삭제됩니다."
-        label.setAlignCenter()
-
+        label.text = """
+        • 주최한 공연 정보는 사라지지 않아요
+        • 예매한 티켓은 전부 사라지며 복구할 수 없어요
+        • 탈퇴일로부터 30일 이내 재 로그인 시 계정 삭제를 취소할 수 있어요
+        """
+        label.setHeadIndent()
         return label
     }()
-
-    private let confirmLogoutButton = BooltiButton(title: "탈퇴")
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.configureUI()
-        self.bindUIComponents()
-        self.bindViewModel()
-    }
-
-    init(viewModel: ResignInfoViewModel) {
+    
+    private let nextButton = BooltiButton(title: "다음")
+    
+    // MARK: Init
+    
+    init(viewModel: ResignInfoViewModel,
+         resignReasonViewControllerFactory: @escaping () -> ResignReasonViewController) {
         self.viewModel = viewModel
+        self.resignReasonViewControllerFactory = resignReasonViewControllerFactory
+        
         super.init()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
+    
+    // MARK: Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.configureUI()
+        self.configureConstraints()
+        self.bindUIConponents()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = true
+    }
+}
 
+// MARK: - Methods
+
+extension ResignInfoViewController {
+    
+    private func bindUIConponents() {
+        self.navigationBar.didBackButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.nextButton.rx.tap
+            .bind(with: self) { owner, _ in
+                let viewController = self.resignReasonViewControllerFactory()
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+}
+
+// MARK: - UI
+
+extension ResignInfoViewController {
+    
     private func configureUI() {
-        self.view.backgroundColor = .black100
-        self.resignBackgroundView.layer.cornerRadius = 8
-
-        self.view.addSubviews([
-            self.resignBackgroundView,
-            self.askingResignLabel,
-            self.askingResignSubLabel,
-            self.confirmLogoutButton,
-            self.closeButton
-        ])
-
-        self.resignBackgroundView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(32)
-            make.center.equalToSuperview()
-        }
-
-        self.askingResignLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(self.resignBackgroundView.snp.top).inset(48)
+        self.view.backgroundColor = .grey95
+        
+        self.view.addSubviews([self.navigationBar,
+                               self.mainTitle,
+                               self.resignInfoLabel,
+                               self.nextButton])
+    }
+    
+    private func configureConstraints() {
+        self.navigationBar.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
         }
         
-        self.askingResignSubLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(self.askingResignLabel.snp.bottom).offset(12)
-            make.horizontalEdges.equalTo(self.confirmLogoutButton)
+        self.mainTitle.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
-
-        self.confirmLogoutButton.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(self.resignBackgroundView).inset(20)
-            make.centerX.equalToSuperview()
-            make.top.equalTo(self.askingResignSubLabel.snp.bottom).offset(28)
-            make.bottom.equalTo(self.resignBackgroundView).inset(20)
+        
+        self.resignInfoLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.mainTitle.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
-
-        self.closeButton.snp.makeConstraints { make in
-            make.top.equalTo(self.resignBackgroundView.snp.top).inset(12)
-            make.right.equalTo(self.resignBackgroundView.snp.right).inset(20)
+        
+        self.nextButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
         }
-    }
-
-    private func bindUIComponents() {
-        self.closeButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.dismiss(animated: true)
-            }
-            .disposed(by: self.disposeBag)
-    }
-
-    private func bindViewModel() {
-        self.bindInputs()
-        self.bindOutputs()
-    }
-
-    private func bindInputs() {
-        self.confirmLogoutButton.rx.tap
-            .bind(to: self.viewModel.input.didResignConfirmButtonTap)
-            .disposed(by: self.disposeBag)
-    }
-
-    private func bindOutputs() {
-        self.viewModel.output.didResignAccount
-            .asDriver(onErrorJustReturn: ())
-            .drive(with: self) { owner, _ in
-                owner.dismiss(animated: true)
-            }
-            .disposed(by: self.disposeBag)
     }
 }

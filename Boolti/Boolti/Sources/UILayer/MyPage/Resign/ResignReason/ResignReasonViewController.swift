@@ -14,7 +14,7 @@ final class ResignReasonViewController: BooltiViewController {
     
     // MARK: Properties
     
-    private var viewModel: ResignReasonViewModel
+    private let viewModel: ResignReasonViewModel
     private let disposeBag = DisposeBag()
     
     // MARK: UI Component

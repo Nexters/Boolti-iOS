@@ -43,6 +43,12 @@ final class MyPageViewController: BooltiViewController {
         self.bindUIComponents()
         self.bindViewModel()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
+    }
 
     init(
         viewModel: MyPageViewModel,
@@ -181,10 +187,10 @@ final class MyPageViewController: BooltiViewController {
             .drive(with: self, onNext: { owner, destination in
                 let viewController = owner.createViewController(destination)
                 switch destination {
-                case .login, .logout, .resign:
+                case .login, .logout:
                     viewController.modalPresentationStyle = .fullScreen
                     owner.present(viewController, animated: true)
-                case .ticketReservations, .qrScannerList:
+                case .ticketReservations, .qrScannerList, .resign:
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             })

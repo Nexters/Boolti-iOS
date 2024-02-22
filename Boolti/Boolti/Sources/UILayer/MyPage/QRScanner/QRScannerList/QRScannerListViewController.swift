@@ -86,10 +86,6 @@ final class QRScannerListViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.viewModel.fetchQRList()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
-    }
 }
 
 // MARK: - Methods

@@ -50,10 +50,6 @@ final class TicketReservationsViewController: BooltiViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

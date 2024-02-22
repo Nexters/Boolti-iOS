@@ -16,10 +16,22 @@ final class ResignInfoDIContainer {
     }
 
     func createResignInfoViewController() -> ResignInfoViewController {
-        return ResignInfoViewController(viewModel: self.createResignInfoViewModel())
+        let resignReasonViewControllerFactory = {
+            let DIContainer = self.createResignReasonDIContainer()
+            let viewController = DIContainer.createResignReasonViewController()
+
+            return viewController
+        }
+        
+        return ResignInfoViewController(viewModel: self.createResignInfoViewModel(),
+                                        resignReasonViewControllerFactory: resignReasonViewControllerFactory)
     }
 
     private func createResignInfoViewModel() -> ResignInfoViewModel {
         return ResignInfoViewModel(authRepository: self.authRepository)
+    }
+    
+    private func createResignReasonDIContainer() -> ResignReasonDIContainer {
+        return ResignReasonDIContainer(authRepository: self.authRepository)
     }
 }
