@@ -89,7 +89,7 @@ final class NetworkProvider: NetworkProviderType {
                             }
                             #endif
                             
-                            if response.statusCode == 500 {
+                            if response.statusCode == NetworkError.serverError.rawValue {
                                 NotificationCenter.default.post(name: Notification.Name("ServerErrorNotification"), object: nil)
                             }
                         } else {

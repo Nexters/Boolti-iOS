@@ -16,4 +16,5 @@ protocol AuthRepositoryType {
     func signUp(provider: OAuthProvider, identityToken: String?)
     func logout() -> Single<Void>
     func userInfo()
+    func resign(reason: String) -> Single<Void>
 }

@@ -78,6 +78,7 @@ extension ResignReasonViewController {
             .disposed(by: self.disposeBag)
         
         self.resignButton.rx.tap
+            .do(onNext: { self.viewModel.input.reason.accept(self.reasonTextView.text) })
             .bind(to: self.viewModel.input.didResignConfirmButtonTap)
             .disposed(by: self.disposeBag)
         

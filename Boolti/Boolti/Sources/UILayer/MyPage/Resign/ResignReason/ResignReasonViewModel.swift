@@ -14,6 +14,7 @@ final class ResignReasonViewModel {
 
     struct Input {
         let didResignConfirmButtonTap = PublishRelay<Void>()
+        let reason = BehaviorRelay<String>(value: "")
     }
 
     struct Output {
@@ -45,8 +46,7 @@ final class ResignReasonViewModel {
             .disposed(by: self.disposeBag)
     }
 
-    // TODO: 탈퇴연결
     private func resignAccount() -> Single<Void> {
-        return self.authRepository.logout()
+        return self.authRepository.resign(reason: self.input.reason.value)
     }
 }

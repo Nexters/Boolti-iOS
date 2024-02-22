@@ -30,7 +30,6 @@
 		842183732B71D75D00A52E1C /* ConcertDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */; };
 		842C1C642B7DA8A700EFE5A0 /* ResignInfoDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842C1C632B7DA8A700EFE5A0 /* ResignInfoDIContainer.swift */; };
 		842C1C662B7DA8C800EFE5A0 /* ResignInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842C1C652B7DA8C800EFE5A0 /* ResignInfoViewController.swift */; };
-		842C1C682B7DA93600EFE5A0 /* ResignInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842C1C672B7DA93600EFE5A0 /* ResignInfoViewModel.swift */; };
 		843918FA2B7A82B200CC62AA /* ReportDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843918F92B7A82B200CC62AA /* ReportDIContainer.swift */; };
 		843918FC2B7A82DF00CC62AA /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843918FB2B7A82DF00CC62AA /* ReportViewController.swift */; };
 		843918FE2B7A82E700CC62AA /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843918FD2B7A82E700CC62AA /* ReportViewModel.swift */; };
@@ -39,6 +38,7 @@
 		845D88532B87704A00179F60 /* ResignReasonDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88522B87704A00179F60 /* ResignReasonDIContainer.swift */; };
 		845D88552B87705700179F60 /* ResignReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88542B87705700179F60 /* ResignReasonViewController.swift */; };
 		845D88572B87706000179F60 /* ResignReasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88562B87706000179F60 /* ResignReasonViewModel.swift */; };
+		845D88592B877B0E00179F60 /* ResignRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88582B877B0E00179F60 /* ResignRequestDTO.swift */; };
 		84625A042B6382C300CC9077 /* BooltiBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */; };
 		84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */; };
 		84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */; };
@@ -313,7 +313,6 @@
 		842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailEntity.swift; sourceTree = "<group>"; };
 		842C1C632B7DA8A700EFE5A0 /* ResignInfoDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignInfoDIContainer.swift; sourceTree = "<group>"; };
 		842C1C652B7DA8C800EFE5A0 /* ResignInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignInfoViewController.swift; sourceTree = "<group>"; };
-		842C1C672B7DA93600EFE5A0 /* ResignInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignInfoViewModel.swift; sourceTree = "<group>"; };
 		843918F92B7A82B200CC62AA /* ReportDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDIContainer.swift; sourceTree = "<group>"; };
 		843918FB2B7A82DF00CC62AA /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		843918FD2B7A82E700CC62AA /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
@@ -322,6 +321,7 @@
 		845D88522B87704A00179F60 /* ResignReasonDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignReasonDIContainer.swift; sourceTree = "<group>"; };
 		845D88542B87705700179F60 /* ResignReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignReasonViewController.swift; sourceTree = "<group>"; };
 		845D88562B87706000179F60 /* ResignReasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignReasonViewModel.swift; sourceTree = "<group>"; };
+		845D88582B877B0E00179F60 /* ResignRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignRequestDTO.swift; sourceTree = "<group>"; };
 		84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBottomSheetViewController.swift; sourceTree = "<group>"; };
 		84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewController.swift; sourceTree = "<group>"; };
 		84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -672,7 +672,6 @@
 			children = (
 				842C1C632B7DA8A700EFE5A0 /* ResignInfoDIContainer.swift */,
 				842C1C652B7DA8C800EFE5A0 /* ResignInfoViewController.swift */,
-				842C1C672B7DA93600EFE5A0 /* ResignInfoViewModel.swift */,
 			);
 			path = ResignInfo;
 			sourceTree = "<group>";
@@ -904,6 +903,7 @@
 				84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */,
 				876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */,
 				8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */,
+				845D88582B877B0E00179F60 /* ResignRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1793,6 +1793,7 @@
 				84896A512B6A827E00CB3E33 /* ReservedTicketView.swift in Sources */,
 				84886E922B70AA85005D2329 /* OrganizerInfoView.swift in Sources */,
 				8757BAAC2B5FDF69008503B5 /* AppleOAuth.swift in Sources */,
+				845D88592B877B0E00179F60 /* ResignRequestDTO.swift in Sources */,
 				8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */,
 				84FBBE072B67B30D009462E9 /* PaymentMethodView.swift in Sources */,
 				8757BAAE2B60067A008503B5 /* OAuthProvider.swift in Sources */,
@@ -1962,7 +1963,6 @@
 				8710D9562B74FAC100309FBF /* LogoutViewModel.swift in Sources */,
 				8753CA6C2B70E17B002871C7 /* TicketEntryCodeViewController.swift in Sources */,
 				84E48AC32B7E53A000F8BFD0 /* TicketReservationsRepositoryType.swift in Sources */,
-				842C1C682B7DA93600EFE5A0 /* ResignInfoViewModel.swift in Sources */,
 				845D88532B87704A00179F60 /* ResignReasonDIContainer.swift in Sources */,
 				84A024882B7B8AA70095A56E /* QRScannerEntity.swift in Sources */,
 				872605492B793A3F005CD0D4 /* ReservationCollapsableStackView.swift in Sources */,

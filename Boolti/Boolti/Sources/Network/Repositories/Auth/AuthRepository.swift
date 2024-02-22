@@ -156,4 +156,13 @@ final class AuthRepository: AuthRepositoryType {
             .disposed(by: self.disposeBag)
     }
     
+    func resign(reason: String) -> Single<Void> {
+        let api = AuthAPI.resign(requestDTO: ResignRequestDTO(reason: reason))
+        
+        return self.networkService.request(api)
+            .do(onSuccess: {  _ in
+                UserDefaults.removeAllUserInfo()
+            })
+            .map { _ in return () }
+    }
 }

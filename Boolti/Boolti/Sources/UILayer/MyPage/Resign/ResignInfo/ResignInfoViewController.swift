@@ -13,8 +13,7 @@ import RxCocoa
 final class ResignInfoViewController: BooltiViewController {
     
     // MARK: Properties
-    
-    private let viewModel: ResignInfoViewModel
+
     private let disposeBag = DisposeBag()
     
     private let resignReasonViewControllerFactory: () -> ResignReasonViewController
@@ -49,9 +48,7 @@ final class ResignInfoViewController: BooltiViewController {
     
     // MARK: Init
     
-    init(viewModel: ResignInfoViewModel,
-         resignReasonViewControllerFactory: @escaping () -> ResignReasonViewController) {
-        self.viewModel = viewModel
+    init(resignReasonViewControllerFactory: @escaping () -> ResignReasonViewController) {
         self.resignReasonViewControllerFactory = resignReasonViewControllerFactory
         
         super.init()
