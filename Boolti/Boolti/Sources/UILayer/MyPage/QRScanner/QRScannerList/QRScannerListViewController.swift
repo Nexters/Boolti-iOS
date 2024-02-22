@@ -20,7 +20,7 @@ final class QRScannerListViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationBar = BooltiNavigationBar(type: .qrScannerList)
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "QR 스캔"))
     
     private lazy var emtpyLabelStackView: UIStackView = {
         let stackView = UIStackView()

@@ -959,13 +959,13 @@
 		84781CBB2B5BF94100D37921 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				8730F00A2B7B0FEC00D4F339 /* TicketRefund */,
-				872605402B79320B005CD0D4 /* TicketReservationDetail */,
-				8710D9442B74FA1B00309FBF /* QRScanner */,
+				8710D9412B74F9F600309FBF /* Main */,
 				8710D9432B74FA1300309FBF /* TicketReservations */,
+				872605402B79320B005CD0D4 /* TicketReservationDetail */,
+				8730F00A2B7B0FEC00D4F339 /* TicketRefund */,
+				8710D9442B74FA1B00309FBF /* QRScanner */,
 				8710D9422B74FA0C00309FBF /* Logout */,
 				842C1C622B7DA82200EFE5A0 /* Resign */,
-				8710D9412B74F9F600309FBF /* Main */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";

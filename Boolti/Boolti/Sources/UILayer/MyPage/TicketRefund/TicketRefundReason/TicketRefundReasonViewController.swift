@@ -20,7 +20,7 @@ final class TicketRefundReasonViewController: BooltiViewController {
     private let viewModel: TicketRefundReasonViewModel
     private let disposeBag = DisposeBag()
 
-    private let navigationBar = BooltiNavigationBar(type: .defaultUI(backButtonTitle: "환불 요청하기"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "환불 요청하기"))
 
     private let mainTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()

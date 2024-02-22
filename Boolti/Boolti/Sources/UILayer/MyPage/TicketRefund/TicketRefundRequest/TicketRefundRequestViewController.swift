@@ -23,7 +23,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
     private let viewModel: TicketRefundRequestViewModel
     private let disposeBag = DisposeBag()
 
-    private let navigationBar = BooltiNavigationBar(type: .defaultUI(backButtonTitle: "환불 요청하기"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "환불 요청하기"))
     private let concertInformationView = ConcertInformationView()
 
     private let accountHolderNameView = AccountContentView(

@@ -19,7 +19,7 @@ final class ReportViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationBar = BooltiNavigationBar(type: .report)
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "신고하기"))
     
     private let mainTitle: BooltiUILabel = {
         let label = BooltiUILabel()

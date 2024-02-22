@@ -20,7 +20,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private let viewModel: TicketReservationDetailViewModel
     private let disposeBag = DisposeBag()
 
-    private let navigationBar = BooltiNavigationBar(type: .ticketReservationDetail)
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "예매 내역 상세"))
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()

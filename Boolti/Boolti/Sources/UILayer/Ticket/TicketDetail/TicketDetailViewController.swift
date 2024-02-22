@@ -25,7 +25,7 @@ final class TicketDetailViewController: BooltiViewController {
 
     private let viewModel: TicketDetailViewModel
 
-    private let navigationBar = BooltiNavigationBar(type: .ticketDetail)
+    private let navigationBar = BooltiNavigationBar(type: .backButton)
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
