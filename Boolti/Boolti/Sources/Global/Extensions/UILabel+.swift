@@ -41,27 +41,6 @@ extension UILabel {
         }
     }
     
-    // TODO: 아래 메서드 수정 예정 (행간 조절 말고, lineHeight 사용)
-    
-    /// 행간 조정 메서드
-    func setLineSpacing(lineSpacing: CGFloat) {
-        if let text = self.text {
-            let style = NSMutableParagraphStyle()
-            
-            style.lineSpacing = lineSpacing
-            style.lineBreakMode = .byTruncatingTail
-            style.lineBreakStrategy = .hangulWordPriority
-            
-            let attributes: [NSAttributedString.Key: Any] = [
-            .paragraphStyle: style
-            ]
-
-            let attributeString = NSMutableAttributedString(string: text,
-                                                            attributes: attributes)
-            self.attributedText = attributeString
-        }
-    }
-    
     /// 행간 + headIndent 조정 메서드 (정책에서 쓰임)
     func setHeadIndent() {
         if let existingAttributedString = self.attributedText {
