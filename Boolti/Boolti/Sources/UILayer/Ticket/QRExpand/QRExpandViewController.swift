@@ -121,7 +121,7 @@ extension QRExpandViewController {
 
         self.contentBackgroundView.snp.makeConstraints { make in
             make.width.equalTo(292)
-            make.height.equalTo(360)
+            make.height.equalTo(364)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(-10)
         }

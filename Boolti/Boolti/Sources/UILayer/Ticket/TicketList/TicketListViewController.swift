@@ -283,7 +283,7 @@ final class TicketListViewController: BooltiViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TicketListCollectionViewCell.self), for: indexPath) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
                 cell.setData(with: item)
                 if item.ticketStatus == .notUsed {
-                    self?.bindQRCodeExpandView(cell)
+                    self?.bindQRCodeExpandView(cell, with: item)
                 }
 
             return cell
@@ -297,9 +297,9 @@ final class TicketListViewController: BooltiViewController {
         }
     }
 
-    private func bindQRCodeExpandView(_ cell: TicketListCollectionViewCell) {
+    private func bindQRCodeExpandView(_ cell: TicketListCollectionViewCell, with item: TicketItemEntity) {
         let qrCodeImageView = cell.ticketInformationView.qrCodeImageView
-        let ticketName = cell.ticketTypeLabel.text ?? ""
+        let ticketName = item.ticketName
 
         qrCodeImageView.rx.tapGesture()
             .when(.recognized)
