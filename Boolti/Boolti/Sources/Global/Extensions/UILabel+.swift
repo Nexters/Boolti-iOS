@@ -27,6 +27,9 @@ extension UILabel {
             style.maximumLineHeight = lineHeight
             style.minimumLineHeight = lineHeight
             
+            style.lineBreakMode = .byTruncatingTail
+            style.lineBreakStrategy = .hangulWordPriority
+            
             let attributes: [NSAttributedString.Key: Any] = [
             .paragraphStyle: style,
             .baselineOffset: (lineHeight - font.lineHeight) / 2
@@ -69,7 +72,6 @@ extension UILabel {
             style.maximumLineHeight = lineHeight
             style.minimumLineHeight = lineHeight
             
-            style.lineBreakMode = .byWordWrapping
             style.lineBreakStrategy = .hangulWordPriority
             style.headIndent = 10
             attributedString.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, attributedString.length))
