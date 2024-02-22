@@ -34,10 +34,10 @@ final class TicketDetailDIContainer {
             return viewController
         }
         
-        let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController = { qrCodeImage in
+        let qrExpandViewControllerFactory: (UIImage, String) -> QRExpandViewController = { qrCodeImage, ticketName in
             let DIContainer = self.createQRExpandDIContainer()
 
-            let viewController = DIContainer.createQRExpandViewController(qrCodeImage: qrCodeImage)
+            let viewController = DIContainer.createQRExpandViewController(qrCodeImage: qrCodeImage, ticketName: ticketName)
             return viewController
         }
 

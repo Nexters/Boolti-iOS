@@ -15,11 +15,13 @@ import RxAppState
 
 final class TicketListViewController: BooltiViewController {
 
-    typealias TicketID = (String)
+    typealias TicketID = String
+    typealias QRCodeImage = UIImage
+    typealias TicketName = String
 
     private let loginViewControllerFactory: () -> LoginViewController
     private let ticketDetailControllerFactory: (TicketID) -> TicketDetailViewController
-    private let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController
+    private let qrExpandViewControllerFactory: (QRCodeImage, TicketName) -> QRExpandViewController
 
     private enum Section {
         case concertList
@@ -71,7 +73,7 @@ final class TicketListViewController: BooltiViewController {
     init(
         viewModel: TicketListViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
-        qrExpandViewControllerFactory: @escaping (UIImage) -> QRExpandViewController,
+        qrExpandViewControllerFactory: @escaping (QRCodeImage, TicketName) -> QRExpandViewController,
         ticketDetailViewControllerFactory: @escaping (TicketID) -> TicketDetailViewController
     ) {
         self.viewModel = viewModel
@@ -281,7 +283,7 @@ final class TicketListViewController: BooltiViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TicketListCollectionViewCell.self), for: indexPath) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
                 cell.setData(with: item)
                 if item.ticketStatus == .notUsed {
-                    self?.bindQRCodeExpandView(cell)
+                    self?.bindQRCodeExpandView(cell, with: item)
                 }
 
             return cell
@@ -295,15 +297,16 @@ final class TicketListViewController: BooltiViewController {
         }
     }
 
-    private func bindQRCodeExpandView(_ cell: TicketListCollectionViewCell) {
+    private func bindQRCodeExpandView(_ cell: TicketListCollectionViewCell, with item: TicketItemEntity) {
         let qrCodeImageView = cell.ticketInformationView.qrCodeImageView
+        let ticketName = item.ticketName
 
         qrCodeImageView.rx.tapGesture()
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
                 guard let QRCodeImage = qrCodeImageView.image else { return }
-                let viewController = owner.qrExpandViewControllerFactory(QRCodeImage)
+                let viewController = owner.qrExpandViewControllerFactory(QRCodeImage, ticketName)
                 viewController.modalPresentationStyle = .overFullScreen
                 owner.present(viewController, animated: true)
             }
