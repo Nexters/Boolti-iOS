@@ -11,11 +11,11 @@ final class TicketInfoView: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "티켓 정보"
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
+        label.text = "티켓 정보"
         return label
     }()
     
@@ -35,7 +35,7 @@ final class TicketInfoView: UIView {
         let view = UIStackView()
         view.axis = .vertical
         view.alignment = .fill
-        view.spacing = 20
+        view.spacing = 16
         
         view.addArrangedSubviews([self.ticketTypeStackView, self.ticketCountStackView, self.totalPriceStackView])
         return view
@@ -48,8 +48,6 @@ final class TicketInfoView: UIView {
         
         self.configureUI()
         self.configureConstraints()
-        
-        self.setData(entity: .init(id: 1, concertId: 1, ticketType: .sales, ticketName: "일반 티켓 A", price: 5000, quantity: 100))
     }
     
     required init?(coder: NSCoder) {
@@ -75,13 +73,13 @@ extension TicketInfoView {
     private func makeSelectedTitleLabel(title: String) -> BooltiUILabel {
         let label = BooltiUILabel()
         label.font = .body3
-        label.text = title
         label.textColor = .grey30
+        label.text = title
         return label
     }
     
-    private func makeSelectedDataLabel() -> UILabel {
-        let label = UILabel()
+    private func makeSelectedDataLabel() -> BooltiUILabel {
+        let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .grey15
         label.textAlignment = .right
@@ -91,6 +89,7 @@ extension TicketInfoView {
     private func makeStackView(with: [UILabel]) -> UIStackView {
         let view = UIStackView()
         view.axis = .horizontal
+        view.distribution = .equalSpacing
         view.addArrangedSubviews(with)
         return view
     }
@@ -114,7 +113,7 @@ extension TicketInfoView {
         self.stackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
-            make.bottom.equalToSuperview().inset(28)
+            make.bottom.equalToSuperview().inset(20)
         }
     }
 }

@@ -19,11 +19,11 @@ final class PolicyView: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "취소/환불 규정"
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
+        label.text = "취소/환불 규정"
         return label
     }()
     
