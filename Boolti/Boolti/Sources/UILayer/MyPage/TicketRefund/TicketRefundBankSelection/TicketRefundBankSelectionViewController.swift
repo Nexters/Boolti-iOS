@@ -53,17 +53,28 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
 
     private let finishSelectionButton = BooltiButton(title: "선택 완료하기")
 
-    var isBankSelected: Bool = false
-    var selectedItem: ((BankEntity) -> ())?
+    private var isBankSelected: Bool = false
+    // ViewModel 활용하지 않아서 아래와 같이 VC의 프로퍼티로 구현
+    var selectedItemIndex: Int?
+    var selectedItem: ((BankEntity?) -> ())?
 
     // viewModel로 설정할 예정
 
-    override init() {
+    init(selectedBank: BankEntity?) {
         super.init()
+        self.setSelectedItemIndex(with: selectedBank)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setSelectedItemIndex(with selectedBank: BankEntity?) {
+        guard let selectedBank else { return }
+        self.isBankSelected = true
+        let index = BankEntity.all.firstIndex { $0 == selectedBank }
+        guard let index else { return }
+        self.selectedItemIndex = index
     }
 
     override func viewDidLoad() {
@@ -74,6 +85,7 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
         self.configureBottomSheet()
         self.bindUIComponents()
         self.bindOutputs()
+        self.configureSelectedItem()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -112,34 +124,46 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
     }
 
+    private func configureSelectedItem() {
+        guard let index = self.selectedItemIndex else { return }
+        let selectedIndexPath = IndexPath(item: index, section: 0)
+
+        self.collectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .centeredVertically)
+        self.finishSelectionButton.isEnabled = true
+        self.isBankSelected = true
+    }
+
     private func bindUIComponents() {
+
         self.collectionView.rx.itemSelected
             .subscribe(with: self) { owner, selectedIndexPath in
                 owner.isBankSelected = true
-                
-                // TODO: 선택 완료했을 때만 넘어가야함
-                owner.selectedItem?(BankEntity.all[selectedIndexPath.row])
-                owner.updateCellUI(selectedIndexPath)
 
-                if !owner.finishSelectionButton.isEnabled {
-                    owner.finishSelectionButton.isEnabled.toggle()
-                }
+                owner.selectedItemIndex = selectedIndexPath.row
+                owner.updateCellUI(selectedIndexPath.row)
+
+                owner.finishSelectionButton.isEnabled = true
             }
             .disposed(by: self.disposeBag)
 
         self.finishSelectionButton.rx.tap
             .bind(with: self) { owner, _ in
+
+                if let index = owner.selectedItemIndex {
+                    owner.selectedItem?(BankEntity.all[index])
+                } else {
+                    owner.selectedItem?(nil)
+                }
                 owner.dismiss(animated: true)
             }
             .disposed(by: self.disposeBag)
     }
 
-    private func updateCellUI(_ selectedIndexPath: ControlEvent<IndexPath>.Element) {
+    private func updateCellUI(_ selectedIndexPathItem: Int) {
         for item in 0..<self.collectionView.numberOfItems(inSection: 0) {
             let indexPath = IndexPath(item: item, section: 0)
-            if let cell = self.collectionView.cellForItem(at: indexPath) as? TicketRefundBankCollectionViewCell {
-                cell.isSelected = (indexPath == selectedIndexPath)
-            }
+            guard let cell = self.collectionView.cellForItem(at: indexPath) as? TicketRefundBankCollectionViewCell else { return }
+            cell.isSelected = (indexPath.item == selectedIndexPathItem)
         }
     }
 
@@ -185,8 +209,13 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
             .asObservable()
             .bind(to: self.collectionView.rx
                 .items(cellIdentifier: TicketRefundBankCollectionViewCell.className, cellType: TicketRefundBankCollectionViewCell.self)
-            ) { index, entity, cell in
+            ) { [weak self] index, entity, cell in
+                guard let self = self else { return }
+
                 cell.setData(with: entity)
+
+                guard self.isBankSelected else { return }
+                cell.isSelectedState = (index == self.selectedItemIndex) ? true : false
             }
             .disposed(by: self.disposeBag)
     }
@@ -204,10 +233,10 @@ extension TicketRefundBankSelectionViewController: UICollectionViewDelegateFlowL
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let cell = cell as? TicketRefundBankCollectionViewCell {
-            if isBankSelected {
-                cell.alpha = cell.isSelected ? 1.0 : 0.4
-            }
+        guard let cell = cell as? TicketRefundBankCollectionViewCell else { return }
+
+        if isBankSelected {
+            cell.contentView.alpha = cell.isSelected ? 1.0 : 0.4
         }
     }
 }

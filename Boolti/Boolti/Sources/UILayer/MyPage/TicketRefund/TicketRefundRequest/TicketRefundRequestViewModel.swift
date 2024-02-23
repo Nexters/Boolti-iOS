@@ -14,6 +14,7 @@ final class TicketRefundRequestViewModel {
 
     struct Input {
         let viewWillAppearEvent = PublishRelay<Void>()
+        let selectedItem = PublishRelay<BankEntity>()
         let accoundHolderNameText = BehaviorRelay<String>(value: "")
         let accountHolderPhoneNumberText = BehaviorRelay<String>(value: "")
         let refundAccountNumberText = BehaviorRelay<String>(value: "")
@@ -22,6 +23,7 @@ final class TicketRefundRequestViewModel {
     struct Output {
         let tickerReservationDetail = PublishRelay<TicketReservationDetailEntity>()
         let isValidAccoundHolderName = PublishRelay<Bool>()
+        let selectedBank = BehaviorRelay<BankEntity?>(value: nil)
         let isValidAccoundHolderPhoneNumber = PublishRelay<Bool>()
         let isValidrefundAccountNumber = PublishRelay<Bool>()
     }
@@ -73,6 +75,12 @@ final class TicketRefundRequestViewModel {
             .map { self.checkAccountNumber($0)}
             .subscribe(with: self) { owner, isValid in
                 owner.output.isValidrefundAccountNumber.accept(isValid)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.input.selectedItem
+            .subscribe(with: self) { owner, bankEntity in
+                owner.output.selectedBank.accept(bankEntity)
             }
             .disposed(by: self.disposeBag)
     }

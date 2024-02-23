@@ -179,10 +179,11 @@ final class TicketRefundRequestViewController: BooltiViewController {
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                let viewController = TicketRefundBankSelectionViewController()
+                let viewController = TicketRefundBankSelectionViewController(selectedBank: owner.viewModel.output.selectedBank.value)
 
                 viewController.selectedItem = { item in
-                    owner.selectRefundBankView.setData(with: item.bankName)
+                    guard let item else { return }
+                    owner.viewModel.input.selectedItem.accept(item)
                 }
                 owner.dimmedBackgroundView.isHidden = false
 
@@ -222,6 +223,14 @@ final class TicketRefundRequestViewController: BooltiViewController {
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, isValid in
                 owner.refundAccountNumberView.isValidTextTyped = isValid
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.selectedBank
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, bankEntity in
+                guard let bankEntity else { return }
+                owner.selectRefundBankView.setData(with: bankEntity.bankName)
             }
             .disposed(by: self.disposeBag)
 

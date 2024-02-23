@@ -25,6 +25,12 @@ final class TicketRefundBankCollectionViewCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet {
+            self.isSelectedState = self.isSelected
+        }
+    }
+
+    var isSelectedState: Bool = false {
+        didSet {
             self.updateSelectionUI()
         }
     }
@@ -45,6 +51,7 @@ final class TicketRefundBankCollectionViewCell: UICollectionViewCell {
         self.bankImageView.image = nil
         self.bankNameLabel.text = nil
         self.layer.borderWidth = 0
+        self.contentView.alpha = 1.0
     }
     
     private func configureUI() {
@@ -63,9 +70,9 @@ final class TicketRefundBankCollectionViewCell: UICollectionViewCell {
     }
     
     private func updateSelectionUI() {
-        self.layer.borderColor = self.isSelected ? UIColor.grey10.cgColor : nil
-        self.layer.borderWidth = self.isSelected ? 1.0 : 0
-        self.alpha = self.isSelected ? 1.0 : 0.4
+        self.layer.borderColor = self.isSelectedState ? UIColor.grey10.cgColor : nil
+        self.layer.borderWidth = self.isSelectedState ? 1.0 : 0
+        self.contentView.alpha = self.isSelectedState ? 1.0 : 0.4
     }
 
     private func configureConstraints() {
