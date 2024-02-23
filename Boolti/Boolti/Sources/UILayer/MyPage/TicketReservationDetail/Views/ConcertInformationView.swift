@@ -24,8 +24,7 @@ final class ConcertInformationView: UIView {
         let label = BooltiUILabel()
         label.font = .aggroB(20)
         label.textColor = .grey05
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 2
+        label.numberOfLines = 3
 
         return label
     }()

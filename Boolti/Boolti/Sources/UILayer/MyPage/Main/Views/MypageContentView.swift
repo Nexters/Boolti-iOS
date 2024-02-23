@@ -14,8 +14,8 @@ final class MypageContentView: UIView {
 
     private let disposeBag = DisposeBag()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .pretendardB(18)
         label.textColor = .grey10
 

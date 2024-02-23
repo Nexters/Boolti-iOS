@@ -7,7 +7,6 @@
 
 import UIKit
 
-import RxSwift
 import SnapKit
 
 final class ConcertInfoView: UIView {
@@ -37,8 +36,7 @@ final class ConcertInfoView: UIView {
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .point2
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.textColor = .grey05
         return label
     }()
