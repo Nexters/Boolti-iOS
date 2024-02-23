@@ -53,7 +53,8 @@ extension TicketReservationDetailResponseDTO {
             purchaseName: self.reservationName,
             purchaserPhoneNumber: self.reservationPhoneNumber,
             depositorName: self.depositorName ?? "",
-            depositorPhoneNumber: self.depositorPhoneNumber ?? ""
+            depositorPhoneNumber: self.depositorPhoneNumber ?? "",
+            salesEndTime: self.salesEndTime
         )
     }
 }

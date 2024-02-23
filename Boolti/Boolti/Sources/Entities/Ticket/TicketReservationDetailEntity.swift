@@ -39,4 +39,5 @@ struct TicketReservationDetailEntity {
     let purchaserPhoneNumber: String
     let depositorName: String
     let depositorPhoneNumber: String
+    let salesEndTime: String
 }
