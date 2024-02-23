@@ -19,12 +19,12 @@ final class ResignReasonViewModel {
     private let disposeBag = DisposeBag()
 
     struct Input {
-        let didResignConfirmButtonTap = PublishRelay<Void>()
+        let didResignConfirmButtonTap = PublishSubject<Void>()
         let reason = BehaviorRelay<String>(value: "")
     }
 
     struct Output {
-        let didResignAccount = PublishRelay<Void>()
+        let didResignAccount = PublishSubject<Void>()
     }
 
     let input: Input
@@ -43,23 +43,17 @@ final class ResignReasonViewModel {
 
     private func bindInputs() {
         self.input.didResignConfirmButtonTap
+            .flatMap { self.authRepository.resign(reason: self.input.reason.value) }
             .subscribe(with: self) { owner, _ in
-                
-                // kakao인지 apple 로그인인지 분기처리 필요
-                owner.oauthRepository.resign(provider: .kakao)
-                    .subscribe(onCompleted: {
-                        owner.resign()
-                    })
-                    .disposed(by: owner.disposeBag)
-                }
+                owner.oauthResign()
+            }
             .disposed(by: self.disposeBag)
     }
     
-    private func resign() {
-        self.authRepository.resign(reason: self.input.reason.value)
-            .subscribe(with: self) { owner, _ in
-                owner.output.didResignAccount.accept(())
-            }
+    private func oauthResign() {
+        // TODO: kakao인지 apple 로그인인지 분기처리 필요, userDefaults에 provider 넣어두기
+        self.oauthRepository.resign(provider: .kakao)
+            .subscribe(onCompleted: { self.output.didResignAccount.onNext(()) })
             .disposed(by: self.disposeBag)
     }
 }

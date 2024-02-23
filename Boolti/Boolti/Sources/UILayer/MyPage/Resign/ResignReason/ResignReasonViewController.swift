@@ -107,6 +107,7 @@ extension ResignReasonViewController {
                     owner.reasonTextView.text = "예) 계정 탈퇴 후 재 가입할게요"
                     owner.resignButton.isEnabled = false
                 } else {
+                    owner.viewModel.input.reason.accept(changedText)
                     owner.resignButton.isEnabled = true
                 }
             }

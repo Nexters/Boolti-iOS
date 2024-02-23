@@ -7,7 +7,6 @@
 
 import RxCocoa
 import RxSwift
-import SwiftJWT
 
 import AuthenticationServices
 
@@ -41,7 +40,7 @@ extension Reactive where Base: ASAuthorizationController {
                       let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
                       let appleIdentityToken = appleIDCredential.identityToken
                 else { return nil }
-
+                
                 guard let identityToken = String(data: appleIdentityToken, encoding: .utf8) else { return nil }
 
                 let familyName = appleIDCredential.fullName?.familyName ?? ""

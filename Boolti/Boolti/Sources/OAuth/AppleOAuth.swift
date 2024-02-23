@@ -33,5 +33,13 @@ class AppleOAuth: OAuth {
     }
     
     func resign() -> Observable<Void> {
+        return Observable<Void>.create { observer in
+            
+            // 임시 코드, 구현하면서 지울 예정
+            observer.onError(Error.tokenNotFound)
+            
+            //TODO: 애플 연동 해제
+            return Disposables.create()
+        }
     }
 }

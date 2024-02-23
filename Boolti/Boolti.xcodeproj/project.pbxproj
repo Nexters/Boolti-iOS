@@ -892,7 +892,6 @@
 			children = (
 				84781C7B2B5BEBEA00D37921 /* Request */,
 				84781C7C2B5BEBF200D37921 /* Response */,
-				87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -900,9 +899,10 @@
 		84781C7B2B5BEBEA00D37921 /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */,
+				8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */,
 				84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */,
 				876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */,
-				8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */,
 				845D88582B877B0E00179F60 /* ResignRequestDTO.swift */,
 			);
 			path = Request;
