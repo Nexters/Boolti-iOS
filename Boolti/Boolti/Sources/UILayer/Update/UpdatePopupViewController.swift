@@ -26,8 +26,8 @@ final class UpdatePopupViewController: UIViewController {
         return view
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey15
         label.text = "업데이트 알림"
@@ -35,14 +35,13 @@ final class UpdatePopupViewController: UIViewController {
         return label
     }()
     
-    private let subTitleLabel: UILabel = {
-        let label = UILabel()
+    private let subTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey50
         label.font = .body1
         label.numberOfLines = 2
         label.text = "지금 업데이트하고\n더 편리해진 불티를 만나보세요"
-        label.setLineSpacing(lineSpacing: 4)
-        label.textAlignment = .center
+        label.setAlignCenter()
         
         return label
     }()
@@ -99,14 +98,13 @@ extension UpdatePopupViewController {
         }
         
         self.titleLabel.snp.makeConstraints { make in
-            make.height.equalTo(26)
             make.centerX.equalTo(self.popupBackgroundView)
             make.top.equalTo(self.popupBackgroundView).offset(32)
         }
         
         self.subTitleLabel.snp.makeConstraints { make in
             make.centerX.equalTo(self.popupBackgroundView)
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(8)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(4)
         }
         
         self.updateButton.snp.makeConstraints { make in

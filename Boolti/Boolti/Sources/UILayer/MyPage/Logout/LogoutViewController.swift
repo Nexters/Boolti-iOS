@@ -30,11 +30,11 @@ final class LogoutViewController: BooltiViewController {
         return button
     }()
 
-    private let askingLogoutLabel: UILabel = {
-        let label = UILabel()
-        label.text = "정말 로그아웃 하시겠어요?"
+    private let askingLogoutLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey15
+        label.text = "정말 로그아웃 하시겠어요?"
 
         return label
     }()

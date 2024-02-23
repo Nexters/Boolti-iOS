@@ -27,6 +27,9 @@ extension UILabel {
             style.maximumLineHeight = lineHeight
             style.minimumLineHeight = lineHeight
             
+            style.lineBreakMode = .byTruncatingTail
+            style.lineBreakStrategy = .hangulWordPriority
+            
             let attributes: [NSAttributedString.Key: Any] = [
             .paragraphStyle: style,
             .baselineOffset: (lineHeight - font.lineHeight) / 2
@@ -34,27 +37,6 @@ extension UILabel {
             
             let attributeString = NSAttributedString(string: text,
                                                      attributes: attributes)
-            self.attributedText = attributeString
-        }
-    }
-    
-    // TODO: 아래 메서드 수정 예정 (행간 조절 말고, lineHeight 사용)
-    
-    /// 행간 조정 메서드
-    func setLineSpacing(lineSpacing: CGFloat) {
-        if let text = self.text {
-            let style = NSMutableParagraphStyle()
-            
-            style.lineSpacing = lineSpacing
-            style.lineBreakMode = .byTruncatingTail
-            style.lineBreakStrategy = .hangulWordPriority
-            
-            let attributes: [NSAttributedString.Key: Any] = [
-            .paragraphStyle: style
-            ]
-
-            let attributeString = NSMutableAttributedString(string: text,
-                                                            attributes: attributes)
             self.attributedText = attributeString
         }
     }
@@ -69,7 +51,6 @@ extension UILabel {
             style.maximumLineHeight = lineHeight
             style.minimumLineHeight = lineHeight
             
-            style.lineBreakMode = .byWordWrapping
             style.lineBreakStrategy = .hangulWordPriority
             style.headIndent = 10
             attributedString.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, attributedString.length))

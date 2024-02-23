@@ -42,7 +42,6 @@ final class ConcertPosterView: UIView {
         label.font = .point3
         label.textColor = .grey05
         label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
