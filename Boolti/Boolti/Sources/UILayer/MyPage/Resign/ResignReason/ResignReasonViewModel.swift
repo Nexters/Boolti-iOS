@@ -51,8 +51,7 @@ final class ResignReasonViewModel {
     }
     
     private func oauthResign() {
-        // TODO: kakao인지 apple 로그인인지 분기처리 필요, userDefaults에 provider 넣어두기
-        self.oauthRepository.resign(provider: .kakao)
+        self.oauthRepository.resign()
             .subscribe(onCompleted: { self.output.didResignAccount.onNext(()) })
             .disposed(by: self.disposeBag)
     }

@@ -13,5 +13,5 @@ enum UserDefaultsKey: String, CaseIterable {
     case accessToken
     case refreshToken
     case deviceToken
-    case isFirstLaunch
+    case oauthProvider
 }
