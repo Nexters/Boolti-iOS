@@ -35,8 +35,7 @@ final class EntryCodeInputView: UIView {
         label.text = "입장 코드는 주최자 계정의 마이 > QR 스캔 >\n해당 공연 스캐너에서 확인 가능해요"
         label.numberOfLines = 0
         label.textColor = .grey50
-        label.setLineSpacing(lineSpacing: 5)
-        label.textAlignment = .center
+        label.setAlignCenter()
 
         return label
     }()

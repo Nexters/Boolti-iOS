@@ -25,11 +25,11 @@ final class InvitationCodeView: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "초청 코드"
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
+        label.text = "초청 코드"
         return label
     }()
     
@@ -48,8 +48,8 @@ final class InvitationCodeView: UIView {
         return button
     }()
     
-    private let codeStateLabel: UILabel = {
-        let label = UILabel()
+    private let codeStateLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .body1
         label.isHidden = true
         return label

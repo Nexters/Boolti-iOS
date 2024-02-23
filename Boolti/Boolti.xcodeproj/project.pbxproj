@@ -591,10 +591,10 @@
 		840B39532B7667B100E7F8C8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */,
-				840B395A2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift */,
 				840B395C2B768B0800E7F8C8 /* CheckingTicketCollectionViewCell.swift */,
+				840B395A2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift */,
 				840B395E2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift */,
+				840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";

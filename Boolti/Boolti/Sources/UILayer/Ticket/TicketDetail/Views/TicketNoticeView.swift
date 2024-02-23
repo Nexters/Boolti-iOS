@@ -22,7 +22,6 @@ final class TicketNoticeView: UIView {
         let label = BooltiUILabel()
         label.font = .body1
         label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
         label.textColor = .grey50
 
         return label
@@ -58,7 +57,6 @@ final class TicketNoticeView: UIView {
 
     func setData(with text: String) {
         self.noticeLabel.text = text
-        self.noticeLabel.setLineSpacing(lineSpacing: 6)
         self.layoutIfNeeded()
     }
 }

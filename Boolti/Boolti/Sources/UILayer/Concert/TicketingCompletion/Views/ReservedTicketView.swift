@@ -1,5 +1,5 @@
 //
-//  TicketInfoView.swift
+//  ReservedTicketView.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/31/24.
@@ -23,7 +23,7 @@ final class ReservedTicketView: UIView {
     
     private lazy var labelStackView: UIStackView = {
         let view = UIStackView()
-        view.spacing = 8
+        view.spacing = 4
         view.axis = .vertical
         view.alignment = .fill
         
@@ -31,25 +31,23 @@ final class ReservedTicketView: UIView {
         return view
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .point1
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
-        label.setLineSpacing(lineSpacing: 4)
+        label.numberOfLines = 2
         label.textColor = .grey05
         return label
     }()
     
-    private let ticketDetailLabel: UILabel = {
-        let label = UILabel()
+    private let ticketDetailLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .caption
         label.textColor = .grey30
         return label
     }()
     
-    private let priceLabel: UILabel = {
-        let label = UILabel()
+    private let priceLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .caption
         label.textColor = .grey30
         return label
@@ -75,7 +73,6 @@ extension ReservedTicketView {
     
     func setData(concert: ConcertDetailEntity, selectedTicket: SelectedTicketEntity) {
         self.titleLabel.text = concert.name
-        self.titleLabel.setLineSpacing(lineSpacing: 4)
         self.ticketDetailLabel.text = "\(selectedTicket.ticketName) / 1매"
         self.priceLabel.text = "\(selectedTicket.price.formattedCurrency())원"
         self.poster.setImage(with: concert.posters.first?.thumbnailPath ?? "")

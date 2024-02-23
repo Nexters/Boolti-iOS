@@ -182,14 +182,14 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
         case 2:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 80)
         default:
-            return CGSize(width: (self.mainCollectionView.frame.width - 40) / 2 - 7.5, height: 313)
+            return CGSize(width: (self.mainCollectionView.frame.width - 40) / 2 - 7.5, height: 313 * self.view.frame.height / 812)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         switch section {
         case 3:
-            return UIEdgeInsets(top: 12, left: 0, bottom: 20, right: 0)
+            return UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
         default:
             return .zero
         }
@@ -207,7 +207,7 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         switch section {
         case 3:
-            return 28
+            return 20
         default:
             return 0
         }
