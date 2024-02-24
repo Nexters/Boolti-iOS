@@ -24,12 +24,19 @@ final class PosterExpandViewController: BooltiViewController {
         return button
     }()
     
-    private lazy var posterScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.isPagingEnabled = true
-        scrollView.delegate = self
-        return scrollView
+    private lazy var posterCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
+        
+        collectionView.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.className)
+        return collectionView
     }()
     
     private let pageControl = UIPageControl()
@@ -38,7 +45,6 @@ final class PosterExpandViewController: BooltiViewController {
     
     init(viewModel: PosterExpandViewModel) {
         self.viewModel = viewModel
-        
         super.init()
     }
     
@@ -55,11 +61,34 @@ final class PosterExpandViewController: BooltiViewController {
         self.configureConstraints()
         self.bindUIComponents()
     }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension PosterExpandViewController: UICollectionViewDataSource {
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        self.configureScrollView()
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.posters.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.className, for: indexPath) as? PosterCollectionViewCell else { return UICollectionViewCell() }
+        cell.setData(with: viewModel.posters[indexPath.item].path)
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension PosterExpandViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        debugPrint(collectionView.bounds.size)
+        return collectionView.bounds.size
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
 }
 
@@ -67,51 +96,18 @@ final class PosterExpandViewController: BooltiViewController {
 
 extension PosterExpandViewController {
     
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView == self.posterCollectionView {
+            self.pageControl.currentPage = Int(round(scrollView.contentOffset.x / self.view.frame.width))
+        }
+    }
+
     private func bindUIComponents() {
-        self.closeButton.rx.tap
+        closeButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.dismiss(animated: true)
             }
-            .disposed(by: self.disposeBag)
-    }
-    
-    private func configureScrollView() {
-        let scrollViewWidth: CGFloat = self.view.frame.width
-        let scrollViewHeight: CGFloat = self.pageControl.frame.minY - self.closeButton.frame.maxY - 30
-        
-        for index in 0..<self.viewModel.posters.count{
-            let backgroundView = UIView()
-
-            let imageView = UIImageView()
-            imageView.setImage(with: self.viewModel.posters[index].path)
-            imageView.contentMode = .scaleAspectFit
-
-            let positionX = scrollViewWidth * CGFloat(index)
-            backgroundView.frame = CGRect(x: positionX, y: 0, width: scrollViewWidth, height: scrollViewHeight)
-            
-            backgroundView.addSubview(imageView)
-            imageView.snp.makeConstraints { make in
-                make.edges.equalTo(backgroundView)
-            }
-            
-            self.posterScrollView.addSubview(backgroundView)
-        }
-        
-        self.posterScrollView.contentSize = CGSize(
-            width: scrollViewWidth * CGFloat(self.viewModel.posters.count),
-            height: scrollViewHeight
-        )
-        self.pageControl.numberOfPages = self.viewModel.posters.count
-    }
-}
-
-// MARK: - UIScrollViewDelegate
-
-extension PosterExpandViewController: UIScrollViewDelegate {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentPage = Int(round(self.posterScrollView.contentOffset.x / self.view.frame.width))
-        self.pageControl.currentPage = currentPage
+            .disposed(by: disposeBag)
     }
 }
 
@@ -121,28 +117,28 @@ extension PosterExpandViewController {
     
     private func configureUI() {
         self.view.addSubviews([self.closeButton,
-                               self.posterScrollView,
+                               self.posterCollectionView,
                                self.pageControl])
-        
         self.view.backgroundColor = .grey95
+        self.pageControl.numberOfPages = self.viewModel.posters.count
     }
     
     private func configureConstraints() {
         self.closeButton.snp.makeConstraints { make in
             make.size.equalTo(24)
             make.left.equalToSuperview().inset(20)
-            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(10)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
         
-        self.posterScrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(44)
+        self.posterCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(44)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(47)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(47)
         }
         
         self.pageControl.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
     }
 }
