@@ -129,6 +129,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         self.configureConstraints()
         self.configureBorder()
         self.configureSeperateLine()
+        self.configureCornerGradient()
     }
 
     func setData(with item: TicketItemEntity) {
@@ -138,6 +139,17 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         self.numberLabel.text = " ・ 1매"
         self.ticketTypeLabel.text = item.ticketName
         self.ticketInformationView.setData(with: item)
+    }
+
+    private func configureCornerGradient() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: 105, height: 105)
+        gradientLayer.colors = [UIColor.white00.withAlphaComponent(0.6).cgColor, UIColor.white00.withAlphaComponent(0.0).cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.5)
+        gradientLayer.locations = [0.0, 1.0]
+
+        self.layer.addSublayer(gradientLayer)
     }
 
     private func configureBorder() {

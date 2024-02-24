@@ -150,6 +150,7 @@ final class TicketDetailView: UIView {
         self.configureBackGroundBlurViewEffect()
         self.configureCircleViews()
         self.configureSeperateLine()
+        self.configureCornerGradient()
         self.updateHeight()
     }
 
@@ -279,6 +280,17 @@ final class TicketDetailView: UIView {
         gradientLayer.frame = self.backgroundImageView.bounds
         self.backgroundImageView.layer.addSublayer(gradientLayer)
         self.backgroundImageView.bringSubviewToFront(self.upperTagView)
+    }
+
+    private func configureCornerGradient() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: 105, height: 105)
+        gradientLayer.colors = [UIColor.white00.withAlphaComponent(0.6).cgColor, UIColor.white00.withAlphaComponent(0.0).cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.5)
+        gradientLayer.locations = [0.0, 1.0]
+
+        self.layer.addSublayer(gradientLayer)
     }
 
     private func configureCircleViews() {
