@@ -128,7 +128,11 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
         guard let index = self.selectedItemIndex else { return }
         let selectedIndexPath = IndexPath(item: index, section: 0)
 
-        self.collectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .centeredVertically)
+        self.collectionView.selectItem(
+            at: selectedIndexPath,
+            animated: false,
+            scrollPosition: .centeredVertically
+        )
         self.finishSelectionButton.isEnabled = true
         self.isBankSelected = true
     }

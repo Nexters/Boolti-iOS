@@ -114,6 +114,11 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return button
     }()
 
+    private let blankSpaceView: UIView = {
+        let view = UIView()
+        return view
+    }()
+
     init(
         ticketRefundReasonlViewControllerFactory: @escaping (ReservationID) -> TicketRefundReasonViewController,
         viewModel: TicketReservationDetailViewModel
@@ -189,6 +194,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
             make.width.equalTo(screenWidth-40)
         }
 
+        self.blankSpaceView.snp.makeConstraints { make in
+            make.height.equalTo(40)
+        }
+
         self.addArrangedSubViews()
     }
 
@@ -202,10 +211,9 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.purchaserInformationStackView,
             self.depositorInformationStackView,
             self.reversalPolicyView,
-            self.requestRefundButton
+            self.requestRefundButton,
+            self.blankSpaceView
         ])
-
-        self.contentStackView.setCustomSpacing(40, after: self.reversalPolicyView)
     }
 
     private func bindUIComponents() {
