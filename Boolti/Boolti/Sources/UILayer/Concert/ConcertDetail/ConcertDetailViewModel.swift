@@ -12,6 +12,7 @@ import RxSwift
 
 enum ConcertDetailDestination {
     case login
+    case posterExpand(posters: [ConcertDetailEntity.Poster])
     case contentExpand(content: String)
     case ticketSelection(concertId: Int)
 }
@@ -59,6 +60,7 @@ final class ConcertDetailViewModel {
     
     struct Input {
         let didTicketingButtonTap = PublishSubject<Void>()
+        let didPosterViewTap = PublishSubject<Void>()
         let didExpandButtonTap = PublishSubject<Void>()
     }
     
@@ -71,7 +73,7 @@ final class ConcertDetailViewModel {
     let input: Input
     var output: Output
     
-    let concertId: Int
+    private let concertId: Int
     
     // MARK: Init
     
@@ -96,6 +98,13 @@ extension ConcertDetailViewModel {
             .bind(with: self) { owner, _ in
                 guard let notice = owner.output.concertDetail.value?.notice else { return }
                 owner.output.navigate.accept(.contentExpand(content: notice))
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.input.didPosterViewTap
+            .bind(with: self) { owner, _ in
+                guard let posters = owner.output.concertDetail.value?.posters else { return }
+                owner.output.navigate.accept(.posterExpand(posters: posters))
             }
             .disposed(by: self.disposeBag)
         

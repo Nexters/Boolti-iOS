@@ -9,6 +9,7 @@ import UIKit
 
 import RxSwift
 import RxCocoa
+import RxGesture
 import Kingfisher
 
 final class ConcertDetailViewController: BooltiViewController {
@@ -16,12 +17,14 @@ final class ConcertDetailViewController: BooltiViewController {
     // MARK: Properties
 
     typealias Content = String
+    typealias Posters = [ConcertDetailEntity.Poster]
     typealias ConcertId = Int
     
     private let viewModel: ConcertDetailViewModel
     private let disposeBag = DisposeBag()
     
     private let loginViewControllerFactory: () -> LoginViewController
+    private let posterExpandViewControllerFactory: (Posters) -> PosterExpandViewController
     private let concertContentExpandViewControllerFactory: (Content) -> ConcertContentExpandViewController
     private let reportViewControllerFactory: () -> ReportViewController
     private let ticketSelectionViewControllerFactory: (ConcertId) -> TicketSelectionViewController
@@ -93,11 +96,13 @@ final class ConcertDetailViewController: BooltiViewController {
     
     init(viewModel: ConcertDetailViewModel,
          loginViewControllerFactory: @escaping () -> LoginViewController,
+         posterExpandViewControllerFactory: @escaping (Posters) -> PosterExpandViewController,
          concertContentExpandViewControllerFactory: @escaping (Content) -> ConcertContentExpandViewController,
          reportViewControllerFactory: @escaping () -> ReportViewController,
          ticketSelectionViewControllerFactory: @escaping (ConcertId) -> TicketSelectionViewController) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
+        self.posterExpandViewControllerFactory = posterExpandViewControllerFactory
         self.concertContentExpandViewControllerFactory = concertContentExpandViewControllerFactory
         self.reportViewControllerFactory = reportViewControllerFactory
         self.ticketSelectionViewControllerFactory = ticketSelectionViewControllerFactory
@@ -172,6 +177,10 @@ extension ConcertDetailViewController {
                     let viewController = owner.loginViewControllerFactory()
                     viewController.modalPresentationStyle = .overFullScreen
                     owner.present(viewController, animated: true)
+                case .posterExpand(let posters):
+                    let viewController = owner.posterExpandViewControllerFactory(posters)
+                    viewController.modalPresentationStyle = .overFullScreen
+                    owner.present(viewController, animated: true)
                 case .contentExpand(let content):
                     let viewController = owner.concertContentExpandViewControllerFactory(content)
                     owner.navigationController?.pushViewController(viewController, animated: true)
@@ -190,6 +199,7 @@ extension ConcertDetailViewController {
     
     private func bindUIComponents() {
         self.bindPlaceInfoView()
+        self.bindPosterView()
         self.bindContentInfoView()
         self.bindNavigationBar()
     }
@@ -203,11 +213,18 @@ extension ConcertDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
+    private func bindPosterView() {
+        self.concertPosterView.rx.tapGesture()
+            .when(.recognized)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.input.didPosterViewTap.onNext(())
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
     private func bindContentInfoView() {
         self.contentInfoView.didAddressExpandButtonTap()
-            .emit(with: self) { owner, _ in
-                owner.viewModel.input.didExpandButtonTap.onNext(())
-            }
+            .emit(to: self.viewModel.input.didExpandButtonTap)
             .disposed(by: self.disposeBag)
     }
     
