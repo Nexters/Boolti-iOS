@@ -142,8 +142,11 @@ extension ConcertDetailViewController {
     
     private func bindOutputs() {
         self.viewModel.output.concertDetail
+            .skip(1)
             .take(1)
             .bind(with: self) { owner, entity in
+                guard let entity = entity else { return }
+                
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name)
                 owner.ticketingPeriodView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
                 owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
@@ -194,7 +197,7 @@ extension ConcertDetailViewController {
     private func bindPlaceInfoView() {
         self.placeInfoView.didAddressCopyButtonTap()
             .emit(with: self) { owner, _ in
-                UIPasteboard.general.string = owner.viewModel.output.concertDetailEntity?.streetAddress
+                UIPasteboard.general.string = owner.viewModel.output.concertDetail.value?.streetAddress
                 owner.showToast(message: "공연장 주소가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
@@ -203,7 +206,7 @@ extension ConcertDetailViewController {
     private func bindContentInfoView() {
         self.contentInfoView.didAddressExpandButtonTap()
             .emit(with: self) { owner, _ in
-                owner.viewModel.input.didExpandButtonTap.accept(())
+                owner.viewModel.input.didExpandButtonTap.onNext(())
             }
             .disposed(by: self.disposeBag)
     }
@@ -235,7 +238,7 @@ extension ConcertDetailViewController {
         self.navigationBar.didShareButtonTap()
             .emit(with: self) { owner, _ in
                 guard let url = URL(string: AppInfo.booltiShareLink),
-                      let posterURL = owner.viewModel.output.concertDetailEntity?.posters.first?.path
+                      let posterURL = owner.viewModel.output.concertDetail.value?.posters.first?.path
                 else { return }
                 
                 let image = KFImage(URL(string: posterURL))
