@@ -69,8 +69,7 @@ extension PosterCollectionViewCell {
         self.addSubview(self.scrollView)
         
         self.scrollView.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.height.equalTo(self.imageView.frame.height)
+            make.edges.equalToSuperview()
         }
     }
 }
