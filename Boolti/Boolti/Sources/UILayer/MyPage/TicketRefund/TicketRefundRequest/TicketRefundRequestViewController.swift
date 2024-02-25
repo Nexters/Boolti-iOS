@@ -205,20 +205,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.viewModel.output.isValidAccoundHolderName
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, isValid in
-                owner.accountHolderNameView.isValidTextTyped = isValid
-            }
-            .disposed(by: self.disposeBag)
-
-        self.viewModel.output.isValidAccoundHolderPhoneNumber
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, isValid in
-                owner.accountHolderPhoneNumberView.isValidTextTyped = isValid
-            }
-            .disposed(by: self.disposeBag)
-
         self.viewModel.output.isValidrefundAccountNumber
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, isValid in
@@ -235,14 +221,15 @@ final class TicketRefundRequestViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
 
         Observable.combineLatest(
-            self.viewModel.output.isValidAccoundHolderName,
-            self.viewModel.output.isValidAccoundHolderPhoneNumber,
+            self.viewModel.output.isAccoundHolderNameEmpty,
+            self.viewModel.output.isAccoundHolderPhoneNumberEmpty,
             self.viewModel.output.isValidrefundAccountNumber,
             self.viewModel.output.selectedBank
         )
             .asDriver(onErrorDriveWith: .never())
-            .drive { [weak self] (isValidName, isValidPhoneNumber, isValidNumber, selectedBank) in
-                self?.requestRefundButton.isEnabled = isValidName && isValidPhoneNumber && isValidNumber && (selectedBank != nil)
+            .drive { [weak self] (isAccountHolderEmpty, isAccountPhoneNumberEmpty, isValidNumber, selectedBank) in
+
+                self?.requestRefundButton.isEnabled = !isAccountHolderEmpty && !isAccountPhoneNumberEmpty && isValidNumber && (selectedBank != nil)
             }
             .disposed(by: self.disposeBag)
     }
