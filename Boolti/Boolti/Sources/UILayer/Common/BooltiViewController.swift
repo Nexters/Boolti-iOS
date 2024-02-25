@@ -62,7 +62,6 @@ class BooltiViewController: UIViewController {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
-        print("🙇‍♂️🙇‍♂️🙇‍♂️🙇‍♂️🙇‍♂️🙇‍♂️🙇‍♂️🙇‍♂️")
     }
     
     // MARK: Override

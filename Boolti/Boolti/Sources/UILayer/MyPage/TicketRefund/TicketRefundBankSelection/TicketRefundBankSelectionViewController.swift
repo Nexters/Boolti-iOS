@@ -219,7 +219,7 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
                 cell.setData(with: entity)
 
                 guard self.isBankSelected else { return }
-                cell.isSelectedState = (index == self.selectedItemIndex) ? true : false
+                cell.isSelected = (index == self.selectedItemIndex) ? true : false
             }
             .disposed(by: self.disposeBag)
     }
