@@ -15,7 +15,7 @@ final class PosterCollectionViewCell: UICollectionViewCell {
         let scrollView = UIScrollView()
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
-        scrollView.isPagingEnabled = true
+        scrollView.isScrollEnabled = false
         scrollView.delegate = self
         scrollView.addSubview(self.imageView)
         
@@ -59,6 +59,22 @@ extension PosterCollectionViewCell: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
          return self.imageView
      }
+
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        if scale > 1.0 && scale <= 5.0 {
+            scrollView.isScrollEnabled = true
+        } else {
+            scrollView.isScrollEnabled = false
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.zoomScale <= 1.0 {
+            scrollView.zoomScale = 1.0
+        } else if scrollView.zoomScale >= 5.0 {
+            scrollView.zoomScale = 5.0
+        }
+    }
 }
 
 // MARK: - UI
