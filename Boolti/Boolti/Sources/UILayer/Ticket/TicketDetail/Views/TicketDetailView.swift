@@ -184,6 +184,11 @@ final class TicketDetailView: UIView {
 
     private func configureConstraints() {
 
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return
+        }
+        let screenHeight = window.screen.bounds.height
+
         self.snp.makeConstraints { make in
             make.height.equalTo(1000)
         }
@@ -195,7 +200,7 @@ final class TicketDetailView: UIView {
 
         self.posterImageView.snp.makeConstraints { make in
             make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
-            make.height.equalTo(400)
+            make.height.equalTo(screenHeight * 0.44)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 
@@ -221,7 +226,7 @@ final class TicketDetailView: UIView {
         self.backgroundImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(569)
+            make.height.equalTo(screenHeight * 0.44 + 169)
         }
 
         self.rightCircleView.snp.makeConstraints { make in
@@ -302,8 +307,8 @@ final class TicketDetailView: UIView {
 
         let path = CGMutablePath()
 
-        path.move(to: CGPoint(x: 20, y: 475))
-        path.addLine(to: CGPoint(x: self.bounds.width-20, y: 475))
+        path.move(to: CGPoint(x: 20, y: self.leftCircleView.frame.midY))
+        path.addLine(to: CGPoint(x: self.bounds.width-20, y: self.leftCircleView.frame.midY))
 
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path
