@@ -95,7 +95,7 @@ final class TicketRefundRequestViewModel {
     }
 
     private func checkPhoneNumber(_ text: String) -> Bool {
-        guard text.hasPrefix("010") else { return false }
+        guard (text.count == 13) && (text.hasPrefix("010")) else { return  false }
         return true
     }
 

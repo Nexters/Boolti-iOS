@@ -237,13 +237,12 @@ final class TicketRefundRequestViewController: BooltiViewController {
         Observable.combineLatest(
             self.viewModel.output.isValidAccoundHolderName,
             self.viewModel.output.isValidAccoundHolderPhoneNumber,
-            self.viewModel.output.isValidrefundAccountNumber
+            self.viewModel.output.isValidrefundAccountNumber,
+            self.viewModel.output.selectedBank
         )
             .asDriver(onErrorDriveWith: .never())
-            .drive { [weak self] (isValidName, isValidPhoneNumber, isValidNumber) in
-                // bankNameLabel도 rx로 바꿔야함!.. 다른 로직으로 검증!..
-                let isBankSelected = self?.selectRefundBankView.bankNameLabel.text != "은행 선택"
-                self?.requestRefundButton.isEnabled = isValidName && isValidPhoneNumber && isValidNumber && isBankSelected
+            .drive { [weak self] (isValidName, isValidPhoneNumber, isValidNumber, selectedBank) in
+                self?.requestRefundButton.isEnabled = isValidName && isValidPhoneNumber && isValidNumber && (selectedBank != nil)
             }
             .disposed(by: self.disposeBag)
     }

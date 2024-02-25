@@ -22,7 +22,7 @@ final class RefundConfirmContentView: UIView {
         let label = BooltiUILabel()
         label.textColor = .grey15
         label.font = .body1
-        label.textAlignment = .right
+        label.textAlignment = .left
 
         return label
     }()
@@ -53,10 +53,11 @@ final class RefundConfirmContentView: UIView {
 
         self.titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview()
+            make.width.equalTo(82)
         }
 
         self.contentLabel.snp.makeConstraints { make in
-            make.right.equalToSuperview()
+            make.left.equalTo(self.titleLabel.snp.right)
         }
     }
 }
