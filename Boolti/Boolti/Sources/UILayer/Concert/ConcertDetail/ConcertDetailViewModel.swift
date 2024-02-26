@@ -127,17 +127,17 @@ extension ConcertDetailViewModel {
                 
                 var state: ConcertTicketingState = .onSale
                 
-                if Date().compare(concert.salesStartTime) == .orderedAscending {
+                if Date() < concert.salesStartTime {
                     state = .beforeSale(startDate: concert.salesStartTime)
                 }
-                else if Date().compare(concert.salesEndTime) == .orderedAscending {
+                else if Date() <= concert.salesEndTime {
                     if concert.reservationStatus {
                         state = .alreadyReserved
                     } else {
                         state = .onSale
                     }
                 }
-                else if Date().compare(concert.date) == .orderedAscending {
+                else if Date().getBetweenDay(to: concert.date) >= 0 {
                     state = .endSale
                 }
                 else {
