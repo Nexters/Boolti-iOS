@@ -17,6 +17,7 @@ final class TicketingDetailViewController: BooltiViewController {
     private let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
     private let ticketingConfirmViewControllerFactory: (TicketingEntity) -> TicketingConfirmViewController
+    private let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController
     
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
@@ -81,10 +82,12 @@ final class TicketingDetailViewController: BooltiViewController {
 
     init(
         viewModel: TicketingDetailViewModel,
-        ticketingConfirmViewControllerFactory: @escaping (TicketingEntity) -> TicketingConfirmViewController
+        ticketingConfirmViewControllerFactory: @escaping (TicketingEntity) -> TicketingConfirmViewController,
+        ticketingCompletionViewControllerFactory: @escaping (TicketingEntity) -> TicketingCompletionViewController
     ) {
         self.viewModel = viewModel
         self.ticketingConfirmViewControllerFactory = ticketingConfirmViewControllerFactory
+        self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
         super.init()
     }
 
@@ -149,6 +152,12 @@ extension TicketingDetailViewController {
                 
                 let viewController = owner.ticketingConfirmViewControllerFactory(ticketingEntity)
                 viewController.modalPresentationStyle = .overFullScreen
+                
+                viewController.isDismissed = { ticketingEntity in
+                    let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+                
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)

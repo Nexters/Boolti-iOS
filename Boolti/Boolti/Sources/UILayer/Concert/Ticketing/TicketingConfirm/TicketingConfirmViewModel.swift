@@ -48,13 +48,12 @@ extension TicketingConfirmViewModel {
     private func bindInputs() {
         self.input.didPayButtonTap
             .bind(with: self) { owner, _ in
-                owner.output.navigateToCompletion.onNext(())
-//                guard let selectedTicket = owner.ticketingEntity.selectedTicket.first else { return }
-//        
-//                switch selectedTicket.ticketType {
-//                case .sales: self.salesTicketing()
-//                case .invite: self.invitationTicketing()
-//                }
+                guard let selectedTicket = owner.ticketingEntity.selectedTicket.first else { return }
+        
+                switch selectedTicket.ticketType {
+                case .sales: self.salesTicketing()
+                case .invite: self.invitationTicketing()
+                }
             }
             .disposed(by: self.disposeBag)
     }

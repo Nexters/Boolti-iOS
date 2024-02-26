@@ -16,7 +16,7 @@ final class TicketingConfirmViewController: BooltiViewController {
     
     private let viewModel: TicketingConfirmViewModel
     private let disposeBag = DisposeBag()
-    private let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController
+    var isDismissed: ((TicketingEntity) -> ())?
     
     // MARK: UI Component
     
@@ -34,8 +34,8 @@ final class TicketingConfirmViewController: BooltiViewController {
         return button
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey15
         label.text = "결제 정보를 확인해 주세요"
@@ -46,21 +46,35 @@ final class TicketingConfirmViewController: BooltiViewController {
         let stackView = UIStackView()
         stackView.backgroundColor = .grey80
         stackView.layer.cornerRadius = 4
+        stackView.axis = .vertical
         stackView.spacing = 16
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20)
         return stackView
     }()
     
+    private lazy var ticketHolderTitle = self.makeLabel(with: "예매자")
+    private lazy var ticketHolderInfo = self.makeLabel(with: nil)
+    private lazy var ticketHolderStackView = self.makeHorizontalStackView(with: [self.ticketHolderTitle, self.ticketHolderInfo])
+    
+    private lazy var depositorTitle = self.makeLabel(with: "입금자")
+    private lazy var depositorInfo = self.makeLabel(with: nil)
+    private lazy var depositorStackView = self.makeHorizontalStackView(with: [self.depositorTitle, self.depositorInfo])
+    
+    private lazy var ticketTitle = self.makeLabel(with: "티켓")
+    private lazy var ticketInfo = self.makeLabel(with: nil)
+    private lazy var ticketStackView = self.makeHorizontalStackView(with: [self.ticketTitle, self.ticketInfo])
+    
+    private lazy var methodTitle = self.makeLabel(with: "결제 수단")
+    private lazy var methodInfo = self.makeLabel(with: nil)
+    private lazy var methodStackView = self.makeHorizontalStackView(with: [self.methodTitle, self.methodInfo])
+    
     private let payButton = BooltiButton(title: "결제하기")
     
     // MARK: Init
     
-    init(viewModel: TicketingConfirmViewModel,
-         ticketingCompletionViewControllerFactory: @escaping (TicketingEntity) -> TicketingCompletionViewController) {
+    init(viewModel: TicketingConfirmViewModel) {
         self.viewModel = viewModel
-        self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
-        
         super.init()
     }
     
@@ -75,6 +89,7 @@ final class TicketingConfirmViewController: BooltiViewController {
         
         self.configureUI()
         self.configureConstraints()
+        self.setData()
         self.bindViewModel()
         self.bindUIComponents()
     }
@@ -84,12 +99,53 @@ final class TicketingConfirmViewController: BooltiViewController {
 
 extension TicketingConfirmViewController {
     
+    private func makeLabel(with text: String?) -> BooltiUILabel {
+        let label = BooltiUILabel()
+        label.font = .body1
+        label.text = text
+        label.numberOfLines = 2
+        label.textAlignment = .left
+        label.textColor = text != nil ? .grey30 : .grey15
+        return label
+    }
+    
+    private func makeHorizontalStackView(with labels: [BooltiUILabel]) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .top
+        stackView.spacing = 12
+        stackView.addArrangedSubviews(labels)
+        
+        labels.first?.snp.makeConstraints { make in
+            make.width.equalTo(70)
+        }
+        return stackView
+    }
+    
+    private func setData() {
+        let entity = self.viewModel.ticketingEntity
+        
+        self.ticketHolderInfo.text = "\(entity.ticketHolder.name)\n\(entity.ticketHolder.phoneNumber.formatPhoneNumber())"
+        
+        guard let selectedTicket = entity.selectedTicket.first else { return }
+        self.ticketInfo.text = "\(selectedTicket.ticketName)\n\(entity.selectedTicket.count)매 / \(selectedTicket.price.formattedCurrency())원"
+        
+        switch selectedTicket.ticketType {
+        case .sales:
+            guard let depositor = entity.depositor else { return }
+            self.depositorInfo.text = "\(depositor.name)\n\(depositor.phoneNumber.formatPhoneNumber())"
+            self.methodInfo.text = "계좌 이체"
+        case .invite:
+            self.depositorStackView.isHidden = true
+            self.methodInfo.text = "초청 티켓"
+        }
+    }
+
     private func bindViewModel() {
         self.viewModel.output.navigateToCompletion
             .subscribe(with: self) { owner, _ in
                 owner.dismiss(animated: true) {
-                    let viewController = owner.ticketingCompletionViewControllerFactory(self.viewModel.ticketingEntity)
-                    owner.navigationController?.pushViewController(viewController, animated: true)
+                    self.isDismissed?(owner.viewModel.ticketingEntity)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -116,10 +172,16 @@ extension TicketingConfirmViewController {
         self.view.backgroundColor = .grey95.withAlphaComponent(0.85)
         
         self.view.addSubview(self.contentBackGroundView)
+        
         self.contentBackGroundView.addSubviews([self.closeButton,
                                                 self.titleLabel,
                                                 self.infoStackView,
                                                 self.payButton])
+        
+        self.infoStackView.addArrangedSubviews([self.ticketHolderStackView,
+                                                self.depositorStackView,
+                                                self.ticketStackView,
+                                                self.methodStackView])
     }
     
     private func configureConstraints() {

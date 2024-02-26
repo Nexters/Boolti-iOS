@@ -66,24 +66,6 @@ extension TicketingDetailViewModel {
         
         self.input.ticketingEntity = ticketingEntity
         self.output.navigateToConfirm.onNext(())
-//        self.concertRepository.salesTicketing(selectedTicket: self.selectedTicket.value,
-//                                              ticketHolderName: ticketHolderName,
-//                                              ticketHolderPhoneNumber: ticketHolderPhoneNumber,
-//                                              depositorName: depositorName,
-//                                              depositorPhoneNumber: depositorPhoneNumber)
-//        .subscribe(with: self) { owner, response in
-//            let ticketingEntity = TicketingEntity(concert: owner.output.concertDetailEntity!,
-//                                                  ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
-//                                                                                         phoneNumber: ticketHolderPhoneNumber),
-//                                                  depositor: TicketingEntity.userInfo(name: depositorName,
-//                                                                                      phoneNumber: depositorPhoneNumber),
-//                                                  selectedTicket: [owner.selectedTicket.value],
-//                                                  reservationId: response.reservationId)
-//            owner.input.ticketingEntity = ticketingEntity
-//            
-//            owner.output.navigateToCompletion.onNext(())
-//        }
-//        .disposed(by: self.disposeBag)
     }
     
     func checkInvitationCode(invitationCode: String) {
@@ -110,21 +92,5 @@ extension TicketingDetailViewModel {
         
         self.input.ticketingEntity = ticketingEntity
         self.output.navigateToConfirm.onNext(())
-//        self.concertRepository.invitationTicketing(selectedTicket: self.selectedTicket.value,
-//                                                   ticketHolderName: ticketHolderName,
-//                                                   ticketHolderPhoneNumber: ticketHolderPhoneNumber,
-//                                                   invitationCode: invitationCode)
-//        .subscribe(with: self) { owner, _ in
-//            let ticketingEntity = TicketingEntity(concert: owner.output.concertDetailEntity!,
-//                                                  ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
-//                                                                                         phoneNumber: ticketHolderPhoneNumber),
-//                                                  selectedTicket: [owner.selectedTicket.value],
-//                                                  reservationId: -1,
-//                                                  invitationCode: invitationCode)
-//            owner.input.ticketingEntity = ticketingEntity
-//            
-//            owner.output.navigateToCompletion.onNext(())
-//        }
-//        .disposed(by: self.disposeBag)
     }
 }
