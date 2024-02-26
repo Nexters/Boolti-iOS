@@ -12,10 +12,14 @@ import RxCocoa
 
 class BooltiViewController: UIViewController {
     
+    // MARK: Properties
+    
+    private let testDisposeBag = DisposeBag()
+    
     // MARK: UI Component
     
     private lazy var toastView = BooltiToastView()
-    private let popupView = BooltiPopupView()
+    private let networkErrorPopupView = BooltiPopupView()
     private lazy var loadingIndicatorView = BooltiLoadingIndicatorView(style: .large)
     
     // MARK: Properties
@@ -45,13 +49,7 @@ class BooltiViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.configurePopupView()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(showNetworkAlert),
-            name: Notification.Name("ServerErrorNotification"),
-            object: nil
-        )
+        self.configureNetworkErrorPopupView()
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(navigateToRoot),
@@ -76,7 +74,7 @@ class BooltiViewController: UIViewController {
 extension BooltiViewController {
 
     @objc func showNetworkAlert() {
-        self.popupView.showPopup.accept("네트워크 오류가 발생했습니다\n잠시후 다시 시도해주세요")
+        self.networkErrorPopupView.showPopup.accept("네트워크 오류가 발생했습니다\n잠시후 다시 시도해주세요")
     }
 
     @objc func navigateToRoot() {
@@ -109,7 +107,7 @@ extension BooltiViewController {
     }
 
     func showPopup(title: String) {
-        self.popupView.showPopup.accept(title)
+        self.networkErrorPopupView.showPopup.accept(title)
     }
 }
 
@@ -142,16 +140,32 @@ extension BooltiViewController {
         }
     }
     
-    private func configurePopupView() {
+    private func configureNetworkErrorPopupView() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(showNetworkAlert),
+            name: Notification.Name.serverErrorNotification,
+            object: nil
+        )
+        
         guard let keyWindow = UIApplication.shared.connectedScenes
             .filter({ $0.activationState == .foregroundActive })
             .compactMap({ $0 as? UIWindowScene })
             .first?.windows.first else {
             return
         }
-        keyWindow.addSubview(self.popupView)
-        self.popupView.snp.makeConstraints { make in
+        keyWindow.addSubview(self.networkErrorPopupView)
+        self.networkErrorPopupView.snp.makeConstraints { make in
             make.edges.equalTo(keyWindow)
         }
+        
+        self.networkErrorPopupView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    exit(1)
+                }
+            }
+            .disposed(by: self.testDisposeBag)
     }
 }

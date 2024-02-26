@@ -8,7 +8,7 @@
 import UIKit
 
 import RxSwift
-import RxRelay
+import RxCocoa
 
 final class BooltiPopupView: UIView {
     
@@ -47,7 +47,6 @@ final class BooltiPopupView: UIView {
         super.init(frame: .zero)
         self.configureUI()
         self.configureConstraints()
-        self.bindInputs()
         self.bindOutputs()
     }
     
@@ -60,19 +59,7 @@ final class BooltiPopupView: UIView {
 // MARK: - Methods
 
 extension BooltiPopupView {
-    
-    private func bindInputs() {
-        self.confirmButton.rx.tap
-            .bind(with: self) { owner, _ in
-                // TODO: 일단 네트워크 에러일 때 기준
-                UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    exit(1)
-                }
-            }
-            .disposed(by: self.disposeBag)
-    }
-    
+
     private func bindOutputs() {
         self.showPopup
             .asDriver(onErrorJustReturn: "")
@@ -82,6 +69,10 @@ extension BooltiPopupView {
                 owner.isHidden = false
             }
             .disposed(by: self.disposeBag)
+    }
+    
+    func didConfirmButtonTap() -> Signal<Void> {
+        return self.confirmButton.rx.tap.asSignal()
     }
 }
 
