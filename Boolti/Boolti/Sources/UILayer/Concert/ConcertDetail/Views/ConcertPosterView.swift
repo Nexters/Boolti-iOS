@@ -80,8 +80,10 @@ extension ConcertPosterView {
             if images.count > 1 {
                 let gradientLayer = CAGradientLayer()
                 gradientLayer.frame = imageView.bounds
-                gradientLayer.colors = [UIColor.clear.cgColor, UIColor.grey95.withAlphaComponent(0.5).cgColor]
-                gradientLayer.locations = [0.85, 1.0]
+                gradientLayer.colors = [UIColor.clear.cgColor,
+                                        UIColor.grey95.withAlphaComponent(0.2).cgColor,
+                                        UIColor.grey95.withAlphaComponent(0.5).cgColor]
+                gradientLayer.locations = [0.6, 0.8, 1.0]
                 imageView.layer.addSublayer(gradientLayer)
             }
             

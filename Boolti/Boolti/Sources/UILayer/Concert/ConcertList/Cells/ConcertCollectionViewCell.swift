@@ -52,7 +52,7 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         var backgroundAlpha: CGFloat {
             switch self {
             case .onSale, .endSale: 1
-            default: 0.5
+            default: 0.4
             }
         }
     }
@@ -67,6 +67,14 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.grey80.cgColor
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = imageView.bounds
+        gradientLayer.colors = [UIColor.clear.cgColor,
+                                UIColor.grey95.withAlphaComponent(0.2).cgColor,
+                                UIColor.grey95.withAlphaComponent(0.5).cgColor]
+        gradientLayer.locations = [0.6, 0.8, 1.0]
+        imageView.layer.addSublayer(gradientLayer)
         return imageView
     }()
     
@@ -107,6 +115,13 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Override
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard let gradientLayer = self.posterImageView.layer.sublayers?.first else { return }
+        gradientLayer.frame = self.posterImageView.bounds
+    }
     
     override func prepareForReuse() {
         self.resetData()
