@@ -83,7 +83,6 @@ extension PosterExpandViewController: UICollectionViewDataSource {
 extension PosterExpandViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        debugPrint(collectionView.bounds.size)
         return collectionView.bounds.size
     }
     

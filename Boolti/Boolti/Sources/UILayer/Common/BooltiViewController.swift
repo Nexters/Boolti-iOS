@@ -80,10 +80,6 @@ extension BooltiViewController {
     func showToast(message: String) {
         self.toastView.showToast.accept(message)
     }
-
-    func showPopup(title: String) {
-        self.networkErrorPopupView.showPopup.accept(title)
-    }
 }
 
 // MARK: - UI
