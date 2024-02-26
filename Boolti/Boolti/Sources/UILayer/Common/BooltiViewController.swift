@@ -20,6 +20,7 @@ class BooltiViewController: UIViewController {
     
     private lazy var toastView = BooltiToastView()
     private let networkErrorPopupView = BooltiPopupView()
+    private let refreshTokenHasExpiredPopupView = BooltiPopupView()
     private lazy var loadingIndicatorView = BooltiLoadingIndicatorView(style: .large)
     
     // MARK: Properties
@@ -50,12 +51,7 @@ class BooltiViewController: UIViewController {
         super.viewDidLoad()
         
         self.configureNetworkErrorPopupView()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(navigateToRoot),
-            name: Notification.Name.refreshTokenHasExpired,
-            object: nil
-        )
+        self.configureRefreshTokenHasExpiredPopupView()
     }
 
     deinit {
@@ -78,28 +74,7 @@ extension BooltiViewController {
     }
 
     @objc func navigateToRoot() {
-
-        let alertController = UIAlertController(
-            title: "오류",
-            message: "로그인 세션이 만료되었습니다.\n앱을 다시 시작해주세요",
-            preferredStyle: .alert
-        )
-        let okAction = UIAlertAction(title: "다시 시작하기", style: .default, handler: { _ in
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-            let scenedelegate = windowScene.delegate as? SceneDelegate
-
-            let rootDIContainer = RootDIContainer()
-            let rootViewController = rootDIContainer.createRootViewController()
-
-            scenedelegate?.window?.rootViewController = rootViewController
-            scenedelegate?.window?.makeKeyAndVisible()
-
-        })
-        alertController.addAction(okAction)
-
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true, completion: nil)
-        }
+        self.refreshTokenHasExpiredPopupView.showPopup.accept("로그인 세션이 만료되었습니다\n앱을 다시 시작해주세요")
     }
 
     func showToast(message: String) {
@@ -144,7 +119,7 @@ extension BooltiViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(showNetworkAlert),
-            name: Notification.Name.serverErrorNotification,
+            name: Notification.Name.serverError,
             object: nil
         )
         
@@ -165,6 +140,39 @@ extension BooltiViewController {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     exit(1)
                 }
+            }
+            .disposed(by: self.testDisposeBag)
+    }
+    
+    private func configureRefreshTokenHasExpiredPopupView() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(navigateToRoot),
+            name: Notification.Name.refreshTokenHasExpired,
+            object: nil
+        )
+        
+        guard let keyWindow = UIApplication.shared.connectedScenes
+            .filter({ $0.activationState == .foregroundActive })
+            .compactMap({ $0 as? UIWindowScene })
+            .first?.windows.first else {
+            return
+        }
+        keyWindow.addSubview(self.refreshTokenHasExpiredPopupView)
+        self.refreshTokenHasExpiredPopupView.snp.makeConstraints { make in
+            make.edges.equalTo(keyWindow)
+        }
+        
+        self.refreshTokenHasExpiredPopupView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                let scenedelegate = windowScene.delegate as? SceneDelegate
+
+                let rootDIContainer = RootDIContainer()
+                let rootViewController = rootDIContainer.createRootViewController()
+
+                scenedelegate?.window?.rootViewController = rootViewController
+                scenedelegate?.window?.makeKeyAndVisible()
             }
             .disposed(by: self.testDisposeBag)
     }
