@@ -28,6 +28,8 @@ final class QRScannerListViewController: BooltiViewController {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.addArrangedSubviews([self.emptyMainTitle, self.emptySubTitle])
+        stackView.isHidden = true
+
         return stackView
     }()
     
