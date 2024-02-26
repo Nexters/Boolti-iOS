@@ -143,7 +143,7 @@ extension ConcertCollectionViewCell {
         else if Date() <= concertEntity.salesEndTime {
             self.concertState = .onSale
         }
-        else if Date() < concertEntity.dateTime.addingTimeInterval(60 * 60 * 24) {
+        else if Date().getBetweenDay(to: concertEntity.dateTime) >= 0 {
             self.concertState = .endSale
         }
         else {
