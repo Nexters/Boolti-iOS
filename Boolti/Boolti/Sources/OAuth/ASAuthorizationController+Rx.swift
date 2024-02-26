@@ -33,23 +33,25 @@ extension Reactive where Base: ASAuthorizationController {
         return RxASAuthorizationControllerDelegateProxy.proxy(for: self.base)
     }
 
-    var identityTokenDelegate: Observable<String?> {
+    var appleUserInfoDelegate: Observable<AppleOAuthUserInfo?> {
         delegate.methodInvoked(#selector(ASAuthorizationControllerDelegate.authorizationController(controller:didCompleteWithAuthorization:)))
-            .map { parameters -> String? in
+            .map { parameters -> AppleOAuthUserInfo? in
                 guard let authorization = parameters[1] as? ASAuthorization,
                       let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
-                      let appleIdentityToken = appleIDCredential.identityToken
+                      let appleIdentityToken = appleIDCredential.identityToken,
+                      let identityToken = String(data: appleIdentityToken, encoding: .utf8),
+                      let appleAuthorizationCode = appleIDCredential.authorizationCode,
+                      let authorizationCode = String(data: appleAuthorizationCode, encoding: .utf8)
                 else { return nil }
-                
-                guard let identityToken = String(data: appleIdentityToken, encoding: .utf8) else { return nil }
 
                 let familyName = appleIDCredential.fullName?.familyName ?? ""
                 let givenName = appleIDCredential.fullName?.givenName ?? ""
                 let email = appleIDCredential.email ?? ""
                 
-                UserDefaults.userName = "\(familyName)\(givenName)"
-                UserDefaults.userEmail = email
-                return identityToken
+                return AppleOAuthUserInfo(name: "\(familyName)\(givenName)",
+                                          email: email,
+                                          identityToken: identityToken,
+                                          authorizationCode: authorizationCode)
             }
     }
 }

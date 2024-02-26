@@ -9,5 +9,5 @@ import RxSwift
 
 protocol OAuth {
     func authorize() -> Observable<OAuthResponse>
-    func resign() -> Observable<Void>
+    func resign() -> Observable<String?>
 }

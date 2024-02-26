@@ -42,7 +42,7 @@ final class AuthRepository: AuthRepositoryType {
                       let refreshToken = loginReponseDTO.refreshToken else { return }
                 UserDefaults.accessToken = accessToken
                 UserDefaults.refreshToken = refreshToken
-                UserDefaults.oauthProvider = provider
+                UserDefaults.oauthProvider = provider.rawValue
 
                 self?.userInfo()
                 
@@ -157,8 +157,9 @@ final class AuthRepository: AuthRepositoryType {
             .disposed(by: self.disposeBag)
     }
     
-    func resign(reason: String) -> Single<Void> {
-        let api = AuthAPI.resign(requestDTO: ResignRequestDTO(reason: reason))
+    func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void> {
+        let api = AuthAPI.resign(requestDTO: ResignRequestDTO(reason: reason,
+                                                              appleIdAuthorizationCode: appleIdAuthorizationCode))
         
         return self.networkService.request(api)
             .do(onSuccess: {  _ in

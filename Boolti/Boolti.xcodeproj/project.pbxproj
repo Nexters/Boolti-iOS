@@ -163,6 +163,7 @@
 		84E5124F2B6E773F002658D1 /* ConcertDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5124E2B6E773F002658D1 /* ConcertDetailViewModel.swift */; };
 		84E512532B6E9E0B002658D1 /* ConcertPosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E512522B6E9E0B002658D1 /* ConcertPosterView.swift */; };
 		84EC6A642B6CF973009AC6BB /* BooltiToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */; };
+		84EF916C2B8C4B5F0073C89A /* AppleOAuthUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EF916B2B8C4B5F0073C89A /* AppleOAuthUserInfo.swift */; };
 		84FBB2CA2B80D0E8001F4211 /* BooltiUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */; };
 		84FBB2CC2B80DC6B001F4211 /* MypageProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBB2CB2B80DC6B001F4211 /* MypageProfileView.swift */; };
 		84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBDF22B673877009462E9 /* ConcertInfoView.swift */; };
@@ -427,6 +428,7 @@
 		84E5124E2B6E773F002658D1 /* ConcertDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailViewModel.swift; sourceTree = "<group>"; };
 		84E512522B6E9E0B002658D1 /* ConcertPosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertPosterView.swift; sourceTree = "<group>"; };
 		84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiToastView.swift; sourceTree = "<group>"; };
+		84EF916B2B8C4B5F0073C89A /* AppleOAuthUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleOAuthUserInfo.swift; sourceTree = "<group>"; };
 		84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiUILabel.swift; sourceTree = "<group>"; };
 		84FBB2CB2B80DC6B001F4211 /* MypageProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageProfileView.swift; sourceTree = "<group>"; };
 		84FBBDF22B673877009462E9 /* ConcertInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertInfoView.swift; sourceTree = "<group>"; };
@@ -1608,6 +1610,7 @@
 				8757BAA52B5FDED7008503B5 /* OAuthRepository.swift */,
 				8757BAA92B5FDF29008503B5 /* KakaoOAuth.swift */,
 				8757BAAB2B5FDF69008503B5 /* AppleOAuth.swift */,
+				84EF916B2B8C4B5F0073C89A /* AppleOAuthUserInfo.swift */,
 				8757BAAD2B60067A008503B5 /* OAuthProvider.swift */,
 				8757BAAF2B60069B008503B5 /* OAuthResponse.swift */,
 				878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */,
@@ -1977,6 +1980,7 @@
 				840B39592B7670FC00E7F8C8 /* ConcertEntity.swift in Sources */,
 				8453D7FE2B7539770048F103 /* SalesTicketRequestDTO.swift in Sources */,
 				8710D9502B74FA9A00309FBF /* TicketReservationsDIContainer.swift in Sources */,
+				84EF916C2B8C4B5F0073C89A /* AppleOAuthUserInfo.swift in Sources */,
 				84A7134A2B7C8999000BABCB /* QRExpandViewController.swift in Sources */,
 				877CAFC92B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift in Sources */,
 				84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */,

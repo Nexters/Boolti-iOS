@@ -31,7 +31,7 @@ extension UserDefaults {
     @UserDefault<String>(key: UserDefaultsKey.deviceToken.rawValue, defaultValue: "")
     static var deviceToken
     
-    @UserDefault<OAuthProvider>(key: UserDefaultsKey.oauthProvider.rawValue, defaultValue: .kakao)
+    @UserDefault<String>(key: UserDefaultsKey.oauthProvider.rawValue, defaultValue: OAuthProvider.kakao.rawValue)
     static var oauthProvider
     
     // MARK: - Custom Methods
@@ -44,6 +44,6 @@ extension UserDefaults {
         UserDefaults.userName = ""
         UserDefaults.userEmail = ""
         UserDefaults.userImageURLPath = ""
-        UserDefaults.oauthProvider = .kakao
+        UserDefaults.oauthProvider = OAuthProvider.kakao.rawValue
     }
 }

@@ -43,16 +43,21 @@ final class ResignReasonViewModel {
 
     private func bindInputs() {
         self.input.didResignConfirmButtonTap
-            .flatMap { self.authRepository.resign(reason: self.input.reason.value) }
             .subscribe(with: self) { owner, _ in
-                owner.oauthResign()
-            }
+                owner.oauthRepository.resign()
+                    .subscribe(onNext: { appleIdAuthorizationCode in
+                        owner.resign(appleIdAuthorizationCode: appleIdAuthorizationCode)
+                    })
+                    .disposed(by: owner.disposeBag)
+                }
             .disposed(by: self.disposeBag)
     }
     
-    private func oauthResign() {
-        self.oauthRepository.resign()
-            .subscribe(onCompleted: { self.output.didResignAccount.onNext(()) })
+    private func resign(appleIdAuthorizationCode: String?) {
+        self.authRepository.resign(reason: self.input.reason.value, appleIdAuthorizationCode: appleIdAuthorizationCode)
+            .subscribe(with: self) { owner, _ in
+                owner.output.didResignAccount.onNext(())
+            }
             .disposed(by: self.disposeBag)
     }
 }

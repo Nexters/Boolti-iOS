@@ -46,13 +46,14 @@ struct KakaoOAuth: OAuth {
         }
     }
     
-    func resign() -> Observable<Void> {
-        return Observable<Void>.create { observer in
+    func resign() -> Observable<String?> {
+        return Observable<String?>.create { observer in
             UserApi.shared.unlink {(error) in
                 if let error = error {
                     observer.onError(error)
                 }
                 else {
+                    observer.onNext(nil)
                     observer.onCompleted()
                 }
             }
