@@ -9,6 +9,7 @@ import UIKit
 
 import RxSwift
 import RxCocoa
+import RxGesture
 import Kingfisher
 
 final class ConcertDetailViewController: BooltiViewController {
@@ -16,12 +17,14 @@ final class ConcertDetailViewController: BooltiViewController {
     // MARK: Properties
 
     typealias Content = String
+    typealias Posters = [ConcertDetailEntity.Poster]
     typealias ConcertId = Int
     
     private let viewModel: ConcertDetailViewModel
     private let disposeBag = DisposeBag()
     
     private let loginViewControllerFactory: () -> LoginViewController
+    private let posterExpandViewControllerFactory: (Posters) -> PosterExpandViewController
     private let concertContentExpandViewControllerFactory: (Content) -> ConcertContentExpandViewController
     private let reportViewControllerFactory: () -> ReportViewController
     private let ticketSelectionViewControllerFactory: (ConcertId) -> TicketSelectionViewController
@@ -93,11 +96,13 @@ final class ConcertDetailViewController: BooltiViewController {
     
     init(viewModel: ConcertDetailViewModel,
          loginViewControllerFactory: @escaping () -> LoginViewController,
+         posterExpandViewControllerFactory: @escaping (Posters) -> PosterExpandViewController,
          concertContentExpandViewControllerFactory: @escaping (Content) -> ConcertContentExpandViewController,
          reportViewControllerFactory: @escaping () -> ReportViewController,
          ticketSelectionViewControllerFactory: @escaping (ConcertId) -> TicketSelectionViewController) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
+        self.posterExpandViewControllerFactory = posterExpandViewControllerFactory
         self.concertContentExpandViewControllerFactory = concertContentExpandViewControllerFactory
         self.reportViewControllerFactory = reportViewControllerFactory
         self.ticketSelectionViewControllerFactory = ticketSelectionViewControllerFactory
@@ -142,8 +147,11 @@ extension ConcertDetailViewController {
     
     private func bindOutputs() {
         self.viewModel.output.concertDetail
+            .skip(1)
             .take(1)
             .bind(with: self) { owner, entity in
+                guard let entity = entity else { return }
+                
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name)
                 owner.ticketingPeriodView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
                 owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
@@ -169,6 +177,10 @@ extension ConcertDetailViewController {
                     let viewController = owner.loginViewControllerFactory()
                     viewController.modalPresentationStyle = .overFullScreen
                     owner.present(viewController, animated: true)
+                case .posterExpand(let posters):
+                    let viewController = owner.posterExpandViewControllerFactory(posters)
+                    viewController.modalPresentationStyle = .overFullScreen
+                    owner.present(viewController, animated: true)
                 case .contentExpand(let content):
                     let viewController = owner.concertContentExpandViewControllerFactory(content)
                     owner.navigationController?.pushViewController(viewController, animated: true)
@@ -187,6 +199,7 @@ extension ConcertDetailViewController {
     
     private func bindUIComponents() {
         self.bindPlaceInfoView()
+        self.bindPosterView()
         self.bindContentInfoView()
         self.bindNavigationBar()
     }
@@ -194,17 +207,24 @@ extension ConcertDetailViewController {
     private func bindPlaceInfoView() {
         self.placeInfoView.didAddressCopyButtonTap()
             .emit(with: self) { owner, _ in
-                UIPasteboard.general.string = owner.viewModel.output.concertDetailEntity?.streetAddress
+                UIPasteboard.general.string = owner.viewModel.output.concertDetail.value?.streetAddress
                 owner.showToast(message: "공연장 주소가 복사되었어요")
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindPosterView() {
+        self.concertPosterView.rx.tapGesture()
+            .when(.recognized)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.input.didPosterViewTap.onNext(())
             }
             .disposed(by: self.disposeBag)
     }
     
     private func bindContentInfoView() {
         self.contentInfoView.didAddressExpandButtonTap()
-            .emit(with: self) { owner, _ in
-                owner.viewModel.input.didExpandButtonTap.accept(())
-            }
+            .emit(to: self.viewModel.input.didExpandButtonTap)
             .disposed(by: self.disposeBag)
     }
     
@@ -235,7 +255,7 @@ extension ConcertDetailViewController {
         self.navigationBar.didShareButtonTap()
             .emit(with: self) { owner, _ in
                 guard let url = URL(string: AppInfo.booltiShareLink),
-                      let posterURL = owner.viewModel.output.concertDetailEntity?.posters.first?.path
+                      let posterURL = owner.viewModel.output.concertDetail.value?.posters.first?.path
                 else { return }
                 
                 let image = KFImage(URL(string: posterURL))

@@ -12,6 +12,7 @@ import RxSwift
 
 enum ConcertDetailDestination {
     case login
+    case posterExpand(posters: [ConcertDetailEntity.Poster])
     case contentExpand(content: String)
     case ticketSelection(concertId: Int)
 }
@@ -58,21 +59,21 @@ final class ConcertDetailViewModel {
     private let concertRepository: ConcertRepositoryType
     
     struct Input {
-        let didTicketingButtonTap = PublishRelay<Void>()
-        let didExpandButtonTap = PublishRelay<Void>()
+        let didTicketingButtonTap = PublishSubject<Void>()
+        let didPosterViewTap = PublishSubject<Void>()
+        let didExpandButtonTap = PublishSubject<Void>()
     }
     
     struct Output {
         let navigate = PublishRelay<ConcertDetailDestination>()
-        let concertDetail = PublishRelay<ConcertDetailEntity>()
-        var concertDetailEntity: ConcertDetailEntity?
+        let concertDetail = BehaviorRelay<ConcertDetailEntity?>(value: nil)
         let buttonState = BehaviorRelay<ConcertTicketingState>(value: .endSale)
     }
     
     let input: Input
     var output: Output
     
-    let concertId: Int
+    private let concertId: Int
     
     // MARK: Init
     
@@ -95,8 +96,15 @@ extension ConcertDetailViewModel {
     private func bindInputs() {
         self.input.didExpandButtonTap
             .bind(with: self) { owner, _ in
-                guard let notice = owner.output.concertDetailEntity?.notice else { return }
+                guard let notice = owner.output.concertDetail.value?.notice else { return }
                 owner.output.navigate.accept(.contentExpand(content: notice))
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.input.didPosterViewTap
+            .bind(with: self) { owner, _ in
+                guard let posters = owner.output.concertDetail.value?.posters else { return }
+                owner.output.navigate.accept(.posterExpand(posters: posters))
             }
             .disposed(by: self.disposeBag)
         
@@ -105,7 +113,7 @@ extension ConcertDetailViewModel {
                 if UserDefaults.accessToken.isEmpty {
                     owner.output.navigate.accept(.login)
                 } else {
-                    guard let concertId = owner.output.concertDetailEntity?.id else { return }
+                    guard let concertId = owner.output.concertDetail.value?.id else { return }
                     owner.output.navigate.accept(.ticketSelection(concertId: concertId))
                 }
             }
@@ -115,6 +123,8 @@ extension ConcertDetailViewModel {
     private func bindOutputs() {
         self.output.concertDetail
             .bind(with: self, onNext: { owner, concert in
+                guard let concert = concert else { return }
+                
                 var state: ConcertTicketingState = .onSale
                 
                 if Date().compare(concert.salesStartTime) == .orderedAscending {
@@ -146,7 +156,6 @@ extension ConcertDetailViewModel {
  
     func fetchConcertDetail() {
         self.concertRepository.concertDetail(concertId: self.concertId)
-            .do { self.output.concertDetailEntity = $0 }
             .asObservable()
             .bind(to: self.output.concertDetail)
             .disposed(by: self.disposeBag)
