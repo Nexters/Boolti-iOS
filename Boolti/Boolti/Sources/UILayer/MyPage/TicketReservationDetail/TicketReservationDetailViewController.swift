@@ -36,8 +36,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 12
-        
-        stackView.setCustomSpacing(0, after: self.concertInformationView)
 
         return stackView
     }()
@@ -195,7 +193,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         }
 
         self.blankSpaceView.snp.makeConstraints { make in
-            make.height.equalTo(40)
+            make.height.equalTo(48)
         }
 
         self.addArrangedSubViews()
@@ -211,9 +209,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.purchaserInformationStackView,
             self.depositorInformationStackView,
             self.reversalPolicyView,
+            self.blankSpaceView,
             self.requestRefundButton,
-            self.blankSpaceView
         ])
+
+        self.contentStackView.setCustomSpacing(0, after: self.concertInformationView)
+        self.contentStackView.setCustomSpacing(0, after: self.reversalPolicyView)
     }
 
     private func bindUIComponents() {
