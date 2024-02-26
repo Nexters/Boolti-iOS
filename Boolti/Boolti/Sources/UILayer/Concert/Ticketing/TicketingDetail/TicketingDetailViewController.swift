@@ -16,7 +16,7 @@ final class TicketingDetailViewController: BooltiViewController {
     
     private let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
-    private let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController
+    private let ticketingConfirmViewControllerFactory: (TicketingEntity) -> TicketingConfirmViewController
     
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
@@ -81,10 +81,10 @@ final class TicketingDetailViewController: BooltiViewController {
 
     init(
         viewModel: TicketingDetailViewModel,
-        ticketingCompletionViewControllerFactory: @escaping (TicketingEntity) -> TicketingCompletionViewController
+        ticketingConfirmViewControllerFactory: @escaping (TicketingEntity) -> TicketingConfirmViewController
     ) {
         self.viewModel = viewModel
-        self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
+        self.ticketingConfirmViewControllerFactory = ticketingConfirmViewControllerFactory
         super.init()
     }
 
@@ -127,9 +127,9 @@ extension TicketingDetailViewController {
 
                 switch ticketType {
                 case .sales:
-                    self.setSalesTicketing()
+                    self.setSalesTicketingData()
                 case .invite:
-                    self.setInvitationTicketing()
+                    self.setInvitationTicketingData()
                 }
             })
             .disposed(by: self.disposeBag)
@@ -143,17 +143,17 @@ extension TicketingDetailViewController {
     }
     
     private func bindOutputs() {
-        self.viewModel.output.navigateToCompletion
+        self.viewModel.output.navigateToConfirm
             .bind(with: self) { owner, _ in
                 guard let ticketingEntity = self.viewModel.input.ticketingEntity else { return }
                 
-                let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
-                owner.navigationController?.pushViewController(viewController, animated: true)
+                let viewController = owner.ticketingConfirmViewControllerFactory(ticketingEntity)
+                viewController.modalPresentationStyle = .overFullScreen
+                owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
         
         self.viewModel.output.concertDetail
-            .debug()
             .bind(with: self) { owner, concertDetailEntity in
                 owner.concertInfoView.setData(posterURL: concertDetailEntity.posters.first!.thumbnailPath,
                                               title: concertDetailEntity.name,
@@ -321,7 +321,7 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
-    private func setSalesTicketing() {
+    private func setSalesTicketingData() {
         guard let ticketHolderName = self.ticketHolderInputView.nameTextField.text,
               let ticketHolderPhoneNumber = self.ticketHolderInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "")
         else { return }
@@ -330,21 +330,21 @@ extension TicketingDetailViewController {
             guard let depositorName = self.depositorInputView.nameTextField.text,
                   let depositorPhoneNumber = self.depositorInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "") else { return }
             
-            self.viewModel.salesTicketing(ticketHolderName: ticketHolderName,
-                                          ticketHolderPhoneNumber: ticketHolderPhoneNumber,
-                                          depositorName: depositorName.isEmpty ? ticketHolderName : depositorName,
-                                          depositorPhoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorPhoneNumber)
+            self.viewModel.setSalesTicketingData(ticketHolderName: ticketHolderName,
+                                                 ticketHolderPhoneNumber: ticketHolderPhoneNumber,
+                                                 depositorName: depositorName.isEmpty ? ticketHolderName : depositorName,
+                                                 depositorPhoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorPhoneNumber)
         }
     }
     
-    private func setInvitationTicketing() {
+    private func setInvitationTicketingData() {
         guard let ticketHolderName = self.ticketHolderInputView.nameTextField.text,
               let ticketHolderPhoneNumber = self.ticketHolderInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: ""),
               let invitationCode = self.invitationCodeView.codeTextField.text else { return }
         
-        self.viewModel.invitationTicketing(ticketHolderName: ticketHolderName,
-                                            ticketHolderPhoneNumber: ticketHolderPhoneNumber,
-                                            invitationCode: invitationCode)
+        self.viewModel.setInvitationTicketingData(ticketHolderName: ticketHolderName,
+                                                  ticketHolderPhoneNumber: ticketHolderPhoneNumber,
+                                                  invitationCode: invitationCode)
     }
 }
 

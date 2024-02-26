@@ -18,23 +18,23 @@ final class TicketingDetailDIContainer {
     func createTicketingDetailViewController(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewController {
         let viewModel = createTicketingDetailViewModel(selectedTicket: selectedTicket)
         
-        let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController = { ticketingEntity in
-            let DIContainer = self.createTicketingCompletionDIContainer()
+        let ticketingConfirmViewControllerFactory: (TicketingEntity) -> TicketingConfirmViewController = { ticketingEntity in
+            let DIContainer = self.createTicketingConfirmDIContainer()
 
-            let viewController = DIContainer.createTicketingCompletionViewController(ticketingEntity: ticketingEntity)
+            let viewController = DIContainer.createTicketingConfirmViewController(ticketingEntity: ticketingEntity)
             return viewController
         }
 
         let viewController = TicketingDetailViewController(
             viewModel: viewModel,
-            ticketingCompletionViewControllerFactory: ticketingCompletionViewControllerFactory
+            ticketingConfirmViewControllerFactory: ticketingConfirmViewControllerFactory
         )
         
         return viewController
     }
     
-    private func createTicketingCompletionDIContainer() -> TicketingCompletionDIContainer {
-        return TicketingCompletionDIContainer(ticketReservationsRepository: TicketReservationRepository(networkService: self.concertRepository.networkService))
+    private func createTicketingConfirmDIContainer() -> TicketingConfirmDIContainer {
+        return TicketingConfirmDIContainer(concertRepository: self.concertRepository)
     }
 
     private func createTicketingDetailViewModel(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewModel {
