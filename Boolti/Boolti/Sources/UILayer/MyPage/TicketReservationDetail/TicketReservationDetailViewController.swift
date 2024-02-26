@@ -30,7 +30,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return scrollView
     }()
 
-    private lazy var contentStackView: UIStackView = {
+    private let  contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
