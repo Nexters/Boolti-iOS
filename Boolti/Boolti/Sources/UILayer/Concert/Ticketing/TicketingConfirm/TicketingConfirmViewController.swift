@@ -169,7 +169,7 @@ extension TicketingConfirmViewController {
 extension TicketingConfirmViewController {
     
     private func configureUI() {
-        self.view.backgroundColor = .grey95.withAlphaComponent(0.85)
+        self.view.backgroundColor = .black100.withAlphaComponent(0.85)
         
         self.view.addSubview(self.contentBackGroundView)
         
