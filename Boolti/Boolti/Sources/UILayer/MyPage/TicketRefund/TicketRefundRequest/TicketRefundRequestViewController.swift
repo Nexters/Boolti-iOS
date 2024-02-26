@@ -182,7 +182,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
                 let viewController = TicketRefundBankSelectionViewController(selectedBank: owner.viewModel.output.selectedBank.value)
 
                 viewController.selectedItem = { item in
-                    guard let item else { return }
                     owner.viewModel.input.selectedItem.accept(item)
                 }
                 owner.dimmedBackgroundView.isHidden = false

@@ -54,11 +54,8 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
     private let finishSelectionButton = BooltiButton(title: "선택 완료하기")
 
     private var isBankSelected: Bool = false
-    // ViewModel 활용하지 않아서 아래와 같이 VC의 프로퍼티로 구현
     var selectedItemIndex: Int?
-    var selectedItem: ((BankEntity?) -> ())?
-
-    // viewModel로 설정할 예정
+    var selectedItem: ((BankEntity) -> ())?
 
     init(selectedBank: BankEntity?) {
         super.init()
@@ -72,8 +69,7 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
     private func setSelectedItemIndex(with selectedBank: BankEntity?) {
         guard let selectedBank else { return }
         self.isBankSelected = true
-        let index = BankEntity.all.firstIndex { $0 == selectedBank }
-        guard let index else { return }
+        guard let index = BankEntity.all.firstIndex(where: { $0 == selectedBank }) else { return }
         self.selectedItemIndex = index
     }
 
@@ -127,12 +123,15 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
     private func configureSelectedItem() {
         guard let index = self.selectedItemIndex else { return }
         let selectedIndexPath = IndexPath(item: index, section: 0)
+        
+        DispatchQueue.main.async {
+            self.collectionView.selectItem(
+                at: selectedIndexPath,
+                animated: false,
+                scrollPosition: .centeredVertically
+            )
+        }
 
-        self.collectionView.selectItem(
-            at: selectedIndexPath,
-            animated: false,
-            scrollPosition: .centeredVertically
-        )
         self.finishSelectionButton.isEnabled = true
         self.isBankSelected = true
     }
@@ -152,12 +151,8 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
 
         self.finishSelectionButton.rx.tap
             .bind(with: self) { owner, _ in
-
-                if let index = owner.selectedItemIndex {
-                    owner.selectedItem?(BankEntity.all[index])
-                } else {
-                    owner.selectedItem?(nil)
-                }
+                guard let index = owner.selectedItemIndex else { return }
+                owner.selectedItem?(BankEntity.all[index])
                 owner.dismiss(animated: true)
             }
             .disposed(by: self.disposeBag)
