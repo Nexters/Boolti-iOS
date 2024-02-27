@@ -153,7 +153,7 @@ extension TicketingDetailViewController {
                 let viewController = owner.ticketingConfirmViewControllerFactory(ticketingEntity)
                 viewController.modalPresentationStyle = .overFullScreen
                 
-                viewController.isDismissed = { ticketingEntity in
+                viewController.onDismiss = { ticketingEntity in
                     let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }

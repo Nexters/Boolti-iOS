@@ -186,7 +186,7 @@ extension ConcertDetailViewController {
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .ticketSelection(let concertId):
                     let viewController = owner.ticketSelectionViewControllerFactory(concertId)
-                    viewController.isDismissed = {
+                    viewController.onDismiss = {
                         owner.dimmedBackgroundView.isHidden = true
                     }
                     

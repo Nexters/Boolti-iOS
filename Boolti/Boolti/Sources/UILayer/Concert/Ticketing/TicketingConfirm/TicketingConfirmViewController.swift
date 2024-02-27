@@ -16,7 +16,7 @@ final class TicketingConfirmViewController: BooltiViewController {
     
     private let viewModel: TicketingConfirmViewModel
     private let disposeBag = DisposeBag()
-    var isDismissed: ((TicketingEntity) -> ())?
+    var onDismiss: ((TicketingEntity) -> ())?
     
     // MARK: UI Component
     
@@ -145,7 +145,7 @@ extension TicketingConfirmViewController {
         self.viewModel.output.navigateToCompletion
             .subscribe(with: self) { owner, _ in
                 owner.dismiss(animated: true) {
-                    self.isDismissed?(owner.viewModel.ticketingEntity)
+                    self.onDismiss?(owner.viewModel.ticketingEntity)
                 }
             }
             .disposed(by: self.disposeBag)
