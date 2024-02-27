@@ -237,6 +237,7 @@
 		8753CA772B71F004002871C7 /* TicketListItemResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA762B71F004002871C7 /* TicketListItemResponseDTO.swift */; };
 		8753CA7B2B7225AA002871C7 /* TicketDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA7A2B7225AA002871C7 /* TicketDetailResponseDTO.swift */; };
 		8753CA7D2B7228F2002871C7 /* TicketDetailItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA7C2B7228F2002871C7 /* TicketDetailItemEntity.swift */; };
+		8755A1602B8BA5510067C5CE /* QRCodeResponsePopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8755A15F2B8BA5510067C5CE /* QRCodeResponsePopUpView.swift */; };
 		8757BA972B5FA6B0008503B5 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA962B5FA6B0008503B5 /* AuthRepository.swift */; };
 		8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */; };
 		8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */; };
@@ -500,6 +501,7 @@
 		8753CA762B71F004002871C7 /* TicketListItemResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketListItemResponseDTO.swift; sourceTree = "<group>"; };
 		8753CA7A2B7225AA002871C7 /* TicketDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailResponseDTO.swift; sourceTree = "<group>"; };
 		8753CA7C2B7228F2002871C7 /* TicketDetailItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailItemEntity.swift; sourceTree = "<group>"; };
+		8755A15F2B8BA5510067C5CE /* QRCodeResponsePopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeResponsePopUpView.swift; sourceTree = "<group>"; };
 		8757BA962B5FA6B0008503B5 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		8757BA9B2B5FCC06008503B5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEnterView.swift; sourceTree = "<group>"; };
@@ -1079,6 +1081,7 @@
 		84A0248A2B7B995C0095A56E /* QRScanner */ = {
 			isa = PBXGroup;
 			children = (
+				8755A15D2B8BA4E20067C5CE /* Views */,
 				84A0248B2B7B996F0095A56E /* QRScannerDIContainer.swift */,
 				84A0248D2B7B997A0095A56E /* QRScannerViewController.swift */,
 				84A0248F2B7B99830095A56E /* QRScannerViewModel.swift */,
@@ -1541,6 +1544,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		8755A15D2B8BA4E20067C5CE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8755A15F2B8BA5510067C5CE /* QRCodeResponsePopUpView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		8757BA9A2B5FCBF9008503B5 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -1900,6 +1911,7 @@
 				8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */,
 				87F7DF472B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift in Sources */,
 				87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */,
+				8755A1602B8BA5510067C5CE /* QRCodeResponsePopUpView.swift in Sources */,
 				8730F02E2B7BAA2B00D4F339 /* RefundAccountNumberView.swift in Sources */,
 				8746AD202B6932B30037A1B1 /* ConcertEnterView.swift in Sources */,
 				8753CA7B2B7225AA002871C7 /* TicketDetailResponseDTO.swift in Sources */,

@@ -7,26 +7,45 @@
 
 import UIKit
 
+import Moya
 import RxSwift
 import RxRelay
+
+enum QRCodeValidationResponse: String {
+    case valid = "사용되었어요"
+    case invalid = "이 공연의 티켓이 아니에요"
+    case isAlreadyUsed = "이미 사용된 티켓이에요"
+    case notToday = "아직 공연일이 아니에요"
+
+    init?(statusCode: Int) {
+        switch statusCode {
+        case 200:
+            self = .valid
+        case 428:
+            self = .notToday
+        case 400:
+            self = .isAlreadyUsed
+        default:
+            self = .invalid
+        }
+    }
+
+    var iconImage: UIImage {
+        switch self {
+        case .valid:
+            return .validIcon
+        case .invalid, .isAlreadyUsed:
+            return .invalidIcon
+        case .notToday:
+            return .notTodayIcon
+        }
+    }
+}
 
 final class QRScannerViewModel {
     
     // MARK: Properties
-    
-    enum entranceCodeState: String {
-        case valid = "입장을 확인했어요"
-        case invalid = "유효하지 않은 QR 입니다"
-        case notToday = "입장 확인은 공연 당일에만 가능해요"
-        
-        var textColor: UIColor {
-            switch self {
-            case .valid, .notToday: .grey10
-            case .invalid: .error
-            }
-        }
-    }
-    
+
     private let disposeBag = DisposeBag()
     private let qrRepository: QRRepositoryType
     
@@ -35,7 +54,7 @@ final class QRScannerViewModel {
     }
     
     struct Output {
-        let showCheckLabel = PublishRelay<entranceCodeState>()
+        let qrCodeValidationResponse = PublishRelay<QRCodeValidationResponse>()
     }
     
     let input: Input
@@ -76,13 +95,13 @@ extension QRScannerViewModel {
         self.qrRepository.qrScan(concertId: self.qrScannerEntity.concertId,
                                  entranceCode: detectedCode)
         .subscribe(with: self, onSuccess: { owner, isValid in
-            owner.output.showCheckLabel.accept(.valid)
+            owner.output.qrCodeValidationResponse.accept(.valid)
         }, onFailure: { owner, error in
-            if error.localizedDescription.contains("428") {
-                owner.output.showCheckLabel.accept(.notToday)
-            } else {
-                owner.output.showCheckLabel.accept(.invalid)
-            }
+            guard let error = error as? MoyaError else { return }
+            guard let statusCode = error.response?.statusCode else { return }
+            guard let errorResponse = QRCodeValidationResponse(statusCode: statusCode) else { return }
+
+            owner.output.qrCodeValidationResponse.accept(errorResponse)
         })
         .disposed(by: self.disposeBag)
     }
