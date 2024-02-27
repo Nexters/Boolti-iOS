@@ -53,7 +53,7 @@ extension TicketDetailResponseDTO {
             ticketName: self.ticketName,
             posterURLPath: self.showImgPath,
             title: self.showName,
-            date: self.showDate.formatToDate().format(.dateDay),
+            date: self.showDate,
             location: self.placeName,
             qrCode: qrCodeImage,
             notice: self.ticketNotice,

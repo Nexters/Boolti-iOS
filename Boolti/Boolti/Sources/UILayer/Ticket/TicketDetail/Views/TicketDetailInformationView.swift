@@ -90,7 +90,7 @@ final class TicketDetailInformationView: UIView {
     }
 
     func setData(with item: TicketDetailItemEntity) {
-        self.dateLabel.text = item.date
+        self.dateLabel.text = item.date.formatToDate().format(.dateDay)
         self.locationLabel.text = " | \(item.location)"
         self.titleLabel.text = item.title
         self.qrCodeImageView.image = item.qrCode
