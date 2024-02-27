@@ -89,8 +89,8 @@ final class NetworkProvider: NetworkProviderType {
                             }
                             #endif
                             
-                            if response.statusCode == 500 {
-                                NotificationCenter.default.post(name: Notification.Name("ServerErrorNotification"), object: nil)
+                            if response.statusCode == NetworkError.serverError.rawValue {
+                                NotificationCenter.default.post(name: Notification.Name.serverError, object: nil)
                             }
                         } else {
                             debugPrint("❌ ERROR: \(requestString) (No response)")

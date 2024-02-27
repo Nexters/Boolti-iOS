@@ -35,7 +35,7 @@ final class AuthInterceptor: RequestInterceptor {
                completion: @escaping (RetryResult) -> Void) {
         // 401(토큰 재발급 이슈)일 경우에는 밑으로 넘어가고,
         // 만약 다른 문제라면? retry를 하지 않는다.
-        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401
+        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == NetworkError.unauthorized.rawValue
         else {
             completion(.doNotRetryWithError(error))
             return
@@ -59,7 +59,6 @@ final class AuthInterceptor: RequestInterceptor {
 
                 completion(.retry)
             }, onFailure: { error in
-                // 이러면 로그인 화면으로 간다!..
                 UserDefaults.accessToken = ""
                 UserDefaults.refreshToken = ""
 

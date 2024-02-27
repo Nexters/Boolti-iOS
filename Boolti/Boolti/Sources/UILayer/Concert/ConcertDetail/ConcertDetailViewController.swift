@@ -125,13 +125,13 @@ final class ConcertDetailViewController: BooltiViewController {
         self.bindUIComponents()
         self.bindInputs()
         self.bindOutputs()
-        self.viewModel.fetchConcertDetail()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
         self.dimmedBackgroundView.isHidden = true
+        self.viewModel.fetchConcertDetail()
     }
 }
 
@@ -175,7 +175,7 @@ extension ConcertDetailViewController {
                 switch destination {
                 case .login:
                     let viewController = owner.loginViewControllerFactory()
-                    viewController.modalPresentationStyle = .overFullScreen
+                    viewController.modalPresentationStyle = .fullScreen
                     owner.present(viewController, animated: true)
                 case .posterExpand(let posters):
                     let viewController = owner.posterExpandViewControllerFactory(posters)
@@ -186,7 +186,7 @@ extension ConcertDetailViewController {
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .ticketSelection(let concertId):
                     let viewController = owner.ticketSelectionViewControllerFactory(concertId)
-                    viewController.isDismissed = {
+                    viewController.onDismiss = {
                         owner.dimmedBackgroundView.isHidden = true
                     }
                     

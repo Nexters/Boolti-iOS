@@ -18,6 +18,7 @@ final class ConcertInfoView: UIView {
         view.backgroundColor = .grey30
         view.layer.cornerRadius = 4
         view.clipsToBounds = true
+        view.contentMode = .scaleAspectFill
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey80.cgColor
         return view
