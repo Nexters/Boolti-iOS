@@ -29,6 +29,8 @@ final class ResignReasonViewModel {
 
     let input: Input
     let output: Output
+    
+    // MARK: Init
 
     init(authRepository: AuthRepositoryType,
          oauthRepository: OAuthRepositoryType) {
@@ -40,7 +42,12 @@ final class ResignReasonViewModel {
 
         self.bindInputs()
     }
+}
 
+// MARK: - Methods
+
+extension ResignReasonViewModel {
+    
     private func bindInputs() {
         self.input.didResignConfirmButtonTap
             .subscribe(with: self) { owner, _ in
