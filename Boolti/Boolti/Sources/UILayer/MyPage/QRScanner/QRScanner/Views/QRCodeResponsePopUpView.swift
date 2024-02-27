@@ -9,11 +9,7 @@ import UIKit
 
 class QRCodeResponsePopUpView: UIView {
 
-    private let iconImageView: UIImageView = {
-        let imageView = UIImageView()
-
-        return imageView
-    }()
+    private let iconImageView = UIImageView()
 
     private let responseDescriptionLabel: BooltiUILabel = {
         let label = BooltiUILabel()
@@ -53,7 +49,6 @@ class QRCodeResponsePopUpView: UIView {
 
     private func configureConstraints() {
         self.snp.makeConstraints { make in
-            make.width.equalTo(335)
             make.height.equalTo(48)
         }
 

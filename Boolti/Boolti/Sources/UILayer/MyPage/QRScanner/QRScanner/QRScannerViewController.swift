@@ -177,6 +177,7 @@ extension QRScannerViewController {
 
         self.qrCodeResponsePopUpView.snp.makeConstraints { make in
             make.bottom.equalTo(self.entranceCodeButton.snp.top).offset(-44)
+            make.horizontalEdges.equalToSuperview().inset(20)
             make.centerX.equalToSuperview()
         }
     }
