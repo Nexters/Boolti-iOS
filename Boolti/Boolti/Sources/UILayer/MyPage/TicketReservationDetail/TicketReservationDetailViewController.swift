@@ -213,7 +213,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.requestRefundButton,
         ])
 
-        self.contentStackView.setCustomSpacing(0, after: self.concertInformationView)
         self.contentStackView.setCustomSpacing(0, after: self.reversalPolicyView)
     }
 
