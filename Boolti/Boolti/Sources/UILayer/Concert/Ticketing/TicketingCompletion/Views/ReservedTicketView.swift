@@ -18,6 +18,7 @@ final class ReservedTicketView: UIView {
         view.clipsToBounds = true
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.grey80.cgColor
+        view.contentMode = .scaleAspectFill
         return view
     }()
     

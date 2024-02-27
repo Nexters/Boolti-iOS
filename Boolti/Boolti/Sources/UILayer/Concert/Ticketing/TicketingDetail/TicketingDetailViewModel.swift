@@ -16,19 +16,15 @@ final class TicketingDetailViewModel {
     
     private let concertRepository: ConcertRepositoryType
     private let disposeBag = DisposeBag()
-    
-    struct Input {
-        var ticketingEntity: TicketingEntity?
-    }
 
     struct Output {
         let invitationCodeState = BehaviorRelay<InvitationCodeState>(value: .empty)
         let concertDetail = PublishRelay<ConcertDetailEntity>()
         var concertDetailEntity: ConcertDetailEntity?
         let navigateToConfirm = PublishSubject<Void>()
+        var ticketingEntity: TicketingEntity?
     }
 
-    var input: Input
     var output: Output
     
     let selectedTicket: BehaviorRelay<SelectedTicketEntity>
@@ -36,7 +32,6 @@ final class TicketingDetailViewModel {
     init(concertRepository: ConcertRepository,
          selectedTicket: SelectedTicketEntity) {
         self.concertRepository = concertRepository
-        self.input = Input()
         self.output = Output()
         self.selectedTicket = BehaviorRelay<SelectedTicketEntity>(value: selectedTicket)
     }
@@ -64,7 +59,7 @@ extension TicketingDetailViewModel {
                                               selectedTicket: [self.selectedTicket.value],
                                               reservationId: -1)
         
-        self.input.ticketingEntity = ticketingEntity
+        self.output.ticketingEntity = ticketingEntity
         self.output.navigateToConfirm.onNext(())
     }
     
@@ -90,7 +85,7 @@ extension TicketingDetailViewModel {
                                               reservationId: -1,
                                               invitationCode: invitationCode)
         
-        self.input.ticketingEntity = ticketingEntity
+        self.output.ticketingEntity = ticketingEntity
         self.output.navigateToConfirm.onNext(())
     }
 }
