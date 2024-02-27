@@ -35,6 +35,9 @@
 		843918FE2B7A82E700CC62AA /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843918FD2B7A82E700CC62AA /* ReportViewModel.swift */; };
 		8453D7FC2B7539270048F103 /* SalesTicketResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453D7FB2B7539270048F103 /* SalesTicketResponseDTO.swift */; };
 		8453D7FE2B7539770048F103 /* SalesTicketRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453D7FD2B7539770048F103 /* SalesTicketRequestDTO.swift */; };
+		845F25442B89FA3800F6C328 /* PosterExpandDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F25432B89FA3800F6C328 /* PosterExpandDIContainer.swift */; };
+		845F25462B89FA5000F6C328 /* PosterExpandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F25452B89FA5000F6C328 /* PosterExpandViewController.swift */; };
+		845F25482B89FA5A00F6C328 /* PosterExpandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F25472B89FA5A00F6C328 /* PosterExpandViewModel.swift */; };
 		845D88532B87704A00179F60 /* ResignReasonDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88522B87704A00179F60 /* ResignReasonDIContainer.swift */; };
 		845D88552B87705700179F60 /* ResignReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88542B87705700179F60 /* ResignReasonViewController.swift */; };
 		845D88572B87706000179F60 /* ResignReasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88562B87706000179F60 /* ResignReasonViewModel.swift */; };
@@ -163,6 +166,7 @@
 		84E5124F2B6E773F002658D1 /* ConcertDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5124E2B6E773F002658D1 /* ConcertDetailViewModel.swift */; };
 		84E512532B6E9E0B002658D1 /* ConcertPosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E512522B6E9E0B002658D1 /* ConcertPosterView.swift */; };
 		84EC6A642B6CF973009AC6BB /* BooltiToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */; };
+		84EF916A2B8A435C0073C89A /* PosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EF91692B8A435C0073C89A /* PosterCollectionViewCell.swift */; };
 		84EF916C2B8C4B5F0073C89A /* AppleOAuthUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EF916B2B8C4B5F0073C89A /* AppleOAuthUserInfo.swift */; };
 		84FBB2CA2B80D0E8001F4211 /* BooltiUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */; };
 		84FBB2CC2B80DC6B001F4211 /* MypageProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBB2CB2B80DC6B001F4211 /* MypageProfileView.swift */; };
@@ -323,6 +327,9 @@
 		845D88542B87705700179F60 /* ResignReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignReasonViewController.swift; sourceTree = "<group>"; };
 		845D88562B87706000179F60 /* ResignReasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignReasonViewModel.swift; sourceTree = "<group>"; };
 		845D88582B877B0E00179F60 /* ResignRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignRequestDTO.swift; sourceTree = "<group>"; };
+		845F25432B89FA3800F6C328 /* PosterExpandDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterExpandDIContainer.swift; sourceTree = "<group>"; };
+		845F25452B89FA5000F6C328 /* PosterExpandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterExpandViewController.swift; sourceTree = "<group>"; };
+		845F25472B89FA5A00F6C328 /* PosterExpandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterExpandViewModel.swift; sourceTree = "<group>"; };
 		84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBottomSheetViewController.swift; sourceTree = "<group>"; };
 		84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewController.swift; sourceTree = "<group>"; };
 		84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -428,6 +435,7 @@
 		84E5124E2B6E773F002658D1 /* ConcertDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailViewModel.swift; sourceTree = "<group>"; };
 		84E512522B6E9E0B002658D1 /* ConcertPosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertPosterView.swift; sourceTree = "<group>"; };
 		84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiToastView.swift; sourceTree = "<group>"; };
+		84EF91692B8A435C0073C89A /* PosterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterCollectionViewCell.swift; sourceTree = "<group>"; };
 		84EF916B2B8C4B5F0073C89A /* AppleOAuthUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleOAuthUserInfo.swift; sourceTree = "<group>"; };
 		84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiUILabel.swift; sourceTree = "<group>"; };
 		84FBB2CB2B80DC6B001F4211 /* MypageProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageProfileView.swift; sourceTree = "<group>"; };
@@ -667,6 +675,17 @@
 				843918FD2B7A82E700CC62AA /* ReportViewModel.swift */,
 			);
 			path = Report;
+			sourceTree = "<group>";
+		};
+		845F25412B89F9CC00F6C328 /* PosterExpand */ = {
+			isa = PBXGroup;
+			children = (
+				84EF91682B8A43490073C89A /* Cells */,
+				845F25432B89FA3800F6C328 /* PosterExpandDIContainer.swift */,
+				845F25452B89FA5000F6C328 /* PosterExpandViewController.swift */,
+				845F25472B89FA5A00F6C328 /* PosterExpandViewModel.swift */,
+			);
+			path = PosterExpand;
 			sourceTree = "<group>";
 		};
 		845D88502B876EDE00179F60 /* ResignInfo */ = {
@@ -1013,6 +1032,7 @@
 			children = (
 				84E512482B6E702E002658D1 /* ConcertList */,
 				84E512492B6E71B6002658D1 /* ConcertDetail */,
+				845F25412B89F9CC00F6C328 /* PosterExpand */,
 				84DF59DF2B726C34000816DA /* ConcertContentExpand */,
 				843918F82B7A827F00CC62AA /* Report */,
 				84625A0C2B63B2D100CC9077 /* TicketSelection */,
@@ -1266,6 +1286,14 @@
 				84886E912B70AA85005D2329 /* OrganizerInfoView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		84EF91682B8A43490073C89A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				84EF91692B8A435C0073C89A /* PosterCollectionViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		84FBBDF12B673834009462E9 /* Views */ = {
@@ -1760,6 +1788,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A024892B7B98710095A56E /* SelectedTicketEntity.swift in Sources */,
+				845F25442B89FA3800F6C328 /* PosterExpandDIContainer.swift in Sources */,
 				841D77DF2B7463020068B1C5 /* TicketListCollectionViewCell.swift in Sources */,
 				841D77DE2B7462EA0068B1C5 /* ServiceAPI.swift in Sources */,
 				841D77DD2B7462980068B1C5 /* TicketItemEntity.swift in Sources */,
@@ -1845,6 +1874,7 @@
 				84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */,
 				8730F0222B7B5D8200D4F339 /* TicketRefundBankSelectionViewController.swift in Sources */,
 				843918FE2B7A82E700CC62AA /* ReportViewModel.swift in Sources */,
+				845F25462B89FA5000F6C328 /* PosterExpandViewController.swift in Sources */,
 				87101EFE2B5DFCD2004BD418 /* AuthRepositoryType.swift in Sources */,
 				841D77D42B73B1B00068B1C5 /* ConcertRepository.swift in Sources */,
 				8753CA772B71F004002871C7 /* TicketListItemResponseDTO.swift in Sources */,
@@ -1868,6 +1898,7 @@
 				8710D9402B74E44400309FBF /* MypageContentView.swift in Sources */,
 				84781CAA2B5BF72200D37921 /* SplashViewModel.swift in Sources */,
 				84FEF6192B68ACDD00EBB64F /* salesTicketingEntity.swift in Sources */,
+				845F25482B89FA5A00F6C328 /* PosterExpandViewModel.swift in Sources */,
 				8710D95A2B750A5500309FBF /* MyPageDestination.swift in Sources */,
 				8757BAA42B5FDEA2008503B5 /* OAuthAPIServiceType.swift in Sources */,
 				8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */,
@@ -1880,6 +1911,7 @@
 				84D1C37F2B79379200527998 /* SalesTicketingRequestDTO.swift in Sources */,
 				84896A472B6A677400CB3E33 /* TicketingCompletionViewModel.swift in Sources */,
 				84A0248C2B7B996F0095A56E /* QRScannerDIContainer.swift in Sources */,
+				84EF916A2B8A435C0073C89A /* PosterCollectionViewCell.swift in Sources */,
 				84781CBE2B5BF95100D37921 /* MyPageDIContainer.swift in Sources */,
 				84781BCF2B5BDAFC00D37921 /* SceneDelegate.swift in Sources */,
 				842C1C642B7DA8A700EFE5A0 /* ResignInfoDIContainer.swift in Sources */,

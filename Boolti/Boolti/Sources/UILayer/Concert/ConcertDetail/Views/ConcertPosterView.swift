@@ -74,16 +74,16 @@ extension ConcertPosterView {
             imageView.setImage(with: images[index].path)
             imageView.contentMode = .scaleAspectFill
 
-            let positionX = self.scrollViewHeight * CGFloat(index)
+            let positionX = self.scrollViewWidth * CGFloat(index)
             imageView.frame = CGRect(x: positionX, y: 0, width: self.scrollViewWidth, height: self.scrollViewHeight)
-
-            imageView.frame.origin.x = self.scrollViewWidth * CGFloat(index)
             
             if images.count > 1 {
                 let gradientLayer = CAGradientLayer()
                 gradientLayer.frame = imageView.bounds
-                gradientLayer.colors = [UIColor.clear.cgColor, UIColor.grey95.withAlphaComponent(0.5).cgColor]
-                gradientLayer.locations = [0.85, 1.0]
+                gradientLayer.colors = [UIColor.clear.cgColor,
+                                        UIColor.grey95.withAlphaComponent(0.2).cgColor,
+                                        UIColor.grey95.withAlphaComponent(0.5).cgColor]
+                gradientLayer.locations = [0.6, 0.8, 1.0]
                 imageView.layer.addSublayer(gradientLayer)
             }
             

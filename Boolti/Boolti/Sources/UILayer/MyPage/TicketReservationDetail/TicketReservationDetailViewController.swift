@@ -30,14 +30,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return scrollView
     }()
 
-    private lazy var contentStackView: UIStackView = {
+    private let  contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 12
-        
-        stackView.setCustomSpacing(0, after: self.concertInformationView)
 
         return stackView
     }()
@@ -114,6 +112,11 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return button
     }()
 
+    private let blankSpaceView: UIView = {
+        let view = UIView()
+        return view
+    }()
+
     init(
         ticketRefundReasonlViewControllerFactory: @escaping (ReservationID) -> TicketRefundReasonViewController,
         viewModel: TicketReservationDetailViewModel
@@ -181,6 +184,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
             make.width.equalTo(screenWidth-40)
         }
 
+        self.blankSpaceView.snp.makeConstraints { make in
+            make.height.equalTo(48)
+        }
+
         self.addArrangedSubViews()
     }
 
@@ -194,10 +201,11 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.purchaserInformationStackView,
             self.depositorInformationStackView,
             self.reversalPolicyView,
-            self.requestRefundButton
+            self.blankSpaceView,
+            self.requestRefundButton,
         ])
 
-        self.contentStackView.setCustomSpacing(40, after: self.reversalPolicyView)
+        self.contentStackView.setCustomSpacing(0, after: self.reversalPolicyView)
     }
 
     private func bindUIComponents() {

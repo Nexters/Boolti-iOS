@@ -28,7 +28,6 @@ final class TicketRefundBankCollectionViewCell: UICollectionViewCell {
             self.updateSelectionUI()
         }
     }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configureUI()
@@ -45,6 +44,7 @@ final class TicketRefundBankCollectionViewCell: UICollectionViewCell {
         self.bankImageView.image = nil
         self.bankNameLabel.text = nil
         self.layer.borderWidth = 0
+        self.contentView.alpha = 1.0
     }
     
     private func configureUI() {
@@ -65,7 +65,7 @@ final class TicketRefundBankCollectionViewCell: UICollectionViewCell {
     private func updateSelectionUI() {
         self.layer.borderColor = self.isSelected ? UIColor.grey10.cgColor : nil
         self.layer.borderWidth = self.isSelected ? 1.0 : 0
-        self.alpha = self.isSelected ? 1.0 : 0.4
+        self.contentView.alpha = self.isSelected ? 1.0 : 0.4
     }
 
     private func configureConstraints() {

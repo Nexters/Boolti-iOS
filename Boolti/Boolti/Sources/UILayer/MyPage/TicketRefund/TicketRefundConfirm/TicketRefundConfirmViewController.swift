@@ -126,7 +126,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
 
         self.refundInformationContentBackgroundView.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(self.contentBackGroundView).inset(20)
-            make.height.equalTo(144)
+            make.height.equalTo(168)
             make.top.equalTo(self.titleLabel.snp.bottom).offset(24)
         }
 
@@ -139,19 +139,19 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         self.accountHolderPhoneNumberView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountHolderNameView.snp.bottom).offset(8)
+            make.top.equalTo(self.accountHolderNameView.snp.bottom).offset(16)
         }
 
         self.accountBankNameView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountHolderPhoneNumberView.snp.bottom).offset(8)
+            make.top.equalTo(self.accountHolderPhoneNumberView.snp.bottom).offset(16)
         }
 
         self.accountNumberView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountBankNameView.snp.bottom).offset(8)
+            make.top.equalTo(self.accountBankNameView.snp.bottom).offset(16)
         }
 
         self.requestRefundButton.snp.makeConstraints { make in

@@ -14,6 +14,7 @@ final class TicketRefundRequestViewModel {
 
     struct Input {
         let viewWillAppearEvent = PublishRelay<Void>()
+        let selectedItem = PublishRelay<BankEntity>()
         let accoundHolderNameText = BehaviorRelay<String>(value: "")
         let accountHolderPhoneNumberText = BehaviorRelay<String>(value: "")
         let refundAccountNumberText = BehaviorRelay<String>(value: "")
@@ -21,8 +22,9 @@ final class TicketRefundRequestViewModel {
 
     struct Output {
         let tickerReservationDetail = PublishRelay<TicketReservationDetailEntity>()
-        let isValidAccoundHolderName = PublishRelay<Bool>()
-        let isValidAccoundHolderPhoneNumber = PublishRelay<Bool>()
+        let isAccoundHolderNameEmpty = PublishRelay<Bool>()
+        let isAccoundHolderPhoneNumberEmpty = PublishRelay<Bool>()
+        let selectedBank = BehaviorRelay<BankEntity?>(value: nil)
         let isValidrefundAccountNumber = PublishRelay<Bool>()
     }
 
@@ -56,16 +58,14 @@ final class TicketRefundRequestViewModel {
             .disposed(by: self.disposeBag)
 
         self.input.accoundHolderNameText
-            .map { self.checkName($0) }
-            .subscribe(with: self) { owner, isValid in
-                owner.output.isValidAccoundHolderName.accept(isValid)
+            .subscribe(with: self) { owner, text in
+                owner.output.isAccoundHolderNameEmpty.accept(text.isEmpty)
             }
             .disposed(by: self.disposeBag)
 
         self.input.accountHolderPhoneNumberText
-            .map { self.checkPhoneNumber($0)}
-            .subscribe(with: self) { owner, isValid in
-                owner.output.isValidAccoundHolderPhoneNumber.accept(isValid)
+            .subscribe(with: self) { owner, text in
+                owner.output.isAccoundHolderPhoneNumberEmpty.accept(text.isEmpty)
             }
             .disposed(by: self.disposeBag)
 
@@ -75,25 +75,20 @@ final class TicketRefundRequestViewModel {
                 owner.output.isValidrefundAccountNumber.accept(isValid)
             }
             .disposed(by: self.disposeBag)
+
+        self.input.selectedItem
+            .subscribe(with: self) { owner, bankEntity in
+                owner.output.selectedBank.accept(bankEntity)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func fetchReservationDetail() -> Single<TicketReservationDetailEntity> {
         return self.ticketReservationsRepository.ticketReservationDetail(with: self.reservationID)
     }
 
-    private func checkName(_ text: String) -> Bool {
-        let koreanPattern = "^[가-힣]*$"
-        return text.range(of: koreanPattern, options: .regularExpression) != nil
-    }
-
-    private func checkPhoneNumber(_ text: String) -> Bool {
-        guard text.hasPrefix("010") else { return false }
-        return true
-    }
-
     private func checkAccountNumber(_ text: String) -> Bool {
         let phoneNumberPattern = #"^\d{11,14}$"#
         return text.range(of: phoneNumberPattern, options: .regularExpression) != nil
     }
-
 }
