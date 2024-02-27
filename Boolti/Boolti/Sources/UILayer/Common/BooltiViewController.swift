@@ -11,16 +11,11 @@ import RxSwift
 import RxCocoa
 
 class BooltiViewController: UIViewController {
-    
-    // MARK: Properties
-    
-    private let testDisposeBag = DisposeBag()
-    
+
     // MARK: UI Component
     
     private lazy var toastView = BooltiToastView()
-    private let networkErrorPopupView = BooltiPopupView()
-    private let refreshTokenHasExpiredPopupView = BooltiPopupView()
+    private let popupView = BooltiPopupView()
     private lazy var loadingIndicatorView = BooltiLoadingIndicatorView(style: .large)
     
     // MARK: Properties
@@ -50,8 +45,7 @@ class BooltiViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.configureNetworkErrorPopupView()
-        self.configureRefreshTokenHasExpiredPopupView()
+        self.configurePopupView()
     }
 
     deinit {
@@ -70,11 +64,11 @@ class BooltiViewController: UIViewController {
 extension BooltiViewController {
 
     @objc func showNetworkAlert() {
-        self.networkErrorPopupView.showPopup.accept("네트워크 오류가 발생했습니다\n잠시후 다시 시도해주세요")
+        self.popupView.showPopup(with: .networkError)
     }
 
     @objc func navigateToRoot() {
-        self.refreshTokenHasExpiredPopupView.showPopup.accept("로그인 세션이 만료되었습니다\n앱을 다시 시작해주세요")
+        self.popupView.showPopup(with: .refreshTokenHasExpired)
     }
 
     func showToast(message: String) {
@@ -111,7 +105,7 @@ extension BooltiViewController {
         }
     }
     
-    private func configureNetworkErrorPopupView() {
+    private func configurePopupView() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(showNetworkAlert),
@@ -119,28 +113,6 @@ extension BooltiViewController {
             object: nil
         )
         
-        guard let keyWindow = UIApplication.shared.connectedScenes
-            .filter({ $0.activationState == .foregroundActive })
-            .compactMap({ $0 as? UIWindowScene })
-            .first?.windows.first else {
-            return
-        }
-        keyWindow.addSubview(self.networkErrorPopupView)
-        self.networkErrorPopupView.snp.makeConstraints { make in
-            make.edges.equalTo(keyWindow)
-        }
-        
-        self.networkErrorPopupView.didConfirmButtonTap()
-            .emit(with: self) { owner, _ in
-                UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    exit(1)
-                }
-            }
-            .disposed(by: self.testDisposeBag)
-    }
-    
-    private func configureRefreshTokenHasExpiredPopupView() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(navigateToRoot),
@@ -154,22 +126,31 @@ extension BooltiViewController {
             .first?.windows.first else {
             return
         }
-        keyWindow.addSubview(self.refreshTokenHasExpiredPopupView)
-        self.refreshTokenHasExpiredPopupView.snp.makeConstraints { make in
+        keyWindow.addSubview(self.popupView)
+        self.popupView.snp.makeConstraints { make in
             make.edges.equalTo(keyWindow)
         }
         
-        self.refreshTokenHasExpiredPopupView.didConfirmButtonTap()
+        self.popupView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
-                guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-                let scenedelegate = windowScene.delegate as? SceneDelegate
-
-                let rootDIContainer = RootDIContainer()
-                let rootViewController = rootDIContainer.createRootViewController()
-
-                scenedelegate?.window?.rootViewController = rootViewController
-                scenedelegate?.window?.makeKeyAndVisible()
+                if owner.popupView.popupType == .networkError {
+                    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        exit(1)
+                    }
+                }
+                else if owner.popupView.popupType == .refreshTokenHasExpired {
+                    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                    let scenedelegate = windowScene.delegate as? SceneDelegate
+                    
+                    let rootDIContainer = RootDIContainer()
+                    let rootViewController = rootDIContainer.createRootViewController()
+                    
+                    scenedelegate?.window?.rootViewController = rootViewController
+                    scenedelegate?.window?.makeKeyAndVisible()
+                }
             }
-            .disposed(by: self.testDisposeBag)
+            .disposed(by: self.popupView.disposeBag)
+            
     }
 }

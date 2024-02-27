@@ -14,9 +14,13 @@ final class BooltiPopupView: UIView {
     
     // MARK: Properties
     
-    private let disposeBag = DisposeBag()
-
-    let showPopup = PublishRelay<String>()
+    enum PopupType: String {
+        case networkError = "네트워크 오류가 발생했습니다\n잠시후 다시 시도해주세요"
+        case refreshTokenHasExpired = "로그인 세션이 만료되었습니다\n앱을 다시 시작해주세요"
+    }
+    
+    let disposeBag = DisposeBag()
+    var popupType: PopupType = .networkError
     
     // MARK: UI Component
     
@@ -42,33 +46,28 @@ final class BooltiPopupView: UIView {
     }()
     
     private let confirmButton = BooltiButton(title: "확인")
-    
+
     init() {
         super.init(frame: .zero)
         self.configureUI()
         self.configureConstraints()
-        self.bindOutputs()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
 }
 
 // MARK: - Methods
 
 extension BooltiPopupView {
-
-    private func bindOutputs() {
-        self.showPopup
-            .asDriver(onErrorJustReturn: "")
-            .drive(with: self) { owner, message in
-                owner.titleLabel.text = message
-                owner.titleLabel.setAlignCenter()
-                owner.isHidden = false
-            }
-            .disposed(by: self.disposeBag)
+    
+    func showPopup(with type: PopupType) {
+        self.titleLabel.text = type.rawValue
+        self.titleLabel.setAlignCenter()
+        
+        self.popupType = type
+        self.isHidden = false
     }
     
     func didConfirmButtonTap() -> Signal<Void> {
