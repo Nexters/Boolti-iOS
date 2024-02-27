@@ -27,20 +27,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             completionHandler: { _, _ in }
         )
         application.registerForRemoteNotifications()
-        
+
         /// 메시지 대리자 설정
         Messaging.messaging().delegate = self
-        
+
         /// 자동 초기화 방지
         Messaging.messaging().isAutoInitEnabled = true
-        
+
         return true
     }
-    
+
     /// fcm에 device token 등록
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
+
+        /// 주제 구독
+        let defaultTopic: String
+
+        #if DEBUG
+        defaultTopic = "dev"
+        #elseif RELEASE
+        defaultTopic = "prod"
+        #endif
+
+        Messaging.messaging().subscribe(toTopic: defaultTopic) { error in
+            if let error {
+                print(error)
+            } else {
+                print("구독을 완료했습니다.")
+            }
+        }
     }
 
     // MARK: UISceneSession Lifecycle
@@ -55,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - MessagingDelegate
 
 extension AppDelegate: MessagingDelegate {
-    
+
     /// 토큰 갱신 모니터링 & 토큰 가져오기
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let fcmToken else { return }
@@ -68,7 +85,7 @@ extension AppDelegate: MessagingDelegate {
 // MARK: - UNUserNotificationCenterDelegate
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    
+
     /// 푸시 클릭시
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
@@ -76,7 +93,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
         let messageTitle = response.notification.request.content.title
         let messageBody = response.notification.request.content.body
-            
+
         completionHandler()
     }
 

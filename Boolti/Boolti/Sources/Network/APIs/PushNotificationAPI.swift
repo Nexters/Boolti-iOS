@@ -34,7 +34,7 @@ extension PushNotificationAPI: ServiceAPI {
                 "deviceToken": DTO.deviceToken,
                 "deviceType": DTO.deviceType
             ]
-            return .requestParameters(parameters: query, encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: query, encoding: JSONEncoding.prettyPrinted)
         }
     }
 }
