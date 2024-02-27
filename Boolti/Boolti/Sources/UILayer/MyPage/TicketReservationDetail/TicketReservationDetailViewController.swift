@@ -15,7 +15,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     typealias ReservationID = String
 
-    private let ticketRefundReasonlViewControllerFactory: (ReservationID) -> TicketRefundReasonViewController
+    private let ticketRefundReasonViewControllerFactory: (ReservationID) -> TicketRefundReasonViewController
 
     private let viewModel: TicketReservationDetailViewModel
     private let disposeBag = DisposeBag()
@@ -118,10 +118,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
     }()
 
     init(
-        ticketRefundReasonlViewControllerFactory: @escaping (ReservationID) -> TicketRefundReasonViewController,
+        ticketRefundReasonViewControllerFactory: @escaping (ReservationID) -> TicketRefundReasonViewController,
         viewModel: TicketReservationDetailViewModel
     ) {
-        self.ticketRefundReasonlViewControllerFactory = ticketRefundReasonlViewControllerFactory
+        self.ticketRefundReasonViewControllerFactory = ticketRefundReasonViewControllerFactory
         self.viewModel = viewModel
         super.init()
     }
@@ -238,7 +238,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         self.requestRefundButton.rx.tap
             .bind(with: self) { owner, _ in
-                let viewController = owner.ticketRefundReasonlViewControllerFactory(owner.viewModel.reservationID)
+                let viewController = owner.ticketRefundReasonViewControllerFactory(owner.viewModel.reservationID)
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
