@@ -133,13 +133,13 @@ extension BooltiViewController {
         
         self.popupView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
-                if owner.popupView.popupType == .networkError {
+                switch owner.popupView.popupType {
+                case .networkError:
                     UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         exit(1)
                     }
-                }
-                else if owner.popupView.popupType == .refreshTokenHasExpired {
+                case .refreshTokenHasExpired:
                     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
                     let scenedelegate = windowScene.delegate as? SceneDelegate
                     
