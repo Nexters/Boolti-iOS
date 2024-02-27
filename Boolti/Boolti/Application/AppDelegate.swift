@@ -82,9 +82,9 @@ extension AppDelegate: MessagingDelegate {
 
         Messaging.messaging().subscribe(toTopic: defaultTopic) { error in
             if let error {
-                print(error)
+                debugPrint(error)
             } else {
-                print("구독을 완료했습니다.")
+                debugPrint("구독을 완료했습니다.")
             }
         }
     }
@@ -102,6 +102,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let messageTitle = response.notification.request.content.title
         let messageBody = response.notification.request.content.body
 
+        if let keyWindow = UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }).first?.windows.first {
+            if let rootViewController = keyWindow.rootViewController as? RootViewController {
+                if let homeTabBarViewController = rootViewController.presentedViewController as? HomeTabBarController {
+                    homeTabBarViewController.selectedIndex = 0
+                }
+            }
+        }
         completionHandler()
     }
 
