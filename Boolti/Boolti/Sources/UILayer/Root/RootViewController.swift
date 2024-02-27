@@ -44,6 +44,7 @@ final class RootViewController: UIViewController {
     private func bind() {
         self.rx.viewDidAppear
             .take(1)
+            .do { _ in self.viewModel.registerDeviceToken() }
             .flatMapFirst { _ in self.viewModel.navigation }
             .subscribe(onNext: { [weak self] destination in
                 let viewController = self?.createViewController(destination) ?? UIViewController()

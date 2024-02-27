@@ -58,9 +58,10 @@ extension AppDelegate: MessagingDelegate {
     
     /// 토큰 갱신 모니터링 & 토큰 가져오기
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-
+        guard let fcmToken else { return }
+        UserDefaults.deviceToken = fcmToken
         // TODO: device token 등록 서버 api 연결 or 회원가입 시 넣기
-        debugPrint(fcmToken ?? "")
+        debugPrint(fcmToken)
     }
 }
 

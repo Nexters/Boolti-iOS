@@ -10,11 +10,11 @@ import Foundation
 final class RootDIContainer {
 
     let rootViewModel: RootViewModel
-    let networkProvider: NetworkProvider
+    let networkProvider: NetworkProviderType
 
     init() {
-        self.rootViewModel = RootViewModel()
         self.networkProvider = NetworkProvider()
+        self.rootViewModel = RootViewModel(networkService: self.networkProvider)
     }
 
     func createRootViewController() -> RootViewController {
@@ -29,7 +29,7 @@ final class RootDIContainer {
         }
 
         return RootViewController(
-            viewModel: rootViewModel,
+            viewModel: self.rootViewModel,
             splashViewControllerFactory: splashViewControllerFactory,
             hometabBarControllerFactory: homeTabBarControllerFactory
         )
