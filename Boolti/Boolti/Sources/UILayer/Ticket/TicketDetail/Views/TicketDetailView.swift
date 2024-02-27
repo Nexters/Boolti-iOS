@@ -150,6 +150,7 @@ final class TicketDetailView: UIView {
         self.configureBackGroundBlurViewEffect()
         self.configureCircleViews()
         self.configureSeperateLine()
+        self.configureCornerGradient()
         self.updateHeight()
     }
 
@@ -183,6 +184,11 @@ final class TicketDetailView: UIView {
 
     private func configureConstraints() {
 
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return
+        }
+        let screenHeight = window.screen.bounds.height
+
         self.snp.makeConstraints { make in
             make.height.equalTo(1000)
         }
@@ -194,7 +200,7 @@ final class TicketDetailView: UIView {
 
         self.posterImageView.snp.makeConstraints { make in
             make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
-            make.height.equalTo(400)
+            make.height.equalTo(screenHeight * 0.44)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 
@@ -220,7 +226,7 @@ final class TicketDetailView: UIView {
         self.backgroundImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(569)
+            make.height.equalTo(screenHeight * 0.44 + 169)
         }
 
         self.rightCircleView.snp.makeConstraints { make in
@@ -281,6 +287,17 @@ final class TicketDetailView: UIView {
         self.backgroundImageView.bringSubviewToFront(self.upperTagView)
     }
 
+    private func configureCornerGradient() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: 105, height: 105)
+        gradientLayer.colors = [UIColor.white00.withAlphaComponent(0.6).cgColor, UIColor.white00.withAlphaComponent(0.0).cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.5)
+        gradientLayer.locations = [0.0, 1.0]
+
+        self.layer.addSublayer(gradientLayer)
+    }
+
     private func configureCircleViews() {
         self.leftCircleView.layer.cornerRadius = self.leftCircleView.bounds.width / 2
         self.rightCircleView.layer.cornerRadius = self.rightCircleView.bounds.width / 2
@@ -290,8 +307,8 @@ final class TicketDetailView: UIView {
 
         let path = CGMutablePath()
 
-        path.move(to: CGPoint(x: 20, y: 475))
-        path.addLine(to: CGPoint(x: self.bounds.width-20, y: 475))
+        path.move(to: CGPoint(x: 20, y: self.leftCircleView.frame.midY))
+        path.addLine(to: CGPoint(x: self.bounds.width-20, y: self.leftCircleView.frame.midY))
 
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path

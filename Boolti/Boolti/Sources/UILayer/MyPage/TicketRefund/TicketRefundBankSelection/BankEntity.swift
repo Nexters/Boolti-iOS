@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct BankEntity {
+struct BankEntity: Equatable {
     let bankName: String
     let bankCode: String
     let bankIconImage: UIImage
