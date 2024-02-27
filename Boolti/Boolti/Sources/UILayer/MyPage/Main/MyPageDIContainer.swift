@@ -84,7 +84,11 @@ final class MyPageDIContainer {
     }
 
     private func createLoginViewDIContainer() -> LoginViewDIContainer {
-        return LoginViewDIContainer(authRepository: self.authRepository, socialLoginAPIService: OAuthRepository())
+        return LoginViewDIContainer(
+            authRepository: self.authRepository,
+            socialLoginAPIService: OAuthRepository(),
+            pushNotificationRepository: PushNotificationRepository(networkService: self.authRepository.networkService)
+        )
     }
 
     private func createMyPageViewModel() -> MyPageViewModel {

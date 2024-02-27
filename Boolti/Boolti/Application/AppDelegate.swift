@@ -15,6 +15,8 @@ import FirebaseMessaging
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    private let pushNotificationRepository = PushNotificationRepository(networkService: NetworkProvider())
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         RxKakaoSDK.initSDK(appKey: Environment.KAKAO_NATIVE_APP_KEY)
         FirebaseApp.configure()
@@ -41,23 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
-
-        /// 주제 구독
-        let defaultTopic: String
-
-        #if DEBUG
-        defaultTopic = "dev"
-        #elseif RELEASE
-        defaultTopic = "prod"
-        #endif
-
-        Messaging.messaging().subscribe(toTopic: defaultTopic) { error in
-            if let error {
-                print(error)
-            } else {
-                print("구독을 완료했습니다.")
-            }
-        }
     }
 
     // MARK: UISceneSession Lifecycle
@@ -79,6 +64,29 @@ extension AppDelegate: MessagingDelegate {
         UserDefaults.deviceToken = fcmToken
         // TODO: device token 등록 서버 api 연결 or 회원가입 시 넣기
         debugPrint(fcmToken)
+        self.registerSubject()
+        
+        // 토큰이 갱신될 경우
+        self.pushNotificationRepository.registerDeviceToken()
+    }
+
+    private func registerSubject() {
+        /// 주제 구독
+        let defaultTopic: String
+
+        #if DEBUG
+        defaultTopic = "dev"
+        #elseif RELEASE
+        defaultTopic = "prod"
+        #endif
+
+        Messaging.messaging().subscribe(toTopic: defaultTopic) { error in
+            if let error {
+                print(error)
+            } else {
+                print("구독을 완료했습니다.")
+            }
+        }
     }
 }
 

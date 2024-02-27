@@ -282,6 +282,8 @@
 		87CE4F6A2B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */; };
 		87CE4F6C2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */; };
 		87CE4F6F2B8DDA59007A0C8F /* PushNotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */; };
+		87CE4F712B8DF7CE007A0C8F /* PushNotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F702B8DF7CE007A0C8F /* PushNotificationRepository.swift */; };
+		87CE4F732B8DF888007A0C8F /* PushNotificationRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F722B8DF888007A0C8F /* PushNotificationRepositoryType.swift */; };
 		87D2FAB22B6E96D20027FBE1 /* TicketDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB12B6E96D20027FBE1 /* TicketDetailViewController.swift */; };
 		87D2FAB42B6E977C0027FBE1 /* TicketDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB32B6E977C0027FBE1 /* TicketDetailDIContainer.swift */; };
 		87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */; };
@@ -548,6 +550,8 @@
 		87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterRequestDTO.swift; sourceTree = "<group>"; };
 		87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterResponseDTO.swift; sourceTree = "<group>"; };
 		87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationAPI.swift; sourceTree = "<group>"; };
+		87CE4F702B8DF7CE007A0C8F /* PushNotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationRepository.swift; sourceTree = "<group>"; };
+		87CE4F722B8DF888007A0C8F /* PushNotificationRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationRepositoryType.swift; sourceTree = "<group>"; };
 		87D2FAB12B6E96D20027FBE1 /* TicketDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailViewController.swift; sourceTree = "<group>"; };
 		87D2FAB32B6E977C0027FBE1 /* TicketDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailDIContainer.swift; sourceTree = "<group>"; };
 		87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailViewModel.swift; sourceTree = "<group>"; };
@@ -643,6 +647,7 @@
 				84360F702B6BF70E009510D9 /* Auth */,
 				841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */,
 				870099B62B77489A001779FB /* TicketReservationsRepository.swift */,
+				87CE4F702B8DF7CE007A0C8F /* PushNotificationRepository.swift */,
 				846F5F3D2B7BBF60000F86AE /* QRRepository.swift */,
 			);
 			path = Repositories;
@@ -655,6 +660,7 @@
 				841D77D52B73B3210068B1C5 /* ConcertRepositoryType.swift */,
 				84E48AC22B7E53A000F8BFD0 /* TicketReservationsRepositoryType.swift */,
 				846F5F3B2B7BBF18000F86AE /* QRRepositoryType.swift */,
+				87CE4F722B8DF888007A0C8F /* PushNotificationRepositoryType.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1911,6 +1917,7 @@
 				840B39632B78CEF700E7F8C8 /* ConcertListResponseDTO.swift in Sources */,
 				8726054B2B793BCF005CD0D4 /* ReservationHorizontalStackView.swift in Sources */,
 				84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */,
+				87CE4F732B8DF888007A0C8F /* PushNotificationRepositoryType.swift in Sources */,
 				8710D9402B74E44400309FBF /* MypageContentView.swift in Sources */,
 				84781CAA2B5BF72200D37921 /* SplashViewModel.swift in Sources */,
 				84FEF6192B68ACDD00EBB64F /* salesTicketingEntity.swift in Sources */,
@@ -1963,6 +1970,7 @@
 				846F5F3E2B7BBF60000F86AE /* QRRepository.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* OAuthRepository.swift in Sources */,
 				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
+				87CE4F712B8DF7CE007A0C8F /* PushNotificationRepository.swift in Sources */,
 				8753CA732B71EA68002871C7 /* TicketAPI.swift in Sources */,
 				8726054F2B79FD49005CD0D4 /* TicketReservationDetailRequestDTO.swift in Sources */,
 				840B39612B78CE6300E7F8C8 /* ConcertListRequestDTO.swift in Sources */,

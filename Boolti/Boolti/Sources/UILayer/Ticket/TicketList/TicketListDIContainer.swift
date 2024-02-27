@@ -57,7 +57,8 @@ final class TicketListDIContainer {
     private func createLoginViewDIContainer() -> LoginViewDIContainer {
         return LoginViewDIContainer(
             authRepository: self.authRepository,
-            socialLoginAPIService: OAuthRepository()
+            socialLoginAPIService: OAuthRepository(),
+            pushNotificationRepository: PushNotificationRepository(networkService: self.authRepository.networkService)
         )
     }
 

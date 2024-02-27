@@ -14,7 +14,7 @@ final class RootDIContainer {
 
     init() {
         self.networkProvider = NetworkProvider()
-        self.rootViewModel = RootViewModel(networkService: self.networkProvider)
+        self.rootViewModel = RootViewModel()
     }
 
     func createRootViewController() -> RootViewController {
