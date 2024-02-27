@@ -90,7 +90,7 @@ final class NetworkProvider: NetworkProviderType {
                             #endif
                             
                             if response.statusCode == NetworkError.serverError.rawValue {
-                                NotificationCenter.default.post(name: Notification.Name("ServerErrorNotification"), object: nil)
+                                NotificationCenter.default.post(name: Notification.Name.serverError, object: nil)
                             }
                         } else {
                             debugPrint("❌ ERROR: [\(api.method.rawValue)] \(requestString) (No response)")

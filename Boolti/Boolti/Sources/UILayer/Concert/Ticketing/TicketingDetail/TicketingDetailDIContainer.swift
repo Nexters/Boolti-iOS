@@ -18,6 +18,13 @@ final class TicketingDetailDIContainer {
     func createTicketingDetailViewController(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewController {
         let viewModel = createTicketingDetailViewModel(selectedTicket: selectedTicket)
         
+        let ticketingConfirmViewControllerFactory: (TicketingEntity) -> TicketingConfirmViewController = { ticketingEntity in
+            let DIContainer = self.createTicketingConfirmDIContainer()
+
+            let viewController = DIContainer.createTicketingConfirmViewController(ticketingEntity: ticketingEntity)
+            return viewController
+        }
+        
         let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController = { ticketingEntity in
             let DIContainer = self.createTicketingCompletionDIContainer()
 
@@ -27,18 +34,22 @@ final class TicketingDetailDIContainer {
 
         let viewController = TicketingDetailViewController(
             viewModel: viewModel,
+            ticketingConfirmViewControllerFactory: ticketingConfirmViewControllerFactory,
             ticketingCompletionViewControllerFactory: ticketingCompletionViewControllerFactory
         )
         
         return viewController
     }
     
-    private func createTicketingCompletionDIContainer() -> TicketingCompletionDIContainer {
-        return TicketingCompletionDIContainer(ticketReservationsRepository: TicketReservationRepository(networkService: self.concertRepository.networkService))
+    private func createTicketingConfirmDIContainer() -> TicketingConfirmDIContainer {
+        return TicketingConfirmDIContainer(concertRepository: self.concertRepository)
     }
 
     private func createTicketingDetailViewModel(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewModel {
         return TicketingDetailViewModel(concertRepository: self.concertRepository, selectedTicket: selectedTicket)
     }
-
+    
+    private func createTicketingCompletionDIContainer() -> TicketingCompletionDIContainer {
+        return TicketingCompletionDIContainer(ticketReservationsRepository: TicketReservationRepository(networkService: self.concertRepository.networkService))
+    }
 }

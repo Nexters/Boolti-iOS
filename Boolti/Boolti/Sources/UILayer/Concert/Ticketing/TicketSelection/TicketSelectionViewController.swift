@@ -17,7 +17,7 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     let viewModel: TicketSelectionViewModel
     private let disposeBag = DisposeBag()
     private let ticketingDetailViewControllerFactory: (SelectedTicketEntity) -> TicketingDetailViewController
-    var isDismissed: (() -> ())?
+    var onDismiss: (() -> ())?
     
     // MARK: UI Component
     
@@ -61,7 +61,7 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.isDismissed?()
+        self.onDismiss?()
     }
 }
 
