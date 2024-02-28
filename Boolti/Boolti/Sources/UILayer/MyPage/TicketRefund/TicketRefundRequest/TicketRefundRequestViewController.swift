@@ -63,7 +63,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
     private let requestRefundButton = BooltiButton(title: "환불 요청하기")
 
-    let dimmedBackgroundView: UIView = {
+    private let dimmedBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .black100.withAlphaComponent(0.85)
         view.isHidden = true
@@ -182,6 +182,8 @@ final class TicketRefundRequestViewController: BooltiViewController {
                 let viewController = TicketRefundBankSelectionViewController(selectedBank: owner.viewModel.output.selectedBank.value)
 
                 viewController.selectedItem = { item in
+                    owner.dimmedBackgroundView.isHidden = true
+                    guard let item else { return }
                     owner.viewModel.input.selectedItem.accept(item)
                 }
                 owner.dimmedBackgroundView.isHidden = false

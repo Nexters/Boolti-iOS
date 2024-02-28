@@ -55,7 +55,7 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
 
     private var isBankSelected: Bool = false
     var selectedItemIndex: Int?
-    var selectedItem: ((BankEntity) -> ())?
+    var selectedItem: ((BankEntity?) -> ())?
 
     init(selectedBank: BankEntity?) {
         super.init()
@@ -86,14 +86,7 @@ final class TicketRefundBankSelectionViewController: BooltiViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        // 아래의 로직 리팩토링하기! -> 화면 네비게이션 로직 + ViewModel 생성
-        guard let homeTabBarController = self.presentingViewController as? HomeTabBarController else { return }
-        guard let rootviewController = homeTabBarController.children[2] as? UINavigationController else { return }
-        guard let ticketRefundRequestViewController = rootviewController.viewControllers.filter({ $0 is TicketRefundRequestViewController
-        })[0] as? TicketRefundRequestViewController else { return }
-
-        ticketRefundRequestViewController.dimmedBackgroundView.isHidden = true
+        self.selectedItem?(nil)
     }
 
     private func configureUI() {

@@ -10,9 +10,9 @@ import Foundation
 final class SplashDIContainer {
 
     private let rootDIContainer: RootDIContainer
-    private let networkProvider: NetworkProvider
+    private let networkProvider: NetworkProviderType
 
-    init(rootDIContainer: RootDIContainer, networkProvider: NetworkProvider) {
+    init(rootDIContainer: RootDIContainer, networkProvider: NetworkProviderType) {
         self.rootDIContainer = rootDIContainer
         self.networkProvider = networkProvider
     }

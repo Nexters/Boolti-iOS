@@ -22,11 +22,11 @@ final class TicketReservationDetailDIContainer {
             let DIContainer = self.createTicketRefundReasonDIContainer()
 
             let viewController = DIContainer.createTicketRefundReasonViewController(reservationID: reservationID)
-
+ 
             return viewController
         }
 
-        return TicketReservationDetailViewController(ticketRefundReasonlViewControllerFactory: ticketRefundReasonViewControllerFactory, viewModel: self.createTicketReservationDetailViewModel(reservationID: reservationID))
+        return TicketReservationDetailViewController(ticketRefundReasonViewControllerFactory: ticketRefundReasonViewControllerFactory, viewModel: self.createTicketReservationDetailViewModel(reservationID: reservationID))
     }
 
     private func createTicketRefundReasonDIContainer() -> TicketRefundReasonDIContainer {
