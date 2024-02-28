@@ -61,7 +61,6 @@ final class ResignReasonViewController: BooltiViewController {
         self.configureUI()
         self.configureConstraints()
         self.configureToastView(isButtonExisted: true)
-        self.configureGesture()
         self.bindUIComponents()
     }
 }
@@ -111,17 +110,6 @@ extension ResignReasonViewController {
                     owner.resignButton.isEnabled = true
                 }
             }
-            .disposed(by: self.disposeBag)
-    }
-    
-    private func configureGesture() {
-        let tapGesture = UITapGestureRecognizer()
-        self.view.addGestureRecognizer(tapGesture)
-        
-        tapGesture.rx.event
-            .bind(with: self, onNext: { owner, _ in
-                owner.view.endEditing(true)
-            })
             .disposed(by: self.disposeBag)
     }
 }
