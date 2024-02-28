@@ -17,6 +17,7 @@ final class BooltiPopupView: UIView {
     enum PopupType: String {
         case networkError = "네트워크 오류가 발생했습니다\n잠시후 다시 시도해주세요"
         case refreshTokenHasExpired = "로그인 세션이 만료되었습니다\n앱을 다시 시작해주세요"
+        case accountRemoveCancelled = "탈퇴 후 30일 이내에 로그인하여,\n계정 삭제가 취소되었어요\n불티를 다시 찾아주셔서 감사해요!"
     }
     
     let disposeBag = DisposeBag()

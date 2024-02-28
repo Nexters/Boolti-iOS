@@ -15,7 +15,7 @@ class BooltiViewController: UIViewController {
     // MARK: UI Component
     
     private lazy var toastView = BooltiToastView()
-    private let popupView = BooltiPopupView()
+    private let errorPopupView = BooltiPopupView()
     private lazy var loadingIndicatorView = BooltiLoadingIndicatorView(style: .large)
     
     // MARK: Properties
@@ -64,11 +64,11 @@ class BooltiViewController: UIViewController {
 extension BooltiViewController {
 
     @objc func showNetworkAlert() {
-        self.popupView.showPopup(with: .networkError)
+        self.errorPopupView.showPopup(with: .networkError)
     }
 
     @objc func navigateToRoot() {
-        self.popupView.showPopup(with: .refreshTokenHasExpired)
+        self.errorPopupView.showPopup(with: .refreshTokenHasExpired)
     }
 
     func showToast(message: String) {
@@ -126,14 +126,15 @@ extension BooltiViewController {
             .first?.windows.first else {
             return
         }
-        keyWindow.addSubview(self.popupView)
-        self.popupView.snp.makeConstraints { make in
+        keyWindow.addSubview(self.errorPopupView)
+        
+        self.errorPopupView.snp.makeConstraints { make in
             make.edges.equalTo(keyWindow)
         }
-        
-        self.popupView.didConfirmButtonTap()
+
+        self.errorPopupView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
-                switch owner.popupView.popupType {
+                switch owner.errorPopupView.popupType {
                 case .networkError:
                     UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -148,9 +149,11 @@ extension BooltiViewController {
                     
                     scenedelegate?.window?.rootViewController = rootViewController
                     scenedelegate?.window?.makeKeyAndVisible()
+                default:
+                    break
                 }
             }
-            .disposed(by: self.popupView.disposeBag)
+            .disposed(by: self.errorPopupView.disposeBag)
             
     }
 }

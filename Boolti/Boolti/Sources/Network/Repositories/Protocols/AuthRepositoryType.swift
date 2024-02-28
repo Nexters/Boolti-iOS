@@ -12,7 +12,7 @@ protocol AuthRepositoryType {
 
     var networkService: NetworkProviderType { get }
     func fetchTokens() -> (String, String)
-    func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<Bool>
+    func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<SignupConditionEntity>
     func signUp(provider: OAuthProvider, identityToken: String?)
     func logout() -> Single<Void>
     func userInfo()

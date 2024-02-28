@@ -35,13 +35,13 @@
 		843918FE2B7A82E700CC62AA /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843918FD2B7A82E700CC62AA /* ReportViewModel.swift */; };
 		8453D7FC2B7539270048F103 /* SalesTicketResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453D7FB2B7539270048F103 /* SalesTicketResponseDTO.swift */; };
 		8453D7FE2B7539770048F103 /* SalesTicketRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453D7FD2B7539770048F103 /* SalesTicketRequestDTO.swift */; };
-		845F25442B89FA3800F6C328 /* PosterExpandDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F25432B89FA3800F6C328 /* PosterExpandDIContainer.swift */; };
-		845F25462B89FA5000F6C328 /* PosterExpandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F25452B89FA5000F6C328 /* PosterExpandViewController.swift */; };
-		845F25482B89FA5A00F6C328 /* PosterExpandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F25472B89FA5A00F6C328 /* PosterExpandViewModel.swift */; };
 		845D88532B87704A00179F60 /* ResignReasonDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88522B87704A00179F60 /* ResignReasonDIContainer.swift */; };
 		845D88552B87705700179F60 /* ResignReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88542B87705700179F60 /* ResignReasonViewController.swift */; };
 		845D88572B87706000179F60 /* ResignReasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88562B87706000179F60 /* ResignReasonViewModel.swift */; };
 		845D88592B877B0E00179F60 /* ResignRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D88582B877B0E00179F60 /* ResignRequestDTO.swift */; };
+		845F25442B89FA3800F6C328 /* PosterExpandDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F25432B89FA3800F6C328 /* PosterExpandDIContainer.swift */; };
+		845F25462B89FA5000F6C328 /* PosterExpandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F25452B89FA5000F6C328 /* PosterExpandViewController.swift */; };
+		845F25482B89FA5A00F6C328 /* PosterExpandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F25472B89FA5A00F6C328 /* PosterExpandViewModel.swift */; };
 		84625A042B6382C300CC9077 /* BooltiBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A032B6382C300CC9077 /* BooltiBottomSheetViewController.swift */; };
 		84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A082B63A01100CC9077 /* TicketSelectionViewController.swift */; };
 		84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84625A0A2B63B2AE00CC9077 /* TicketSelectionViewModel.swift */; };
@@ -110,6 +110,7 @@
 		848CBF062B6547FA00239303 /* TicketingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */; };
 		848CBF082B65480A00239303 /* TicketingDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */; };
 		848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF092B65481500239303 /* TicketingDetailDIContainer.swift */; };
+		848F9F4D2B8ED9400026F527 /* SignupConditionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848F9F4C2B8ED9400026F527 /* SignupConditionEntity.swift */; };
 		84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84975BE82B60E04500F903E7 /* AuthAPI.swift */; };
 		84975BEF2B6113D000F903E7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84975BEE2B6113D000F903E7 /* Colors.xcassets */; };
 		84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84975BF72B611EA500F903E7 /* UIFont+.swift */; };
@@ -399,6 +400,7 @@
 		848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailViewController.swift; sourceTree = "<group>"; };
 		848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailViewModel.swift; sourceTree = "<group>"; };
 		848CBF092B65481500239303 /* TicketingDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailDIContainer.swift; sourceTree = "<group>"; };
+		848F9F4C2B8ED9400026F527 /* SignupConditionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupConditionEntity.swift; sourceTree = "<group>"; };
 		84975BE82B60E04500F903E7 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		84975BEE2B6113D000F903E7 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		84975BF72B611EA500F903E7 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
@@ -685,17 +687,6 @@
 			path = Report;
 			sourceTree = "<group>";
 		};
-		845F25412B89F9CC00F6C328 /* PosterExpand */ = {
-			isa = PBXGroup;
-			children = (
-				84EF91682B8A43490073C89A /* Cells */,
-				845F25432B89FA3800F6C328 /* PosterExpandDIContainer.swift */,
-				845F25452B89FA5000F6C328 /* PosterExpandViewController.swift */,
-				845F25472B89FA5A00F6C328 /* PosterExpandViewModel.swift */,
-			);
-			path = PosterExpand;
-			sourceTree = "<group>";
-		};
 		845D88502B876EDE00179F60 /* ResignInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -715,6 +706,17 @@
 			path = ResignReason;
 			sourceTree = "<group>";
 		};
+		845F25412B89F9CC00F6C328 /* PosterExpand */ = {
+			isa = PBXGroup;
+			children = (
+				84EF91682B8A43490073C89A /* Cells */,
+				845F25432B89FA3800F6C328 /* PosterExpandDIContainer.swift */,
+				845F25452B89FA5000F6C328 /* PosterExpandViewController.swift */,
+				845F25472B89FA5A00F6C328 /* PosterExpandViewModel.swift */,
+			);
+			path = PosterExpand;
+			sourceTree = "<group>";
+		};
 		84625A0C2B63B2D100CC9077 /* TicketSelection */ = {
 			isa = PBXGroup;
 			children = (
@@ -730,6 +732,7 @@
 		84625A0F2B63B46600CC9077 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				848F9F4B2B8ED9370026F527 /* Auth */,
 				84D1C3792B792D0D00527998 /* Concert */,
 				84E48AC42B7E543600F8BFD0 /* Ticket */,
 				84E48AC52B7E544200F8BFD0 /* QR */,
@@ -1079,6 +1082,14 @@
 				848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */,
 			);
 			path = TicketingDetail;
+			sourceTree = "<group>";
+		};
+		848F9F4B2B8ED9370026F527 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				848F9F4C2B8ED9400026F527 /* SignupConditionEntity.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		84975BF22B611E2100F903E7 /* Fonts */ = {
@@ -2072,6 +2083,7 @@
 				8710D9582B74FAC800309FBF /* LogoutDIContainer.swift in Sources */,
 				840B395B2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift in Sources */,
 				848CBF062B6547FA00239303 /* TicketingDetailViewController.swift in Sources */,
+				848F9F4D2B8ED9400026F527 /* SignupConditionEntity.swift in Sources */,
 				84E48AC12B7E224600F8BFD0 /* UITextView+.swift in Sources */,
 				84886E882B6FB166005D2329 /* UIColor+.swift in Sources */,
 				876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */,

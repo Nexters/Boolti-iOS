@@ -17,7 +17,6 @@ import Kingfisher
 
 final class AuthRepository: AuthRepositoryType {
 
-    typealias isSignUpRequired = Bool
     typealias AuthToken = (String, String)
 
     let networkService: NetworkProviderType
@@ -31,7 +30,7 @@ final class AuthRepository: AuthRepositoryType {
         return (UserDefaults.accessToken, UserDefaults.refreshToken)
     }
     
-    func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<isSignUpRequired> {
+    func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<SignupConditionEntity> {
         let loginRequestDTO = LoginRequestDTO(accessToken: providerToken)
         let api = AuthAPI.login(provider: provider, requestDTO: loginRequestDTO)
 
@@ -50,7 +49,8 @@ final class AuthRepository: AuthRepositoryType {
                     self?.setKakaoUserInformation()
                 }
             }
-            .map { $0.signUpRequired }
+            .map { SignupConditionEntity(isSignUpRequired: $0.signUpRequired,
+                                         removeCancelled: $0.removeCancelled) }
     }
 
     private func setKakaoUserInformation() {

@@ -20,8 +20,7 @@ final class LoginViewModel {
     }
 
     struct Output {
-        typealias didSignedUp = Bool
-        var didloginFinished = PublishRelay<didSignedUp>()
+        let didloginFinished = PublishRelay<SignupConditionEntity>()
     }
 
     let input: Input
@@ -49,13 +48,13 @@ final class LoginViewModel {
             .subscribe(with: self) { owner, provider in
                 owner.provider = provider
                 owner.oauthRepository.authorize(provider: provider)
-                    .flatMap({ OAuthResponse -> Single<Bool> in
+                    .flatMap({ OAuthResponse -> Single<SignupConditionEntity> in
                         let accessToken = OAuthResponse.accessToken
                         owner.identityToken = accessToken
                         return owner.authRepository.fetch(withProviderToken: accessToken, provider: provider)
                     })
-                    .subscribe(with: self) { owner, isSignUpRequired in
-                        owner.output.didloginFinished.accept(isSignUpRequired)
+                    .subscribe(with: self) { owner, signupCondition in
+                        owner.output.didloginFinished.accept(signupCondition)
                     }
                     .disposed(by: owner.disposeBag)
                 }

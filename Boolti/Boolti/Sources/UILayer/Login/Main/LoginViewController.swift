@@ -11,6 +11,8 @@ import RxSwift
 import RxCocoa
 
 final class LoginViewController: BooltiViewController {
+    
+    // MARK: Properties
 
     typealias IdentityCode = String
 
@@ -18,6 +20,8 @@ final class LoginViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
 
     private let termsAgreementControllerFactory: (IdentityCode, OAuthProvider) -> TermsAgreementViewController
+    
+    // MARK: UI Component
 
     private let headerTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
@@ -74,6 +78,8 @@ final class LoginViewController: BooltiViewController {
         return button
     }()
     
+    private let popupView = BooltiPopupView()
+    
     // MARK: Life Cycle
 
     override func viewDidLoad() {
@@ -81,6 +87,7 @@ final class LoginViewController: BooltiViewController {
 
         self.configureUI()
         self.bindViewModel()
+        self.bindUIComponents()
     }
 
     // MARK: Init
@@ -134,11 +141,25 @@ extension LoginViewController {
 
     private func bindOutput() {
         self.viewModel.output.didloginFinished
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, isSignupRequired in
-                if isSignupRequired {
+            .asDriver(onErrorJustReturn: SignupConditionEntity(isSignUpRequired: true, removeCancelled: false))
+            .drive(with: self) { owner, signupCondition in
+                if signupCondition.removeCancelled {
+                    owner.popupView.showPopup(with: .accountRemoveCancelled)
+                }
+                else if signupCondition.isSignUpRequired {
                     owner.presentTermsAgreementViewController()
-                } else {
+                }
+                else {
+                    owner.dismiss(animated: true)
+                }
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindUIComponents() {
+        self.popupView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                if owner.popupView.popupType == .accountRemoveCancelled {
                     owner.dismiss(animated: true)
                 }
             }
@@ -168,7 +189,8 @@ extension LoginViewController {
             self.kakaoLoginButton,
             self.kakaoIconImageView,
             self.appleLoginButton,
-            self.appleIconImageView
+            self.appleIconImageView,
+            self.popupView
         ])
 
         self.closeButton.snp.makeConstraints { make in
@@ -210,6 +232,10 @@ extension LoginViewController {
             make.size.equalTo(20)
             make.centerY.equalTo(self.appleLoginButton)
             make.left.equalTo(self.appleLoginButton).offset(20)
+        }
+        
+        self.popupView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }
