@@ -28,16 +28,25 @@ final class LoginViewModel {
 
     private let authRepository: AuthRepositoryType
     private let oauthRepository: OAuthRepositoryType
+    private let socialLoginAPIService: OAuthRepositoryType
+    private let pushNotificationRepository: PushNotificationRepositoryType
 
     var identityToken: String?
     var provider: OAuthProvider?
 
     private let disposeBag = DisposeBag()
 
-    init(authRepository: AuthRepositoryType, socialLoginAPIService: OAuthRepositoryType) {
+    init(
+        authRepository: AuthRepositoryType,
+        socialLoginAPIService: OAuthRepositoryType,
+        pushNotificationRepository: PushNotificationRepositoryType
+    ) {
         self.authRepository = authRepository
         self.oauthRepository = socialLoginAPIService
         
+        self.socialLoginAPIService = socialLoginAPIService
+        self.pushNotificationRepository = pushNotificationRepository
+
         self.input = Input()
         self.output = Output()
         self.bindInputs()
@@ -54,6 +63,7 @@ final class LoginViewModel {
                         return owner.authRepository.fetch(withProviderToken: accessToken, provider: provider)
                     })
                     .subscribe(with: self) { owner, signupCondition in
+                        owner.pushNotificationRepository.registerDeviceToken()
                         owner.output.didloginFinished.accept(signupCondition)
                     }
                     .disposed(by: owner.disposeBag)

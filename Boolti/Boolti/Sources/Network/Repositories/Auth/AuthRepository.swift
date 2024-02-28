@@ -37,16 +37,20 @@ final class AuthRepository: AuthRepositoryType {
         return networkService.request(api)
             .map(LoginResponseDTO.self)
             .do { [weak self] loginReponseDTO in
+                guard let self = self else { return }
                 guard let accessToken = loginReponseDTO.accessToken,
                       let refreshToken = loginReponseDTO.refreshToken else { return }
                 UserDefaults.accessToken = accessToken
                 UserDefaults.refreshToken = refreshToken
                 UserDefaults.oauthProvider = provider
 
-                self?.userInfo()
-                
+                self.userInfo().subscribe(onSuccess: { _ in
+                    debugPrint("UserAPI Success")
+                })
+                .disposed(by: self.disposeBag)
+
                 if provider == .kakao {
-                    self?.setKakaoUserInformation()
+                    self.setKakaoUserInformation()
                 }
             }
             .map { SignupConditionEntity(isSignUpRequired: $0.signUpRequired,
@@ -68,7 +72,7 @@ final class AuthRepository: AuthRepositoryType {
             .disposed(by: self.disposeBag)
     }
 
-    func signUp(provider: OAuthProvider, identityToken: String?) {
+    func signUp(provider: OAuthProvider, identityToken: String?) -> Single<Void> {
         switch provider {
         case .kakao:
             self.signUpKakao()
@@ -77,9 +81,9 @@ final class AuthRepository: AuthRepositoryType {
         }
     }
 
-    private func signUpKakao() {
+    private func signUpKakao() -> Single<Void> {
         UserApi.shared.rx.me()
-            .subscribe(with: self, onSuccess: { owner, user in
+            .flatMap { user in
                 let email = user.kakaoAccount?.email ?? ""
                 let phoneNumber = user.kakaoAccount?.phoneNumber ?? ""
                 let nickName = user.kakaoAccount?.profile?.nickname ?? ""
@@ -96,15 +100,14 @@ final class AuthRepository: AuthRepositoryType {
                 )
 
                 let API = AuthAPI.signup(requestDTO: requestDTO)
-                owner.requestSignUp(API)
-            })
-            .disposed(by: self.disposeBag)
+                return self.requestSignUp(API)
+            }
     }
 
-    private func signUpApple(with identityToken: String?) {
-        guard let identityToken else { return }
+    private func signUpApple(with identityToken: String?) -> Single<Void> {
+        guard let identityToken else { return .just(())}
 
-        guard let jwt = try? JWT<IdentityTokenDTO>(jwtString: identityToken) else { return }
+        guard let jwt = try? JWT<IdentityTokenDTO>(jwtString: identityToken) else { return .just(()) }
         let oauthIdentity = jwt.claims.sub
 
         let requestDTO = SignUpRequestDTO(
@@ -117,22 +120,21 @@ final class AuthRepository: AuthRepositoryType {
         )
         let API = AuthAPI.signup(requestDTO: requestDTO)
 
-        self.requestSignUp(API)
+        return self.requestSignUp(API)
     }
 
-    private func requestSignUp(_ API: AuthAPI) {
-        self.networkService.request(API)
+    private func requestSignUp(_ API: AuthAPI) -> Single<Void> {
+        return self.networkService.request(API)
             .map(SignUpResponseDTO.self)
-            .subscribe { signUpResponseDTO in
+            .flatMap({ signUpResponseDTO in
                 guard let accessToken = signUpResponseDTO.accessToken,
-                      let refreshToken = signUpResponseDTO.refreshToken else { return }
-                
+                      let refreshToken = signUpResponseDTO.refreshToken else { return .just(())}
+
                 UserDefaults.accessToken = accessToken
                 UserDefaults.refreshToken = refreshToken
-                
-                self.userInfo()
-            }
-            .disposed(by: self.disposeBag)
+
+                return self.userInfo()
+            })
     }
     
     func logout() -> Single<Void> {
@@ -144,17 +146,18 @@ final class AuthRepository: AuthRepositoryType {
             .map { _ in return () }
     }
     
-    func userInfo() {
+    func userInfo() -> Single<Void> {
         let api = AuthAPI.user
         return self.networkService.request(api)
             .map(UserResponseDTO.self)
-            .subscribe(with: self) { owner, user in
+            .flatMap({ user -> Single<Void> in
                 UserDefaults.userId = user.id
                 UserDefaults.userName = user.nickname ?? ""
                 UserDefaults.userEmail = user.email ?? ""
                 UserDefaults.userImageURLPath = user.imgPath ?? ""
-            }
-            .disposed(by: self.disposeBag)
+
+                return .just(())
+            })
     }
     
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void> {

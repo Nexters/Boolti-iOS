@@ -12,6 +12,5 @@ enum UserDefaultsKey: String, CaseIterable {
     case userImageURLPath
     case accessToken
     case refreshToken
-    case deviceToken
     case oauthProvider
 }

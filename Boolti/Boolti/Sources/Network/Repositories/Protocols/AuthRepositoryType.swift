@@ -13,8 +13,8 @@ protocol AuthRepositoryType {
     var networkService: NetworkProviderType { get }
     func fetchTokens() -> (String, String)
     func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<SignupConditionEntity>
-    func signUp(provider: OAuthProvider, identityToken: String?)
+    func signUp(provider: OAuthProvider, identityToken: String?) -> Single<Void>
     func logout() -> Single<Void>
-    func userInfo()
+    func userInfo() -> Single<Void>
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void>
 }
