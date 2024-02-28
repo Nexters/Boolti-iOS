@@ -63,6 +63,7 @@ final class ConcertListViewController: BooltiViewController {
         super.viewWillAppear(animated)
         
         self.tabBarController?.tabBar.isHidden = false
+        self.viewModel.confirmCheckingTickets()
         self.viewModel.fetchConcertList(concertName: nil)
     }
 }
