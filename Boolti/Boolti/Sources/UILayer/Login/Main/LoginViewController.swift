@@ -159,12 +159,7 @@ extension LoginViewController {
     private func bindUIComponents() {
         self.popupView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
-                switch owner.popupView.popupType {
-                case .accountRemoveCancelled:
-                    owner.dismiss(animated: true)
-                default:
-                    break
-                }
+                owner.dismiss(animated: true)
             }
             .disposed(by: self.disposeBag)
     }
