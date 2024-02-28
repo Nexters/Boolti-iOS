@@ -32,6 +32,29 @@ final class ConcertListViewModel {
         self.output = Output()
         self.concertRepository = concertRepository
         self.ticketReservationRepository = ticketReservationRepository
+        
+        self.bindUserDefaults()
+    }
+}
+
+// MARK: - Methods
+
+extension ConcertListViewModel {
+    
+    private func bindUserDefaults() {
+        UserDefaults.standard.rx
+            .observe(String.self, UserDefaultsKey.accessToken.rawValue)
+            .asDriver(onErrorJustReturn: nil)
+            .drive(with: self) { owner, accessToken in
+                guard let accessToken = accessToken else { return }
+                
+                if accessToken.isEmpty {
+                    self.output.checkingTicketCount.accept(-1)
+                } else {
+                    self.fetchCheckingTickets()
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
 }
 
@@ -44,14 +67,6 @@ extension ConcertListViewModel {
             .asObservable()
             .bind(to: self.output.concerts)
             .disposed(by: self.disposeBag)
-    }
-    
-    func confirmCheckingTickets() {
-        if UserDefaults.accessToken.isEmpty {
-            self.output.checkingTicketCount.accept(-1)
-        } else {
-            self.fetchCheckingTickets()
-        }
     }
     
     private func fetchCheckingTickets() {
