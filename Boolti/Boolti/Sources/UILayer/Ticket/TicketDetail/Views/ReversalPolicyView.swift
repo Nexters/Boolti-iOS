@@ -68,18 +68,11 @@ final class ReversalPolicyView: UIStackView {
         self.axis = .vertical
         self.clipsToBounds = true
 
-        var titleViewWidth: CGFloat
-
         if !isWithoutBoard {
             self.layer.cornerRadius = 8
             self.layer.borderWidth = 1
             self.layer.borderColor = UIColor.grey80.cgColor
-            titleViewWidth = 317
         } else {
-            guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
-                return
-            }
-            titleViewWidth = window.screen.bounds.width
             self.backgroundColor = .grey90
         }
 
@@ -93,7 +86,6 @@ final class ReversalPolicyView: UIStackView {
         ])
 
         self.titleView.snp.makeConstraints { make in
-//            make.width.equalTo(titleViewWidth)
             make.height.equalTo(66)
         }
 
