@@ -28,7 +28,6 @@ final class LoginViewModel {
 
     private let authRepository: AuthRepositoryType
     private let oauthRepository: OAuthRepositoryType
-    private let socialLoginAPIService: OAuthRepositoryType
     private let pushNotificationRepository: PushNotificationRepositoryType
 
     var identityToken: String?
@@ -38,13 +37,11 @@ final class LoginViewModel {
 
     init(
         authRepository: AuthRepositoryType,
-        socialLoginAPIService: OAuthRepositoryType,
+        oauthRepository: OAuthRepositoryType,
         pushNotificationRepository: PushNotificationRepositoryType
     ) {
         self.authRepository = authRepository
-        self.oauthRepository = socialLoginAPIService
-        
-        self.socialLoginAPIService = socialLoginAPIService
+        self.oauthRepository = oauthRepository
         self.pushNotificationRepository = pushNotificationRepository
 
         self.input = Input()
