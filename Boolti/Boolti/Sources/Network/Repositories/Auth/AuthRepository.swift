@@ -41,7 +41,7 @@ final class AuthRepository: AuthRepositoryType {
                       let refreshToken = loginReponseDTO.refreshToken else { return }
                 UserDefaults.accessToken = accessToken
                 UserDefaults.refreshToken = refreshToken
-                UserDefaults.oauthProvider = provider.rawValue
+                UserDefaults.oauthProvider = provider
 
                 self?.userInfo()
                 

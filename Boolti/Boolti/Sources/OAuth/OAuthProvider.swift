@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum OAuthProvider: String {
+enum OAuthProvider: String, Codable {
     case apple = "appleid"
     case kakao = "kakao"
 }

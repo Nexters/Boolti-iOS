@@ -27,9 +27,9 @@ final class OAuthRepository: OAuthRepositoryType {
         var OAuth: OAuth
         
         switch UserDefaults.oauthProvider {
-        case OAuthProvider.kakao.rawValue:
+        case .kakao:
             OAuth = KakaoOAuth()
-        default:
+        case .apple:
             OAuth = AppleOAuth()
         }
         return OAuth.resign()
