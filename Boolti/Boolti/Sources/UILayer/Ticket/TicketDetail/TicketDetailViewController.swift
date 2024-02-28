@@ -25,7 +25,7 @@ final class TicketDetailViewController: BooltiViewController {
 
     private let viewModel: TicketDetailViewModel
 
-    private let navigationBar = BooltiNavigationBar(type: .ticketDetail)
+    private let navigationBar = BooltiNavigationBar(type: .backButton)
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -236,11 +236,11 @@ final class TicketDetailViewController: BooltiViewController {
                 guard let ticketDetailItem else { return }
                 owner.ticketDetailView.setData(with: ticketDetailItem)
                 
-                // 오늘 공연 여부에 따라 숨김 처리
-                owner.entryCodeButton.isHidden = ticketDetailItem.date.formatToDate().compare(Date()) == .orderedSame
-                
-                if let _ = ticketDetailItem.usedAt {
+                if ticketDetailItem.usedAt != nil {
                     owner.entryCodeButton.isHidden = true
+                } else {
+                    // 오늘 공연 여부에 따라 숨김 처리
+                    owner.entryCodeButton.isHidden = ticketDetailItem.date.formatToDate().getBetweenDay(to: Date()) != 0
                 }
             }
             .disposed(by: self.disposeBag)

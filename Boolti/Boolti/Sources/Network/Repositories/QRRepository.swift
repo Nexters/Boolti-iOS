@@ -9,6 +9,13 @@ import Foundation
 
 import RxSwift
 
+protocol QRRepositoryType {
+    
+    var networkService: NetworkProviderType { get }
+    func scannerList() -> Single<[QRScannerEntity]>
+    func qrScan(concertId: Int, entranceCode: String) -> Single<Bool>
+}
+
 final class QRRepository: QRRepositoryType {
     
     let networkService: NetworkProviderType

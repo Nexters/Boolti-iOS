@@ -11,17 +11,11 @@ import RxCocoa
 import SnapKit
 
 enum NavigationType {
-    case defaultUI(backButtonTitle: String)
-    case ticketingDetail
-    case ticketingCompletion
+    case backButton
+    case backButtonWithTitle(title: String)
+    case titleWithCloseButton(title: String)
     case concertDetail
-    case ticketDetail
-    case concertContentExpand
-    case ticketReservations
-    case report
-    case ticketReservationDetail
-    case qrScannerList
-    case qrScanner(concertName: String)
+    case ticketingCompletion
 }
 
 final class BooltiNavigationBar: UIView {
@@ -63,17 +57,11 @@ final class BooltiNavigationBar: UIView {
         self.configureDefaultConstraints()
         
         switch type {
-        case .defaultUI(let title): self.configureDefaultUI(title)
-        case .ticketingDetail: self.configureTicketingDetailUI()
-        case .ticketingCompletion: self.configureTicketingCompletionUI()
+        case .backButton: self.configureBackButtonUI()
+        case .backButtonWithTitle(let title): self.configureBackButtonWithTitleUI(title)
+        case .titleWithCloseButton(let title): self.configureTitleWithCloseButtonUI(title)
         case .concertDetail: self.configureConcertDetailUI()
-        case .ticketDetail: self.configureTicketDetailUI()
-        case .concertContentExpand: self.configureConcertContentExpandUI()
-        case .ticketReservations: self.configureTicketReservationsUI()
-        case .report: self.configureReportUI()
-        case .ticketReservationDetail: self.configureTicketReservationDetailUI()
-        case .qrScannerList: self.configureQRScannerListUI()
-        case .qrScanner(let concertName): self.configureQRScannerUI(title: concertName)
+        case .ticketingCompletion: self.configureTicketingCompletionUI()
         }
     }
     
@@ -108,90 +96,21 @@ extension BooltiNavigationBar {
         }
     }
 
-    private func configureDefaultUI(_ title: String) {
-        self.titleLabel.text = title
-        self.backgroundColor = .grey95
-
-        self.addSubviews([self.backButton, self.titleLabel])
-        self.configureTicketingDetailConstraints()
-    }
-
-    private func configureTicketingDetailUI() {
-        self.titleLabel.text = "결제하기"
-        
-        self.addSubviews([self.backButton, self.titleLabel])
-        self.configureTicketingDetailConstraints()
-    }
-    
-    private func configureTicketingCompletionUI() {
-        self.addSubviews([self.homeButton, self.closeButton])
-        self.configureTicketingCompletionConstraints()
-    }
-    
-    private func configureConcertDetailUI() {
-        self.backgroundColor = .grey90
-
-        self.addSubviews([self.backButton, self.homeButton, self.shareButton, self.moreButton])
-        self.configureConcertDetailConstraints()
-    }
-
-    private func configureTicketDetailUI() {
+    private func configureBackButtonUI() {
         self.addSubview(self.backButton)
-        self.configureTicketDetailConstraints()
-    }
-    
-    private func configureConcertContentExpandUI() {
-        self.titleLabel.text = "공연 내용"
         
-        self.addSubviews([self.backButton, self.titleLabel])
-        self.configureConcertContentExpandConstraints()
-    }
-
-    private func configureTicketReservationsUI() {
-        self.titleLabel.text = "예매 내역"
-
-        self.addSubviews([self.titleLabel, self.backButton])
-        self.configureConcertContentExpandConstraints()
-    }
-    
-    private func configureReportUI() {
-        self.titleLabel.text = "신고하기"
-
-        self.addSubviews([self.titleLabel, self.backButton])
-        self.configureConcertContentExpandConstraints()
-    }
-
-    private func configureTicketReservationDetailUI() {
-        self.titleLabel.text = "예매 내역 상세"
-
-        self.addSubviews([self.titleLabel, self.backButton])
-        self.configureConcertContentExpandConstraints()
-    }
-    
-    private func configureQRScannerListUI() {
-        self.titleLabel.text = "QR 스캔"
-
-        self.addSubviews([self.titleLabel, self.backButton])
-        self.configureConcertContentExpandConstraints()
-    }
-    
-    private func configureQRScannerUI(title: String) {
-        self.titleLabel.text = title
-        self.titleLabel.clipsToBounds = true
-
-        self.addSubviews([self.titleLabel, self.closeButton])
-        self.configureQRScannerConstraints()
-    }
-
-    private func configureTicketDetailConstraints() {
         self.backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
             make.width.height.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
     }
+    
+    private func configureBackButtonWithTitleUI(_ title: String) {
+        self.titleLabel.text = title
 
-    private func configureTicketingDetailConstraints() {
+        self.addSubviews([self.backButton, self.titleLabel])
+        
         self.backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
             make.width.height.equalTo(24)
@@ -204,10 +123,14 @@ extension BooltiNavigationBar {
         }
     }
     
-    private func configureTicketingCompletionConstraints() {
-        self.homeButton.snp.makeConstraints { make in
+    private func configureTitleWithCloseButtonUI(_ title: String) {
+        self.titleLabel.text = title
+        
+        self.addSubviews([self.titleLabel, self.closeButton])
+        
+        self.titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
-            make.width.height.equalTo(24)
+            make.right.equalTo(self.closeButton.snp.left).offset(-20)
             make.bottom.equalToSuperview().inset(10)
         }
         
@@ -215,11 +138,15 @@ extension BooltiNavigationBar {
             make.right.equalToSuperview().inset(20)
             make.width.height.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
+            
         }
-        
     }
     
-    private func configureConcertDetailConstraints() {
+    private func configureConcertDetailUI() {
+        self.backgroundColor = .grey90
+
+        self.addSubviews([self.backButton, self.homeButton, self.shareButton, self.moreButton])
+        
         self.backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
             make.width.height.equalTo(24)
@@ -245,23 +172,12 @@ extension BooltiNavigationBar {
         }
     }
     
-    private func configureConcertContentExpandConstraints() {
-        self.backButton.snp.makeConstraints { make in
+    private func configureTicketingCompletionUI() {
+        self.addSubviews([self.homeButton, self.closeButton])
+        
+        self.homeButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
             make.width.height.equalTo(24)
-            make.bottom.equalToSuperview().inset(10)
-        }
-        
-        self.titleLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.backButton.snp.right).offset(4)
-            make.bottom.equalToSuperview().inset(10)
-        }
-    }
-    
-    private func configureQRScannerConstraints() {
-        self.titleLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(20)
-            make.right.equalTo(self.closeButton.snp.left).offset(-20)
             make.bottom.equalToSuperview().inset(10)
         }
         
@@ -269,7 +185,6 @@ extension BooltiNavigationBar {
             make.right.equalToSuperview().inset(20)
             make.width.height.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
-            
         }
     }
 }

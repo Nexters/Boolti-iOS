@@ -29,7 +29,7 @@ final class NetworkProvider: NetworkProviderType {
         return provider.rx.request(endpoint)
             .do(
                 onSuccess: { response in
-                    debugPrint("⭕️ SUCCESS: \(requestString) (\(response.statusCode))")
+                    debugPrint("⭕️ SUCCESS: [\(api.method.rawValue)] \(requestString) (\(response.statusCode))")
                     
                     #if DEBUG
                     do {
@@ -71,7 +71,7 @@ final class NetworkProvider: NetworkProviderType {
                 onError: { error in
                     if let moyaError = error as? MoyaError {
                         if let response = moyaError.response {
-                            debugPrint("❌ ERROR: \(requestString) (\(response.statusCode))")
+                            debugPrint("❌ ERROR: [\(api.method.rawValue)] \(requestString) (\(response.statusCode))")
                             
                             #if DEBUG
                             let data = response.data
@@ -93,14 +93,14 @@ final class NetworkProvider: NetworkProviderType {
                                 NotificationCenter.default.post(name: Notification.Name.serverError, object: nil)
                             }
                         } else {
-                            debugPrint("❌ ERROR: \(requestString) (No response)")
+                            debugPrint("❌ ERROR: [\(api.method.rawValue)] \(requestString) (No response)")
                         }
                     } else {
-                        debugPrint("❌ ERROR: \(requestString) (\(error.localizedDescription))")
+                        debugPrint("❌ ERROR: [\(api.method.rawValue)] \(requestString) (\(error.localizedDescription))")
                     }
                 },
                 onSubscribed: {
-                    debugPrint("❓ REQUEST: \(requestString)")
+                    debugPrint("❓ REQUEST: [\(api.method.rawValue)] \(requestString)")
                 }
             )
     }

@@ -14,7 +14,6 @@ protocol ServiceAPI: TargetType {
 
 extension ServiceAPI {
     var baseURL: URL {
-        // TODO: base url 키 숨기기, 환경변수로 등록
         return URL(string: Environment.BASE_URL)!
     }
 

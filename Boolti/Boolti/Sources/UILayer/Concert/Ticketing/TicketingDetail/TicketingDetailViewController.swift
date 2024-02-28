@@ -24,7 +24,7 @@ final class TicketingDetailViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationBar = BooltiNavigationBar(type: .ticketingDetail)
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "결제하기"))
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()

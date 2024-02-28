@@ -7,17 +7,24 @@
 
 import Foundation
 
-import KakaoSDKAuth
-import KakaoSDKUser
-import SwiftJWT
-import RxKakaoSDKUser
 import RxSwift
-import RxMoya
-import Kingfisher
+import KakaoSDKUser
+import RxKakaoSDKUser
+import SwiftJWT
+
+protocol AuthRepositoryType {
+
+    var networkService: NetworkProviderType { get }
+    func fetchTokens() -> (String, String)
+    func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<SignupConditionEntity>
+    func signUp(provider: OAuthProvider, identityToken: String?) -> Single<Void>
+    func logout() -> Single<Void>
+    func userInfo() -> Single<Void>
+    func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void>
+}
 
 final class AuthRepository: AuthRepositoryType {
 
-    typealias isSignUpRequired = Bool
     typealias AuthToken = (String, String)
 
     let networkService: NetworkProviderType
@@ -31,7 +38,7 @@ final class AuthRepository: AuthRepositoryType {
         return (UserDefaults.accessToken, UserDefaults.refreshToken)
     }
     
-    func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<isSignUpRequired> {
+    func fetch(withProviderToken providerToken: String, provider: OAuthProvider) -> Single<SignupConditionEntity> {
         let loginRequestDTO = LoginRequestDTO(accessToken: providerToken)
         let api = AuthAPI.login(provider: provider, requestDTO: loginRequestDTO)
 
@@ -43,6 +50,7 @@ final class AuthRepository: AuthRepositoryType {
                       let refreshToken = loginReponseDTO.refreshToken else { return }
                 UserDefaults.accessToken = accessToken
                 UserDefaults.refreshToken = refreshToken
+                UserDefaults.oauthProvider = provider
 
                 self.userInfo().subscribe(onSuccess: { _ in
                     debugPrint("UserAPI Success")
@@ -53,7 +61,8 @@ final class AuthRepository: AuthRepositoryType {
                     self.setKakaoUserInformation()
                 }
             }
-            .map { $0.signUpRequired }
+            .map { SignupConditionEntity(isSignUpRequired: $0.signUpRequired,
+                                         removeCancelled: $0.removeCancelled) }
     }
 
     private func setKakaoUserInformation() {
@@ -157,5 +166,16 @@ final class AuthRepository: AuthRepositoryType {
 
                 return .just(())
             })
+    }
+    
+    func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void> {
+        let api = AuthAPI.resign(requestDTO: ResignRequestDTO(reason: reason,
+                                                              appleIdAuthorizationCode: appleIdAuthorizationCode))
+        
+        return self.networkService.request(api)
+            .do(onSuccess: {  _ in
+                UserDefaults.removeAllUserInfo()
+            })
+            .map { _ in return () }
     }
 }

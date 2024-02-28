@@ -10,16 +10,16 @@ import Foundation
 final class LoginViewDIContainer {
 
     private let authRepository: AuthRepositoryType
-    private let socialLoginRepository: OAuthRepositoryType
+    private let oauthRepository: OAuthRepositoryType
     private let pushNotificationRepository: PushNotificationRepositoryType
 
     init(
         authRepository: AuthRepositoryType,
-        socialLoginAPIService: OAuthRepositoryType,
+        oauthRepository: OAuthRepositoryType,
         pushNotificationRepository: PushNotificationRepositoryType
     ) {
         self.authRepository = authRepository
-        self.socialLoginRepository = socialLoginAPIService
+        self.oauthRepository = oauthRepository
         self.pushNotificationRepository = pushNotificationRepository
     }
 
@@ -40,7 +40,7 @@ final class LoginViewDIContainer {
     private func createLoginViewModel() -> LoginViewModel {
         let viewModel = LoginViewModel(
             authRepository: self.authRepository,
-            socialLoginAPIService: self.socialLoginRepository,
+            oauthRepository: self.oauthRepository,
             pushNotificationRepository: self.pushNotificationRepository
         )
 

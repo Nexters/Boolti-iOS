@@ -20,7 +20,7 @@ final class TicketRefundReasonViewController: BooltiViewController {
     private let viewModel: TicketRefundReasonViewModel
     private let disposeBag = DisposeBag()
 
-    private let navigationBar = BooltiNavigationBar(type: .defaultUI(backButtonTitle: "환불 요청하기"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "환불 요청하기"))
 
     private let mainTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
@@ -51,11 +51,6 @@ final class TicketRefundReasonViewController: BooltiViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.navigationBar.isHidden = true
     }
 
     override func viewDidLoad() {
@@ -118,7 +113,7 @@ final class TicketRefundReasonViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 if owner.reasonTextView.textColor == .grey70 {
                     owner.reasonTextView.text = nil
-                    owner.reasonTextView.textColor = .white00
+                    owner.reasonTextView.textColor = .grey10
                 }
             }
             .disposed(by: self.disposeBag)

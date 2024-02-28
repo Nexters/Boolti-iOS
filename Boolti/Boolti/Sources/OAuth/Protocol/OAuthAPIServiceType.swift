@@ -9,4 +9,5 @@ import RxSwift
 
 protocol OAuthRepositoryType {
     func authorize(provider: OAuthProvider) -> Observable<OAuthResponse>
+    func resign() -> Observable<String?>
 }
