@@ -30,11 +30,7 @@ extension PushNotificationAPI: ServiceAPI {
     var task: Moya.Task {
         switch self {
         case .register(let DTO):
-            let query: [String: Any] = [
-                "deviceToken": DTO.deviceToken,
-                "deviceType": DTO.deviceType
-            ]
-            return .requestParameters(parameters: query, encoding: JSONEncoding.prettyPrinted)
+            return .requestJSONEncodable(DTO)
         }
     }
 }
