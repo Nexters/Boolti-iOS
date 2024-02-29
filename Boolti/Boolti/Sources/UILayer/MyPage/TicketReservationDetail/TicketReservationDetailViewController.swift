@@ -15,12 +15,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     typealias ReservationID = String
 
-    private let ticketRefundReasonlViewControllerFactory: (ReservationID) -> TicketRefundReasonViewController
+    private let ticketRefundReasonViewControllerFactory: (ReservationID) -> TicketRefundReasonViewController
 
     private let viewModel: TicketReservationDetailViewModel
     private let disposeBag = DisposeBag()
 
-    private let navigationBar = BooltiNavigationBar(type: .ticketReservationDetail)
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "예매 내역 상세"))
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -30,14 +30,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return scrollView
     }()
 
-    private lazy var contentStackView: UIStackView = {
+    private let  contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 12
-        
-        stackView.setCustomSpacing(0, after: self.concertInformationView)
 
         return stackView
     }()
@@ -114,21 +112,18 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return button
     }()
 
+    private let blankSpaceView: UIView = {
+        let view = UIView()
+        return view
+    }()
+
     init(
-        ticketRefundReasonlViewControllerFactory: @escaping (ReservationID) -> TicketRefundReasonViewController,
+        ticketRefundReasonViewControllerFactory: @escaping (ReservationID) -> TicketRefundReasonViewController,
         viewModel: TicketReservationDetailViewModel
     ) {
-        self.ticketRefundReasonlViewControllerFactory = ticketRefundReasonlViewControllerFactory
+        self.ticketRefundReasonViewControllerFactory = ticketRefundReasonViewControllerFactory
         self.viewModel = viewModel
         super.init()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
     }
 
     override func viewDidLoad() {
@@ -189,6 +184,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
             make.width.equalTo(screenWidth-40)
         }
 
+        self.blankSpaceView.snp.makeConstraints { make in
+            make.height.equalTo(48)
+        }
+
         self.addArrangedSubViews()
     }
 
@@ -202,10 +201,11 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.purchaserInformationStackView,
             self.depositorInformationStackView,
             self.reversalPolicyView,
-            self.requestRefundButton
+            self.blankSpaceView,
+            self.requestRefundButton,
         ])
 
-        self.contentStackView.setCustomSpacing(40, after: self.reversalPolicyView)
+        self.contentStackView.setCustomSpacing(0, after: self.reversalPolicyView)
     }
 
     private func bindUIComponents() {
@@ -230,7 +230,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         self.requestRefundButton.rx.tap
             .bind(with: self) { owner, _ in
-                let viewController = owner.ticketRefundReasonlViewControllerFactory(owner.viewModel.reservationID)
+                let viewController = owner.ticketRefundReasonViewControllerFactory(owner.viewModel.reservationID)
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
@@ -262,7 +262,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private func setData(with entity: TicketReservationDetailEntity) {
 
         // 콘서트 정보
-        self.reservationIDLabel.text = "No. \(entity.reservationID)"
+        self.reservationIDLabel.text = "No. \(entity.csReservationID)"
         self.concertInformationView.setData(
             posterImageURLPath: entity.concertPosterImageURLPath,
             concertTitle: entity.concertTitle,
@@ -275,7 +275,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
         self.paymentStatusView.setData(entity.reservationStatus.description)
 
-        self.configureRefundButton(with: entity.reservationStatus)
+        self.configureRefundButton(with: entity)
 
         // 티켓 정보
         self.ticketTypeView.setData(entity.ticketType.rawValue)
@@ -315,12 +315,15 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.depositorPhoneNumberView.setData(entity.depositorPhoneNumber)
     }
 
-    private func configureRefundButton(with reservationStatus: ReservationStatus) {
-        switch reservationStatus {
+    private func configureRefundButton(with entity: TicketReservationDetailEntity) {
+        switch entity.reservationStatus {
         case .reservationCompleted:
-            self.requestRefundButton.isHidden = false
-            return
-        case .waitingForRefund, .refundCompleted, .cancelled, .waitingForDeposit:
+            if Date() <= entity.salesEndTime.formatToDate() {
+                self.requestRefundButton.isHidden = false
+            } else {
+                self.requestRefundButton.isHidden = true
+            }
+        default:
             self.requestRefundButton.isHidden = true
         }
     }

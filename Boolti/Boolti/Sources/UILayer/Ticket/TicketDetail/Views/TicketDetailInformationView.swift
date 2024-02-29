@@ -13,7 +13,6 @@ final class TicketDetailInformationView: UIView {
         let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .aggroB(20)
-        label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 4
 
         return label
@@ -52,6 +51,7 @@ final class TicketDetailInformationView: UIView {
         let label = BooltiUILabel()
         label.textColor = .grey30
         label.font = .body2
+        label.numberOfLines = 1
 
         return label
     }()
@@ -73,7 +73,7 @@ final class TicketDetailInformationView: UIView {
 
     private let dimmedView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.init("#000000").withAlphaComponent(0.8)
+        view.backgroundColor = .black100.withAlphaComponent(0.8)
         view.isHidden = true
 
         return view
@@ -90,11 +90,10 @@ final class TicketDetailInformationView: UIView {
     }
 
     func setData(with item: TicketDetailItemEntity) {
-        self.dateLabel.text = item.date
+        self.dateLabel.text = item.date.formatToDate().format(.dateDay)
         self.locationLabel.text = " | \(item.location)"
         self.titleLabel.text = item.title
         self.qrCodeImageView.image = item.qrCode
-        self.titleLabel.setLineSpacing(lineSpacing: 4)
         self.configureGradient()
         self.configureStamp(with: item)
     }
@@ -143,7 +142,7 @@ final class TicketDetailInformationView: UIView {
         let bounds = CGRect(x: 1, y: 0, width: self.bounds.width-2, height: self.bounds.height)
         
         gradientLayer.frame = bounds
-        gradientLayer.colors = [UIColor.init("#000000").withAlphaComponent(0.0).cgColor, UIColor.init("#000000").withAlphaComponent(0.7).cgColor]
+        gradientLayer.colors = [UIColor.black100.withAlphaComponent(0.0).cgColor, UIColor.black100.withAlphaComponent(1.0).cgColor]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
         gradientLayer.locations = [0.0, 1.0]

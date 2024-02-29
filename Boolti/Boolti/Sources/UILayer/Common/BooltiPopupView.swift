@@ -8,15 +8,20 @@
 import UIKit
 
 import RxSwift
-import RxRelay
+import RxCocoa
 
 final class BooltiPopupView: UIView {
     
     // MARK: Properties
     
-    private let disposeBag = DisposeBag()
-
-    let showPopup = PublishRelay<String>()
+    enum PopupType: String {
+        case networkError = "네트워크 오류가 발생했습니다\n잠시후 다시 시도해주세요"
+        case refreshTokenHasExpired = "로그인 세션이 만료되었습니다\n앱을 다시 시작해주세요"
+        case accountRemoveCancelled = "탈퇴 후 30일 이내에 로그인하여,\n계정 삭제가 취소되었어요\n불티를 다시 찾아주셔서 감사해요!"
+    }
+    
+    let disposeBag = DisposeBag()
+    var popupType: PopupType = .networkError
     
     // MARK: UI Component
     
@@ -42,46 +47,32 @@ final class BooltiPopupView: UIView {
     }()
     
     private let confirmButton = BooltiButton(title: "확인")
-    
+
     init() {
         super.init(frame: .zero)
         self.configureUI()
         self.configureConstraints()
-        self.bindInputs()
-        self.bindOutputs()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
 }
 
 // MARK: - Methods
 
 extension BooltiPopupView {
     
-    private func bindInputs() {
-        self.confirmButton.rx.tap
-            .bind(with: self) { owner, _ in
-                // TODO: 일단 네트워크 에러일 때 기준
-                UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    exit(1)
-                }
-            }
-            .disposed(by: self.disposeBag)
+    func showPopup(with type: PopupType) {
+        self.titleLabel.text = type.rawValue
+        self.titleLabel.setAlignCenter()
+        
+        self.popupType = type
+        self.isHidden = false
     }
     
-    private func bindOutputs() {
-        self.showPopup
-            .asDriver(onErrorJustReturn: "")
-            .drive(with: self) { owner, message in
-                owner.titleLabel.text = message
-                owner.titleLabel.setAlignCenter()
-                owner.isHidden = false
-            }
-            .disposed(by: self.disposeBag)
+    func didConfirmButtonTap() -> Signal<Void> {
+        return self.confirmButton.rx.tap.asSignal()
     }
 }
 

@@ -20,7 +20,7 @@ final class QRScannerListViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationBar = BooltiNavigationBar(type: .qrScannerList)
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "QR 스캔"))
     
     private lazy var emtpyLabelStackView: UIStackView = {
         let stackView = UIStackView()
@@ -28,6 +28,8 @@ final class QRScannerListViewController: BooltiViewController {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.addArrangedSubviews([self.emptyMainTitle, self.emptySubTitle])
+        stackView.isHidden = true
+
         return stackView
     }()
     
@@ -85,10 +87,6 @@ final class QRScannerListViewController: BooltiViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
         self.viewModel.fetchQRList()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
     }
 }
 

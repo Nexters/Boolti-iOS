@@ -25,7 +25,7 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
             case .onSale:
                 return "예매 중"
             case .endSale:
-                return "예매 마감"
+                return "예매 종료"
             case .endConcert:
                 return "공연 종료"
             }
@@ -33,32 +33,28 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         
         var fontColor: UIColor {
             switch self {
-            case .beforeSale: .grey05
-            default: .grey40
+            case .beforeSale: .orange01
+            case .onSale: .grey05
+            case .endSale: .grey80
+            case .endConcert: .grey40
             }
         }
         
         var backgroundColor: UIColor {
             switch self {
-            case .beforeSale: .orange01
-            default: .grey80
+            case .beforeSale: .grey80.withAlphaComponent(0.9)
+            case .onSale: .orange01.withAlphaComponent(0.9)
+            case .endSale: .grey20.withAlphaComponent(0.9)
+            case .endConcert: .grey80.withAlphaComponent(0.9)
             }
         }
         
         var backgroundAlpha: CGFloat {
             switch self {
-            case .onSale: 1
-            default: 0.5
+            case .onSale, .endSale: 1
+            default: 0.4
             }
         }
-        
-        var isHidden: Bool {
-            switch self {
-                case .onSale: true
-                default: false
-            }
-        }
-
     }
     
     private var concertState: ConcertState = .onSale
@@ -71,6 +67,14 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.grey80.cgColor
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = imageView.bounds
+        gradientLayer.colors = [UIColor.clear.cgColor,
+                                UIColor.grey95.withAlphaComponent(0.2).cgColor,
+                                UIColor.grey95.withAlphaComponent(0.5).cgColor]
+        gradientLayer.locations = [0.6, 0.8, 1.0]
+        imageView.layer.addSublayer(gradientLayer)
         return imageView
     }()
     
@@ -85,15 +89,14 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         let label = BooltiUILabel()
         label.font = .point1
         label.textColor = .grey05
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         return label
     }()
     
     private let stateLabel: BooltiPaddingLabel = {
-        let label = BooltiPaddingLabel(padding: .init(top: 6, left: 12, bottom: 6, right: 12))
+        let label = BooltiPaddingLabel(padding: .init(top: 5, left: 12, bottom: 5, right: 12))
         label.font = .caption
-        label.layer.cornerRadius = 15
+        label.layer.cornerRadius = 12
         label.clipsToBounds = true
         return label
     }()
@@ -113,6 +116,13 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Override
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard let gradientLayer = self.posterImageView.layer.sublayers?.first else { return }
+        gradientLayer.frame = self.posterImageView.bounds
+    }
+    
     override func prepareForReuse() {
         self.resetData()
     }
@@ -127,13 +137,13 @@ extension ConcertCollectionViewCell {
         self.datetime.text = concertEntity.dateTime.format(.dateDayTime)
         self.name.text = concertEntity.name
         
-        if Date().compare(concertEntity.salesStartTime) == .orderedAscending {
+        if Date() < concertEntity.salesStartTime {
             self.concertState = .beforeSale(startSale: concertEntity.salesStartTime)
         }
-        else if Date().compare(concertEntity.salesEndTime) == .orderedAscending {
+        else if Date() <= concertEntity.salesEndTime {
             self.concertState = .onSale
         }
-        else if Date().compare(concertEntity.dateTime.addingTimeInterval(60 * 300)) == .orderedAscending {
+        else if Date().getBetweenDay(to: concertEntity.dateTime) >= 0 {
             self.concertState = .endSale
         }
         else {
@@ -142,7 +152,6 @@ extension ConcertCollectionViewCell {
         
         self.stateLabel.text = self.concertState.text
         self.stateLabel.textColor = self.concertState.fontColor
-        self.stateLabel.isHidden = self.concertState.isHidden
         self.stateLabel.backgroundColor = self.concertState.backgroundColor
         self.posterImageView.alpha = self.concertState.backgroundAlpha
     }
@@ -151,7 +160,6 @@ extension ConcertCollectionViewCell {
         self.posterImageView.image = nil
         self.datetime.text = nil
         self.name.text = nil
-        self.stateLabel.isHidden = true
     }
 }
 

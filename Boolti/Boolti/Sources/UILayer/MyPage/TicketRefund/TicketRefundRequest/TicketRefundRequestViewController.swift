@@ -23,7 +23,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
     private let viewModel: TicketRefundRequestViewModel
     private let disposeBag = DisposeBag()
 
-    private let navigationBar = BooltiNavigationBar(type: .defaultUI(backButtonTitle: "환불 요청하기"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "환불 요청하기"))
     private let concertInformationView = ConcertInformationView()
 
     private let accountHolderNameView = AccountContentView(
@@ -63,7 +63,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
     private let requestRefundButton = BooltiButton(title: "환불 요청하기")
 
-    let dimmedBackgroundView: UIView = {
+    private let dimmedBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .black100.withAlphaComponent(0.85)
         view.isHidden = true
@@ -179,10 +179,12 @@ final class TicketRefundRequestViewController: BooltiViewController {
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                let viewController = TicketRefundBankSelectionViewController()
+                let viewController = TicketRefundBankSelectionViewController(selectedBank: owner.viewModel.output.selectedBank.value)
 
                 viewController.selectedItem = { item in
-                    owner.selectRefundBankView.setData(with: item.bankName)
+                    owner.dimmedBackgroundView.isHidden = true
+                    guard let item else { return }
+                    owner.viewModel.input.selectedItem.accept(item)
                 }
                 owner.dimmedBackgroundView.isHidden = false
 
@@ -204,20 +206,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.viewModel.output.isValidAccoundHolderName
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, isValid in
-                owner.accountHolderNameView.isValidTextTyped = isValid
-            }
-            .disposed(by: self.disposeBag)
-
-        self.viewModel.output.isValidAccoundHolderPhoneNumber
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, isValid in
-                owner.accountHolderPhoneNumberView.isValidTextTyped = isValid
-            }
-            .disposed(by: self.disposeBag)
-
         self.viewModel.output.isValidrefundAccountNumber
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, isValid in
@@ -225,16 +213,24 @@ final class TicketRefundRequestViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
+        self.viewModel.output.selectedBank
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, bankEntity in
+                guard let bankEntity else { return }
+                owner.selectRefundBankView.setData(with: bankEntity.bankName)
+            }
+            .disposed(by: self.disposeBag)
+
         Observable.combineLatest(
-            self.viewModel.output.isValidAccoundHolderName,
-            self.viewModel.output.isValidAccoundHolderPhoneNumber,
-            self.viewModel.output.isValidrefundAccountNumber
+            self.viewModel.output.isAccoundHolderNameEmpty,
+            self.viewModel.output.isAccoundHolderPhoneNumberEmpty,
+            self.viewModel.output.isValidrefundAccountNumber,
+            self.viewModel.output.selectedBank
         )
             .asDriver(onErrorDriveWith: .never())
-            .drive { [weak self] (isValidName, isValidPhoneNumber, isValidNumber) in
-                // bankNameLabel도 rx로 바꿔야함!.. 다른 로직으로 검증!..
-                let isBankSelected = self?.selectRefundBankView.bankNameLabel.text != "은행 선택"
-                self?.requestRefundButton.isEnabled = isValidName && isValidPhoneNumber && isValidNumber && isBankSelected
+            .drive { [weak self] (isAccountHolderEmpty, isAccountPhoneNumberEmpty, isValidNumber, selectedBank) in
+
+                self?.requestRefundButton.isEnabled = !isAccountHolderEmpty && !isAccountPhoneNumberEmpty && isValidNumber && (selectedBank != nil)
             }
             .disposed(by: self.disposeBag)
     }

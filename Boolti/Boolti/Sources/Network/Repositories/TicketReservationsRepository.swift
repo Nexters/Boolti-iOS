@@ -9,6 +9,14 @@ import Foundation
 
 import RxSwift
 
+protocol TicketReservationsRepositoryType {
+    
+    var networkService: NetworkProviderType { get }
+    func ticketReservations() -> Single<[TicketReservationItemEntity]>
+    func ticketReservationDetail(with reservationID: String) -> Single<TicketReservationDetailEntity>
+    func requestRefund(with requestDTO: TicketRefundRequestDTO) -> Single<Void>
+}
+
 final class TicketReservationRepository: TicketReservationsRepositoryType {
 
     let networkService: NetworkProviderType

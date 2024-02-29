@@ -39,7 +39,7 @@ final class TicketReservationsViewController: BooltiViewController {
         return stackView
     }()
 
-    private let navigationBar = BooltiNavigationBar(type: .ticketReservations)
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "예매 내역"))
 
     init(ticketReservationDetailViewControllerFactory: @escaping (ReservationID) -> TicketReservationDetailViewController,viewModel: TicketReservationsViewModel) {
         self.viewModel = viewModel
@@ -49,10 +49,6 @@ final class TicketReservationsViewController: BooltiViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
     }
 
     override func viewDidLoad() {

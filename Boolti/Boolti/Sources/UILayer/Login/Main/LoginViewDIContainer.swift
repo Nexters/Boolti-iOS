@@ -10,11 +10,17 @@ import Foundation
 final class LoginViewDIContainer {
 
     private let authRepository: AuthRepositoryType
-    private let socialLoginAPIService: OAuthRepositoryType
+    private let oauthRepository: OAuthRepositoryType
+    private let pushNotificationRepository: PushNotificationRepositoryType
 
-    init(authRepository: AuthRepositoryType, socialLoginAPIService: OAuthRepositoryType) {
+    init(
+        authRepository: AuthRepositoryType,
+        oauthRepository: OAuthRepositoryType,
+        pushNotificationRepository: PushNotificationRepositoryType
+    ) {
         self.authRepository = authRepository
-        self.socialLoginAPIService = socialLoginAPIService
+        self.oauthRepository = oauthRepository
+        self.pushNotificationRepository = pushNotificationRepository
     }
 
     func createLoginViewController() -> LoginViewController {
@@ -34,13 +40,19 @@ final class LoginViewDIContainer {
     private func createLoginViewModel() -> LoginViewModel {
         let viewModel = LoginViewModel(
             authRepository: self.authRepository,
-            socialLoginAPIService: self.socialLoginAPIService
+            oauthRepository: self.oauthRepository,
+            pushNotificationRepository: self.pushNotificationRepository
         )
 
         return viewModel
     }
 
     private func createTermsAgreementViewDIContainer(identityCode: String, provider: OAuthProvider) -> TermsAgreementDIContainer {
-        return TermsAgreementDIContainer(identityCode: identityCode, provider: provider ,authRepository: self.authRepository)
+        return TermsAgreementDIContainer(
+            identityCode: identityCode,
+            provider: provider,
+            authRepository: self.authRepository,
+            pushNotificationRepository: self.pushNotificationRepository
+        )
     }
 }

@@ -11,11 +11,11 @@ import RxSwift
 import RxCocoa
 
 class BooltiViewController: UIViewController {
-    
+
     // MARK: UI Component
     
     private lazy var toastView = BooltiToastView()
-    private let popupView = BooltiPopupView()
+    private let errorPopupView = BooltiPopupView()
     private lazy var loadingIndicatorView = BooltiLoadingIndicatorView(style: .large)
     
     // MARK: Properties
@@ -46,18 +46,6 @@ class BooltiViewController: UIViewController {
         super.viewDidLoad()
         
         self.configurePopupView()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(showNetworkAlert),
-            name: Notification.Name("ServerErrorNotification"),
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(navigateToRoot),
-            name: Notification.Name.refreshTokenHasExpired,
-            object: nil
-        )
     }
 
     deinit {
@@ -76,40 +64,15 @@ class BooltiViewController: UIViewController {
 extension BooltiViewController {
 
     @objc func showNetworkAlert() {
-        self.popupView.showPopup.accept("네트워크 오류가 발생했습니다\n잠시후 다시 시도해주세요")
+        self.errorPopupView.showPopup(with: .networkError)
     }
 
     @objc func navigateToRoot() {
-
-        let alertController = UIAlertController(
-            title: "오류",
-            message: "로그인 세션이 만료되었습니다.\n앱을 다시 시작해주세요",
-            preferredStyle: .alert
-        )
-        let okAction = UIAlertAction(title: "다시 시작하기", style: .default, handler: { _ in
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-            let scenedelegate = windowScene.delegate as? SceneDelegate
-
-            let rootDIContainer = RootDIContainer()
-            let rootViewController = rootDIContainer.createRootViewController()
-
-            scenedelegate?.window?.rootViewController = rootViewController
-            scenedelegate?.window?.makeKeyAndVisible()
-
-        })
-        alertController.addAction(okAction)
-
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true, completion: nil)
-        }
+        self.errorPopupView.showPopup(with: .refreshTokenHasExpired)
     }
 
     func showToast(message: String) {
         self.toastView.showToast.accept(message)
-    }
-
-    func showPopup(title: String) {
-        self.popupView.showPopup.accept(title)
     }
 }
 
@@ -143,15 +106,54 @@ extension BooltiViewController {
     }
     
     private func configurePopupView() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(showNetworkAlert),
+            name: Notification.Name.serverError,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(navigateToRoot),
+            name: Notification.Name.refreshTokenHasExpired,
+            object: nil
+        )
+        
         guard let keyWindow = UIApplication.shared.connectedScenes
             .filter({ $0.activationState == .foregroundActive })
             .compactMap({ $0 as? UIWindowScene })
             .first?.windows.first else {
             return
         }
-        keyWindow.addSubview(self.popupView)
-        self.popupView.snp.makeConstraints { make in
+        keyWindow.addSubview(self.errorPopupView)
+        
+        self.errorPopupView.snp.makeConstraints { make in
             make.edges.equalTo(keyWindow)
         }
+
+        self.errorPopupView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                switch owner.errorPopupView.popupType {
+                case .networkError:
+                    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        exit(1)
+                    }
+                case .refreshTokenHasExpired:
+                    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                    let scenedelegate = windowScene.delegate as? SceneDelegate
+                    
+                    let rootDIContainer = RootDIContainer()
+                    let rootViewController = rootDIContainer.createRootViewController()
+                    
+                    scenedelegate?.window?.rootViewController = rootViewController
+                    scenedelegate?.window?.makeKeyAndVisible()
+                default:
+                    break
+                }
+            }
+            .disposed(by: self.errorPopupView.disposeBag)
+            
     }
 }

@@ -45,7 +45,7 @@ extension ConcertListViewModel {
             .bind(to: self.output.concerts)
             .disposed(by: self.disposeBag)
     }
-    
+
     func confirmCheckingTickets() {
         if UserDefaults.accessToken.isEmpty {
             self.output.checkingTicketCount.accept(-1)

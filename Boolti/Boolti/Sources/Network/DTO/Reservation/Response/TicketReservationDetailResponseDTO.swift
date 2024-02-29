@@ -26,6 +26,7 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let reservationPhoneNumber: String
     let depositorName: String?
     let depositorPhoneNumber: String?
+    let csReservationId: String
 }
 
 extension TicketReservationDetailResponseDTO {
@@ -53,7 +54,9 @@ extension TicketReservationDetailResponseDTO {
             purchaseName: self.reservationName,
             purchaserPhoneNumber: self.reservationPhoneNumber,
             depositorName: self.depositorName ?? "",
-            depositorPhoneNumber: self.depositorPhoneNumber ?? ""
+            depositorPhoneNumber: self.depositorPhoneNumber ?? "",
+            salesEndTime: self.salesEndTime,
+            csReservationID: self.csReservationId
         )
     }
 }

@@ -20,25 +20,30 @@ final class LoginViewModel {
     }
 
     struct Output {
-        typealias didSignedUp = Bool
-        var didloginFinished = PublishRelay<didSignedUp>()
+        let didloginFinished = PublishRelay<SignupConditionEntity>()
     }
 
     let input: Input
     let output: Output
 
     private let authRepository: AuthRepositoryType
-    private let socialLoginAPIService: OAuthRepositoryType
+    private let oauthRepository: OAuthRepositoryType
+    private let pushNotificationRepository: PushNotificationRepositoryType
 
     var identityToken: String?
     var provider: OAuthProvider?
 
     private let disposeBag = DisposeBag()
 
-    init(authRepository: AuthRepositoryType, socialLoginAPIService: OAuthRepositoryType) {
+    init(
+        authRepository: AuthRepositoryType,
+        oauthRepository: OAuthRepositoryType,
+        pushNotificationRepository: PushNotificationRepositoryType
+    ) {
         self.authRepository = authRepository
-        self.socialLoginAPIService = socialLoginAPIService
-        
+        self.oauthRepository = oauthRepository
+        self.pushNotificationRepository = pushNotificationRepository
+
         self.input = Input()
         self.output = Output()
         self.bindInputs()
@@ -48,14 +53,15 @@ final class LoginViewModel {
         self.input.loginButtonDidTapEvent
             .subscribe(with: self) { owner, provider in
                 owner.provider = provider
-                owner.socialLoginAPIService.authorize(provider: provider)
-                    .flatMap({ OAuthResponse -> Single<Bool> in
+                owner.oauthRepository.authorize(provider: provider)
+                    .flatMap({ OAuthResponse -> Single<SignupConditionEntity> in
                         let accessToken = OAuthResponse.accessToken
                         owner.identityToken = accessToken
                         return owner.authRepository.fetch(withProviderToken: accessToken, provider: provider)
                     })
-                    .subscribe(with: self) { owner, isSignUpRequired in
-                        owner.output.didloginFinished.accept(isSignUpRequired)
+                    .subscribe(with: self) { owner, signupCondition in
+                        owner.pushNotificationRepository.registerDeviceToken()
+                        owner.output.didloginFinished.accept(signupCondition)
                     }
                     .disposed(by: owner.disposeBag)
                 }

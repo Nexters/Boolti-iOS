@@ -16,7 +16,7 @@ final class MyPageViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
     private let logoutViewControllerFactory: () -> LogoutViewController
-    private let resignViewControllerFactory: () -> ResignViewController
+    private let resignInfoViewControllerFactory: () -> ResignInfoViewController
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
     private let qrScanViewControllerFactory: () -> QRScannerListViewController
 
@@ -43,19 +43,25 @@ final class MyPageViewController: BooltiViewController {
         self.bindUIComponents()
         self.bindViewModel()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
+    }
 
     init(
         viewModel: MyPageViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
         logoutViewControllerFactory: @escaping () -> LogoutViewController,
-        resignViewControllerFactory: @escaping () -> ResignViewController,
+        resignInfoViewControllerFactory: @escaping () -> ResignInfoViewController,
         ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
         qrScanViewControllerFactory: @escaping () -> QRScannerListViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.logoutViewControllerFactory = logoutViewControllerFactory
-        self.resignViewControllerFactory = resignViewControllerFactory
+        self.resignInfoViewControllerFactory = resignInfoViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.qrScanViewControllerFactory = qrScanViewControllerFactory
         
@@ -181,10 +187,10 @@ final class MyPageViewController: BooltiViewController {
             .drive(with: self, onNext: { owner, destination in
                 let viewController = owner.createViewController(destination)
                 switch destination {
-                case .login, .logout, .resign:
+                case .login, .logout:
                     viewController.modalPresentationStyle = .fullScreen
                     owner.present(viewController, animated: true)
-                case .ticketReservations, .qrScannerList:
+                case .ticketReservations, .qrScannerList, .resign:
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             })
@@ -206,7 +212,7 @@ final class MyPageViewController: BooltiViewController {
         switch next {
         case .login: return loginViewControllerFactory()
         case .logout: return logoutViewControllerFactory()
-        case .resign: return resignViewControllerFactory()
+        case .resign: return resignInfoViewControllerFactory()
         case .qrScannerList: return qrScanViewControllerFactory()
         case .ticketReservations: return ticketReservationsViewControllerFactory()
         }

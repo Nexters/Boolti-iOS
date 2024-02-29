@@ -9,6 +9,7 @@ final class ConcertDetailDIContainer {
 
     // MARK: Properties
     
+    typealias Posters = [ConcertDetailEntity.Poster]
     typealias Content = String
     typealias ConcertId = Int
     
@@ -32,6 +33,13 @@ final class ConcertDetailDIContainer {
             let DIContainer = self.createLoginViewDIContainer()
             
             let viewController = DIContainer.createLoginViewController()
+            return viewController
+        }
+        
+        let posterExpandViewControllerFactory: (Posters) -> PosterExpandViewController = { posters in
+            let DIContainer = self.createPosterExpandDIContainer()
+
+            let viewController = DIContainer.createPosterExpandViewController(posters: posters)
             return viewController
         }
         
@@ -59,6 +67,7 @@ final class ConcertDetailDIContainer {
         let viewController = ConcertDetailViewController(
             viewModel: viewModel, 
             loginViewControllerFactory: loginViewControllerFactory,
+            posterExpandViewControllerFactory: posterExpandViewControllerFactory,
             concertContentExpandViewControllerFactory: concertContentExpandViewControllerFactory,
             reportViewControllerFactory: reportViewControllerFactory,
             ticketSelectionViewControllerFactory: ticketSelectionViewControllerFactory
@@ -70,8 +79,13 @@ final class ConcertDetailDIContainer {
     private func createLoginViewDIContainer() -> LoginViewDIContainer {
         return LoginViewDIContainer(
             authRepository: self.authRepository,
-            socialLoginAPIService: OAuthRepository()
+            oauthRepository: OAuthRepository(),
+            pushNotificationRepository: PushNotificationRepository(networkService: self.authRepository.networkService)
         )
+    }
+    
+    private func createPosterExpandDIContainer() -> PosterExpandDIContainer {
+        return PosterExpandDIContainer()
     }
     
     private func createConcertContentExpandDIContainer() -> ConcertContentExpandDIContainer {

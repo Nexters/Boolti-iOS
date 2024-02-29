@@ -35,6 +35,7 @@ struct TicketListItemResponseDTO: Decodable {
     let ticketName: String
     let entryCode: String
     let usedAt: String?
+    let csTicketId: String
 }
 
 extension TicketListItemResponseDTO {
@@ -46,16 +47,11 @@ extension TicketListItemResponseDTO {
         /// QR 코드 이미지
         let qrCodeImage = QRMaker.shared.makeQR(identifier: self.entryCode) ?? .qrCode
 
-        var ticketStatus: TicketStatus = .notUsed
+        var ticketStatus: TicketStatus
         let formattedShowDate: Date = self.showDate.formatToDate()
 
-        if let usedAt {
-            // 밤에하는 공연의 경우 다른 방법으로 compare해줘야함!
-            if Date().getBetweenDay(to: formattedShowDate) < 0 {
-                ticketStatus = .concertEnd
-            } else {
-                ticketStatus = .entryCompleted
-            }
+        if usedAt != nil {
+            ticketStatus = .entryCompleted
         } else {
             if Date().getBetweenDay(to: formattedShowDate) < 0 {
                 ticketStatus = .concertEnd
@@ -73,6 +69,7 @@ extension TicketListItemResponseDTO {
             location: self.placeName,
             qrCode: qrCodeImage,
             ticketID: self.ticketId,
+            csTicketID: self.csTicketId,
             ticketStatus: ticketStatus
         )
     }

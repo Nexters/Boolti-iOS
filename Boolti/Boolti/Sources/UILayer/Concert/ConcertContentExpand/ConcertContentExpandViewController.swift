@@ -19,7 +19,7 @@ final class ConcertContentExpandViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationBar = BooltiNavigationBar(type: .concertContentExpand)
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "공연 내용"))
     
     private let contentTextView: UITextView = {
         let textView = UITextView()

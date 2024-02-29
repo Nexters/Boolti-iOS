@@ -31,9 +31,9 @@ final class MyPageDIContainer {
             return viewController
         }
         
-        let resignViewControllerFactory = {
-            let DIContainer = self.createResignDIContainer()
-            let viewController = DIContainer.createResignViewController()
+        let resignInfoViewControllerFactory = {
+            let DIContainer = self.createResignInfoDIContainer()
+            let viewController = DIContainer.createResignInfoViewController()
 
             return viewController
         }
@@ -56,7 +56,7 @@ final class MyPageDIContainer {
             viewModel: self.createMyPageViewModel(),
             loginViewControllerFactory: loginViewControllerFactory,
             logoutViewControllerFactory: logoutViewControllerFactory,
-            resignViewControllerFactory: resignViewControllerFactory,
+            resignInfoViewControllerFactory: resignInfoViewControllerFactory,
             ticketReservationsViewControllerFactory: ticketReservationsViewControllerFactory,
             qrScanViewControllerFactory: QRScannerListViewControllerFactory
         )
@@ -71,8 +71,8 @@ final class MyPageDIContainer {
         return LogoutDIContainer(authRepository: self.authRepository)
     }
     
-    private func createResignDIContainer() -> ResignDIContainer {
-        return ResignDIContainer(authRepository: self.authRepository)
+    private func createResignInfoDIContainer() -> ResignInfoDIContainer {
+        return ResignInfoDIContainer(authRepository: self.authRepository)
     }
 
     private func createTicketReservationsDIContainer() -> TicketReservationsDIContainer {
@@ -84,7 +84,11 @@ final class MyPageDIContainer {
     }
 
     private func createLoginViewDIContainer() -> LoginViewDIContainer {
-        return LoginViewDIContainer(authRepository: self.authRepository, socialLoginAPIService: OAuthRepository())
+        return LoginViewDIContainer(
+            authRepository: self.authRepository,
+            oauthRepository: OAuthRepository(),
+            pushNotificationRepository: PushNotificationRepository(networkService: self.authRepository.networkService)
+        )
     }
 
     private func createMyPageViewModel() -> MyPageViewModel {

@@ -1,19 +1,18 @@
-////
-////  TicketInformationView.swift
-////  Boolti
-////
-////  Created by Miro on 1/30/24.
-////
+//
+//  TicketInformationView.swift
+//  Boolti
+//
+//  Created by Miro on 1/30/24.
+//
 
 import UIKit
 
 final class TicketInformationView: UIView {
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .aggroB(20)
-        label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
 
         return label
@@ -40,18 +39,19 @@ final class TicketInformationView: UIView {
         return stackView
     }()
 
-    private let dateLabel: UILabel = {
-        let label = UILabel()
+    private let dateLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey30
         label.font = .body2
 
         return label
     }()
 
-    private let locationLabel: UILabel = {
-        let label = UILabel()
+    private let locationLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey30
         label.font = .body2
+        label.numberOfLines = 1
 
         return label
     }()
@@ -93,7 +93,6 @@ final class TicketInformationView: UIView {
         self.locationLabel.text = " | \(item.location)"
         self.titleLabel.text = item.title
         self.qrCodeImageView.image = item.qrCode
-        self.titleLabel.setLineSpacing(lineSpacing: 4)
         self.configureStamp(with: item.ticketStatus)
     }
     
@@ -123,11 +122,11 @@ final class TicketInformationView: UIView {
         self.qrCodeImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview()
-            make.width.height.equalTo(70)
+            make.size.equalTo(70)
         }
 
         self.dimmedView.snp.makeConstraints { make in
-            make.width.height.equalTo(70)
+            make.size.equalTo(70)
             make.center.equalTo(self.qrCodeImageView)
         }
 

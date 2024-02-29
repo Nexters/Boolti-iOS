@@ -17,11 +17,11 @@ final class QRScannerListTableViewCell: UITableViewCell {
         return view
     }()
     
-    private let concertNameLabel: UILabel = {
-        let label = UILabel()
+    private let concertNameLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.font = .aggroB(16)
         label.textColor = .grey05
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         return label
     }()
     
@@ -58,7 +58,6 @@ extension QRScannerListTableViewCell {
     
     func setData(concertName: String, isConcertEnd: Bool) {
         self.concertNameLabel.text = concertName
-        self.concertNameLabel.setLineSpacing(lineSpacing: 6)
         
         if isConcertEnd {
             self.concertNameLabel.textColor = .grey50

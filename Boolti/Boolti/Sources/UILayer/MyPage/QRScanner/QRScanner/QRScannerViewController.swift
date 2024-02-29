@@ -24,7 +24,7 @@ final class QRScannerViewController: BooltiViewController {
 
     // MARK: UI Component
 
-    private lazy var navigationBar = BooltiNavigationBar(type: .qrScanner(concertName: self.viewModel.qrScannerEntity.concertName))
+    private lazy var navigationBar = BooltiNavigationBar(type: .titleWithCloseButton(title: self.viewModel.qrScannerEntity.concertName))
 
     private let entranceCodeButton: UIButton = {
         var config = UIButton.Configuration.plain()
@@ -40,15 +40,7 @@ final class QRScannerViewController: BooltiViewController {
         return button
     }()
 
-    private let checkLabel: BooltiPaddingLabel = {
-        let label = BooltiPaddingLabel(padding: .init(top: 12, left: 16, bottom: 12, right: 16))
-        label.backgroundColor = .grey80.withAlphaComponent(0.8)
-        label.textColor = .grey10
-        label.font = .pretendardR(14)
-        label.layer.cornerRadius = 4
-        label.clipsToBounds = true
-        return label
-    }()
+    private let qrCodeResponsePopUpView = QRCodeResponsePopUpView()
 
     // MARK: Init
 
@@ -82,27 +74,25 @@ final class QRScannerViewController: BooltiViewController {
 extension QRScannerViewController {
 
     private func bindOutputs() {
-        self.viewModel.output.showCheckLabel
+        self.viewModel.output.qrCodeValidationResponse
             .asDriver(onErrorJustReturn: .invalid)
-            .drive(with: self) { owner, state in
-                owner.checkLabel.text = state.rawValue
-                owner.checkLabel.textColor = state.textColor
-                owner.checkLabel.isHidden = false
+            .drive(with: self) { owner, response in
+                owner.qrCodeResponsePopUpView.setData(with: response)
+                owner.qrCodeResponsePopUpView.isHidden = false
 
                 UIView.animate(
                     withDuration: 0.3,
                     delay: 2,
                     animations: {
-                        owner.checkLabel.alpha = 0
+                        owner.qrCodeResponsePopUpView.alpha = 0
                     },
                     completion: { _ in
-                        owner.checkLabel.alpha = 1.0
-                        owner.checkLabel.isHidden = true
+                        owner.qrCodeResponsePopUpView.alpha = 0.8
+                        owner.qrCodeResponsePopUpView.isHidden = true
                     })
             }
             .disposed(by: self.disposeBag)
     }
-
 
     private func bindUIComponents() {
         self.navigationBar.didCloseButtonTap()
@@ -168,10 +158,10 @@ extension QRScannerViewController {
 extension QRScannerViewController {
 
     private func configureUI() {
-        self.view.addSubviews([self.navigationBar, self.entranceCodeButton, self.checkLabel])
+        self.view.addSubviews([self.navigationBar, self.entranceCodeButton, self.qrCodeResponsePopUpView])
 
         self.view.backgroundColor = .grey95
-        self.checkLabel.isHidden = true
+        self.qrCodeResponsePopUpView.isHidden = true
     }
 
     private func configureConstraints() {
@@ -185,8 +175,9 @@ extension QRScannerViewController {
             make.centerX.equalToSuperview()
         }
 
-        self.checkLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-100)
+        self.qrCodeResponsePopUpView.snp.makeConstraints { make in
+            make.bottom.equalTo(self.entranceCodeButton.snp.top).offset(-44)
+            make.horizontalEdges.equalToSuperview().inset(20)
             make.centerX.equalToSuperview()
         }
     }
@@ -201,7 +192,7 @@ extension QRScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         if presentedViewController == nil, let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject
         {
             guard let decodedCode = metadataObject.stringValue else {
-                self.viewModel.output.showCheckLabel.accept(.invalid)
+                self.viewModel.output.qrCodeValidationResponse.accept(.invalid)
                 return
             }
 

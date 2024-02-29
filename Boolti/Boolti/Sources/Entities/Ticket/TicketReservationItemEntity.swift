@@ -44,4 +44,5 @@ struct TicketReservationItemEntity {
     let ticketName: String
     let ticketCount: Int
     let ticketPrice: Int
+    let csReservationID: String
 }

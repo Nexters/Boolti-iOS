@@ -19,7 +19,7 @@ final class ReportViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationBar = BooltiNavigationBar(type: .report)
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "신고하기"))
     
     private let mainTitle: BooltiUILabel = {
         let label = BooltiUILabel()
@@ -71,7 +71,6 @@ final class ReportViewController: BooltiViewController {
         self.configureUI()
         self.configureConstraints()
         self.configureToastView(isButtonExisted: true)
-        self.configureGesture()
         self.bindUIComponents()
     }
 }
@@ -98,7 +97,7 @@ extension ReportViewController {
             .bind(with: self) { owner, _ in
                 if owner.reasonTextView.textColor == .grey70 {
                     owner.reasonTextView.text = nil
-                    owner.reasonTextView.textColor = .white00
+                    owner.reasonTextView.textColor = .grey10
                 }
             }
             .disposed(by: self.disposeBag)
@@ -115,17 +114,6 @@ extension ReportViewController {
                     owner.reportButton.isEnabled = true
                 }
             }
-            .disposed(by: self.disposeBag)
-    }
-    
-    private func configureGesture() {
-        let tapGesture = UITapGestureRecognizer()
-        self.view.addGestureRecognizer(tapGesture)
-        
-        tapGesture.rx.event
-            .bind(with: self, onNext: { owner, _ in
-                owner.view.endEditing(true)
-            })
             .disposed(by: self.disposeBag)
     }
 }

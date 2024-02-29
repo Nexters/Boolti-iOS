@@ -10,6 +10,8 @@ import UIKit
 final class TicketListDIContainer {
 
     typealias TicketID = String
+    typealias QRCodeImage = UIImage
+    typealias TicketName = String
 
     private let authRepository: AuthRepositoryType
 
@@ -27,10 +29,10 @@ final class TicketListDIContainer {
             return viewController
         }
 
-        let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController = { qrCodeImage in
+        let qrExpandViewControllerFactory: (QRCodeImage, TicketName) -> QRExpandViewController = { qrCodeImage, ticketName in
             let DIContainer = self.createQRExpandDIContainer()
 
-            let viewController = DIContainer.createQRExpandViewController(qrCodeImage: qrCodeImage)
+            let viewController = DIContainer.createQRExpandViewController(qrCodeImage: qrCodeImage, ticketName: ticketName)
             return viewController
         }
 
@@ -55,7 +57,8 @@ final class TicketListDIContainer {
     private func createLoginViewDIContainer() -> LoginViewDIContainer {
         return LoginViewDIContainer(
             authRepository: self.authRepository,
-            socialLoginAPIService: OAuthRepository()
+            oauthRepository: OAuthRepository(),
+            pushNotificationRepository: PushNotificationRepository(networkService: self.authRepository.networkService)
         )
     }
 

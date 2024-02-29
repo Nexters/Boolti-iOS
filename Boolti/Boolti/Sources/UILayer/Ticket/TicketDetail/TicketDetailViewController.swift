@@ -16,14 +16,16 @@ final class TicketDetailViewController: BooltiViewController {
 
     typealias TicketID = String
     typealias ConcertID = String
+    typealias QRCodeImage = UIImage
+    typealias TicketName = String
 
     private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
-    private let qrExpandViewControllerFactory: (UIImage) -> QRExpandViewController
+    private let qrExpandViewControllerFactory: (QRCodeImage, TicketName) -> QRExpandViewController
     private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
 
     private let viewModel: TicketDetailViewModel
 
-    private let navigationBar = BooltiNavigationBar(type: .ticketDetail)
+    private let navigationBar = BooltiNavigationBar(type: .backButton)
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -88,7 +90,7 @@ final class TicketDetailViewController: BooltiViewController {
     init(
         viewModel: TicketDetailViewModel,
         ticketEntryCodeViewControllerFactory: @escaping (TicketID, ConcertID) -> TicketEntryCodeViewController,
-        qrExpandViewControllerFactory: @escaping (UIImage) -> QRExpandViewController,
+        qrExpandViewControllerFactory: @escaping (QRCodeImage, TicketName) -> QRExpandViewController,
         concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController
     ) {
         self.viewModel = viewModel
@@ -188,8 +190,11 @@ final class TicketDetailViewController: BooltiViewController {
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                guard let qrCodeImage = owner.viewModel.output.fetchedTicketDetail.value?.qrCode else { return }
-                let viewController = owner.qrExpandViewControllerFactory(qrCodeImage)
+                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
+                let qrCodeImage = ticketDetail.qrCode
+                let ticketName = ticketDetail.ticketName
+
+                let viewController = owner.qrExpandViewControllerFactory(qrCodeImage, ticketName)
                 viewController.modalPresentationStyle = .overFullScreen
                 owner.present(viewController, animated: true)
             }
@@ -231,11 +236,11 @@ final class TicketDetailViewController: BooltiViewController {
                 guard let ticketDetailItem else { return }
                 owner.ticketDetailView.setData(with: ticketDetailItem)
                 
-                // 오늘 공연 여부에 따라 숨김 처리
-                owner.entryCodeButton.isHidden = ticketDetailItem.date.formatToDate().compare(Date()) == .orderedSame
-                
-                if let _ = ticketDetailItem.usedAt {
+                if ticketDetailItem.usedAt != nil {
                     owner.entryCodeButton.isHidden = true
+                } else {
+                    // 오늘 공연 여부에 따라 숨김 처리
+                    owner.entryCodeButton.isHidden = ticketDetailItem.date.formatToDate().getBetweenDay(to: Date()) != 0
                 }
             }
             .disposed(by: self.disposeBag)

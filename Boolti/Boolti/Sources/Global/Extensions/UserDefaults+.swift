@@ -28,21 +28,18 @@ extension UserDefaults {
     @UserDefault<String>(key: UserDefaultsKey.refreshToken.rawValue, defaultValue: "")
     static var refreshToken
     
-    @UserDefault<String>(key: UserDefaultsKey.deviceToken.rawValue, defaultValue: "")
-    static var deviceToken
-    
-    @UserDefault<Bool>(key: UserDefaultsKey.isFirstLaunch.rawValue, defaultValue: true)
-    static var isFirstLaunch
+    @UserDefault<OAuthProvider>(key: UserDefaultsKey.oauthProvider.rawValue, defaultValue: .kakao)
+    static var oauthProvider
     
     // MARK: - Custom Methods
 
     static func removeAllUserInfo() {
         UserDefaults.accessToken = ""
         UserDefaults.refreshToken = ""
-        UserDefaults.deviceToken = ""
         UserDefaults.userId = -1
         UserDefaults.userName = ""
         UserDefaults.userEmail = ""
         UserDefaults.userImageURLPath = ""
+        UserDefaults.oauthProvider = .kakao
     }
 }
