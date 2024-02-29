@@ -33,7 +33,7 @@ final class ConcertDetailViewModel {
             case .onSale: "예매하기"
             case .beforeSale(let startDate):
                 "예매 시작 D-\(Date().getBetweenDay(to: startDate))"
-            case .endSale: "예매 마감"
+            case .endSale: "예매 종료"
             case .endConcert: "공연 종료"
             case .alreadyReserved: "이미 예매한 공연"
             }
