@@ -24,6 +24,8 @@ struct TicketDetailResponseDTO: Decodable {
     let usedAt: String?
     let hostName: String
     let hostPhoneNumber: String
+    let csReservationId: String
+    let csTicketId: String
 }
 
 extension TicketDetailResponseDTO {
@@ -62,6 +64,8 @@ extension TicketDetailResponseDTO {
             hostName: self.hostName,
             hostPhoneNumber: self.hostPhoneNumber,
             ticketStatus: ticketStatus,
+            csReservationID: self.csReservationId,
+            csTicketID: self.csTicketId,
             usedAt: self.usedAt
         )
     }
