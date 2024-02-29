@@ -62,7 +62,7 @@ final class AuthRepository: AuthRepositoryType {
                 }
             }
             .map { SignupConditionEntity(isSignUpRequired: $0.signUpRequired,
-                                         removeCancelled: $0.removeCancelled) }
+                                         removeCancelled: $0.removeCancelled ?? false) }
     }
 
     private func setKakaoUserInformation() {
