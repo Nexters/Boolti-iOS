@@ -17,6 +17,7 @@ struct TicketReservationItemResponseDTO: Decodable {
     let salesTicketName: String
     let ticketCount: Int
     let ticketPrice: Int?
+    let csReservationId: String
 }
 
 extension TicketReservationItemResponseDTO {
@@ -30,6 +31,7 @@ extension TicketReservationItemResponseDTO {
         let ticketName = self.salesTicketName
         let ticketCount = self.ticketCount
         let ticketPrice = self.ticketPrice
+        let csReservationID = self.csReservationId
 
         return TicketReservationItemEntity(
             reservationID: reservationID,
@@ -39,7 +41,8 @@ extension TicketReservationItemResponseDTO {
             concertImageURLPath: concertImageURLPath,
             ticketName: ticketName,
             ticketCount: ticketCount,
-            ticketPrice: ticketPrice ?? 0
+            ticketPrice: ticketPrice ?? 0,
+            csReservationID: csReservationID
         )
     }
 }

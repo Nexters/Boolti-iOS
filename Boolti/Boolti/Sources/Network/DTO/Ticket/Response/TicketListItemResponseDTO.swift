@@ -35,6 +35,7 @@ struct TicketListItemResponseDTO: Decodable {
     let ticketName: String
     let entryCode: String
     let usedAt: String?
+    let csTicketId: String
 }
 
 extension TicketListItemResponseDTO {
@@ -68,6 +69,7 @@ extension TicketListItemResponseDTO {
             location: self.placeName,
             qrCode: qrCodeImage,
             ticketID: self.ticketId,
+            csTicketID: self.csTicketId,
             ticketStatus: ticketStatus
         )
     }
