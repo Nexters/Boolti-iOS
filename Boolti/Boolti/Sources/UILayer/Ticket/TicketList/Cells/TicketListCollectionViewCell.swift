@@ -216,13 +216,13 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
 
         self.ticketInformationView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.06)
-            make.bottom.equalToSuperview().inset(self.bounds.height * 0.05)
+            make.bottom.equalToSuperview().inset(self.bounds.height * 0.04)
         }
 
         self.posterImageView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.06)
             make.top.equalTo(self.upperTagView.snp.bottom).offset(self.bounds.height * 0.04)
-            make.height.equalToSuperview().multipliedBy(0.65)
+            make.height.equalToSuperview().multipliedBy(0.67)
         }
 
         self.upperTagLabelStackView.snp.makeConstraints { make in
@@ -237,20 +237,20 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
 
         self.rightCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.79)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.805)
             make.centerX.equalTo(self.snp.right)
         }
 
         self.leftCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.79)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.805)
             make.centerX.equalTo(self.snp.left)
         }
     }
 
         private func configureSeperateLine() {
             let path = CGMutablePath()
-            let height = self.bounds.height * 0.79
+            let height = self.bounds.height * 0.805
             let width = self.bounds.width * 0.053
 
             path.move(to: CGPoint(x: width, y: height))
