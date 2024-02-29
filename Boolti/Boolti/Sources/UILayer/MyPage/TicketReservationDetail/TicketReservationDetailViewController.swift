@@ -262,7 +262,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private func setData(with entity: TicketReservationDetailEntity) {
 
         // 콘서트 정보
-        self.reservationIDLabel.text = "No. \(entity.reservationID)"
+        self.reservationIDLabel.text = "No. \(entity.csReservationID)"
         self.concertInformationView.setData(
             posterImageURLPath: entity.concertPosterImageURLPath,
             concertTitle: entity.concertTitle,
