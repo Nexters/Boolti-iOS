@@ -12,5 +12,5 @@ struct LoginResponseDTO: Decodable {
     let accessToken: String?
     let refreshToken: String?
     let signUpRequired: Bool
-    let removeCancelled: Bool
+    let removeCancelled: Bool?
 }
