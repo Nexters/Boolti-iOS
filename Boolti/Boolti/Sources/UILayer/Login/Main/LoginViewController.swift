@@ -125,6 +125,7 @@ extension LoginViewController {
         self.kakaoLoginButton.rx.tap
             .asDriver()
             .map { OAuthProvider.kakao }
+            .throttle(.seconds(2), latest: false)
             .drive(with: self) { owner, provider in
                 owner.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
@@ -133,6 +134,7 @@ extension LoginViewController {
         self.appleLoginButton.rx.tap
             .asDriver()
             .map { OAuthProvider.apple }
+            .throttle(.seconds(2), latest: false)
             .drive(with: self) { owner, provider in
                 owner.viewModel.input.loginButtonDidTapEvent.onNext(provider)
             }
