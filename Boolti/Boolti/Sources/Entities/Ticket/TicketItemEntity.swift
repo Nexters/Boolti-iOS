@@ -21,3 +21,9 @@ struct TicketItemEntity: Hashable {
     let csTicketID: String
     var ticketStatus: TicketStatus
 }
+
+extension TicketItemEntity {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.ticketID == rhs.ticketID && lhs.ticketStatus == rhs.ticketStatus
+    }
+}
