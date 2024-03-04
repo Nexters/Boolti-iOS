@@ -200,7 +200,7 @@ final class TicketDetailView: UIView {
 
         self.posterImageView.snp.makeConstraints { make in
             make.top.equalTo(self.upperTagView.snp.bottom).offset(20)
-            make.height.equalTo(screenHeight * 0.44)
+            make.height.equalTo(screenHeight * 0.47)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 
@@ -226,7 +226,7 @@ final class TicketDetailView: UIView {
         self.backgroundImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(screenHeight * 0.44 + 169)
+            make.height.equalTo(screenHeight * 0.47 + 169)
         }
 
         self.rightCircleView.snp.makeConstraints { make in

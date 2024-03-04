@@ -85,7 +85,11 @@ extension TermsAgreementViewController {
     
     private func bindInputs() {
         self.agreementButton.rx.tap
-            .bind(to: self.viewModel.input.didAgreementButtonTapEvent)
+            .asDriver()
+            .throttle(.seconds(2), latest: false)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.input.didAgreementButtonTapEvent.onNext(())
+            })
             .disposed(by: self.disposeBag)
     }
     

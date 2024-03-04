@@ -138,7 +138,7 @@ final class TicketListViewController: BooltiViewController {
                 trailing: 6
             )
 
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.61))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.66))
 
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
@@ -159,7 +159,7 @@ final class TicketListViewController: BooltiViewController {
             let section = NSCollectionLayoutSection(group: group)
             section.boundarySupplementaryItems = [footer]
             section.orthogonalScrollingBehavior = .groupPagingCentered
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 7, trailing: 0)
 
             self.configureCollectionViewCarousel(of: section)
 
