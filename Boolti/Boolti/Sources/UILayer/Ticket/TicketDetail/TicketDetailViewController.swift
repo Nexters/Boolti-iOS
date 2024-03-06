@@ -207,7 +207,8 @@ final class TicketDetailViewController: BooltiViewController {
                 let concertID = String(ticketDetail.concertID)
 
                 let viewController = owner.ticketEntryCodeControllerFactory(ticketID, concertID)
-                viewController.modalPresentationStyle = .overFullScreen
+                viewController.modalPresentationStyle = .overCurrentContext
+                owner.definesPresentationContext = true
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
