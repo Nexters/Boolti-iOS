@@ -311,7 +311,7 @@ final class TicketListViewController: BooltiViewController {
             .drive(with: self) { owner, _ in
                 guard let QRCodeImage = qrCodeImageView.image else { return }
                 let viewController = owner.qrExpandViewControllerFactory(QRCodeImage, ticketName)
-                viewController.modalPresentationStyle = .overFullScreen
+                viewController.modalPresentationStyle = .fullScreen
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
