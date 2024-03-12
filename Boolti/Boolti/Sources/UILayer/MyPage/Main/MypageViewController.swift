@@ -25,9 +25,10 @@ final class MyPageViewController: BooltiViewController {
 
     private let profileView = MypageProfileView()
     private let ticketingReservationsNavigationView = MypageContentView(title: "예매 내역")
+    private let registerConcertView = MypageContentView(title: "공연 등록")
     private let qrScannerListNavigationView = MypageContentView(title: "QR 스캔")
     private let logoutNavigationView = MypageContentView(title: "로그아웃")
-    
+
     private let resignNavigationButton: UIButton = {
         let button = UIButton()
         button.setTitle("회원 탈퇴", for: .normal)
@@ -43,10 +44,10 @@ final class MyPageViewController: BooltiViewController {
         self.bindUIComponents()
         self.bindViewModel()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         self.tabBarController?.tabBar.isHidden = false
     }
 
@@ -64,27 +65,28 @@ final class MyPageViewController: BooltiViewController {
         self.resignInfoViewControllerFactory = resignInfoViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.qrScanViewControllerFactory = qrScanViewControllerFactory
-        
+
         super.init()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func configureUI() {
         self.view.backgroundColor = .grey95
 
         self.view.addSubviews([
             self.profileView,
             self.ticketingReservationsNavigationView,
+            self.registerConcertView,
             self.qrScannerListNavigationView,
             self.logoutNavigationView,
             self.resignNavigationButton
         ])
-        
+
         self.logoutNavigationView.isHidden = true
-        
+
         self.profileView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()
@@ -96,15 +98,18 @@ final class MyPageViewController: BooltiViewController {
             make.top.equalTo(self.profileView.snp.bottom)
         }
 
-        self.qrScannerListNavigationView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(66)
+        self.registerConcertView.snp.makeConstraints { make in
+            make.horizontalEdges.height.equalTo(self.ticketingReservationsNavigationView)
             make.top.equalTo(self.ticketingReservationsNavigationView.snp.bottom).offset(12)
         }
-        
+
+        self.qrScannerListNavigationView.snp.makeConstraints { make in
+            make.horizontalEdges.height.equalTo(self.ticketingReservationsNavigationView)
+            make.top.equalTo(self.registerConcertView.snp.bottom).offset(12)
+        }
+
         self.logoutNavigationView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(66)
+            make.horizontalEdges.height.equalTo(self.ticketingReservationsNavigationView)
             make.top.equalTo(self.qrScannerListNavigationView.snp.bottom).offset(12)
         }
 
@@ -131,7 +136,16 @@ final class MyPageViewController: BooltiViewController {
                 owner.viewModel.input.didTicketingReservationsViewTapEvent.onNext(())
             }
             .disposed(by: self.disposeBag)
-        
+
+        self.registerConcertView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                guard let url = URL(string: "https://boolti.in/login") else { return }
+                UIApplication.shared.open(url, options: [:])
+            }
+            .disposed(by: self.disposeBag)
+
         self.qrScannerListNavigationView.rx.tapGesture()
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
@@ -139,7 +153,7 @@ final class MyPageViewController: BooltiViewController {
                 owner.viewModel.input.didQRScannerListViewTapEvent.onNext(())
             }
             .disposed(by: self.disposeBag)
-        
+
         self.logoutNavigationView.rx.tapGesture()
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
@@ -147,7 +161,7 @@ final class MyPageViewController: BooltiViewController {
                 owner.viewModel.input.didLogoutButtonTapEvent.onNext(())
             }
             .disposed(by: self.disposeBag)
-        
+
         // TODO: 임시로 회원 탈퇴 로그아웃 처리
         self.resignNavigationButton.rx.tap
             .bind(to: self.viewModel.input.didResignButtonTapEvent)
