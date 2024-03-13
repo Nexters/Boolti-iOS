@@ -15,6 +15,7 @@ struct TicketDetailItemEntity {
     let title: String
     let date: String
     let location: String
+    let streetAddress: String
     let qrCode: UIImage
     let notice: String
     let ticketID: Int

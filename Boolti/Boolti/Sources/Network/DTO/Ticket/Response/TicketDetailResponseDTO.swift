@@ -57,6 +57,7 @@ extension TicketDetailResponseDTO {
             title: self.showName,
             date: self.showDate,
             location: self.placeName,
+            streetAddress: self.streetAddress,
             qrCode: qrCodeImage,
             notice: self.ticketNotice,
             ticketID: self.ticketId,

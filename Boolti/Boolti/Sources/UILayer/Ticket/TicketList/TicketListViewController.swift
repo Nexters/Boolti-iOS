@@ -232,6 +232,7 @@ final class TicketListViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
 
         self.viewModel.output.isAccessTokenLoaded
+            .skip(1)
             .asDriver(onErrorJustReturn: false)
             .drive(with: self, onNext: { owner, isLoaded in
                 // AccessToken이 없으면 -> LoginEnterView를 띄우기!..
@@ -255,6 +256,8 @@ final class TicketListViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
 
         self.viewModel.output.sectionModels
+            .skip(1)
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
             .drive(with: self, onNext: { owner, ticketItems in
                 owner.applySnapshot(ticketItems)
@@ -308,7 +311,7 @@ final class TicketListViewController: BooltiViewController {
             .drive(with: self) { owner, _ in
                 guard let QRCodeImage = qrCodeImageView.image else { return }
                 let viewController = owner.qrExpandViewControllerFactory(QRCodeImage, ticketName)
-                viewController.modalPresentationStyle = .overFullScreen
+                viewController.modalPresentationStyle = .fullScreen
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)

@@ -173,7 +173,8 @@ final class TicketDetailViewController: BooltiViewController {
 
         self.ticketDetailView.didCopyAddressButtonTap
             .bind(with: self) { owner, _ in
-                UIPasteboard.general.string = owner.viewModel.output.fetchedTicketDetail.value?.location
+                guard let streetAddress = owner.viewModel.output.fetchedTicketDetail.value?.streetAddress else { return }
+                UIPasteboard.general.string = streetAddress
                 owner.showToast(message: "공연장 주소가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
@@ -207,7 +208,8 @@ final class TicketDetailViewController: BooltiViewController {
                 let concertID = String(ticketDetail.concertID)
 
                 let viewController = owner.ticketEntryCodeControllerFactory(ticketID, concertID)
-                viewController.modalPresentationStyle = .overFullScreen
+                viewController.modalPresentationStyle = .overCurrentContext
+                owner.definesPresentationContext = true
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)

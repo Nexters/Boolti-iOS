@@ -188,19 +188,13 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         self.viewModel.output.didRequestFundCompleted
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                // MARK: dismiss pop 하는 로직 제대로 공부해서 수정하기
-                guard let homeTabBarController = owner.presentingViewController as? HomeTabBarController else { return }
-                guard let rootviewController = homeTabBarController.children[2] as? UINavigationController else { return }
-                print(rootviewController.viewControllers)
-                guard let ticketReservationDetailViewController = rootviewController.viewControllers.filter({ $0 is TicketReservationDetailViewController
-                })[0] as? TicketReservationDetailViewController else { return }
-                print(ticketReservationDetailViewController)
-                guard let ticketRefundVC = rootviewController.viewControllers.filter({ $0 is TicketRefundRequestViewController
-                })[0] as? TicketRefundRequestViewController else { return }
+                guard let refundRequestViewController = owner.presentingViewController as? TicketRefundRequestViewController else { return }
+                guard let viewControllers = refundRequestViewController.navigationController?.viewControllers else { return }
+                guard let reservationListViewControllers = viewControllers.filter({ $0 is TicketReservationsViewController }).first as? TicketReservationsViewController else { return }
 
                 owner.showToast(message: "환불 요청이 완료되었어요")
                 owner.dismiss(animated: true) {
-                    ticketRefundVC.navigationController?.popToViewController(ticketReservationDetailViewController, animated: true)
+                    refundRequestViewController.navigationController?.popToViewController(reservationListViewControllers, animated: true)
                 }
             }
             .disposed(by: self.disposeBag)

@@ -71,14 +71,11 @@ final class TicketEntryCodeViewController: BooltiViewController {
             .drive(with: self, onNext: { owner, response in
                 switch response {
                 case .valid:
-                    guard let homeTabBarController = owner.presentingViewController as? HomeTabBarController else { return }
-                    guard let rootviewController = homeTabBarController.children[1] as? UINavigationController else { return }
-                    guard let ticketDetailViewController = rootviewController.viewControllers.filter({ $0 is TicketDetailViewController
-                    })[0] as? TicketDetailViewController else { return }
+                    guard let detailViewController = owner.presentingViewController as? TicketDetailViewController else { return }
 
                     owner.dismiss(animated: true) {
-                        ticketDetailViewController.showToast(message: "사용되었어요")
-                        ticketDetailViewController.entryCodeButton.isHidden = true
+                        detailViewController.showToast(message: "사용되었어요")
+                        detailViewController.entryCodeButton.isHidden = true
                     }
                 default:
                     owner.entryCodeInputView.setData(with: response)

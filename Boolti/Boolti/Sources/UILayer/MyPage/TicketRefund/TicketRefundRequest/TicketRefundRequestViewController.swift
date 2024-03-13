@@ -311,7 +311,8 @@ final class TicketRefundRequestViewController: BooltiViewController {
                     owner.viewModel.reasonText,
                     refundAccountInfomration
                 )
-                viewController.modalPresentationStyle = .fullScreen
+                viewController.modalPresentationStyle = .overCurrentContext
+                owner.definesPresentationContext = true
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
