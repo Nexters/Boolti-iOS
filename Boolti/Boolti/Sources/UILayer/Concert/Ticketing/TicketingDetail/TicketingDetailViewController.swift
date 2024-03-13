@@ -124,6 +124,7 @@ extension TicketingDetailViewController {
         self.bindNavigationBar()
         self.bindUserInputView()
         self.bindPolicyView()
+        self.bindBusinessInfoView()
     }
     
     private func bindInputs() {
@@ -289,6 +290,15 @@ extension TicketingDetailViewController {
                 let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.height + viewHeight - 66 + 24)
                 owner.scrollView.setContentOffset(bottomOffset, animated: true)
             })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindBusinessInfoView() {
+        self.businessInfoView.didInfoButtonTap()
+            .emit(with: self) { owner, _ in
+                let viewController = BooltiBusinessInfoDetailViewController()
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
             .disposed(by: self.disposeBag)
     }
     

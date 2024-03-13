@@ -156,7 +156,7 @@ extension ConcertListViewController: UICollectionViewDataSource {
             
             cell.didSearchTap()
                 .emit(with: self) { owner, _ in
-                    self.viewModel.fetchConcertList(concertName: cell.searchBarTextField.text)
+                    owner.viewModel.fetchConcertList(concertName: cell.searchBarTextField.text)
                 }
                 .disposed(by: self.disposeBag)
             
@@ -167,6 +167,13 @@ extension ConcertListViewController: UICollectionViewDataSource {
             return cell
         default:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.businessInfoView.didInfoButtonTap()
+                .emit(with: self) { owner, _ in
+                    let viewController = BooltiBusinessInfoDetailViewController()
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+                .disposed(by: self.disposeBag)
             return cell
         }
     }

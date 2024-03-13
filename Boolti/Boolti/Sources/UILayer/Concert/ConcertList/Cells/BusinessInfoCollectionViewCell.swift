@@ -7,11 +7,15 @@
 
 import UIKit
 
+import RxCocoa
+
 final class BusinessInfoCollectionViewCell: UICollectionViewCell {
     
     // MARK: UI Component
     
-    private let businessInfoView = BooltiBusinessInfoView()
+    let businessInfoView = BooltiBusinessInfoView()
+    
+    // MARK: Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,6 +26,10 @@ final class BusinessInfoCollectionViewCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
     }
 }
 

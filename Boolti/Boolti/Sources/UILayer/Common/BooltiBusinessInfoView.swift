@@ -6,6 +6,8 @@
 //
 
 import UIKit
+
+import RxCocoa
 import SnapKit
 
 final class BooltiBusinessInfoView: UIView {
@@ -54,6 +56,15 @@ final class BooltiBusinessInfoView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError()
+    }
+}
+
+// MARK: - Methods
+
+extension BooltiBusinessInfoView {
+    
+    func didInfoButtonTap() -> Signal<Void> {
+        return infoButton.rx.tap.asSignal()
     }
 }
 
