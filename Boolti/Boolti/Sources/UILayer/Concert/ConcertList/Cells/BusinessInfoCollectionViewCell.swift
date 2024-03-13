@@ -7,9 +7,14 @@
 
 import UIKit
 
+import RxSwift
 import RxCocoa
 
 final class BusinessInfoCollectionViewCell: UICollectionViewCell {
+    
+    // MARK: Properties
+    
+    var disposeBag = DisposeBag()
     
     // MARK: UI Component
     

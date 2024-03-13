@@ -121,6 +121,11 @@ extension ConcertListViewController: UICollectionViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return }
+        cell.disposeBag = DisposeBag()
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -173,7 +178,7 @@ extension ConcertListViewController: UICollectionViewDataSource {
                     let viewController = BooltiBusinessInfoDetailViewController()
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
-                .disposed(by: self.disposeBag)
+                .disposed(by: cell.disposeBag)
             return cell
         }
     }
