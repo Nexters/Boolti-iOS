@@ -99,6 +99,7 @@ extension ConcertListViewController {
         self.mainCollectionView.register(ConcertListMainTitleCollectionViewCell.self, forCellWithReuseIdentifier: ConcertListMainTitleCollectionViewCell.className)
         self.mainCollectionView.register(SearchBarCollectionViewCell.self, forCellWithReuseIdentifier: SearchBarCollectionViewCell.className)
         self.mainCollectionView.register(ConcertCollectionViewCell.self, forCellWithReuseIdentifier: ConcertCollectionViewCell.className)
+        self.mainCollectionView.register(BusinessInfoCollectionViewCell.self, forCellWithReuseIdentifier: BusinessInfoCollectionViewCell.className)
     }
 }
 
@@ -127,7 +128,7 @@ extension ConcertListViewController: UICollectionViewDelegate {
 extension ConcertListViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 4
+        return 5
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -160,9 +161,12 @@ extension ConcertListViewController: UICollectionViewDataSource {
                 .disposed(by: self.disposeBag)
             
             return cell
-        default:
+        case 3:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConcertCollectionViewCell.className, for: indexPath) as? ConcertCollectionViewCell else { return UICollectionViewCell() }
             cell.setData(concertEntity: self.viewModel.output.concerts.value[indexPath.item])
+            return cell
+        default:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return UICollectionViewCell() }
             return cell
         }
     }
@@ -180,8 +184,10 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 96)
         case 2:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 80)
-        default:
+        case 3:
             return CGSize(width: (self.mainCollectionView.frame.width - 40) / 2 - 7.5, height: 313 * self.view.frame.height / 812)
+        default:
+            return CGSize(width: self.mainCollectionView.frame.width - 40, height: 86)
         }
     }
     
