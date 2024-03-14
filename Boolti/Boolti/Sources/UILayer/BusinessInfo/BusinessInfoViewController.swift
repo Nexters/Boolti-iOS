@@ -104,7 +104,8 @@ extension BusinessInfoViewController {
         let button = UIButton(configuration: config)
         button.contentHorizontalAlignment = .leading
         
-        let navigateImageView = UIImageView(image: .navigate)
+        let navigateImageView = UIImageView(image: .navigate.withRenderingMode(.alwaysTemplate))
+        navigateImageView.tintColor = .grey50
         button.addSubview(navigateImageView)
         
         navigateImageView.snp.makeConstraints { make in
