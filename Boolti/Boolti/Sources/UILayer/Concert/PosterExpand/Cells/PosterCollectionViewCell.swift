@@ -82,7 +82,7 @@ extension PosterCollectionViewCell: UIScrollViewDelegate {
 extension PosterCollectionViewCell {
     
     private func configureUI() {
-        self.addSubview(self.scrollView)
+        self.contentView.addSubview(self.scrollView)
         
         self.scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
