@@ -31,11 +31,19 @@ final class TicketingDetailDIContainer {
             let viewController = DIContainer.createTicketingCompletionViewController(ticketingEntity: ticketingEntity)
             return viewController
         }
+        
+        let businessInfoViewControllerFactory = {
+            let DIContainer = self.createBusinessInfoDIContainer()
+            let viewController = DIContainer.createBusinessInfoViewController()
+
+            return viewController
+        }
 
         let viewController = TicketingDetailViewController(
             viewModel: viewModel,
             ticketingConfirmViewControllerFactory: ticketingConfirmViewControllerFactory,
-            ticketingCompletionViewControllerFactory: ticketingCompletionViewControllerFactory
+            ticketingCompletionViewControllerFactory: ticketingCompletionViewControllerFactory,
+            businessInfoViewControllerFactory: businessInfoViewControllerFactory
         )
         
         return viewController
@@ -51,5 +59,9 @@ final class TicketingDetailDIContainer {
     
     private func createTicketingCompletionDIContainer() -> TicketingCompletionDIContainer {
         return TicketingCompletionDIContainer(ticketReservationsRepository: TicketReservationRepository(networkService: self.concertRepository.networkService))
+    }
+    
+    private func createBusinessInfoDIContainer() -> BusinessInfoDIContainer {
+        return BusinessInfoDIContainer()
     }
 }

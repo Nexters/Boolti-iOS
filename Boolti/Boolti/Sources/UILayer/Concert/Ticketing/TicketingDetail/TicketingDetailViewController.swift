@@ -18,6 +18,7 @@ final class TicketingDetailViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private let ticketingConfirmViewControllerFactory: (TicketingEntity) -> TicketingConfirmViewController
     private let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController
+    private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
     
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
@@ -86,11 +87,13 @@ final class TicketingDetailViewController: BooltiViewController {
     init(
         viewModel: TicketingDetailViewModel,
         ticketingConfirmViewControllerFactory: @escaping (TicketingEntity) -> TicketingConfirmViewController,
-        ticketingCompletionViewControllerFactory: @escaping (TicketingEntity) -> TicketingCompletionViewController
+        ticketingCompletionViewControllerFactory: @escaping (TicketingEntity) -> TicketingCompletionViewController,
+        businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController
     ) {
         self.viewModel = viewModel
         self.ticketingConfirmViewControllerFactory = ticketingConfirmViewControllerFactory
         self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
+        self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
         super.init()
     }
 
@@ -296,7 +299,7 @@ extension TicketingDetailViewController {
     private func bindBusinessInfoView() {
         self.businessInfoView.didInfoButtonTap()
             .emit(with: self) { owner, _ in
-                let viewController = BooltiBusinessInfoDetailViewController()
+                let viewController = self.businessInfoViewControllerFactory()
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)

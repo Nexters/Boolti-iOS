@@ -32,10 +32,6 @@ final class BusinessInfoCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
 }
 
 // MARK: - UI

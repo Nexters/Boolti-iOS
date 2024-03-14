@@ -19,6 +19,7 @@ final class ConcertListViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private let concertDetailViewControllerFactory: (ConcertId) -> ConcertDetailViewController
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
+    private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
     
     // MARK: UI Component
     
@@ -35,11 +36,13 @@ final class ConcertListViewController: BooltiViewController {
     init(
         viewModel: ConcertListViewModel,
         concertDetailViewControllerFactory: @escaping (ConcertId) -> ConcertDetailViewController,
-        ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController
+        ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
+        businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController
     ) {
         self.viewModel = viewModel
         self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
+        self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
         super.init()
     }
 
@@ -175,7 +178,7 @@ extension ConcertListViewController: UICollectionViewDataSource {
             
             cell.businessInfoView.didInfoButtonTap()
                 .emit(with: self) { owner, _ in
-                    let viewController = BooltiBusinessInfoDetailViewController()
+                    let viewController = self.businessInfoViewControllerFactory()
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
                 .disposed(by: cell.disposeBag)
