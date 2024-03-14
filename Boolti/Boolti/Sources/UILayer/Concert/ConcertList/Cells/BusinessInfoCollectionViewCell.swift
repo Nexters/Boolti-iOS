@@ -39,12 +39,12 @@ final class BusinessInfoCollectionViewCell: UICollectionViewCell {
 extension BusinessInfoCollectionViewCell {
     
     private func configureUI() {
-        self.addSubview(self.businessInfoView)
+        self.contentView.addSubview(self.businessInfoView)
     }
     
     private func configureConstraints() {
         self.businessInfoView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(self.contentView)
         }
     }
 }
