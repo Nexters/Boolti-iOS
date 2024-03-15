@@ -44,7 +44,7 @@ extension BusinessInfoCollectionViewCell {
     
     private func configureConstraints() {
         self.businessInfoView.snp.makeConstraints { make in
-            make.edges.equalTo(self.contentView)
+            make.edges.equalToSuperview()
         }
     }
 }

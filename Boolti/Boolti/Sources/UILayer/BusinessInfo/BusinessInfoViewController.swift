@@ -84,7 +84,7 @@ final class BusinessInfoViewController: UIViewController {
 
 extension BusinessInfoViewController {
     
-    private func makeLabel(with text: String?) -> BooltiUILabel {
+    private func makeLabel(with text: String) -> BooltiUILabel {
         let label = BooltiUILabel()
         label.font = .body3
         label.text = text
@@ -92,7 +92,7 @@ extension BusinessInfoViewController {
         return label
     }
     
-    private func makeButton(with text: String?) -> UIButton {
+    private func makeButton(with text: String) -> UIButton {
         var config = UIButton.Configuration.plain()
         config.title = text
         config.attributedTitle?.font = .body3
