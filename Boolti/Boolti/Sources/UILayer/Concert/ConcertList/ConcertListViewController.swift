@@ -19,6 +19,7 @@ final class ConcertListViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private let concertDetailViewControllerFactory: (ConcertId) -> ConcertDetailViewController
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
+    private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
     
     // MARK: UI Component
     
@@ -35,11 +36,13 @@ final class ConcertListViewController: BooltiViewController {
     init(
         viewModel: ConcertListViewModel,
         concertDetailViewControllerFactory: @escaping (ConcertId) -> ConcertDetailViewController,
-        ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController
+        ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
+        businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController
     ) {
         self.viewModel = viewModel
         self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
+        self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
         super.init()
     }
 
@@ -99,6 +102,7 @@ extension ConcertListViewController {
         self.mainCollectionView.register(ConcertListMainTitleCollectionViewCell.self, forCellWithReuseIdentifier: ConcertListMainTitleCollectionViewCell.className)
         self.mainCollectionView.register(SearchBarCollectionViewCell.self, forCellWithReuseIdentifier: SearchBarCollectionViewCell.className)
         self.mainCollectionView.register(ConcertCollectionViewCell.self, forCellWithReuseIdentifier: ConcertCollectionViewCell.className)
+        self.mainCollectionView.register(BusinessInfoCollectionViewCell.self, forCellWithReuseIdentifier: BusinessInfoCollectionViewCell.className)
     }
 }
 
@@ -120,6 +124,11 @@ extension ConcertListViewController: UICollectionViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return }
+        cell.disposeBag = DisposeBag()
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -127,7 +136,7 @@ extension ConcertListViewController: UICollectionViewDelegate {
 extension ConcertListViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 4
+        return 5
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -155,14 +164,24 @@ extension ConcertListViewController: UICollectionViewDataSource {
             
             cell.didSearchTap()
                 .emit(with: self) { owner, _ in
-                    self.viewModel.fetchConcertList(concertName: cell.searchBarTextField.text)
+                    owner.viewModel.fetchConcertList(concertName: cell.searchBarTextField.text)
                 }
                 .disposed(by: self.disposeBag)
             
             return cell
-        default:
+        case 3:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConcertCollectionViewCell.className, for: indexPath) as? ConcertCollectionViewCell else { return UICollectionViewCell() }
             cell.setData(concertEntity: self.viewModel.output.concerts.value[indexPath.item])
+            return cell
+        default:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.businessInfoView.didInfoButtonTap()
+                .emit(with: self) { owner, _ in
+                    let viewController = self.businessInfoViewControllerFactory()
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+                .disposed(by: cell.disposeBag)
             return cell
         }
     }
@@ -180,8 +199,10 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 96)
         case 2:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 80)
-        default:
+        case 3:
             return CGSize(width: (self.mainCollectionView.frame.width - 40) / 2 - 7.5, height: 313 * self.view.frame.height / 812)
+        default:
+            return CGSize(width: self.mainCollectionView.frame.width - 40, height: 86)
         }
     }
     

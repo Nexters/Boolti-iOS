@@ -57,9 +57,9 @@ extension SearchBarCollectionViewCell {
 extension SearchBarCollectionViewCell {
     
     private func configureUI() {
-        self.addSubviews([self.searchBarTextField, self.searchButton])
+        self.contentView.addSubviews([self.searchBarTextField, self.searchButton])
         
-        self.backgroundColor = .grey95
+        self.contentView.backgroundColor = .grey95
     }
     
     private func configureConstraints() {

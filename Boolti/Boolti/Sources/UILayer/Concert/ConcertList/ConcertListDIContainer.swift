@@ -39,11 +39,19 @@ final class ConcertListDIContainer {
 
             return viewController
         }
+        
+        let businessInfoViewControllerFactory = {
+            let DIContainer = self.createBusinessInfoDIContainer()
+            let viewController = DIContainer.createBusinessInfoViewController()
+
+            return viewController
+        }
 
         let viewController = ConcertListViewController(
             viewModel: viewModel,
             concertDetailViewControllerFactory: concertDetailViewControllerFactory,
-            ticketReservationsViewControllerFactory: ticketReservationsViewControllerFactory
+            ticketReservationsViewControllerFactory: ticketReservationsViewControllerFactory,
+            businessInfoViewControllerFactory: businessInfoViewControllerFactory
         )
 
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -64,4 +72,7 @@ final class ConcertListDIContainer {
         return ConcertDetailDIContainer(authRepository: self.authRepository, concertRepository: self.concertRepository)
     }
 
+    private func createBusinessInfoDIContainer() -> BusinessInfoDIContainer {
+        return BusinessInfoDIContainer()
+    }
 }

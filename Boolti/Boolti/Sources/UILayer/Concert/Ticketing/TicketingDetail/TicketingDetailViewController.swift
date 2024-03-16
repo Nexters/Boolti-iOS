@@ -18,6 +18,7 @@ final class TicketingDetailViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private let ticketingConfirmViewControllerFactory: (TicketingEntity) -> TicketingConfirmViewController
     private let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController
+    private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
     
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
@@ -29,7 +30,7 @@ final class TicketingDetailViewController: BooltiViewController {
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.showsVerticalScrollIndicator = false
-        view.contentInset = .init(top: 0, left: 0, bottom: 40, right: 0)
+        view.contentInset = .init(top: 0, left: 0, bottom: 24, right: 0)
         view.keyboardDismissMode = .onDrag
         view.delegate = self
         return view
@@ -48,6 +49,8 @@ final class TicketingDetailViewController: BooltiViewController {
     private let invitationCodeView = InvitationCodeView()
     
     private let policyView = PolicyView()
+    
+    private let businessInfoView = BooltiBusinessInfoView()
 
     private lazy var buttonBackgroundView: UIView = {
         let view = UIView()
@@ -72,7 +75,8 @@ final class TicketingDetailViewController: BooltiViewController {
                                   self.ticketInfoView,
                                   self.paymentMethodView,
                                   self.invitationCodeView,
-                                  self.policyView])
+                                  self.policyView,
+                                  self.businessInfoView])
         return view
     }()
     
@@ -83,11 +87,13 @@ final class TicketingDetailViewController: BooltiViewController {
     init(
         viewModel: TicketingDetailViewModel,
         ticketingConfirmViewControllerFactory: @escaping (TicketingEntity) -> TicketingConfirmViewController,
-        ticketingCompletionViewControllerFactory: @escaping (TicketingEntity) -> TicketingCompletionViewController
+        ticketingCompletionViewControllerFactory: @escaping (TicketingEntity) -> TicketingCompletionViewController,
+        businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController
     ) {
         self.viewModel = viewModel
         self.ticketingConfirmViewControllerFactory = ticketingConfirmViewControllerFactory
         self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
+        self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
         super.init()
     }
 
@@ -121,6 +127,7 @@ extension TicketingDetailViewController {
         self.bindNavigationBar()
         self.bindUserInputView()
         self.bindPolicyView()
+        self.bindBusinessInfoView()
     }
     
     private func bindInputs() {
@@ -282,9 +289,19 @@ extension TicketingDetailViewController {
         self.policyView.policyLabelHeight
             .asDriver(onErrorJustReturn: 0)
             .drive(with: self, onNext: { owner, viewHeight in
-                let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.height + viewHeight)
+                
+                let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.height + viewHeight - 66 + 24)
                 owner.scrollView.setContentOffset(bottomOffset, animated: true)
             })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindBusinessInfoView() {
+        self.businessInfoView.didInfoButtonTap()
+            .emit(with: self) { owner, _ in
+                let viewController = self.businessInfoViewControllerFactory()
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
             .disposed(by: self.disposeBag)
     }
     
@@ -384,6 +401,7 @@ extension TicketingDetailViewController {
             make.verticalEdges.equalTo(self.scrollView)
             make.width.equalTo(self.scrollView)
         }
+        
         self.buttonBackgroundView.snp.makeConstraints { make in
             make.bottom.equalTo(self.scrollView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
