@@ -17,9 +17,18 @@ enum NotificationMessageTitle {
         case "발권 완료": // 발권 완료
             self  = .didTicketIssued
         case "입장 대기": // 입장 대기
-            self = .didTicketIssued
+            self = .concertWillStart
         default:
             return nil
+        }
+    }
+
+    var tabBarIndex: Int {
+        switch self {
+        case .didTicketIssued:
+            return 1
+        case .concertWillStart:
+            return 1
         }
     }
 }
