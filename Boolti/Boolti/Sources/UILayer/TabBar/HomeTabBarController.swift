@@ -45,6 +45,7 @@ final class HomeTabBarController: UITabBarController {
 extension HomeTabBarController {
     
     private func bind() {
+
         self.rx.didSelect.distinctUntilChanged()
             .map { [weak self] selected in self?.viewControllers?.firstIndex(where: { selected === $0 }) }
             .compactMap { $0 }
@@ -75,6 +76,7 @@ extension HomeTabBarController {
                 owner.selectedIndex = selectedIndex
             })
             .disposed(by: disposeBag)
+
     }
 }
 
