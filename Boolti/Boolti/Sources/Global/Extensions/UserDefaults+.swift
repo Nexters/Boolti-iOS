@@ -30,7 +30,10 @@ extension UserDefaults {
     
     @UserDefault<OAuthProvider>(key: UserDefaultsKey.oauthProvider.rawValue, defaultValue: .kakao)
     static var oauthProvider
-    
+
+    @UserDefault<Int>(key: UserDefaultsKey.tabBarIndex.rawValue, defaultValue:  0)
+    static var tabBarIndex
+
     // MARK: - Custom Methods
 
     static func removeAllUserInfo() {
