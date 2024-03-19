@@ -36,6 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// 자동 초기화 방지
         Messaging.messaging().isAutoInitEnabled = true
 
+        /// 탭 Bar index 초기화하기
+        UserDefaults.tabBarIndex = 0
+
         return true
     }
 
