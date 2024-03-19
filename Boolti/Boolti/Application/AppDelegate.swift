@@ -97,13 +97,20 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
 
-        let messageTitle = response.notification.request.content.title
-        let messageBody = response.notification.request.content.body
+        let title = response.notification.request.content.title
+        let notificationMessageTitle = NotificationMessageTitle(title)
 
         if let keyWindow = UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }).first?.windows.first {
             if let rootViewController = keyWindow.rootViewController as? RootViewController {
                 if let homeTabBarViewController = rootViewController.presentedViewController as? HomeTabBarController {
-                    homeTabBarViewController.selectedIndex = 0
+                    switch notificationMessageTitle {
+                    case .didTicketIssued:
+                        homeTabBarViewController.selectedIndex = 1
+                    case .concertWillStart:
+                        homeTabBarViewController.selectedIndex = 1
+                    case .none:
+                        homeTabBarViewController.selectedIndex = 0
+                    }
                 }
             }
         }
