@@ -40,10 +40,35 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return stackView
     }()
 
-    private let reservationIDLabel: BooltiPaddingLabel = {
-        let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 0))
+    private lazy var reservationUpperStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 5, left: 20, bottom: .zero, right: 20)
+
+        stackView.addArrangedSubviews([
+            self.reservationIDLabel,
+            self.reservationStatusLabel
+        ])
+
+        return stackView
+    }()
+
+    private let reservationIDLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey50
         label.font = .pretendardR(14)
+
+        return label
+    }()
+
+    private let reservationStatusLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        // Color, Text는 서버 API에 따라서 바뀔 예정
+        label.font = .body1
+        label.textColor = .red
+        label.text = "안녕하세요"
 
         return label
     }()
@@ -171,10 +196,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
             make.edges.equalToSuperview()
         }
 
-        self.reservationIDLabel.snp.makeConstraints { make in
-            make.width.equalTo(screenWidth)
-        }
-
         self.reversalPolicyView.snp.makeConstraints { make in
             make.width.equalTo(screenWidth)
         }
@@ -193,7 +214,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private func addArrangedSubViews() {
         self.contentStackView.addArrangedSubviews([
-            self.reservationIDLabel,
+            self.reservationUpperStackView,
             self.concertInformationView,
             self.depositAccountInformationStackView,
             self.paymentInformationStackView,
@@ -205,6 +226,9 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.requestRefundButton,
         ])
 
+        self.reservationUpperStackView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+        }
         self.contentStackView.setCustomSpacing(0, after: self.reversalPolicyView)
     }
 
