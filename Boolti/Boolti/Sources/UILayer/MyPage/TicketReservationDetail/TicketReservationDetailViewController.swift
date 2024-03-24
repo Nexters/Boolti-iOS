@@ -30,7 +30,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return scrollView
     }()
 
-    private let  contentStackView: UIStackView = {
+    private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -344,6 +344,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         case .reservationCompleted:
             if Date() <= entity.salesEndTime.formatToDate() {
                 self.requestRefundButton.isHidden = false
+                self.changeBlankSpaceViewHeight()
             } else {
                 self.requestRefundButton.isHidden = true
             }
@@ -363,5 +364,11 @@ final class TicketReservationDetailViewController: BooltiViewController {
         let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.size.height)
 
         self.scrollView.setContentOffset(bottomOffset, animated: true)
+    }
+
+    private func changeBlankSpaceViewHeight() {
+        self.blankSpaceView.snp.updateConstraints { make in
+            make.height.equalTo(20)
+        }
     }
 }

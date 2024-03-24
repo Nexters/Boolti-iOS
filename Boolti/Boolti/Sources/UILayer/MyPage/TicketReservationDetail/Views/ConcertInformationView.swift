@@ -77,14 +77,14 @@ final class ConcertInformationView: UIView {
         let screenWidth = window.screen.bounds.width
 
         self.snp.makeConstraints { make in
-            make.height.equalTo(120)
+            make.height.equalTo(110)
             make.width.equalTo(screenWidth)
         }
 
         self.concertPosterImageView.snp.makeConstraints { make in
             make.width.equalTo(70)
             make.height.equalTo(98)
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-5)
             make.left.equalToSuperview().inset(20)
         }
         
