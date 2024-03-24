@@ -19,8 +19,8 @@ enum ReservationStatus: String {
         case .waitingForDeposit: return "입금 확인 중"
         case .cancelled: return "취소"
         case .reservationCompleted: return "티켓 발권 완료"
-        case .waitingForRefund: return "환불 진행 중"
-        case .refundCompleted: return "환불 완료"
+        case .waitingForRefund: return "취소 진행 중"
+        case .refundCompleted: return "취소 완료"
         }
     }
 

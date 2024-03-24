@@ -55,7 +55,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
     private let accountNumberView = RefundConfirmContentView(title: "계좌번호")
 
     private let requestRefundButton: BooltiButton = {
-        let button = BooltiButton(title: "환불 요청하기")
+        let button = BooltiButton(title: "취소 요청하기")
 
         return button
     }()
@@ -192,7 +192,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
                 guard let viewControllers = refundRequestViewController.navigationController?.viewControllers else { return }
                 guard let reservationListViewControllers = viewControllers.filter({ $0 is TicketReservationsViewController }).first as? TicketReservationsViewController else { return }
 
-                owner.showToast(message: "환불 요청이 완료되었어요")
+                owner.showToast(message: "취소 요청이 완료되었어요")
                 owner.dismiss(animated: true) {
                     refundRequestViewController.navigationController?.popToViewController(reservationListViewControllers, animated: true)
                 }

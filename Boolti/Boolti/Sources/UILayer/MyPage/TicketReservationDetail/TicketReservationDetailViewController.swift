@@ -128,7 +128,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private let requestRefundButton: UIButton = {
         let button = UIButton()
-        button.setTitle("환불 요청하기", for: .normal)
+        button.setTitle("취소 요청하기", for: .normal)
         button.setTitleColor(.grey90, for: .normal)
         button.titleLabel?.font = .subhead1
         button.backgroundColor = .grey20

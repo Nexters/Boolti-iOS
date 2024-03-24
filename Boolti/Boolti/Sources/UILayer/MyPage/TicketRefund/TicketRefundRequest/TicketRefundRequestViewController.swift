@@ -23,7 +23,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
     private let viewModel: TicketRefundRequestViewModel
     private let disposeBag = DisposeBag()
 
-    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "환불 요청하기"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "취소 요청하기"))
     private let concertInformationView = ConcertInformationView()
 
     private let accountHolderNameView = AccountContentView(
@@ -61,7 +61,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
     private let selectRefundBankView = SelectRefundBankView()
     private let refundAccountNumberView = RefundAccountNumberView()
 
-    private let requestRefundButton = BooltiButton(title: "환불 요청하기")
+    private let requestRefundButton = BooltiButton(title: "취소 요청하기")
 
     private let dimmedBackgroundView: UIView = {
         let view = UIView()
