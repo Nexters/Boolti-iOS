@@ -98,22 +98,14 @@ final class ReversalPolicyView: UIStackView {
             make.centerY.equalToSuperview()
             make.right.equalTo(self.titleView.snp.right).inset(20)
         }
-
-        self.reversalPolicyLabel.snp.makeConstraints { make in
-            make.height.equalTo(290)
-        }
     }
 
     private func bindUIComponents() {
-        self.viewCollapseButton.rx.tap
+        self.titleView.rx.tapGesture()
+            .skip(1)
             .bind(with: self) { owner, _ in
                 owner.viewCollapseButton.isSelected.toggle()
-
-                UIView.animate(withDuration: 0.3) {
-                    owner.reversalPolicyLabel.isHidden.toggle()
-                    owner.layoutIfNeeded()
-                }
-                owner.didViewCollapseButtonTap.accept(())
+                owner.reversalPolicyLabel.isHidden.toggle()
             }
             .disposed(by: self.disposeBag)
     }
