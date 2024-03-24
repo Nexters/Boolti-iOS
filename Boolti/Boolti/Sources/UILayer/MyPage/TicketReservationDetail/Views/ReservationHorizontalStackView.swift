@@ -117,7 +117,7 @@ final class ReservationHorizontalStackView: UIStackView {
         }
 
         self.titleLabel.snp.makeConstraints { make in
-            make.width.equalTo(80)
+            make.width.equalTo(120)
         }
         
         self.copyButton.snp.makeConstraints { make in

@@ -24,8 +24,28 @@ final class TicketRefundRequestViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
 
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "취소 요청하기"))
+
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .grey95
+        scrollView.showsVerticalScrollIndicator = false
+
+        return scrollView
+    }()
+
+    private let contentStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.spacing = 12
+
+        return stackView
+    }()
+
     private let concertInformationView = ConcertInformationView()
 
+    private lazy var accountHolderTitleLabel = self.makeTitleLabel(title: "예금주 정보")
     private let accountHolderNameView = AccountContentView(
         title: "이름",
         placeHolder: "실명을 입력해 주세요",
@@ -36,30 +56,32 @@ final class TicketRefundRequestViewController: BooltiViewController {
         placeHolder: "숫자만 입력해 주세요",
         errorComment: "연락처를 올바르게 입력해 주세요"
     )
-    private lazy var accountHolderView = ReservationCollapsableStackView(
-        title: "예금주 정보",
-        contentViews: [self.accountHolderNameView, self.accountHolderPhoneNumberView],
-        isHidden: false
-    )
+    
+    private lazy var accountHolderStackView: UIStackView = self.makeContentStackView([
+        self.accountHolderTitleLabel,
+        self.accountHolderNameView,
+        self.accountHolderPhoneNumberView
+    ])
 
-    private let refundAccountInformationView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .grey90
-
-        return view
-    }()
-
-    private let refundAccountTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "환불 계좌 정보"
-        label.font = .subhead2
-        label.textColor = .grey10
-
-        return label
-    }()
-
+    private lazy var refundAccountTitleLabel = self.makeTitleLabel(title: "환불 계좌 정보")
     private let selectRefundBankView = SelectRefundBankView()
     private let refundAccountNumberView = RefundAccountNumberView()
+
+    private lazy var refundAccountInformationView: UIStackView = self.makeContentStackView([
+        self.refundAccountTitleLabel,
+        self.selectRefundBankView,
+        self.refundAccountNumberView
+    ])
+
+    private lazy var refundInformationTitlelabel = self.makeTitleLabel(title: "환불 정보")
+    private let refundAmountView = ReservationHorizontalStackView(title: "환불 예정 금액", alignment: .right)
+    private let refundMethodView = ReservationHorizontalStackView(title: "환불 수단", alignment: .right)
+
+    private lazy var refundInformationStackView = self.makeContentStackView([
+        self.refundInformationTitlelabel,
+        self.refundAmountView,
+        self.refundMethodView
+    ])
 
     private let requestRefundButton = BooltiButton(title: "취소 요청하기")
 
@@ -97,69 +119,107 @@ final class TicketRefundRequestViewController: BooltiViewController {
         self.accountHolderPhoneNumberView.contentTextField.keyboardType = .phonePad
         self.refundAccountNumberView.accountNumberTextField.keyboardType = .phonePad
 
-        self.refundAccountInformationView.addSubviews([
-            self.refundAccountTitleLabel,
-            self.selectRefundBankView,
-            self.refundAccountNumberView
-        ])
+        // API 붙히면 넣어줄 값
+        self.refundAmountView.setData("5,000원")
+        self.refundMethodView.setData("계좌이체")
 
         self.view.addSubviews([
             self.navigationBar,
-            self.concertInformationView,
-            self.accountHolderView,
-            self.refundAccountInformationView,
-            self.requestRefundButton,
+            self.scrollView,
             self.dimmedBackgroundView
         ])
+
+        self.scrollView.addSubview(self.contentStackView)
+
+        self.configureConstraints()
+        self.contentStackView.addArrangedSubviews([
+            self.concertInformationView,
+            self.accountHolderStackView,
+            self.refundAccountInformationView,
+            self.refundInformationStackView,
+            self.requestRefundButton,
+        ])
+//
+//        self.accountHolderStackView.snp.makeConstraints { make in
+//            make.top.equalTo(self.concertInformationView.snp.bottom).offset(12)
+//            make.horizontalEdges.equalToSuperview()
+//        }
+//
+//        self.refundAccountInformationView.snp.makeConstraints { make in
+//            make.height.equalTo(205)
+//            make.top.equalTo(self.accountHolderStackView.snp.bottom).offset(12)
+//            make.horizontalEdges.equalToSuperview()
+//        }
+//
+//        self.refundAccountTitleLabel.snp.makeConstraints { make in
+//            make.top.equalToSuperview().inset(20)
+//            make.left.equalToSuperview().inset(20)
+//        }
+//
+//        self.refundInformationStackView.snp.makeConstraints { make in
+//            make.top.equalTo(self.refundAccountInformationView.snp.bottom).offset(20)
+//            make.horizontalEdges.equalToSuperview()
+//        }
+//
+//        self.selectRefundBankView.snp.makeConstraints { make in
+//            make.horizontalEdges.equalToSuperview().inset(20)
+//            make.top.equalTo(self.refundAccountTitleLabel.snp.bottom).offset(20)
+//        }
+//
+//        self.refundAccountNumberView.snp.makeConstraints { make in
+//            make.horizontalEdges.equalToSuperview().inset(20)
+//            make.top.equalTo(self.selectRefundBankView.snp.bottom).offset(12)
+//        }
+//
+//        self.requestRefundButton.snp.makeConstraints { make in
+//            make.horizontalEdges.equalToSuperview().inset(20)
+//            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
+//        }
+//
+//        self.dimmedBackgroundView.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
+
+    }
+
+    private func configureConstraints() {
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return
+        }
+        let screenWidth = window.screen.bounds.width
+
+        self.scrollView.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.bottom.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+
+        self.contentStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
 
         self.navigationBar.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
         }
 
         self.concertInformationView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.width.equalTo(screenWidth)
         }
 
-        self.accountHolderView.snp.makeConstraints { make in
-            make.top.equalTo(self.concertInformationView.snp.bottom).offset(12)
+        self.accountHolderStackView.snp.makeConstraints { make in
+            make.width.equalTo(screenWidth)
         }
 
         self.refundAccountInformationView.snp.makeConstraints { make in
-            make.height.equalTo(205)
-            make.top.equalTo(self.accountHolderView.snp.bottom).offset(12)
-            make.horizontalEdges.equalToSuperview()
+            make.width.equalTo(screenWidth)
         }
 
-        self.refundAccountTitleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
-            make.left.equalToSuperview().inset(20)
-        }
-
-        self.selectRefundBankView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.top.equalTo(self.refundAccountTitleLabel.snp.bottom).offset(20)
-        }
-
-        self.refundAccountNumberView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.top.equalTo(self.selectRefundBankView.snp.bottom).offset(12)
+        self.refundInformationStackView.snp.makeConstraints { make in
+            make.width.equalTo(screenWidth)
         }
 
         self.requestRefundButton.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
+            make.width.equalTo(screenWidth-40)
         }
-
-        self.dimmedBackgroundView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
-        self.configureAccountHolderViewSpacing()
-    }
-
-    private func configureAccountHolderViewSpacing() {
-        let subview = self.accountHolderView.arrangedSubviews[1]
-        self.accountHolderView.setCustomSpacing(16, after: subview)
     }
 
     private func bindViewModel() {
@@ -322,5 +382,33 @@ final class TicketRefundRequestViewController: BooltiViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func makeTitleLabel(title: String) -> UILabel {
+        let label = UILabel()
+        label.text = title
+        label.font = .subhead2
+        label.textColor = .grey10
+
+        return label
+    }
+
+    private func makeContentStackView(_ subViews: [UIView]) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.backgroundColor = .grey90
+        stackView.isLayoutMarginsRelativeArrangement = true
+
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
+            top: 20,
+            leading: 20,
+            bottom: 20,
+            trailing: 20
+        )
+        stackView.addArrangedSubviews(subViews)
+        stackView.spacing = 16
+        stackView.setCustomSpacing(20, after: subViews[0])
+
+        return stackView
     }
 }
