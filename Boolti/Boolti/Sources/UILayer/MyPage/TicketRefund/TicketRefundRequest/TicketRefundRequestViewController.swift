@@ -277,12 +277,12 @@ final class TicketRefundRequestViewController: BooltiViewController {
             self.viewModel.output.isAccoundHolderNameEmpty,
             self.viewModel.output.isAccoundHolderPhoneNumberEmpty,
             self.viewModel.output.isValidrefundAccountNumber,
-            self.viewModel.output.selectedBank
+            self.viewModel.output.selectedBank,
+            self.viewModel.output.isReversalPolicyChecked
         )
             .asDriver(onErrorDriveWith: .never())
-            .drive { [weak self] (isAccountHolderEmpty, isAccountPhoneNumberEmpty, isValidNumber, selectedBank) in
-
-                self?.requestRefundButton.isEnabled = !isAccountHolderEmpty && !isAccountPhoneNumberEmpty && isValidNumber && (selectedBank != nil)
+            .drive { [weak self] (isAccountHolderEmpty, isAccountPhoneNumberEmpty, isValidNumber, selectedBank, isChecked) in
+                self?.requestRefundButton.isEnabled = !isAccountHolderEmpty && !isAccountPhoneNumberEmpty && isValidNumber && (selectedBank != nil) && isChecked
             }
             .disposed(by: self.disposeBag)
     }
@@ -352,6 +352,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
         self.reversalPolicyConfirmButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.reversalPolicyConfirmButton.isSelected.toggle()
+                owner.viewModel.input.isReversalPolicyChecked.accept(owner.reversalPolicyConfirmButton.isSelected)
             }
             .disposed(by: self.disposeBag)
 
