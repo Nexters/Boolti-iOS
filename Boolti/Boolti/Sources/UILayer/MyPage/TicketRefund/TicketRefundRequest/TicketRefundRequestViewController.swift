@@ -232,8 +232,15 @@ final class TicketRefundRequestViewController: BooltiViewController {
                     owner.viewModel.input.selectedItem.accept(item)
                 }
                 owner.dimmedBackgroundView.isHidden = false
-
                 owner.present(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.scrollView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                owner.view.endEditing(true)
             }
             .disposed(by: self.disposeBag)
     }
