@@ -287,6 +287,7 @@
 		878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */; };
 		87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */; };
 		87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */; };
+		87B18FE72BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B18FE62BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift */; };
 		87C7594C2BA93EA40009A83E /* NotificationMessageTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7594B2BA93EA40009A83E /* NotificationMessageTitle.swift */; };
 		87CE4F6A2B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */; };
 		87CE4F6C2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */; };
@@ -562,6 +563,7 @@
 		878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASAuthorizationController+Rx.swift"; sourceTree = "<group>"; };
 		87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationsTableViewCell.swift; sourceTree = "<group>"; };
 		87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemEntity.swift; sourceTree = "<group>"; };
+		87B18FE62BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversalPolicyConfirmButton.swift; sourceTree = "<group>"; };
 		87C7594B2BA93EA40009A83E /* NotificationMessageTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationMessageTitle.swift; sourceTree = "<group>"; };
 		87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterRequestDTO.swift; sourceTree = "<group>"; };
 		87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterResponseDTO.swift; sourceTree = "<group>"; };
@@ -1563,6 +1565,7 @@
 				8730F01D2B7B38F700D4F339 /* AccountContentView.swift */,
 				8730F01F2B7B520A00D4F339 /* SelectRefundBankView.swift */,
 				8730F02D2B7BAA2B00D4F339 /* RefundAccountNumberView.swift */,
+				87B18FE62BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1972,6 +1975,7 @@
 				843918FE2B7A82E700CC62AA /* ReportViewModel.swift in Sources */,
 				845F25462B89FA5000F6C328 /* PosterExpandViewController.swift in Sources */,
 				841D77D42B73B1B00068B1C5 /* ConcertRepository.swift in Sources */,
+				87B18FE72BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift in Sources */,
 				8753CA772B71F004002871C7 /* TicketListItemResponseDTO.swift in Sources */,
 				849FBD512B5E920A006EB865 /* AppInfo.swift in Sources */,
 				221D09FC2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift in Sources */,
