@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import RxGesture
 import Kingfisher
+import FirebaseDynamicLinks
 
 final class ConcertDetailViewController: BooltiViewController {
     
@@ -254,13 +255,27 @@ extension ConcertDetailViewController {
         
         self.navigationBar.didShareButtonTap()
             .emit(with: self) { owner, _ in
-                guard let url = URL(string: AppInfo.booltiShareLink),
-                      let posterURL = owner.viewModel.output.concertDetail.value?.posters.first?.path
+                guard let posterURL = owner.viewModel.output.concertDetail.value?.posters.first?.path
                 else { return }
-                
+
+                guard let concertID = self.viewModel.output.concertDetail.value?.id else { return }
+                guard let link = URL(string: "https://app.boolti.in/show?showId=\(concertID)") else { return }
+                let dynamicLinksDomainURIPrefix = AppInfo.booltiDeepLinkPrefix
+                guard let linkBuilder = DynamicLinkComponents(
+                    link: link,
+                    domainURIPrefix: dynamicLinksDomainURIPrefix
+                ) else { return }
+
+                linkBuilder.iOSParameters = DynamicLinkIOSParameters(bundleID: AppInfo.bundleID)
+                linkBuilder.iOSParameters?.appStoreID = AppInfo.appId
+//                linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: "com.example.android")
+
+                guard let longDynamicLink = linkBuilder.url else { return }
+                print("The long URL is: \(longDynamicLink)")
+
                 let image = KFImage(URL(string: posterURL))
                 
-                let activityViewController = UIActivityViewController(activityItems: [url, image], applicationActivities: nil)
+                let activityViewController = UIActivityViewController(activityItems: [longDynamicLink, image], applicationActivities: nil)
                 activityViewController.popoverPresentationController?.sourceView = owner.view
                 owner.present(activityViewController, animated: true, completion: nil)
             }
