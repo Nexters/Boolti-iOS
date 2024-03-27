@@ -257,25 +257,15 @@ extension ConcertDetailViewController {
             .emit(with: self) { owner, _ in
                 guard let posterURL = owner.viewModel.output.concertDetail.value?.posters.first?.path
                 else { return }
-
                 guard let concertID = self.viewModel.output.concertDetail.value?.id else { return }
-                guard let link = URL(string: "https://app.boolti.in/show?showId=\(concertID)") else { return }
-                let dynamicLinksDomainURIPrefix = AppInfo.booltiDeepLinkPrefix
-                guard let linkBuilder = DynamicLinkComponents(
-                    link: link,
-                    domainURIPrefix: dynamicLinksDomainURIPrefix
-                ) else { return }
-
-                linkBuilder.iOSParameters = DynamicLinkIOSParameters(bundleID: AppInfo.bundleID)
-                linkBuilder.iOSParameters?.appStoreID = AppInfo.appId
-//                linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: "com.example.android")
-
-                guard let longDynamicLink = linkBuilder.url else { return }
-                print("The long URL is: \(longDynamicLink)")
 
                 let image = KFImage(URL(string: posterURL))
-                
-                let activityViewController = UIActivityViewController(activityItems: [longDynamicLink, image], applicationActivities: nil)
+                guard let deepLinkURL = owner.concerDetailDeepLinkURL(concertID) else { return }
+
+                let activityViewController = UIActivityViewController(
+                    activityItems: [deepLinkURL, image],
+                    applicationActivities: nil
+                )
                 activityViewController.popoverPresentationController?.sourceView = owner.view
                 owner.present(activityViewController, animated: true, completion: nil)
             }
@@ -297,6 +287,23 @@ extension ConcertDetailViewController {
                 owner.present(alertController, animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func concerDetailDeepLinkURL(_ concertID: Int) -> URL? {
+        // 변경될 예정
+        guard let link = URL(string: "https://www.boolti.com/show?showId=\(concertID)") else { return nil }
+
+        let dynamicLinksDomainURIPrefix = AppInfo.booltiDeepLinkPrefix
+        guard let linkBuilder = DynamicLinkComponents(
+            link: link,
+            domainURIPrefix: dynamicLinksDomainURIPrefix
+        ) else { return nil }
+
+        linkBuilder.iOSParameters = DynamicLinkIOSParameters(bundleID: AppInfo.bundleID)
+        linkBuilder.iOSParameters?.appStoreID = AppInfo.appId
+        // 안드로이드 packageID도 받아야됨
+
+        return linkBuilder.url
     }
 }
 

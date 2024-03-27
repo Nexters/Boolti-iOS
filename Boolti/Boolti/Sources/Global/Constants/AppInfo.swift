@@ -14,7 +14,8 @@ enum AppInfo {
     static let bundleID = "com.nexters.boolti"
     static let booltiAppStoreLink = "itms-apps://itunes.apple.com/app/app-store/\(appId)"
     static let booltiShareLink = "https://apps.apple.com/kr/app/id\(appId)"
-    static let booltiDeepLinkPrefix = "https://app.boolti.in/"
+    // 변경될 예정
+    static let booltiDeepLinkPrefix = "https://nexters.page.link"
 
     static let termsPolicyLink = "https://boolti.notion.site/b4c5beac61c2480886da75a1f3afb982"
     static let privacyPolicyLink = "https://boolti.notion.site/5f73661efdcd4507a1e5b6827aa0da70"
