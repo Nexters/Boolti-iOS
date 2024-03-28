@@ -56,17 +56,9 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         return view
     }()
 
-    private lazy var upperTagLabelStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.addArrangedSubviews([self.ticketTypeLabel, self.numberLabel])
-
-        return stackView
-    }()
-
-    private let numberLabel: UILabel = {
+    private let ticketNumberLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .grey80.withAlphaComponent(0.85)
+        label.textColor = .grey80.withAlphaComponent(0.75)
         label.font = .pretendardB(14)
 
         return label
@@ -115,7 +107,8 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         self.addSubviews([
             self.backgroundImageView,
             self.posterImageView,
-            self.upperTagLabelStackView,
+            self.ticketTypeLabel,
+            self.ticketNumberLabel,
             self.booltiLogoImageView,
             self.ticketInformationView,
             self.rightCircleView,
@@ -140,7 +133,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
     func setData(with item: TicketItemEntity) {
         self.backgroundImageView.setImage(with: item.posterURLPath)
         self.posterImageView.setImage(with: item.posterURLPath)
-        self.numberLabel.text = " ・ 1매"
+        self.ticketNumberLabel.text = item.csTicketID
         self.ticketTypeLabel.text = item.ticketName
         self.ticketInformationView.setData(with: item)
     }
@@ -225,14 +218,19 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
             make.height.equalToSuperview().multipliedBy(0.67)
         }
 
-        self.upperTagLabelStackView.snp.makeConstraints { make in
+        self.booltiLogoImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self.upperTagView.snp.centerY)
             make.left.equalTo(self.ticketInformationView)
         }
 
-        self.booltiLogoImageView.snp.makeConstraints { make in
+        self.ticketTypeLabel.snp.makeConstraints { make in
             make.centerY.equalTo(self.upperTagView.snp.centerY)
-            make.right.equalTo(self.ticketInformationView)
+            make.left.equalTo(self.booltiLogoImageView.snp.right).offset(5)
+        }
+
+        self.ticketNumberLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(self.upperTagView.snp.centerY)
+            make.right.equalTo(self.upperTagView.snp.right).inset(16)
         }
 
         self.rightCircleView.snp.makeConstraints { make in

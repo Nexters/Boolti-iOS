@@ -53,6 +53,14 @@ final class TicketDetailView: UIView {
         return imageView
     }()
 
+    private let ticketNumberLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .grey80.withAlphaComponent(0.75)
+        label.font = .pretendardB(14)
+
+        return label
+    }()
+
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
@@ -143,7 +151,8 @@ final class TicketDetailView: UIView {
         self.ticketDetailInformationView.setData(with: item)
         self.posterImageView.setImage(with: item.posterURLPath)
         self.backgroundImageView.setImage(with: item.posterURLPath)
-        self.ticketTypeLabel.text = "\(item.ticketName) ・ 1매"
+        self.ticketTypeLabel.text = "\(item.ticketName)"
+        self.ticketNumberLabel.text = item.csTicketID
         self.ticketInquiryView.setData(with: "\(item.hostName) (\(item.hostPhoneNumber))")
         self.ticketNoticeView.setData(with: item.notice)
 
@@ -169,6 +178,7 @@ final class TicketDetailView: UIView {
             self.upperTagView,
             self.booltiLogoImageView,
             self.ticketTypeLabel,
+            self.ticketNumberLabel,
             self.posterImageView,
             self.backgroundBorderView,
             self.ticketDetailInformationView,
@@ -210,12 +220,17 @@ final class TicketDetailView: UIView {
 
         self.booltiLogoImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self.upperTagView.snp.centerY)
-            make.right.equalTo(self.posterImageView)
+            make.left.equalTo(self.posterImageView.snp.left)
         }
 
         self.ticketTypeLabel.snp.makeConstraints { make in
             make.centerY.equalTo(self.booltiLogoImageView.snp.centerY)
-            make.left.equalToSuperview().inset(20)
+            make.left.equalTo(self.booltiLogoImageView.snp.right).offset(5)
+        }
+
+        self.ticketNumberLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(self.upperTagView.snp.centerY)
+            make.right.equalTo(self.upperTagView.snp.right).inset(16)
         }
 
         self.ticketDetailInformationView.snp.makeConstraints { make in

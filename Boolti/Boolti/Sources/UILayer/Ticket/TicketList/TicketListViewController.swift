@@ -284,7 +284,10 @@ final class TicketListViewController: BooltiViewController {
         self.datasource = UICollectionViewDiffableDataSource(
             collectionView: self.collectionView,
             cellProvider: { [weak self ] collectionView, indexPath, item in
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TicketListCollectionViewCell.self), for: indexPath) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: String(describing: TicketListCollectionViewCell.self),
+                    for: indexPath
+                ) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
                 cell.setData(with: item)
                 if item.ticketStatus == .notUsed {
                     self?.bindQRCodeExpandView(cell, with: item)
