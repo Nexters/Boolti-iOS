@@ -34,6 +34,9 @@ extension UserDefaults {
     @UserDefault<Int>(key: UserDefaultsKey.tabBarIndex.rawValue, defaultValue:  0)
     static var tabBarIndex
 
+    @UserDefault<Int>(key: UserDefaultsKey.concertID.rawValue, defaultValue:  0)
+    static var concertID
+
     // MARK: - Custom Methods
 
     static func removeAllUserInfo() {
