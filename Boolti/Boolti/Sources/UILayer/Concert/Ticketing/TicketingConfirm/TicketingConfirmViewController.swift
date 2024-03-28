@@ -131,11 +131,11 @@ extension TicketingConfirmViewController {
         self.ticketInfo.text = "\(selectedTicket.ticketName)\n\(entity.selectedTicket.count)매 / \(selectedTicket.price.formattedCurrency())원"
         
         switch selectedTicket.ticketType {
-        case .sales:
+        case .sale:
             guard let depositor = entity.depositor else { return }
             self.depositorInfo.text = "\(depositor.name)\n\(depositor.phoneNumber.formatPhoneNumber())"
             self.methodInfo.text = "계좌 이체"
-        case .invite:
+        case .invitation:
             self.depositorStackView.isHidden = true
             self.methodInfo.text = "초청 티켓"
         }

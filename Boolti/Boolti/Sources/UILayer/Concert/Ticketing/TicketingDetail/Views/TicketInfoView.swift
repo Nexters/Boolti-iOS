@@ -61,7 +61,7 @@ extension TicketInfoView {
     
     func setData(entity: SelectedTicketEntity) {
         self.ticketTypeDataLabel.text = entity.ticketName
-        self.ticketCountDataLabel.text = "1개"
+        self.ticketCountDataLabel.text = "\(entity.count)개"
         self.totalPriceDataLabel.text = "\(entity.price.formattedCurrency())원"
     }
 }

@@ -86,19 +86,16 @@ extension TicketSelectionViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.viewModel.input.selectedTickets
-            .bind(to: selectedTicketView.tableView.rx.items(cellIdentifier: SelectedTicketTableViewCell.className, cellType: SelectedTicketTableViewCell.self)) { [weak self] index, item, cell in
-                guard let self else { return }
-                cell.selectionStyle = .none
-                cell.setData(entity: item)
-                
-                cell.didDeleteButtonTap
-                    .asDriver()
-                    .drive(onNext: { _ in
-                        self.viewModel.input.didDeleteButtonTap.onNext(item.id)
-                    })
-                    .disposed(by: cell.disposeBag)
+        self.viewModel.input.selectedTicket
+            .asDriver()
+            .drive(with: self) { owner, entity in
+                guard let entity = entity else { return }
+                owner.selectedTicketView.selectedSalesTicketView.setData(entity: entity)
             }.disposed(by: self.disposeBag)
+        
+        self.selectedTicketView.selectedSalesTicketView.didDeleteButtonTap
+            .bind(to: self.viewModel.input.didDeleteButtonTap)
+            .disposed(by: self.disposeBag)
     }
     
     private func bindOutputs() {
@@ -132,18 +129,16 @@ extension TicketSelectionViewController {
         case .ticketTypeList:
             self.ticketTypeView.isHidden = false
             self.selectedTicketView.isHidden = true
-            self.setDetent(contentHeight: CGFloat(self.viewModel.output.salesTicketEntities?.count ?? 0) * self.ticketTypeView.cellHeight, contentType: .ticketTypeList)
+            self.setDetent(contentHeight: CGFloat(self.viewModel.output.salesTickets.value.count) * self.ticketTypeView.cellHeight, contentType: .ticketTypeList)
         case .selectedTicket:
             self.ticketTypeView.isHidden = true
             self.selectedTicketView.isHidden = false
-            self.setDetent(contentHeight: CGFloat(self.viewModel.input.selectedTickets.value.count) * self.selectedTicketView.cellHeight + 122, contentType: .selectedTicket)
+            self.setDetent(contentHeight: 236, contentType: .selectedTicket)
         }
     }
     
     private func pushTicketingDetailViewController() {
-        
-        // 1차 MVP - 티켓 한 개 선택
-        guard let selectedTicket = self.viewModel.input.selectedTickets.value.first else { return }
+        guard let selectedTicket = self.viewModel.input.selectedTicket.value else { return }
         let viewController = self.ticketingDetailViewControllerFactory(selectedTicket)
         
         guard let presentingViewController = self.presentingViewController as? HomeTabBarController else { return }

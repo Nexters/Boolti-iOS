@@ -51,8 +51,8 @@ extension TicketingConfirmViewModel {
                 guard let selectedTicket = owner.ticketingEntity.selectedTicket.first else { return }
         
                 switch selectedTicket.ticketType {
-                case .sales: self.salesTicketing()
-                case .invite: self.invitationTicketing()
+                case .sale: self.salesTicketing()
+                case .invitation: self.invitationTicketing()
                 }
             }
             .disposed(by: self.disposeBag)

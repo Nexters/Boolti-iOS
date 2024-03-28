@@ -99,7 +99,6 @@ extension BooltiBottomSheetViewController {
         }
     }
     
-    /// detent를 변경한다. (ex. 티켓을 여러장 구매할 경우 화면에 추가 등)
     func setDetent(contentHeight: CGFloat, contentType: BottomSheetContentType) {
         if let sheet = sheetPresentationController {
             sheet.animateChanges {

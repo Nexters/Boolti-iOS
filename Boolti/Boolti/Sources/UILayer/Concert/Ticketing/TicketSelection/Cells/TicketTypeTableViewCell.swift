@@ -77,7 +77,7 @@ extension TicketTypeTableViewCell {
             self.priceLabel.text = "\(entity.price.formattedCurrency())원"
         }
 
-        if entity.ticketType == .invite {
+        if entity.ticketType == .invitation {
             self.inventoryLabel.isHidden = true
         }
     }

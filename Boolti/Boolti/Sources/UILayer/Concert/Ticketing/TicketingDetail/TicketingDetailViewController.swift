@@ -176,7 +176,7 @@ extension TicketingDetailViewController {
                 owner.ticketInfoView.setData(entity: entity)
                 owner.payButton.setTitle("\(entity.price.formattedCurrency())원 결제하기", for: .normal)
                 
-                if entity.ticketType == .invite {
+                if entity.ticketType == .invitation {
                     owner.depositorInputView.isHidden = true
                     owner.paymentMethodView.isHidden = true
                     owner.policyView.isHidden = true
@@ -346,7 +346,7 @@ extension TicketingDetailViewController {
         else { return }
         
         switch self.viewModel.selectedTicket.value.ticketType {
-        case .sales:
+        case .sale:
             guard let depositorName = self.depositorInputView.nameTextField.text,
                   let depositorPhoneNumber = self.depositorInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "") else { return }
             
@@ -354,7 +354,7 @@ extension TicketingDetailViewController {
                                                  ticketHolderPhoneNumber: ticketHolderPhoneNumber,
                                                  depositorName: depositorName.isEmpty ? ticketHolderName : depositorName,
                                                  depositorPhoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorPhoneNumber)
-        case .invite:
+        case .invitation:
             guard let invitationCode = self.invitationCodeView.codeTextField.text else { return }
             
             self.viewModel.setInvitationTicketingData(ticketHolderName: ticketHolderName,

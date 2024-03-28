@@ -17,15 +17,8 @@ final class SelectedTicketView: UIView {
     let cellHeight: CGFloat = 96
 
     // MARK: UI Component
-
-    let tableView: UITableView = {
-        let view = UITableView()
-        view.backgroundColor = .grey85
-        view.separatorStyle = .none
-        view.showsVerticalScrollIndicator = false
-        view.isScrollEnabled = false
-        return view
-    }()
+    
+    let selectedSalesTicketView = SelectedSalesTicketView()
 
     private let underlineView: UIView = {
         let view: UIView = UIView()
@@ -37,7 +30,7 @@ final class SelectedTicketView: UIView {
         let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .grey30
-        label.text = "1인 1매"
+        label.text = "총 결제 금액"
         return label
     }()
 
@@ -57,7 +50,6 @@ final class SelectedTicketView: UIView {
 
         self.configureUI()
         self.configureConstraints()
-        self.configureTableView()
     }
 
     required init?(coder: NSCoder) {
@@ -68,14 +60,6 @@ final class SelectedTicketView: UIView {
 // MARK: - Methods
 
 extension SelectedTicketView {
-
-    private func configureTableView() {
-        self.tableView.register(SelectedTicketTableViewCell.self, forCellReuseIdentifier: SelectedTicketTableViewCell.className)
-
-        Observable.just(self.cellHeight)
-            .bind(to: self.tableView.rx.rowHeight)
-            .disposed(by: disposeBag)
-    }
 
     func setTotalPriceLabel(price: Int) {
         self.totalPriceLabel.text = "총 \(price.formattedCurrency())원"
@@ -88,14 +72,19 @@ extension SelectedTicketView {
 extension SelectedTicketView {
 
     private func configureUI() {
-        self.addSubviews([tableView, underlineView, priceInfoLabel, totalPriceLabel, ticketingButton])
+        self.addSubviews([self.selectedSalesTicketView,
+                          self.underlineView,
+                          self.priceInfoLabel,
+                          self.totalPriceLabel,
+                          self.ticketingButton])
     }
 
     private func configureConstraints() {
-        self.tableView.snp.makeConstraints { make in
+        self.selectedSalesTicketView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(self.underlineView.snp.top)
+            make.height.equalTo(114)
         }
 
         self.underlineView.snp.makeConstraints { make in

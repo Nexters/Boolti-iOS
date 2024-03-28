@@ -19,14 +19,13 @@ final class TicketSelectionViewModel {
     
     struct Input {
         let didTicketSelect = PublishSubject<SelectedTicketEntity>()
-        let didDeleteButtonTap = PublishSubject<Int>()
-        let selectedTickets = BehaviorRelay<[SelectedTicketEntity]>(value: [])
+        let didDeleteButtonTap = PublishSubject<Void>()
+        let selectedTicket = BehaviorRelay<SelectedTicketEntity?>(value: nil)
     }
 
     struct Output {
         let isLoading = PublishRelay<Bool>()
-        let salesTickets = PublishRelay<[SelectedTicketEntity]>()
-        var salesTicketEntities: [SelectedTicketEntity]?
+        let salesTickets = BehaviorRelay<[SelectedTicketEntity]>(value: [])
         let totalPrice = BehaviorRelay<Int>(value: 0)
         let showTicketTypeView = PublishRelay<Void>()
     }
@@ -56,33 +55,23 @@ extension TicketSelectionViewModel {
     
     private func bindInputs() {
         self.input.didTicketSelect
-            .bind(with: self, onNext: { owner, entity in
-                var selectedTickets = owner.input.selectedTickets.value
-                selectedTickets.append(entity)
-
-                owner.input.selectedTickets.accept(selectedTickets)
-            })
+            .bind(to: self.input.selectedTicket)
             .disposed(by: self.disposeBag)
         
         self.input.didDeleteButtonTap
-            .bind(with: self, onNext: { owner, id in
-                var selectedTickets = owner.input.selectedTickets.value
-                
-                if let indexToRemove = selectedTickets.firstIndex(where: { $0.id == id }) {
-                    selectedTickets.remove(at: indexToRemove)
-                    owner.input.selectedTickets.accept(selectedTickets)
-                }
+            .bind(with: self, onNext: { owner, _ in
+                owner.input.selectedTicket.accept(nil)
             })
             .disposed(by: self.disposeBag)
         
-        self.input.selectedTickets
+        self.input.selectedTicket
             .asDriver()
-            .drive(with: self, onNext: { owner, tickets in
-                if tickets.isEmpty {
+            .drive(with: self, onNext: { owner, ticket in
+                if ticket == nil {
                     owner.output.showTicketTypeView.accept(())
                 } else {
-                    let totalPrice = tickets.reduce(0) { $0 + $1.price }
-                    owner.output.totalPrice.accept(totalPrice)
+                    guard let ticket = ticket else { return }
+                    owner.output.totalPrice.accept(ticket.price * ticket.count)
                 }
             })
             .disposed(by: self.disposeBag)
@@ -96,7 +85,6 @@ extension TicketSelectionViewModel {
     func fetchSalesTicket(completion: @escaping () -> ()) {
         self.output.isLoading.accept(true)
         self.concertRepository.salesTicket(concertId: self.concertId).asObservable()
-            .do { self.output.salesTicketEntities = $0 }
             .subscribe(with: self) { owner, tickets in
                 owner.output.salesTickets.accept(tickets)
                 owner.output.isLoading.accept(false)
