@@ -12,28 +12,13 @@ import SnapKit
 
 enum BottomSheetContentType {
     case ticketTypeList
-    case selectedTicket
+    case selectedSalesTicket
+    case selectedInvitationTicket
 }
 
 class BooltiBottomSheetViewController: BooltiViewController {
     
-    // MARK: Properties
-    
-    private let headerHeight: CGFloat = 80
-    
     // MARK: UI Component
-    
-    private let titleView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
-    private let titleLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.textColor = .grey30
-        label.font = .subhead2
-        return label
-    }()
     
     let contentView: UIView = {
         let view = UIView()
@@ -51,15 +36,6 @@ class BooltiBottomSheetViewController: BooltiViewController {
     }
 }
 
-// MARK: - Methods
-
-extension BooltiBottomSheetViewController {
-    
-    func setTitle(_ title: String) {
-        self.titleLabel.text = title
-    }
-}
-
 // MARK: - UI
 
 extension BooltiBottomSheetViewController {
@@ -69,26 +45,13 @@ extension BooltiBottomSheetViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.sheetPresentationController?.detents = [.custom { _ in return 0}]
 
-        self.view.addSubviews([titleView, contentView])
-        self.titleView.addSubview(titleLabel)
+        self.view.addSubviews([self.contentView])
     }
     
     private func configureConstraints() {
-        self.titleView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(headerHeight)
-        }
-        
-        self.titleLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.titleView.snp.left).offset(24)
-            make.bottom.equalTo(self.titleView.snp.bottom).offset(-12)
-        }
-        
         self.contentView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleView.snp.bottom)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            make.top.equalToSuperview().inset(40)
+            make.horizontalEdges.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
@@ -99,17 +62,12 @@ extension BooltiBottomSheetViewController {
         }
     }
     
-    func setDetent(contentHeight: CGFloat, contentType: BottomSheetContentType) {
+    func setDetent(contentHeight: CGFloat) {
         if let sheet = sheetPresentationController {
             sheet.animateChanges {
                 sheet.detents = [
                     .custom { _ in
-                        switch contentType {
-                        case .ticketTypeList:
-                            return min(self.headerHeight + contentHeight + 20, self.headerHeight + 484)
-                        case .selectedTicket:
-                            return min(self.headerHeight + contentHeight, self.headerHeight + 484)
-                        }
+                        return min(contentHeight, 484)
                     }
                 ]
             }

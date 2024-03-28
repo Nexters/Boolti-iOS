@@ -22,7 +22,8 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     // MARK: UI Component
     
     private let ticketTypeView = TicketTypeView()
-    private let selectedTicketView = SelectedTicketView()
+    private let selectedSalesTicketView = SelectedSalesTicketView()
+    private let selectedInvitationTicketView = SelectedInvitationTicketView()
     
     // MARK: Init
     
@@ -39,7 +40,7 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
     }
     
     // MARK: Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,11 +76,11 @@ extension TicketSelectionViewController {
             .drive(with: self, onNext: { owner, entity  in
                 guard entity.quantity > 0 else { return }
                 owner.viewModel.input.didTicketSelect.onNext(entity)
-                owner.showContentView(.selectedTicket)
+                owner.showContentView(entity.ticketType == .sale ? .selectedSalesTicket : .selectedInvitationTicket)
             })
             .disposed(by: self.disposeBag)
         
-        self.selectedTicketView.ticketingButton.rx.tap
+        self.selectedSalesTicketView.ticketingButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
                 owner.pushTicketingDetailViewController()
@@ -90,10 +91,20 @@ extension TicketSelectionViewController {
             .asDriver()
             .drive(with: self) { owner, entity in
                 guard let entity = entity else { return }
-                owner.selectedTicketView.selectedSalesTicketView.setData(entity: entity)
+                
+                switch entity.ticketType {
+                case .sale:
+                    owner.selectedSalesTicketView.setData(entity: entity)
+                case .invitation:
+                    owner.selectedInvitationTicketView.setData(entity: entity)
+                }
             }.disposed(by: self.disposeBag)
         
-        self.selectedTicketView.selectedSalesTicketView.didDeleteButtonTap
+        self.selectedSalesTicketView.didDeleteButtonTap
+            .bind(to: self.viewModel.input.didDeleteButtonTap)
+            .disposed(by: self.disposeBag)
+        
+        self.selectedInvitationTicketView.didDeleteButtonTap
             .bind(to: self.viewModel.input.didDeleteButtonTap)
             .disposed(by: self.disposeBag)
     }
@@ -109,13 +120,6 @@ extension TicketSelectionViewController {
                 cell.setData(entity: item)
             }.disposed(by: self.disposeBag)
         
-        self.viewModel.output.totalPrice
-            .asDriver(onErrorJustReturn: 0)
-            .drive(with: self, onNext: { owner, price in
-                owner.selectedTicketView.setTotalPriceLabel(price: price)
-            })
-            .disposed(by: self.disposeBag)
-        
         self.viewModel.output.showTicketTypeView
             .asDriver(onErrorJustReturn: ())
             .drive(with: self, onNext: { owner, _ in
@@ -128,12 +132,22 @@ extension TicketSelectionViewController {
         switch view {
         case .ticketTypeList:
             self.ticketTypeView.isHidden = false
-            self.selectedTicketView.isHidden = true
-            self.setDetent(contentHeight: CGFloat(self.viewModel.output.salesTickets.value.count) * self.ticketTypeView.cellHeight, contentType: .ticketTypeList)
-        case .selectedTicket:
+            self.selectedSalesTicketView.isHidden = true
+            self.selectedInvitationTicketView.isHidden = true
+            
+            self.setDetent(contentHeight: 80 + CGFloat(self.viewModel.output.salesTickets.value.count) * self.ticketTypeView.cellHeight + 20)
+        case .selectedSalesTicket:
             self.ticketTypeView.isHidden = true
-            self.selectedTicketView.isHidden = false
-            self.setDetent(contentHeight: 236, contentType: .selectedTicket)
+            self.selectedSalesTicketView.isHidden = false
+            self.selectedInvitationTicketView.isHidden = true
+            
+            self.setDetent(contentHeight: 276)
+        case .selectedInvitationTicket:
+            self.ticketTypeView.isHidden = true
+            self.selectedSalesTicketView.isHidden = true
+            self.selectedInvitationTicketView.isHidden = false
+            
+            self.setDetent(contentHeight: 260)
         }
     }
     
@@ -155,23 +169,23 @@ extension TicketSelectionViewController {
 extension TicketSelectionViewController {
     
     private func configureUI() {
-        self.setTitle("옵션 선택")
-
-        self.contentView.addSubviews([self.ticketTypeView, self.selectedTicketView])
-        self.selectedTicketView.isHidden = true
+        self.contentView.addSubviews([self.ticketTypeView,
+                                      self.selectedSalesTicketView,
+                                      self.selectedInvitationTicketView])
+        self.selectedSalesTicketView.isHidden = true
+        self.selectedInvitationTicketView.isHidden = true
     }
     
     private func configureConstraints() {
-        self.ticketTypeView.snp.makeConstraints { make in
-            make.top.equalTo(self.contentView)
-            make.horizontalEdges.equalTo(self.contentView)
-            make.bottom.equalTo(self.contentView)
-        }
-        
-        self.selectedTicketView.snp.makeConstraints { make in
-            make.top.equalTo(self.contentView)
-            make.horizontalEdges.equalTo(self.contentView)
-            make.bottom.equalTo(self.contentView)
+        [self.ticketTypeView,
+         self.selectedSalesTicketView,
+         self.selectedInvitationTicketView].forEach { view in
+            view.snp.makeConstraints { make in
+                make.top.equalTo(self.contentView)
+                make.horizontalEdges.equalTo(self.contentView)
+                make.bottom.equalTo(self.contentView)
+            }
+            
         }
     }
 }
