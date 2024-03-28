@@ -65,7 +65,7 @@ final class SelectedInvitationTicketView: UIView {
 
     private let totalPriceLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.font = .body4
+        label.font = .subhead2
         label.textColor = .orange01
         return label
     }()
@@ -129,18 +129,18 @@ extension SelectedInvitationTicketView {
             make.left.equalTo(self.nameLabel)
         }
         
-        self.priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.deleteButton.snp.bottom).offset(17)
-            make.right.equalToSuperview().inset(24)
-        }
-        
         self.deleteButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.nameLabel.snp.centerY)
             make.right.equalToSuperview().inset(24)
         }
         
+        self.priceLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.deleteButton.snp.bottom).offset(16)
+            make.right.equalTo(self.deleteButton)
+        }
+        
         self.underlineView.snp.makeConstraints { make in
-            make.top.equalTo(self.priceLabel.snp.bottom).offset(24)
+            make.top.equalTo(self.onePerPersonLabel.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(1)
         }

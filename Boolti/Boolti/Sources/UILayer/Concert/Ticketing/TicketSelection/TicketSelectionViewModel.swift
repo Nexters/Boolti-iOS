@@ -18,7 +18,6 @@ final class TicketSelectionViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let didTicketSelect = PublishSubject<SelectedTicketEntity>()
         let didDeleteButtonTap = PublishSubject<Void>()
         let selectedTicket = BehaviorRelay<SelectedTicketEntity?>(value: nil)
     }
@@ -54,10 +53,6 @@ final class TicketSelectionViewModel {
 extension TicketSelectionViewModel {
     
     private func bindInputs() {
-        self.input.didTicketSelect
-            .bind(to: self.input.selectedTicket)
-            .disposed(by: self.disposeBag)
-        
         self.input.didDeleteButtonTap
             .bind(with: self, onNext: { owner, _ in
                 owner.input.selectedTicket.accept(nil)

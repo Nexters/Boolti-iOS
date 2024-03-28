@@ -59,16 +59,15 @@ final class SelectedSalesTicketView: UIView {
         return button
     }()
     
-    private lazy var countingStackView: UIStackView = {
+    private lazy var countingButtonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.backgroundColor = .grey80
         stackView.layer.cornerRadius = 4
-        stackView.spacing = 10
         stackView.axis = .horizontal
-        stackView.distribution = .equalCentering
+        stackView.distribution = .fillEqually
+        stackView.spacing = 32
         
         stackView.addArrangedSubviews([self.minusButton,
-                                       self.countLabel,
                                        self.plusButton])
         return stackView
     }()
@@ -95,7 +94,7 @@ final class SelectedSalesTicketView: UIView {
 
     private let totalPriceLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.font = .body4
+        label.font = .subhead2
         label.textColor = .orange01
         return label
     }()
@@ -135,6 +134,14 @@ extension SelectedSalesTicketView {
         self.plusButton.isEnabled = count < 10
     }
     
+    var didMinusButtonTap: ControlEvent<Void> {
+        return self.minusButton.rx.tap
+    }
+    
+    var didPlusButtonTap: ControlEvent<Void> {
+        return self.plusButton.rx.tap
+    }
+    
     var didDeleteButtonTap: ControlEvent<Void> {
         return self.deleteButton.rx.tap
     }
@@ -150,7 +157,8 @@ extension SelectedSalesTicketView {
         self.addSubviews([self.nameLabel,
                           self.inventoryLabel,
                           self.priceLabel,
-                          self.countingStackView,
+                          self.countingButtonStackView,
+                          self.countLabel,
                           self.deleteButton,
                           self.underlineView,
                           self.priceInfoLabel,
@@ -169,16 +177,19 @@ extension SelectedSalesTicketView {
             make.left.equalTo(self.nameLabel.snp.right).offset(8)
             make.height.equalTo(26)
         }
-        
-        self.priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.deleteButton.snp.bottom).offset(17)
-            make.right.equalToSuperview().inset(24)
-        }
-        
-        self.countingStackView.snp.makeConstraints { make in
+
+        self.countingButtonStackView.snp.makeConstraints { make in
             make.top.equalTo(self.nameLabel.snp.bottom).offset(16)
             make.left.equalTo(self.nameLabel)
-            make.height.equalTo(32)
+        }
+        
+        self.countLabel.snp.makeConstraints { make in
+            make.center.equalTo(self.countingButtonStackView)
+        }
+        
+        self.priceLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(self.countingButtonStackView)
+            make.right.equalToSuperview().inset(24)
         }
         
         self.deleteButton.snp.makeConstraints { make in
@@ -187,7 +198,7 @@ extension SelectedSalesTicketView {
         }
         
         self.underlineView.snp.makeConstraints { make in
-            make.top.equalTo(self.countingStackView.snp.bottom).offset(20)
+            make.top.equalTo(self.countingButtonStackView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(1)
         }

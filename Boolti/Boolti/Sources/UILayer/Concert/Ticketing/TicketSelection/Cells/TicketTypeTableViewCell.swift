@@ -104,7 +104,6 @@ extension TicketTypeTableViewCell {
         self.nameLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().inset(24)
-            make.width.lessThanOrEqualTo(self.frame.width * 0.55)
         }
 
         self.inventoryLabel.snp.makeConstraints { make in

@@ -10,7 +10,13 @@ import UIKit
 import RxSwift
 import SnapKit
 
-final class TicketSelectionViewController: BooltiBottomSheetViewController {
+enum BottomSheetContentType {
+    case ticketTypeList
+    case selectedSalesTicket
+    case selectedInvitationTicket
+}
+
+final class TicketSelectionViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -46,9 +52,13 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
         
         self.configureUI()
         self.configureConstraints()
+        self.configureDefaultBottomSheet()
         self.configureLoadingIndicatorView()
         self.bindInputs()
         self.bindOutputs()
+        
+        self.sheetPresentationController?.detents = [.custom { _ in return 200}]
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,21 +80,27 @@ final class TicketSelectionViewController: BooltiBottomSheetViewController {
 
 extension TicketSelectionViewController {
     
+    private func setDetent(contentHeight: CGFloat) {
+        if let sheet = sheetPresentationController {
+            sheet.animateChanges {
+                sheet.detents = [
+                    .custom { _ in
+                        return min(contentHeight, 484)
+                    }
+                ]
+            }
+        }
+    }
+    
     private func bindInputs() {
         self.ticketTypeView.tableView.rx.modelSelected(SelectedTicketEntity.self)
             .asDriver()
             .drive(with: self, onNext: { owner, entity  in
                 guard entity.quantity > 0 else { return }
-                owner.viewModel.input.didTicketSelect.onNext(entity)
+                
+                owner.viewModel.input.selectedTicket.accept(entity)
                 owner.showContentView(entity.ticketType == .sale ? .selectedSalesTicket : .selectedInvitationTicket)
             })
-            .disposed(by: self.disposeBag)
-        
-        self.selectedSalesTicketView.ticketingButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                owner.pushTicketingDetailViewController()
-            }
             .disposed(by: self.disposeBag)
         
         self.viewModel.input.selectedTicket
@@ -99,6 +115,40 @@ extension TicketSelectionViewController {
                     owner.selectedInvitationTicketView.setData(entity: entity)
                 }
             }.disposed(by: self.disposeBag)
+        
+        self.selectedSalesTicketView.ticketingButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.pushTicketingDetailViewController()
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.selectedInvitationTicketView.ticketingButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.pushTicketingDetailViewController()
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.selectedSalesTicketView.didMinusButtonTap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                guard var current = owner.viewModel.input.selectedTicket.value else { return }
+                current.count -= 1
+                
+                owner.viewModel.input.selectedTicket.accept(current)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.selectedSalesTicketView.didPlusButtonTap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                guard var current = owner.viewModel.input.selectedTicket.value else { return }
+                current.count += 1
+                
+                owner.viewModel.input.selectedTicket.accept(current)
+            }
+            .disposed(by: self.disposeBag)
         
         self.selectedSalesTicketView.didDeleteButtonTap
             .bind(to: self.viewModel.input.didDeleteButtonTap)
@@ -168,8 +218,17 @@ extension TicketSelectionViewController {
 
 extension TicketSelectionViewController {
     
+    private func configureDefaultBottomSheet() {
+        if let sheet = sheetPresentationController {
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 16.0
+        }
+    }
+    
     private func configureUI() {
-        self.contentView.addSubviews([self.ticketTypeView,
+        self.view.backgroundColor = .grey85
+        
+        self.view.addSubviews([self.ticketTypeView,
                                       self.selectedSalesTicketView,
                                       self.selectedInvitationTicketView])
         self.selectedSalesTicketView.isHidden = true
@@ -181,9 +240,8 @@ extension TicketSelectionViewController {
          self.selectedSalesTicketView,
          self.selectedInvitationTicketView].forEach { view in
             view.snp.makeConstraints { make in
-                make.top.equalTo(self.contentView)
-                make.horizontalEdges.equalTo(self.contentView)
-                make.bottom.equalTo(self.contentView)
+                make.top.equalToSuperview().inset(40)
+                make.horizontalEdges.bottom.equalTo(self.view.safeAreaLayoutGuide)
             }
             
         }
