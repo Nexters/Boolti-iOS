@@ -120,10 +120,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     private func titleData(from userInfo: [AnyHashable : Any]) -> NotificationMessageTitle? {
-        guard let apsData = userInfo["aps"] as? [String : AnyObject] else { return nil }
-        guard let alertData = apsData["alert"] as? [String : Any] else { return nil }
-        guard let title = alertData["title"] as? String else  { return nil }
-
-        return NotificationMessageTitle(title)
+        guard let messageType = userInfo["type"] as? String else { return nil }
+        return NotificationMessageTitle(messageType)
     }
 }
