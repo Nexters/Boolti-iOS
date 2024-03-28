@@ -30,7 +30,7 @@ class BooltiBottomSheetViewController: BooltiViewController {
     
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.textColor = .grey10
+        label.textColor = .grey30
         label.font = .subhead2
         return label
     }()

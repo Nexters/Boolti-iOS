@@ -19,8 +19,8 @@ final class TicketTypeTableViewCell: UITableViewCell {
 
     private let nameLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.font = .body3
-        label.textColor = .grey30
+        label.font = .pretendardB(16)
+        label.textColor = .grey05
         return label
     }()
 
@@ -28,7 +28,7 @@ final class TicketTypeTableViewCell: UITableViewCell {
         let label = BooltiPaddingLabel()
         label.font = .caption
         label.textColor = .grey40
-        label.backgroundColor = .grey80
+        label.backgroundColor = .grey90
         label.clipsToBounds = true
         label.layer.cornerRadius = 13
         label.textAlignment = .center
@@ -38,7 +38,7 @@ final class TicketTypeTableViewCell: UITableViewCell {
     private let priceLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .body3
-        label.textColor = .grey15
+        label.textColor = .grey05
         return label
     }()
  
