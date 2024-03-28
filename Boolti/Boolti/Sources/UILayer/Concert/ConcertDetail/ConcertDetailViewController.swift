@@ -261,7 +261,6 @@ extension ConcertDetailViewController {
 
                 let image = KFImage(URL(string: posterURL))
                 guard let deepLinkURL = owner.concerDetailDeepLinkURL(concertID) else { return }
-
                 let activityViewController = UIActivityViewController(
                     activityItems: [deepLinkURL, image],
                     applicationActivities: nil
