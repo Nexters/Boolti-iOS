@@ -110,16 +110,15 @@ extension TicketingCompletionViewController {
         self.viewModel.ticketingData
             .take(1)
             .bind(with: self) { owner, data in
-                guard let selectedTicket = data.selectedTicket.first else { return }
-                if selectedTicket.price == 0 {
+                if data.selectedTicket.price == 0 {
                     self.topContentView = self.paymentCompletionView
                     [self.depositDetailView, self.copyButton].forEach { $0.isHidden = true }
                 } else {
                     self.topContentView = self.depositSummaryView
                 }
                 
-                self.depositSummaryView.setData(date: data.concert.salesEndTime, price: selectedTicket.price)
-                self.reservedTicketView.setData(concert: data.concert, selectedTicket: selectedTicket)
+                self.depositSummaryView.setData(date: data.concert.salesEndTime, price: data.selectedTicket.price)
+                self.reservedTicketView.setData(concert: data.concert, selectedTicket: data.selectedTicket)
                 self.depositDetailView.setSalesEndTime(salesEndTime: data.concert.salesEndTime)
             }
             .disposed(by: self.disposeBag)

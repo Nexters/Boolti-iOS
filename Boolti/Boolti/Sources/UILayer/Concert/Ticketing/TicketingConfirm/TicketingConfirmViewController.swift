@@ -127,10 +127,9 @@ extension TicketingConfirmViewController {
         
         self.ticketHolderInfo.text = "\(entity.ticketHolder.name)\n\(entity.ticketHolder.phoneNumber.formatPhoneNumber())"
         
-        guard let selectedTicket = entity.selectedTicket.first else { return }
-        self.ticketInfo.text = "\(selectedTicket.ticketName)\n\(entity.selectedTicket.count)매 / \(selectedTicket.price.formattedCurrency())원"
+        self.ticketInfo.text = "\(entity.selectedTicket.ticketName)\n\(entity.selectedTicket.count)매 / \((entity.selectedTicket.count * entity.selectedTicket.price).formattedCurrency())원"
         
-        switch selectedTicket.ticketType {
+        switch entity.selectedTicket.ticketType {
         case .sale:
             guard let depositor = entity.depositor else { return }
             self.depositorInfo.text = "\(depositor.name)\n\(depositor.phoneNumber.formatPhoneNumber())"

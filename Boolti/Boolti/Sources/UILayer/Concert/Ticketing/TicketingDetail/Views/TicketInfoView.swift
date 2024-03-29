@@ -28,7 +28,13 @@ final class TicketInfoView: UIView {
     private lazy var ticketCountStackView = self.makeStackView(with: [ticketCountTitleLabel, ticketCountDataLabel])
     
     private lazy var totalPriceTitleLabel = self.makeSelectedTitleLabel(title: "총 결제 금액")
-    private lazy var totalPriceDataLabel = self.makeSelectedDataLabel()
+    private lazy var totalPriceDataLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .headline1
+        label.textColor = .orange01
+        label.textAlignment = .right
+        return label
+    }()
     private lazy var totalPriceStackView = self.makeStackView(with: [totalPriceTitleLabel, totalPriceDataLabel])
     
     private lazy var stackView: UIStackView = {

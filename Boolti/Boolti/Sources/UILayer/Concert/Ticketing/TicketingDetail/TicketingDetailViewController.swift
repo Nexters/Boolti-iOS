@@ -174,7 +174,7 @@ extension TicketingDetailViewController {
             .take(1)
             .bind(with: self, onNext: { owner, entity in
                 owner.ticketInfoView.setData(entity: entity)
-                owner.payButton.setTitle("\(entity.price.formattedCurrency())원 결제하기", for: .normal)
+                owner.payButton.setTitle("\((entity.count * entity.price).formattedCurrency())원 결제하기", for: .normal)
                 
                 if entity.ticketType == .invitation {
                     owner.depositorInputView.isHidden = true

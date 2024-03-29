@@ -56,7 +56,7 @@ extension TicketingDetailViewModel {
                                                                                      phoneNumber: ticketHolderPhoneNumber),
                                               depositor: TicketingEntity.userInfo(name: depositorName,
                                                                                   phoneNumber: depositorPhoneNumber),
-                                              selectedTicket: [self.selectedTicket.value],
+                                              selectedTicket: self.selectedTicket.value,
                                               reservationId: -1)
         
         self.output.ticketingEntity = ticketingEntity
@@ -81,7 +81,7 @@ extension TicketingDetailViewModel {
         let ticketingEntity = TicketingEntity(concert: self.output.concertDetailEntity!,
                                               ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
                                                                                      phoneNumber: ticketHolderPhoneNumber),
-                                              selectedTicket: [self.selectedTicket.value],
+                                              selectedTicket: self.selectedTicket.value,
                                               reservationId: -1,
                                               invitationCode: invitationCode)
         
