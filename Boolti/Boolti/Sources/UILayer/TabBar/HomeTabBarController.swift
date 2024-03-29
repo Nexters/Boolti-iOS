@@ -86,7 +86,7 @@ extension HomeTabBarController {
         self.viewModel.dynamicLinkDestination
             .subscribe(with: self) { owner, viewControllerType in
                 // 아래 코드 정리하기!.. - 타입 캐스팅 일일이 하지 않고, 제네릭타입으로 할 수 있게 구현해보기
-                if let concertDetailVC = viewControllerType as? ConcertDetailViewController.Type {
+                if let _ = viewControllerType as? ConcertListViewController.Type {
                     guard let viewController = owner.viewControllers?[HomeTab.concert.rawValue] as? UINavigationController
                     else { return }
                     guard let concertListViewController = viewController.topViewController as? ConcertListViewController

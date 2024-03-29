@@ -51,14 +51,11 @@ final class HomeTabBarViewModel {
     @objc func changeTabBarSelectedIndex(_ notification:Notification) {
         guard let userInfo = notification.userInfo else { return }
         guard let index = userInfo["tabBarIndex"] as? Int else { return }
-        guard let selectedTab = HomeTab(rawValue: index) else { return }
 
         // 현재 탭에서 싹다 pop하기
         self.popToRootViewController.accept(self.currentTab.value)
         // 새로운 탭으로 옮기기
         self.selectTab(index: index)
-        // 요거 나누기!.. pop하는 거랑 navigate 하는거랑...!
-//        self.popToRootViewController.accept(selectedTab)
     }
 
     @objc func navigateToConcertDetail() {
