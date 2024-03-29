@@ -58,8 +58,8 @@ extension UILabel {
         }
     }
 
-    /// 중앙 정렬
-    func setAlignCenter() {
+    /// 여러 줄일 때 정렬
+    func setAlignment(_ alignment: NSTextAlignment) {
         if let existingAttributedString = self.attributedText {
             let attributedString = NSMutableAttributedString(attributedString: existingAttributedString)
             let style = NSMutableParagraphStyle()
@@ -70,7 +70,7 @@ extension UILabel {
             
             style.lineBreakMode = .byTruncatingTail
             style.lineBreakStrategy = .hangulWordPriority
-            style.alignment = .center
+            style.alignment = alignment
             attributedString.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, attributedString.length))
             self.attributedText = attributedString
         }
