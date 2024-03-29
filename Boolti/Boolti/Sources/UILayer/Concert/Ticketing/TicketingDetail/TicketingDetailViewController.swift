@@ -176,14 +176,17 @@ extension TicketingDetailViewController {
                 owner.ticketInfoView.setData(entity: entity)
                 owner.payButton.setTitle("\((entity.count * entity.price).formattedCurrency())원 결제하기", for: .normal)
                 
-                if entity.ticketType == .invitation {
+                if entity.price == 0 {
                     owner.depositorInputView.isHidden = true
                     owner.paymentMethodView.isHidden = true
                     owner.policyView.isHidden = true
+                }
+                
+                if entity.ticketType == .invitation {
                     owner.bindInvitationView()
                 } else {
                     owner.invitationCodeView.isHidden = true
-                    owner.bindSalesView()
+                    owner.bindSalesView(price: entity.price)
                 }
             })
             .disposed(by: self.disposeBag)
@@ -241,13 +244,20 @@ extension TicketingDetailViewController {
             }
     }
     
-    private func bindSalesView() {
-        Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
-                                 self.checkInputViewTextFieldFilled(inputType: .depositor))
-            .map { $0 && $1 }
-            .distinctUntilChanged()
-            .bind(to: self.payButton.rx.isEnabled)
-            .disposed(by: self.disposeBag)
+    private func bindSalesView(price: Int) {
+        if price == 0 {
+            Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
+                                     self.checkInputViewTextFieldFilled(inputType: .depositor))
+                .map { $0 && $1 }
+                .distinctUntilChanged()
+                .bind(to: self.payButton.rx.isEnabled)
+                .disposed(by: self.disposeBag)
+        } else {
+            self.checkInputViewTextFieldFilled(inputType: .ticketHolder)
+                .distinctUntilChanged()
+                .bind(to: self.payButton.rx.isEnabled)
+                .disposed(by: self.disposeBag)
+        }
     }
     
     private func bindInvitationView() {
