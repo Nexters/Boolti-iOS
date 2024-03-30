@@ -59,10 +59,10 @@ final class ConcertInformationView: UIView {
         fatalError()
     }
 
-    func setData(posterImageURLPath: String, concertTitle: String, ticketType: TicketType, ticketCount: String ) {
+    func setData(posterImageURLPath: String, concertTitle: String, ticketType: String, ticketCount: String ) {
         self.concertPosterImageView.setImage(with: posterImageURLPath)
         self.concertTitleLabel.text = concertTitle
-        self.ticketInformationLabel.text = "\(ticketType.rawValue) / \(ticketCount) 매"
+        self.ticketInformationLabel.text = "\(ticketType) / \(ticketCount) 매"
     }
 
     private func configureUI() {

@@ -287,18 +287,17 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.concertInformationView.setData(
             posterImageURLPath: entity.concertPosterImageURLPath,
             concertTitle: entity.concertTitle,
-            ticketType: entity.ticketType,
+            ticketType: entity.salesTicketName,
             ticketCount: entity.ticketCount
         )
 
         // 결제 정보
-        self.paymentMethodView.setData("초청 코드")
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
 
         self.configureRefundButton(with: entity)
 
         // 티켓 정보
-        self.ticketTypeView.setData(entity.ticketType.rawValue)
+        self.ticketTypeView.setData(entity.salesTicketName)
         self.ticketCountView.setData("\(entity.ticketCount)매")
 
         // 예매자 정보
@@ -311,17 +310,13 @@ final class TicketReservationDetailViewController: BooltiViewController {
         case .sale:
             self.setAdditionalDataForSale(with: entity)
         case .invitation:
-            self.configureInvitationUI()
+            self.configureInvitationUI(with: entity)
         }
     }
 
     private func setAdditionalDataForSale(with entity: TicketReservationDetailEntity) {
-        if entity.paymentMethod == "초청 코드" {
-            self.paymentMethodView.setData("초청코드")
-        } else {
-            let paymentMethod = PaymentMethod(rawValue: entity.paymentMethod)!
-            self.paymentMethodView.setData(paymentMethod.description)
-        }
+        let paymentMethod = PaymentMethod(rawValue: entity.paymentMethod)!
+        self.paymentMethodView.setData(paymentMethod.description)
 
         // 입금 계좌 정보
         self.bankNameView.setData(entity.bankName)
@@ -348,7 +343,8 @@ final class TicketReservationDetailViewController: BooltiViewController {
         }
     }
 
-    private func configureInvitationUI() {
+    private func configureInvitationUI(with entity: TicketReservationDetailEntity) {
+        self.paymentMethodView.setData(entity.paymentMethod)
         self.depositAccountInformationStackView.isHidden = true
         self.depositorInformationStackView.isHidden = true
         self.reversalPolicyView.isHidden = true
