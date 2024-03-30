@@ -90,7 +90,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
     private lazy var reversalPolicyTitlelabel = self.makeTitleLabel(title: "취소/환불 규정")
     // Remote Config로 넘어갈 예정
     private let reversalPolicyLabel: BooltiPaddingLabel = {
-        let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 0, left: 0, bottom: 24, right: 0))
+        let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
         label.text = """
         • 티켓 판매 기간 내 발권 취소 및 환불은 서비스 내 처리가 가능하며, 판매 기간 이후에는 주최자에게 직접 연락 바랍니다.
         • 티켓 판매 기간 내 환불 신청은 발권 후 마이 > 예매 내역 > 예매 상세에서 가능합니다.
@@ -247,6 +247,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
     private func bindOutputs() {
         self.viewModel.output.tickerReservationDetail
+            .compactMap { $0 }
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, entity in
                 owner.concertInformationView.setData(
@@ -359,11 +360,13 @@ final class TicketRefundRequestViewController: BooltiViewController {
         self.requestRefundButton.rx.tap
             .bind(with: self) { owner, _ in
                 let input = owner.viewModel.input
+                let output = owner.viewModel.output
                 let refundAccountInfomration = RefundAccountInformation(
                     accountHolderName: input.accoundHolderNameText.value,
                     accountHolderPhoneNumber: input.accountHolderPhoneNumberText.value,
                     accountBankName: owner.selectRefundBankView.bankNameLabel.text ?? "",
-                    accountNumber: input.refundAccountNumberText.value
+                    accountNumber: input.refundAccountNumberText.value,
+                    totalRefundAmount: output.tickerReservationDetail.value?.totalPaymentAmount ?? ""
                 )
                 let viewController = owner.ticketRefundConfirmViewControllerFactory(
                     owner.viewModel.reservationID,

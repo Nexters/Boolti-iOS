@@ -12,6 +12,7 @@ struct RefundAccountInformation {
     let accountHolderPhoneNumber: String
     let accountBankName: String
     let accountNumber: String
+    let totalRefundAmount: String
 }
 
 final class TicketRefundConfirmDIContainer {

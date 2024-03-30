@@ -22,7 +22,7 @@ final class TicketRefundRequestViewModel {
     }
 
     struct Output {
-        let tickerReservationDetail = PublishRelay<TicketReservationDetailEntity>()
+        let tickerReservationDetail = BehaviorRelay<TicketReservationDetailEntity?>(value: nil)
         let isAccoundHolderNameEmpty = PublishRelay<Bool>()
         let isAccoundHolderPhoneNumberEmpty = PublishRelay<Bool>()
         let selectedBank = BehaviorRelay<BankEntity?>(value: nil)
