@@ -14,6 +14,11 @@ import RxRelay
 final class ReversalPolicyView: UIStackView {
 
     private let disposeBag = DisposeBag()
+    private var isCollapsed: Bool = false {
+        didSet {
+            self.toggleViewCollapsableImageView()
+        }
+    }
 
     let didViewCollapseButtonTap = PublishRelay<Void>()
 
@@ -30,11 +35,11 @@ final class ReversalPolicyView: UIStackView {
         return label
     }()
 
-    private let viewCollapseButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.chevronDown, for: .normal)
-        button.setImage(.chevronUp, for: .selected)
-        return button
+    private let viewCollapseImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .chevronDown
+
+        return imageView
     }()
 
     private lazy var reversalPolicyLabel: BooltiPaddingLabel = {
@@ -77,7 +82,7 @@ final class ReversalPolicyView: UIStackView {
         }
 
         self.titleView.addSubviews([
-            self.titleLabel, self.viewCollapseButton
+            self.titleLabel, self.viewCollapseImageView
         ])
 
         self.addArrangedSubviews([
@@ -94,7 +99,7 @@ final class ReversalPolicyView: UIStackView {
             make.left.equalTo(self.titleView.snp.left).inset(20)
         }
 
-        self.viewCollapseButton.snp.makeConstraints { make in
+        self.viewCollapseImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalTo(self.titleView.snp.right).inset(20)
         }
@@ -104,10 +109,20 @@ final class ReversalPolicyView: UIStackView {
         self.titleView.rx.tapGesture()
             .skip(1)
             .bind(with: self) { owner, _ in
-                owner.viewCollapseButton.isSelected.toggle()
+                owner.isCollapsed.toggle()
                 owner.reversalPolicyLabel.isHidden.toggle()
             }
             .disposed(by: self.disposeBag)
     }
+
+    private func toggleViewCollapsableImageView() {
+        switch self.isCollapsed {
+        case true:
+            self.viewCollapseImageView.image = .chevronUp
+        case false:
+            self.viewCollapseImageView.image = .chevronDown
+        }
+    }
+
 
 }
