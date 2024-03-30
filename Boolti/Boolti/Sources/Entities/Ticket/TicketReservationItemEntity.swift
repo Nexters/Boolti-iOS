@@ -26,7 +26,7 @@ enum ReservationStatus: String {
 
     var color: UIColor {
         switch self {
-        case .waitingForDeposit: return .grey30
+        case .waitingForDeposit: return .error
         case .cancelled: return .error
         case .waitingForRefund: return .grey30
         case .reservationCompleted: return .success

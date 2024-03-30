@@ -65,20 +65,17 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private let reservationStatusLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        // Color, Text는 서버 API에 따라서 바뀔 예정
         label.font = .body1
-        label.textColor = .red
-        label.text = "안녕하세요"
 
         return label
     }()
 
     private let concertInformationView = ConcertInformationView()
 
-    private let bankNameView = ReservationHorizontalStackView(title: "은행명", alignment: .left)
-    private let accountNumberView = ReservationHorizontalStackView(title: "계좌번호", alignment: .left, isCopyButtonExist: true)
-    private let accountHolderNameView = ReservationHorizontalStackView(title: "예금주", alignment: .left)
-    private let depositDeadLineView = ReservationHorizontalStackView(title: "입금 마감일", alignment: .left)
+    private let bankNameView = ReservationHorizontalStackView(title: "은행명", alignment: .right)
+    private let accountNumberView = ReservationHorizontalStackView(title: "계좌번호", alignment: .right)
+    private let accountHolderNameView = ReservationHorizontalStackView(title: "예금주", alignment: .right)
+    private let depositDeadLineView = ReservationHorizontalStackView(title: "입금 마감일", alignment: .right)
 
     private lazy var depositAccountInformationStackView = ReservationCollapsableStackView(
         title: "입금 계좌 정보",
@@ -287,6 +284,8 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         // 콘서트 정보
         self.reservationIDLabel.text = "No. \(entity.csReservationID)"
+        self.reservationStatusLabel.text = entity.reservationStatus.description
+        self.reservationStatusLabel.textColor = entity.reservationStatus.color
         self.concertInformationView.setData(
             posterImageURLPath: entity.concertPosterImageURLPath,
             concertTitle: entity.concertTitle,
@@ -330,7 +329,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         // 입금 계좌 정보
         self.bankNameView.setData(entity.bankName)
-        self.accountNumberView.setData(entity.accountNumber)
+        self.accountNumberView.setData(entity.accountNumber, isUnderLined: true)
         self.accountHolderNameView.setData(entity.accountHolderName)
         self.depositDeadLineView.setData(entity.depositDeadLine.formatToDate().format(.dateDayTime))
 
