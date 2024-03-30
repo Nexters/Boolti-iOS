@@ -85,21 +85,19 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private let paymentMethodView = ReservationHorizontalStackView(title: "결제 수단", alignment: .right)
     private let totalPaymentAmountView = ReservationHorizontalStackView(title: "총 결제 금액", alignment: .right)
-    private let paymentStatusView = ReservationHorizontalStackView(title: "결제 상태", alignment: .right)
 
     private lazy var paymentInformationStackView = ReservationCollapsableStackView(
-        title: "결제 정보",
-        contentViews: [self.paymentMethodView, self.totalPaymentAmountView, self.paymentStatusView],
+        title: "결제 수단",
+        contentViews: [self.totalPaymentAmountView, self.paymentMethodView],
         isHidden: false
     )
 
     private let ticketTypeView = ReservationHorizontalStackView(title: "티켓 종류", alignment: .right)
     private let ticketCountView = ReservationHorizontalStackView(title: "티켓 개수", alignment: .right)
-    private let ticketingDateView = ReservationHorizontalStackView(title: "발권 일시", alignment: .right)
 
     private lazy var ticketInformationStackView = ReservationCollapsableStackView(
         title: "티켓 정보",
-        contentViews: [self.ticketTypeView, self.ticketCountView, self.ticketingDateView],
+        contentViews: [self.ticketTypeView, self.ticketCountView],
         isHidden: false
     )
 
@@ -214,10 +212,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.reservationUpperStackView,
             self.concertInformationView,
             self.depositAccountInformationStackView,
-            self.paymentInformationStackView,
-            self.ticketInformationStackView,
             self.purchaserInformationStackView,
             self.depositorInformationStackView,
+            self.ticketInformationStackView,
+            self.paymentInformationStackView,
             self.reversalPolicyView,
             self.blankSpaceView,
             self.requestRefundButton,
@@ -296,14 +294,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
         // 결제 정보
         self.paymentMethodView.setData("초청 코드")
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
-        self.paymentStatusView.setData(entity.reservationStatus.description)
 
         self.configureRefundButton(with: entity)
 
         // 티켓 정보
         self.ticketTypeView.setData(entity.ticketType.rawValue)
         self.ticketCountView.setData("\(entity.ticketCount)매")
-        self.ticketingDateView.setData(entity.ticketingDate?.formatToDate().format(.dateDayTime) ?? "발권 전")
 
         // 예매자 정보
         self.purchasernNameView.setData(entity.purchaseName)
@@ -331,7 +327,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.bankNameView.setData(entity.bankName)
         self.accountNumberView.setData(entity.accountNumber, isUnderLined: true)
         self.accountHolderNameView.setData(entity.accountHolderName)
-        self.depositDeadLineView.setData(entity.depositDeadLine.formatToDate().format(.dateDayTime))
+        self.depositDeadLineView.setData(entity.depositDeadLine.formatToDate().format(.dateTime))
 
         // 입금자 정보
         self.depositorNameView.setData(entity.depositorName)
