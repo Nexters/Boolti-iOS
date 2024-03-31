@@ -93,7 +93,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
     )
 
     private let ticketTypeView = ReservationHorizontalStackView(title: "티켓 종류", alignment: .right)
-    private let ticketCountView = ReservationHorizontalStackView(title: "티켓 개수", alignment: .right)
+    private let ticketCountView = ReservationHorizontalStackView(title: "티켓 매수", alignment: .right)
 
     private lazy var ticketInformationStackView = ReservationCollapsableStackView(
         title: "티켓 정보",
