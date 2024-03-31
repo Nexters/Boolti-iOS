@@ -215,12 +215,12 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         }
 
         self.ticketInformationView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.06)
+            make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.065)
             make.bottom.equalToSuperview().inset(self.bounds.height * 0.04)
         }
 
         self.posterImageView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.06)
+            make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.065)
             make.top.equalTo(self.upperTagView.snp.bottom).offset(self.bounds.height * 0.04)
             make.height.equalToSuperview().multipliedBy(0.67)
         }
@@ -254,7 +254,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
             let width = self.bounds.width * 0.053
 
             path.move(to: CGPoint(x: width, y: height))
-            path.addLine(to: CGPoint(x: self.bounds.width * 0.947, y: height))
+            path.addLine(to: CGPoint(x: self.bounds.width * 0.942, y: height))
 
             let shapeLayer = CAShapeLayer()
             shapeLayer.path = path
