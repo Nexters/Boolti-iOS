@@ -50,6 +50,8 @@ final class TicketingDetailViewController: BooltiViewController {
     
     private let policyView = PolicyView()
     
+    private let middlemanPolicyView = MiddlemanPolicyView()
+    
     private let businessInfoView = BooltiBusinessInfoView()
 
     private lazy var buttonBackgroundView: UIView = {
@@ -76,6 +78,7 @@ final class TicketingDetailViewController: BooltiViewController {
                                   self.paymentMethodView,
                                   self.invitationCodeView,
                                   self.policyView,
+                                  self.middlemanPolicyView,
                                   self.businessInfoView])
         return view
     }()
@@ -245,7 +248,7 @@ extension TicketingDetailViewController {
     }
     
     private func bindSalesView(price: Int) {
-        if price == 0 {
+        if price > 0 {
             Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
                                      self.checkInputViewTextFieldFilled(inputType: .depositor))
                 .map { $0 && $1 }
