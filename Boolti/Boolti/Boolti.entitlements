@@ -10,7 +10,7 @@
 	</array>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:nexters.page.link</string>
+		<string>applinks:boolti.page.link</string>
 	</array>
 </dict>
 </plist>
