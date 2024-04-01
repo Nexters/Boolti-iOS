@@ -117,7 +117,7 @@ extension TicketingCompletionViewController {
                     self.topContentView = self.depositSummaryView
                 }
                 
-                self.depositSummaryView.setData(date: data.concert.salesEndTime, price: data.selectedTicket.price)
+                self.depositSummaryView.setData(date: data.concert.salesEndTime, price: data.selectedTicket.count * data.selectedTicket.price)
                 self.reservedTicketView.setData(concert: data.concert, selectedTicket: data.selectedTicket)
                 self.depositDetailView.setSalesEndTime(salesEndTime: data.concert.salesEndTime)
             }
