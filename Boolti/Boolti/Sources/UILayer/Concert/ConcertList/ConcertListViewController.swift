@@ -204,7 +204,7 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
         case 2:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 80)
         case 3:
-            return CGSize(width: (self.mainCollectionView.frame.width - 40) / 2 - 7.5, height: 313 * self.view.frame.height / 812)
+            return CGSize(width: (self.mainCollectionView.frame.width - 40) / 2 - 7.5, height: max(313, 313 * self.view.bounds.height / 812))
         default:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 86)
         }
