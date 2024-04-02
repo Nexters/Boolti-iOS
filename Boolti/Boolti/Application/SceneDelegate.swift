@@ -47,10 +47,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 // 만약 다른 dynamic link가 들어오게 되면 다른 함수로 빼서 처리하기!
                 guard let url = dynamicLinks?.url else { return }
                 let urlString = url.absoluteString
-                let components = URLComponents(string: urlString)
-                let queryitems = components?.queryItems ?? []
+                let components = urlString.split(separator: "/")
 
-                guard let concertID = Int(queryitems.filter({ $0.name == "showId" }).first?.value ?? "") else { return }
+                guard let lastComponent = components.last else { return }
+                guard let concertID = Int(lastComponent) else { return }
                 UserDefaults.concertID = concertID
 
                 // active인지 아닌 지를 확인해서 둘 메소드 다 실행되지는 않게 구현하기

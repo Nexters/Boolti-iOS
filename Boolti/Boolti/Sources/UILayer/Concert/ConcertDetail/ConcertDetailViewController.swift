@@ -263,14 +263,11 @@ extension ConcertDetailViewController {
                 guard let longDeepLinkURL = owner.concerDetailDeepLinkURL(concertID) else { return }
 
                 DynamicLinkComponents.shortenURL(longDeepLinkURL, options: nil) { url, warnings, error in
-                    print(url)
-                    print(error)
                     guard let url = url, error == nil else { return }
                     let activityViewController = UIActivityViewController(
                         activityItems: [url, image],
                         applicationActivities: nil
                     )
-                    print(activityViewController)
                     activityViewController.popoverPresentationController?.sourceView = owner.view
                     owner.present(activityViewController, animated: true, completion: nil)
                 }
@@ -297,7 +294,8 @@ extension ConcertDetailViewController {
 
     private func concerDetailDeepLinkURL(_ concertID: Int) -> URL? {
         // 변경될 예정
-        guard let link = URL(string: "https://app.boolti.in/show?showId=\(concertID)") else { return nil }
+        // https://preview.boolti.in/show/$showId
+        guard let link = URL(string: "https://preview.boolti.in/show/\(concertID)") else { return nil }
 
         let dynamicLinksDomainURIPrefix = AppInfo.booltiDeepLinkPrefix
         guard let linkBuilder = DynamicLinkComponents(
