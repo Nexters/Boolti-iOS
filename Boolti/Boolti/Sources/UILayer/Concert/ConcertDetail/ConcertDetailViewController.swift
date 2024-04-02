@@ -273,7 +273,6 @@ extension ConcertDetailViewController {
                 }
             }
             .disposed(by: self.disposeBag)
-
         self.navigationBar.didMoreButtonTap()
             .emit(with: self) { owner, _ in
                 let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -296,7 +295,6 @@ extension ConcertDetailViewController {
         // 변경될 예정
         // https://preview.boolti.in/show/$showId
         guard let link = URL(string: "https://preview.boolti.in/show/\(concertID)") else { return nil }
-
         let dynamicLinksDomainURIPrefix = AppInfo.booltiDeepLinkPrefix
         guard let linkBuilder = DynamicLinkComponents(
             link: link,

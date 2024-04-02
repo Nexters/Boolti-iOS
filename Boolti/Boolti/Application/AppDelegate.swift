@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         /// 탭 Bar index 초기화하기/concertID 초기화하기
         UserDefaults.tabBarIndex = 0
-        UserDefaults.concertID = 0
+        UserDefaults.concertID = nil
 
         return true
     }
