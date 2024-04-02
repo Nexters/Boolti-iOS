@@ -57,7 +57,7 @@ final class RefundConfirmContentView: UIView {
         }
 
         self.contentLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.titleLabel.snp.right)
+            make.right.equalToSuperview()
         }
     }
 }

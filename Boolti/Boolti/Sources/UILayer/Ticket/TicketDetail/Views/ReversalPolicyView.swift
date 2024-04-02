@@ -14,6 +14,11 @@ import RxRelay
 final class ReversalPolicyView: UIStackView {
 
     private let disposeBag = DisposeBag()
+    private var isCollapsed: Bool = false {
+        didSet {
+            self.toggleViewCollapsableImageView()
+        }
+    }
 
     let didViewCollapseButtonTap = PublishRelay<Void>()
 
@@ -30,14 +35,14 @@ final class ReversalPolicyView: UIStackView {
         return label
     }()
 
-    private let viewCollapseButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.chevronDown, for: .normal)
-        button.setImage(.chevronUp, for: .selected)
-        return button
+    private let viewCollapseImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .chevronDown
+
+        return imageView
     }()
 
-    private lazy var reversalPolicyLabel: BooltiPaddingLabel = {
+    private lazy var reversalPolicyLabel: UILabel = {
         let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 0, left: 20, bottom: 24, right: 20))
         label.text = """
         • 티켓 판매 기간 내 발권 취소 및 환불은 서비스 내 처리가 가능하며, 판매 기간 이후에는 주최자에게 직접 연락 바랍니다.
@@ -77,7 +82,7 @@ final class ReversalPolicyView: UIStackView {
         }
 
         self.titleView.addSubviews([
-            self.titleLabel, self.viewCollapseButton
+            self.titleLabel, self.viewCollapseImageView
         ])
 
         self.addArrangedSubviews([
@@ -94,28 +99,34 @@ final class ReversalPolicyView: UIStackView {
             make.left.equalTo(self.titleView.snp.left).inset(20)
         }
 
-        self.viewCollapseButton.snp.makeConstraints { make in
+        self.viewCollapseImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalTo(self.titleView.snp.right).inset(20)
         }
 
         self.reversalPolicyLabel.snp.makeConstraints { make in
-            make.height.equalTo(290)
+            make.height.equalTo(260)
         }
     }
 
     private func bindUIComponents() {
-        self.viewCollapseButton.rx.tap
+        self.titleView.rx.tapGesture()
+            .skip(1)
             .bind(with: self) { owner, _ in
-                owner.viewCollapseButton.isSelected.toggle()
-
-                UIView.animate(withDuration: 0.3) {
-                    owner.reversalPolicyLabel.isHidden.toggle()
-                    owner.layoutIfNeeded()
-                }
-                owner.didViewCollapseButtonTap.accept(())
+                owner.isCollapsed.toggle()
+                owner.reversalPolicyLabel.isHidden.toggle()
             }
             .disposed(by: self.disposeBag)
     }
+
+    private func toggleViewCollapsableImageView() {
+        switch self.isCollapsed {
+        case true:
+            self.viewCollapseImageView.image = .chevronUp
+        case false:
+            self.viewCollapseImageView.image = .chevronDown
+        }
+    }
+
 
 }

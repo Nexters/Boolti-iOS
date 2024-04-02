@@ -18,14 +18,16 @@ final class TicketRefundRequestViewModel {
         let accoundHolderNameText = BehaviorRelay<String>(value: "")
         let accountHolderPhoneNumberText = BehaviorRelay<String>(value: "")
         let refundAccountNumberText = BehaviorRelay<String>(value: "")
+        let isReversalPolicyChecked = BehaviorRelay<Bool>(value: false)
     }
 
     struct Output {
-        let tickerReservationDetail = PublishRelay<TicketReservationDetailEntity>()
+        let tickerReservationDetail = BehaviorRelay<TicketReservationDetailEntity?>(value: nil)
         let isAccoundHolderNameEmpty = PublishRelay<Bool>()
         let isAccoundHolderPhoneNumberEmpty = PublishRelay<Bool>()
         let selectedBank = BehaviorRelay<BankEntity?>(value: nil)
         let isValidrefundAccountNumber = PublishRelay<Bool>()
+        let isReversalPolicyChecked = PublishRelay<Bool>()
     }
 
     let input: Input
@@ -79,6 +81,12 @@ final class TicketRefundRequestViewModel {
         self.input.selectedItem
             .subscribe(with: self) { owner, bankEntity in
                 owner.output.selectedBank.accept(bankEntity)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.input.isReversalPolicyChecked
+            .subscribe(with: self) { owner, isChecked in
+                owner.output.isReversalPolicyChecked.accept(isChecked)
             }
             .disposed(by: self.disposeBag)
     }

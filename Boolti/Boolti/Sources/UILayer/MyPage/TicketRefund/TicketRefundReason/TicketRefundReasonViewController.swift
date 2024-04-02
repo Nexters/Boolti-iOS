@@ -20,13 +20,13 @@ final class TicketRefundReasonViewController: BooltiViewController {
     private let viewModel: TicketRefundReasonViewModel
     private let disposeBag = DisposeBag()
 
-    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "환불 요청하기"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "취소 요청하기"))
 
     private let mainTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .point4
         label.textColor = .grey05
-        label.text = "환불 이유를 입력해 주세요"
+        label.text = "취소 사유를 입력해 주세요"
         return label
     }()
 

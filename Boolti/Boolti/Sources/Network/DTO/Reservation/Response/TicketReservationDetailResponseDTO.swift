@@ -35,12 +35,13 @@ extension TicketReservationDetailResponseDTO {
         let ticketType = self.salesTicketType == "SALE" ? TicketType.sale : TicketType.invitation
         let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.cancelled
         let totalAmountPrice = self.totalAmountPrice ?? 0
-        let paymentType = self.meansType ?? "초청코드"
+        let paymentType = self.meansType ?? "초청 코드"
 
         return TicketReservationDetailEntity(
             reservationID: String(self.reservationId),
             concertPosterImageURLPath: self.showImg,
             concertTitle: self.showName,
+            salesTicketName: self.salesTicketName,
             ticketType: ticketType,
             ticketCount: String(self.ticketCount),
             bankName: bankName,

@@ -25,6 +25,7 @@ struct TicketReservationDetailEntity {
     let reservationID: String
     let concertPosterImageURLPath: String
     let concertTitle: String
+    let salesTicketName: String
     let ticketType: TicketType
     let ticketCount: String
     let bankName: String

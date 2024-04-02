@@ -30,7 +30,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return scrollView
     }()
 
-    private let  contentStackView: UIStackView = {
+    private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -40,20 +40,42 @@ final class TicketReservationDetailViewController: BooltiViewController {
         return stackView
     }()
 
-    private let reservationIDLabel: BooltiPaddingLabel = {
-        let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 0))
+    private lazy var reservationUpperStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 5, left: 20, bottom: .zero, right: 20)
+
+        stackView.addArrangedSubviews([
+            self.reservationIDLabel,
+            self.reservationStatusLabel
+        ])
+
+        return stackView
+    }()
+
+    private let reservationIDLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey50
         label.font = .pretendardR(14)
 
         return label
     }()
 
+    private let reservationStatusLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .body1
+
+        return label
+    }()
+
     private let concertInformationView = ConcertInformationView()
 
-    private let bankNameView = ReservationHorizontalStackView(title: "은행명", alignment: .left)
-    private let accountNumberView = ReservationHorizontalStackView(title: "계좌번호", alignment: .left, isCopyButtonExist: true)
-    private let accountHolderNameView = ReservationHorizontalStackView(title: "예금주", alignment: .left)
-    private let depositDeadLineView = ReservationHorizontalStackView(title: "입금 마감일", alignment: .left)
+    private let bankNameView = ReservationHorizontalStackView(title: "은행명", alignment: .right)
+    private let accountNumberView = ReservationHorizontalStackView(title: "계좌번호", alignment: .right)
+    private let accountHolderNameView = ReservationHorizontalStackView(title: "예금주", alignment: .right)
+    private let depositDeadLineView = ReservationHorizontalStackView(title: "입금 마감일", alignment: .right)
 
     private lazy var depositAccountInformationStackView = ReservationCollapsableStackView(
         title: "입금 계좌 정보",
@@ -63,21 +85,19 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private let paymentMethodView = ReservationHorizontalStackView(title: "결제 수단", alignment: .right)
     private let totalPaymentAmountView = ReservationHorizontalStackView(title: "총 결제 금액", alignment: .right)
-    private let paymentStatusView = ReservationHorizontalStackView(title: "결제 상태", alignment: .right)
 
     private lazy var paymentInformationStackView = ReservationCollapsableStackView(
-        title: "결제 정보",
-        contentViews: [self.paymentMethodView, self.totalPaymentAmountView, self.paymentStatusView],
+        title: "결제 수단",
+        contentViews: [self.totalPaymentAmountView, self.paymentMethodView],
         isHidden: false
     )
 
     private let ticketTypeView = ReservationHorizontalStackView(title: "티켓 종류", alignment: .right)
-    private let ticketCountView = ReservationHorizontalStackView(title: "티켓 개수", alignment: .right)
-    private let ticketingDateView = ReservationHorizontalStackView(title: "발권 일시", alignment: .right)
+    private let ticketCountView = ReservationHorizontalStackView(title: "티켓 매수", alignment: .right)
 
     private lazy var ticketInformationStackView = ReservationCollapsableStackView(
         title: "티켓 정보",
-        contentViews: [self.ticketTypeView, self.ticketCountView, self.ticketingDateView],
+        contentViews: [self.ticketTypeView, self.ticketCountView],
         isHidden: false
     )
 
@@ -103,7 +123,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private let requestRefundButton: UIButton = {
         let button = UIButton()
-        button.setTitle("환불 요청하기", for: .normal)
+        button.setTitle("취소 요청하기", for: .normal)
         button.setTitleColor(.grey90, for: .normal)
         button.titleLabel?.font = .subhead1
         button.backgroundColor = .grey20
@@ -171,10 +191,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
             make.edges.equalToSuperview()
         }
 
-        self.reservationIDLabel.snp.makeConstraints { make in
-            make.width.equalTo(screenWidth)
-        }
-
         self.reversalPolicyView.snp.makeConstraints { make in
             make.width.equalTo(screenWidth)
         }
@@ -193,18 +209,21 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private func addArrangedSubViews() {
         self.contentStackView.addArrangedSubviews([
-            self.reservationIDLabel,
+            self.reservationUpperStackView,
             self.concertInformationView,
             self.depositAccountInformationStackView,
-            self.paymentInformationStackView,
-            self.ticketInformationStackView,
             self.purchaserInformationStackView,
             self.depositorInformationStackView,
+            self.ticketInformationStackView,
+            self.paymentInformationStackView,
             self.reversalPolicyView,
             self.blankSpaceView,
             self.requestRefundButton,
         ])
 
+        self.reservationUpperStackView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+        }
         self.contentStackView.setCustomSpacing(0, after: self.reversalPolicyView)
     }
 
@@ -263,24 +282,23 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         // 콘서트 정보
         self.reservationIDLabel.text = "No. \(entity.csReservationID)"
+        self.reservationStatusLabel.text = entity.reservationStatus.description
+        self.reservationStatusLabel.textColor = entity.reservationStatus.color
         self.concertInformationView.setData(
             posterImageURLPath: entity.concertPosterImageURLPath,
             concertTitle: entity.concertTitle,
-            ticketType: entity.ticketType,
+            salesTicketName: entity.salesTicketName,
             ticketCount: entity.ticketCount
         )
 
         // 결제 정보
-        self.paymentMethodView.setData("초청 코드")
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
-        self.paymentStatusView.setData(entity.reservationStatus.description)
 
         self.configureRefundButton(with: entity)
 
         // 티켓 정보
-        self.ticketTypeView.setData(entity.ticketType.rawValue)
+        self.ticketTypeView.setData(entity.salesTicketName)
         self.ticketCountView.setData("\(entity.ticketCount)매")
-        self.ticketingDateView.setData(entity.ticketingDate?.formatToDate().format(.dateDayTime) ?? "발권 전")
 
         // 예매자 정보
         self.purchasernNameView.setData(entity.purchaseName)
@@ -292,23 +310,19 @@ final class TicketReservationDetailViewController: BooltiViewController {
         case .sale:
             self.setAdditionalDataForSale(with: entity)
         case .invitation:
-            self.configureInvitationUI()
+            self.configureInvitationUI(with: entity)
         }
     }
 
     private func setAdditionalDataForSale(with entity: TicketReservationDetailEntity) {
-        if entity.paymentMethod == "초청 코드" {
-            self.paymentMethodView.setData("초청코드")
-        } else {
-            let paymentMethod = PaymentMethod(rawValue: entity.paymentMethod)!
-            self.paymentMethodView.setData(paymentMethod.description)
-        }
+        let paymentMethod = PaymentMethod(rawValue: entity.paymentMethod)!
+        self.paymentMethodView.setData(paymentMethod.description)
 
         // 입금 계좌 정보
         self.bankNameView.setData(entity.bankName)
-        self.accountNumberView.setData(entity.accountNumber)
+        self.accountNumberView.setData(entity.accountNumber, isUnderLined: true)
         self.accountHolderNameView.setData(entity.accountHolderName)
-        self.depositDeadLineView.setData(entity.depositDeadLine.formatToDate().format(.dateDayTime))
+        self.depositDeadLineView.setData(entity.depositDeadLine.formatToDate().format(.dateTime))
 
         // 입금자 정보
         self.depositorNameView.setData(entity.depositorName)
@@ -320,6 +334,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         case .reservationCompleted:
             if Date() <= entity.salesEndTime.formatToDate() {
                 self.requestRefundButton.isHidden = false
+                self.changeBlankSpaceViewHeight()
             } else {
                 self.requestRefundButton.isHidden = true
             }
@@ -328,7 +343,8 @@ final class TicketReservationDetailViewController: BooltiViewController {
         }
     }
 
-    private func configureInvitationUI() {
+    private func configureInvitationUI(with entity: TicketReservationDetailEntity) {
+        self.paymentMethodView.setData(entity.paymentMethod)
         self.depositAccountInformationStackView.isHidden = true
         self.depositorInformationStackView.isHidden = true
         self.reversalPolicyView.isHidden = true
@@ -339,5 +355,11 @@ final class TicketReservationDetailViewController: BooltiViewController {
         let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.size.height)
 
         self.scrollView.setContentOffset(bottomOffset, animated: true)
+    }
+
+    private func changeBlankSpaceViewHeight() {
+        self.blankSpaceView.snp.updateConstraints { make in
+            make.height.equalTo(20)
+        }
     }
 }
