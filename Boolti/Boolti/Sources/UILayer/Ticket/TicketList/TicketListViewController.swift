@@ -45,12 +45,12 @@ final class TicketListViewController: BooltiViewController {
         collectionView.alwaysBounceVertical = false
         collectionView.register(
             TicketListCollectionViewCell.self,
-            forCellWithReuseIdentifier: String(describing: TicketListCollectionViewCell.self)
+            forCellWithReuseIdentifier: TicketListCollectionViewCell.className
         )
         collectionView.register(
             TicketListFooterView.self,
             forSupplementaryViewOfKind: TicketListViewController.ticketListFooterViewKind,
-            withReuseIdentifier: String(describing: TicketListFooterView.self)
+            withReuseIdentifier: TicketListFooterView.className
         )
 
         return collectionView
@@ -171,9 +171,9 @@ final class TicketListViewController: BooltiViewController {
 
     private func configureCollectionViewCarousel(of section: NSCollectionLayoutSection) {
         section.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, environment in
-            
+
             let visibleCellItems = visibleItems.filter {
-              $0.representedElementKind != TicketListViewController.ticketListFooterViewKind
+                $0.representedElementKind != TicketListViewController.ticketListFooterViewKind
             }
 
             let inset = (environment.container.contentSize.width)*0.05
@@ -284,17 +284,25 @@ final class TicketListViewController: BooltiViewController {
         self.datasource = UICollectionViewDiffableDataSource(
             collectionView: self.collectionView,
             cellProvider: { [weak self ] collectionView, indexPath, item in
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TicketListCollectionViewCell.self), for: indexPath) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: TicketListCollectionViewCell.className,
+                    for: indexPath
+                ) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
+                cell.disposeBag = DisposeBag()
                 cell.setData(with: item)
                 if item.ticketStatus == .notUsed {
                     self?.bindQRCodeExpandView(cell, with: item)
                 }
 
-            return cell
-        })
+                return cell
+            })
 
         self.datasource?.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
-            let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: TicketListFooterView.self), for: indexPath)
+            let supplementaryView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: TicketListFooterView.className,
+                for: indexPath
+            )
 
             self?.bind(supplementaryView)
             return supplementaryView
@@ -314,7 +322,7 @@ final class TicketListViewController: BooltiViewController {
                 viewController.modalPresentationStyle = .fullScreen
                 owner.present(viewController, animated: true)
             }
-            .disposed(by: self.disposeBag)
+            .disposed(by: cell.disposeBag)
     }
 
     private func bind(_ footerView: UICollectionReusableView) {

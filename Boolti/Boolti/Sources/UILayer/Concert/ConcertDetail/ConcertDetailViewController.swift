@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import RxGesture
 import Kingfisher
+import FirebaseDynamicLinks
 
 final class ConcertDetailViewController: BooltiViewController {
     
@@ -254,18 +255,24 @@ extension ConcertDetailViewController {
         
         self.navigationBar.didShareButtonTap()
             .emit(with: self) { owner, _ in
-                guard let url = URL(string: AppInfo.booltiShareLink),
-                      let posterURL = owner.viewModel.output.concertDetail.value?.posters.first?.path
+                guard let posterURL = owner.viewModel.output.concertDetail.value?.posters.first?.path
                 else { return }
-                
+                guard let concertID = self.viewModel.output.concertDetail.value?.id else { return }
+
                 let image = KFImage(URL(string: posterURL))
-                
-                let activityViewController = UIActivityViewController(activityItems: [url, image], applicationActivities: nil)
-                activityViewController.popoverPresentationController?.sourceView = owner.view
-                owner.present(activityViewController, animated: true, completion: nil)
+                guard let longDeepLinkURL = owner.concerDetailDeepLinkURL(concertID) else { return }
+
+                DynamicLinkComponents.shortenURL(longDeepLinkURL, options: nil) { url, warnings, error in
+                    guard let url = url, error == nil else { return }
+                    let activityViewController = UIActivityViewController(
+                        activityItems: [url, image],
+                        applicationActivities: nil
+                    )
+                    activityViewController.popoverPresentationController?.sourceView = owner.view
+                    owner.present(activityViewController, animated: true, completion: nil)
+                }
             }
             .disposed(by: self.disposeBag)
-        
         self.navigationBar.didMoreButtonTap()
             .emit(with: self) { owner, _ in
                 let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -282,6 +289,23 @@ extension ConcertDetailViewController {
                 owner.present(alertController, animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func concerDetailDeepLinkURL(_ concertID: Int) -> URL? {
+        // 변경될 예정
+        // https://preview.boolti.in/show/$showId
+        guard let link = URL(string: "https://preview.boolti.in/show/\(concertID)") else { return nil }
+        let dynamicLinksDomainURIPrefix = AppInfo.booltiDeepLinkPrefix
+        guard let linkBuilder = DynamicLinkComponents(
+            link: link,
+            domainURIPrefix: dynamicLinksDomainURIPrefix
+        ) else { return nil }
+
+        linkBuilder.iOSParameters = DynamicLinkIOSParameters(bundleID: AppInfo.bundleID)
+        linkBuilder.iOSParameters?.appStoreID = AppInfo.appId
+        linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: AppInfo.bundleID)
+
+        return linkBuilder.url
     }
 }
 

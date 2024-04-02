@@ -1,13 +1,13 @@
 //
-//  UICollectionViewCell+.swift
+//  UICollectionReusableView.swift
 //  Boolti
 //
-//  Created by Juhyeon Byun on 2/11/24.
+//  Created by Miro on 4/2/24.
 //
 
 import UIKit
 
-extension UICollectionViewCell {
+extension UICollectionReusableView {
 
     static var className: String {
         return String(describing: Self.self)

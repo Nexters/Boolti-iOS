@@ -14,4 +14,5 @@ enum UserDefaultsKey: String, CaseIterable {
     case refreshToken
     case oauthProvider
     case tabBarIndex
+    case concertID
 }

@@ -14,7 +14,7 @@ final class ConcertListViewController: BooltiViewController {
     // MARK: Properties
     
     typealias ConcertId = Int
-    
+
     private let viewModel: ConcertListViewModel
     private let disposeBag = DisposeBag()
     private let concertDetailViewControllerFactory: (ConcertId) -> ConcertDetailViewController
@@ -68,6 +68,10 @@ final class ConcertListViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.viewModel.confirmCheckingTickets()
         self.viewModel.fetchConcertList(concertName: nil)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        self.configureDynamicLinkDestination()
     }
 }
 
@@ -248,6 +252,14 @@ extension ConcertListViewController {
         self.mainCollectionView.snp.makeConstraints { make in
             make.bottom.horizontalEdges.equalToSuperview()
             make.top.equalTo(self.view.safeAreaLayoutGuide)
+        }
+    }
+
+    func configureDynamicLinkDestination() {
+        if let concertID = UserDefaults.concertID {
+            let viewController = concertDetailViewControllerFactory(concertID)
+            self.navigationController?.pushViewController(viewController, animated: true)
+            UserDefaults.concertID = nil // 바로 초기화
         }
     }
 }

@@ -36,8 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// 자동 초기화 방지
         Messaging.messaging().isAutoInitEnabled = true
 
-        /// 탭 Bar index 초기화하기
+        /// 탭 Bar index 초기화하기/concertID 초기화하기
         UserDefaults.tabBarIndex = 0
+        UserDefaults.concertID = nil
 
         return true
     }
@@ -119,10 +120,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     private func titleData(from userInfo: [AnyHashable : Any]) -> NotificationMessageTitle? {
-        guard let apsData = userInfo["aps"] as? [String : AnyObject] else { return nil }
-        guard let alertData = apsData["alert"] as? [String : Any] else { return nil }
-        guard let title = alertData["title"] as? String else  { return nil }
-
-        return NotificationMessageTitle(title)
+        guard let messageType = userInfo["type"] as? String else { return nil }
+        return NotificationMessageTitle(messageType)
     }
 }

@@ -22,7 +22,6 @@
 		840B395F2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B395E2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift */; };
 		840B39612B78CE6300E7F8C8 /* ConcertListRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39602B78CE6300E7F8C8 /* ConcertListRequestDTO.swift */; };
 		840B39632B78CEF700E7F8C8 /* ConcertListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39622B78CEF700E7F8C8 /* ConcertListResponseDTO.swift */; };
-		840B39652B78DD6000E7F8C8 /* UICollectionViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39642B78DD6000E7F8C8 /* UICollectionViewCell+.swift */; };
 		840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D84032B6F5C610078D352 /* TicketingPeriodView.swift */; };
 		841D77D22B73B0C10068B1C5 /* ConcertAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D12B73B0C10068B1C5 /* ConcertAPI.swift */; };
 		841D77D42B73B1B00068B1C5 /* ConcertRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */; };
@@ -196,6 +195,7 @@
 		870099BA2B775A9C001779FB /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 870099B92B775A9C001779FB /* RxGesture */; };
 		870099BE2B7767E7001779FB /* EmptyReservationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099BD2B7767E7001779FB /* EmptyReservationsView.swift */; };
 		870B75FF2B7CC447008970B3 /* TicketRefundRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870B75FE2B7CC447008970B3 /* TicketRefundRequestDTO.swift */; };
+		870C33362BBC29B600ED212C /* UICollectionReusableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870C33352BBC29B600ED212C /* UICollectionReusableView+.swift */; };
 		87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EF62B5DF8FE004BD418 /* RootDestination.swift */; };
 		87101EFA2B5DF9A3004BD418 /* RxAppState in Frameworks */ = {isa = PBXBuildFile; productRef = 87101EF92B5DF9A3004BD418 /* RxAppState */; };
 		87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */; };
@@ -324,7 +324,6 @@
 		840B395E2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListMainTitleCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39602B78CE6300E7F8C8 /* ConcertListRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListRequestDTO.swift; sourceTree = "<group>"; };
 		840B39622B78CEF700E7F8C8 /* ConcertListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListResponseDTO.swift; sourceTree = "<group>"; };
-		840B39642B78DD6000E7F8C8 /* UICollectionViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+.swift"; sourceTree = "<group>"; };
 		840D84032B6F5C610078D352 /* TicketingPeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingPeriodView.swift; sourceTree = "<group>"; };
 		841D77D12B73B0C10068B1C5 /* ConcertAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertAPI.swift; sourceTree = "<group>"; };
 		841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertRepository.swift; sourceTree = "<group>"; };
@@ -474,6 +473,7 @@
 		870099B62B77489A001779FB /* TicketReservationsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationsRepository.swift; sourceTree = "<group>"; };
 		870099BD2B7767E7001779FB /* EmptyReservationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyReservationsView.swift; sourceTree = "<group>"; };
 		870B75FE2B7CC447008970B3 /* TicketRefundRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundRequestDTO.swift; sourceTree = "<group>"; };
+		870C33352BBC29B600ED212C /* UICollectionReusableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+.swift"; sourceTree = "<group>"; };
 		87101EF62B5DF8FE004BD418 /* RootDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootDestination.swift; sourceTree = "<group>"; };
 		87101EFB2B5DFC60004BD418 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		8710D93F2B74E44400309FBF /* MypageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageContentView.swift; sourceTree = "<group>"; };
@@ -901,9 +901,9 @@
 				841D77E02B7464250068B1C5 /* UIImageView+.swift */,
 				84FBBDFA2B675834009462E9 /* UIStackView+.swift */,
 				84625A152B63C33D00CC9077 /* UITableViewCell+.swift */,
-				840B39642B78DD6000E7F8C8 /* UICollectionViewCell+.swift */,
 				84FEF6162B68A6D100EBB64F /* UIResponder+.swift */,
 				87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */,
+				870C33352BBC29B600ED212C /* UICollectionReusableView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1978,11 +1978,11 @@
 				8753CA772B71F004002871C7 /* TicketListItemResponseDTO.swift in Sources */,
 				849FBD512B5E920A006EB865 /* AppInfo.swift in Sources */,
 				221D09FC2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift in Sources */,
+				870C33362BBC29B600ED212C /* UICollectionReusableView+.swift in Sources */,
 				8730F0202B7B520A00D4F339 /* SelectRefundBankView.swift in Sources */,
 				84FBBE0B2B6888CB009462E9 /* InvitationCodeView.swift in Sources */,
 				84896A4B2B6A6D6C00CB3E33 /* DepositSummaryView.swift in Sources */,
 				841FA6412B8326BD00441848 /* BooltiPopupView.swift in Sources */,
-				840B39652B78DD6000E7F8C8 /* UICollectionViewCell+.swift in Sources */,
 				8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */,
 				842C1C662B7DA8C800EFE5A0 /* ResignInfoViewController.swift in Sources */,
 				876BF16C2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift in Sources */,
