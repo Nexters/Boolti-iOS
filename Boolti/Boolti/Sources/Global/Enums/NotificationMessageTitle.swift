@@ -11,7 +11,7 @@ enum NotificationMessageTitle {
 
     case didTicketIssued
     case concertWillStart
-    case didrefundCompleted
+    case didRefundCompleted
     case despositRequest
 
     init?(_ rawValue: String){
@@ -23,7 +23,7 @@ enum NotificationMessageTitle {
         case "DEPOSIT_REQUEST": // 입금 요청
             self = .despositRequest
         case "REFUND_COMPLETED": // 환불 완료
-            self = .didrefundCompleted
+            self = .didRefundCompleted
         default:
             return nil
         }
@@ -31,11 +31,9 @@ enum NotificationMessageTitle {
 
     var tabBarIndex: Int {
         switch self {
-        case .didTicketIssued:
+        case .didTicketIssued, .concertWillStart:
             return 1
-        case .concertWillStart:
-            return 1
-        case .didrefundCompleted:
+        case .didRefundCompleted:
             return 2
         case .despositRequest:
             return 0

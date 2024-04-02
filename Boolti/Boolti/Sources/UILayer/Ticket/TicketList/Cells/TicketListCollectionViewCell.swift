@@ -56,16 +56,16 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         return view
     }()
 
-    private let ticketNumberLabel: UILabel = {
-        let label = UILabel()
+    private let ticketNumberLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey80.withAlphaComponent(0.75)
         label.font = .pretendardB(14)
 
         return label
     }()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .headline1
         label.numberOfLines = 2
@@ -79,8 +79,8 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
 
-    private let ticketTypeLabel: UILabel = {
-        let label = UILabel()
+    private let ticketTypeLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey80.withAlphaComponent(0.8)
         label.font = .pretendardB(14)
 

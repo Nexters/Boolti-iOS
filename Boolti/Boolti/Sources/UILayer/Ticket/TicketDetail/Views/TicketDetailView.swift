@@ -151,7 +151,7 @@ final class TicketDetailView: UIView {
         self.ticketDetailInformationView.setData(with: item)
         self.posterImageView.setImage(with: item.posterURLPath)
         self.backgroundImageView.setImage(with: item.posterURLPath)
-        self.ticketTypeLabel.text = "\(item.ticketName)"
+        self.ticketTypeLabel.text = item.ticketName
         self.ticketNumberLabel.text = item.csTicketID
         self.ticketInquiryView.setData(with: "\(item.hostName) (\(item.hostPhoneNumber))")
         self.ticketNoticeView.setData(with: item.notice)
