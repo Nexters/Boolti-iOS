@@ -41,7 +41,7 @@ final class UpdatePopupViewController: UIViewController {
         label.font = .body1
         label.numberOfLines = 2
         label.text = "지금 업데이트하고\n더 편리해진 불티를 만나보세요"
-        label.setAlignCenter()
+        label.setAlignment(.center)
         
         return label
     }()

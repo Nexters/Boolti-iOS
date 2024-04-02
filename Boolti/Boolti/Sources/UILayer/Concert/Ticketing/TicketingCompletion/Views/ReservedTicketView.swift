@@ -74,8 +74,8 @@ extension ReservedTicketView {
     
     func setData(concert: ConcertDetailEntity, selectedTicket: SelectedTicketEntity) {
         self.titleLabel.text = concert.name
-        self.ticketDetailLabel.text = "\(selectedTicket.ticketName) / 1매"
-        self.priceLabel.text = "\(selectedTicket.price.formattedCurrency())원"
+        self.ticketDetailLabel.text = "\(selectedTicket.ticketName) / \(selectedTicket.count)매"
+        self.priceLabel.text = "\((selectedTicket.count * selectedTicket.price).formattedCurrency())원"
         self.poster.setImage(with: concert.posters.first?.thumbnailPath ?? "")
     }
 }

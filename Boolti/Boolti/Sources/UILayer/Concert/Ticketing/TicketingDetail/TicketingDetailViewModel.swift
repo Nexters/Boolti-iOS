@@ -19,8 +19,7 @@ final class TicketingDetailViewModel {
 
     struct Output {
         let invitationCodeState = BehaviorRelay<InvitationCodeState>(value: .empty)
-        let concertDetail = PublishRelay<ConcertDetailEntity>()
-        var concertDetailEntity: ConcertDetailEntity?
+        let concertDetail = BehaviorRelay<ConcertDetailEntity?>(value: nil)
         let navigateToConfirm = PublishSubject<Void>()
         var ticketingEntity: TicketingEntity?
     }
@@ -43,7 +42,6 @@ extension TicketingDetailViewModel {
     
     func fetchConcertDetail() {
         self.concertRepository.concertDetail(concertId: self.selectedTicket.value.concertId)
-            .do { self.output.concertDetailEntity = $0 }
             .asObservable()
             .bind(to: self.output.concertDetail)
             .disposed(by: self.disposeBag)
@@ -51,12 +49,13 @@ extension TicketingDetailViewModel {
     
     func setSalesTicketingData(ticketHolderName: String, ticketHolderPhoneNumber: String,
                         depositorName: String, depositorPhoneNumber: String) {
-        let ticketingEntity = TicketingEntity(concert: self.output.concertDetailEntity!,
+        guard let concertDetail = self.output.concertDetail.value else { return }
+        let ticketingEntity = TicketingEntity(concert: concertDetail,
                                               ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
                                                                                      phoneNumber: ticketHolderPhoneNumber),
                                               depositor: TicketingEntity.userInfo(name: depositorName,
                                                                                   phoneNumber: depositorPhoneNumber),
-                                              selectedTicket: [self.selectedTicket.value],
+                                              selectedTicket: self.selectedTicket.value,
                                               reservationId: -1)
         
         self.output.ticketingEntity = ticketingEntity
@@ -78,10 +77,11 @@ extension TicketingDetailViewModel {
     func setInvitationTicketingData(ticketHolderName: String,
                                     ticketHolderPhoneNumber: String,
                                     invitationCode: String) {
-        let ticketingEntity = TicketingEntity(concert: self.output.concertDetailEntity!,
+        guard let concertDetail = self.output.concertDetail.value else { return }
+        let ticketingEntity = TicketingEntity(concert: concertDetail,
                                               ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
                                                                                      phoneNumber: ticketHolderPhoneNumber),
-                                              selectedTicket: [self.selectedTicket.value],
+                                              selectedTicket: self.selectedTicket.value,
                                               reservationId: -1,
                                               invitationCode: invitationCode)
         

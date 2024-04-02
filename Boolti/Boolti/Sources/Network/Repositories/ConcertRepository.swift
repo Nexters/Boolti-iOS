@@ -72,12 +72,12 @@ final class ConcertRepository: ConcertRepositoryType {
         let salesTicketingRequestDTO = SalesTicketingRequestDTO(userId: UserDefaults.userId,
                                                                 showId: selectedTicket.concertId,
                                                                 salesTicketTypeId: selectedTicket.id,
-                                                                ticketCount: 1,
+                                                                ticketCount: selectedTicket.count,
                                                                 reservationName: ticketHolderName,
                                                                 reservationPhoneNumber: ticketHolderPhoneNumber,
                                                                 depositorName: depositorName,
                                                                 depositorPhoneNumber: depositorPhoneNumber,
-                                                                paymentAmount: selectedTicket.price,
+                                                                paymentAmount: selectedTicket.count * selectedTicket.price,
                                                                 means: "ACCOUNT_TRANSFER")
         let api = ConcertAPI.salesTicketing(requestDTO: salesTicketingRequestDTO)
         

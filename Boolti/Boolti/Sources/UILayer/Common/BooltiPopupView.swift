@@ -65,8 +65,8 @@ extension BooltiPopupView {
     
     func showPopup(with type: PopupType) {
         self.titleLabel.text = type.rawValue
-        self.titleLabel.setAlignCenter()
-        
+        self.titleLabel.setAlignment(.center)
+    
         self.popupType = type
         self.isHidden = false
     }

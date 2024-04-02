@@ -50,6 +50,8 @@ final class TicketingDetailViewController: BooltiViewController {
     
     private let policyView = PolicyView()
     
+    private let middlemanPolicyView = MiddlemanPolicyView()
+    
     private let businessInfoView = BooltiBusinessInfoView()
 
     private lazy var buttonBackgroundView: UIView = {
@@ -76,6 +78,7 @@ final class TicketingDetailViewController: BooltiViewController {
                                   self.paymentMethodView,
                                   self.invitationCodeView,
                                   self.policyView,
+                                  self.middlemanPolicyView,
                                   self.businessInfoView])
         return view
     }()
@@ -163,10 +166,11 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
         
         self.viewModel.output.concertDetail
-            .bind(with: self) { owner, concertDetailEntity in
-                owner.concertInfoView.setData(posterURL: concertDetailEntity.posters.first!.thumbnailPath,
-                                              title: concertDetailEntity.name,
-                                              datetime: concertDetailEntity.date)
+            .bind(with: self) { owner, entity in
+                guard let entity = entity else { return }
+                owner.concertInfoView.setData(posterURL: entity.posters.first!.thumbnailPath,
+                                              title: entity.name,
+                                              datetime: entity.date)
             }
             .disposed(by: self.disposeBag)
         
@@ -174,16 +178,19 @@ extension TicketingDetailViewController {
             .take(1)
             .bind(with: self, onNext: { owner, entity in
                 owner.ticketInfoView.setData(entity: entity)
-                owner.payButton.setTitle("\(entity.price.formattedCurrency())원 결제하기", for: .normal)
+                owner.payButton.setTitle("\((entity.count * entity.price).formattedCurrency())원 결제하기", for: .normal)
                 
-                if entity.ticketType == .invite {
+                if entity.price == 0 {
                     owner.depositorInputView.isHidden = true
                     owner.paymentMethodView.isHidden = true
                     owner.policyView.isHidden = true
+                }
+                
+                if entity.ticketType == .invitation {
                     owner.bindInvitationView()
                 } else {
                     owner.invitationCodeView.isHidden = true
-                    owner.bindSalesView()
+                    owner.bindSalesView(price: entity.price)
                 }
             })
             .disposed(by: self.disposeBag)
@@ -241,13 +248,20 @@ extension TicketingDetailViewController {
             }
     }
     
-    private func bindSalesView() {
-        Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
-                                 self.checkInputViewTextFieldFilled(inputType: .depositor))
-            .map { $0 && $1 }
-            .distinctUntilChanged()
-            .bind(to: self.payButton.rx.isEnabled)
-            .disposed(by: self.disposeBag)
+    private func bindSalesView(price: Int) {
+        if price > 0 {
+            Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
+                                     self.checkInputViewTextFieldFilled(inputType: .depositor))
+                .map { $0 && $1 }
+                .distinctUntilChanged()
+                .bind(to: self.payButton.rx.isEnabled)
+                .disposed(by: self.disposeBag)
+        } else {
+            self.checkInputViewTextFieldFilled(inputType: .ticketHolder)
+                .distinctUntilChanged()
+                .bind(to: self.payButton.rx.isEnabled)
+                .disposed(by: self.disposeBag)
+        }
     }
     
     private func bindInvitationView() {
@@ -346,7 +360,7 @@ extension TicketingDetailViewController {
         else { return }
         
         switch self.viewModel.selectedTicket.value.ticketType {
-        case .sales:
+        case .sale:
             guard let depositorName = self.depositorInputView.nameTextField.text,
                   let depositorPhoneNumber = self.depositorInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "") else { return }
             
@@ -354,7 +368,7 @@ extension TicketingDetailViewController {
                                                  ticketHolderPhoneNumber: ticketHolderPhoneNumber,
                                                  depositorName: depositorName.isEmpty ? ticketHolderName : depositorName,
                                                  depositorPhoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorPhoneNumber)
-        case .invite:
+        case .invitation:
             guard let invitationCode = self.invitationCodeView.codeTextField.text else { return }
             
             self.viewModel.setInvitationTicketingData(ticketHolderName: ticketHolderName,

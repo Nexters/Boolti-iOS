@@ -54,19 +54,19 @@ final class TicketingConfirmViewController: BooltiViewController {
     }()
     
     private lazy var ticketHolderTitle = self.makeLabel(with: "예매자")
-    private lazy var ticketHolderInfo = self.makeLabel(with: nil)
+    private lazy var ticketHolderInfo = self.makeLabel()
     private lazy var ticketHolderStackView = self.makeHorizontalStackView(with: [self.ticketHolderTitle, self.ticketHolderInfo])
     
-    private lazy var depositorTitle = self.makeLabel(with: "입금자")
-    private lazy var depositorInfo = self.makeLabel(with: nil)
+    private lazy var depositorTitle = self.makeLabel(with: "결제자")
+    private lazy var depositorInfo = self.makeLabel()
     private lazy var depositorStackView = self.makeHorizontalStackView(with: [self.depositorTitle, self.depositorInfo])
     
     private lazy var ticketTitle = self.makeLabel(with: "티켓")
-    private lazy var ticketInfo = self.makeLabel(with: nil)
+    private lazy var ticketInfo = self.makeLabel()
     private lazy var ticketStackView = self.makeHorizontalStackView(with: [self.ticketTitle, self.ticketInfo])
     
     private lazy var methodTitle = self.makeLabel(with: "결제 수단")
-    private lazy var methodInfo = self.makeLabel(with: nil)
+    private lazy var methodInfo = self.makeLabel()
     private lazy var methodStackView = self.makeHorizontalStackView(with: [self.methodTitle, self.methodInfo])
     
     private let payButton = BooltiButton(title: "결제하기")
@@ -99,13 +99,12 @@ final class TicketingConfirmViewController: BooltiViewController {
 
 extension TicketingConfirmViewController {
     
-    private func makeLabel(with text: String?) -> BooltiUILabel {
+    private func makeLabel(with text: String? = nil) -> BooltiUILabel {
         let label = BooltiUILabel()
         label.font = .body1
-        label.text = text
         label.numberOfLines = 2
-        label.textAlignment = .left
         label.textColor = text != nil ? .grey30 : .grey15
+        label.text = text
         return label
     }
     
@@ -113,12 +112,8 @@ extension TicketingConfirmViewController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .top
-        stackView.spacing = 12
+        stackView.distribution = .equalSpacing
         stackView.addArrangedSubviews(labels)
-        
-        labels.first?.snp.makeConstraints { make in
-            make.width.equalTo(70)
-        }
         return stackView
     }
     
@@ -126,16 +121,23 @@ extension TicketingConfirmViewController {
         let entity = self.viewModel.ticketingEntity
         
         self.ticketHolderInfo.text = "\(entity.ticketHolder.name)\n\(entity.ticketHolder.phoneNumber.formatPhoneNumber())"
+        self.ticketHolderInfo.setAlignment(.right)
         
-        guard let selectedTicket = entity.selectedTicket.first else { return }
-        self.ticketInfo.text = "\(selectedTicket.ticketName)\n\(entity.selectedTicket.count)매 / \(selectedTicket.price.formattedCurrency())원"
+        self.ticketInfo.text = "\(entity.selectedTicket.ticketName)\n\(entity.selectedTicket.count)매 / \((entity.selectedTicket.count * entity.selectedTicket.price).formattedCurrency())원"
+        self.ticketInfo.setAlignment(.right)
         
-        switch selectedTicket.ticketType {
-        case .sales:
-            guard let depositor = entity.depositor else { return }
-            self.depositorInfo.text = "\(depositor.name)\n\(depositor.phoneNumber.formatPhoneNumber())"
-            self.methodInfo.text = "계좌 이체"
-        case .invite:
+        switch entity.selectedTicket.ticketType {
+        case .sale:
+            if entity.selectedTicket.price == 0 {
+                self.depositorStackView.isHidden = true
+                self.methodStackView.isHidden = true
+            } else {
+                guard let depositor = entity.depositor else { return }
+                self.depositorInfo.text = "\(depositor.name)\n\(depositor.phoneNumber.formatPhoneNumber())"
+                self.depositorInfo.setAlignment(.right)
+                self.methodInfo.text = "계좌 이체"
+            }
+        case .invitation:
             self.depositorStackView.isHidden = true
             self.methodInfo.text = "초청 티켓"
         }
