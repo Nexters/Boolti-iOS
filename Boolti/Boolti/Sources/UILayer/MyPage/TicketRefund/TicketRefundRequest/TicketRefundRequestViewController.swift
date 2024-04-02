@@ -253,7 +253,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
                 owner.concertInformationView.setData(
                     posterImageURLPath: entity.concertPosterImageURLPath,
                     concertTitle: entity.concertTitle,
-                    ticketType: entity.salesTicketName,
+                    salesTicketName: entity.salesTicketName,
                     ticketCount: entity.ticketCount
                 )
             }

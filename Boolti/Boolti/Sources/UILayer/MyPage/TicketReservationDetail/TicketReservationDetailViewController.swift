@@ -287,7 +287,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.concertInformationView.setData(
             posterImageURLPath: entity.concertPosterImageURLPath,
             concertTitle: entity.concertTitle,
-            ticketType: entity.salesTicketName,
+            salesTicketName: entity.salesTicketName,
             ticketCount: entity.ticketCount
         )
 
