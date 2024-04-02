@@ -64,9 +64,7 @@ final class TicketSelectionViewController: BooltiViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.viewModel.fetchSalesTicket() {
-            self.showContentView(.ticketTypeList)
-        }
+        self.viewModel.fetchSalesTicket()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -175,6 +173,13 @@ extension TicketSelectionViewController {
             .drive(with: self, onNext: { owner, _ in
                 owner.showContentView(.ticketTypeList)
             })
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.didSalesTicketFetched
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
+                owner.showContentView(.ticketTypeList)
+            }
             .disposed(by: self.disposeBag)
     }
     

@@ -27,6 +27,7 @@ final class TicketSelectionViewModel {
         let salesTickets = BehaviorRelay<[SelectedTicketEntity]>(value: [])
         let totalPrice = BehaviorRelay<Int>(value: 0)
         let showTicketTypeView = PublishRelay<Void>()
+        let didSalesTicketFetched = PublishSubject<Void>()
     }
 
     let input: Input
@@ -77,13 +78,13 @@ extension TicketSelectionViewModel {
 
 extension TicketSelectionViewModel {
     
-    func fetchSalesTicket(completion: @escaping () -> ()) {
+    func fetchSalesTicket() {
         self.output.isLoading.accept(true)
         self.concertRepository.salesTicket(concertId: self.concertId).asObservable()
             .subscribe(with: self) { owner, tickets in
                 owner.output.salesTickets.accept(tickets)
                 owner.output.isLoading.accept(false)
-                completion()
+                owner.output.didSalesTicketFetched.onNext(())
             }
             .disposed(by: self.disposeBag)
     }

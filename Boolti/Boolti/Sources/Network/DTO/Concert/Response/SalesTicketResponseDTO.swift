@@ -22,7 +22,7 @@ extension SalesTicketResponseDTO {
     
     func convertToSalesTicketEntities() -> [SelectedTicketEntity] {
         return self.map { ticket in
-            var ticketType: TicketType = ticket.ticketType == "SALE" ? .sale : .invitation
+            let ticketType: TicketType = ticket.ticketType == "SALE" ? .sale : .invitation
             
             return SelectedTicketEntity(id: ticket.id,
                                         concertId: ticket.showId,
