@@ -166,10 +166,11 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
         
         self.viewModel.output.concertDetail
-            .bind(with: self) { owner, concertDetailEntity in
-                owner.concertInfoView.setData(posterURL: concertDetailEntity.posters.first!.thumbnailPath,
-                                              title: concertDetailEntity.name,
-                                              datetime: concertDetailEntity.date)
+            .bind(with: self) { owner, entity in
+                guard let entity = entity else { return }
+                owner.concertInfoView.setData(posterURL: entity.posters.first!.thumbnailPath,
+                                              title: entity.name,
+                                              datetime: entity.date)
             }
             .disposed(by: self.disposeBag)
         
