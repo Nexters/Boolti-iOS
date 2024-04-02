@@ -288,6 +288,7 @@ final class TicketListViewController: BooltiViewController {
                     withReuseIdentifier: TicketListCollectionViewCell.className,
                     for: indexPath
                 ) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
+                cell.disposeBag = DisposeBag()
                 cell.setData(with: item)
                 if item.ticketStatus == .notUsed {
                     self?.bindQRCodeExpandView(cell, with: item)
@@ -321,7 +322,7 @@ final class TicketListViewController: BooltiViewController {
                 viewController.modalPresentationStyle = .fullScreen
                 owner.present(viewController, animated: true)
             }
-            .disposed(by: self.disposeBag)
+            .disposed(by: cell.disposeBag)
     }
 
     private func bind(_ footerView: UICollectionReusableView) {

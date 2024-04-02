@@ -7,7 +7,11 @@
 
 import UIKit
 
+import RxSwift
+
 final class TicketListCollectionViewCell: UICollectionViewCell {
+    
+    var disposeBag = DisposeBag()
 
     private var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -98,7 +102,8 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        self.ticketNumberLabel.text = nil
+        self.ticketTypeLabel.text = nil
         self.ticketInformationView.resetData()
     }
 
