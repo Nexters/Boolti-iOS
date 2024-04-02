@@ -13,7 +13,7 @@ final class SelectedSalesTicketView: UIView {
     
     // MARK: Properties
     
-    private var maxBuyCount: Int = 10
+    private var maxBuyCount: Int = 1
     
     // MARK: UI Component
     
@@ -127,16 +127,16 @@ extension SelectedSalesTicketView {
         self.nameLabel.text = entity.ticketName
         self.inventoryLabel.text = "\(entity.quantity)매 남음"
         self.priceLabel.text = "\(entity.price.formattedCurrency())원"
-        self.totalPriceLabel.text = "\((entity.price * entity.count).formattedCurrency())원"
         self.maxBuyCount = entity.quantity
-        self.setCount(with: entity.count)
     }
     
-    private func setCount(with count: Int) {
-        self.countLabel.text = "\(count)"
+    func setCount(with entity: SelectedTicketEntity) {
+        self.countLabel.text = "\(entity.count)"
         
-        self.minusButton.isEnabled = count > 1
-        self.plusButton.isEnabled = count < self.maxBuyCount
+        self.minusButton.isEnabled = entity.count > 1
+        self.plusButton.isEnabled = entity.count < self.maxBuyCount
+        
+        self.totalPriceLabel.text = "\((entity.price * entity.count).formattedCurrency())원"
     }
     
     var didMinusButtonTap: ControlEvent<Void> {

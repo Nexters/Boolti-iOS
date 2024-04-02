@@ -102,7 +102,9 @@ extension TicketSelectionViewController {
             .disposed(by: self.disposeBag)
         
         self.viewModel.input.selectedTicket
-            .asDriver()
+            .skip(1)
+            .take(1)
+            .asDriver(onErrorJustReturn: nil)
             .drive(with: self) { owner, entity in
                 guard let entity = entity else { return }
                 
@@ -112,6 +114,14 @@ extension TicketSelectionViewController {
                 case .invitation:
                     owner.selectedInvitationTicketView.setData(entity: entity)
                 }
+            }.disposed(by: self.disposeBag)
+        
+        self.viewModel.input.selectedTicket
+            .asDriver(onErrorJustReturn: nil)
+            .drive(with: self) { owner, entity in
+                guard let entity = entity else { return }
+                
+                owner.selectedSalesTicketView.setCount(with: entity)
             }.disposed(by: self.disposeBag)
         
         self.selectedSalesTicketView.ticketingButton.rx.tap
