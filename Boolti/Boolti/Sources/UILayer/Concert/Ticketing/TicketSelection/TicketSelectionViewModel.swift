@@ -25,7 +25,6 @@ final class TicketSelectionViewModel {
     struct Output {
         let isLoading = PublishRelay<Bool>()
         let salesTickets = BehaviorRelay<[SelectedTicketEntity]>(value: [])
-        let totalPrice = BehaviorRelay<Int>(value: 0)
         let showTicketTypeView = PublishRelay<Void>()
         let didSalesTicketFetched = PublishSubject<Void>()
     }
@@ -65,9 +64,6 @@ extension TicketSelectionViewModel {
             .drive(with: self, onNext: { owner, ticket in
                 if ticket == nil {
                     owner.output.showTicketTypeView.accept(())
-                } else {
-                    guard let ticket = ticket else { return }
-                    owner.output.totalPrice.accept(ticket.price * ticket.count)
                 }
             })
             .disposed(by: self.disposeBag)
