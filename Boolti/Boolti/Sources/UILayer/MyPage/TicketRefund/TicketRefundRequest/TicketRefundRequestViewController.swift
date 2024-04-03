@@ -191,6 +191,10 @@ final class TicketRefundRequestViewController: BooltiViewController {
             make.top.horizontalEdges.equalToSuperview()
         }
 
+        self.dimmedBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
         [
             self.concertInformationView,
             self.accountHolderStackView,

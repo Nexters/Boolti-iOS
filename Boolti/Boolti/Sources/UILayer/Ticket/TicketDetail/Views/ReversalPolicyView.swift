@@ -42,7 +42,7 @@ final class ReversalPolicyView: UIStackView {
         return imageView
     }()
 
-    private lazy var reversalPolicyLabel: UILabel = {
+    private lazy var reversalPolicyLabel: BooltiPaddingLabel = {
         let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 0, left: 20, bottom: 24, right: 20))
         label.text = """
         • 티켓 판매 기간 내 발권 취소 및 환불은 서비스 내 처리가 가능하며, 판매 기간 이후에는 주최자에게 직접 연락 바랍니다.
@@ -102,10 +102,6 @@ final class ReversalPolicyView: UIStackView {
         self.viewCollapseImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalTo(self.titleView.snp.right).inset(20)
-        }
-
-        self.reversalPolicyLabel.snp.makeConstraints { make in
-            make.height.equalTo(260)
         }
     }
 

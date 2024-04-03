@@ -293,7 +293,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         // 결제 정보
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
-
         self.configureRefundButton(with: entity)
 
         // 티켓 정보
