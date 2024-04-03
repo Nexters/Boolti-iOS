@@ -26,7 +26,6 @@ final class ConcertDetailViewModel {
         case beforeSale(startDate: Date)
         case endSale
         case endConcert
-        case alreadyReserved
         
         var title: String {
             switch self {
@@ -35,7 +34,6 @@ final class ConcertDetailViewModel {
                 "예매 시작 D-\(Date().getBetweenDay(to: startDate))"
             case .endSale: "예매 종료"
             case .endConcert: "공연 종료"
-            case .alreadyReserved: "이미 예매한 공연"
             }
         }
         
@@ -131,11 +129,7 @@ extension ConcertDetailViewModel {
                     state = .beforeSale(startDate: concert.salesStartTime)
                 }
                 else if Date() <= concert.salesEndTime {
-                    if concert.reservationStatus {
-                        state = .alreadyReserved
-                    } else {
-                        state = .onSale
-                    }
+                    state = .onSale
                 }
                 else if Date().getBetweenDay(to: concert.date) >= 0 {
                     state = .endSale
