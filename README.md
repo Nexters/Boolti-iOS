@@ -5,8 +5,22 @@
 <p align="center"><img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/c2021c41-e619-4363-9413-a11165998422" width="450px"></p>
 
 ## 🏡 프로젝트 구조
+(작성 중)
+- MVVM
+- DIContainer
 ## 🛠️ 기술 스택
+(작성 중)
+- RxSwift
+- UIKit
+
+## 📚 라이브러리
+- KingFisher
+- Moya
+- FireBase
+- RxKakaoSDK
+- Snapkit
+- FireBase
 ## 🚨 트러블 슈팅
 |목록|
 |---|
-|[TabbarController의 presentinvViewController(feat.currentContext](https://github.com/Nexters/Boolti-iOS/wiki/TabbarController의-presentingViewController(feat.currentContext))|
+| [TabbarController의 presentingViewController(feat.currentContext)](https://github.com/Nexters/Boolti-iOS/wiki/TabbarController의-presentingViewController(feat.currentContext)) |
