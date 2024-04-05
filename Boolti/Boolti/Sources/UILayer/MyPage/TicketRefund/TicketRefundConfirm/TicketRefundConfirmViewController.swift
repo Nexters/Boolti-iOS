@@ -214,11 +214,11 @@ final class TicketRefundConfirmViewController: BooltiViewController {
             .drive(with: self) { owner, _ in
                 guard let refundRequestViewController = owner.presentingViewController as? TicketRefundRequestViewController else { return }
                 guard let viewControllers = refundRequestViewController.navigationController?.viewControllers else { return }
-                guard let reservationListViewControllers = viewControllers.filter({ $0 is TicketReservationsViewController }).first as? TicketReservationsViewController else { return }
+                guard let reservationDetailViewController = viewControllers.filter({ $0 is TicketReservationDetailViewController }).first as? TicketReservationDetailViewController else { return }
 
                 owner.showToast(message: "취소 요청이 완료되었어요")
                 owner.dismiss(animated: true) {
-                    refundRequestViewController.navigationController?.popToViewController(reservationListViewControllers, animated: true)
+                    refundRequestViewController.navigationController?.popToViewController(reservationDetailViewController, animated: true)
                 }
             }
             .disposed(by: self.disposeBag)
