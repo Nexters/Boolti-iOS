@@ -57,13 +57,7 @@ final class AccountContentView: UIView {
             self.errorCommentLabel
         ])
 
-        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
-            return
-        }
-        let screenWidth = window.screen.bounds.width
-
         self.snp.makeConstraints { make in
-            make.width.equalTo(screenWidth)
             make.height.equalTo(48)
         }
 
