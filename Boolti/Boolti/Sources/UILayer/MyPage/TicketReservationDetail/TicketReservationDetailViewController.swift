@@ -231,7 +231,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.accountNumberView.didCopyButtonTap
             .bind(with: self) { owner, accountNumber in
                 UIPasteboard.general.string = accountNumber
-                owner.showToast(message: "계좌번호 복사완료")
+                owner.showToast(message: "계좌번호가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
 
