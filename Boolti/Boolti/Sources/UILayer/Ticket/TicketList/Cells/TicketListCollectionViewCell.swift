@@ -78,7 +78,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
     }()
 
     private let booltiLogoImageView: UIImageView = {
-        let imageView = UIImageView(image: .booltiLogo)
+        let imageView = UIImageView(image: .booltiLogo.withTintColor(.grey80))
 
         return imageView
     }()
@@ -226,6 +226,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         self.booltiLogoImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self.upperTagView.snp.centerY)
             make.left.equalTo(self.ticketInformationView)
+            make.size.equalTo(20)
         }
 
         self.ticketTypeLabel.snp.makeConstraints { make in
