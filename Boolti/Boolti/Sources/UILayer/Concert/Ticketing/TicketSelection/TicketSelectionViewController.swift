@@ -80,13 +80,11 @@ extension TicketSelectionViewController {
     
     private func setDetent(contentHeight: CGFloat) {
         if let sheet = sheetPresentationController {
-            sheet.animateChanges {
-                sheet.detents = [
-                    .custom { _ in
-                        return min(contentHeight, 484)
-                    }
-                ]
-            }
+            sheet.detents = [
+                .custom { _ in
+                    return min(contentHeight, 484)
+                }
+            ]
         }
     }
     
