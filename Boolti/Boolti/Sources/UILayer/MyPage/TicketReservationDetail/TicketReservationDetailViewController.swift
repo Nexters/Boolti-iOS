@@ -331,6 +331,10 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private func configureRefundButton(with entity: TicketReservationDetailEntity) {
         switch entity.reservationStatus {
         case .reservationCompleted:
+            if entity.totalPaymentAmount == "0" {
+                self.requestRefundButton.isHidden = true
+                return
+            }
             if Date() <= entity.salesEndTime.formatToDate() {
                 self.requestRefundButton.isHidden = false
                 self.changeBlankSpaceViewHeight()
