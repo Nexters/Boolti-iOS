@@ -36,9 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// 자동 초기화 방지
         Messaging.messaging().isAutoInitEnabled = true
 
-        /// 탭 Bar index 초기화하기/concertID 초기화하기
+        /// 탭 Bar index 초기화하기/destination 초기화하기
         UserDefaults.tabBarIndex = 0
-        UserDefaults.concertID = nil
+        UserDefaults.navigationDestination = nil
 
         return true
     }
@@ -76,11 +76,11 @@ extension AppDelegate: MessagingDelegate {
         /// 주제 구독
         let defaultTopic: String
 
-#if DEBUG
+        #if DEBUG
         defaultTopic = "dev"
-#elseif RELEASE
+        #elseif RELEASE
         defaultTopic = "prod"
-#endif
+        #endif
 
         Messaging.messaging().subscribe(toTopic: defaultTopic) { error in
             if let error {
@@ -104,12 +104,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let userInfo = response.notification.request.content.userInfo
 
         if let notificationMessage = titleData(from: userInfo) {
-            UserDefaults.tabBarIndex = notificationMessage.tabBarIndex
-            NotificationCenter.default.post(
-                name: Notification.Name.didTabBarSelectedIndexChanged,
-                object: nil,
-                userInfo: ["tabBarIndex" : notificationMessage.tabBarIndex]
-            )
+            self.configureDestination(with: notificationMessage)
         }
         completionHandler()
     }
@@ -125,9 +120,15 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     private func configureDestination(with notificationMessage: NotificationMessage) {
-
+        UserDefaults.tabBarIndex = notificationMessage.tabBarIndex
+        NotificationCenter.default.post(
+            name: Notification.Name.didTabBarSelectedIndexChanged,
+            object: nil,
+            userInfo: ["tabBarIndex" : notificationMessage.tabBarIndex]
+        )
         switch notificationMessage {
         case .didRefundCompleted:
+            UserDefaults.navigationDestination = .reservationList
             NotificationCenter.default.post(
                 name: Notification.Name.NavigationDestination.reservationList,
                 object: nil

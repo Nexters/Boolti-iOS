@@ -51,6 +51,10 @@ final class MyPageViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+          self.configureNavigationDestination()
+      }
+
     init(
         viewModel: MyPageViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
@@ -233,7 +237,12 @@ final class MyPageViewController: BooltiViewController {
     }
 
     func configureNavigationDestination() {
-         let viewController = self.ticketReservationsViewControllerFactory()
-         self.navigationController?.pushViewController(viewController, animated: true)
-     }
+        guard let navigationDestination = UserDefaults.navigationDestination else { return }
+
+        if case .reservationList = navigationDestination {
+            let viewController = self.ticketReservationsViewControllerFactory()
+            self.navigationController?.pushViewController(viewController, animated: true)
+            UserDefaults.navigationDestination = nil
+        }
+    }
 }
