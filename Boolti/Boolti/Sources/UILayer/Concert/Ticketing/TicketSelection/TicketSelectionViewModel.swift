@@ -20,13 +20,16 @@ final class TicketSelectionViewModel {
     struct Input {
         let didDeleteButtonTap = PublishSubject<Void>()
         let selectedTicket = BehaviorRelay<SelectedTicketEntity?>(value: nil)
+        let ticketCount = BehaviorRelay<Int>(value: 1)
+        let didTicketingButtonTap = PublishSubject<Void>()
     }
 
     struct Output {
         let isLoading = PublishRelay<Bool>()
         let salesTickets = BehaviorRelay<[SelectedTicketEntity]>(value: [])
-        let showTicketTypeView = PublishRelay<Void>()
+        let showTicketTypeView = PublishSubject<Void>()
         let didSalesTicketFetched = PublishSubject<Void>()
+        let navigateTicketingDetail = PublishSubject<SelectedTicketEntity>()
     }
 
     let input: Input
@@ -56,6 +59,7 @@ extension TicketSelectionViewModel {
         self.input.didDeleteButtonTap
             .bind(with: self, onNext: { owner, _ in
                 owner.input.selectedTicket.accept(nil)
+                owner.input.ticketCount.accept(1)
             })
             .disposed(by: self.disposeBag)
         
@@ -63,9 +67,18 @@ extension TicketSelectionViewModel {
             .asDriver()
             .drive(with: self, onNext: { owner, ticket in
                 if ticket == nil {
-                    owner.output.showTicketTypeView.accept(())
+                    owner.output.showTicketTypeView.onNext(())
                 }
             })
+            .disposed(by: self.disposeBag)
+        
+        self.input.didTicketingButtonTap
+            .bind(with: self) { owner, _ in
+                guard var selectedTicket = owner.input.selectedTicket.value else { return }
+                selectedTicket.count = owner.input.ticketCount.value
+                
+                owner.output.navigateTicketingDetail.onNext(selectedTicket)
+            }
             .disposed(by: self.disposeBag)
     }
 }
