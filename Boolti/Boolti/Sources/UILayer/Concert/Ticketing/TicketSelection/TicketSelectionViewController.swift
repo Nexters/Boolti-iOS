@@ -100,8 +100,6 @@ extension TicketSelectionViewController {
             .disposed(by: self.disposeBag)
         
         self.viewModel.input.selectedTicket
-            .skip(1)
-            .take(1)
             .asDriver(onErrorJustReturn: nil)
             .drive(with: self) { owner, entity in
                 guard let entity = entity else { return }
@@ -114,45 +112,34 @@ extension TicketSelectionViewController {
                 }
             }.disposed(by: self.disposeBag)
         
-        self.viewModel.input.selectedTicket
-            .asDriver(onErrorJustReturn: nil)
-            .drive(with: self) { owner, entity in
-                guard let entity = entity else { return }
-                
-                owner.selectedSalesTicketView.setCount(with: entity)
+        self.viewModel.input.ticketCount
+            .asDriver()
+            .drive(with: self) { owner, count in
+                guard let selectedTicket = owner.viewModel.input.selectedTicket.value else { return }
+                owner.selectedSalesTicketView.setCount(price: selectedTicket.price, count: count, maxCount: selectedTicket.quantity)
             }.disposed(by: self.disposeBag)
         
         self.selectedSalesTicketView.ticketingButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                owner.pushTicketingDetailViewController()
-            }
+            .bind(to: self.viewModel.input.didTicketingButtonTap)
             .disposed(by: self.disposeBag)
         
         self.selectedInvitationTicketView.ticketingButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                owner.pushTicketingDetailViewController()
-            }
+            .bind(to: self.viewModel.input.didTicketingButtonTap)
             .disposed(by: self.disposeBag)
         
         self.selectedSalesTicketView.didMinusButtonTap
             .asDriver()
             .drive(with: self) { owner, _ in
-                guard var current = owner.viewModel.input.selectedTicket.value else { return }
-                current.count -= 1
-                
-                owner.viewModel.input.selectedTicket.accept(current)
+                let count = owner.viewModel.input.ticketCount.value - 1
+                owner.viewModel.input.ticketCount.accept(count)
             }
             .disposed(by: self.disposeBag)
         
         self.selectedSalesTicketView.didPlusButtonTap
             .asDriver()
             .drive(with: self) { owner, _ in
-                guard var current = owner.viewModel.input.selectedTicket.value else { return }
-                current.count += 1
-                
-                owner.viewModel.input.selectedTicket.accept(current)
+                let count = owner.viewModel.input.ticketCount.value + 1
+                owner.viewModel.input.ticketCount.accept(count)
             }
             .disposed(by: self.disposeBag)
         
@@ -189,6 +176,19 @@ extension TicketSelectionViewController {
                 owner.showContentView(.ticketTypeList)
             }
             .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.navigateTicketingDetail
+            .bind(with: self) { owner, entity in
+                let viewController = self.ticketingDetailViewControllerFactory(entity)
+                
+                guard let presentingViewController = self.presentingViewController as? HomeTabBarController else { return }
+                guard let rootviewController = presentingViewController.children[0] as? UINavigationController else { return }
+                
+                self.dismiss (animated: true) {
+                    rootviewController.pushViewController(viewController, animated: true)
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func showContentView(_ view: BottomSheetContentType) {
@@ -211,18 +211,6 @@ extension TicketSelectionViewController {
             self.selectedInvitationTicketView.isHidden = false
             
             self.setDetent(contentHeight: 260)
-        }
-    }
-    
-    private func pushTicketingDetailViewController() {
-        guard let selectedTicket = self.viewModel.input.selectedTicket.value else { return }
-        let viewController = self.ticketingDetailViewControllerFactory(selectedTicket)
-        
-        guard let presentingViewController = self.presentingViewController as? HomeTabBarController else { return }
-        guard let rootviewController = presentingViewController.children[0] as? UINavigationController else { return }
-        
-        self.dismiss (animated: true) {
-            rootviewController.pushViewController(viewController, animated: true)
         }
     }
 }

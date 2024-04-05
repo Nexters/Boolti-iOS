@@ -11,10 +11,6 @@ import RxCocoa
 
 final class SelectedSalesTicketView: UIView {
     
-    // MARK: Properties
-    
-    private var maxBuyCount: Int = 1
-    
     // MARK: UI Component
     
     private let nameLabel: BooltiUILabel = {
@@ -127,16 +123,16 @@ extension SelectedSalesTicketView {
         self.nameLabel.text = entity.ticketName
         self.inventoryLabel.text = "\(entity.quantity)매 남음"
         self.priceLabel.text = "\(entity.price.formattedCurrency())원"
-        self.maxBuyCount = entity.quantity
+        self.setCount(price: entity.price, count: 1, maxCount: entity.quantity)
     }
     
-    func setCount(with entity: SelectedTicketEntity) {
-        self.countLabel.text = "\(entity.count)"
+    func setCount(price: Int, count: Int, maxCount: Int) {
+        self.countLabel.text = "\(count)"
         
-        self.minusButton.isEnabled = entity.count > 1
-        self.plusButton.isEnabled = entity.count < self.maxBuyCount
+        self.minusButton.isEnabled = count > 1
+        self.plusButton.isEnabled = count < maxCount
         
-        self.totalPriceLabel.text = "\((entity.price * entity.count).formattedCurrency())원"
+        self.totalPriceLabel.text = "\((price * count).formattedCurrency())원"
     }
     
     var didMinusButtonTap: ControlEvent<Void> {
