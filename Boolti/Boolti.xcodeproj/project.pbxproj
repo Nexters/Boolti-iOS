@@ -284,6 +284,7 @@
 		877CAFC92B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CAFC82B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift */; };
 		877CAFCB2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CAFCA2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift */; };
 		877CAFCE2B7BD281004799C8 /* RefundConfirmContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CAFCD2B7BD281004799C8 /* RefundConfirmContentView.swift */; };
+		87826AEE2BBFF7F2005176D4 /* NavigationDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87826AED2BBFF7F2005176D4 /* NavigationDestination.swift */; };
 		878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */; };
 		87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */; };
 		87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */; };
@@ -560,6 +561,7 @@
 		877CAFC82B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundConfirmViewModel.swift; sourceTree = "<group>"; };
 		877CAFCA2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundConfirmDIContainer.swift; sourceTree = "<group>"; };
 		877CAFCD2B7BD281004799C8 /* RefundConfirmContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefundConfirmContentView.swift; sourceTree = "<group>"; };
+		87826AED2BBFF7F2005176D4 /* NavigationDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDestination.swift; sourceTree = "<group>"; };
 		878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASAuthorizationController+Rx.swift"; sourceTree = "<group>"; };
 		87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationsTableViewCell.swift; sourceTree = "<group>"; };
 		87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemEntity.swift; sourceTree = "<group>"; };
@@ -1719,6 +1721,7 @@
 			isa = PBXGroup;
 			children = (
 				87C7594B2BA93EA40009A83E /* NotificationMessage.swift */,
+				87826AED2BBFF7F2005176D4 /* NavigationDestination.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -2085,6 +2088,7 @@
 				84A713392B7BD504000BABCB /* QRScanRequestDTO.swift in Sources */,
 				87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
+				87826AEE2BBFF7F2005176D4 /* NavigationDestination.swift in Sources */,
 				84DF59DC2B722EA0000816DA /* UpdatePopupDIContainer.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
 				8730F0162B7B29EC00D4F339 /* TicketRefundRequestViewController.swift in Sources */,

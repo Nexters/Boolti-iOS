@@ -37,6 +37,9 @@ extension UserDefaults {
     @UserDefault<Int?>(key: UserDefaultsKey.concertID.rawValue, defaultValue: nil)
     static var concertID
 
+    @UserDefault<NavigationDestination?>(key: UserDefaultsKey.navigationDestination.rawValue, defaultValue: nil)
+      static var navigationDestination
+
     // MARK: - Custom Methods
 
     static func removeAllUserInfo() {
