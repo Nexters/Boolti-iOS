@@ -76,11 +76,11 @@ extension AppDelegate: MessagingDelegate {
         /// 주제 구독
         let defaultTopic: String
 
-        #if DEBUG
+#if DEBUG
         defaultTopic = "dev"
-        #elseif RELEASE
+#elseif RELEASE
         defaultTopic = "prod"
-        #endif
+#endif
 
         Messaging.messaging().subscribe(toTopic: defaultTopic) { error in
             if let error {
@@ -103,12 +103,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
         let userInfo = response.notification.request.content.userInfo
 
-        if let notificationMessageTitle = titleData(from: userInfo) {
-            UserDefaults.tabBarIndex = notificationMessageTitle.tabBarIndex
+        if let notificationMessage = titleData(from: userInfo) {
+            UserDefaults.tabBarIndex = notificationMessage.tabBarIndex
             NotificationCenter.default.post(
                 name: Notification.Name.didTabBarSelectedIndexChanged,
                 object: nil,
-                userInfo: ["tabBarIndex" : notificationMessageTitle.tabBarIndex]
+                userInfo: ["tabBarIndex" : notificationMessage.tabBarIndex]
             )
         }
         completionHandler()
@@ -119,8 +119,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         completionHandler([.badge, .sound, .list, .banner])
     }
 
-    private func titleData(from userInfo: [AnyHashable : Any]) -> NotificationMessageTitle? {
+    private func titleData(from userInfo: [AnyHashable : Any]) -> NotificationMessage? {
         guard let messageType = userInfo["type"] as? String else { return nil }
-        return NotificationMessageTitle(messageType)
+        return NotificationMessage(messageType)
+    }
+
+    private func configureDestination(with notificationMessage: NotificationMessage) {
+
+        switch notificationMessage {
+        case .didRefundCompleted:
+            NotificationCenter.default.post(
+                name: Notification.Name.NavigationDestination.reservationList,
+                object: nil
+            )
+        default:
+            break
+        }
     }
 }

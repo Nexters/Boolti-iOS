@@ -42,7 +42,7 @@ final class HomeTabBarController: UITabBarController {
 // MARK: - Methods
 
 extension HomeTabBarController {
-    
+
     private func bind() {
 
         self.rx.didSelect
@@ -83,7 +83,7 @@ extension HomeTabBarController {
             }
             .disposed(by: self.disposeBag)
 
-        self.viewModel.dynamicLinkDestination
+        self.viewModel.navigationDestination
             .subscribe(with: self) { owner, viewControllerType in
                 // 아래 코드 정리하기!.. - 타입 캐스팅 일일이 하지 않고, 제네릭타입으로 할 수 있게 구현해보기
                 if let _ = viewControllerType as? ConcertListViewController.Type {
@@ -92,6 +92,12 @@ extension HomeTabBarController {
                     guard let concertListViewController = viewController.topViewController as? ConcertListViewController
                     else { return }
                     concertListViewController.configureDynamicLinkDestination()
+                } else if let _ = viewControllerType as? TicketReservationsViewController.Type {
+                    guard let viewController = owner.viewControllers?[HomeTab.myPage.rawValue] as? UINavigationController
+                    else { return }
+                    guard let myPageViewController = viewController.topViewController as? MyPageViewController
+                    else { return }
+                    myPageViewController.configureNavigationDestination()
                 }
             }
             .disposed(by: self.disposeBag)
@@ -101,7 +107,7 @@ extension HomeTabBarController {
 // MARK: - UI
 
 extension HomeTabBarController {
-    
+
     private func configureUI() {
         let appearance = UITabBarAppearance()
         appearance.backgroundColor = .grey95

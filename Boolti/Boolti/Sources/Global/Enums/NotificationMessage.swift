@@ -1,5 +1,5 @@
 //
-//  NotificationMessageTitle.swift
+//  NotificationMessage.swift
 //  Boolti
 //
 //  Created by Miro on 3/19/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NotificationMessageTitle {
+enum NotificationMessage {
 
     case didTicketIssued
     case concertWillStart

@@ -60,7 +60,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     userInfo: ["tabBarIndex" : HomeTab.concert.rawValue]
                 )
                 NotificationCenter.default.post(
-                    name: Notification.Name.DynamicDestination.concertDetail,
+                    name: Notification.Name.NavigationDestination.concertDetail,
                     object: nil
                 )
             }

@@ -231,4 +231,9 @@ final class MyPageViewController: BooltiViewController {
         case .ticketReservations: return ticketReservationsViewControllerFactory()
         }
     }
+
+    func configureNavigationDestination() {
+         let viewController = self.ticketReservationsViewControllerFactory()
+         self.navigationController?.pushViewController(viewController, animated: true)
+     }
 }
