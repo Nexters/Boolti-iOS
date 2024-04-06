@@ -302,7 +302,6 @@ extension ConcertDetailViewController {
         ) else { return nil }
 
         linkBuilder.iOSParameters = DynamicLinkIOSParameters(bundleID: AppInfo.bundleID)
-        linkBuilder.iOSParameters?.appStoreID = AppInfo.appId
         #if DEBUG
         linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: AppInfo.androidDebugPackageName)
         #elseif RELEASE
