@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         /// 탭 Bar index 초기화하기/destination 초기화하기
         UserDefaults.tabBarIndex = 0
-        UserDefaults.navigationDestination = nil
+        UserDefaults.landingDestination = nil
 
         return true
     }
@@ -128,9 +128,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         )
         switch notificationMessage {
         case .didRefundCompleted:
-            UserDefaults.navigationDestination = .reservationList
+            UserDefaults.landingDestination = .reservationList
             NotificationCenter.default.post(
-                name: Notification.Name.NavigationDestination.reservationList,
+                name: Notification.Name.LandingDestination.reservationList,
                 object: nil
             )
         default:

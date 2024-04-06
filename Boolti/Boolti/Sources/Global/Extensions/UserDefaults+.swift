@@ -37,8 +37,8 @@ extension UserDefaults {
     @UserDefault<Int?>(key: UserDefaultsKey.concertID.rawValue, defaultValue: nil)
     static var concertID
 
-    @UserDefault<NavigationDestination?>(key: UserDefaultsKey.navigationDestination.rawValue, defaultValue: nil)
-      static var navigationDestination
+    @UserDefault<LandingDestination?>(key: UserDefaultsKey.landingDestination.rawValue, defaultValue: nil)
+      static var landingDestination
 
     // MARK: - Custom Methods
 

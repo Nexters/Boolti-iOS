@@ -83,7 +83,7 @@ extension HomeTabBarController {
             }
             .disposed(by: self.disposeBag)
 
-        self.viewModel.navigationDestination
+        self.viewModel.landingDestination
             .subscribe(with: self) { owner, viewControllerType in
                 // 아래 코드 정리하기!.. - 타입 캐스팅 일일이 하지 않고, 제네릭타입으로 할 수 있게 구현해보기
                 if let _ = viewControllerType as? ConcertListViewController.Type {
@@ -97,7 +97,7 @@ extension HomeTabBarController {
                     else { return }
                     guard let myPageViewController = viewController.topViewController as? MyPageViewController
                     else { return }
-                    myPageViewController.configureNavigationDestination()
+                    myPageViewController.configureLandingDestination()
                 }
             }
             .disposed(by: self.disposeBag)

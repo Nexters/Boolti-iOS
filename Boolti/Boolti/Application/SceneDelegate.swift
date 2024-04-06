@@ -51,7 +51,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 guard let lastComponent = components.last else { return }
                 guard let concertID = Int(lastComponent) else { return }
-                UserDefaults.navigationDestination = .concertDetail(concertId: concertID)
+                UserDefaults.landingDestination = .concertDetail(concertId: concertID)
                 
                 // active인지 아닌 지를 확인해서 둘 메소드 다 실행되지는 않게 구현하기
                 NotificationCenter.default.post(
@@ -60,7 +60,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     userInfo: ["tabBarIndex" : HomeTab.concert.rawValue]
                 )
                 NotificationCenter.default.post(
-                    name: Notification.Name.NavigationDestination.concertDetail,
+                    name: Notification.Name.LandingDestination.concertDetail,
                     object: nil
                 )
             }

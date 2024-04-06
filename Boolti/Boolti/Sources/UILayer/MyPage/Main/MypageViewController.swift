@@ -52,7 +52,7 @@ final class MyPageViewController: BooltiViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-          self.configureNavigationDestination()
+          self.configureLandingDestination()
       }
 
     init(
@@ -236,13 +236,13 @@ final class MyPageViewController: BooltiViewController {
         }
     }
 
-    func configureNavigationDestination() {
-        guard let navigationDestination = UserDefaults.navigationDestination else { return }
+    func configureLandingDestination() {
+        guard let landingDestination = UserDefaults.landingDestination else { return }
 
-        if case .reservationList = navigationDestination {
+        if case .reservationList = landingDestination {
             let viewController = self.ticketReservationsViewControllerFactory()
             self.navigationController?.pushViewController(viewController, animated: true)
-            UserDefaults.navigationDestination = nil
+            UserDefaults.landingDestination = nil
         }
     }
 }
