@@ -148,10 +148,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
         self.accountHolderPhoneNumberView.contentTextField.keyboardType = .phonePad
         self.refundAccountNumberView.accountNumberTextField.keyboardType = .phonePad
 
-        // API 붙히면 넣어줄 값
-        self.refundAmountView.setData("5,000원")
-        self.refundMethodView.setData("계좌이체")
-
         self.view.addSubviews([
             self.navigationBar,
             self.scrollView,
@@ -258,6 +254,9 @@ final class TicketRefundRequestViewController: BooltiViewController {
                     salesTicketName: entity.salesTicketName,
                     ticketCount: entity.ticketCount
                 )
+                
+                owner.refundAmountView.setData("\(entity.totalPaymentAmount)원")
+                owner.refundMethodView.setData("계좌이체")
             }
             .disposed(by: self.disposeBag)
 
