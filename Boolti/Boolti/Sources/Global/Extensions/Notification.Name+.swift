@@ -12,7 +12,8 @@ extension Notification.Name {
     static let serverError = Notification.Name("serverError")
     static let didTabBarSelectedIndexChanged = Notification.Name("didTabBarSelectedIndexChanged")
 
-    enum DynamicDestination {
+    enum LandingDestination {
         static let concertDetail = Notification.Name("concertDetail")
+        static let reservationList = Notification.Name("reservationList")
     }
 }

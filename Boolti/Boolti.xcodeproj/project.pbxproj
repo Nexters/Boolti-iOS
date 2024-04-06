@@ -284,11 +284,12 @@
 		877CAFC92B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CAFC82B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift */; };
 		877CAFCB2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CAFCA2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift */; };
 		877CAFCE2B7BD281004799C8 /* RefundConfirmContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CAFCD2B7BD281004799C8 /* RefundConfirmContentView.swift */; };
+		87826AEE2BBFF7F2005176D4 /* LandingDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87826AED2BBFF7F2005176D4 /* LandingDestination.swift */; };
 		878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */; };
 		87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */; };
 		87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */; };
 		87B18FE72BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B18FE62BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift */; };
-		87C7594C2BA93EA40009A83E /* NotificationMessageTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7594B2BA93EA40009A83E /* NotificationMessageTitle.swift */; };
+		87C7594C2BA93EA40009A83E /* NotificationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7594B2BA93EA40009A83E /* NotificationMessage.swift */; };
 		87CE4F6A2B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */; };
 		87CE4F6C2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */; };
 		87CE4F6F2B8DDA59007A0C8F /* PushNotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */; };
@@ -560,11 +561,12 @@
 		877CAFC82B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundConfirmViewModel.swift; sourceTree = "<group>"; };
 		877CAFCA2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundConfirmDIContainer.swift; sourceTree = "<group>"; };
 		877CAFCD2B7BD281004799C8 /* RefundConfirmContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefundConfirmContentView.swift; sourceTree = "<group>"; };
+		87826AED2BBFF7F2005176D4 /* LandingDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingDestination.swift; sourceTree = "<group>"; };
 		878AF4682B60EC3A00C8838C /* ASAuthorizationController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASAuthorizationController+Rx.swift"; sourceTree = "<group>"; };
 		87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationsTableViewCell.swift; sourceTree = "<group>"; };
 		87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemEntity.swift; sourceTree = "<group>"; };
 		87B18FE62BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversalPolicyConfirmButton.swift; sourceTree = "<group>"; };
-		87C7594B2BA93EA40009A83E /* NotificationMessageTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationMessageTitle.swift; sourceTree = "<group>"; };
+		87C7594B2BA93EA40009A83E /* NotificationMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationMessage.swift; sourceTree = "<group>"; };
 		87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterRequestDTO.swift; sourceTree = "<group>"; };
 		87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterResponseDTO.swift; sourceTree = "<group>"; };
 		87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationAPI.swift; sourceTree = "<group>"; };
@@ -1718,7 +1720,8 @@
 		87C7594A2BA93E800009A83E /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				87C7594B2BA93EA40009A83E /* NotificationMessageTitle.swift */,
+				87C7594B2BA93EA40009A83E /* NotificationMessage.swift */,
+				87826AED2BBFF7F2005176D4 /* LandingDestination.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -2085,6 +2088,7 @@
 				84A713392B7BD504000BABCB /* QRScanRequestDTO.swift in Sources */,
 				87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
+				87826AEE2BBFF7F2005176D4 /* LandingDestination.swift in Sources */,
 				84DF59DC2B722EA0000816DA /* UpdatePopupDIContainer.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
 				8730F0162B7B29EC00D4F339 /* TicketRefundRequestViewController.swift in Sources */,
@@ -2112,7 +2116,7 @@
 				840B39592B7670FC00E7F8C8 /* ConcertEntity.swift in Sources */,
 				8453D7FE2B7539770048F103 /* SalesTicketRequestDTO.swift in Sources */,
 				8710D9502B74FA9A00309FBF /* TicketReservationsDIContainer.swift in Sources */,
-				87C7594C2BA93EA40009A83E /* NotificationMessageTitle.swift in Sources */,
+				87C7594C2BA93EA40009A83E /* NotificationMessage.swift in Sources */,
 				84EF916C2B8C4B5F0073C89A /* AppleOAuthUserInfo.swift in Sources */,
 				22CF3A312BB586B50094711C /* SelectedInvitationTicketView.swift in Sources */,
 				84A7134A2B7C8999000BABCB /* QRExpandViewController.swift in Sources */,

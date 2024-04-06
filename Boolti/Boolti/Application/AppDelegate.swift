@@ -36,9 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// 자동 초기화 방지
         Messaging.messaging().isAutoInitEnabled = true
 
-        /// 탭 Bar index 초기화하기/concertID 초기화하기
+        /// 탭 Bar index 초기화하기/destination 초기화하기
         UserDefaults.tabBarIndex = 0
-        UserDefaults.concertID = nil
+        UserDefaults.landingDestination = nil
 
         return true
     }
@@ -103,13 +103,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
         let userInfo = response.notification.request.content.userInfo
 
-        if let notificationMessageTitle = titleData(from: userInfo) {
-            UserDefaults.tabBarIndex = notificationMessageTitle.tabBarIndex
-            NotificationCenter.default.post(
-                name: Notification.Name.didTabBarSelectedIndexChanged,
-                object: nil,
-                userInfo: ["tabBarIndex" : notificationMessageTitle.tabBarIndex]
-            )
+        if let notificationMessage = titleData(from: userInfo) {
+            self.configureDestination(with: notificationMessage)
         }
         completionHandler()
     }
@@ -119,8 +114,27 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         completionHandler([.badge, .sound, .list, .banner])
     }
 
-    private func titleData(from userInfo: [AnyHashable : Any]) -> NotificationMessageTitle? {
+    private func titleData(from userInfo: [AnyHashable : Any]) -> NotificationMessage? {
         guard let messageType = userInfo["type"] as? String else { return nil }
-        return NotificationMessageTitle(messageType)
+        return NotificationMessage(messageType)
+    }
+
+    private func configureDestination(with notificationMessage: NotificationMessage) {
+        UserDefaults.tabBarIndex = notificationMessage.tabBarIndex
+        NotificationCenter.default.post(
+            name: Notification.Name.didTabBarSelectedIndexChanged,
+            object: nil,
+            userInfo: ["tabBarIndex" : notificationMessage.tabBarIndex]
+        )
+        switch notificationMessage {
+        case .didRefundCompleted:
+            UserDefaults.landingDestination = .reservationList
+            NotificationCenter.default.post(
+                name: Notification.Name.LandingDestination.reservationList,
+                object: nil
+            )
+        default:
+            break
+        }
     }
 }

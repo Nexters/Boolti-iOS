@@ -256,10 +256,12 @@ extension ConcertListViewController {
     }
 
     func configureDynamicLinkDestination() {
-        if let concertID = UserDefaults.concertID {
+        guard let landingDestination = UserDefaults.landingDestination else { return }
+        
+        if case .concertDetail(let concertID) = landingDestination {
             let viewController = concertDetailViewControllerFactory(concertID)
             self.navigationController?.pushViewController(viewController, animated: true)
-            UserDefaults.concertID = nil // 바로 초기화
+            UserDefaults.landingDestination = nil
         }
     }
 }

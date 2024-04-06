@@ -20,7 +20,7 @@ final class HomeTabBarViewModel {
     let tabItems = BehaviorRelay<[HomeTab]>(value: HomeTab.allCases)
     let currentTab = BehaviorRelay<HomeTab>(value: .concert)
     let popToRootViewController = PublishRelay<HomeTab>()
-    let dynamicLinkDestination = PublishRelay<BooltiViewController.Type>()
+    let landingDestination = PublishRelay<BooltiViewController.Type>()
 
     func selectTab(index: Int) {
         guard let selectedTab = HomeTab(rawValue: index) else { return }
@@ -43,7 +43,14 @@ final class HomeTabBarViewModel {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(navigateToConcertDetail),
-            name: Notification.Name.DynamicDestination.concertDetail,
+            name: Notification.Name.LandingDestination.concertDetail,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(navigateToReservationList),
+            name: Notification.Name.LandingDestination.reservationList,
             object: nil
         )
     }
@@ -59,6 +66,10 @@ final class HomeTabBarViewModel {
     }
 
     @objc func navigateToConcertDetail() {
-        self.dynamicLinkDestination.accept(ConcertListViewController.self)
+        self.landingDestination.accept(ConcertListViewController.self)
+    }
+
+    @objc func navigateToReservationList() {
+        self.landingDestination.accept(TicketReservationsViewController.self)
     }
 }

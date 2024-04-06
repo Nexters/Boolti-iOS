@@ -12,9 +12,9 @@ enum AppInfo {
 
     static let appId = "6476589322"
     static let bundleID = "com.nexters.boolti"
+    static let androidDebugPackageName = "com.nexters.boolti.debug"
     static let booltiAppStoreLink = "itms-apps://itunes.apple.com/app/app-store/\(appId)"
     static let booltiShareLink = "https://apps.apple.com/kr/app/id\(appId)"
-    // 변경될 예정
     static let booltiDeepLinkPrefix = "https://boolti.page.link"
 
     static let termsPolicyLink = "https://boolti.notion.site/b4c5beac61c2480886da75a1f3afb982"

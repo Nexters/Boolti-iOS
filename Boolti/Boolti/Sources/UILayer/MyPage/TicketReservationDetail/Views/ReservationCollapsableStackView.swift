@@ -121,4 +121,8 @@ final class ReservationCollapsableStackView: UIStackView {
             self.viewCollapseImageView.image = .chevronDown
         }
     }
+
+    func changeTitle(_ title: String) {
+         self.titleLabel.text = title
+     }
 }
