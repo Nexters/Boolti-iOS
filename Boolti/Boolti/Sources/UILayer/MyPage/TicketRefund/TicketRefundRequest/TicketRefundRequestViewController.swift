@@ -106,7 +106,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
     }()
     private let reversalPolicyConfirmButton = ReversalPolicyConfirmButton()
 
-
     private lazy var reversalPolicyStackView = self.makeContentStackView([
         self.reversalPolicyTitlelabel,
         self.reversalPolicyLabel,
@@ -197,7 +196,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
         [
             self.concertInformationView,
-            self.accountHolderStackView,
             self.accountHolderStackView,
             self.refundAccountInformationView,
             self.refundInformationStackView,

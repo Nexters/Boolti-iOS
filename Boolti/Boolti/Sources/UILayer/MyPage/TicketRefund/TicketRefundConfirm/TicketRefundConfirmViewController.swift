@@ -137,7 +137,6 @@ final class TicketRefundConfirmViewController: BooltiViewController {
 
         self.refundInformationContentBackgroundView.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(self.contentBackGroundView).inset(20)
-            make.height.equalTo(220)
             make.top.equalTo(self.titleLabel.snp.bottom).offset(24)
         }
 
@@ -150,19 +149,19 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         self.accountHolderPhoneNumberView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountHolderNameView.snp.bottom).offset(16)
+            make.top.equalTo(self.accountHolderNameView.snp.bottom).offset(12)
         }
 
         self.accountBankNameView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountHolderPhoneNumberView.snp.bottom).offset(16)
+            make.top.equalTo(self.accountHolderPhoneNumberView.snp.bottom).offset(12)
         }
 
         self.accountNumberView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountBankNameView.snp.bottom).offset(16)
+            make.top.equalTo(self.accountBankNameView.snp.bottom).offset(12)
         }
 
         self.seperateLineView.snp.makeConstraints { make in
@@ -176,12 +175,13 @@ final class TicketRefundConfirmViewController: BooltiViewController {
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.accountHolderNameView)
             make.top.equalTo(self.seperateLineView.snp.bottom).offset(12)
+            make.bottom.equalTo(self.refundInformationContentBackgroundView).inset(16)
         }
 
         self.requestRefundButton.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(self.contentBackGroundView).inset(20)
             make.top.equalTo(self.refundInformationContentBackgroundView.snp.bottom).offset(28)
-            make.bottom.equalTo(self.contentBackGroundView).offset(-20)
+            make.bottom.equalTo(self.contentBackGroundView).inset(20)
         }
     }
 
