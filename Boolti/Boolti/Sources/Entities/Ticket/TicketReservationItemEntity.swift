@@ -17,7 +17,7 @@ enum ReservationStatus: String {
     var description: String {
         switch self {
         case .waitingForDeposit: return "입금 확인 중"
-        case .cancelled: return "취소"
+        case .cancelled: return "예매 취소"
         case .reservationCompleted: return "발권 완료"
         case .waitingForRefund: return "취소 진행 중"
         case .refundCompleted: return "취소 완료"
@@ -26,10 +26,10 @@ enum ReservationStatus: String {
 
     var color: UIColor {
         switch self {
-        case .waitingForDeposit: return .error
+        case .waitingForDeposit: return .grey30
         case .cancelled: return .error
-        case .waitingForRefund: return .grey30
         case .reservationCompleted: return .success
+        case .waitingForRefund: return .grey30
         case .refundCompleted: return .error
         }
     }
