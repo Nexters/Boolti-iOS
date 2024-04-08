@@ -48,11 +48,9 @@ extension TicketingConfirmViewModel {
     private func bindInputs() {
         self.input.didPayButtonTap
             .bind(with: self) { owner, _ in
-                guard let selectedTicket = owner.ticketingEntity.selectedTicket.first else { return }
-        
-                switch selectedTicket.ticketType {
-                case .sales: self.salesTicketing()
-                case .invite: self.invitationTicketing()
+                switch owner.ticketingEntity.selectedTicket.ticketType {
+                case .sale: self.salesTicketing()
+                case .invitation: self.invitationTicketing()
                 }
             }
             .disposed(by: self.disposeBag)
@@ -64,10 +62,9 @@ extension TicketingConfirmViewModel {
 extension TicketingConfirmViewModel {
     
     private func salesTicketing() {
-        guard let selectedTicket = self.ticketingEntity.selectedTicket.first,
-              let depositor = self.ticketingEntity.depositor else { return }
+        guard let depositor = self.ticketingEntity.depositor else { return }
         
-        self.concertRepository.salesTicketing(selectedTicket: selectedTicket,
+        self.concertRepository.salesTicketing(selectedTicket: self.ticketingEntity.selectedTicket,
                                               ticketHolderName: self.ticketingEntity.ticketHolder.name,
                                               ticketHolderPhoneNumber: self.ticketingEntity.ticketHolder.phoneNumber,
                                               depositorName: depositor.name,
@@ -80,10 +77,9 @@ extension TicketingConfirmViewModel {
     }
     
     private func invitationTicketing() {
-        guard let selectedTicket = self.ticketingEntity.selectedTicket.first,
-              let invitationCode = self.ticketingEntity.invitationCode else { return }
+        guard let invitationCode = self.ticketingEntity.invitationCode else { return }
         
-        self.concertRepository.invitationTicketing(selectedTicket: selectedTicket,
+        self.concertRepository.invitationTicketing(selectedTicket: self.ticketingEntity.selectedTicket,
                                                    ticketHolderName: self.ticketingEntity.ticketHolder.name,
                                                    ticketHolderPhoneNumber: self.ticketingEntity.ticketHolder.phoneNumber,
                                                    invitationCode: invitationCode)

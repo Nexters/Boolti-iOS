@@ -45,9 +45,7 @@ extension ConcertListMainTitleCollectionViewCell {
 extension ConcertListMainTitleCollectionViewCell {
     
     private func configureUI() {
-        self.addSubview(self.titleLabel)
-        
-        self.backgroundColor = .grey95
+        self.contentView.addSubview(self.titleLabel)
     }
     
     private func configureConstraints() {

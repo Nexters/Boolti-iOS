@@ -36,6 +36,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// 자동 초기화 방지
         Messaging.messaging().isAutoInitEnabled = true
 
+        /// 탭 Bar index 초기화하기/destination 초기화하기
+        UserDefaults.tabBarIndex = 0
+        UserDefaults.landingDestination = nil
+
         return true
     }
 
@@ -63,7 +67,7 @@ extension AppDelegate: MessagingDelegate {
         guard let fcmToken else { return }
         debugPrint(fcmToken)
         self.registerSubject()
-        
+
         // 토큰이 갱신될 경우
         self.pushNotificationRepository.registerDeviceToken()
     }
@@ -97,15 +101,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
 
-        let messageTitle = response.notification.request.content.title
-        let messageBody = response.notification.request.content.body
+        let userInfo = response.notification.request.content.userInfo
 
-        if let keyWindow = UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }).first?.windows.first {
-            if let rootViewController = keyWindow.rootViewController as? RootViewController {
-                if let homeTabBarViewController = rootViewController.presentedViewController as? HomeTabBarController {
-                    homeTabBarViewController.selectedIndex = 0
-                }
-            }
+        if let notificationMessage = titleData(from: userInfo) {
+            self.configureDestination(with: notificationMessage)
         }
         completionHandler()
     }
@@ -113,5 +112,29 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     /// Foreground에 푸시알림이 올 때 실행되는 메서드
     func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.badge, .sound, .list, .banner])
+    }
+
+    private func titleData(from userInfo: [AnyHashable : Any]) -> NotificationMessage? {
+        guard let messageType = userInfo["type"] as? String else { return nil }
+        return NotificationMessage(messageType)
+    }
+
+    private func configureDestination(with notificationMessage: NotificationMessage) {
+        UserDefaults.tabBarIndex = notificationMessage.tabBarIndex
+        NotificationCenter.default.post(
+            name: Notification.Name.didTabBarSelectedIndexChanged,
+            object: nil,
+            userInfo: ["tabBarIndex" : notificationMessage.tabBarIndex]
+        )
+        switch notificationMessage {
+        case .didRefundCompleted:
+            UserDefaults.landingDestination = .reservationList
+            NotificationCenter.default.post(
+                name: Notification.Name.LandingDestination.reservationList,
+                object: nil
+            )
+        default:
+            break
+        }
     }
 }

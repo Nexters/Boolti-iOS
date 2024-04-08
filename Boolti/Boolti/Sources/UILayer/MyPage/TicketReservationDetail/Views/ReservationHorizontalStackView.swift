@@ -39,28 +39,10 @@ final class ReservationHorizontalStackView: UIStackView {
         return label
     }()
 
-    // 추후에 어느 button이든 넣을 수 있게 구현하기! -> 현재는 하나 밖에 없어서 그냥 프로퍼티로 정의
-    private let copyButton: UIButton = {
-        var configuration = UIButton.Configuration.plain()
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
-        configuration.title = "복사"
-        configuration.attributedTitle?.font = .pretendardR(12)
-        configuration.background.backgroundColor = .grey85
-        configuration.baseForegroundColor = .grey05
-        configuration.background.cornerRadius = 4
-        configuration.imagePadding = 6
-
-        let button = UIButton(configuration: configuration)
-        button.setImage(.copy, for: .normal)
-        button.isHidden = true
-
-        return button
-    }()
-
-    init(title: String, alignment: ReservationContentAlignment, isCopyButtonExist: Bool = false) {
+    init(title: String, alignment: ReservationContentAlignment) {
         super.init(frame: .zero)
 
-        self.configureUI(title: title, alignment: alignment, isCopyButtonExist: isCopyButtonExist)
+        self.configureUI(title: title, alignment: alignment)
         self.configureConstraints()
         self.bindUIComponents()
     }
@@ -71,12 +53,9 @@ final class ReservationHorizontalStackView: UIStackView {
 
     private func configureUI(
         title: String,
-        alignment: ReservationContentAlignment,
-        isCopyButtonExist: Bool
+        alignment: ReservationContentAlignment
     ) {
-        self.copyButton.isHidden = !isCopyButtonExist
         self.titleLabel.text = title
-        self.isUserInteractionEnabled = true
         self.axis = .horizontal
 
         self.configureAlignment(alignment)
@@ -84,13 +63,14 @@ final class ReservationHorizontalStackView: UIStackView {
             self.titleLabel,
             self.contentLabel
         ])
-        // 왜 이거하면 되는 지 공부해보기
-        self.contentLabel.addSubview(self.copyButton)
-        self.contentLabel.isUserInteractionEnabled = true
     }
 
-    func setData(_ content: String) {
+    func setData(_ content: String, isUnderLined: Bool = false) {
         self.contentLabel.text = content
+        if isUnderLined {
+            self.contentLabel.setUnderLine(to: content)
+            self.bindUIComponents()
+        }
     }
 
     private func configureAlignment(_ alignment: ReservationContentAlignment) {
@@ -117,19 +97,13 @@ final class ReservationHorizontalStackView: UIStackView {
         }
 
         self.titleLabel.snp.makeConstraints { make in
-            make.width.equalTo(80)
+            make.width.equalTo(120)
         }
-        
-        self.copyButton.snp.makeConstraints { make in
-            make.right.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
-
     }
 
     private func bindUIComponents() {
-        guard !copyButton.isHidden else { return }
-        self.copyButton.rx.tap
+        self.contentLabel.rx.tapGesture()
+            .skip(1)
             .bind(with: self, onNext: { owner, _ in
                 owner.didCopyButtonTap.accept(owner.contentLabel.text ?? "")
             })

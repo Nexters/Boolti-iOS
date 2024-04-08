@@ -125,7 +125,7 @@ extension PosterExpandViewController {
     private func configureConstraints() {
         self.closeButton.snp.makeConstraints { make in
             make.size.equalTo(24)
-            make.left.equalToSuperview().inset(20)
+            make.right.equalToSuperview().inset(20)
             make.top.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
         

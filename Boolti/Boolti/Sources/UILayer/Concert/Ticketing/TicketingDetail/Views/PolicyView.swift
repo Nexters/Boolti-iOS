@@ -77,17 +77,15 @@ extension PolicyView {
                 owner.chevronButton.isSelected.toggle()
                 owner.policyLabel.isHidden.toggle()
                 
+                var constraint: CGFloat = 66
                 if owner.chevronButton.isSelected {
-                    owner.snp.updateConstraints { make in
-                        make.height.equalTo(66 + owner.policyLabel.getLabelHeight() + 40)
-                    }
-                    owner.policyLabelHeight.accept(66 + owner.policyLabel.getLabelHeight() + 40)
-                } else {
-                    owner.snp.updateConstraints { make in
-                        make.height.equalTo(66)
-                    }
-                    owner.policyLabelHeight.accept(66)
+                    constraint = 66 + owner.policyLabel.getLabelHeight() + 40
                 }
+                
+                owner.snp.updateConstraints { make in
+                    make.height.equalTo(constraint)
+                }
+                owner.policyLabelHeight.accept(constraint)
             }).disposed(by: self.disposeBag)
     }
 }

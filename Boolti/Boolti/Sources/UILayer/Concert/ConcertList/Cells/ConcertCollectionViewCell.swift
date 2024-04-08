@@ -168,7 +168,7 @@ extension ConcertCollectionViewCell {
 extension ConcertCollectionViewCell {
     
     private func configureUI() {
-        self.addSubviews([self.posterImageView,
+        self.contentView.addSubviews([self.posterImageView,
                           self.stateLabel,
                           self.datetime,
                           self.name])

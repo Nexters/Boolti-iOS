@@ -17,6 +17,14 @@ final class TicketTypeView: UIView {
     let cellHeight: CGFloat = 58
 
     // MARK: - UI Component
+    
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.textColor = .grey30
+        label.font = .subhead2
+        label.text = "옵션 선택"
+        return label
+    }()
 
     let tableView: UITableView = {
         let view = UITableView()
@@ -58,13 +66,19 @@ extension TicketTypeView {
 extension TicketTypeView {
 
     private func configureUI() {
-        self.addSubview(tableView)
+        self.addSubviews([self.titleLabel,
+                          self.tableView])
     }
 
     private func configureConstraints() {
+        self.titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview().offset(24)
+        }
+        
         self.tableView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(12)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
     }
 }

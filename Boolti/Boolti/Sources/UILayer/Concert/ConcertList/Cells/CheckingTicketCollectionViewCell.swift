@@ -55,7 +55,7 @@ extension CheckingTicketCollectionViewCell {
         self.layer.cornerRadius = 4
         self.clipsToBounds = true
         
-        self.addSubviews([self.checkingTitle,
+        self.contentView.addSubviews([self.checkingTitle,
                           self.navigateImageView])
     }
     

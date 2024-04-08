@@ -10,13 +10,13 @@ import UIKit
 import RxSwift
 
 final class HomeTabBarController: UITabBarController {
-    
+
     // MARK: Properties
 
     private let viewModel: HomeTabBarViewModel
     private let viewControllerFactory: (HomeTab) -> UIViewController
     private let disposeBag = DisposeBag()
-    
+
     // MARK: Init
 
     init(
@@ -34,7 +34,6 @@ final class HomeTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.configureUI()
         self.bind()
     }
@@ -43,9 +42,10 @@ final class HomeTabBarController: UITabBarController {
 // MARK: - Methods
 
 extension HomeTabBarController {
-    
+
     private func bind() {
-        self.rx.didSelect.distinctUntilChanged()
+
+        self.rx.didSelect
             .map { [weak self] selected in self?.viewControllers?.firstIndex(where: { selected === $0 }) }
             .compactMap { $0 }
             .asDriver(onErrorJustReturn: 0)
@@ -54,7 +54,7 @@ extension HomeTabBarController {
             }
             .disposed(by: self.disposeBag)
 
-        viewModel.tabItems.distinctUntilChanged()
+        self.viewModel.tabItems.distinctUntilChanged()
             .subscribe(with: self, onNext: { owner, tabItems in
                 let viewControllers = tabItems.map { tabItem -> UIViewController in
                     let viewController = owner.viewControllerFactory(tabItem)
@@ -64,7 +64,7 @@ extension HomeTabBarController {
             })
             .disposed(by: disposeBag)
 
-        viewModel.currentTab.distinctUntilChanged()
+        self.viewModel.currentTab.distinctUntilChanged()
             .map { $0.rawValue }
             .filter { [weak self] currentTab in
                 let isVaildTab = currentTab < self?.viewControllers?.count ?? 0
@@ -75,13 +75,39 @@ extension HomeTabBarController {
                 owner.selectedIndex = selectedIndex
             })
             .disposed(by: disposeBag)
+
+        self.viewModel.popToRootViewController
+            .subscribe(with: self) { owner, homeTab in
+                guard let viewController = owner.viewControllers?[homeTab.rawValue] as? UINavigationController else { return }
+                viewController.popToRootViewController(animated: false)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.landingDestination
+            .subscribe(with: self) { owner, viewControllerType in
+                // 아래 코드 정리하기!.. - 타입 캐스팅 일일이 하지 않고, 제네릭타입으로 할 수 있게 구현해보기
+                if let _ = viewControllerType as? ConcertListViewController.Type {
+                    guard let viewController = owner.viewControllers?[HomeTab.concert.rawValue] as? UINavigationController
+                    else { return }
+                    guard let concertListViewController = viewController.topViewController as? ConcertListViewController
+                    else { return }
+                    concertListViewController.configureDynamicLinkDestination()
+                } else if let _ = viewControllerType as? TicketReservationsViewController.Type {
+                    guard let viewController = owner.viewControllers?[HomeTab.myPage.rawValue] as? UINavigationController
+                    else { return }
+                    guard let myPageViewController = viewController.topViewController as? MyPageViewController
+                    else { return }
+                    myPageViewController.configureLandingDestination()
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
 }
 
 // MARK: - UI
 
 extension HomeTabBarController {
-    
+
     private func configureUI() {
         let appearance = UITabBarAppearance()
         appearance.backgroundColor = .grey95
@@ -90,7 +116,7 @@ extension HomeTabBarController {
         self.tabBar.scrollEdgeAppearance = appearance
         self.tabBar.tintColor = .grey10
         self.tabBar.unselectedItemTintColor = .grey50
-        
+
         let topBorder = CALayer()
         topBorder.frame = CGRect(x: 0, y: 0, width: tabBar.frame.size.width, height: 1.0)
         topBorder.backgroundColor = UIColor.grey85.cgColor

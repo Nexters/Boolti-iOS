@@ -79,8 +79,4 @@ final class RefundAccountNumberView: UIView {
         }
         self.layoutIfNeeded()
     }
-
-
-
-
 }

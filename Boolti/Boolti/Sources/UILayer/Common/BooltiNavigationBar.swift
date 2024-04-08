@@ -101,7 +101,7 @@ extension BooltiNavigationBar {
         
         self.backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
-            make.width.height.equalTo(24)
+            make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
     }
@@ -113,12 +113,12 @@ extension BooltiNavigationBar {
         
         self.backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
-            make.width.height.equalTo(24)
+            make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
         
         self.titleLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.backButton.snp.right).offset(4)
+            make.left.equalTo(self.backButton.snp.right).offset(12)
             make.bottom.equalToSuperview().inset(10)
         }
     }
@@ -136,7 +136,7 @@ extension BooltiNavigationBar {
         
         self.closeButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(20)
-            make.width.height.equalTo(24)
+            make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
             
         }
@@ -149,25 +149,25 @@ extension BooltiNavigationBar {
         
         self.backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
-            make.width.height.equalTo(24)
+            make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
         
         self.homeButton.snp.makeConstraints { make in
             make.left.equalTo(self.backButton.snp.right).offset(24)
-            make.width.height.equalTo(24)
+            make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
         
         self.moreButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(20)
-            make.width.height.equalTo(24)
+            make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
         
         self.shareButton.snp.makeConstraints { make in
-            make.right.equalTo(self.moreButton.snp.left).offset(-20)
-            make.width.height.equalTo(24)
+            make.right.equalTo(self.moreButton.snp.left).offset(-24)
+            make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
     }
@@ -177,13 +177,13 @@ extension BooltiNavigationBar {
         
         self.homeButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
-            make.width.height.equalTo(24)
+            make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
         
         self.closeButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(20)
-            make.width.height.equalTo(24)
+            make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
     }

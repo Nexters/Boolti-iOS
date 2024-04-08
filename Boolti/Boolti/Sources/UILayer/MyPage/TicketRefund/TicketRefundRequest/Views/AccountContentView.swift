@@ -57,24 +57,18 @@ final class AccountContentView: UIView {
             self.errorCommentLabel
         ])
 
-        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
-            return
-        }
-        let screenWidth = window.screen.bounds.width
-
         self.snp.makeConstraints { make in
-            make.width.equalTo(screenWidth)
             make.height.equalTo(48)
         }
 
         self.titleLabel.snp.makeConstraints { make in
             make.height.equalTo(48)
             make.width.equalTo(50)
-            make.left.equalToSuperview().inset(20)
+            make.left.equalToSuperview()
         }
 
         self.contentTextField.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(20)
+            make.right.equalToSuperview()
             make.left.equalTo(self.titleLabel.snp.right)
         }
 

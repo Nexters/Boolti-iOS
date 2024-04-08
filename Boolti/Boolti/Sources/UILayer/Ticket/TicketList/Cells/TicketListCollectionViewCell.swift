@@ -7,7 +7,11 @@
 
 import UIKit
 
+import RxSwift
+
 final class TicketListCollectionViewCell: UICollectionViewCell {
+    
+    var disposeBag = DisposeBag()
 
     private var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -56,24 +60,16 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         return view
     }()
 
-    private lazy var upperTagLabelStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.addArrangedSubviews([self.ticketTypeLabel, self.numberLabel])
-
-        return stackView
-    }()
-
-    private let numberLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .grey80.withAlphaComponent(0.85)
+    private let ticketNumberLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.textColor = .grey80.withAlphaComponent(0.75)
         label.font = .pretendardB(14)
 
         return label
     }()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .headline1
         label.numberOfLines = 2
@@ -82,13 +78,13 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
     }()
 
     private let booltiLogoImageView: UIImageView = {
-        let imageView = UIImageView(image: .booltiLogo)
+        let imageView = UIImageView(image: .booltiLogo.withTintColor(.grey80))
 
         return imageView
     }()
 
-    private let ticketTypeLabel: UILabel = {
-        let label = UILabel()
+    private let ticketTypeLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey80.withAlphaComponent(0.8)
         label.font = .pretendardB(14)
 
@@ -106,7 +102,8 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        self.ticketNumberLabel.text = nil
+        self.ticketTypeLabel.text = nil
         self.ticketInformationView.resetData()
     }
 
@@ -115,7 +112,8 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         self.addSubviews([
             self.backgroundImageView,
             self.posterImageView,
-            self.upperTagLabelStackView,
+            self.ticketTypeLabel,
+            self.ticketNumberLabel,
             self.booltiLogoImageView,
             self.ticketInformationView,
             self.rightCircleView,
@@ -140,7 +138,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
     func setData(with item: TicketItemEntity) {
         self.backgroundImageView.setImage(with: item.posterURLPath)
         self.posterImageView.setImage(with: item.posterURLPath)
-        self.numberLabel.text = " ・ 1매"
+        self.ticketNumberLabel.text = item.csTicketID
         self.ticketTypeLabel.text = item.ticketName
         self.ticketInformationView.setData(with: item)
     }
@@ -215,24 +213,30 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         }
 
         self.ticketInformationView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.06)
+            make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.065)
             make.bottom.equalToSuperview().inset(self.bounds.height * 0.04)
         }
 
         self.posterImageView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.06)
+            make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.065)
             make.top.equalTo(self.upperTagView.snp.bottom).offset(self.bounds.height * 0.04)
             make.height.equalToSuperview().multipliedBy(0.67)
         }
 
-        self.upperTagLabelStackView.snp.makeConstraints { make in
-            make.centerY.equalTo(self.upperTagView.snp.centerY)
-            make.left.equalTo(self.ticketInformationView)
-        }
-
         self.booltiLogoImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self.upperTagView.snp.centerY)
-            make.right.equalTo(self.ticketInformationView)
+            make.left.equalTo(self.ticketInformationView)
+            make.size.equalTo(20)
+        }
+
+        self.ticketTypeLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(self.upperTagView.snp.centerY)
+            make.left.equalTo(self.booltiLogoImageView.snp.right).offset(5)
+        }
+
+        self.ticketNumberLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(self.upperTagView.snp.centerY)
+            make.right.equalTo(self.upperTagView.snp.right).inset(16)
         }
 
         self.rightCircleView.snp.makeConstraints { make in
@@ -254,7 +258,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
             let width = self.bounds.width * 0.053
 
             path.move(to: CGPoint(x: width, y: height))
-            path.addLine(to: CGPoint(x: self.bounds.width * 0.947, y: height))
+            path.addLine(to: CGPoint(x: self.bounds.width * 0.942, y: height))
 
             let shapeLayer = CAShapeLayer()
             shapeLayer.path = path

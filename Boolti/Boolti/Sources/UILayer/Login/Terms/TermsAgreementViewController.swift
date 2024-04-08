@@ -115,7 +115,7 @@ extension TermsAgreementViewController {
         
         if let calaulatedTermsRect = self.subtitleLabel.boundingRectForCharacterRange(subText: Text.terms),
            calaulatedTermsRect.contains(point) {
-            guard let url = URL(string: "https://www.notion.so/boolti/Boolti-6de303e8cc0242ea8b3930ce33032aa2?pvs=4") else { return }
+            guard let url = URL(string: AppInfo.termsPolicyLink) else { return }
             let safariViewController = SFSafariViewController(url: url)
             safariViewController.modalPresentationStyle = .formSheet
             self.present(safariViewController, animated: true)

@@ -18,17 +18,18 @@ final class TicketSelectionViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let didTicketSelect = PublishSubject<SelectedTicketEntity>()
-        let didDeleteButtonTap = PublishSubject<Int>()
-        let selectedTickets = BehaviorRelay<[SelectedTicketEntity]>(value: [])
+        let didDeleteButtonTap = PublishSubject<Void>()
+        let selectedTicket = BehaviorRelay<SelectedTicketEntity?>(value: nil)
+        let ticketCount = BehaviorRelay<Int>(value: 1)
+        let didTicketingButtonTap = PublishSubject<Void>()
     }
 
     struct Output {
         let isLoading = PublishRelay<Bool>()
-        let salesTickets = PublishRelay<[SelectedTicketEntity]>()
-        var salesTicketEntities: [SelectedTicketEntity]?
-        let totalPrice = BehaviorRelay<Int>(value: 0)
-        let showTicketTypeView = PublishRelay<Void>()
+        let salesTickets = BehaviorRelay<[SelectedTicketEntity]>(value: [])
+        let showTicketTypeView = PublishSubject<Void>()
+        let didSalesTicketFetched = PublishSubject<Void>()
+        let navigateTicketingDetail = PublishSubject<SelectedTicketEntity>()
     }
 
     let input: Input
@@ -55,36 +56,29 @@ final class TicketSelectionViewModel {
 extension TicketSelectionViewModel {
     
     private func bindInputs() {
-        self.input.didTicketSelect
-            .bind(with: self, onNext: { owner, entity in
-                var selectedTickets = owner.input.selectedTickets.value
-                selectedTickets.append(entity)
-
-                owner.input.selectedTickets.accept(selectedTickets)
-            })
-            .disposed(by: self.disposeBag)
-        
         self.input.didDeleteButtonTap
-            .bind(with: self, onNext: { owner, id in
-                var selectedTickets = owner.input.selectedTickets.value
-                
-                if let indexToRemove = selectedTickets.firstIndex(where: { $0.id == id }) {
-                    selectedTickets.remove(at: indexToRemove)
-                    owner.input.selectedTickets.accept(selectedTickets)
+            .bind(with: self, onNext: { owner, _ in
+                owner.input.selectedTicket.accept(nil)
+                owner.input.ticketCount.accept(1)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.input.selectedTicket
+            .asDriver()
+            .drive(with: self, onNext: { owner, ticket in
+                if ticket == nil {
+                    owner.output.showTicketTypeView.onNext(())
                 }
             })
             .disposed(by: self.disposeBag)
         
-        self.input.selectedTickets
-            .asDriver()
-            .drive(with: self, onNext: { owner, tickets in
-                if tickets.isEmpty {
-                    owner.output.showTicketTypeView.accept(())
-                } else {
-                    let totalPrice = tickets.reduce(0) { $0 + $1.price }
-                    owner.output.totalPrice.accept(totalPrice)
-                }
-            })
+        self.input.didTicketingButtonTap
+            .bind(with: self) { owner, _ in
+                guard var selectedTicket = owner.input.selectedTicket.value else { return }
+                selectedTicket.count = owner.input.ticketCount.value
+                
+                owner.output.navigateTicketingDetail.onNext(selectedTicket)
+            }
             .disposed(by: self.disposeBag)
     }
 }
@@ -93,14 +87,13 @@ extension TicketSelectionViewModel {
 
 extension TicketSelectionViewModel {
     
-    func fetchSalesTicket(completion: @escaping () -> ()) {
+    func fetchSalesTicket() {
         self.output.isLoading.accept(true)
         self.concertRepository.salesTicket(concertId: self.concertId).asObservable()
-            .do { self.output.salesTicketEntities = $0 }
             .subscribe(with: self) { owner, tickets in
                 owner.output.salesTickets.accept(tickets)
                 owner.output.isLoading.accept(false)
-                completion()
+                owner.output.didSalesTicketFetched.onNext(())
             }
             .disposed(by: self.disposeBag)
     }

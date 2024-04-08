@@ -195,7 +195,7 @@ extension LoginViewController {
 
         self.closeButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide).inset(10)
-            make.left.equalToSuperview().inset(20)
+            make.right.equalToSuperview().inset(20)
         }
         
         self.headerTitleLabel.snp.makeConstraints { make in

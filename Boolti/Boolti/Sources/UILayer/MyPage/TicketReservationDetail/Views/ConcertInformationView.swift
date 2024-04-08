@@ -59,10 +59,10 @@ final class ConcertInformationView: UIView {
         fatalError()
     }
 
-    func setData(posterImageURLPath: String, concertTitle: String, ticketType: TicketType, ticketCount: String ) {
+    func setData(posterImageURLPath: String, concertTitle: String, salesTicketName: String, ticketCount: String ) {
         self.concertPosterImageView.setImage(with: posterImageURLPath)
         self.concertTitleLabel.text = concertTitle
-        self.ticketInformationLabel.text = "\(ticketType.rawValue) / \(ticketCount) 매"
+        self.ticketInformationLabel.text = "\(salesTicketName) / \(ticketCount) 매"
     }
 
     private func configureUI() {
@@ -77,14 +77,14 @@ final class ConcertInformationView: UIView {
         let screenWidth = window.screen.bounds.width
 
         self.snp.makeConstraints { make in
-            make.height.equalTo(120)
+            make.height.equalTo(110)
             make.width.equalTo(screenWidth)
         }
 
         self.concertPosterImageView.snp.makeConstraints { make in
             make.width.equalTo(70)
             make.height.equalTo(98)
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-5)
             make.left.equalToSuperview().inset(20)
         }
         

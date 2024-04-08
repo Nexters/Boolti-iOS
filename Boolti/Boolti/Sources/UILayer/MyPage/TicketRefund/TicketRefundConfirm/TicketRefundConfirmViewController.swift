@@ -53,9 +53,15 @@ final class TicketRefundConfirmViewController: BooltiViewController {
     private let accountHolderPhoneNumberView = RefundConfirmContentView(title: "연락처")
     private let accountBankNameView = RefundConfirmContentView(title: "은행명")
     private let accountNumberView = RefundConfirmContentView(title: "계좌번호")
+    private let seperateLineView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey70
+        return view
+    }()
+    private let totalRefundAmountView = RefundConfirmContentView(title: "환불 예정 금액")
 
     private let requestRefundButton: BooltiButton = {
-        let button = BooltiButton(title: "환불 요청하기")
+        let button = BooltiButton(title: "취소 요청하기")
 
         return button
     }()
@@ -89,11 +95,13 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         let holderPhoneNumber = information.accountHolderPhoneNumber.formatPhoneNumber()
         let accountBankName = information.accountBankName
         let accountNumber = information.accountNumber
+        let totalRefundAmount = information.totalRefundAmount
 
         self.accountHolderNameView.setData(with: holderName)
         self.accountHolderPhoneNumberView.setData(with: holderPhoneNumber)
         self.accountBankNameView.setData(with: accountBankName)
         self.accountNumberView.setData(with: accountNumber)
+        self.totalRefundAmountView.setData(with: "\(totalRefundAmount)원")
 
         self.view.addSubviews([
             self.contentBackGroundView,
@@ -104,6 +112,8 @@ final class TicketRefundConfirmViewController: BooltiViewController {
             self.accountHolderPhoneNumberView,
             self.accountBankNameView,
             self.accountNumberView,
+            self.seperateLineView,
+            self.totalRefundAmountView,
             self.requestRefundButton
         ])
     }
@@ -111,6 +121,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
     private func configureConstraints() {
         self.contentBackGroundView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
+            make.height.equalTo(410)
             make.horizontalEdges.equalToSuperview().inset(32)
         }
 
@@ -126,7 +137,6 @@ final class TicketRefundConfirmViewController: BooltiViewController {
 
         self.refundInformationContentBackgroundView.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(self.contentBackGroundView).inset(20)
-            make.height.equalTo(168)
             make.top.equalTo(self.titleLabel.snp.bottom).offset(24)
         }
 
@@ -139,25 +149,39 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         self.accountHolderPhoneNumberView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountHolderNameView.snp.bottom).offset(16)
+            make.top.equalTo(self.accountHolderNameView.snp.bottom).offset(12)
         }
 
         self.accountBankNameView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountHolderPhoneNumberView.snp.bottom).offset(16)
+            make.top.equalTo(self.accountHolderPhoneNumberView.snp.bottom).offset(12)
         }
 
         self.accountNumberView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountBankNameView.snp.bottom).offset(16)
+            make.top.equalTo(self.accountBankNameView.snp.bottom).offset(12)
+        }
+
+        self.seperateLineView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.horizontalEdges.equalTo(self.accountHolderNameView)
+            make.height.equalTo(1)
+            make.top.equalTo(self.accountNumberView.snp.bottom).offset(12)
+        }
+
+        self.totalRefundAmountView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.horizontalEdges.equalTo(self.accountHolderNameView)
+            make.top.equalTo(self.seperateLineView.snp.bottom).offset(12)
+            make.bottom.equalTo(self.refundInformationContentBackgroundView).inset(16)
         }
 
         self.requestRefundButton.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(self.contentBackGroundView).inset(20)
             make.top.equalTo(self.refundInformationContentBackgroundView.snp.bottom).offset(28)
-            make.bottom.equalTo(self.contentBackGroundView).offset(-20)
+            make.bottom.equalTo(self.contentBackGroundView).inset(20)
         }
     }
 
@@ -188,19 +212,13 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         self.viewModel.output.didRequestFundCompleted
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                // MARK: dismiss pop 하는 로직 제대로 공부해서 수정하기
-                guard let homeTabBarController = owner.presentingViewController as? HomeTabBarController else { return }
-                guard let rootviewController = homeTabBarController.children[2] as? UINavigationController else { return }
-                print(rootviewController.viewControllers)
-                guard let ticketReservationDetailViewController = rootviewController.viewControllers.filter({ $0 is TicketReservationDetailViewController
-                })[0] as? TicketReservationDetailViewController else { return }
-                print(ticketReservationDetailViewController)
-                guard let ticketRefundVC = rootviewController.viewControllers.filter({ $0 is TicketRefundRequestViewController
-                })[0] as? TicketRefundRequestViewController else { return }
+                guard let refundRequestViewController = owner.presentingViewController as? TicketRefundRequestViewController else { return }
+                guard let viewControllers = refundRequestViewController.navigationController?.viewControllers else { return }
+                guard let reservationDetailViewController = viewControllers.filter({ $0 is TicketReservationDetailViewController }).first as? TicketReservationDetailViewController else { return }
 
-                owner.showToast(message: "환불 요청이 완료되었어요")
+                owner.showToast(message: "취소 요청이 완료되었어요")
                 owner.dismiss(animated: true) {
-                    ticketRefundVC.navigationController?.popToViewController(ticketReservationDetailViewController, animated: true)
+                    refundRequestViewController.navigationController?.popToViewController(reservationDetailViewController, animated: true)
                 }
             }
             .disposed(by: self.disposeBag)
