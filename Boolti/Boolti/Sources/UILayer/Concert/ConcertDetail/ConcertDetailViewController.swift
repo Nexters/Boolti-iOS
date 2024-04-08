@@ -292,21 +292,23 @@ extension ConcertDetailViewController {
     }
 
     private func concerDetailDeepLinkURL(_ concertID: Int) -> URL? {
-        // 변경될 예정
-        // https://preview.boolti.in/show/$showId
         guard let link = URL(string: "https://preview.boolti.in/show/\(concertID)") else { return nil }
         let dynamicLinksDomainURIPrefix = AppInfo.booltiDeepLinkPrefix
         guard let linkBuilder = DynamicLinkComponents(
             link: link,
             domainURIPrefix: dynamicLinksDomainURIPrefix
         ) else { return nil }
-
+        
+        // iOS
         linkBuilder.iOSParameters = DynamicLinkIOSParameters(bundleID: AppInfo.bundleID)
+
+        // Android
         #if DEBUG
         linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: AppInfo.androidDebugPackageName)
         #elseif RELEASE
         linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: AppInfo.bundleID)
         #endif
+        linkBuilder.androidParameters?.fallbackURL = link
 
         return linkBuilder.url
     }
