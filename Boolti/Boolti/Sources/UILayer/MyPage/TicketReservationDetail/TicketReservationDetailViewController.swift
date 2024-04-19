@@ -72,17 +72,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private let concertInformationView = ConcertInformationView()
 
-    private let bankNameView = ReservationHorizontalStackView(title: "은행명", alignment: .right)
-    private let accountNumberView = ReservationHorizontalStackView(title: "계좌번호", alignment: .right)
-    private let accountHolderNameView = ReservationHorizontalStackView(title: "예금주", alignment: .right)
-    private let depositDeadLineView = ReservationHorizontalStackView(title: "입금 마감일", alignment: .right)
-
-    private lazy var depositAccountInformationStackView = ReservationCollapsableStackView(
-        title: "입금 계좌 정보",
-        contentViews: [self.bankNameView, self.accountNumberView, self.accountHolderNameView, self.depositDeadLineView],
-        isHidden: false
-    )
-
     private let paymentMethodView = ReservationHorizontalStackView(title: "결제 수단", alignment: .right)
     private let totalPaymentAmountView = ReservationHorizontalStackView(title: "총 결제 금액", alignment: .right)
 
@@ -114,7 +103,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private let depositorPhoneNumberView = ReservationHorizontalStackView(title: "연락처", alignment: .right)
 
     private lazy var depositorInformationStackView = ReservationCollapsableStackView(
-        title: "입금자 정보",
+        title: "결제자 정보",
         contentViews: [self.depositorNameView, self.depositorPhoneNumberView],
         isHidden: true
     )
@@ -170,7 +159,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private func configureUI() {
         self.navigationController?.navigationBar.isHidden = true
         self.contentStackView.isUserInteractionEnabled = true
-        self.depositAccountInformationStackView.isUserInteractionEnabled = true
         self.configureToastView(isButtonExisted: false)
 
         self.view.addSubviews([
@@ -220,7 +208,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.contentStackView.addArrangedSubviews([
             self.reservationUpperStackView,
             self.concertInformationView,
-            self.depositAccountInformationStackView,
             self.purchaserInformationStackView,
             self.depositorInformationStackView,
             self.ticketInformationStackView,
@@ -238,12 +225,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
     }
 
     private func bindUIComponents() {
-        self.accountNumberView.didCopyButtonTap
-            .bind(with: self) { owner, accountNumber in
-                UIPasteboard.general.string = accountNumber
-                owner.showToast(message: "계좌번호가 복사되었어요")
-            }
-            .disposed(by: self.disposeBag)
 
         self.reversalPolicyView.didViewCollapseButtonTap
             .bind(with: self) { owner, _ in
@@ -332,12 +313,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.paymentMethodView.setData(paymentMethod.description)
         self.refundMethodView.setData(paymentMethod.description) // payment와 동일하게 진행 -> 결제 시스템 붙히면 바뀔 예정
 
-        // 입금 계좌 정보
-        self.bankNameView.setData(entity.bankName)
-        self.accountNumberView.setData(entity.accountNumber, isUnderLined: true)
-        self.accountHolderNameView.setData(entity.accountHolderName)
-        self.depositDeadLineView.setData(entity.depositDeadLine.formatToDate().format(.dateTime))
-
         // 입금자 정보
         self.depositorNameView.setData(entity.depositorName)
         self.depositorPhoneNumberView.setData(entity.depositorPhoneNumber)
@@ -346,10 +321,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private func configureRefundButton(with entity: TicketReservationDetailEntity) {
         switch entity.reservationStatus {
         case .reservationCompleted:
-            if entity.totalPaymentAmount == "0" {
-                self.requestRefundButton.isHidden = true
-                return
-            }
             if Date() <= entity.salesEndTime.formatToDate() {
                 self.requestRefundButton.isHidden = false
                 self.changeBlankSpaceViewHeight()
@@ -372,7 +343,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
     private func configureInvitationUI(with entity: TicketReservationDetailEntity) {
         self.paymentMethodView.setData(entity.paymentMethod)
-        self.depositAccountInformationStackView.isHidden = true
         self.depositorInformationStackView.isHidden = true
         self.reversalPolicyView.isHidden = true
         self.requestRefundButton.isHidden = true
