@@ -129,6 +129,7 @@ extension TicketingDetailViewController {
     private func bindUIComponents() {
         self.bindNavigationBar()
         self.bindUserInputView()
+        self.bindAgreeView()
         self.bindBusinessInfoView()
     }
     
@@ -290,6 +291,27 @@ extension TicketingDetailViewController {
         .distinctUntilChanged()
         .bind(to: self.payButton.rx.isEnabled)
         .disposed(by: self.disposeBag)
+    }
+    
+    // TODO: - 보기 버튼 눌렀을 때
+    private func bindAgreeView() {
+        self.agreeView.didCollectionOpenButtonTap()
+            .emit(with: self) { owner, _ in
+                debugPrint("collection")
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.agreeView.didOfferOpenButtonTap()
+            .emit(with: self) { owner, _ in
+                debugPrint("offer")
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.agreeView.didAgenciesOpenButtonTap()
+            .emit(with: self) { owner, _ in
+                debugPrint("agencies")
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func bindBusinessInfoView() {

@@ -100,6 +100,18 @@ extension AgreeView {
             .disposed(by: self.disposeBag)
     }
     
+    func didCollectionOpenButtonTap() -> Signal<Void> {
+        return self.collectionOpenButton.rx.tap.asSignal()
+    }
+    
+    func didOfferOpenButtonTap() -> Signal<Void> {
+        return self.offerOpenButton.rx.tap.asSignal()
+    }
+    
+    func didAgenciesOpenButtonTap() -> Signal<Void> {
+        return self.agenciesOpenButton .rx.tap.asSignal()
+    }
+    
 }
 
 // MARK: - UI
