@@ -135,7 +135,7 @@ extension TicketingConfirmViewController {
                 guard let depositor = entity.depositor else { return }
                 self.depositorInfo.text = "\(depositor.name)\n\(depositor.phoneNumber.formatPhoneNumber())"
                 self.depositorInfo.setAlignment(.right)
-                self.methodInfo.text = "계좌 이체"
+                self.methodStackView.isHidden = true
             }
         case .invitation:
             self.depositorStackView.isHidden = true
