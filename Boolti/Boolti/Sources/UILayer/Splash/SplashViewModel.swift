@@ -37,7 +37,6 @@ final class SplashViewModel {
         setting.minimumFetchInterval = 0
         #endif
         remoteConfig.configSettings = setting
-        remoteConfig.setDefaults(fromPlist: "GoogleService-Info") // 없어도 되지 않나?
     }
 
     func navigateToHomeTab() {
