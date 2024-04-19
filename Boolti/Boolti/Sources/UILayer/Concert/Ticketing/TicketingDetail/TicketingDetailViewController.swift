@@ -224,17 +224,13 @@ extension TicketingDetailViewController {
     }
     
     private func checkInputViewTextFieldFilled(inputType: UserInfoInputType)  -> Observable<Bool> {
-        var inputView: UserInfoInputView
-        switch inputType {
-        case .ticketHolder:
-            inputView = ticketHolderInputView
-        case .depositor:
-            inputView = depositorInputView
-        }
+        let inputView = inputType == .ticketHolder ? self.ticketHolderInputView : self.depositorInputView
         let nameTextObservable = inputView.nameTextField.rx.text.orEmpty
         let phoneNumberTextObservable = inputView.phoneNumberTextField.rx.text.orEmpty
         
-        return Observable.combineLatest(nameTextObservable, phoneNumberTextObservable, inputView.isEqualButtonSelected)
+        return Observable.combineLatest(nameTextObservable,
+                                        phoneNumberTextObservable,
+                                        inputView.isEqualButtonSelected)
             .map { nameText, phoneNumberText, isEqualButtonSelected in
                 return (!nameText.trimmingCharacters(in: .whitespaces).isEmpty && !phoneNumberText.trimmingCharacters(in: .whitespaces).isEmpty) || (!inputView.isEqualButton.isHidden && isEqualButtonSelected)
             }
@@ -295,7 +291,7 @@ extension TicketingDetailViewController {
         .disposed(by: self.disposeBag)
     }
     
-    // TODO: - 보기 버튼 눌렀을 때
+    // TODO: - 보기 버튼 눌렀을 때 각각의 url로 이동
     private func bindAgreeView() {
         self.agreeView.didCollectionOpenButtonTap()
             .emit(with: self) { owner, _ in
@@ -362,8 +358,7 @@ extension TicketingDetailViewController {
     
     private func setTicketingData() {
         guard let ticketHolderName = self.ticketHolderInputView.nameTextField.text,
-              let ticketHolderPhoneNumber = self.ticketHolderInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "")
-        else { return }
+              let ticketHolderPhoneNumber = self.ticketHolderInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "") else { return }
         
         switch self.viewModel.selectedTicket.value.ticketType {
         case .sale:
@@ -372,8 +367,8 @@ extension TicketingDetailViewController {
             
             self.viewModel.setSalesTicketingData(ticketHolderName: ticketHolderName,
                                                  ticketHolderPhoneNumber: ticketHolderPhoneNumber,
-                                                 depositorName: depositorName.isEmpty ? ticketHolderName : depositorName,
-                                                 depositorPhoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorPhoneNumber)
+                                                 depositorName: depositorName,
+                                                 depositorPhoneNumber: depositorPhoneNumber)
         case .invitation:
             guard let invitationCode = self.invitationCodeView.codeTextField.text else { return }
             

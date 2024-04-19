@@ -50,11 +50,12 @@ extension TicketingDetailViewModel {
     func setSalesTicketingData(ticketHolderName: String, ticketHolderPhoneNumber: String,
                         depositorName: String, depositorPhoneNumber: String) {
         guard let concertDetail = self.output.concertDetail.value else { return }
+        
         let ticketingEntity = TicketingEntity(concert: concertDetail,
                                               ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
                                                                                      phoneNumber: ticketHolderPhoneNumber),
-                                              depositor: TicketingEntity.userInfo(name: depositorName,
-                                                                                  phoneNumber: depositorPhoneNumber),
+                                              depositor: TicketingEntity.userInfo(name: depositorName.isEmpty ? ticketHolderName : depositorName,
+                                                                                  phoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorName),
                                               selectedTicket: self.selectedTicket.value,
                                               reservationId: -1)
         
