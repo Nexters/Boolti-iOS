@@ -14,6 +14,7 @@ final class TicketingDetailViewModel {
     
     // MARK: Properties
     
+    private let ticketingRepository: TicketingRepositoryType
     private let concertRepository: ConcertRepositoryType
     private let disposeBag = DisposeBag()
 
@@ -28,8 +29,10 @@ final class TicketingDetailViewModel {
     
     let selectedTicket: BehaviorRelay<SelectedTicketEntity>
 
-    init(concertRepository: ConcertRepository,
+    init(ticketingRepository: TicketingRepository,
+         concertRepository: ConcertRepository,
          selectedTicket: SelectedTicketEntity) {
+        self.ticketingRepository = ticketingRepository
         self.concertRepository = concertRepository
         self.output = Output()
         self.selectedTicket = BehaviorRelay<SelectedTicketEntity>(value: selectedTicket)
@@ -64,7 +67,7 @@ extension TicketingDetailViewModel {
     }
     
     func checkInvitationCode(invitationCode: String) {
-        self.concertRepository.checkInvitationCode(concertId: self.selectedTicket.value.concertId,
+        self.ticketingRepository.checkInvitationCode(concertId: self.selectedTicket.value.concertId,
                                                    ticketId: self.selectedTicket.value.id,
                                                    invitationCode: invitationCode)
         .subscribe(with: self, onSuccess: { owner, invitationCodeEntity in

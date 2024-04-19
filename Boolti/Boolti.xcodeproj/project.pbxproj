@@ -15,6 +15,11 @@
 		22CF3A312BB586B50094711C /* SelectedInvitationTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A302BB586B50094711C /* SelectedInvitationTicketView.swift */; };
 		22CF3A382BB806560094711C /* MiddlemanPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A372BB806560094711C /* MiddlemanPolicyView.swift */; };
 		22DD8C802BD211790083622C /* AgreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C7F2BD211790083622C /* AgreeView.swift */; };
+		22DD8C832BD27F690083622C /* TossPayments in Frameworks */ = {isa = PBXBuildFile; productRef = 22DD8C822BD27F690083622C /* TossPayments */; };
+		22DD8C882BD289100083622C /* SavePaymentInfoRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C872BD289100083622C /* SavePaymentInfoRequestDTO.swift */; };
+		22DD8C8A2BD289400083622C /* SavePaymentInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C892BD289400083622C /* SavePaymentInfoResponseDTO.swift */; };
+		22DD8C8C2BD2897E0083622C /* TicketingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C8B2BD2897E0083622C /* TicketingAPI.swift */; };
+		22DD8C8E2BD28A4A0083622C /* TicketingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C8D2BD28A4A0083622C /* TicketingRepository.swift */; };
 		840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */; };
 		840B39572B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */; };
 		840B39592B7670FC00E7F8C8 /* ConcertEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */; };
@@ -318,6 +323,10 @@
 		22CF3A302BB586B50094711C /* SelectedInvitationTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedInvitationTicketView.swift; sourceTree = "<group>"; };
 		22CF3A372BB806560094711C /* MiddlemanPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddlemanPolicyView.swift; sourceTree = "<group>"; };
 		22DD8C7F2BD211790083622C /* AgreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreeView.swift; sourceTree = "<group>"; };
+		22DD8C872BD289100083622C /* SavePaymentInfoRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePaymentInfoRequestDTO.swift; sourceTree = "<group>"; };
+		22DD8C892BD289400083622C /* SavePaymentInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePaymentInfoResponseDTO.swift; sourceTree = "<group>"; };
+		22DD8C8B2BD2897E0083622C /* TicketingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingAPI.swift; sourceTree = "<group>"; };
+		22DD8C8D2BD28A4A0083622C /* TicketingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingRepository.swift; sourceTree = "<group>"; };
 		840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertEntity.swift; sourceTree = "<group>"; };
@@ -613,6 +622,7 @@
 				849FBD442B5E8BE9006EB865 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				8766B55B2B641266004F266A /* RxDataSources in Frameworks */,
 				870099BA2B775A9C001779FB /* RxGesture in Frameworks */,
+				22DD8C832BD27F690083622C /* TossPayments in Frameworks */,
 				84781C662B5BE9C100D37921 /* ReactiveMoya in Frameworks */,
 				841D77DB2B745FB40068B1C5 /* Kingfisher in Frameworks */,
 				84B321A72B61543E007FD669 /* FirebaseRemoteConfigSwift in Frameworks */,
@@ -633,6 +643,38 @@
 				221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */,
 			);
 			path = BusinessInfo;
+			sourceTree = "<group>";
+		};
+		22DD8C842BD288CC0083622C /* Ticketing */ = {
+			isa = PBXGroup;
+			children = (
+				22DD8C852BD288D80083622C /* Request */,
+				22DD8C862BD288DD0083622C /* Response */,
+			);
+			path = Ticketing;
+			sourceTree = "<group>";
+		};
+		22DD8C852BD288D80083622C /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				8453D7FD2B7539770048F103 /* SalesTicketRequestDTO.swift */,
+				84D1C37E2B79379200527998 /* SalesTicketingRequestDTO.swift */,
+				84D1C3842B7A14AD00527998 /* CheckInvitationCodeRequestDTO.swift */,
+				84D1C38A2B7A448100527998 /* InvitationTicketingRequestDTO.swift */,
+				22DD8C872BD289100083622C /* SavePaymentInfoRequestDTO.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		22DD8C862BD288DD0083622C /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				8453D7FB2B7539270048F103 /* SalesTicketResponseDTO.swift */,
+				84D1C3802B7938CB00527998 /* TicketingResponseDTO.swift */,
+				84D1C3862B7A14F300527998 /* CheckInvitationCodeResponseDTO.swift */,
+				22DD8C892BD289400083622C /* SavePaymentInfoResponseDTO.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 		840B39532B7667B100E7F8C8 /* Cells */ = {
@@ -672,6 +714,7 @@
 			children = (
 				84360F702B6BF70E009510D9 /* Auth */,
 				841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */,
+				22DD8C8D2BD28A4A0083622C /* TicketingRepository.swift */,
 				870099B62B77489A001779FB /* TicketReservationsRepository.swift */,
 				87CE4F702B8DF7CE007A0C8F /* PushNotificationRepository.swift */,
 				846F5F3D2B7BBF60000F86AE /* QRRepository.swift */,
@@ -925,6 +968,7 @@
 				87CE4F662B8DD93A007A0C8F /* PushNotification */,
 				84781C7A2B5BEBE500D37921 /* Auth */,
 				84DC6F632B728792001F9576 /* Concert */,
+				22DD8C842BD288CC0083622C /* Ticketing */,
 				870099AA2B7742DC001779FB /* Ticket */,
 				870099AF2B77443B001779FB /* Reservation */,
 				846F5F342B7BBDA5000F86AE /* QR */,
@@ -970,6 +1014,7 @@
 				84781C862B5BED9A00D37921 /* ServiceAPI.swift */,
 				84975BE82B60E04500F903E7 /* AuthAPI.swift */,
 				841D77D12B73B0C10068B1C5 /* ConcertAPI.swift */,
+				22DD8C8B2BD2897E0083622C /* TicketingAPI.swift */,
 				8753CA722B71EA68002871C7 /* TicketAPI.swift */,
 				870099B42B77476E001779FB /* TicketReservationAPI.swift */,
 				846F5F392B7BBEC4000F86AE /* QRAPI.swift */,
@@ -1221,10 +1266,6 @@
 			children = (
 				840B39602B78CE6300E7F8C8 /* ConcertListRequestDTO.swift */,
 				84DC6F662B728858001F9576 /* ConcertDetailRequestDTO.swift */,
-				8453D7FD2B7539770048F103 /* SalesTicketRequestDTO.swift */,
-				84D1C37E2B79379200527998 /* SalesTicketingRequestDTO.swift */,
-				84D1C3842B7A14AD00527998 /* CheckInvitationCodeRequestDTO.swift */,
-				84D1C38A2B7A448100527998 /* InvitationTicketingRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1232,11 +1273,8 @@
 		84DC6F652B7287AE001F9576 /* Response */ = {
 			isa = PBXGroup;
 			children = (
-				84C6E0022B7320280023BAE6 /* ConcertDetailResponseDTO.swift */,
-				8453D7FB2B7539270048F103 /* SalesTicketResponseDTO.swift */,
 				840B39622B78CEF700E7F8C8 /* ConcertListResponseDTO.swift */,
-				84D1C3802B7938CB00527998 /* TicketingResponseDTO.swift */,
-				84D1C3862B7A14F300527998 /* CheckInvitationCodeResponseDTO.swift */,
+				84C6E0022B7320280023BAE6 /* ConcertDetailResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1808,6 +1846,7 @@
 				841D77DA2B745FB40068B1C5 /* Kingfisher */,
 				872140092B749A5D007C3BC1 /* RxKeyboard */,
 				870099B92B775A9C001779FB /* RxGesture */,
+				22DD8C822BD27F690083622C /* TossPayments */,
 			);
 			productName = Boolti;
 			productReference = 84781BC92B5BDAFC00D37921 /* Boolti.app */;
@@ -1848,6 +1887,7 @@
 				872140082B749A5D007C3BC1 /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 				841D77D92B745FB40068B1C5 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				870099B82B775A9C001779FB /* XCRemoteSwiftPackageReference "RxGesture" */,
+				22DD8C812BD27F690083622C /* XCRemoteSwiftPackageReference "payment-sdk-ios" */,
 			);
 			productRefGroup = 84781BCA2B5BDAFC00D37921 /* Products */;
 			projectDirPath = "";
@@ -1910,6 +1950,7 @@
 				84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */,
 				84E5124B2B6E71FD002658D1 /* ConcertDetailDIContainer.swift in Sources */,
 				870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */,
+				22DD8C8C2BD2897E0083622C /* TicketingAPI.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
 				84A713482B7C898E000BABCB /* QRExpandDIContainer.swift in Sources */,
 				872605532B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift in Sources */,
@@ -1962,12 +2003,14 @@
 				8453D7FC2B7539270048F103 /* SalesTicketResponseDTO.swift in Sources */,
 				84896A4F2B6A723900CB3E33 /* Date+.swift in Sources */,
 				221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */,
+				22DD8C8A2BD289400083622C /* SavePaymentInfoResponseDTO.swift in Sources */,
 				84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */,
 				8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */,
 				8730F0102B7B107F00D4F339 /* TicketRefundReasonViewController.swift in Sources */,
 				8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */,
 				84FBB2CC2B80DC6B001F4211 /* MypageProfileView.swift in Sources */,
 				87681BDD2B7A695B008BF59F /* TicketEntryCodeRequestDTO.swift in Sources */,
+				22DD8C8E2BD28A4A0083622C /* TicketingRepository.swift in Sources */,
 				84FBB2CA2B80D0E8001F4211 /* BooltiUILabel.swift in Sources */,
 				8726054D2B79CDF3005CD0D4 /* ConcertInformationView.swift in Sources */,
 				8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */,
@@ -2012,6 +2055,7 @@
 				84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */,
 				84D1C37F2B79379200527998 /* SalesTicketingRequestDTO.swift in Sources */,
 				84BAB8262B8CA8DB00DEA35C /* TicketingConfirmDIContainer.swift in Sources */,
+				22DD8C882BD289100083622C /* SavePaymentInfoRequestDTO.swift in Sources */,
 				84896A472B6A677400CB3E33 /* TicketingCompletionViewModel.swift in Sources */,
 				84A0248C2B7B996F0095A56E /* QRScannerDIContainer.swift in Sources */,
 				84EF916A2B8A435C0073C89A /* PosterCollectionViewCell.swift in Sources */,
@@ -2389,6 +2433,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		22DD8C812BD27F690083622C /* XCRemoteSwiftPackageReference "payment-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tosspayments/payment-sdk-ios.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		841D77D92B745FB40068B1C5 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -2472,6 +2524,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		22DD8C822BD27F690083622C /* TossPayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22DD8C812BD27F690083622C /* XCRemoteSwiftPackageReference "payment-sdk-ios" */;
+			productName = TossPayments;
+		};
 		841D77DA2B745FB40068B1C5 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 841D77D92B745FB40068B1C5 /* XCRemoteSwiftPackageReference "Kingfisher" */;

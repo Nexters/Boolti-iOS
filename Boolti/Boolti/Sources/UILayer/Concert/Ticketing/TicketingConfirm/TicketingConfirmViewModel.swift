@@ -14,7 +14,7 @@ final class TicketingConfirmViewModel {
     
     // MARK: Properties
     
-    private let concertRepository: ConcertRepositoryType
+    private let ticketingRepository: TicketingRepositoryType
     private let disposeBag = DisposeBag()
     
     struct Input {
@@ -30,9 +30,9 @@ final class TicketingConfirmViewModel {
     
     var ticketingEntity: TicketingEntity
 
-    init(concertRepository: ConcertRepository,
+    init(ticketingRepository: TicketingRepositoryType,
          ticketingEntity: TicketingEntity) {
-        self.concertRepository = concertRepository
+        self.ticketingRepository = ticketingRepository
         self.input = Input()
         self.output = Output()
         self.ticketingEntity = ticketingEntity
@@ -79,7 +79,7 @@ extension TicketingConfirmViewModel {
     private func invitationTicketing() {
         guard let invitationCode = self.ticketingEntity.invitationCode else { return }
         
-        self.concertRepository.invitationTicketing(selectedTicket: self.ticketingEntity.selectedTicket,
+        self.ticketingRepository.invitationTicketing(selectedTicket: self.ticketingEntity.selectedTicket,
                                                    ticketHolderName: self.ticketingEntity.ticketHolder.name,
                                                    ticketHolderPhoneNumber: self.ticketingEntity.ticketHolder.phoneNumber,
                                                    invitationCode: invitationCode)

@@ -10,23 +10,10 @@ import Foundation
 import RxSwift
 
 protocol ConcertRepositoryType {
-
     var networkService: NetworkProviderType { get }
     func concertList(concertName: String?) -> Single<[ConcertEntity]>
     func concertDetail(concertId: Int) -> Single<ConcertDetailEntity>
     func salesTicket(concertId: Int) -> Single<[SelectedTicketEntity]>
-    func salesTicketing(selectedTicket: SelectedTicketEntity,
-                        ticketHolderName: String,
-                        ticketHolderPhoneNumber: String,
-                        depositorName: String,
-                        depositorPhoneNumber: String) -> Single<TicketingResponseDTO>
-    func checkInvitationCode(concertId: Int,
-                             ticketId: Int,
-                             invitationCode: String) -> Single<InvitationCodeStateEntity>
-    func invitationTicketing(selectedTicket: SelectedTicketEntity,
-                             ticketHolderName: String,
-                             ticketHolderPhoneNumber: String,
-                             invitationCode: String) -> Single<TicketingResponseDTO>
 }
 
 final class ConcertRepository: ConcertRepositoryType {
@@ -57,60 +44,11 @@ final class ConcertRepository: ConcertRepositoryType {
     
     func salesTicket(concertId: Int) -> Single<[SelectedTicketEntity]> {
         let salesTicketRequestDTO = SalesTicketRequestDTO(showId: concertId)
-        let api = ConcertAPI.salesTicket(requestDTO: salesTicketRequestDTO)
+        let api = TicketingAPI.salesTicket(requestDTO: salesTicketRequestDTO)
         
         return networkService.request(api)
             .map(SalesTicketResponseDTO.self)
             .map { $0.convertToSalesTicketEntities() }
     }
-    
-    func salesTicketing(selectedTicket: SelectedTicketEntity,
-                        ticketHolderName: String,
-                        ticketHolderPhoneNumber: String,
-                        depositorName: String,
-                        depositorPhoneNumber: String) -> Single<TicketingResponseDTO> {
-        let salesTicketingRequestDTO = SalesTicketingRequestDTO(userId: UserDefaults.userId,
-                                                                showId: selectedTicket.concertId,
-                                                                salesTicketTypeId: selectedTicket.id,
-                                                                ticketCount: selectedTicket.count,
-                                                                reservationName: ticketHolderName,
-                                                                reservationPhoneNumber: ticketHolderPhoneNumber,
-                                                                depositorName: depositorName,
-                                                                depositorPhoneNumber: depositorPhoneNumber,
-                                                                paymentAmount: selectedTicket.count * selectedTicket.price,
-                                                                means: "ACCOUNT_TRANSFER")
-        let api = ConcertAPI.salesTicketing(requestDTO: salesTicketingRequestDTO)
-        
-        return networkService.request(api)
-            .map(TicketingResponseDTO.self)
-    }
-    
-    func checkInvitationCode(concertId: Int, ticketId: Int, invitationCode: String) -> Single<InvitationCodeStateEntity> {
-        let checkInvitationCodeRequestDTO = CheckInvitationCodeRequestDTO(showId: concertId,
-                                                                          salesTicketTypeId: ticketId,
-                                                                          inviteCode: invitationCode)
-        let api = ConcertAPI.checkInvitationCode(requestDTO: checkInvitationCodeRequestDTO)
-        
-        return self.networkService.request(api)
-            .map(CheckInvitationCodeResponseDTO.self)
-            .map { $0.convertToInvitationCodeEntity() }
-    }
-    
-    func invitationTicketing(selectedTicket: SelectedTicketEntity,
-                             ticketHolderName: String,
-                             ticketHolderPhoneNumber: String,
-                             invitationCode: String) -> Single<TicketingResponseDTO> {
-        let invitationTicketingRequestDTO = InvitationTicketingRequestDTO(userId: UserDefaults.userId,
-                                                                   showId: selectedTicket.concertId,
-                                                                   salesTicketTypeId: selectedTicket.id,
-                                                                   reservationName: ticketHolderName,
-                                                                   reservationPhoneNumber: ticketHolderPhoneNumber,
-                                                                   inviteCode: invitationCode)
-        
-        let api = ConcertAPI.invitationTicketing(requestDTO: invitationTicketingRequestDTO)
-        
-        return networkService.request(api)
-            .map(TicketingResponseDTO.self)
-    }
-    
+
 }
