@@ -49,15 +49,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         return view
     }()
 
-    private let accountHolderNameView = RefundConfirmContentView(title: "예금주")
-    private let accountHolderPhoneNumberView = RefundConfirmContentView(title: "연락처")
-    private let accountBankNameView = RefundConfirmContentView(title: "은행명")
-    private let accountNumberView = RefundConfirmContentView(title: "계좌번호")
-    private let seperateLineView : UIView = {
-        let view = UIView()
-        view.backgroundColor = .grey70
-        return view
-    }()
+    private let refundTypeView = RefundConfirmContentView(title: "환불 수단")
     private let totalRefundAmountView = RefundConfirmContentView(title: "환불 예정 금액")
 
     private let requestRefundButton: BooltiButton = {
@@ -91,16 +83,10 @@ final class TicketRefundConfirmViewController: BooltiViewController {
 
     private func setData() {
         let information = self.viewModel.refundAccountInformation
-        let holderName = information.accountHolderName
-        let holderPhoneNumber = information.accountHolderPhoneNumber.formatPhoneNumber()
-        let accountBankName = information.accountBankName
-        let accountNumber = information.accountNumber
+        let refundType = information.refundType
         let totalRefundAmount = information.totalRefundAmount
 
-        self.accountHolderNameView.setData(with: holderName)
-        self.accountHolderPhoneNumberView.setData(with: holderPhoneNumber)
-        self.accountBankNameView.setData(with: accountBankName)
-        self.accountNumberView.setData(with: accountNumber)
+        self.refundTypeView.setData(with: refundType)
         self.totalRefundAmountView.setData(with: "\(totalRefundAmount)원")
 
         self.view.addSubviews([
@@ -108,11 +94,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
             self.titleLabel,
             self.closeButton,
             self.refundInformationContentBackgroundView,
-            self.accountHolderNameView,
-            self.accountHolderPhoneNumberView,
-            self.accountBankNameView,
-            self.accountNumberView,
-            self.seperateLineView,
+            self.refundTypeView,
             self.totalRefundAmountView,
             self.requestRefundButton
         ])
@@ -140,41 +122,15 @@ final class TicketRefundConfirmViewController: BooltiViewController {
             make.top.equalTo(self.titleLabel.snp.bottom).offset(24)
         }
 
-        self.accountHolderNameView.snp.makeConstraints { make in
+        self.refundTypeView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.horizontalEdges.equalTo(self.refundInformationContentBackgroundView).inset(20)
             make.top.equalTo(self.refundInformationContentBackgroundView.snp.top).inset(16)
         }
 
-        self.accountHolderPhoneNumberView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountHolderNameView.snp.bottom).offset(12)
-        }
-
-        self.accountBankNameView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountHolderPhoneNumberView.snp.bottom).offset(12)
-        }
-
-        self.accountNumberView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.accountBankNameView.snp.bottom).offset(12)
-        }
-
-        self.seperateLineView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.height.equalTo(1)
-            make.top.equalTo(self.accountNumberView.snp.bottom).offset(12)
-        }
-
         self.totalRefundAmountView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.horizontalEdges.equalTo(self.accountHolderNameView)
-            make.top.equalTo(self.seperateLineView.snp.bottom).offset(12)
+            make.horizontalEdges.equalTo(self.refundTypeView)
             make.bottom.equalTo(self.refundInformationContentBackgroundView).inset(16)
         }
 

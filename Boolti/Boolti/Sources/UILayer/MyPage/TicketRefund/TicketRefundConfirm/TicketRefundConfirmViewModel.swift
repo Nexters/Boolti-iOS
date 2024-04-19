@@ -45,25 +45,25 @@ final class TicketRefundConfirmViewModel {
     }
 
     private func bindInputs() {
-        self.input.didRequestFundButtonTapEvent
-            .flatMap { self.requestReservationRefund() }
-            .subscribe(with: self) { owner, _ in
-                owner.output.didRequestFundCompleted.accept(())
-            }
-            .disposed(by: self.disposeBag)
+//        self.input.didRequestFundButtonTapEvent
+//            .flatMap { self.requestReservationRefund() }
+//            .subscribe(with: self) { owner, _ in
+//                owner.output.didRequestFundCompleted.accept(())
+//            }
+//            .disposed(by: self.disposeBag)
     }
 
-    private func requestReservationRefund() -> Single<Void>{
+//    private func requestReservationRefund() -> Single<Void>{
         // Entity 타입 Int로 끌고 가기! -> 리팩
         // DTO 타입을 Repository에서 만들 수 있도록 리팩토링하기!..
-        let requestDTO = TicketRefundRequestDTO(
-            reservationID: Int(self.reservationID)!,
-            refundReason: self.reasonText,
-            refundPhoneNumber: self.refundAccountInformation.accountHolderPhoneNumber,
-            refundAccountName: self.refundAccountInformation.accountHolderName,
-            refundAccountNumber: self.refundAccountInformation.accountNumber,
-            refundBankCode: BankEntity.bankCodeDictionary[self.refundAccountInformation.accountBankName] ?? ""
-        )
-        return self.ticketReservationRepository.requestRefund(with: requestDTO)
-    }
+//        let requestDTO = TicketRefundRequestDTO(
+//            reservationID: Int(self.reservationID)!,
+//            refundReason: self.reasonText,
+//            refundPhoneNumber: 1123,
+//            refundAccountName: self.refundAccountInformation.accountHolderName,
+//            refundAccountNumber: self.refundAccountInformation.accountNumber,
+//            refundBankCode: BankEntity.bankCodeDictionary[self.refundAccountInformation.accountBankName] ?? ""
+//        )
+//        return self.ticketReservationRepository.requestRefund(with: requestDTO)
+//    }
 }
