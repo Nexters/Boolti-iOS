@@ -78,14 +78,10 @@ extension AgreeView {
     }
     
     private func makeOpenButton() -> UIButton {
-        var config = UIButton.Configuration.plain()
-        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        config.title = "보기"
-        config.attributedTitle?.font = .pretendardR(14)
-        config.baseForegroundColor = .grey50
-        config.baseBackgroundColor = .clear
-        
-        let button = UIButton(configuration: config)
+        let button = UIButton()
+        button.setTitle("보기", for: .normal)
+        button.tintColor = .grey50
+        button.titleLabel?.font = .pretendardR(14)
         button.setUnderline(font: .body1, textColor: .grey50)
         return button
     }
