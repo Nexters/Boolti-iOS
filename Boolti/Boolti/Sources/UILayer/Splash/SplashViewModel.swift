@@ -33,7 +33,9 @@ final class SplashViewModel {
     
     func initRemoteConfig() {
         let setting = RemoteConfigSettings()
+        #if DEBUG
         setting.minimumFetchInterval = 0
+        #endif
         remoteConfig.configSettings = setting
         remoteConfig.setDefaults(fromPlist: "GoogleService-Info") // 없어도 되지 않나?
     }
