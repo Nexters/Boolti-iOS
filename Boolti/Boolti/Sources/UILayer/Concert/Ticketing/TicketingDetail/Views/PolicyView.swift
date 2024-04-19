@@ -34,6 +34,7 @@ final class PolicyView: UIView {
         return button
     }()
     
+    // TODO: - remote config로 변경
     private let policyLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .body1

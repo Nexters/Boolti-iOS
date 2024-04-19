@@ -44,11 +44,11 @@ final class TicketingDetailViewController: BooltiViewController {
     
     private let ticketInfoView = TicketInfoView()
     
-    private let paymentMethodView = PaymentMethodView()
-    
     private let invitationCodeView = InvitationCodeView()
     
     private let policyView = PolicyView()
+    
+    private let agreeView = AgreeView()
     
     private let middlemanPolicyView = MiddlemanPolicyView()
     
@@ -75,9 +75,9 @@ final class TicketingDetailViewController: BooltiViewController {
                                   self.ticketHolderInputView,
                                   self.depositorInputView,
                                   self.ticketInfoView,
-                                  self.paymentMethodView,
                                   self.invitationCodeView,
                                   self.policyView,
+                                  self.agreeView,
                                   self.middlemanPolicyView,
                                   self.businessInfoView])
         return view
@@ -139,13 +139,6 @@ extension TicketingDetailViewController {
                 owner.setTicketingData()
             })
             .disposed(by: self.disposeBag)
-        
-        self.paymentMethodView.didDepositButtonTap()
-            .asDriver(onErrorJustReturn: ())
-            .drive(with: self) { owner, _ in
-                owner.showToast(message: "지금은 계좌 이체로만 결제할 수 있어요")
-            }
-            .disposed(by: self.disposeBag)
     }
     
     private func bindOutputs() {
@@ -182,7 +175,6 @@ extension TicketingDetailViewController {
                 
                 if entity.price == 0 {
                     owner.depositorInputView.isHidden = true
-                    owner.paymentMethodView.isHidden = true
                     owner.policyView.isHidden = true
                 }
                 
