@@ -250,7 +250,9 @@ extension TicketingDetailViewController {
                 .bind(to: self.payButton.rx.isEnabled)
                 .disposed(by: self.disposeBag)
         } else {
-            self.checkInputViewTextFieldFilled(inputType: .ticketHolder)
+            Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
+                                     self.agreeView.isAllAgreeButtonSelected)
+                .map { $0 && $1}
                 .distinctUntilChanged()
                 .bind(to: self.payButton.rx.isEnabled)
                 .disposed(by: self.disposeBag)
