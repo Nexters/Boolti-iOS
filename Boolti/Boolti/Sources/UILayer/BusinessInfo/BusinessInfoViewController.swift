@@ -6,13 +6,12 @@
 //
 
 import UIKit
-import SafariServices
 
 import RxSwift
 import RxCocoa
 import SnapKit
 
-final class BusinessInfoViewController: UIViewController {
+final class BusinessInfoViewController: BooltiViewController {
     
     // MARK: Properties
     
@@ -145,12 +144,6 @@ extension BusinessInfoViewController {
                 owner.openSafari(with: url)
             }
             .disposed(by: self.disposeBag)
-    }
-    
-    private func openSafari(with url: URL) {
-        let safariViewController = SFSafariViewController(url: url)
-        safariViewController.modalPresentationStyle = .formSheet
-        self.present(safariViewController, animated: true)
     }
 }
 
