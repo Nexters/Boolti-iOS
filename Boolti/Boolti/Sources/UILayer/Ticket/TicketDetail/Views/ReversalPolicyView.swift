@@ -47,7 +47,7 @@ final class ReversalPolicyView: UIStackView {
     }()
 
     private lazy var reversalPolicyLabel: BooltiPaddingLabel = {
-        let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 0, left: 30, bottom: 24, right: 20))
+        let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 0, left: 25, bottom: 24, right: 20))
         label.text = AppInfo.reversalPolicy
         label.numberOfLines = 0
         label.setHeadIndent()
