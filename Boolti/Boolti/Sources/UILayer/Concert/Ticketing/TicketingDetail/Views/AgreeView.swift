@@ -24,7 +24,7 @@ final class AgreeView: UIView {
     
     // MARK: UI Component
     
-    lazy var allAgreeButton = self.makeAgreeRowButton(type: .allCheck, title: "주문내용 확인 및 결제 동의")
+    private lazy var allAgreeButton = self.makeAgreeRowButton(type: .allCheck, title: "주문내용 확인 및 결제 동의")
     
     private lazy var collectionButton = self.makeAgreeRowButton(type: .check, title: "[필수] 개인정보 수집・이용 동의")
     private lazy var collectionOpenButton = self.makeOpenButton()

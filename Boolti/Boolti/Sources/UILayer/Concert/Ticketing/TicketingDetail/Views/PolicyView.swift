@@ -15,7 +15,6 @@ final class PolicyView: UIView {
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
-    let policyLabelHeight = PublishRelay<CGFloat>()
     
     // MARK: UI Component
     
@@ -86,7 +85,6 @@ extension PolicyView {
                 owner.snp.updateConstraints { make in
                     make.height.equalTo(constraint)
                 }
-                owner.policyLabelHeight.accept(constraint)
             }).disposed(by: self.disposeBag)
     }
 }

@@ -129,7 +129,6 @@ extension TicketingDetailViewController {
     private func bindUIComponents() {
         self.bindNavigationBar()
         self.bindUserInputView()
-        self.bindPolicyView()
         self.bindBusinessInfoView()
     }
     
@@ -243,8 +242,9 @@ extension TicketingDetailViewController {
     private func bindSalesView(price: Int) {
         if price > 0 {
             Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
-                                     self.checkInputViewTextFieldFilled(inputType: .depositor))
-                .map { $0 && $1 }
+                                     self.checkInputViewTextFieldFilled(inputType: .depositor),
+                                     self.agreeView.isAllAgreeButtonSelected)
+                .map { $0 && $1 && $2 }
                 .distinctUntilChanged()
                 .bind(to: self.payButton.rx.isEnabled)
                 .disposed(by: self.disposeBag)
@@ -282,24 +282,14 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
         
         Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
-                                 self.viewModel.output.invitationCodeState)
-        .map { ( isTicketHolderFilled, codeState ) in
-            return isTicketHolderFilled && codeState == .verified
+                                 self.viewModel.output.invitationCodeState,
+                                 self.agreeView.isAllAgreeButtonSelected)
+        .map { ( isTicketHolderFilled, codeState, isAgree ) in
+            return isTicketHolderFilled && codeState == .verified && isAgree
         }
         .distinctUntilChanged()
         .bind(to: self.payButton.rx.isEnabled)
         .disposed(by: self.disposeBag)
-    }
-    
-    private func bindPolicyView() {
-        self.policyView.policyLabelHeight
-            .asDriver(onErrorJustReturn: 0)
-            .drive(with: self, onNext: { owner, viewHeight in
-                
-                let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.height + viewHeight - 66 + 24)
-                owner.scrollView.setContentOffset(bottomOffset, animated: true)
-            })
-            .disposed(by: self.disposeBag)
     }
     
     private func bindBusinessInfoView() {
