@@ -12,7 +12,7 @@ struct TicketingEntity {
     var ticketHolder: userInfo
     var depositor: userInfo?
     var selectedTicket: SelectedTicketEntity
-    var reservationId: Int
+    var reservationId: String
 
     var invitationCode: String?
     

@@ -150,8 +150,12 @@ extension TicketingDetailViewController {
                 viewController.modalPresentationStyle = .overFullScreen
                 
                 viewController.onDismiss = { ticketingEntity in
-                    let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
-                    owner.navigationController?.pushViewController(viewController, animated: true)
+                    let viewController = TossPaymentViewController(orderId: ticketingEntity.reservationId, selectedTicket: ticketingEntity.selectedTicket)
+                    viewController.modalPresentationStyle = .overFullScreen
+                    owner.present(viewController, animated: true)
+                    
+//                    let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
+//                    owner.navigationController?.pushViewController(viewController, animated: true)
                 }
                 
                 owner.present(viewController, animated: true)

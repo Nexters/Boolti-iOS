@@ -23,6 +23,8 @@ protocol TicketingRepositoryType {
                              ticketHolderName: String,
                              ticketHolderPhoneNumber: String,
                              invitationCode: String) -> Single<TicketingResponseDTO>
+    func savePaymentInfo(concertId: Int,
+                         selectedTicket: SelectedTicketEntity) -> Single<SavePaymentInfoResponseDTO>
 }
 
 final class TicketingRepository: TicketingRepositoryType {
@@ -80,6 +82,18 @@ final class TicketingRepository: TicketingRepositoryType {
         
         return networkService.request(api)
             .map(TicketingResponseDTO.self)
+    }
+    
+    func savePaymentInfo(concertId: Int,
+                         selectedTicket: SelectedTicketEntity) -> Single<SavePaymentInfoResponseDTO> {
+        let savePaymentInfoRequestDTO = SavePaymentInfoRequestDTO(showId: concertId,
+                                                                  salesTicketTypeId: selectedTicket.id,
+                                                                  ticketCount: selectedTicket.count)
+        
+        let api = TicketingAPI.savePaymentInfo(requestDTO: savePaymentInfoRequestDTO)
+        
+        return networkService.request(api)
+            .map(SavePaymentInfoResponseDTO.self)
     }
     
 }

@@ -60,7 +60,7 @@ extension TicketingDetailViewModel {
                                               depositor: TicketingEntity.userInfo(name: depositorName.isEmpty ? ticketHolderName : depositorName,
                                                                                   phoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorName),
                                               selectedTicket: self.selectedTicket.value,
-                                              reservationId: -1)
+                                              reservationId: "")
         
         self.output.ticketingEntity = ticketingEntity
         self.output.navigateToConfirm.onNext(())
@@ -86,7 +86,7 @@ extension TicketingDetailViewModel {
                                               ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
                                                                                      phoneNumber: ticketHolderPhoneNumber),
                                               selectedTicket: self.selectedTicket.value,
-                                              reservationId: -1,
+                                              reservationId: "",
                                               invitationCode: invitationCode)
         
         self.output.ticketingEntity = ticketingEntity
