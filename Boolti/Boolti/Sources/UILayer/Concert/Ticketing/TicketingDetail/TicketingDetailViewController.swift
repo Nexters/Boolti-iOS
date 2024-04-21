@@ -153,19 +153,25 @@ extension TicketingDetailViewController {
                 ticketingConfirmVC.modalPresentationStyle = .overFullScreen
                 
                 ticketingConfirmVC.onDismiss = { ticketingEntity in
-                    let tossVC = owner.tossPayementsViewControllerFactory(ticketingEntity)
-                    tossVC.modalPresentationStyle = .overFullScreen
-                    
-                    tossVC.onDismissOrderSuccess = { ticketingEntity in
+                    switch ticketingEntity.selectedTicket.ticketType {
+                    case .invitation:
                         let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
                         owner.navigationController?.pushViewController(viewController, animated: true)
+                    case .sale:
+                        let tossVC = owner.tossPayementsViewControllerFactory(ticketingEntity)
+                        tossVC.modalPresentationStyle = .overFullScreen
+    
+                        tossVC.onDismissOrderSuccess = { ticketingEntity in
+                            let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
+                            owner.navigationController?.pushViewController(viewController, animated: true)
+                        }
+    
+                        tossVC.onDismissOrderFailure = {
+                            // TODO: - 실패 팝업창 띄우기
+                        }
+    
+                        owner.present(tossVC, animated: true)
                     }
-                    
-                    tossVC.onDismissOrderFailure = {
-                        // TODO: - 실패 팝업창 띄우기
-                    }
-
-                    owner.present(tossVC, animated: true)
                 }
                 
                 owner.present(ticketingConfirmVC, animated: true)
