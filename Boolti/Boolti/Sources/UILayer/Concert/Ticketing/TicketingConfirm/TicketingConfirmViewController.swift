@@ -144,7 +144,7 @@ extension TicketingConfirmViewController {
     }
 
     private func bindViewModel() {
-        self.viewModel.output.navigateToCompletion
+        self.viewModel.output.navigateToTossPayments
             .subscribe(with: self) { owner, _ in
                 owner.dismiss(animated: true) {
                     self.onDismiss?(owner.viewModel.ticketingEntity)

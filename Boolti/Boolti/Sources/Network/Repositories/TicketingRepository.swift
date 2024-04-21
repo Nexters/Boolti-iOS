@@ -25,6 +25,9 @@ protocol TicketingRepositoryType {
                              invitationCode: String) -> Single<TicketingResponseDTO>
     func savePaymentInfo(concertId: Int,
                          selectedTicket: SelectedTicketEntity) -> Single<SavePaymentInfoResponseDTO>
+    func orderPayment(paymentKey: String,
+                      amount: Int,
+                      ticketingEntity: TicketingEntity) -> Single<Void>
 }
 
 final class TicketingRepository: TicketingRepositoryType {
@@ -92,8 +95,35 @@ final class TicketingRepository: TicketingRepositoryType {
         
         let api = TicketingAPI.savePaymentInfo(requestDTO: savePaymentInfoRequestDTO)
         
-        return networkService.request(api)
+        return self.networkService.request(api)
             .map(SavePaymentInfoResponseDTO.self)
+    }
+    
+    func orderPayment(paymentKey: String,
+                      amount: Int,
+                      ticketingEntity: TicketingEntity) -> Single<Void> {
+        let concert = ticketingEntity.concert
+        let selectedTicket = ticketingEntity.selectedTicket
+        
+        let depositor = ticketingEntity.depositor ?? ticketingEntity.ticketHolder
+        
+        let orderPaymentRequestDTO = OrderPaymentRequestDTO(orderId: ticketingEntity.orderId ?? "",
+                                                            amount: amount,
+                                                            paymentKey: paymentKey,
+                                                            showId: concert.id,
+                                                            salesTicketTypeId: selectedTicket.id,
+                                                            ticketCount: selectedTicket.count,
+                                                            reservationName: ticketingEntity.ticketHolder.name,
+                                                            reservationPhoneNumber: ticketingEntity.ticketHolder.phoneNumber,
+                                                            depositorName: depositor.name,
+                                                            depositorPhoneNumber: depositor.phoneNumber,
+                                                            paymentAmount: amount,
+                                                            means: "CARD")
+        
+        let api = TicketingAPI.orderPayment(requestDTO: orderPaymentRequestDTO)
+        
+        return self.networkService.request(api)
+            .map { _ in () }
     }
     
 }

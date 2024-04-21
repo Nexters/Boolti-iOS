@@ -10,15 +10,16 @@ import UIKit
 import RxSwift
 import TossPayments
 
-final class TossPaymentViewController: UIViewController {
+final class TossPaymentViewController: BooltiViewController {
     
     // MARK: Properties
     
+    private let viewModel: TossPaymentsViewModel
     private let disposeBag = DisposeBag()
     private let widget: PaymentWidget
     
-    private let orderId: String
-    private let selectedTicket: SelectedTicketEntity
+    var onDismissOrderSuccess: ((TicketingEntity) -> ())?
+    var onDismissOrderFailure: (() -> ())?
     
     // MARK: UI Component
     
@@ -49,17 +50,15 @@ final class TossPaymentViewController: UIViewController {
     
     // MARK: Initailizer
     
-    init(orderId: String,
-         selectedTicket: SelectedTicketEntity) {
-        self.orderId = orderId
-        self.selectedTicket = selectedTicket
+    init(viewModel: TossPaymentsViewModel) {
+        self.viewModel = viewModel
         
         self.widget = PaymentWidget(
             clientKey: Environment.TOSS_PAYMENTS_KEY,
-            customerKey: orderId
+            customerKey: self.viewModel.ticketingEntity.orderId ?? ""
         )
         
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {
@@ -74,7 +73,8 @@ final class TossPaymentViewController: UIViewController {
         self.configureTossWidget()
         self.configureUI()
         self.configureConstraints()
-        self.bindInputs()
+        self.bindInput()
+        self.bindOutput()
     }
     
 }
@@ -84,13 +84,13 @@ final class TossPaymentViewController: UIViewController {
 extension TossPaymentViewController {
     
     private func configureTossWidget() {
-        let paymentMethods = widget.renderPaymentMethods(amount: PaymentMethodWidget.Amount(value: Double(self.selectedTicket.price * self.selectedTicket.count)))
+        let selectedTicket = self.viewModel.ticketingEntity.selectedTicket
+        let paymentMethods = widget.renderPaymentMethods(amount: PaymentMethodWidget.Amount(value: Double(selectedTicket.price * selectedTicket.count)))
         let agreement = widget.renderAgreement()
         self.payButton.addTarget(self, action: #selector(requestPayment), for: .touchUpInside)
         
-        // set delegate
-//        self.widget.delegate = self
-//        paymentMethods.widgetStatusDelegate = self
+        self.widget.delegate = self
+        paymentMethods.widgetStatusDelegate = self
         agreement.agreementUIDelegate = self
         
         self.stackView.addArrangedSubviews([paymentMethods,
@@ -99,18 +99,52 @@ extension TossPaymentViewController {
     }
     
     @objc func requestPayment() {
+        guard let orderId = self.viewModel.ticketingEntity.orderId else { return }
+        let selectedTicket = self.viewModel.ticketingEntity.selectedTicket
         widget.requestPayment(
             info: DefaultWidgetPaymentInfo(
-                orderId: self.orderId,
-                orderName: "\(self.selectedTicket.ticketName) / \(self.selectedTicket.count)매"))
+                orderId: orderId,
+                orderName: "\(selectedTicket.ticketName) / \(selectedTicket.count)매"))
     }
     
-    private func bindInputs() {
+    private func bindInput() {
         self.navigationBar.didCloseButtonTap()
             .emit(with: self) { owner, _ in
                 owner.dismiss(animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+    
+    private func bindOutput() {
+        self.viewModel.output.didOrderPaymentCompleted
+            .bind(with: self) { owner, ticketingEntity in
+                owner.onDismissOrderSuccess?(ticketingEntity)
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+}
+
+// MARK: - TossPaymentsDelegate
+
+extension TossPaymentViewController: TossPaymentsDelegate {
+    
+    func handleSuccessResult(_ success: TossPaymentsResult.Success) {
+        self.viewModel.input.successResult.accept(success)
+    }
+    
+    func handleFailResult(_ fail: TossPaymentsResult.Fail) {
+        self.onDismissOrderFailure?()
+    }
+    
+}
+
+// MARK: - TossPaymentsWidgetStatusDelegate
+
+extension TossPaymentViewController: TossPaymentsWidgetStatusDelegate {
+    
+    func didReceiveFail(_ name: String, fail: TossPaymentsResult.Fail) {
+        self.showToast(message: "결제 정보를 입력해주세요")
     }
     
 }

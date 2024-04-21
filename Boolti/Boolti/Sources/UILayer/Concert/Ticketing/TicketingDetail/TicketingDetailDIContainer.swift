@@ -25,6 +25,13 @@ final class TicketingDetailDIContainer {
             return viewController
         }
         
+        let tossPayementsViewControllerFactory: (TicketingEntity) -> TossPaymentViewController = { ticketingEntity in
+            let DIContainer = self.createTossPaymentsDIContainer()
+            
+            let viewController = DIContainer.createTossPaymentsViewController(ticketingEntity: ticketingEntity)
+            return viewController
+        }
+        
         let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController = { ticketingEntity in
             let DIContainer = self.createTicketingCompletionDIContainer()
 
@@ -42,6 +49,7 @@ final class TicketingDetailDIContainer {
         let viewController = TicketingDetailViewController(
             viewModel: viewModel,
             ticketingConfirmViewControllerFactory: ticketingConfirmViewControllerFactory,
+            tossPayementsViewControllerFactory: tossPayementsViewControllerFactory,
             ticketingCompletionViewControllerFactory: ticketingCompletionViewControllerFactory,
             businessInfoViewControllerFactory: businessInfoViewControllerFactory
         )
@@ -51,6 +59,10 @@ final class TicketingDetailDIContainer {
     
     private func createTicketingConfirmDIContainer() -> TicketingConfirmDIContainer {
         return TicketingConfirmDIContainer(ticketingRepository: TicketingRepository(networkService: self.concertRepository.networkService))
+    }
+    
+    private func createTossPaymentsDIContainer() -> TossPaymentsDIContainer {
+        return TossPaymentsDIContainer(ticketingRepository: TicketingRepository(networkService: self.concertRepository.networkService))
     }
     
     private func createTicketingDetailViewModel(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewModel {

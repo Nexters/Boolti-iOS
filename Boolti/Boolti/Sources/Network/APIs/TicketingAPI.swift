@@ -15,6 +15,7 @@ enum TicketingAPI {
     case checkInvitationCode(requestDTO: CheckInvitationCodeRequestDTO)
     case invitationTicketing(requestDTO: InvitationTicketingRequestDTO)
     case savePaymentInfo(requestDTO: SavePaymentInfoRequestDTO)
+    case orderPayment(requestDTO: OrderPaymentRequestDTO)
 }
 
 extension TicketingAPI: ServiceAPI {
@@ -31,12 +32,14 @@ extension TicketingAPI: ServiceAPI {
             return "/api/v1/reservation/invite-ticket"
         case .savePaymentInfo:
             return "/api/v1/order/payment-info"
+        case .orderPayment:
+            return "/api/v1/order/approve-payment"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .salesTicketing, .invitationTicketing, .savePaymentInfo:
+        case .salesTicketing, .invitationTicketing, .savePaymentInfo, .orderPayment:
             return .post
         default:
             return .get
@@ -57,6 +60,8 @@ extension TicketingAPI: ServiceAPI {
         case .invitationTicketing(let DTO):
             return .requestJSONEncodable(DTO)
         case .savePaymentInfo(let DTO):
+            return .requestJSONEncodable(DTO)
+        case .orderPayment(let DTO):
             return .requestJSONEncodable(DTO)
         default:
             return .requestPlain

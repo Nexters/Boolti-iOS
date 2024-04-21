@@ -55,12 +55,12 @@ extension TicketingDetailViewModel {
         guard let concertDetail = self.output.concertDetail.value else { return }
         
         let ticketingEntity = TicketingEntity(concert: concertDetail,
-                                              ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
+                                              ticketHolder: TicketingEntity.UserInfo(name: ticketHolderName,
                                                                                      phoneNumber: ticketHolderPhoneNumber),
-                                              depositor: TicketingEntity.userInfo(name: depositorName.isEmpty ? ticketHolderName : depositorName,
+                                              depositor: TicketingEntity.UserInfo(name: depositorName.isEmpty ? ticketHolderName : depositorName,
                                                                                   phoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorName),
                                               selectedTicket: self.selectedTicket.value,
-                                              reservationId: "")
+                                              reservationId: -1)
         
         self.output.ticketingEntity = ticketingEntity
         self.output.navigateToConfirm.onNext(())
@@ -83,10 +83,10 @@ extension TicketingDetailViewModel {
                                     invitationCode: String) {
         guard let concertDetail = self.output.concertDetail.value else { return }
         let ticketingEntity = TicketingEntity(concert: concertDetail,
-                                              ticketHolder: TicketingEntity.userInfo(name: ticketHolderName,
+                                              ticketHolder: TicketingEntity.UserInfo(name: ticketHolderName,
                                                                                      phoneNumber: ticketHolderPhoneNumber),
                                               selectedTicket: self.selectedTicket.value,
-                                              reservationId: "",
+                                              reservationId: -1,
                                               invitationCode: invitationCode)
         
         self.output.ticketingEntity = ticketingEntity

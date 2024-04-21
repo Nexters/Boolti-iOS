@@ -21,6 +21,9 @@
 		22DD8C8C2BD2897E0083622C /* TicketingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C8B2BD2897E0083622C /* TicketingAPI.swift */; };
 		22DD8C8E2BD28A4A0083622C /* TicketingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C8D2BD28A4A0083622C /* TicketingRepository.swift */; };
 		22DD8C922BD348CD0083622C /* TossPaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C912BD348CD0083622C /* TossPaymentViewController.swift */; };
+		22DD8C952BD408200083622C /* TossPaymentsDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C942BD408200083622C /* TossPaymentsDIContainer.swift */; };
+		22DD8C972BD4082A0083622C /* TossPaymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C962BD4082A0083622C /* TossPaymentsViewModel.swift */; };
+		22DD8C992BD499E90083622C /* OrderPaymentRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD8C982BD499E90083622C /* OrderPaymentRequestDTO.swift */; };
 		840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */; };
 		840B39572B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */; };
 		840B39592B7670FC00E7F8C8 /* ConcertEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */; };
@@ -329,6 +332,9 @@
 		22DD8C8B2BD2897E0083622C /* TicketingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingAPI.swift; sourceTree = "<group>"; };
 		22DD8C8D2BD28A4A0083622C /* TicketingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingRepository.swift; sourceTree = "<group>"; };
 		22DD8C912BD348CD0083622C /* TossPaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentViewController.swift; sourceTree = "<group>"; };
+		22DD8C942BD408200083622C /* TossPaymentsDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsDIContainer.swift; sourceTree = "<group>"; };
+		22DD8C962BD4082A0083622C /* TossPaymentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsViewModel.swift; sourceTree = "<group>"; };
+		22DD8C982BD499E90083622C /* OrderPaymentRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentRequestDTO.swift; sourceTree = "<group>"; };
 		840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertEntity.swift; sourceTree = "<group>"; };
@@ -664,6 +670,7 @@
 				84D1C3842B7A14AD00527998 /* CheckInvitationCodeRequestDTO.swift */,
 				84D1C38A2B7A448100527998 /* InvitationTicketingRequestDTO.swift */,
 				22DD8C872BD289100083622C /* SavePaymentInfoRequestDTO.swift */,
+				22DD8C982BD499E90083622C /* OrderPaymentRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -677,6 +684,16 @@
 				22DD8C892BD289400083622C /* SavePaymentInfoResponseDTO.swift */,
 			);
 			path = Response;
+			sourceTree = "<group>";
+		};
+		22DD8C932BD405800083622C /* TossPayments */ = {
+			isa = PBXGroup;
+			children = (
+				22DD8C942BD408200083622C /* TossPaymentsDIContainer.swift */,
+				22DD8C912BD348CD0083622C /* TossPaymentViewController.swift */,
+				22DD8C962BD4082A0083622C /* TossPaymentsViewModel.swift */,
+			);
+			path = TossPayments;
 			sourceTree = "<group>";
 		};
 		840B39532B7667B100E7F8C8 /* Cells */ = {
@@ -1142,7 +1159,6 @@
 				848CBF092B65481500239303 /* TicketingDetailDIContainer.swift */,
 				848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */,
 				848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */,
-				22DD8C912BD348CD0083622C /* TossPaymentViewController.swift */,
 			);
 			path = TicketingDetail;
 			sourceTree = "<group>";
@@ -1228,6 +1244,7 @@
 				84625A0C2B63B2D100CC9077 /* TicketSelection */,
 				848CBF042B6547DB00239303 /* TicketingDetail */,
 				84BAB8242B8CA8BD00DEA35C /* TicketingConfirm */,
+				22DD8C932BD405800083622C /* TossPayments */,
 				84896A412B6A57B100CB3E33 /* TicketingCompletion */,
 			);
 			path = Ticketing;
@@ -2008,6 +2025,7 @@
 				221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */,
 				22DD8C8A2BD289400083622C /* SavePaymentInfoResponseDTO.swift in Sources */,
 				84781BEE2B5BE3B600D37921 /* NetworkError.swift in Sources */,
+				22DD8C972BD4082A0083622C /* TossPaymentsViewModel.swift in Sources */,
 				8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */,
 				8730F0102B7B107F00D4F339 /* TicketRefundReasonViewController.swift in Sources */,
 				8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */,
@@ -2087,6 +2105,7 @@
 				84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */,
 				84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */,
 				84D1C3872B7A14F300527998 /* CheckInvitationCodeResponseDTO.swift in Sources */,
+				22DD8C992BD499E90083622C /* OrderPaymentRequestDTO.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
 				8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */,
 				87D2FAB82B6EA7050027FBE1 /* TicketDetailInformationView.swift in Sources */,
@@ -2107,6 +2126,7 @@
 				84FBBE012B677187009462E9 /* BooltiTextField.swift in Sources */,
 				84D1C3812B7938CB00527998 /* TicketingResponseDTO.swift in Sources */,
 				8710D94A2B74FA6F00309FBF /* QRScannerListDIContainer.swift in Sources */,
+				22DD8C952BD408200083622C /* TossPaymentsDIContainer.swift in Sources */,
 				8753CA702B70E322002871C7 /* TicketEntryCodeViewModel.swift in Sources */,
 				846F5F372B7BBDBD000F86AE /* QRScannerListResponseDTO.swift in Sources */,
 				84DF59E52B726E3F000816DA /* ConcertContentExpandViewModel.swift in Sources */,
