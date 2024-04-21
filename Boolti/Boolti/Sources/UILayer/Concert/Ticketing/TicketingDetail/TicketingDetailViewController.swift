@@ -153,8 +153,6 @@ extension TicketingDetailViewController {
                 ticketingConfirmVC.modalPresentationStyle = .overFullScreen
                 
                 ticketingConfirmVC.onDismiss = { ticketingEntity in
-                    guard let orderId = ticketingEntity.orderId else { return }
-                    
                     let tossVC = owner.tossPayementsViewControllerFactory(ticketingEntity)
                     tossVC.modalPresentationStyle = .overFullScreen
                     
