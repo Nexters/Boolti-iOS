@@ -28,11 +28,41 @@ final class TicketingCompletionViewController: BooltiViewController {
         return label
     }()
     
-    private let underlineView: UIView = {
+    private let firstUnderlineView: UIView = {
         let view = UIView()
         view.backgroundColor = .grey85
         return view
     }()
+    
+    private lazy var reservationTitleLabel = self.makeLabel(text: "주문 번호")
+    private lazy var reservationInfoLabel = self.makeLabel()
+    private lazy var reservationStackView = self.makeInfoRowStackView(title: reservationTitleLabel, info: reservationInfoLabel)
+    
+    private lazy var ticketHolderTitleLabel = self.makeLabel(text: "예매자 정보")
+    private lazy var ticketHolderInfoLabel = self.makeLabel()
+    private lazy var ticketHolderStackView = self.makeInfoRowStackView(title: ticketHolderTitleLabel, info: ticketHolderInfoLabel)
+    
+    private lazy var payerTitleLabel = self.makeLabel(text: "결제자 정보")
+    private lazy var payerInfoLabel = self.makeLabel()
+    private lazy var payerStackView = self.makeInfoRowStackView(title: payerTitleLabel, info: payerInfoLabel)
+    
+    private lazy var firstInfoStackView = self.makeInfoGroupStackView(with: [reservationStackView, ticketHolderStackView, payerStackView])
+    
+    private let secondUnderlineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey85
+        return view
+    }()
+    
+    private lazy var amountTitleLabel = self.makeLabel(text: "결제 금액")
+    private lazy var amountInfoLabel = self.makeLabel()
+    private lazy var amountStackView = self.makeInfoRowStackView(title: amountTitleLabel, info: amountTitleLabel)
+    
+    private lazy var ticketTitleLabel = self.makeLabel(text: "주문 티켓")
+    private lazy var ticketInfoLabel = self.makeLabel()
+    private lazy var ticketStackView = self.makeInfoRowStackView(title: ticketTitleLabel, info: ticketInfoLabel)
+    
+    private lazy var secondInfoStackView = self.makeInfoGroupStackView(with: [amountStackView, ticketStackView])
     
     private let reservedTicketView = ReservedTicketView()
     
@@ -74,6 +104,34 @@ final class TicketingCompletionViewController: BooltiViewController {
 
 extension TicketingCompletionViewController {
     
+    private func makeLabel(text: String? = nil) -> BooltiUILabel {
+        let label = BooltiUILabel()
+        label.font = .pretendardR(16)
+        label.text = text
+        label.textColor = text == nil ? .grey15 : .grey30
+        return label
+    }
+    
+    private func makeInfoRowStackView(title: BooltiUILabel, info: BooltiUILabel) -> UIStackView {
+        title.snp.makeConstraints { make in
+            make.width.equalTo(100)
+        }
+        
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 12
+        stackView.addArrangedSubviews([title, info])
+        return stackView
+    }
+    
+    private func makeInfoGroupStackView(with stackViews: [UIStackView]) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.addArrangedSubviews(stackViews)
+        return stackView
+    }
+    
     private func bindInput() {
         self.navigationBar.didHomeButtonTap()
             .emit(with: self) { owner, _ in
@@ -93,6 +151,18 @@ extension TicketingCompletionViewController {
         self.viewModel.ticketingData
             .take(1)
             .bind(with: self) { owner, data in
+                owner.reservationInfoLabel.text = "이거 어디서 주지?"
+                owner.ticketHolderInfoLabel.text = "\(data.ticketHolder.name) / \(data.ticketHolder.phoneNumber.formatPhoneNumber())"
+                owner.payerInfoLabel.text = "\(data.depositor?.name ?? "") / \(data.depositor?.phoneNumber.formatPhoneNumber() ?? "")"
+                
+                if data.selectedTicket.ticketType == .invitation {
+                    owner.amountInfoLabel.text = "0원 (초청 코드)"
+                } else {
+                    let amount = data.selectedTicket.price * data.selectedTicket.count
+                    owner.amountInfoLabel.text = "\(amount.formattedCurrency())원"
+                }
+                owner.ticketInfoLabel.text = "\(data.selectedTicket.ticketName) / \(data.selectedTicket.count)매"
+                
                 owner.reservedTicketView.setData(concert: data.concert, selectedTicket: data.selectedTicket)
             }
             .disposed(by: self.disposeBag)
@@ -107,7 +177,10 @@ extension TicketingCompletionViewController {
     private func configureUI() {
         self.view.addSubviews([self.navigationBar,
                                self.titleLabel,
-                               self.underlineView,
+                               self.firstUnderlineView,
+                               self.firstInfoStackView,
+                               self.secondUnderlineView,
+                               self.secondInfoStackView,
                                self.reservedTicketView])
         
         self.view.backgroundColor = .grey95
@@ -125,15 +198,31 @@ extension TicketingCompletionViewController {
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
-        self.underlineView.snp.makeConstraints { make in
+        self.firstUnderlineView.snp.makeConstraints { make in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(1)
         }
         
+        self.firstInfoStackView.snp.makeConstraints { make in
+            make.top.equalTo(self.firstUnderlineView.snp.bottom).offset(24)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        self.secondUnderlineView.snp.makeConstraints { make in
+            make.top.equalTo(self.firstInfoStackView.snp.bottom).offset(25)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(1)
+        }
+        
+        self.secondInfoStackView.snp.makeConstraints { make in
+            make.top.equalTo(self.secondUnderlineView.snp.bottom).offset(24)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
         self.reservedTicketView.snp.makeConstraints { make in
-            make.top.equalTo(self.underlineView.snp.bottom)
-            make.horizontalEdges.equalToSuperview()
+            make.top.equalTo(self.secondInfoStackView.snp.bottom).offset(24)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
     
