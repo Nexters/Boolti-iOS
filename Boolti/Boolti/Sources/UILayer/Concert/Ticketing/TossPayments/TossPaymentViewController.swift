@@ -118,7 +118,9 @@ extension TossPaymentViewController {
     private func bindOutput() {
         self.viewModel.output.didOrderPaymentCompleted
             .bind(with: self) { owner, ticketingEntity in
-                owner.onDismissOrderSuccess?(ticketingEntity)
+                owner.dismiss(animated: true) {
+                    owner.onDismissOrderSuccess?(ticketingEntity)
+                }
             }
             .disposed(by: self.disposeBag)
     }
@@ -134,7 +136,9 @@ extension TossPaymentViewController: TossPaymentsDelegate {
     }
     
     func handleFailResult(_ fail: TossPaymentsResult.Fail) {
-        self.onDismissOrderFailure?()
+        self.dismiss(animated: true) {
+            self.onDismissOrderFailure?()
+        }
     }
     
 }

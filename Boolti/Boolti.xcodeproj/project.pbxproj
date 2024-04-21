@@ -113,12 +113,9 @@
 		84896A432B6A583200CB3E33 /* TicketingCompletionDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A422B6A583200CB3E33 /* TicketingCompletionDIContainer.swift */; };
 		84896A452B6A672800CB3E33 /* TicketingCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A442B6A672800CB3E33 /* TicketingCompletionViewController.swift */; };
 		84896A472B6A677400CB3E33 /* TicketingCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A462B6A677400CB3E33 /* TicketingCompletionViewModel.swift */; };
-		84896A4B2B6A6D6C00CB3E33 /* DepositSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A4A2B6A6D6C00CB3E33 /* DepositSummaryView.swift */; };
 		84896A4F2B6A723900CB3E33 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A4E2B6A723900CB3E33 /* Date+.swift */; };
 		84896A512B6A827E00CB3E33 /* ReservedTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A502B6A827E00CB3E33 /* ReservedTicketView.swift */; };
 		84896A532B6A86A800CB3E33 /* OTSAggroM.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84896A522B6A86A800CB3E33 /* OTSAggroM.otf */; };
-		84896A552B6A8E1500CB3E33 /* DepositDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A542B6A8E1500CB3E33 /* DepositDetailView.swift */; };
-		84896A572B6A9D0300CB3E33 /* PaymentCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896A562B6A9D0300CB3E33 /* PaymentCompletionView.swift */; };
 		848CBF032B65458900239303 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF022B65458900239303 /* Int+.swift */; };
 		848CBF062B6547FA00239303 /* TicketingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */; };
 		848CBF082B65480A00239303 /* TicketingDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */; };
@@ -417,12 +414,9 @@
 		84896A422B6A583200CB3E33 /* TicketingCompletionDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionDIContainer.swift; sourceTree = "<group>"; };
 		84896A442B6A672800CB3E33 /* TicketingCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionViewController.swift; sourceTree = "<group>"; };
 		84896A462B6A677400CB3E33 /* TicketingCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingCompletionViewModel.swift; sourceTree = "<group>"; };
-		84896A4A2B6A6D6C00CB3E33 /* DepositSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositSummaryView.swift; sourceTree = "<group>"; };
 		84896A4E2B6A723900CB3E33 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		84896A502B6A827E00CB3E33 /* ReservedTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservedTicketView.swift; sourceTree = "<group>"; };
 		84896A522B6A86A800CB3E33 /* OTSAggroM.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OTSAggroM.otf; sourceTree = "<group>"; };
-		84896A542B6A8E1500CB3E33 /* DepositDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositDetailView.swift; sourceTree = "<group>"; };
-		84896A562B6A9D0300CB3E33 /* PaymentCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCompletionView.swift; sourceTree = "<group>"; };
 		848CBF022B65458900239303 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		848CBF052B6547FA00239303 /* TicketingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailViewController.swift; sourceTree = "<group>"; };
 		848CBF072B65480A00239303 /* TicketingDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingDetailViewModel.swift; sourceTree = "<group>"; };
@@ -1144,10 +1138,7 @@
 		84896A492B6A6D5100CB3E33 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				84896A4A2B6A6D6C00CB3E33 /* DepositSummaryView.swift */,
-				84896A562B6A9D0300CB3E33 /* PaymentCompletionView.swift */,
 				84896A502B6A827E00CB3E33 /* ReservedTicketView.swift */,
-				84896A542B6A8E1500CB3E33 /* DepositDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2048,7 +2039,6 @@
 				870C33362BBC29B600ED212C /* UICollectionReusableView+.swift in Sources */,
 				8730F0202B7B520A00D4F339 /* SelectRefundBankView.swift in Sources */,
 				84FBBE0B2B6888CB009462E9 /* InvitationCodeView.swift in Sources */,
-				84896A4B2B6A6D6C00CB3E33 /* DepositSummaryView.swift in Sources */,
 				841FA6412B8326BD00441848 /* BooltiPopupView.swift in Sources */,
 				8769BF982B625DBF00DA9A67 /* TermsAgreementViewModel.swift in Sources */,
 				842C1C662B7DA8C800EFE5A0 /* ResignInfoViewController.swift in Sources */,
@@ -2112,7 +2102,6 @@
 				84896A452B6A672800CB3E33 /* TicketingCompletionViewController.swift in Sources */,
 				84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */,
 				84A0248E2B7B997A0095A56E /* QRScannerViewController.swift in Sources */,
-				84896A552B6A8E1500CB3E33 /* DepositDetailView.swift in Sources */,
 				846F5F3E2B7BBF60000F86AE /* QRRepository.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* OAuthRepository.swift in Sources */,
 				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
@@ -2200,7 +2189,6 @@
 				878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */,
 				876BF1702B6A5FEF00DB4BCB /* RefreshAuthRepository.swift in Sources */,
 				8753CA6E2B70E30D002871C7 /* TicketEntryCodeDIContainer.swift in Sources */,
-				84896A572B6A9D0300CB3E33 /* PaymentCompletionView.swift in Sources */,
 				848CBF082B65480A00239303 /* TicketingDetailViewModel.swift in Sources */,
 				84896A432B6A583200CB3E33 /* TicketingCompletionDIContainer.swift in Sources */,
 				8710D9582B74FAC800309FBF /* LogoutDIContainer.swift in Sources */,
