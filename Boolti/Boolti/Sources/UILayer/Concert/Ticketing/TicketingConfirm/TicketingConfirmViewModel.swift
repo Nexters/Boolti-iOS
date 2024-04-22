@@ -78,8 +78,6 @@ extension TicketingConfirmViewModel {
     }
     
     private func freeSalesTicketing() {
-        let selectedTicket = self.ticketingEntity.selectedTicket
-        
         self.ticketingRepository.orderPayment(paymentKey: "", amount: 0, ticketingEntity: self.ticketingEntity)
             .subscribe(with: self) { owner, _ in
                 owner.output.navigateToCompletion.onNext(())
