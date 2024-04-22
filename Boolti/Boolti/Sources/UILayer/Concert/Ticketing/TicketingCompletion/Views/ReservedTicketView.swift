@@ -85,12 +85,8 @@ extension ReservedTicketView {
     }
     
     private func configureConstraints() {
-        self.snp.makeConstraints { make in
-            make.height.equalTo(130)
-        }
-        
         self.poster.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.verticalEdges.equalToSuperview().inset(16)
             make.left.equalToSuperview().inset(20)
             make.height.equalTo(98)
             make.width.equalTo(70)

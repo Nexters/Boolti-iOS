@@ -50,7 +50,12 @@ extension TicketingConfirmViewModel {
         self.input.didPayButtonTap
             .bind(with: self) { owner, _ in
                 switch owner.ticketingEntity.selectedTicket.ticketType {
-                case .sale: self.savePaymentInfo()
+                case .sale: 
+                    if owner.ticketingEntity.selectedTicket.price == 0 {
+                        self.freeSalesTicketing()
+                    } else {
+                        self.savePaymentInfo()
+                    }
                 case .invitation: self.invitationTicketing()
                 }
             }
@@ -70,6 +75,16 @@ extension TicketingConfirmViewModel {
             owner.output.navigateToTossPayments.onNext(())
         }
         .disposed(by: self.disposeBag)
+    }
+    
+    private func freeSalesTicketing() {
+        let selectedTicket = self.ticketingEntity.selectedTicket
+        
+        self.ticketingRepository.orderPayment(paymentKey: "", amount: 0, ticketingEntity: self.ticketingEntity)
+            .subscribe(with: self) { owner, _ in
+                owner.output.navigateToCompletion.onNext(())
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func invitationTicketing() {

@@ -56,7 +56,7 @@ final class TicketingCompletionViewController: BooltiViewController {
     
     private lazy var amountTitleLabel = self.makeLabel(text: "결제 금액")
     private lazy var amountInfoLabel = self.makeLabel()
-    private lazy var amountStackView = self.makeInfoRowStackView(title: amountTitleLabel, info: amountTitleLabel)
+    private lazy var amountStackView = self.makeInfoRowStackView(title: amountTitleLabel, info: amountInfoLabel)
     
     private lazy var ticketTitleLabel = self.makeLabel(text: "주문 티켓")
     private lazy var ticketInfoLabel = self.makeLabel()
@@ -65,6 +65,24 @@ final class TicketingCompletionViewController: BooltiViewController {
     private lazy var secondInfoStackView = self.makeInfoGroupStackView(with: [amountStackView, ticketStackView])
     
     private let reservedTicketView = ReservedTicketView()
+    
+    private let openReservationButton: BooltiButton = {
+        let button = BooltiButton(title: "예매 내역보기")
+        button.backgroundColor = .grey80
+        return button
+    }()
+    
+    private let openTicketButton = BooltiButton(title: "티켓보기")
+    
+    private lazy var buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 9
+        stackView.addArrangedSubviews([self.openReservationButton,
+                                       self.openTicketButton])
+        return stackView
+    }()
     
     // MARK: Init
     
@@ -151,9 +169,14 @@ extension TicketingCompletionViewController {
         self.viewModel.ticketingData
             .take(1)
             .bind(with: self) { owner, data in
-                owner.reservationInfoLabel.text = "이거 어디서 주지?"
+                owner.reservationInfoLabel.text = "아직 서버 reservationId 안나옴! 수정 예정"
                 owner.ticketHolderInfoLabel.text = "\(data.ticketHolder.name) / \(data.ticketHolder.phoneNumber.formatPhoneNumber())"
-                owner.payerInfoLabel.text = "\(data.depositor?.name ?? "") / \(data.depositor?.phoneNumber.formatPhoneNumber() ?? "")"
+                
+                if data.selectedTicket.price == 0 {
+                    owner.payerStackView.isHidden = true
+                } else {
+                    owner.payerInfoLabel.text = "\(data.depositor?.name ?? "") / \(data.depositor?.phoneNumber.formatPhoneNumber() ?? "")"
+                }
                 
                 if data.selectedTicket.ticketType == .invitation {
                     owner.amountInfoLabel.text = "0원 (초청 코드)"
@@ -181,7 +204,8 @@ extension TicketingCompletionViewController {
                                self.firstInfoStackView,
                                self.secondUnderlineView,
                                self.secondInfoStackView,
-                               self.reservedTicketView])
+                               self.reservedTicketView,
+                               self.buttonStackView])
         
         self.view.backgroundColor = .grey95
     }
@@ -222,6 +246,11 @@ extension TicketingCompletionViewController {
         
         self.reservedTicketView.snp.makeConstraints { make in
             make.top.equalTo(self.secondInfoStackView.snp.bottom).offset(24)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        self.buttonStackView.snp.makeConstraints { make in
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(8)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
