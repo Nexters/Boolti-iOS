@@ -10,9 +10,11 @@ import UIKit
 final class TicketingDetailDIContainer {
 
     private let concertRepository: ConcertRepository
+    private let ticketingRepository: TicketingRepository
 
     init(concertRepository: ConcertRepository) {
         self.concertRepository = concertRepository
+        self.ticketingRepository = TicketingRepository(networkService: concertRepository.networkService)
     }
 
     func createTicketingDetailViewController(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewController {
@@ -58,15 +60,15 @@ final class TicketingDetailDIContainer {
     }
     
     private func createTicketingConfirmDIContainer() -> TicketingConfirmDIContainer {
-        return TicketingConfirmDIContainer(ticketingRepository: TicketingRepository(networkService: self.concertRepository.networkService))
+        return TicketingConfirmDIContainer(ticketingRepository: self.ticketingRepository)
     }
     
     private func createTossPaymentsDIContainer() -> TossPaymentsDIContainer {
-        return TossPaymentsDIContainer(ticketingRepository: TicketingRepository(networkService: self.concertRepository.networkService))
+        return TossPaymentsDIContainer(ticketingRepository: self.ticketingRepository)
     }
     
     private func createTicketingDetailViewModel(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewModel {
-        return TicketingDetailViewModel(ticketingRepository: TicketingRepository(networkService: self.concertRepository.networkService),
+        return TicketingDetailViewModel(ticketingRepository: self.ticketingRepository,
                                         concertRepository: self.concertRepository,
                                         selectedTicket: selectedTicket)
     }
