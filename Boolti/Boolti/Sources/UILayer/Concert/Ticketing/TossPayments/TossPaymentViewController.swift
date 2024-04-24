@@ -88,7 +88,6 @@ extension TossPaymentViewController {
         let selectedTicket = self.viewModel.ticketingEntity.selectedTicket
         let paymentMethods = widget.renderPaymentMethods(amount: PaymentMethodWidget.Amount(value: Double(selectedTicket.price * selectedTicket.count)))
         let agreement = widget.renderAgreement()
-        self.payButton.addTarget(self, action: #selector(requestPayment), for: .touchUpInside)
         
         self.widget.delegate = self
         paymentMethods.widgetStatusDelegate = self
@@ -99,19 +98,21 @@ extension TossPaymentViewController {
                                             self.payButton])
     }
     
-    @objc func requestPayment() {
-        guard let orderId = self.viewModel.ticketingEntity.orderId else { return }
-        let selectedTicket = self.viewModel.ticketingEntity.selectedTicket
-        widget.requestPayment(
-            info: DefaultWidgetPaymentInfo(
-                orderId: orderId,
-                orderName: "\(selectedTicket.ticketName) / \(selectedTicket.count)매"))
-    }
-    
     private func bindInput() {
         self.navigationBar.didCloseButtonTap()
             .emit(with: self) { owner, _ in
                 owner.dismiss(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.payButton.rx.tap
+            .bind(with: self) { owner, _ in
+                guard let orderId = owner.viewModel.ticketingEntity.orderId else { return }
+                let selectedTicket = owner.viewModel.ticketingEntity.selectedTicket
+                owner.widget.requestPayment(
+                    info: DefaultWidgetPaymentInfo(
+                        orderId: orderId,
+                        orderName: "\(selectedTicket.ticketName) / \(selectedTicket.count)매"))
             }
             .disposed(by: self.disposeBag)
     }
