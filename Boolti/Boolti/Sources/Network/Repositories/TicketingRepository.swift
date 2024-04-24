@@ -11,11 +11,6 @@ import RxSwift
 
 protocol TicketingRepositoryType {
     var networkService: NetworkProviderType { get }
-    func salesTicketing(selectedTicket: SelectedTicketEntity,
-                        ticketHolderName: String,
-                        ticketHolderPhoneNumber: String,
-                        depositorName: String,
-                        depositorPhoneNumber: String) -> Single<TicketingResponseDTO>
     func checkInvitationCode(concertId: Int,
                              ticketId: Int,
                              invitationCode: String) -> Single<InvitationCodeStateEntity>
@@ -36,27 +31,6 @@ final class TicketingRepository: TicketingRepositoryType {
     
     init(networkService: NetworkProviderType) {
         self.networkService = networkService
-    }
-    
-    func salesTicketing(selectedTicket: SelectedTicketEntity,
-                        ticketHolderName: String,
-                        ticketHolderPhoneNumber: String,
-                        depositorName: String,
-                        depositorPhoneNumber: String) -> Single<TicketingResponseDTO> {
-        let salesTicketingRequestDTO = SalesTicketingRequestDTO(userId: UserDefaults.userId,
-                                                                showId: selectedTicket.concertId,
-                                                                salesTicketTypeId: selectedTicket.id,
-                                                                ticketCount: selectedTicket.count,
-                                                                reservationName: ticketHolderName,
-                                                                reservationPhoneNumber: ticketHolderPhoneNumber,
-                                                                depositorName: depositorName,
-                                                                depositorPhoneNumber: depositorPhoneNumber,
-                                                                paymentAmount: selectedTicket.count * selectedTicket.price,
-                                                                means: "ACCOUNT_TRANSFER")
-        let api = TicketingAPI.salesTicketing(requestDTO: salesTicketingRequestDTO)
-        
-        return networkService.request(api)
-            .map(TicketingResponseDTO.self)
     }
     
     func checkInvitationCode(concertId: Int, ticketId: Int, invitationCode: String) -> Single<InvitationCodeStateEntity> {
@@ -106,7 +80,7 @@ final class TicketingRepository: TicketingRepositoryType {
         let selectedTicket = ticketingEntity.selectedTicket
         
         let depositor = ticketingEntity.depositor ?? ticketingEntity.ticketHolder
-        
+
         let orderPaymentRequestDTO = OrderPaymentRequestDTO(orderId: ticketingEntity.orderId ?? "",
                                                             amount: amount,
                                                             paymentKey: paymentKey,
@@ -118,7 +92,7 @@ final class TicketingRepository: TicketingRepositoryType {
                                                             depositorName: depositor.name,
                                                             depositorPhoneNumber: depositor.phoneNumber,
                                                             paymentAmount: amount,
-                                                            means: "CARD")
+                                                            means: amount == 0 ? "FREE" : "CARD")
         
         let api = TicketingAPI.orderPayment(requestDTO: orderPaymentRequestDTO)
         
