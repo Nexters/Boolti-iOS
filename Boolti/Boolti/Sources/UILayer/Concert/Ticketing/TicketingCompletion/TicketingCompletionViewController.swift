@@ -141,6 +141,7 @@ extension TicketingCompletionViewController {
         stackView.axis = .horizontal
         stackView.spacing = 12
         stackView.addArrangedSubviews([title, info])
+        stackView.alignment = .top
         return stackView
     }
     
