@@ -147,7 +147,7 @@ extension TicketingDetailViewController {
     private func bindOutputs() {
         self.viewModel.output.navigateToConfirm
             .bind(with: self) { owner, _ in
-                guard let ticketingEntity = self.viewModel.output.ticketingEntity else { return }
+                guard let ticketingEntity = owner.viewModel.output.ticketingEntity else { return }
                 
                 let ticketingConfirmVC = owner.ticketingConfirmViewControllerFactory(ticketingEntity)
                 ticketingConfirmVC.modalPresentationStyle = .overFullScreen

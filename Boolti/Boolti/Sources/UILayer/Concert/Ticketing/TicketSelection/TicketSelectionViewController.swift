@@ -179,12 +179,12 @@ extension TicketSelectionViewController {
         
         self.viewModel.output.navigateTicketingDetail
             .bind(with: self) { owner, entity in
-                let viewController = self.ticketingDetailViewControllerFactory(entity)
-                
-                guard let presentingViewController = self.presentingViewController as? HomeTabBarController else { return }
+                let viewController = owner.ticketingDetailViewControllerFactory(entity)
+
+                guard let presentingViewController = owner.presentingViewController as? HomeTabBarController else { return }
                 guard let rootviewController = presentingViewController.children[0] as? UINavigationController else { return }
-                
-                self.dismiss (animated: true) {
+
+                owner.dismiss (animated: true) {
                     rootviewController.pushViewController(viewController, animated: true)
                 }
             }
