@@ -99,10 +99,11 @@ final class TicketingCompletionViewController: BooltiViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.bindOutput()
         self.configureUI()
         self.configureConstraints()
         self.bindInput()
+        self.bindOutput()
+        self.setData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -127,6 +128,7 @@ extension TicketingCompletionViewController {
         label.font = .pretendardR(16)
         label.text = text
         label.textColor = text == nil ? .grey15 : .grey30
+        label.numberOfLines = 2
         return label
     }
     
@@ -165,30 +167,44 @@ extension TicketingCompletionViewController {
             .disposed(by: self.disposeBag)
     }
     
+    private func setData() {
+        let data = self.viewModel.ticketingData
+        self.ticketHolderInfoLabel.text = "\(data.ticketHolder.name) / \(data.ticketHolder.phoneNumber.formatPhoneNumber())"
+        
+        if data.selectedTicket.price == 0 {
+            self.payerStackView.isHidden = true
+        } else {
+            self.payerInfoLabel.text = "\(data.depositor?.name ?? "") / \(data.depositor?.phoneNumber.formatPhoneNumber() ?? "")"
+        }
+        
+        self.ticketInfoLabel.text = "\(data.selectedTicket.ticketName) / \(data.selectedTicket.count)매"
+        
+        self.reservedTicketView.setData(concert: data.concert, selectedTicket: data.selectedTicket)
+    }
+    
     private func bindOutput() {
-        self.viewModel.ticketingData
-            .take(1)
-            .bind(with: self) { owner, data in
-                owner.reservationInfoLabel.text = "\(data.reservationId)"
-                owner.ticketHolderInfoLabel.text = "\(data.ticketHolder.name) / \(data.ticketHolder.phoneNumber.formatPhoneNumber())"
-                
-                if data.selectedTicket.price == 0 {
-                    owner.payerStackView.isHidden = true
-                } else {
-                    owner.payerInfoLabel.text = "\(data.depositor?.name ?? "") / \(data.depositor?.phoneNumber.formatPhoneNumber() ?? "")"
-                }
-                
-                if data.selectedTicket.ticketType == .invitation {
-                    owner.amountInfoLabel.text = "0원 (초청 코드)"
-                } else {
-                    let amount = data.selectedTicket.price * data.selectedTicket.count
-                    owner.amountInfoLabel.text = "\(amount.formattedCurrency())원"
-                }
-                owner.ticketInfoLabel.text = "\(data.selectedTicket.ticketName) / \(data.selectedTicket.count)매"
-                
-                owner.reservedTicketView.setData(concert: data.concert, selectedTicket: data.selectedTicket)
+        self.viewModel.output.csReservationId
+            .asDriver(onErrorJustReturn: "")
+            .drive(with: self) { owner, id in
+                owner.reservationInfoLabel.text = id
             }
             .disposed(by: self.disposeBag)
+        
+        Observable.combineLatest(self.viewModel.output.bankName,
+                                 self.viewModel.output.installmentPlanMonths)
+        .map { ($0, $1) }
+        .asDriver(onErrorJustReturn: ("", -1))
+        .drive(with: self) { owner, payData in
+            let ticket = self.viewModel.ticketingData.selectedTicket
+            if ticket.ticketType == .invitation {
+                self.amountInfoLabel.text = "0원 (초청 코드)"
+            } else {
+                let amount = ticket.price * ticket.count
+                let paymentMonty: String = payData.1 == 0 ? "일시불" : "\(payData.1)개월"
+                self.amountInfoLabel.text = "\(amount.formattedCurrency())원\n(\(payData.0) / \(paymentMonty))"
+            }
+        }
+        .disposed(by: self.disposeBag)
     }
     
 }

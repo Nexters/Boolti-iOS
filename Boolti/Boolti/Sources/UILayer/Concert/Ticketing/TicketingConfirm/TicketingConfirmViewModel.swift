@@ -50,13 +50,9 @@ extension TicketingConfirmViewModel {
         self.input.didPayButtonTap
             .bind(with: self) { owner, _ in
                 switch owner.ticketingEntity.selectedTicket.ticketType {
-                case .sale: 
-                    if owner.ticketingEntity.selectedTicket.price == 0 {
-                        self.freeSalesTicketing()
-                    } else {
-                        self.savePaymentInfo()
-                    }
+                case .sale: self.savePaymentInfo()
                 case .invitation: self.invitationTicketing()
+                case .free: self.freeSalesTicketing()
                 }
             }
             .disposed(by: self.disposeBag)

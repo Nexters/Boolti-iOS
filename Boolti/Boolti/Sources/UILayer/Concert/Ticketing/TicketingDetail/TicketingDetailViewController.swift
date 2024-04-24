@@ -154,7 +154,7 @@ extension TicketingDetailViewController {
                 
                 ticketingConfirmVC.onDismiss = { ticketingEntity in
                     switch ticketingEntity.selectedTicket.ticketType {
-                    case .invitation:
+                    case .invitation, .free:
                         let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
                         owner.navigationController?.pushViewController(viewController, animated: true)
                     case .sale:
@@ -381,7 +381,7 @@ extension TicketingDetailViewController {
               let ticketHolderPhoneNumber = self.ticketHolderInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "") else { return }
         
         switch self.viewModel.selectedTicket.value.ticketType {
-        case .sale:
+        case .sale, .free:
             guard let depositorName = self.depositorInputView.nameTextField.text,
                   let depositorPhoneNumber = self.depositorInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "") else { return }
             

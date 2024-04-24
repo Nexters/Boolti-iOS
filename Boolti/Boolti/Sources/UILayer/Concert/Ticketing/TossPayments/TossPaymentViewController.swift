@@ -45,6 +45,7 @@ final class TossPaymentViewController: BooltiViewController {
         button.titleLabel?.textColor = .grey05
         button.backgroundColor = .toss
         button.layer.cornerRadius = 4
+        button.isHidden = true
         return button
     }()
     
@@ -146,6 +147,10 @@ extension TossPaymentViewController: TossPaymentsDelegate {
 // MARK: - TossPaymentsWidgetStatusDelegate
 
 extension TossPaymentViewController: TossPaymentsWidgetStatusDelegate {
+    
+    func didReceivedLoad(_ name: String) {
+        self.payButton.isHidden = false
+    }
     
     func didReceiveFail(_ name: String, fail: TossPaymentsResult.Fail) {
         self.showToast(message: "결제 정보를 입력해주세요")
