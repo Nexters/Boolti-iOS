@@ -138,9 +138,25 @@ extension TicketingDetailViewController {
     
     private func bindInputs() {
         self.payButton.rx.tap
-            .bind(with: self, onNext: { owner, _ in
-                owner.setTicketingData()
-            })
+            .bind(to: self.viewModel.input.didPayButtonTap)
+            .disposed(by: self.disposeBag)
+        
+        self.ticketHolderInputView.nameTextField.rx.text.orEmpty
+            .bind(to: self.viewModel.input.ticketHolderName)
+            .disposed(by: self.disposeBag)
+        
+        self.ticketHolderInputView.phoneNumberTextField.rx.text.orEmpty
+            .map { $0.replacingOccurrences(of: "-", with: "") }
+            .bind(to: self.viewModel.input.ticketHolderPhoneNumber)
+            .disposed(by: self.disposeBag)
+        
+        self.depositorInputView.nameTextField.rx.text.orEmpty
+            .bind(to: self.viewModel.input.depositorName)
+            .disposed(by: self.disposeBag)
+        
+        self.depositorInputView.phoneNumberTextField.rx.text.orEmpty
+            .map { $0.replacingOccurrences(of: "-", with: "") }
+            .bind(to: self.viewModel.input.depositorPhoneNumber)
             .disposed(by: self.disposeBag)
     }
     
@@ -202,7 +218,6 @@ extension TicketingDetailViewController {
                     owner.bindInvitationView()
                 } else {
                     owner.invitationCodeView.isHidden = true
-                    owner.bindSalesView(price: entity.price)
                 }
             })
             .disposed(by: self.disposeBag)
@@ -214,6 +229,10 @@ extension TicketingDetailViewController {
             .drive(with: self) { owner, state in
                 owner.invitationCodeView.setCodeState(state)
             }
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.isPaybuttonEnable
+            .bind(to: self.payButton.rx.isEnabled)
             .disposed(by: self.disposeBag)
     }
     
@@ -229,10 +248,10 @@ extension TicketingDetailViewController {
         [self.ticketHolderInputView, self.depositorInputView].forEach { inputView in
             inputView.phoneNumberTextField.rx.text
                 .orEmpty
+                .map { $0.formatPhoneNumber() }
                 .distinctUntilChanged()
                 .asDriver(onErrorJustReturn: "")
-                .drive(with: self, onNext: { owner, changedText in
-                    let formattedNumber = changedText.formatPhoneNumber()
+                .drive(with: self, onNext: { owner, formattedNumber in
                     inputView.phoneNumberTextField.text = formattedNumber
                     
                     if formattedNumber.count > 13 {
@@ -241,38 +260,10 @@ extension TicketingDetailViewController {
                 })
                 .disposed(by: self.disposeBag)
         }
-    }
-    
-    private func checkInputViewTextFieldFilled(inputType: UserInfoInputType)  -> Observable<Bool> {
-        let inputView = inputType == .ticketHolder ? self.ticketHolderInputView : self.depositorInputView
-        let nameTextObservable = inputView.nameTextField.rx.text.orEmpty
-        let phoneNumberTextObservable = inputView.phoneNumberTextField.rx.text.orEmpty
         
-        return Observable.combineLatest(nameTextObservable,
-                                        phoneNumberTextObservable,
-                                        inputView.isEqualButtonSelected)
-        .map { nameText, phoneNumberText, isEqualButtonSelected in
-            return (!nameText.trimmingCharacters(in: .whitespaces).isEmpty && !phoneNumberText.trimmingCharacters(in: .whitespaces).isEmpty) || (!inputView.isEqualButton.isHidden && isEqualButtonSelected)
-        }
-    }
-    
-    private func bindSalesView(price: Int) {
-        if price > 0 {
-            Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
-                                     self.checkInputViewTextFieldFilled(inputType: .depositor),
-                                     self.agreeView.isAllAgreeButtonSelected)
-            .map { $0 && $1 && $2 }
-            .distinctUntilChanged()
-            .bind(to: self.payButton.rx.isEnabled)
+        self.depositorInputView.isEqualButtonSelected
+            .bind(to: self.viewModel.input.isEqualButtonSelected)
             .disposed(by: self.disposeBag)
-        } else {
-            Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
-                                     self.agreeView.isAllAgreeButtonSelected)
-            .map { $0 && $1}
-            .distinctUntilChanged()
-            .bind(to: self.payButton.rx.isEnabled)
-            .disposed(by: self.disposeBag)
-        }
     }
     
     private func bindInvitationView() {
@@ -288,27 +279,8 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
         
         self.invitationCodeView.didUseButtonTap()
-            .emit(with: self) { owner, _ in
-                guard let code = owner.invitationCodeView.codeTextField.text?.trimmingCharacters(in: .whitespaces)
-                else { return }
-                
-                if code.isEmpty {
-                    owner.viewModel.output.invitationCodeState.accept(.empty)
-                } else {
-                    owner.viewModel.checkInvitationCode(invitationCode: code)
-                }
-            }
+            .emit(to: self.viewModel.input.didInvitationCodeUseButtonTap)
             .disposed(by: self.disposeBag)
-        
-        Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
-                                 self.viewModel.output.invitationCodeState,
-                                 self.agreeView.isAllAgreeButtonSelected)
-        .map { ( isTicketHolderFilled, codeState, isAgree ) in
-            return isTicketHolderFilled && codeState == .verified && isAgree
-        }
-        .distinctUntilChanged()
-        .bind(to: self.payButton.rx.isEnabled)
-        .disposed(by: self.disposeBag)
     }
     
     // TODO: - 보기 버튼 눌렀을 때 각각의 url로 이동
@@ -329,6 +301,10 @@ extension TicketingDetailViewController {
             .emit(with: self) { owner, _ in
                 debugPrint("agencies")
             }
+            .disposed(by: self.disposeBag)
+        
+        self.agreeView.isAllAgreeButtonSelected
+            .bind(to: self.viewModel.input.isAllAgreeButtonSelected)
             .disposed(by: self.disposeBag)
     }
     
@@ -374,28 +350,6 @@ extension TicketingDetailViewController {
                 }
             })
             .disposed(by: self.disposeBag)
-    }
-    
-    private func setTicketingData() {
-        guard let ticketHolderName = self.ticketHolderInputView.nameTextField.text,
-              let ticketHolderPhoneNumber = self.ticketHolderInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "") else { return }
-        
-        switch self.viewModel.selectedTicket.value.ticketType {
-        case .sale, .free:
-            guard let depositorName = self.depositorInputView.nameTextField.text,
-                  let depositorPhoneNumber = self.depositorInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "") else { return }
-            
-            self.viewModel.setSalesTicketingData(ticketHolderName: ticketHolderName,
-                                                 ticketHolderPhoneNumber: ticketHolderPhoneNumber,
-                                                 depositorName: depositorName,
-                                                 depositorPhoneNumber: depositorPhoneNumber)
-        case .invitation:
-            guard let invitationCode = self.invitationCodeView.codeTextField.text else { return }
-            
-            self.viewModel.setInvitationTicketingData(ticketHolderName: ticketHolderName,
-                                                      ticketHolderPhoneNumber: ticketHolderPhoneNumber,
-                                                      invitationCode: invitationCode)
-        }
     }
 }
 
