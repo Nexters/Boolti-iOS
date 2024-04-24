@@ -75,7 +75,7 @@ extension TicketingDetailViewModel {
         self.input.didPayButtonTap
             .bind(with: self) { owner, _ in
                 switch owner.selectedTicket.value.ticketType {
-                case .sale, .free:
+                case .sale:
                     owner.setSalesTicketingData(ticketHolderName: owner.input.ticketHolderName.value,
                                                 ticketHolderPhoneNumber: owner.input.ticketHolderPhoneNumber.value,
                                                 depositorName: owner.input.depositorName.value,
@@ -116,8 +116,6 @@ extension TicketingDetailViewModel {
             .distinctUntilChanged()
             .bind(to: self.output.isPaybuttonEnable)
             .disposed(by: self.disposeBag)
-        case .free:
-            print("삭제해야됨")
         }
     }
     

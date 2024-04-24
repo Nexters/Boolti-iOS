@@ -105,7 +105,7 @@ extension TicketSelectionViewController {
                 guard let entity = entity else { return }
                 
                 switch entity.ticketType {
-                case .sale, .free:
+                case .sale:
                     owner.selectedSalesTicketView.setData(entity: entity)
                 case .invitation:
                     owner.selectedInvitationTicketView.setData(entity: entity)

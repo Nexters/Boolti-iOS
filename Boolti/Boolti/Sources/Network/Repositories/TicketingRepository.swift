@@ -92,7 +92,7 @@ final class TicketingRepository: TicketingRepositoryType {
                                                             depositorName: depositor.name,
                                                             depositorPhoneNumber: depositor.phoneNumber,
                                                             paymentAmount: amount,
-                                                            means: amount == 0 ? "FREE" : "CARD")
+                                                            means: "CARD")
         
         let api = TicketingAPI.orderPayment(requestDTO: orderPaymentRequestDTO)
         

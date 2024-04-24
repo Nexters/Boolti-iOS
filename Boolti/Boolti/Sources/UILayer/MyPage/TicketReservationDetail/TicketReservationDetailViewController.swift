@@ -320,7 +320,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         let ticketType = entity.ticketType
 
         switch ticketType {
-        case .sale, .free:
+        case .sale:
             self.setAdditionalDataForSale(with: entity)
         case .invitation:
             self.configureInvitationUI(with: entity)

@@ -170,7 +170,7 @@ extension TicketingDetailViewController {
                 
                 ticketingConfirmVC.onDismiss = { ticketingEntity in
                     switch ticketingEntity.selectedTicket.ticketType {
-                    case .invitation, .free:
+                    case .invitation:
                         let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
                         owner.navigationController?.pushViewController(viewController, animated: true)
                     case .sale:

@@ -128,13 +128,15 @@ extension TicketingConfirmViewController {
         
         switch entity.selectedTicket.ticketType {
         case .sale:
-            guard let depositor = entity.depositor else { return }
-            self.depositorInfo.text = "\(depositor.name)\n\(depositor.phoneNumber.formatPhoneNumber())"
-            self.depositorInfo.setAlignment(.right)
-            self.methodStackView.isHidden = true
-        case .free:
-            self.depositorStackView.isHidden = true
-            self.methodStackView.isHidden = true
+            if entity.selectedTicket.price == 0 {
+                self.depositorStackView.isHidden = true
+                self.methodStackView.isHidden = true
+            } else {
+                guard let depositor = entity.depositor else { return }
+                self.depositorInfo.text = "\(depositor.name)\n\(depositor.phoneNumber.formatPhoneNumber())"
+                self.depositorInfo.setAlignment(.right)
+                self.methodStackView.isHidden = true
+            }
         case .invitation:
             self.depositorStackView.isHidden = true
             self.methodInfo.text = "초청 코드"

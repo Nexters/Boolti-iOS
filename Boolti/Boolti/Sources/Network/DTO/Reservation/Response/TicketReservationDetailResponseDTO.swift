@@ -46,8 +46,6 @@ extension TicketReservationDetailResponseDTO {
             ticketType = .sale
         case "INVITE":
             ticketType = .invitation
-        case "FREE":
-            ticketType = .free
         default:
             break
         }
