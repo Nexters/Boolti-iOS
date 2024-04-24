@@ -70,8 +70,8 @@ extension TicketingConfirmViewModel {
     private func savePaymentInfo() {
         self.ticketingRepository.savePaymentInfo(concertId: self.ticketingEntity.concert.id,
                                                  selectedTicket: self.ticketingEntity.selectedTicket)
+        .do { self.ticketingEntity.orderId = $0.orderId }
         .subscribe(with: self) { owner, response in
-            owner.ticketingEntity.orderId = response.orderId
             owner.output.navigateToTossPayments.onNext(())
         }
         .disposed(by: self.disposeBag)
@@ -79,7 +79,8 @@ extension TicketingConfirmViewModel {
     
     private func freeSalesTicketing() {
         self.ticketingRepository.orderPayment(paymentKey: "", amount: 0, ticketingEntity: self.ticketingEntity)
-            .subscribe(with: self) { owner, _ in
+            .do { self.ticketingEntity.reservationId = $0.reservationId }
+            .subscribe(with: self) { owner, response in
                 owner.output.navigateToCompletion.onNext(())
             }
             .disposed(by: self.disposeBag)

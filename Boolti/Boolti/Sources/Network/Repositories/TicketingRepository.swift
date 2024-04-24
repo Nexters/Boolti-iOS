@@ -27,7 +27,7 @@ protocol TicketingRepositoryType {
                          selectedTicket: SelectedTicketEntity) -> Single<SavePaymentInfoResponseDTO>
     func orderPayment(paymentKey: String,
                       amount: Int,
-                      ticketingEntity: TicketingEntity) -> Single<Void>
+                      ticketingEntity: TicketingEntity) -> Single<OrderPaymentResponseDTO>
 }
 
 final class TicketingRepository: TicketingRepositoryType {
@@ -101,7 +101,7 @@ final class TicketingRepository: TicketingRepositoryType {
     
     func orderPayment(paymentKey: String,
                       amount: Int,
-                      ticketingEntity: TicketingEntity) -> Single<Void> {
+                      ticketingEntity: TicketingEntity) -> Single<OrderPaymentResponseDTO> {
         let concert = ticketingEntity.concert
         let selectedTicket = ticketingEntity.selectedTicket
         
@@ -123,7 +123,7 @@ final class TicketingRepository: TicketingRepositoryType {
         let api = TicketingAPI.orderPayment(requestDTO: orderPaymentRequestDTO)
         
         return self.networkService.request(api)
-            .map { _ in () }
+            .map(OrderPaymentResponseDTO.self)
     }
     
 }

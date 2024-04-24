@@ -27,7 +27,7 @@ final class TossPaymentsViewModel {
     var input: Input
     var output: Output
 
-    let ticketingEntity: TicketingEntity
+    var ticketingEntity: TicketingEntity
     
     // MARK: Initailizer
     
@@ -49,13 +49,14 @@ extension TossPaymentsViewModel {
     private func bindInputs() {
         self.input.successResult
             .flatMap { self.orderPayment(success: $0) }
+            .do { self.ticketingEntity.reservationId = $0.reservationId }
             .subscribe(with: self) { owner, _ in
                 owner.output.didOrderPaymentCompleted.onNext(owner.ticketingEntity)
             }
             .disposed(by: self.disposeBag)
     }
     
-    private func orderPayment(success: TossPaymentsResult.Success) -> Single<Void> {
+    private func orderPayment(success: TossPaymentsResult.Success) -> Single<OrderPaymentResponseDTO> {
         return self.ticketingRepository.orderPayment(paymentKey: success.paymentKey, amount: Int(success.amount), ticketingEntity: self.ticketingEntity)
     }
     

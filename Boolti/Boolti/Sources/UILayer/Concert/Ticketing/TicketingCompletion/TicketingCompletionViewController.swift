@@ -169,7 +169,7 @@ extension TicketingCompletionViewController {
         self.viewModel.ticketingData
             .take(1)
             .bind(with: self) { owner, data in
-                owner.reservationInfoLabel.text = "아직 서버 reservationId 안나옴! 수정 예정"
+                owner.reservationInfoLabel.text = "\(data.reservationId)"
                 owner.ticketHolderInfoLabel.text = "\(data.ticketHolder.name) / \(data.ticketHolder.phoneNumber.formatPhoneNumber())"
                 
                 if data.selectedTicket.price == 0 {
