@@ -257,7 +257,7 @@ extension ConcertDetailViewController {
             .emit(with: self) { owner, _ in
                 guard let posterURL = owner.viewModel.output.concertDetail.value?.posters.first?.path
                 else { return }
-                guard let concertID = self.viewModel.output.concertDetail.value?.id else { return }
+                guard let concertID = owner.viewModel.output.concertDetail.value?.id else { return }
 
                 let image = KFImage(URL(string: posterURL))
                 guard let longDeepLinkURL = owner.concerDetailDeepLinkURL(concertID) else { return }

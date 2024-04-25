@@ -27,12 +27,29 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let depositorName: String?
     let depositorPhoneNumber: String?
     let csReservationId: String
+    let cardDetail: CardDetail
+    
+    struct CardDetail: Decodable {
+        
+        let installmentPlanMonths: Int
+        let issuerCode: String
+        
+    }
 }
 
 extension TicketReservationDetailResponseDTO {
     func convertToTicketReservationDetailEntity() -> TicketReservationDetailEntity {
 
-        let ticketType = self.salesTicketType == "SALE" ? TicketType.sale : TicketType.invitation
+        var ticketType: TicketType = .sale
+        switch self.salesTicketType {
+        case "SALE":
+            ticketType = .sale
+        case "INVITE":
+            ticketType = .invitation
+        default:
+            break
+        }
+        
         let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.cancelled
         let totalAmountPrice = self.totalAmountPrice ?? 0
         let paymentType = self.meansType ?? "초청 코드"
@@ -57,7 +74,8 @@ extension TicketReservationDetailResponseDTO {
             depositorName: self.depositorName ?? "",
             depositorPhoneNumber: self.depositorPhoneNumber ?? "",
             salesEndTime: self.salesEndTime,
-            csReservationID: self.csReservationId
+            csReservationID: self.csReservationId,
+            installmentPlanMonths: self.cardDetail.installmentPlanMonths
         )
     }
 }

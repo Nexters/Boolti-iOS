@@ -42,4 +42,6 @@ struct TicketReservationDetailEntity {
     let depositorPhoneNumber: String
     let salesEndTime: String
     let csReservationID: String
+    let installmentPlanMonths: Int
+    
 }

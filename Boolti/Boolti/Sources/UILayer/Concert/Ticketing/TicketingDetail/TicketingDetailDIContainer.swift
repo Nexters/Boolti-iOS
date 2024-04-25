@@ -10,9 +10,11 @@ import UIKit
 final class TicketingDetailDIContainer {
 
     private let concertRepository: ConcertRepository
+    private let ticketingRepository: TicketingRepository
 
     init(concertRepository: ConcertRepository) {
         self.concertRepository = concertRepository
+        self.ticketingRepository = TicketingRepository(networkService: concertRepository.networkService)
     }
 
     func createTicketingDetailViewController(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewController {
@@ -22,6 +24,13 @@ final class TicketingDetailDIContainer {
             let DIContainer = self.createTicketingConfirmDIContainer()
 
             let viewController = DIContainer.createTicketingConfirmViewController(ticketingEntity: ticketingEntity)
+            return viewController
+        }
+        
+        let tossPayementsViewControllerFactory: (TicketingEntity) -> TossPaymentViewController = { ticketingEntity in
+            let DIContainer = self.createTossPaymentsDIContainer()
+            
+            let viewController = DIContainer.createTossPaymentsViewController(ticketingEntity: ticketingEntity)
             return viewController
         }
         
@@ -42,6 +51,7 @@ final class TicketingDetailDIContainer {
         let viewController = TicketingDetailViewController(
             viewModel: viewModel,
             ticketingConfirmViewControllerFactory: ticketingConfirmViewControllerFactory,
+            tossPayementsViewControllerFactory: tossPayementsViewControllerFactory,
             ticketingCompletionViewControllerFactory: ticketingCompletionViewControllerFactory,
             businessInfoViewControllerFactory: businessInfoViewControllerFactory
         )
@@ -50,11 +60,17 @@ final class TicketingDetailDIContainer {
     }
     
     private func createTicketingConfirmDIContainer() -> TicketingConfirmDIContainer {
-        return TicketingConfirmDIContainer(concertRepository: self.concertRepository)
+        return TicketingConfirmDIContainer(ticketingRepository: self.ticketingRepository)
     }
-
+    
+    private func createTossPaymentsDIContainer() -> TossPaymentsDIContainer {
+        return TossPaymentsDIContainer(ticketingRepository: self.ticketingRepository)
+    }
+    
     private func createTicketingDetailViewModel(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewModel {
-        return TicketingDetailViewModel(concertRepository: self.concertRepository, selectedTicket: selectedTicket)
+        return TicketingDetailViewModel(ticketingRepository: self.ticketingRepository,
+                                        concertRepository: self.concertRepository,
+                                        selectedTicket: selectedTicket)
     }
     
     private func createTicketingCompletionDIContainer() -> TicketingCompletionDIContainer {

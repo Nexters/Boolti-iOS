@@ -9,14 +9,15 @@ import Foundation
 
 struct TicketingEntity {
     var concert: ConcertDetailEntity
-    var ticketHolder: userInfo
-    var depositor: userInfo?
+    var ticketHolder: UserInfo
+    var depositor: UserInfo?
     var selectedTicket: SelectedTicketEntity
-    var reservationId: Int
+    var orderId: String?
+    var reservationId: Int = -1
 
     var invitationCode: String?
     
-    struct userInfo {
+    struct UserInfo {
         var name: String
         var phoneNumber: String
     }

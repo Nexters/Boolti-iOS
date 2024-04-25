@@ -17,45 +17,25 @@ final class TicketingCompletionViewModel {
     private let disposeBag = DisposeBag()
     private let ticketReservationsRepository: TicketReservationsRepositoryType
     
-    struct Input {
-        let didCopyButtonTap = PublishSubject<Void>()
-    }
-    
     struct Output {
-        let reservationDetail = PublishRelay<TicketReservationDetailEntity>()
+        let csReservationId = PublishRelay<String>()
+        let bankName = PublishRelay<String>()
+        let installmentPlanMonths = PublishRelay<Int>()
     }
-
-    let input: Input
-    let output: Output
     
-    let ticketingData: BehaviorRelay<TicketingEntity>
-    var copyData: String = ""
+    let output: Output
+    let ticketingData: TicketingEntity
 
     // MARK: Init
     
     init(ticketingEntity: TicketingEntity,
          ticketReservationsRepository: TicketReservationsRepositoryType) {
-        self.input = Input()
         self.output = Output()
-        self.ticketingData = BehaviorRelay<TicketingEntity>(value: ticketingEntity)
+        self.ticketingData = ticketingEntity
         self.ticketReservationsRepository = ticketReservationsRepository
-        
-        self.bindInputs()
         self.fetchReservationDetail()
     }
-}
-
-// MARK: - Methods
-
-extension TicketingCompletionViewModel {
     
-    private func bindInputs() {
-        self.input.didCopyButtonTap
-            .bind(with: self) { owner, _ in
-                UIPasteboard.general.string = owner.copyData
-            }
-            .disposed(by: self.disposeBag)
-    }
 }
 
 // MARK: - Network
@@ -63,10 +43,13 @@ extension TicketingCompletionViewModel {
 extension TicketingCompletionViewModel {
     
     private func fetchReservationDetail() {
-        self.ticketReservationsRepository.ticketReservationDetail(with: String(self.ticketingData.value.reservationId))
-            .do { self.copyData = $0.accountNumber }
-            .asObservable()
-            .bind(to: self.output.reservationDetail)
+        self.ticketReservationsRepository.ticketReservationDetail(with: "\(self.ticketingData.reservationId)")
+            .subscribe(with: self) { owner, response in
+                owner.output.csReservationId.accept(response.csReservationID)
+                owner.output.bankName.accept(response.bankName)
+                owner.output.installmentPlanMonths.accept(response.installmentPlanMonths)
+            }
             .disposed(by: self.disposeBag)
     }
+    
 }

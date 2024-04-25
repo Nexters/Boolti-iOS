@@ -17,6 +17,7 @@ final class TicketingDetailViewController: BooltiViewController {
     private let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
     private let ticketingConfirmViewControllerFactory: (TicketingEntity) -> TicketingConfirmViewController
+    private let tossPayementsViewControllerFactory: (TicketingEntity) -> TossPaymentViewController
     private let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController
     private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
     
@@ -44,28 +45,28 @@ final class TicketingDetailViewController: BooltiViewController {
     
     private let ticketInfoView = TicketInfoView()
     
-    private let paymentMethodView = PaymentMethodView()
-    
     private let invitationCodeView = InvitationCodeView()
     
     private let policyView = PolicyView()
     
+    private let agreeView = AgreeView()
+    
     private let middlemanPolicyView = MiddlemanPolicyView()
     
     private let businessInfoView = BooltiBusinessInfoView()
-
+    
     private lazy var buttonBackgroundView: UIView = {
         let view = UIView()
-
+        
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 24)
         gradient.colors = [UIColor.grey95.withAlphaComponent(0.0).cgColor, UIColor.grey95.cgColor]
         gradient.locations = [0.1, 0.7]
         view.layer.insertSublayer(gradient, at: 0)
-
+        
         return view
     }()
-
+    
     private lazy var stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -75,9 +76,9 @@ final class TicketingDetailViewController: BooltiViewController {
                                   self.ticketHolderInputView,
                                   self.depositorInputView,
                                   self.ticketInfoView,
-                                  self.paymentMethodView,
                                   self.invitationCodeView,
                                   self.policyView,
+                                  self.agreeView,
                                   self.middlemanPolicyView,
                                   self.businessInfoView])
         return view
@@ -86,20 +87,22 @@ final class TicketingDetailViewController: BooltiViewController {
     private let payButton = BooltiButton(title: "\(0.formattedCurrency())원 결제하기")
     
     // MARK: Init
-
+    
     init(
         viewModel: TicketingDetailViewModel,
         ticketingConfirmViewControllerFactory: @escaping (TicketingEntity) -> TicketingConfirmViewController,
+        tossPayementsViewControllerFactory: @escaping (TicketingEntity) -> TossPaymentViewController,
         ticketingCompletionViewControllerFactory: @escaping (TicketingEntity) -> TicketingCompletionViewController,
         businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController
     ) {
         self.viewModel = viewModel
         self.ticketingConfirmViewControllerFactory = ticketingConfirmViewControllerFactory
+        self.tossPayementsViewControllerFactory = tossPayementsViewControllerFactory
         self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
         self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
         super.init()
     }
-
+    
     
     required init?(coder: NSCoder) {
         fatalError()
@@ -129,39 +132,65 @@ extension TicketingDetailViewController {
     private func bindUIComponents() {
         self.bindNavigationBar()
         self.bindUserInputView()
-        self.bindPolicyView()
+        self.bindAgreeView()
         self.bindBusinessInfoView()
     }
     
     private func bindInputs() {
         self.payButton.rx.tap
-            .bind(with: self, onNext: { owner, _ in
-                owner.setTicketingData()
-            })
+            .bind(to: self.viewModel.input.didPayButtonTap)
             .disposed(by: self.disposeBag)
         
-        self.paymentMethodView.didDepositButtonTap()
-            .asDriver(onErrorJustReturn: ())
-            .drive(with: self) { owner, _ in
-                owner.showToast(message: "지금은 계좌 이체로만 결제할 수 있어요")
-            }
+        self.ticketHolderInputView.nameTextField.rx.text.orEmpty
+            .bind(to: self.viewModel.input.ticketHolderName)
+            .disposed(by: self.disposeBag)
+        
+        self.ticketHolderInputView.phoneNumberTextField.rx.text.orEmpty
+            .map { $0.replacingOccurrences(of: "-", with: "") }
+            .bind(to: self.viewModel.input.ticketHolderPhoneNumber)
+            .disposed(by: self.disposeBag)
+        
+        self.depositorInputView.nameTextField.rx.text.orEmpty
+            .bind(to: self.viewModel.input.depositorName)
+            .disposed(by: self.disposeBag)
+        
+        self.depositorInputView.phoneNumberTextField.rx.text.orEmpty
+            .map { $0.replacingOccurrences(of: "-", with: "") }
+            .bind(to: self.viewModel.input.depositorPhoneNumber)
             .disposed(by: self.disposeBag)
     }
     
     private func bindOutputs() {
         self.viewModel.output.navigateToConfirm
             .bind(with: self) { owner, _ in
-                guard let ticketingEntity = self.viewModel.output.ticketingEntity else { return }
+                guard let ticketingEntity = owner.viewModel.output.ticketingEntity else { return }
                 
-                let viewController = owner.ticketingConfirmViewControllerFactory(ticketingEntity)
-                viewController.modalPresentationStyle = .overFullScreen
+                let ticketingConfirmVC = owner.ticketingConfirmViewControllerFactory(ticketingEntity)
+                ticketingConfirmVC.modalPresentationStyle = .overFullScreen
                 
-                viewController.onDismiss = { ticketingEntity in
-                    let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
-                    owner.navigationController?.pushViewController(viewController, animated: true)
+                ticketingConfirmVC.onDismiss = { ticketingEntity in
+                    switch ticketingEntity.selectedTicket.ticketType {
+                    case .invitation:
+                        let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
+                        owner.navigationController?.pushViewController(viewController, animated: true)
+                    case .sale:
+                        let tossVC = owner.tossPayementsViewControllerFactory(ticketingEntity)
+                        tossVC.modalPresentationStyle = .overFullScreen
+    
+                        tossVC.onDismissOrderSuccess = { ticketingEntity in
+                            let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity)
+                            owner.navigationController?.pushViewController(viewController, animated: true)
+                        }
+    
+                        tossVC.onDismissOrderFailure = {
+                            // TODO: - 실패 팝업창 띄우기
+                        }
+    
+                        owner.present(tossVC, animated: true)
+                    }
                 }
                 
-                owner.present(viewController, animated: true)
+                owner.present(ticketingConfirmVC, animated: true)
             }
             .disposed(by: self.disposeBag)
         
@@ -182,7 +211,6 @@ extension TicketingDetailViewController {
                 
                 if entity.price == 0 {
                     owner.depositorInputView.isHidden = true
-                    owner.paymentMethodView.isHidden = true
                     owner.policyView.isHidden = true
                 }
                 
@@ -190,7 +218,6 @@ extension TicketingDetailViewController {
                     owner.bindInvitationView()
                 } else {
                     owner.invitationCodeView.isHidden = true
-                    owner.bindSalesView(price: entity.price)
                 }
             })
             .disposed(by: self.disposeBag)
@@ -202,6 +229,10 @@ extension TicketingDetailViewController {
             .drive(with: self) { owner, state in
                 owner.invitationCodeView.setCodeState(state)
             }
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.isPaybuttonEnable
+            .bind(to: self.payButton.rx.isEnabled)
             .disposed(by: self.disposeBag)
     }
     
@@ -217,10 +248,10 @@ extension TicketingDetailViewController {
         [self.ticketHolderInputView, self.depositorInputView].forEach { inputView in
             inputView.phoneNumberTextField.rx.text
                 .orEmpty
+                .map { $0.formatPhoneNumber() }
                 .distinctUntilChanged()
                 .asDriver(onErrorJustReturn: "")
-                .drive(with: self, onNext: { owner, changedText in
-                    let formattedNumber = changedText.formatPhoneNumber()
+                .drive(with: self, onNext: { owner, formattedNumber in
                     inputView.phoneNumberTextField.text = formattedNumber
                     
                     if formattedNumber.count > 13 {
@@ -229,39 +260,10 @@ extension TicketingDetailViewController {
                 })
                 .disposed(by: self.disposeBag)
         }
-    }
-    
-    private func checkInputViewTextFieldFilled(inputType: UserInfoInputType)  -> Observable<Bool> {
-        var inputView: UserInfoInputView
-        switch inputType {
-        case .ticketHolder:
-            inputView = ticketHolderInputView
-        case .depositor:
-            inputView = depositorInputView
-        }
-        let nameTextObservable = inputView.nameTextField.rx.text.orEmpty
-        let phoneNumberTextObservable = inputView.phoneNumberTextField.rx.text.orEmpty
         
-        return Observable.combineLatest(nameTextObservable, phoneNumberTextObservable, inputView.isEqualButtonSelected)
-            .map { nameText, phoneNumberText, isEqualButtonSelected in
-                return (!nameText.trimmingCharacters(in: .whitespaces).isEmpty && !phoneNumberText.trimmingCharacters(in: .whitespaces).isEmpty) || (!inputView.isEqualButton.isHidden && isEqualButtonSelected)
-            }
-    }
-    
-    private func bindSalesView(price: Int) {
-        if price > 0 {
-            Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
-                                     self.checkInputViewTextFieldFilled(inputType: .depositor))
-                .map { $0 && $1 }
-                .distinctUntilChanged()
-                .bind(to: self.payButton.rx.isEnabled)
-                .disposed(by: self.disposeBag)
-        } else {
-            self.checkInputViewTextFieldFilled(inputType: .ticketHolder)
-                .distinctUntilChanged()
-                .bind(to: self.payButton.rx.isEnabled)
-                .disposed(by: self.disposeBag)
-        }
+        self.depositorInputView.isEqualButtonSelected
+            .bind(to: self.viewModel.input.isEqualButtonSelected)
+            .disposed(by: self.disposeBag)
     }
     
     private func bindInvitationView() {
@@ -277,36 +279,32 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
         
         self.invitationCodeView.didUseButtonTap()
+            .emit(to: self.viewModel.input.didInvitationCodeUseButtonTap)
+            .disposed(by: self.disposeBag)
+    }
+    
+    // TODO: - 보기 버튼 눌렀을 때 각각의 url로 이동
+    private func bindAgreeView() {
+        self.agreeView.didCollectionOpenButtonTap()
             .emit(with: self) { owner, _ in
-                guard let code = owner.invitationCodeView.codeTextField.text?.trimmingCharacters(in: .whitespaces)
-                else { return }
-                
-                if code.isEmpty {
-                    owner.viewModel.output.invitationCodeState.accept(.empty)
-                } else {
-                    owner.viewModel.checkInvitationCode(invitationCode: code)
-                }
+                debugPrint("collection")
             }
             .disposed(by: self.disposeBag)
         
-        Observable.combineLatest(self.checkInputViewTextFieldFilled(inputType: .ticketHolder),
-                                 self.viewModel.output.invitationCodeState)
-        .map { ( isTicketHolderFilled, codeState ) in
-            return isTicketHolderFilled && codeState == .verified
-        }
-        .distinctUntilChanged()
-        .bind(to: self.payButton.rx.isEnabled)
-        .disposed(by: self.disposeBag)
-    }
-    
-    private func bindPolicyView() {
-        self.policyView.policyLabelHeight
-            .asDriver(onErrorJustReturn: 0)
-            .drive(with: self, onNext: { owner, viewHeight in
-                
-                let bottomOffset = CGPoint(x: 0, y: owner.scrollView.contentSize.height - owner.scrollView.bounds.height + viewHeight - 66 + 24)
-                owner.scrollView.setContentOffset(bottomOffset, animated: true)
-            })
+        self.agreeView.didOfferOpenButtonTap()
+            .emit(with: self) { owner, _ in
+                debugPrint("offer")
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.agreeView.didAgenciesOpenButtonTap()
+            .emit(with: self) { owner, _ in
+                debugPrint("agencies")
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.agreeView.isAllAgreeButtonSelected
+            .bind(to: self.viewModel.input.isAllAgreeButtonSelected)
             .disposed(by: self.disposeBag)
     }
     
@@ -353,29 +351,6 @@ extension TicketingDetailViewController {
             })
             .disposed(by: self.disposeBag)
     }
-    
-    private func setTicketingData() {
-        guard let ticketHolderName = self.ticketHolderInputView.nameTextField.text,
-              let ticketHolderPhoneNumber = self.ticketHolderInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "")
-        else { return }
-        
-        switch self.viewModel.selectedTicket.value.ticketType {
-        case .sale:
-            guard let depositorName = self.depositorInputView.nameTextField.text,
-                  let depositorPhoneNumber = self.depositorInputView.phoneNumberTextField.text?.replacingOccurrences(of: "-", with: "") else { return }
-            
-            self.viewModel.setSalesTicketingData(ticketHolderName: ticketHolderName,
-                                                 ticketHolderPhoneNumber: ticketHolderPhoneNumber,
-                                                 depositorName: depositorName.isEmpty ? ticketHolderName : depositorName,
-                                                 depositorPhoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorPhoneNumber)
-        case .invitation:
-            guard let invitationCode = self.invitationCodeView.codeTextField.text else { return }
-            
-            self.viewModel.setInvitationTicketingData(ticketHolderName: ticketHolderName,
-                                                      ticketHolderPhoneNumber: ticketHolderPhoneNumber,
-                                                      invitationCode: invitationCode)
-        }
-    }
 }
 
 // MARK: - UIScrollViewDelegate
@@ -421,7 +396,7 @@ extension TicketingDetailViewController {
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(24)
         }
-
+        
         self.payButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
