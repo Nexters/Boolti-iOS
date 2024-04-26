@@ -201,8 +201,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
                     salesTicketName: entity.salesTicketName,
                     ticketCount: entity.ticketCount
                 )
-                owner.refundAmountView.setData("\(entity.totalPaymentAmount)원")
-                owner.refundMethodView.setData("계좌이체")
+                owner.configureRefundInformation(with: entity)
             }
             .disposed(by: self.disposeBag)
 
@@ -241,14 +240,14 @@ final class TicketRefundRequestViewController: BooltiViewController {
                 let output = owner.viewModel.output
 
                 let refundAccountInformation = RefundAccountInformation(refundType: "카카오뱅크", totalRefundAmount: output.tickerReservationDetail.value?.totalPaymentAmount ?? "")
-//
-//                let refundAccountInfomration = RefundAccountInformation(
-//                    accountHolderName: input.accoundHolderNameText.value,
-//                    accountHolderPhoneNumber: input.accountHolderPhoneNumberText.value,
-//                    accountBankName: owner.selectRefundBankView.bankNameLabel.text ?? "",
-//                    accountNumber: input.refundAccountNumberText.value,
-//                    totalRefundAmount: output.tickerReservationDetail.value?.totalPaymentAmount ?? ""
-//                )
+                //
+                //                let refundAccountInfomration = RefundAccountInformation(
+                //                    accountHolderName: input.accoundHolderNameText.value,
+                //                    accountHolderPhoneNumber: input.accountHolderPhoneNumberText.value,
+                //                    accountBankName: owner.selectRefundBankView.bankNameLabel.text ?? "",
+                //                    accountNumber: input.refundAccountNumberText.value,
+                //                    totalRefundAmount: output.tickerReservationDetail.value?.totalPaymentAmount ?? ""
+                //                )
                 let viewController = owner.ticketRefundConfirmViewControllerFactory(
                     owner.viewModel.reservationID,
                     owner.viewModel.reasonText,
@@ -259,12 +258,30 @@ final class TicketRefundRequestViewController: BooltiViewController {
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
-        
+
         self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func configureRefundInformation(with entity: TicketReservationDetailEntity) {
+        self.refundAmountView.setData("\(entity.totalPaymentAmount)원")
+
+        guard let paymentMethod = entity.paymentMethod else { return }
+        switch paymentMethod {
+        case .accountTransfer:
+            self.refundMethodView.setData("계좌이체")
+        case .card:
+            guard let paymentCardDetail = entity.paymentCardDetail else { return }
+            self.refundMethodView.setData(paymentCardDetail.issuer)
+        case .free:
+            self.refundMethodView.removeFromSuperview()
+        case .simplePayment:
+            guard let easyPayProvider = entity.easyPayProvider else { return }
+            self.refundMethodView.setData(easyPayProvider)
+        }
     }
 
     private func makeTitleLabel(title: String) -> UILabel {
