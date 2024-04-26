@@ -14,9 +14,6 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let salesTicketName: String
     let salesTicketType: String
     let ticketCount: Int
-    let bankName: String
-    let accountNumber: String
-    let accountHolder: String
     let salesEndTime: String
     let meansType: String?
     let totalAmountPrice: Int?
@@ -27,6 +24,17 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let depositorName: String?
     let depositorPhoneNumber: String?
     let csReservationId: String
+    let easyPayDetail: EasyPayDetail?
+    let cardDetail: CardDetail?
+}
+
+struct EasyPayDetail: Decodable {
+    let provider: String
+}
+
+struct CardDetail: Decodable {
+    let installmentPlanMonths: Int
+    let issuerCode: String
 }
 
 extension TicketReservationDetailResponseDTO {
@@ -35,7 +43,8 @@ extension TicketReservationDetailResponseDTO {
         let ticketType = self.salesTicketType == "SALE" ? TicketType.sale : TicketType.invitation
         let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.cancelled
         let totalAmountPrice = self.totalAmountPrice ?? 0
-        let paymentType = self.meansType ?? "초청 코드"
+        let paymentMethod = paymentMethod()
+        let paymentCardDetail = paymentCardDetail()
 
         return TicketReservationDetailEntity(
             reservationID: String(self.reservationId),
@@ -43,12 +52,9 @@ extension TicketReservationDetailResponseDTO {
             concertTitle: self.showName,
             salesTicketName: self.salesTicketName,
             ticketType: ticketType,
-            ticketCount: String(self.ticketCount),
-            bankName: bankName,
-            accountNumber: self.accountNumber,
-            accountHolderName: self.accountHolder,
+            ticketCount: "\(self.ticketCount)",
             depositDeadLine: self.salesEndTime,
-            paymentMethod: paymentType,
+            paymentMethod: paymentMethod,
             totalPaymentAmount: totalAmountPrice.formattedCurrency(),
             reservationStatus: reservationStatus,
             ticketingDate: self.completedTimeStamp,
@@ -57,7 +63,24 @@ extension TicketReservationDetailResponseDTO {
             depositorName: self.depositorName ?? "",
             depositorPhoneNumber: self.depositorPhoneNumber ?? "",
             salesEndTime: self.salesEndTime,
-            csReservationID: self.csReservationId
+            csReservationID: self.csReservationId,
+            easyPayProvider: self.easyPayDetail?.provider ?? "",
+            paymentCardDetail: paymentCardDetail
+        )
+    }
+
+    private func paymentMethod() -> PaymentMethod? {
+        guard let meansType = self.meansType else { return nil }
+        return PaymentMethod(rawValue: meansType)
+    }
+
+    private func paymentCardDetail() -> PaymentCardDetail? {
+        guard let cardDetail = self.cardDetail else { return nil }
+        guard cardDetail.issuerCode != "" else { return nil }
+
+        return PaymentCardDetail(
+            installmentPlanMonths: cardDetail.installmentPlanMonths == 0 ? "일시불" : "\(cardDetail.installmentPlanMonths)",
+            issuer: cardTypeByCode[cardDetail.issuerCode] ?? ""
         )
     }
 }
