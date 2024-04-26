@@ -8,7 +8,7 @@
 import Foundation
 
 struct RefundAccountInformation {
-    let refundType: String
+    let refundMethod: String?
     let totalRefundAmount: String
 }
 

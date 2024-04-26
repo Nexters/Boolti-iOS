@@ -236,18 +236,11 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
         self.requestRefundButton.rx.tap
             .bind(with: self) { owner, _ in
-                let input = owner.viewModel.input
-                let output = owner.viewModel.output
-
-                let refundAccountInformation = RefundAccountInformation(refundType: "카카오뱅크", totalRefundAmount: output.tickerReservationDetail.value?.totalPaymentAmount ?? "")
-                //
-                //                let refundAccountInfomration = RefundAccountInformation(
-                //                    accountHolderName: input.accoundHolderNameText.value,
-                //                    accountHolderPhoneNumber: input.accountHolderPhoneNumberText.value,
-                //                    accountBankName: owner.selectRefundBankView.bankNameLabel.text ?? "",
-                //                    accountNumber: input.refundAccountNumberText.value,
-                //                    totalRefundAmount: output.tickerReservationDetail.value?.totalPaymentAmount ?? ""
-                //                )
+                guard let reservationDetail = owner.viewModel.output.tickerReservationDetail.value else { return }
+                let refundAccountInformation = RefundAccountInformation(
+                    refundMethod: owner.refundMethodView.contentLabel.text,
+                    totalRefundAmount: reservationDetail.totalPaymentAmount
+                )
                 let viewController = owner.ticketRefundConfirmViewControllerFactory(
                     owner.viewModel.reservationID,
                     owner.viewModel.reasonText,

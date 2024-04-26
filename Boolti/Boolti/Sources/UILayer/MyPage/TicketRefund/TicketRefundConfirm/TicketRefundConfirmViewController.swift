@@ -74,21 +74,12 @@ final class TicketRefundConfirmViewController: BooltiViewController {
 
     private func configureUI() {
         self.view.backgroundColor = .grey95
-        self.setData()
-        self.configureConstraints()
-        self.configureToastView(isButtonExisted: false)
+        self.configureSubviews()
         self.bindViewModel()
         self.bindUIComponents()
     }
 
-    private func setData() {
-        let information = self.viewModel.refundAccountInformation
-        let refundType = information.refundType
-        let totalRefundAmount = information.totalRefundAmount
-
-        self.refundTypeView.setData(with: refundType)
-        self.totalRefundAmountView.setData(with: "\(totalRefundAmount)원")
-
+    private func configureSubviews() {
         self.view.addSubviews([
             self.contentBackGroundView,
             self.titleLabel,
@@ -98,12 +89,35 @@ final class TicketRefundConfirmViewController: BooltiViewController {
             self.totalRefundAmountView,
             self.requestRefundButton
         ])
+        self.configureConstraints()
+        self.setData()
+        self.configureToastView(isButtonExisted: false)
+    }
+
+    private func setData() {
+        let information = self.viewModel.refundAccountInformation
+        let totalRefundAmount = information.totalRefundAmount
+        let refundMethod = information.refundMethod
+
+        self.totalRefundAmountView.setData(with: "\(totalRefundAmount)원")
+        self.configureRefundMethodView(with: refundMethod)
+    }
+
+    private func configureRefundMethodView(with refundMethod: String?) {
+        if let refundMethod { // 무료 티켓 외
+            self.refundTypeView.setData(with: refundMethod)
+        } else { // 무료 티켓
+            self.refundTypeView.removeFromSuperview()
+            self.contentBackGroundView.snp.makeConstraints { make in
+                make.height.equalTo(244)
+            }
+        }
     }
 
     private func configureConstraints() {
         self.contentBackGroundView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.height.equalTo(410)
+            make.height.equalTo(280)
             make.horizontalEdges.equalToSuperview().inset(32)
         }
 
@@ -130,7 +144,7 @@ final class TicketRefundConfirmViewController: BooltiViewController {
 
         self.totalRefundAmountView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.horizontalEdges.equalTo(self.refundTypeView)
+            make.horizontalEdges.equalTo(self.refundInformationContentBackgroundView).inset(20)
             make.bottom.equalTo(self.refundInformationContentBackgroundView).inset(16)
         }
 
