@@ -282,12 +282,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
             ticketCount: entity.ticketCount
         )
 
-        // 결제 정보
-        self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
-        self.totalRefundAmountView.setData("\(entity.totalPaymentAmount)원") // 환불 총액도 결제 정보와 동일하게
-
-        self.configureRefundButton(with: entity)
-
         // 티켓 정보
         self.ticketTypeView.setData(entity.salesTicketName)
         self.ticketCountView.setData("\(entity.ticketCount)매")
@@ -295,6 +289,17 @@ final class TicketReservationDetailViewController: BooltiViewController {
         // 예매자 정보
         self.purchasernNameView.setData(entity.purchaseName)
         self.purchaserPhoneNumberView.setData(entity.purchaserPhoneNumber)
+
+        // 결제자 정보
+        self.depositorNameView.setData(entity.depositorName)
+        self.depositorPhoneNumberView.setData(entity.depositorPhoneNumber)
+        
+        // 결제 금액
+        self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
+
+        // 환불?...
+        self.totalRefundAmountView.setData("\(entity.totalPaymentAmount)원") // 환불 총액도 결제 정보와 동일하게
+        self.configureRefundButton(with: entity)
 
         self.configureRefundCase(with: entity)
 
@@ -309,13 +314,33 @@ final class TicketReservationDetailViewController: BooltiViewController {
     }
 
     private func setAdditionalDataForSale(with entity: TicketReservationDetailEntity) {
-        let paymentMethod = PaymentMethod(rawValue: entity.paymentMethod)!
-        self.paymentMethodView.setData(paymentMethod.description)
-        self.refundMethodView.setData(paymentMethod.description) // payment와 동일하게 진행 -> 결제 시스템 붙히면 바뀔 예정
+        guard let paymentMethod = entity.paymentMethod else { return }
+        switch paymentMethod {
+        case .accountTransfer:
+            self.paymentMethodView.setData("계좌이체") // 일단 계좌이체는 하드코딩으로 붙히기
+        case .card:
+            self.configurePaymentCardDetail(with: entity.paymentCardDetail)
+        case .simplePayment:
+            self.configureSimplePayment(with: entity.easyPayProvider)
+        case .free:
+            self.configureFreeTicket()
+        }
+//        self.refundMethodView.setData(paymentMethod.description) // payment와 동일하게 진행 -> 결제 시스템 붙히면 바뀔 예정
+    }
 
-        // 입금자 정보
-        self.depositorNameView.setData(entity.depositorName)
-        self.depositorPhoneNumberView.setData(entity.depositorPhoneNumber)
+    private func configureSimplePayment(with easyPayProvider: String?) {
+        guard let easyPayProvider else { return }
+        self.paymentMethodView.setData(easyPayProvider)
+    }
+
+    private func configurePaymentCardDetail(with paymentCardDetail: PaymentCardDetail?) {
+        guard let paymentCardDetail else { return }
+        self.paymentMethodView.setData("\(paymentCardDetail.issuer) / \(paymentCardDetail.installmentPlanMonths)")
+    }
+
+    private func configureFreeTicket() {
+        self.depositorInformationStackView.isHidden = true
+        self.paymentMethodView.removeFromSuperview()
     }
 
     private func configureRefundButton(with entity: TicketReservationDetailEntity) {
@@ -342,7 +367,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
     }
 
     private func configureInvitationUI(with entity: TicketReservationDetailEntity) {
-        self.paymentMethodView.setData(entity.paymentMethod)
+        self.paymentMethodView.setData("초청 코드")
         self.depositorInformationStackView.isHidden = true
         self.reversalPolicyView.isHidden = true
         self.requestRefundButton.isHidden = true
