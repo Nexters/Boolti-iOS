@@ -297,20 +297,16 @@ final class TicketReservationDetailViewController: BooltiViewController {
         // 결제 금액
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
 
-        // 환불?...
-        self.totalRefundAmountView.setData("\(entity.totalPaymentAmount)원") // 환불 총액도 결제 정보와 동일하게
-        self.configureRefundButton(with: entity)
-
-        self.configureRefundCase(with: entity)
-
         let ticketType = entity.ticketType
-
         switch ticketType {
         case .sale:
             self.setAdditionalDataForSale(with: entity)
         case .invitation:
             self.configureInvitationUI(with: entity)
         }
+
+        // 환불?...
+        self.configureRefundCase(with: entity)
     }
 
     private func setAdditionalDataForSale(with entity: TicketReservationDetailEntity) {
@@ -325,7 +321,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
         case .free:
             self.configureFreeTicket()
         }
-//        self.refundMethodView.setData(paymentMethod.description) // payment와 동일하게 진행 -> 결제 시스템 붙히면 바뀔 예정
     }
 
     private func configureSimplePayment(with easyPayProvider: String?) {
@@ -360,9 +355,28 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private func configureRefundCase(with entity: TicketReservationDetailEntity) {
         if entity.reservationStatus == .refundCompleted {
             self.refundInformationStackView.isHidden = false
-            self.depositorInformationStackView.changeTitle("결제자 정보")
+            self.configureRefundInformationStackView(with: entity)
         } else {
             self.refundInformationStackView.isHidden = true
+        }
+        self.configureRefundButton(with: entity)
+    }
+
+    private func configureRefundInformationStackView(with entity: TicketReservationDetailEntity) {
+        self.totalRefundAmountView.setData("\(entity.totalPaymentAmount)원")
+
+        guard let paymentMethod = entity.paymentMethod else { return }
+        switch paymentMethod {
+        case .accountTransfer:
+            self.refundMethodView.setData("계좌 이체")
+        case .card:
+            guard let paymentCardDetail = entity.paymentCardDetail else { return }
+            self.refundMethodView.setData("\(paymentCardDetail.issuer)")
+        case .simplePayment:
+            guard let easyPayProvider = entity.easyPayProvider else { return }
+            self.refundMethodView.setData(easyPayProvider)
+        case .free:
+            self.paymentMethodView.removeFromSuperview()
         }
     }
 
