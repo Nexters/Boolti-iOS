@@ -17,7 +17,5 @@ struct OrderPaymentRequestDTO: Codable {
     let reservationPhoneNumber: String
     let depositorName: String
     let depositorPhoneNumber: String
-    let paymentAmount: Int
-    let means: String
     
 }

@@ -158,7 +158,7 @@ extension TicketingDetailViewModel {
                                               ticketHolder: TicketingEntity.UserInfo(name: ticketHolderName,
                                                                                      phoneNumber: ticketHolderPhoneNumber),
                                               depositor: TicketingEntity.UserInfo(name: depositorName.isEmpty ? ticketHolderName : depositorName,
-                                                                                  phoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorName),
+                                                                                  phoneNumber: depositorPhoneNumber.isEmpty ? ticketHolderPhoneNumber : depositorPhoneNumber),
                                               selectedTicket: self.selectedTicket.value)
         
         self.output.ticketingEntity = ticketingEntity

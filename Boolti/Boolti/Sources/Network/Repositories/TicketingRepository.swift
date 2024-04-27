@@ -90,9 +90,7 @@ final class TicketingRepository: TicketingRepositoryType {
                                                             reservationName: ticketingEntity.ticketHolder.name,
                                                             reservationPhoneNumber: ticketingEntity.ticketHolder.phoneNumber,
                                                             depositorName: depositor.name,
-                                                            depositorPhoneNumber: depositor.phoneNumber,
-                                                            paymentAmount: amount,
-                                                            means: "CARD")
+                                                            depositorPhoneNumber: depositor.phoneNumber)
         
         let api = TicketingAPI.orderPayment(requestDTO: orderPaymentRequestDTO)
         
