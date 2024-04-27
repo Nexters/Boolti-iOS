@@ -183,11 +183,16 @@ extension TicketingCompletionViewController {
                 
                 owner.ticketInfoLabel.text = "\(entity.salesTicketName) / \(entity.ticketCount)매"
                 
-                if entity.ticketType == .invitation {
+                switch entity.ticketType {
+                case .invitation:
                     owner.amountInfoLabel.text = "0원 (초청 코드)"
-                } else {
-                    let paymentMonty: String = entity.installmentPlanMonths == 0 ? "일시불" : "\(entity.installmentPlanMonths)개월"
-                    owner.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(entity.easyPayProvider) / \(paymentMonty))"
+                case .sale:
+                    if entity.totalPaymentAmount == "0" {
+                        owner.amountInfoLabel.text = "0원"
+                    } else {
+                        let paymentMonty: String = entity.installmentPlanMonths == 0 ? "일시불" : "\(entity.installmentPlanMonths)개월"
+                        owner.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(entity.easyPayProvider) / \(paymentMonty))"
+                    }
                 }
                 
                 owner.reservedTicketView.setData(concertName: entity.concertTitle, concertDate: entity.concertDate, posterURL: entity.concertPosterImageURLPath)

@@ -14,6 +14,9 @@ protocol TicketingRepositoryType {
     func checkInvitationCode(concertId: Int,
                              ticketId: Int,
                              invitationCode: String) -> Single<InvitationCodeStateEntity>
+    func freeTicketing(selectedTicket: SelectedTicketEntity,
+                       ticketHolderName: String,
+                       ticketHolderPhoneNumber: String) -> Single<TicketingResponseDTO>
     func invitationTicketing(selectedTicket: SelectedTicketEntity,
                              ticketHolderName: String,
                              ticketHolderPhoneNumber: String,
@@ -42,6 +45,22 @@ final class TicketingRepository: TicketingRepositoryType {
         return self.networkService.request(api)
             .map(CheckInvitationCodeResponseDTO.self)
             .map { $0.convertToInvitationCodeEntity() }
+    }
+    
+    func freeTicketing(selectedTicket: SelectedTicketEntity,
+                       ticketHolderName: String,
+                       ticketHolderPhoneNumber: String) -> Single<TicketingResponseDTO> {
+        let freeTicketingRequestDTO = FreeTicketingRequestDTO(userId: UserDefaults.userId,
+                                                              showId: selectedTicket.concertId,
+                                                              salesTicketTypeId: selectedTicket.id,
+                                                              ticketCount: selectedTicket.count,
+                                                              reservationName: ticketHolderName,
+                                                              reservationPhoneNumber: ticketHolderPhoneNumber)
+        
+        let api = TicketingAPI.freeTicketing(requestDTO: freeTicketingRequestDTO)
+        
+        return networkService.request(api)
+            .map(TicketingResponseDTO.self)
     }
     
     func invitationTicketing(selectedTicket: SelectedTicketEntity,

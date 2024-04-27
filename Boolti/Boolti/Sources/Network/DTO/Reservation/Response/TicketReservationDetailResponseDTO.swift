@@ -27,8 +27,8 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let depositorName: String?
     let depositorPhoneNumber: String?
     let csReservationId: String
-    let cardDetail: CardDetail
-    let easyPayDetail: EasyPayDetail
+    let cardDetail: CardDetail?
+    let easyPayDetail: EasyPayDetail?
     let showDate: String
     
     struct CardDetail: Decodable {
@@ -79,8 +79,8 @@ extension TicketReservationDetailResponseDTO {
             depositorPhoneNumber: self.depositorPhoneNumber ?? "",
             salesEndTime: self.salesEndTime,
             csReservationID: self.csReservationId,
-            installmentPlanMonths: self.cardDetail.installmentPlanMonths,
-            easyPayProvider: self.easyPayDetail.provider,
+            installmentPlanMonths: self.cardDetail?.installmentPlanMonths ?? 0,
+            easyPayProvider: self.easyPayDetail?.provider ?? "",
             concertDate: self.showDate.formatToDate()
         )
     }

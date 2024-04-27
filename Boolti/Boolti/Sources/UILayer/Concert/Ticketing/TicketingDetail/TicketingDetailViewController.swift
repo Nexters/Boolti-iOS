@@ -171,11 +171,10 @@ extension TicketingDetailViewController {
                 ticketingConfirmVC.modalPresentationStyle = .overFullScreen
                 
                 ticketingConfirmVC.onDismiss = { ticketingEntity in
-                    switch ticketingEntity.selectedTicket.ticketType {
-                    case .invitation:
+                    if ticketingEntity.selectedTicket.price == 0 {
                         let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
                         owner.navigationController?.pushViewController(viewController, animated: true)
-                    case .sale:
+                    } else {
                         let tossVC = owner.tossPayementsViewControllerFactory(ticketingEntity)
                         tossVC.modalPresentationStyle = .overFullScreen
     

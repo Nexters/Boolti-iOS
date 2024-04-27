@@ -151,6 +151,15 @@ extension TicketingConfirmViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.navigateToCompletion
+            .subscribe(with: self) { owner, _ in
+                owner.dismiss(animated: true) {
+                    self.onDismiss?(owner.viewModel.ticketingEntity)
+                }
+            }
+            .disposed(by: self.disposeBag)
+            
     }
     
     private func bindUIComponents() {

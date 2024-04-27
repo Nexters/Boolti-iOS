@@ -161,7 +161,7 @@
 		84BAB8282B8CA93A00DEA35C /* TicketingConfirmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BAB8272B8CA93A00DEA35C /* TicketingConfirmViewModel.swift */; };
 		84BAB82A2B8CA94400DEA35C /* TicketingConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BAB8292B8CA94400DEA35C /* TicketingConfirmViewController.swift */; };
 		84C6E0032B7320280023BAE6 /* ConcertDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6E0022B7320280023BAE6 /* ConcertDetailResponseDTO.swift */; };
-		84D1C37F2B79379200527998 /* SalesTicketingRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1C37E2B79379200527998 /* SalesTicketingRequestDTO.swift */; };
+		84D1C37F2B79379200527998 /* FreeTicketingRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1C37E2B79379200527998 /* FreeTicketingRequestDTO.swift */; };
 		84D1C3812B7938CB00527998 /* TicketingResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1C3802B7938CB00527998 /* TicketingResponseDTO.swift */; };
 		84D1C3832B79B71600527998 /* UserResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1C3822B79B71600527998 /* UserResponseDTO.swift */; };
 		84D1C3852B7A14AD00527998 /* CheckInvitationCodeRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1C3842B7A14AD00527998 /* CheckInvitationCodeRequestDTO.swift */; };
@@ -447,7 +447,7 @@
 		84BAB8272B8CA93A00DEA35C /* TicketingConfirmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingConfirmViewModel.swift; sourceTree = "<group>"; };
 		84BAB8292B8CA94400DEA35C /* TicketingConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingConfirmViewController.swift; sourceTree = "<group>"; };
 		84C6E0022B7320280023BAE6 /* ConcertDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailResponseDTO.swift; sourceTree = "<group>"; };
-		84D1C37E2B79379200527998 /* SalesTicketingRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesTicketingRequestDTO.swift; sourceTree = "<group>"; };
+		84D1C37E2B79379200527998 /* FreeTicketingRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeTicketingRequestDTO.swift; sourceTree = "<group>"; };
 		84D1C3802B7938CB00527998 /* TicketingResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingResponseDTO.swift; sourceTree = "<group>"; };
 		84D1C3822B79B71600527998 /* UserResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseDTO.swift; sourceTree = "<group>"; };
 		84D1C3842B7A14AD00527998 /* CheckInvitationCodeRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInvitationCodeRequestDTO.swift; sourceTree = "<group>"; };
@@ -662,7 +662,7 @@
 			isa = PBXGroup;
 			children = (
 				8453D7FD2B7539770048F103 /* SalesTicketRequestDTO.swift */,
-				84D1C37E2B79379200527998 /* SalesTicketingRequestDTO.swift */,
+				84D1C37E2B79379200527998 /* FreeTicketingRequestDTO.swift */,
 				84D1C3842B7A14AD00527998 /* CheckInvitationCodeRequestDTO.swift */,
 				84D1C38A2B7A448100527998 /* InvitationTicketingRequestDTO.swift */,
 				22DD8C872BD289100083622C /* SavePaymentInfoRequestDTO.swift */,
@@ -2067,7 +2067,7 @@
 				840B395F2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift in Sources */,
 				87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */,
 				84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */,
-				84D1C37F2B79379200527998 /* SalesTicketingRequestDTO.swift in Sources */,
+				84D1C37F2B79379200527998 /* FreeTicketingRequestDTO.swift in Sources */,
 				84BAB8262B8CA8DB00DEA35C /* TicketingConfirmDIContainer.swift in Sources */,
 				22DD8C882BD289100083622C /* SavePaymentInfoRequestDTO.swift in Sources */,
 				84896A472B6A677400CB3E33 /* TicketingCompletionViewModel.swift in Sources */,
