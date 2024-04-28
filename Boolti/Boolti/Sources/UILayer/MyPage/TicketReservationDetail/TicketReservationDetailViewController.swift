@@ -369,7 +369,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
             guard let easyPayProvider = entity.easyPayProvider else { return }
             self.refundMethodView.setData(easyPayProvider)
         case .free:
-            self.paymentMethodView.removeFromSuperview()
+            self.refundMethodView.removeFromSuperview()
         }
     }
 

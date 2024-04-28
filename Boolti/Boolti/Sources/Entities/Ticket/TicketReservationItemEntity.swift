@@ -9,7 +9,7 @@ import UIKit
 
 enum ReservationStatus: String {
     case reservationCompleted = "RESERVATION_COMPLETED"
-    case refundCompleted = "REFUND_COMPLETED"
+    case refundCompleted = "CANCELLED"
 
     var description: String {
         switch self {
