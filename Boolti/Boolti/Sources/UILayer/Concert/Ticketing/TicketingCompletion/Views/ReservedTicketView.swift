@@ -65,10 +65,12 @@ final class ReservedTicketView: UIView {
 
 extension ReservedTicketView {
     
-    func setData(concert: ConcertDetailEntity, selectedTicket: SelectedTicketEntity) {
-        self.titleLabel.text = concert.name
-        self.dateTimeLabel.text = concert.date.format(.dateDayTime)
-        self.poster.setImage(with: concert.posters.first?.thumbnailPath ?? "")
+    func setData(concertName: String,
+                 concertDate: Date,
+                 posterURL: String) {
+        self.titleLabel.text = concertName
+        self.dateTimeLabel.text = concertDate.format(.dateDayTime)
+        self.poster.setImage(with: posterURL)
     }
 }
 

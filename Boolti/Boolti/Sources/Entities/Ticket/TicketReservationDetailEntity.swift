@@ -43,5 +43,7 @@ struct TicketReservationDetailEntity {
     let salesEndTime: String
     let csReservationID: String
     let installmentPlanMonths: Int
+    let easyPayProvider: String
+    let concertDate: Date
     
 }

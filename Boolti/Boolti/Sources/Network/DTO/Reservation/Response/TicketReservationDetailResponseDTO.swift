@@ -14,9 +14,9 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let salesTicketName: String
     let salesTicketType: String
     let ticketCount: Int
-    let bankName: String
-    let accountNumber: String
-    let accountHolder: String
+    let bankName: String?
+    let accountNumber: String?
+    let accountHolder: String?
     let salesEndTime: String
     let meansType: String?
     let totalAmountPrice: Int?
@@ -27,13 +27,17 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let depositorName: String?
     let depositorPhoneNumber: String?
     let csReservationId: String
-    let cardDetail: CardDetail
+    let cardDetail: CardDetail?
+    let easyPayDetail: EasyPayDetail?
+    let showDate: String
     
     struct CardDetail: Decodable {
-        
         let installmentPlanMonths: Int
         let issuerCode: String
-        
+    }
+    
+    struct EasyPayDetail: Decodable {
+        let provider: String
     }
 }
 
@@ -61,9 +65,9 @@ extension TicketReservationDetailResponseDTO {
             salesTicketName: self.salesTicketName,
             ticketType: ticketType,
             ticketCount: String(self.ticketCount),
-            bankName: bankName,
-            accountNumber: self.accountNumber,
-            accountHolderName: self.accountHolder,
+            bankName: bankName ?? "",
+            accountNumber: self.accountNumber ?? "",
+            accountHolderName: self.accountHolder ?? "",
             depositDeadLine: self.salesEndTime,
             paymentMethod: paymentType,
             totalPaymentAmount: totalAmountPrice.formattedCurrency(),
@@ -75,7 +79,9 @@ extension TicketReservationDetailResponseDTO {
             depositorPhoneNumber: self.depositorPhoneNumber ?? "",
             salesEndTime: self.salesEndTime,
             csReservationID: self.csReservationId,
-            installmentPlanMonths: self.cardDetail.installmentPlanMonths
+            installmentPlanMonths: self.cardDetail?.installmentPlanMonths ?? 0,
+            easyPayProvider: self.easyPayDetail?.provider ?? "",
+            concertDate: self.showDate.formatToDate()
         )
     }
 }

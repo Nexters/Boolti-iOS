@@ -11,7 +11,7 @@ import Moya
 
 enum TicketingAPI {
     case salesTicket(requestDTO: SalesTicketRequestDTO)
-    case salesTicketing(requestDTO: SalesTicketingRequestDTO)
+    case freeTicketing(requestDTO: FreeTicketingRequestDTO)
     case checkInvitationCode(requestDTO: CheckInvitationCodeRequestDTO)
     case invitationTicketing(requestDTO: InvitationTicketingRequestDTO)
     case savePaymentInfo(requestDTO: SavePaymentInfoRequestDTO)
@@ -24,7 +24,7 @@ extension TicketingAPI: ServiceAPI {
         switch self {
         case .salesTicket(let DTO):
             return "/api/v1/sales-ticket-type/\(DTO.showId)"
-        case .salesTicketing:
+        case .freeTicketing:
             return "/api/v1/reservation/sales-ticket"
         case .checkInvitationCode:
             return "api/v1/check/invite-code"
@@ -39,7 +39,7 @@ extension TicketingAPI: ServiceAPI {
     
     var method: Moya.Method {
         switch self {
-        case .salesTicketing, .invitationTicketing, .savePaymentInfo, .orderPayment:
+        case .freeTicketing, .invitationTicketing, .savePaymentInfo, .orderPayment:
             return .post
         default:
             return .get
@@ -48,7 +48,7 @@ extension TicketingAPI: ServiceAPI {
 
     var task: Moya.Task {
         switch self {
-        case .salesTicketing(let DTO):
+        case .freeTicketing(let DTO):
             return .requestJSONEncodable(DTO)
         case .checkInvitationCode(let DTO):
             let query: [String: Any] = [

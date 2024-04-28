@@ -18,20 +18,18 @@ final class TicketingCompletionViewModel {
     private let ticketReservationsRepository: TicketReservationsRepositoryType
     
     struct Output {
-        let csReservationId = PublishRelay<String>()
-        let bankName = PublishRelay<String>()
-        let installmentPlanMonths = PublishRelay<Int>()
+        let reservationDetail = PublishRelay<TicketReservationDetailEntity>()
     }
     
     let output: Output
-    let ticketingData: TicketingEntity
+    let reservationId: Int
 
     // MARK: Init
     
-    init(ticketingEntity: TicketingEntity,
+    init(reservationId: Int,
          ticketReservationsRepository: TicketReservationsRepositoryType) {
         self.output = Output()
-        self.ticketingData = ticketingEntity
+        self.reservationId = reservationId
         self.ticketReservationsRepository = ticketReservationsRepository
         self.fetchReservationDetail()
     }
@@ -43,11 +41,9 @@ final class TicketingCompletionViewModel {
 extension TicketingCompletionViewModel {
     
     private func fetchReservationDetail() {
-        self.ticketReservationsRepository.ticketReservationDetail(with: "\(self.ticketingData.reservationId)")
+        self.ticketReservationsRepository.ticketReservationDetail(with: "\(self.reservationId)")
             .subscribe(with: self) { owner, response in
-                owner.output.csReservationId.accept(response.csReservationID)
-                owner.output.bankName.accept(response.bankName)
-                owner.output.installmentPlanMonths.accept(response.installmentPlanMonths)
+                owner.output.reservationDetail.accept(response)
             }
             .disposed(by: self.disposeBag)
     }

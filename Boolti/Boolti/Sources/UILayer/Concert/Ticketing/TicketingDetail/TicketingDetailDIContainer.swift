@@ -11,6 +11,8 @@ final class TicketingDetailDIContainer {
 
     private let concertRepository: ConcertRepository
     private let ticketingRepository: TicketingRepository
+    
+    typealias ReservationId = Int
 
     init(concertRepository: ConcertRepository) {
         self.concertRepository = concertRepository
@@ -34,10 +36,10 @@ final class TicketingDetailDIContainer {
             return viewController
         }
         
-        let ticketingCompletionViewControllerFactory: (TicketingEntity) -> TicketingCompletionViewController = { ticketingEntity in
+        let ticketingCompletionViewControllerFactory: (ReservationId) -> TicketingCompletionViewController = { reservationId in
             let DIContainer = self.createTicketingCompletionDIContainer()
 
-            let viewController = DIContainer.createTicketingCompletionViewController(ticketingEntity: ticketingEntity)
+            let viewController = DIContainer.createTicketingCompletionViewController(reservationId: reservationId)
             return viewController
         }
         

@@ -15,8 +15,8 @@ final class TicketingCompletionDIContainer {
         self.ticketReservationsRepository = ticketReservationsRepository
     }
 
-    func createTicketingCompletionViewController(ticketingEntity: TicketingEntity) -> TicketingCompletionViewController {
-        let viewModel = createTicketingCompletionViewModel(ticketingEntity: ticketingEntity)
+    func createTicketingCompletionViewController(reservationId: Int) -> TicketingCompletionViewController {
+        let viewModel = createTicketingCompletionViewModel(reservationId: reservationId)
         
         let viewController = TicketingCompletionViewController(
             viewModel: viewModel
@@ -25,8 +25,8 @@ final class TicketingCompletionDIContainer {
         return viewController
     }
 
-    private func createTicketingCompletionViewModel(ticketingEntity: TicketingEntity) -> TicketingCompletionViewModel {
-        return TicketingCompletionViewModel(ticketingEntity: ticketingEntity,
+    private func createTicketingCompletionViewModel(reservationId: Int) -> TicketingCompletionViewModel {
+        return TicketingCompletionViewModel(reservationId: reservationId,
                                             ticketReservationsRepository: ticketReservationsRepository)
     }
 

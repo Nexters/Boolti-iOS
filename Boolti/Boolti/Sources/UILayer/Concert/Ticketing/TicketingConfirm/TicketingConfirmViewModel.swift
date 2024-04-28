@@ -52,11 +52,11 @@ extension TicketingConfirmViewModel {
                 switch owner.ticketingEntity.selectedTicket.ticketType {
                 case .sale: 
                     if owner.ticketingEntity.selectedTicket.price == 0 {
-                        self.freeSalesTicketing()
+                        owner.freeSalesTicketing()
                     } else {
-                        self.savePaymentInfo()
+                        owner.savePaymentInfo()
                     }
-                case .invitation: self.invitationTicketing()
+                case .invitation: owner.invitationTicketing()
                 }
             }
             .disposed(by: self.disposeBag)
@@ -78,12 +78,14 @@ extension TicketingConfirmViewModel {
     }
     
     private func freeSalesTicketing() {
-        self.ticketingRepository.orderPayment(paymentKey: "", amount: 0, ticketingEntity: self.ticketingEntity)
-            .do { self.ticketingEntity.reservationId = $0.reservationId }
-            .subscribe(with: self) { owner, response in
-                owner.output.navigateToCompletion.onNext(())
-            }
-            .disposed(by: self.disposeBag)
+        self.ticketingRepository.freeTicketing(selectedTicket: self.ticketingEntity.selectedTicket,
+                                               ticketHolderName: self.ticketingEntity.ticketHolder.name,
+                                               ticketHolderPhoneNumber: self.ticketingEntity.ticketHolder.phoneNumber)
+        .do { self.ticketingEntity.reservationId = $0.reservationId }
+        .subscribe(with: self) { owner, _ in
+            owner.output.navigateToCompletion.onNext(())
+        }
+        .disposed(by: self.disposeBag)
     }
     
     private func invitationTicketing() {
@@ -93,6 +95,7 @@ extension TicketingConfirmViewModel {
                                                    ticketHolderName: self.ticketingEntity.ticketHolder.name,
                                                    ticketHolderPhoneNumber: self.ticketingEntity.ticketHolder.phoneNumber,
                                                    invitationCode: invitationCode)
+        .do { self.ticketingEntity.reservationId = $0.reservationId }
         .subscribe(with: self) { owner, _ in
             owner.output.navigateToCompletion.onNext(())
         }
