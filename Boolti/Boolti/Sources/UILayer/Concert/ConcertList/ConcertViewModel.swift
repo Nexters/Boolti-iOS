@@ -58,8 +58,9 @@ extension ConcertListViewModel {
         self.ticketReservationRepository.ticketReservations()
             .asObservable()
             .subscribe(with: self, onNext: { owner, ticketReservations in
-                let waitingForDepositReservations = ticketReservations.filter { $0.reservationStatus == .waitingForDeposit }
-                let count = waitingForDepositReservations.count > 0 ? 1 : 0
+//                let waitingForDepositReservations = ticketReservations.filter { $0.reservationStatus == .waitingForDeposit }
+//                let count = waitingForDepositReservations.count > 0 ? 1 : 0
+                let count = 0
                 owner.output.checkingTicketCount.accept(count)
             })
             .disposed(by: self.disposeBag)

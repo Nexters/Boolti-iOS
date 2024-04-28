@@ -53,9 +53,9 @@ extension DepositDetailView {
     }
     
     func setBankData(reservation: TicketReservationDetailEntity) {
-        self.bank.text = reservation.bankName
-        self.account.text = reservation.accountNumber
-        self.accountHolder.text = reservation.accountHolderName
+//        self.bank.text = reservation.bankName
+//        self.account.text = reservation.accountNumber
+//        self.accountHolder.text = reservation.accountHolderName
     }
 }
 

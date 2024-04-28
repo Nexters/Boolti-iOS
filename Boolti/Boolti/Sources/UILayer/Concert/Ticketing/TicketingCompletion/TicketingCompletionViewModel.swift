@@ -64,7 +64,6 @@ extension TicketingCompletionViewModel {
     
     private func fetchReservationDetail() {
         self.ticketReservationsRepository.ticketReservationDetail(with: String(self.ticketingData.value.reservationId))
-            .do { self.copyData = $0.accountNumber }
             .asObservable()
             .bind(to: self.output.reservationDetail)
             .disposed(by: self.disposeBag)

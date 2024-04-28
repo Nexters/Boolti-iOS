@@ -41,7 +41,7 @@ extension TicketReservationDetailResponseDTO {
     func convertToTicketReservationDetailEntity() -> TicketReservationDetailEntity {
 
         let ticketType = self.salesTicketType == "SALE" ? TicketType.sale : TicketType.invitation
-        let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.cancelled
+        let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.reservationCompleted
         let totalAmountPrice = self.totalAmountPrice ?? 0
         let paymentMethod = paymentMethod()
         let paymentCardDetail = paymentCardDetail()

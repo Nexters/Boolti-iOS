@@ -305,7 +305,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.configureInvitationUI(with: entity)
         }
 
-        // 환불?...
+        // 환불
         self.configureRefundCase(with: entity)
     }
 
@@ -338,28 +338,21 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.paymentMethodView.removeFromSuperview()
     }
 
-    private func configureRefundButton(with entity: TicketReservationDetailEntity) {
+    private func configureRefundCase(with entity: TicketReservationDetailEntity) {
         switch entity.reservationStatus {
         case .reservationCompleted:
-            if Date() <= entity.salesEndTime.formatToDate() {
+            if Date() <= entity.salesEndTime.formatToDate() && entity.ticketType != .invitation {
                 self.requestRefundButton.isHidden = false
                 self.changeBlankSpaceViewHeight()
             } else {
                 self.requestRefundButton.isHidden = true
             }
-        default:
+            self.refundInformationStackView.isHidden = true
+        case .refundCompleted:
             self.requestRefundButton.isHidden = true
-        }
-    }
-
-    private func configureRefundCase(with entity: TicketReservationDetailEntity) {
-        if entity.reservationStatus == .refundCompleted {
             self.refundInformationStackView.isHidden = false
             self.configureRefundInformationStackView(with: entity)
-        } else {
-            self.refundInformationStackView.isHidden = true
         }
-        self.configureRefundButton(with: entity)
     }
 
     private func configureRefundInformationStackView(with entity: TicketReservationDetailEntity) {
