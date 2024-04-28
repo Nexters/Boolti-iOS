@@ -120,6 +120,7 @@ final class TicketingDetailViewController: BooltiViewController {
         self.configureConstraints()
         self.configureGesture()
         self.configureKeyboardNotification()
+        self.setData()
         self.bindInputs()
         self.bindOutputs()
         self.bindUIComponents()
@@ -130,6 +131,23 @@ final class TicketingDetailViewController: BooltiViewController {
 // MARK: - Methods
 
 extension TicketingDetailViewController {
+    
+    private func setData() {
+        let selectedTicket = self.viewModel.selectedTicket
+        self.ticketInfoView.setData(entity: selectedTicket)
+        self.payButton.setTitle("\((selectedTicket.count * selectedTicket.price).formattedCurrency())원 결제하기", for: .normal)
+        
+        if selectedTicket.price == 0 {
+            self.depositorInputView.isHidden = true
+            self.policyView.isHidden = true
+        }
+        
+        if selectedTicket.ticketType == .invitation {
+            self.bindInvitationView()
+        } else {
+            self.invitationCodeView.isHidden = true
+        }
+    }
     
     private func bindUIComponents() {
         self.bindNavigationBar()
@@ -202,25 +220,6 @@ extension TicketingDetailViewController {
                                               title: entity.name,
                                               datetime: entity.date)
             }
-            .disposed(by: self.disposeBag)
-        
-        self.viewModel.selectedTicket
-            .take(1)
-            .bind(with: self, onNext: { owner, entity in
-                owner.ticketInfoView.setData(entity: entity)
-                owner.payButton.setTitle("\((entity.count * entity.price).formattedCurrency())원 결제하기", for: .normal)
-                
-                if entity.price == 0 {
-                    owner.depositorInputView.isHidden = true
-                    owner.policyView.isHidden = true
-                }
-                
-                if entity.ticketType == .invitation {
-                    owner.bindInvitationView()
-                } else {
-                    owner.invitationCodeView.isHidden = true
-                }
-            })
             .disposed(by: self.disposeBag)
         
         self.viewModel.output.invitationCodeState

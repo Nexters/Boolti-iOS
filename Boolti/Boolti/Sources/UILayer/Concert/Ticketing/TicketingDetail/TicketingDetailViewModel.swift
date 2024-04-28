@@ -41,7 +41,7 @@ final class TicketingDetailViewModel {
     var input: Input
     var output: Output
     
-    let selectedTicket: BehaviorRelay<SelectedTicketEntity>
+    let selectedTicket: SelectedTicketEntity
     
     init(ticketingRepository: TicketingRepository,
          concertRepository: ConcertRepository,
@@ -50,7 +50,7 @@ final class TicketingDetailViewModel {
         self.concertRepository = concertRepository
         self.input = Input()
         self.output = Output()
-        self.selectedTicket = BehaviorRelay<SelectedTicketEntity>(value: selectedTicket)
+        self.selectedTicket = selectedTicket
         
         self.bindInputs()
     }
@@ -74,7 +74,7 @@ extension TicketingDetailViewModel {
         
         self.input.didPayButtonTap
             .bind(with: self) { owner, _ in
-                switch owner.selectedTicket.value.ticketType {
+                switch owner.selectedTicket.ticketType {
                 case .sale:
                     owner.setSalesTicketingData()
                 case .invitation:
@@ -83,9 +83,9 @@ extension TicketingDetailViewModel {
             }
             .disposed(by: self.disposeBag)
         
-        switch self.selectedTicket.value.ticketType {
+        switch self.selectedTicket.ticketType {
         case .sale:
-            if self.selectedTicket.value.price > 0 {
+            if self.selectedTicket.price > 0 {
                 Observable.combineLatest(self.checkInputViewTextFieldFilled(inputViewType: .ticketHolder),
                                          self.checkInputViewTextFieldFilled(inputViewType: .depositor),
                                          self.input.isAllAgreeButtonSelected)
@@ -134,8 +134,8 @@ extension TicketingDetailViewModel {
     
     
     private func checkInvitationCode(invitationCode: String) {
-        self.ticketingRepository.checkInvitationCode(concertId: self.selectedTicket.value.concertId,
-                                                     ticketId: self.selectedTicket.value.id,
+        self.ticketingRepository.checkInvitationCode(concertId: self.selectedTicket.concertId,
+                                                     ticketId: self.selectedTicket.id,
                                                      invitationCode: invitationCode)
         .subscribe(with: self, onSuccess: { owner, invitationCodeEntity in
             owner.output.invitationCodeState.accept(invitationCodeEntity.codeState)
@@ -156,7 +156,7 @@ extension TicketingDetailViewModel {
                                                                                      phoneNumber: self.input.ticketHolderPhoneNumber.value),
                                               depositor: TicketingEntity.UserInfo(name: depositorName,
                                                                                   phoneNumber: depositorPhoneNumber),
-                                              selectedTicket: self.selectedTicket.value)
+                                              selectedTicket: self.selectedTicket)
         
         self.output.ticketingEntity = ticketingEntity
         self.output.navigateToConfirm.onNext(())
@@ -167,7 +167,7 @@ extension TicketingDetailViewModel {
         let ticketingEntity = TicketingEntity(concert: concertDetail,
                                               ticketHolder: TicketingEntity.UserInfo(name: self.input.ticketHolderName.value,
                                                                                      phoneNumber: self.input.ticketHolderPhoneNumber.value),
-                                              selectedTicket: self.selectedTicket.value,
+                                              selectedTicket: self.selectedTicket,
                                               invitationCode: self.input.invitationCode.value)
         
         self.output.ticketingEntity = ticketingEntity
@@ -181,7 +181,7 @@ extension TicketingDetailViewModel {
 extension TicketingDetailViewModel {
     
     func fetchConcertDetail() {
-        self.concertRepository.concertDetail(concertId: self.selectedTicket.value.concertId)
+        self.concertRepository.concertDetail(concertId: self.selectedTicket.concertId)
             .asObservable()
             .bind(to: self.output.concertDetail)
             .disposed(by: self.disposeBag)
