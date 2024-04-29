@@ -50,7 +50,7 @@ class BooltiViewController: UIViewController {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
-        print("deinit - ☠️☠️☠️☠️")
+        print("\(String(describing: self)) deinit - ☠️☠️☠️☠️")
     }
     
     // MARK: Override

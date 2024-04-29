@@ -79,7 +79,7 @@ extension TicketReservationDetailResponseDTO {
         guard cardDetail.issuerCode != "" else { return nil }
 
         return PaymentCardDetail(
-            installmentPlanMonths: cardDetail.installmentPlanMonths == 0 ? "일시불" : "\(cardDetail.installmentPlanMonths)",
+            installmentPlanMonths: cardDetail.installmentPlanMonths == 0 ? "일시불" : "\(cardDetail.installmentPlanMonths)개월",
             issuer: cardTypeByCode[cardDetail.issuerCode] ?? ""
         )
     }
