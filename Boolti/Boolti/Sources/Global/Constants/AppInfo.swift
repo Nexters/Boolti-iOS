@@ -29,4 +29,6 @@ enum AppInfo {
     static let termsPolicyLink = "https://boolti.notion.site/b4c5beac61c2480886da75a1f3afb982"
     static let privacyPolicyLink = "https://boolti.notion.site/5f73661efdcd4507a1e5b6827aa0da70"
     static let refundPolicyLink = "https://boolti.notion.site/d2a89e2c19824c60bb1e928370d16989"
+    static let informationCollectionPolicyLink = "https://boolti.notion.site/00259d85983c4ba8a987a374e2615396"
+    static let informationOfferPolicyLink = "https://boolti.notion.site/3-354880c7d75e424486b7974e5cc8bcad?pvs=4"
 }

@@ -32,9 +32,6 @@ final class AgreeView: UIView {
     private lazy var offerButton = self.makeAgreeRowButton(type: .check, title: "[필수] 개인정보 제 3자 정보 제공 동의")
     private lazy var offerOpenButton = self.makeOpenButton()
     
-    private lazy var agenciesButton = self.makeAgreeRowButton(type: .check, title: "[필수] 결제대행 서비스 이용약관 동의")
-    private lazy var agenciesOpenButton = self.makeOpenButton()
-    
     // MARK: Initailizer
     
     override init(frame: CGRect) {
@@ -93,7 +90,6 @@ extension AgreeView {
                 owner.allAgreeButton.isSelected.toggle()
                 owner.collectionButton.isSelected.toggle()
                 owner.offerButton.isSelected.toggle()
-                owner.agenciesButton.isSelected.toggle()
                 
                 owner.isAllAgreeButtonSelected.accept(owner.allAgreeButton.isSelected)
             })
@@ -108,10 +104,6 @@ extension AgreeView {
         return self.offerOpenButton.rx.tap.asSignal()
     }
     
-    func didAgenciesOpenButtonTap() -> Signal<Void> {
-        return self.agenciesOpenButton .rx.tap.asSignal()
-    }
-    
 }
 
 // MARK: - UI
@@ -123,9 +115,7 @@ extension AgreeView {
                           self.collectionButton,
                           self.collectionOpenButton,
                           self.offerButton,
-                          self.offerOpenButton,
-                          self.agenciesButton,
-                          self.agenciesOpenButton])
+                          self.offerOpenButton])
         
         self.backgroundColor = .grey90
     }
@@ -133,7 +123,7 @@ extension AgreeView {
     
     private func configureConstraints() {
         self.snp.makeConstraints { make in
-            make.height.equalTo(164)
+            make.height.equalTo(136)
         }
       
         self.allAgreeButton.snp.makeConstraints { make in
@@ -158,17 +148,6 @@ extension AgreeView {
         self.offerOpenButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(20)
             make.centerY.equalTo(self.offerButton)
-        }
-        
-        self.agenciesButton.snp.makeConstraints { make in
-            make.leading.equalTo(self.allAgreeButton)
-            make.top.equalTo(self.offerButton.snp.bottom).offset(4)
-            make.bottom.equalToSuperview().inset(20)
-        }
-        
-        self.agenciesOpenButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(20)
-            make.centerY.equalTo(self.agenciesButton)
         }
     }
     
