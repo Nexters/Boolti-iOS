@@ -17,45 +17,23 @@ final class TicketingCompletionViewModel {
     private let disposeBag = DisposeBag()
     private let ticketReservationsRepository: TicketReservationsRepositoryType
     
-    struct Input {
-        let didCopyButtonTap = PublishSubject<Void>()
-    }
-    
     struct Output {
         let reservationDetail = PublishRelay<TicketReservationDetailEntity>()
     }
-
-    let input: Input
-    let output: Output
     
-    let ticketingData: BehaviorRelay<TicketingEntity>
-    var copyData: String = ""
+    let output: Output
+    let reservationId: Int
 
     // MARK: Init
     
-    init(ticketingEntity: TicketingEntity,
+    init(reservationId: Int,
          ticketReservationsRepository: TicketReservationsRepositoryType) {
-        self.input = Input()
         self.output = Output()
-        self.ticketingData = BehaviorRelay<TicketingEntity>(value: ticketingEntity)
+        self.reservationId = reservationId
         self.ticketReservationsRepository = ticketReservationsRepository
-        
-        self.bindInputs()
         self.fetchReservationDetail()
     }
-}
-
-// MARK: - Methods
-
-extension TicketingCompletionViewModel {
     
-    private func bindInputs() {
-        self.input.didCopyButtonTap
-            .bind(with: self) { owner, _ in
-                UIPasteboard.general.string = owner.copyData
-            }
-            .disposed(by: self.disposeBag)
-    }
 }
 
 // MARK: - Network
@@ -63,9 +41,11 @@ extension TicketingCompletionViewModel {
 extension TicketingCompletionViewModel {
     
     private func fetchReservationDetail() {
-        self.ticketReservationsRepository.ticketReservationDetail(with: String(self.ticketingData.value.reservationId))
-            .asObservable()
-            .bind(to: self.output.reservationDetail)
+        self.ticketReservationsRepository.ticketReservationDetail(with: "\(self.reservationId)")
+            .subscribe(with: self) { owner, response in
+                owner.output.reservationDetail.accept(response)
+            }
             .disposed(by: self.disposeBag)
     }
+    
 }

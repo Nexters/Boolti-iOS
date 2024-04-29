@@ -135,7 +135,7 @@ extension TicketingConfirmViewController {
                 guard let depositor = entity.depositor else { return }
                 self.depositorInfo.text = "\(depositor.name)\n\(depositor.phoneNumber.formatPhoneNumber())"
                 self.depositorInfo.setAlignment(.right)
-                self.methodInfo.text = "계좌 이체"
+                self.methodStackView.isHidden = true
             }
         case .invitation:
             self.depositorStackView.isHidden = true
@@ -144,6 +144,14 @@ extension TicketingConfirmViewController {
     }
 
     private func bindViewModel() {
+        self.viewModel.output.navigateToTossPayments
+            .subscribe(with: self) { owner, _ in
+                owner.dismiss(animated: true) {
+                    self.onDismiss?(owner.viewModel.ticketingEntity)
+                }
+            }
+            .disposed(by: self.disposeBag)
+        
         self.viewModel.output.navigateToCompletion
             .subscribe(with: self) { owner, _ in
                 owner.dismiss(animated: true) {
@@ -151,6 +159,7 @@ extension TicketingConfirmViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+            
     }
     
     private func bindUIComponents() {

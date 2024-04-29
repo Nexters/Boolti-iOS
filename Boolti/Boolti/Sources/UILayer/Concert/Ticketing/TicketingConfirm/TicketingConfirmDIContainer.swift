@@ -9,10 +9,10 @@ import UIKit
 
 final class TicketingConfirmDIContainer {
 
-    private let concertRepository: ConcertRepository
+    private let ticketingRepository: TicketingRepository
 
-    init(concertRepository: ConcertRepository) {
-        self.concertRepository = concertRepository
+    init(ticketingRepository: TicketingRepository) {
+        self.ticketingRepository = ticketingRepository
     }
 
     func createTicketingConfirmViewController(ticketingEntity: TicketingEntity) -> TicketingConfirmViewController {
@@ -24,7 +24,7 @@ final class TicketingConfirmDIContainer {
     }
 
     private func createTicketingConfirmViewModel(ticketingEntity: TicketingEntity) -> TicketingConfirmViewModel {
-        return TicketingConfirmViewModel(concertRepository: self.concertRepository, ticketingEntity: ticketingEntity)
+        return TicketingConfirmViewModel(ticketingRepository: self.ticketingRepository, ticketingEntity: ticketingEntity)
     }
 
 }

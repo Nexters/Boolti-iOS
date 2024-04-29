@@ -28,7 +28,7 @@ final class ReservedTicketView: UIView {
         view.axis = .vertical
         view.alignment = .fill
         
-        view.addArrangedSubviews([self.titleLabel, self.ticketDetailLabel, self.priceLabel])
+        view.addArrangedSubviews([self.titleLabel, self.dateTimeLabel])
         return view
     }()
     
@@ -40,16 +40,9 @@ final class ReservedTicketView: UIView {
         return label
     }()
     
-    private let ticketDetailLabel: BooltiUILabel = {
+    private let dateTimeLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.font = .caption
-        label.textColor = .grey30
-        return label
-    }()
-    
-    private let priceLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.font = .caption
+        label.font = .pretendardR(14)
         label.textColor = .grey30
         return label
     }()
@@ -72,11 +65,12 @@ final class ReservedTicketView: UIView {
 
 extension ReservedTicketView {
     
-    func setData(concert: ConcertDetailEntity, selectedTicket: SelectedTicketEntity) {
-        self.titleLabel.text = concert.name
-        self.ticketDetailLabel.text = "\(selectedTicket.ticketName) / \(selectedTicket.count)매"
-        self.priceLabel.text = "\((selectedTicket.count * selectedTicket.price).formattedCurrency())원"
-        self.poster.setImage(with: concert.posters.first?.thumbnailPath ?? "")
+    func setData(concertName: String,
+                 concertDate: Date,
+                 posterURL: String) {
+        self.titleLabel.text = concertName
+        self.dateTimeLabel.text = concertDate.format(.dateDayTime)
+        self.poster.setImage(with: posterURL)
     }
 }
 
@@ -86,16 +80,15 @@ extension ReservedTicketView {
 extension ReservedTicketView {
     
     private func configureUI() {
+        self.backgroundColor = .grey90
+        self.layer.cornerRadius = 4
+        
         self.addSubviews([self.poster, self.labelStackView])
     }
     
     private func configureConstraints() {
-        self.snp.makeConstraints { make in
-            make.height.equalTo(146)
-        }
-        
         self.poster.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.verticalEdges.equalToSuperview().inset(16)
             make.left.equalToSuperview().inset(20)
             make.height.equalTo(98)
             make.width.equalTo(70)
@@ -103,7 +96,7 @@ extension ReservedTicketView {
         
         self.labelStackView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.equalTo(self.poster.snp.right).offset(16)
+            make.left.equalTo(self.poster.snp.right).offset(20)
             make.right.equalToSuperview().inset(20)
         }
     }

@@ -46,7 +46,7 @@ final class SplashViewController: UIViewController {
         self.configureUI()
         self.configureConstraints()
         self.bind()
-        self.viewModel.checkUpdateRequired()
+        self.viewModel.checkRemoteConfig()
     }
 }
 

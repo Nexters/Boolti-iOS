@@ -15,7 +15,6 @@ final class PolicyView: UIView {
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
-    let policyLabelHeight = PublishRelay<CGFloat>()
     
     // MARK: UI Component
     
@@ -34,6 +33,7 @@ final class PolicyView: UIView {
         return button
     }()
     
+    // TODO: - remote config로 변경
     private let policyLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .body1
@@ -85,7 +85,6 @@ extension PolicyView {
                 owner.snp.updateConstraints { make in
                     make.height.equalTo(constraint)
                 }
-                owner.policyLabelHeight.accept(constraint)
             }).disposed(by: self.disposeBag)
     }
 }
