@@ -178,6 +178,10 @@ extension TicketingDetailViewController {
             .map { $0.replacingOccurrences(of: "-", with: "") }
             .bind(to: self.viewModel.input.depositorPhoneNumber)
             .disposed(by: self.disposeBag)
+        
+        self.invitationCodeView.codeTextField.rx.text.orEmpty
+            .bind(to: self.viewModel.input.invitationCode)
+            .disposed(by: self.disposeBag)
     }
     
     private func bindOutputs() {
