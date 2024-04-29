@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 import RxSwift
 import RxCocoa
@@ -74,6 +75,12 @@ extension BooltiViewController {
 
     func showToast(message: String) {
         self.toastView.showToast.accept(message)
+    }
+    
+    func openSafari(with url: URL) {
+        let safariViewController = SFSafariViewController(url: url)
+        safariViewController.modalPresentationStyle = .formSheet
+        self.present(safariViewController, animated: true)
     }
 }
 

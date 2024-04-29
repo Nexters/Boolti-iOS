@@ -26,6 +26,8 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let csReservationId: String
     let easyPayDetail: EasyPayDetail?
     let cardDetail: CardDetail?
+    let transferDetail: TransferDetail?
+    let showDate: String
 }
 
 struct EasyPayDetail: Decodable {
@@ -37,6 +39,10 @@ struct CardDetail: Decodable {
     let issuerCode: String
 }
 
+struct TransferDetail: Decodable {
+    let bankCode: String
+}
+
 extension TicketReservationDetailResponseDTO {
     func convertToTicketReservationDetailEntity() -> TicketReservationDetailEntity {
 
@@ -45,6 +51,7 @@ extension TicketReservationDetailResponseDTO {
         let totalAmountPrice = self.totalAmountPrice ?? 0
         let paymentMethod = paymentMethod()
         let paymentCardDetail = paymentCardDetail()
+        let transferAccountBank = transferAccountBank()
 
         return TicketReservationDetailEntity(
             reservationID: String(self.reservationId),
@@ -65,7 +72,9 @@ extension TicketReservationDetailResponseDTO {
             salesEndTime: self.salesEndTime,
             csReservationID: self.csReservationId,
             easyPayProvider: self.easyPayDetail?.provider ?? "",
-            paymentCardDetail: paymentCardDetail
+            accountTransferBank: transferAccountBank,
+            paymentCardDetail: paymentCardDetail,
+            showDate: self.showDate.formatToDate()
         )
     }
 
@@ -80,7 +89,13 @@ extension TicketReservationDetailResponseDTO {
 
         return PaymentCardDetail(
             installmentPlanMonths: cardDetail.installmentPlanMonths == 0 ? "일시불" : "\(cardDetail.installmentPlanMonths)개월",
-            issuer: cardTypeByCode[cardDetail.issuerCode] ?? ""
+            issuer: PaymentMethod.issuerByCode[cardDetail.issuerCode] ?? ""
         )
+    }
+
+    private func transferAccountBank() -> String? {
+        guard let transferDetail = self.transferDetail else { return nil }
+
+        return PaymentMethod.issuerByCode[transferDetail.bankCode]
     }
 }
