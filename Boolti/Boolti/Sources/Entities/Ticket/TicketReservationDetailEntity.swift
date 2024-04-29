@@ -109,12 +109,12 @@ struct PaymentCardDetail {
 
 struct TicketReservationDetailEntity {
 
-    let reservationID: String
+    let reservationID: Int
     let concertPosterImageURLPath: String
     let concertTitle: String
     let salesTicketName: String
     let ticketType: TicketType
-    let ticketCount: String
+    let ticketCount: Int
     let depositDeadLine: String
     let paymentMethod: PaymentMethod?
     let totalPaymentAmount: String

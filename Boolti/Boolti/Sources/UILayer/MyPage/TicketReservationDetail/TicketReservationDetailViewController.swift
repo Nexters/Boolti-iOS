@@ -279,7 +279,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
             posterImageURLPath: entity.concertPosterImageURLPath,
             concertTitle: entity.concertTitle,
             salesTicketName: entity.salesTicketName,
-            ticketCount: entity.ticketCount
+            ticketCount: "\(entity.ticketCount)"
         )
 
         // 티켓 정보

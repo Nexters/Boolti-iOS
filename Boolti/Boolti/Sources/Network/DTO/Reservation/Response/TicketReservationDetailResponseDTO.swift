@@ -54,12 +54,12 @@ extension TicketReservationDetailResponseDTO {
         let transferAccountBank = transferAccountBank()
 
         return TicketReservationDetailEntity(
-            reservationID: String(self.reservationId),
+            reservationID: self.reservationId,
             concertPosterImageURLPath: self.showImg,
             concertTitle: self.showName,
             salesTicketName: self.salesTicketName,
             ticketType: ticketType,
-            ticketCount: "\(self.ticketCount)",
+            ticketCount: self.ticketCount,
             depositDeadLine: self.salesEndTime,
             paymentMethod: paymentMethod,
             totalPaymentAmount: totalAmountPrice.formattedCurrency(),

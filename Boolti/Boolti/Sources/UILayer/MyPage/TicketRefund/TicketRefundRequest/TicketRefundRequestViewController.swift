@@ -199,7 +199,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
                     posterImageURLPath: entity.concertPosterImageURLPath,
                     concertTitle: entity.concertTitle,
                     salesTicketName: entity.salesTicketName,
-                    ticketCount: entity.ticketCount
+                    ticketCount: "\(entity.ticketCount)"
                 )
                 owner.configureRefundInformation(with: entity)
             }
