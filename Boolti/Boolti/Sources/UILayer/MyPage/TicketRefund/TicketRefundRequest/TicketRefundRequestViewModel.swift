@@ -14,19 +14,11 @@ final class TicketRefundRequestViewModel {
 
     struct Input {
         let viewWillAppearEvent = PublishRelay<Void>()
-        let selectedItem = PublishRelay<BankEntity>()
-        let accoundHolderNameText = BehaviorRelay<String>(value: "")
-        let accountHolderPhoneNumberText = BehaviorRelay<String>(value: "")
-        let refundAccountNumberText = BehaviorRelay<String>(value: "")
         let isReversalPolicyChecked = BehaviorRelay<Bool>(value: false)
     }
 
     struct Output {
         let tickerReservationDetail = BehaviorRelay<TicketReservationDetailEntity?>(value: nil)
-        let isAccoundHolderNameEmpty = PublishRelay<Bool>()
-        let isAccoundHolderPhoneNumberEmpty = PublishRelay<Bool>()
-        let selectedBank = BehaviorRelay<BankEntity?>(value: nil)
-        let isValidrefundAccountNumber = PublishRelay<Bool>()
         let isReversalPolicyChecked = PublishRelay<Bool>()
     }
 
@@ -34,7 +26,6 @@ final class TicketRefundRequestViewModel {
     let output: Output
 
     private let disposeBag = DisposeBag()
-
 
     let reservationID: String
     let reasonText: String
@@ -57,31 +48,6 @@ final class TicketRefundRequestViewModel {
             .subscribe(with: self, onNext: { owner, ticketReservationDetail in
                 owner.output.tickerReservationDetail.accept(ticketReservationDetail)
             })
-            .disposed(by: self.disposeBag)
-
-        self.input.accoundHolderNameText
-            .subscribe(with: self) { owner, text in
-                owner.output.isAccoundHolderNameEmpty.accept(text.isEmpty)
-            }
-            .disposed(by: self.disposeBag)
-
-        self.input.accountHolderPhoneNumberText
-            .subscribe(with: self) { owner, text in
-                owner.output.isAccoundHolderPhoneNumberEmpty.accept(text.isEmpty)
-            }
-            .disposed(by: self.disposeBag)
-
-        self.input.refundAccountNumberText
-            .map { self.checkAccountNumber($0)}
-            .subscribe(with: self) { owner, isValid in
-                owner.output.isValidrefundAccountNumber.accept(isValid)
-            }
-            .disposed(by: self.disposeBag)
-
-        self.input.selectedItem
-            .subscribe(with: self) { owner, bankEntity in
-                owner.output.selectedBank.accept(bankEntity)
-            }
             .disposed(by: self.disposeBag)
 
         self.input.isReversalPolicyChecked

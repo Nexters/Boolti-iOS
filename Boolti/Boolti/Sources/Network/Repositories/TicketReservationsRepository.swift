@@ -44,6 +44,6 @@ final class TicketReservationRepository: TicketReservationsRepositoryType {
     func requestRefund(with requestDTO: TicketRefundRequestDTO) -> Single<Void> {
         let api = TicketReservationAPI.requestRefund(requestDTO: requestDTO)
         return self.networkService.request(api)
-            .map { _ in () }
+            .map { _ in () } // 에러 핸들링 예정!..
     }
 }

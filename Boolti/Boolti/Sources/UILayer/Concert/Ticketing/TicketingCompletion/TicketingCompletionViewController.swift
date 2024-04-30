@@ -172,30 +172,20 @@ extension TicketingCompletionViewController {
             .take(1)
             .bind(with: self) { owner, entity in
                 owner.reservationInfoLabel.text = entity.csReservationID
-                
                 owner.ticketHolderInfoLabel.text = "\(entity.purchaseName) / \(entity.purchaserPhoneNumber.formatPhoneNumber())"
-
-                if entity.totalPaymentAmount == "0" {
-                    owner.payerStackView.isHidden = true
-                } else {
-                    owner.payerInfoLabel.text = "\(entity.depositorName) / \(entity.depositorPhoneNumber.formatPhoneNumber())"
-                }
-                
                 owner.ticketInfoLabel.text = "\(entity.salesTicketName) / \(entity.ticketCount)매"
-                
+                owner.reservedTicketView.setData(
+                    concertName: entity.concertTitle,
+                    concertDate: entity.showDate,
+                    posterURL: entity.concertPosterImageURLPath
+                )
+
                 switch entity.ticketType {
                 case .invitation:
-                    owner.amountInfoLabel.text = "0원 (초청 코드)"
+                    owner.configureInvitationTicketCase(with: entity)
                 case .sale:
-                    if entity.totalPaymentAmount == "0" {
-                        owner.amountInfoLabel.text = "0원"
-                    } else {
-                        let paymentMonty: String = entity.installmentPlanMonths == 0 ? "일시불" : "\(entity.installmentPlanMonths)개월"
-                        owner.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(entity.easyPayProvider) / \(paymentMonty))"
-                    }
+                    owner.configureSaleTicketCases(with: entity)
                 }
-                
-                owner.reservedTicketView.setData(concertName: entity.concertTitle, concertDate: entity.concertDate, posterURL: entity.concertPosterImageURLPath)
             }
             .disposed(by: self.disposeBag)
     }
@@ -218,9 +208,59 @@ extension TicketingCompletionViewController {
         
         self.view.backgroundColor = .grey95
     }
-    
+
+    private func configureSaleTicketCases(with entity: TicketReservationDetailEntity) {
+        guard let paymentMethod = entity.paymentMethod else { return }
+        switch paymentMethod {
+        case .accountTransfer:
+            self.setAccountTransferPaymentTicketCase(with: entity)
+        case .card:
+            self.setCardPaymentTicketCase(with: entity)
+        case .simplePayment:
+            self.setSimplePaymentTicketCase(with: entity)
+        case .free:
+            self.setFreeTicketCase(with: entity)
+        }
+    }
+
+    private func configureInvitationTicketCase(with entity: TicketReservationDetailEntity) {
+        self.amountInfoLabel.text = "0원 (초청 코드)"
+        self.payerStackView.isHidden = true
+    }
+
+    private func setFreeTicketCase(with entity: TicketReservationDetailEntity) {
+        self.amountInfoLabel.text = "0원"
+        self.payerStackView.isHidden = true
+    }
+
+    private func setCardPaymentTicketCase(with entity: TicketReservationDetailEntity) {
+        self.setPayerInfoLabel(with: entity)
+
+        guard let paymentCardDetail = entity.paymentCardDetail else { return }
+        let installmentPlanMonths = paymentCardDetail.installmentPlanMonths
+        let paymentMonth = installmentPlanMonths == "0" ? "일시불" : "\(installmentPlanMonths)"
+
+        self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(paymentCardDetail.issuer) / \(paymentMonth))"
+    }
+
+    private func setAccountTransferPaymentTicketCase(with entity: TicketReservationDetailEntity) {
+        self.setPayerInfoLabel(with: entity)
+        guard let accountTransferBank = entity.accountTransferBank else { return }
+        self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(accountTransferBank) / 계좌이체)"
+    }
+
+    private func setSimplePaymentTicketCase(with entity: TicketReservationDetailEntity) {
+        self.setPayerInfoLabel(with: entity)
+        guard let easyPayProvider = entity.easyPayProvider else { return }
+        self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(easyPayProvider) / 간편결제)"
+    }
+
+    private func setPayerInfoLabel(with entity: TicketReservationDetailEntity) {
+        self.payerInfoLabel.text = "\(entity.depositorName) / \(entity.depositorPhoneNumber.formatPhoneNumber())"
+    }
+
     private func configureConstraints() {
-        
+
         self.navigationBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()

@@ -54,16 +54,7 @@ final class TicketRefundConfirmViewModel {
     }
 
     private func requestReservationRefund() -> Single<Void>{
-        // Entity 타입 Int로 끌고 가기! -> 리팩
-        // DTO 타입을 Repository에서 만들 수 있도록 리팩토링하기!..
-        let requestDTO = TicketRefundRequestDTO(
-            reservationID: Int(self.reservationID)!,
-            refundReason: self.reasonText,
-            refundPhoneNumber: self.refundAccountInformation.accountHolderPhoneNumber,
-            refundAccountName: self.refundAccountInformation.accountHolderName,
-            refundAccountNumber: self.refundAccountInformation.accountNumber,
-            refundBankCode: BankEntity.bankCodeDictionary[self.refundAccountInformation.accountBankName] ?? ""
-        )
+        let requestDTO = TicketRefundRequestDTO(reservationId: Int(self.reservationID)!, cancelReason: self.reasonText)
         return self.ticketReservationRepository.requestRefund(with: requestDTO)
     }
 }

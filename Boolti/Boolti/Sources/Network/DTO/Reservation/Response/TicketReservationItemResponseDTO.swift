@@ -24,7 +24,7 @@ extension TicketReservationItemResponseDTO {
     
     func convertToTicketReservationItemEntity() -> TicketReservationItemEntity {
         let reservationID = self.reservationId
-        let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.cancelled
+        let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.reservationCompleted
         let reservationDate = self.reservationDate.components(separatedBy: ".")[0]
         let concertTitle = self.showName
         let concertImageURLPath = self.showImg

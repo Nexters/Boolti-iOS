@@ -275,6 +275,7 @@ extension TicketingDetailViewController {
                 if changedText.count > 8 {
                     owner.invitationCodeView.codeTextField.deleteBackward()
                 }
+                owner.viewModel.input.invitationCode.accept(owner.invitationCodeView.codeTextField.text ?? "")
             })
             .disposed(by: self.disposeBag)
         
