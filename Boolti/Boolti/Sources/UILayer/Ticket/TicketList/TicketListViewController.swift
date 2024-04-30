@@ -92,7 +92,7 @@ final class TicketListViewController: BooltiViewController {
         self.configureUI()
         self.configureLoadingIndicatorView()
         self.configureCollectionViewDatasource()
-        self.bindUIComponenets()
+        self.bindUIComponents()
         self.bindViewModel()
     }
 
@@ -193,7 +193,7 @@ final class TicketListViewController: BooltiViewController {
         }
     }
 
-    private func bindUIComponenets() {
+    private func bindUIComponents() {
         self.collectionView.rx
             .itemSelected
             .asDriver()

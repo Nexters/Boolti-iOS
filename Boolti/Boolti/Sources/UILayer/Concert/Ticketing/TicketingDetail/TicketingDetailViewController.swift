@@ -178,6 +178,10 @@ extension TicketingDetailViewController {
             .map { $0.replacingOccurrences(of: "-", with: "") }
             .bind(to: self.viewModel.input.depositorPhoneNumber)
             .disposed(by: self.disposeBag)
+        
+        self.invitationCodeView.codeTextField.rx.text.orEmpty
+            .bind(to: self.viewModel.input.invitationCode)
+            .disposed(by: self.disposeBag)
     }
     
     private func bindOutputs() {
@@ -284,23 +288,18 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
-    // TODO: - 보기 버튼 눌렀을 때 각각의 url로 이동
     private func bindAgreeView() {
         self.agreeView.didCollectionOpenButtonTap()
             .emit(with: self) { owner, _ in
-                debugPrint("collection")
+                guard let url = URL(string: AppInfo.informationCollectionPolicyLink) else { return }
+                owner.openSafari(with: url)
             }
             .disposed(by: self.disposeBag)
         
         self.agreeView.didOfferOpenButtonTap()
             .emit(with: self) { owner, _ in
-                debugPrint("offer")
-            }
-            .disposed(by: self.disposeBag)
-        
-        self.agreeView.didAgenciesOpenButtonTap()
-            .emit(with: self) { owner, _ in
-                debugPrint("agencies")
+                guard let url = URL(string: AppInfo.informationOfferPolicyLink) else { return }
+                owner.openSafari(with: url)
             }
             .disposed(by: self.disposeBag)
         

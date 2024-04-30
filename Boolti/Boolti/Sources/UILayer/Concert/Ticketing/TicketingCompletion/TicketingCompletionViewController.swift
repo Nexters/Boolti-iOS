@@ -101,6 +101,7 @@ final class TicketingCompletionViewController: BooltiViewController {
         super.viewDidLoad()
         self.configureUI()
         self.configureConstraints()
+        self.bindComponents()
         self.bindInput()
         self.bindOutput()
     }
@@ -150,6 +151,34 @@ extension TicketingCompletionViewController {
         stackView.spacing = 16
         stackView.addArrangedSubviews(stackViews)
         return stackView
+    }
+    
+    private func bindComponents() {
+        self.openReservationButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.changeTab(to: .myPage)
+                
+                UserDefaults.landingDestination = .reservationList
+                NotificationCenter.default.post(
+                    name: Notification.Name.LandingDestination.reservationList,
+                    object: nil
+                )
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.openTicketButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.changeTab(to: .ticket)
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func changeTab(to tab: HomeTab) {
+        NotificationCenter.default.post(
+            name: Notification.Name.didTabBarSelectedIndexChanged,
+            object: nil,
+            userInfo: ["tabBarIndex" : tab.rawValue]
+        )
     }
     
     private func bindInput() {
