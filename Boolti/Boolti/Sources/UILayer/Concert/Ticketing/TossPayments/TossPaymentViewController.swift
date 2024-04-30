@@ -56,7 +56,7 @@ final class TossPaymentViewController: BooltiViewController {
         
         self.widget = PaymentWidget(
             clientKey: Environment.TOSS_PAYMENTS_KEY,
-            customerKey: self.viewModel.ticketingEntity.orderId ?? ""
+            customerKey: "user-\(UserDefaults.userId)"
         )
         
         super.init()
