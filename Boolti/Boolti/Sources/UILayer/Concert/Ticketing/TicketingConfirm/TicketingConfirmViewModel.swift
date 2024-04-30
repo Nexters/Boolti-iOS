@@ -24,6 +24,7 @@ final class TicketingConfirmViewModel {
     struct Output {
         let navigateToTossPayments = PublishSubject<Void>()
         let navigateToCompletion = PublishSubject<Void>()
+        let didFreeOrderPaymentFailed = PublishSubject<Void>()
     }
 
     var input: Input
@@ -81,10 +82,12 @@ extension TicketingConfirmViewModel {
         self.ticketingRepository.freeTicketing(selectedTicket: self.ticketingEntity.selectedTicket,
                                                ticketHolderName: self.ticketingEntity.ticketHolder.name,
                                                ticketHolderPhoneNumber: self.ticketingEntity.ticketHolder.phoneNumber)
-        .do { self.ticketingEntity.reservationId = $0.reservationId }
-        .subscribe(with: self) { owner, _ in
+        .subscribe(with: self, onSuccess: { owner, response in
+            owner.ticketingEntity.reservationId = response.reservationId
             owner.output.navigateToCompletion.onNext(())
-        }
+        }, onFailure: { owner, error in
+            owner.output.didFreeOrderPaymentFailed.onNext(())
+        })
         .disposed(by: self.disposeBag)
     }
     

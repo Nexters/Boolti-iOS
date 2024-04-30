@@ -220,6 +220,11 @@ extension TicketingDetailViewController {
                         owner.present(tossVC, animated: true)
                     }
                 }
+                
+                ticketingConfirmVC.onDismissOrderFailure = {
+                    owner.popupView.showPopup(with: .soldoutBeforePayment)
+                }
+                
                 owner.present(ticketingConfirmVC, animated: true)
             }
             .disposed(by: self.disposeBag)
