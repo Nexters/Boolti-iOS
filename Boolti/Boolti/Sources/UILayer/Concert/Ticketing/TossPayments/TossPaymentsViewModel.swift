@@ -5,9 +5,17 @@
 //  Created by Juhyeon Byun on 4/20/24.
 //
 
+import Foundation
+
+import Moya
 import RxSwift
 import RxRelay
 import TossPayments
+
+enum TicketingErrorType: String {
+    case noQuantity = "NO_REMAINING_QUANTITY"
+    case tossError
+}
 
 final class TossPaymentsViewModel {
     
@@ -22,6 +30,7 @@ final class TossPaymentsViewModel {
     
     struct Output {
         let didOrderPaymentCompleted = PublishSubject<TicketingEntity>()
+        let didOrderPaymentFailed = PublishSubject<TicketingErrorType>()
     }
 
     var input: Input
@@ -48,16 +57,30 @@ extension TossPaymentsViewModel {
     
     private func bindInputs() {
         self.input.successResult
-            .flatMap { self.orderPayment(success: $0) }
-            .do { self.ticketingEntity.reservationId = $0.reservationId }
-            .subscribe(with: self) { owner, _ in
-                owner.output.didOrderPaymentCompleted.onNext(owner.ticketingEntity)
+            .subscribe(with: self) { owner, success in
+                owner.orderPayment(success: success)
             }
             .disposed(by: self.disposeBag)
     }
     
-    private func orderPayment(success: TossPaymentsResult.Success) -> Single<OrderPaymentResponseDTO> {
-        return self.ticketingRepository.orderPayment(paymentKey: success.paymentKey, amount: Int(success.amount), ticketingEntity: self.ticketingEntity)
+    private func orderPayment(success: TossPaymentsResult.Success) {
+        self.ticketingRepository.orderPayment(paymentKey: success.paymentKey, amount: Int(success.amount), ticketingEntity: self.ticketingEntity)
+            .subscribe(with: self, onSuccess: { owner, response in
+                owner.ticketingEntity.reservationId = response.reservationId
+                owner.output.didOrderPaymentCompleted.onNext(owner.ticketingEntity)
+            }, onFailure: { owner, error in
+                guard let error = error as? MoyaError else { return }
+                guard let response = error.response else { return }
+                let decodedData = try! JSONDecoder().decode(ErrorResponseDTO.self, from: response.data)
+                
+                switch decodedData.type {
+                case TicketingErrorType.noQuantity.rawValue:
+                    owner.output.didOrderPaymentFailed.onNext(.noQuantity)
+                default:
+                    owner.output.didOrderPaymentFailed.onNext(.tossError)
+                }
+            })
+            .disposed(by: self.disposeBag)
     }
     
 }
