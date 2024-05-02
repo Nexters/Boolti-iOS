@@ -12,11 +12,6 @@ import RxSwift
 import RxRelay
 import TossPayments
 
-enum TicketingErrorType: String {
-    case noQuantity = "NO_REMAINING_QUANTITY"
-    case tossError
-}
-
 final class TossPaymentsViewModel {
     
     // MARK: Properties
@@ -71,14 +66,10 @@ extension TossPaymentsViewModel {
             }, onFailure: { owner, error in
                 guard let error = error as? MoyaError else { return }
                 guard let response = error.response else { return }
-                let decodedData = try! JSONDecoder().decode(ErrorResponseDTO.self, from: response.data)
-                
-                switch decodedData.type {
-                case TicketingErrorType.noQuantity.rawValue:
-                    owner.output.didOrderPaymentFailed.onNext(.noQuantity)
-                default:
-                    owner.output.didOrderPaymentFailed.onNext(.tossError)
-                }
+                guard let decodedData = try? JSONDecoder().decode(ErrorResponseDTO.self, from: response.data) else { return }
+
+                guard let ticketingError = TicketingErrorType(rawValue: decodedData.type) else { return }
+                owner.output.didOrderPaymentFailed.onNext(ticketingError)
             })
             .disposed(by: self.disposeBag)
     }

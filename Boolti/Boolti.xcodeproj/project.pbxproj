@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		220013D92BE39F62007FF9E6 /* TicketingErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */; };
 		221D09FC2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */; };
 		221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */; };
 		2233EAAB2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */; };
@@ -315,6 +316,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingErrorType.swift; sourceTree = "<group>"; };
 		221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoViewController.swift; sourceTree = "<group>"; };
 		2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentResponseDTO.swift; sourceTree = "<group>"; };
@@ -1752,6 +1754,7 @@
 			children = (
 				87C7594B2BA93EA40009A83E /* NotificationMessage.swift */,
 				87826AED2BBFF7F2005176D4 /* LandingDestination.swift */,
+				220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -2074,6 +2077,7 @@
 				87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */,
 				84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */,
 				84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */,
+				220013D92BE39F62007FF9E6 /* TicketingErrorType.swift in Sources */,
 				84D1C3872B7A14F300527998 /* CheckInvitationCodeResponseDTO.swift in Sources */,
 				22DD8C992BD499E90083622C /* OrderPaymentRequestDTO.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
