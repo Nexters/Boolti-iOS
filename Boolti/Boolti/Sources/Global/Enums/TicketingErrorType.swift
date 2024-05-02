@@ -11,7 +11,7 @@ enum TicketingErrorType {
 
     init?(rawValue: String) {
         switch rawValue {
-        case "NO_REMAINING_QUANTITY":
+        case "No remaining quantity":
             self = .noQuantity
         default:
             self = .tossError

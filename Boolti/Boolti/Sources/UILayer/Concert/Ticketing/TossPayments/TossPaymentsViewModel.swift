@@ -66,9 +66,12 @@ extension TossPaymentsViewModel {
             }, onFailure: { owner, error in
                 guard let error = error as? MoyaError else { return }
                 guard let response = error.response else { return }
-                guard let decodedData = try? JSONDecoder().decode(ErrorResponseDTO.self, from: response.data) else { return }
-
-                guard let ticketingError = TicketingErrorType(rawValue: decodedData.type) else { return }
+                guard let decodedData = try? JSONDecoder().decode(TicketingErrorResponseDTO.self, from: response.data) else {
+                    owner.output.didOrderPaymentFailed.onNext(.tossError)
+                    return
+                }
+                
+                guard let ticketingError = TicketingErrorType(rawValue: decodedData.tossMessage) else { return }
                 owner.output.didOrderPaymentFailed.onNext(ticketingError)
             })
             .disposed(by: self.disposeBag)
