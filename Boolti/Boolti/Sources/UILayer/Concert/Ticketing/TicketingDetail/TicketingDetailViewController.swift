@@ -88,6 +88,8 @@ final class TicketingDetailViewController: BooltiViewController {
     
     private let payButton = BooltiButton(title: "\(0.formattedCurrency())원 결제하기")
     
+    private let popupView = BooltiPopupView()
+    
     // MARK: Init
     
     init(
@@ -154,6 +156,7 @@ extension TicketingDetailViewController {
         self.bindUserInputView()
         self.bindAgreeView()
         self.bindBusinessInfoView()
+        self.bindPopupView()
     }
     
     private func bindInputs() {
@@ -188,10 +191,10 @@ extension TicketingDetailViewController {
         self.viewModel.output.navigateToConfirm
             .bind(with: self) { owner, _ in
                 guard let ticketingEntity = owner.viewModel.output.ticketingEntity else { return }
-                
+
                 let ticketingConfirmVC = owner.ticketingConfirmViewControllerFactory(ticketingEntity)
                 ticketingConfirmVC.modalPresentationStyle = .overFullScreen
-                
+
                 ticketingConfirmVC.onDismiss = { ticketingEntity in
                     if ticketingEntity.selectedTicket.price == 0 {
                         let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
@@ -199,18 +202,27 @@ extension TicketingDetailViewController {
                     } else {
                         let tossVC = owner.tossPayementsViewControllerFactory(ticketingEntity)
                         tossVC.modalPresentationStyle = .overFullScreen
-    
+
                         tossVC.onDismissOrderSuccess = { ticketingEntity in
                             let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
                             owner.navigationController?.pushViewController(viewController, animated: true)
                         }
-    
-                        tossVC.onDismissOrderFailure = {
-                            // TODO: - 실패 팝업창 띄우기
+
+                        tossVC.onDismissOrderFailure = { error in
+                            switch error {
+                            case .noQuantity:
+                                owner.popupView.showPopup(with: .soldoutBeforePayment)
+                            case .tossError:
+                                owner.popupView.showPopup(with: .ticketingFailed)
+                            }
                         }
-    
+
                         owner.present(tossVC, animated: true)
                     }
+                }
+                
+                ticketingConfirmVC.onDismissOrderFailure = {
+                    owner.popupView.showPopup(with: .soldoutBeforePayment)
                 }
                 
                 owner.present(ticketingConfirmVC, animated: true)
@@ -317,6 +329,21 @@ extension TicketingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
+    private func bindPopupView() {
+        self.popupView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                switch owner.popupView.popupType {
+                case .soldoutBeforePayment:
+                    owner.navigationController?.popViewController(animated: true)
+                case .ticketingFailed:
+                    owner.popupView.isHidden = true
+                default:
+                    break
+                }
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
     private func configureKeyboardNotification() {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { notification in
             guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
@@ -367,7 +394,11 @@ extension TicketingDetailViewController: UIScrollViewDelegate {
 extension TicketingDetailViewController {
     
     private func configureUI() {
-        self.view.addSubviews([self.scrollView, self.navigationBar, self.buttonBackgroundView, self.payButton])
+        self.view.addSubviews([self.scrollView,
+                               self.navigationBar,
+                               self.buttonBackgroundView,
+                               self.payButton,
+                               self.popupView])
         self.scrollView.addSubviews([self.stackView])
         
         self.view.backgroundColor = .grey95
@@ -400,6 +431,10 @@ extension TicketingDetailViewController {
         self.payButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
+        }
+        
+        self.popupView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }

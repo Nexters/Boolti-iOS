@@ -19,7 +19,7 @@ final class TossPaymentViewController: BooltiViewController {
     private let widget: PaymentWidget
     
     var onDismissOrderSuccess: ((TicketingEntity) -> ())?
-    var onDismissOrderFailure: (() -> ())?
+    var onDismissOrderFailure: ((TicketingErrorType) -> ())?
     
     // MARK: UI Component
     
@@ -56,7 +56,7 @@ final class TossPaymentViewController: BooltiViewController {
         
         self.widget = PaymentWidget(
             clientKey: Environment.TOSS_PAYMENTS_KEY,
-            customerKey: self.viewModel.ticketingEntity.orderId ?? ""
+            customerKey: "user-\(UserDefaults.userId)"
         )
         
         super.init()
@@ -125,6 +125,14 @@ extension TossPaymentViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.didOrderPaymentFailed
+            .bind(with: self) { owner, error in
+                owner.dismiss(animated: true) {
+                    owner.onDismissOrderFailure?(error)
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
 }
@@ -139,7 +147,7 @@ extension TossPaymentViewController: TossPaymentsDelegate {
     
     func handleFailResult(_ fail: TossPaymentsResult.Fail) {
         self.dismiss(animated: true) {
-            self.onDismissOrderFailure?()
+            self.onDismissOrderFailure?(.tossError)
         }
     }
     
@@ -151,10 +159,6 @@ extension TossPaymentViewController: TossPaymentsWidgetStatusDelegate {
     
     func didReceivedLoad(_ name: String) {
         self.payButton.isHidden = false
-    }
-    
-    func didReceiveFail(_ name: String, fail: TossPaymentsResult.Fail) {
-        self.showToast(message: "결제 정보를 입력해주세요")
     }
     
 }

@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		220013D92BE39F62007FF9E6 /* TicketingErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */; };
 		221D09FC2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */; };
 		221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */; };
 		2233EAAB2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */; };
+		2233EAAF2BE142C900A315BF /* ErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAE2BE142C900A315BF /* ErrorResponseDTO.swift */; };
 		226D42BF2B9EBA3E00680198 /* BooltiBusinessInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */; };
 		22CDB2C62BA2635E00D2077D /* BusinessInfoDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */; };
 		22CF3A2F2BB51A710094711C /* SelectedSalesTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */; };
@@ -314,9 +316,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingErrorType.swift; sourceTree = "<group>"; };
 		221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoViewController.swift; sourceTree = "<group>"; };
 		2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentResponseDTO.swift; sourceTree = "<group>"; };
+		2233EAAE2BE142C900A315BF /* ErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponseDTO.swift; sourceTree = "<group>"; };
 		226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBusinessInfoView.swift; sourceTree = "<group>"; };
 		22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoDIContainer.swift; sourceTree = "<group>"; };
 		22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedSalesTicketView.swift; sourceTree = "<group>"; };
@@ -975,6 +979,7 @@
 		84781C792B5BEBDA00D37921 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				2233EAAE2BE142C900A315BF /* ErrorResponseDTO.swift */,
 				87CE4F662B8DD93A007A0C8F /* PushNotification */,
 				84781C7A2B5BEBE500D37921 /* Auth */,
 				84DC6F632B728792001F9576 /* Concert */,
@@ -1749,6 +1754,7 @@
 			children = (
 				87C7594B2BA93EA40009A83E /* NotificationMessage.swift */,
 				87826AED2BBFF7F2005176D4 /* LandingDestination.swift */,
+				220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1962,6 +1968,7 @@
 				848CBF032B65458900239303 /* Int+.swift in Sources */,
 				84886E902B70A7D4005D2329 /* ContentInfoView.swift in Sources */,
 				84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */,
+				2233EAAF2BE142C900A315BF /* ErrorResponseDTO.swift in Sources */,
 				8730F0142B7B10A300D4F339 /* TicketRefundReasonDIContainer.swift in Sources */,
 				840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */,
 				84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */,
@@ -2070,6 +2077,7 @@
 				87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */,
 				84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */,
 				84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */,
+				220013D92BE39F62007FF9E6 /* TicketingErrorType.swift in Sources */,
 				84D1C3872B7A14F300527998 /* CheckInvitationCodeResponseDTO.swift in Sources */,
 				22DD8C992BD499E90083622C /* OrderPaymentRequestDTO.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
@@ -2324,7 +2332,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2341,7 +2349,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.boolti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2365,7 +2373,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2382,7 +2390,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.boolti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
