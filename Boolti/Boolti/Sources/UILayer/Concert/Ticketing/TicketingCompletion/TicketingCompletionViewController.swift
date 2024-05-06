@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import RxAppState
 
 final class TicketingCompletionViewController: BooltiViewController {
     
@@ -194,11 +195,19 @@ extension TicketingCompletionViewController {
                 self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
             }
             .disposed(by: self.disposeBag)
+
+        self.rx.viewWillAppear
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.viewWillAppearEvent.onNext(())
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindOutput() {
         self.viewModel.output.reservationDetail
             .take(1)
+            .compactMap { $0 }
             .bind(with: self) { owner, entity in
                 owner.reservationInfoLabel.text = entity.csReservationID
                 owner.ticketHolderInfoLabel.text = "\(entity.purchaseName) / \(entity.purchaserPhoneNumber.formatPhoneNumber())"
