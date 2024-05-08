@@ -141,6 +141,7 @@ extension TicketingConfirmViewController {
         case .invitation:
             self.depositorStackView.isHidden = true
             self.methodInfo.text = "초청 코드"
+            self.methodStackView.isHidden = true
         }
     }
 
