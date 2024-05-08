@@ -51,6 +51,10 @@ final class TicketReservationsViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = true
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        self.configureLandingDestination()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
@@ -141,6 +145,16 @@ final class TicketReservationsViewController: BooltiViewController {
                 cell.setData(with: item)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    func configureLandingDestination() {
+        guard let landingDestination = UserDefaults.landingDestination else { return }
+
+        if case .reservationDetail(let reservationID) = landingDestination {
+            UserDefaults.landingDestination = nil // 할일 다하면 nil로 설정하기
+            let viewController = self.ticketReservationDetailViewControllerFactory("\(reservationID)")
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
     }
 }
 

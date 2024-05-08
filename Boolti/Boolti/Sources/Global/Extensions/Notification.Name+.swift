@@ -15,5 +15,6 @@ extension Notification.Name {
     enum LandingDestination {
         static let concertDetail = Notification.Name("concertDetail")
         static let reservationList = Notification.Name("reservationList")
+        static let reservationDetail = Notification.Name("reservationDetail")
     }
 }
