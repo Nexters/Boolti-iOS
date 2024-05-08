@@ -9,7 +9,6 @@ import UIKit
 
 import RxSwift
 import RxCocoa
-import RxAppState
 
 final class TicketingConfirmViewController: BooltiViewController {
     
