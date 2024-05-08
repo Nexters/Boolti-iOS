@@ -158,10 +158,10 @@ extension TicketingCompletionViewController {
         self.openReservationButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.changeTab(to: .myPage)
-                
-                UserDefaults.landingDestination = .reservationList
+
+                UserDefaults.landingDestination = .reservationDetail(reservationID: owner.viewModel.reservationId)
                 NotificationCenter.default.post(
-                    name: Notification.Name.LandingDestination.reservationList,
+                    name: Notification.Name.LandingDestination.reservationDetail,
                     object: nil
                 )
             }
