@@ -334,7 +334,6 @@ final class TicketReservationDetailViewController: BooltiViewController {
     }
 
     private func configureAccountTransferPayment(with accountTransferBank: String?) {
-        guard let accountTransferBank else { return }
         self.paymentMethodView.setData("계좌이체")
     }
 
