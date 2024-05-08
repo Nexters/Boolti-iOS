@@ -313,7 +313,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         guard let paymentMethod = entity.paymentMethod else { return }
         switch paymentMethod {
         case .accountTransfer:
-            self.configureAccountTransferPayment(with: entity.accountTransferBank)
+            self.configureAccountTransferPayment()
         case .card:
             self.configurePaymentCardDetail(with: entity.paymentCardDetail)
         case .simplePayment:
@@ -333,7 +333,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.paymentMethodView.setData("\(paymentCardDetail.issuer) / \(paymentCardDetail.installmentPlanMonths)")
     }
 
-    private func configureAccountTransferPayment(with accountTransferBank: String?) {
+    private func configureAccountTransferPayment() {
         self.paymentMethodView.setData("계좌이체")
     }
 
@@ -365,8 +365,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         guard let paymentMethod = entity.paymentMethod else { return }
         switch paymentMethod {
         case .accountTransfer:
-            guard let accountTransferBank = entity.accountTransferBank else { return }
-            self.refundMethodView.setData("\(accountTransferBank)")
+            self.refundMethodView.setData("계좌이체")
         case .card:
             guard let paymentCardDetail = entity.paymentCardDetail else { return }
             self.refundMethodView.setData("\(paymentCardDetail.issuer)")
