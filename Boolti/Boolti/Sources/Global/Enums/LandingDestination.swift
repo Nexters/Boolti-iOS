@@ -9,6 +9,7 @@ import Foundation
 
  enum LandingDestination: Codable {
      case reservationList
+     case reservationDetail(reservationID: Int)
      case concertDetail(concertId: Int)
      // 추가될 예정
  }
