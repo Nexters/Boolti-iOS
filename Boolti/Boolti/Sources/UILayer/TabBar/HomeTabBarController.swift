@@ -83,21 +83,24 @@ extension HomeTabBarController {
             }
             .disposed(by: self.disposeBag)
 
-        self.viewModel.landingDestination
-            .subscribe(with: self) { owner, viewControllerType in
-                // 아래 코드 정리하기!.. - 타입 캐스팅 일일이 하지 않고, 제네릭타입으로 할 수 있게 구현해보기
-                if let _ = viewControllerType as? ConcertListViewController.Type {
+        self.viewModel.initialLandingTab
+            .subscribe(with: self) { owner, startingTab in
+                // 처음 시작점을 설정해주기
+                switch startingTab {
+                case .concert:
                     guard let viewController = owner.viewControllers?[HomeTab.concert.rawValue] as? UINavigationController
                     else { return }
                     guard let concertListViewController = viewController.topViewController as? ConcertListViewController
                     else { return }
                     concertListViewController.configureDynamicLinkDestination()
-                } else if let _ = viewControllerType as? TicketReservationsViewController.Type {
+                case .myPage:
                     guard let viewController = owner.viewControllers?[HomeTab.myPage.rawValue] as? UINavigationController
                     else { return }
                     guard let myPageViewController = viewController.topViewController as? MyPageViewController
                     else { return }
                     myPageViewController.configureLandingDestination()
+                default:
+                    break
                 }
             }
             .disposed(by: self.disposeBag)
