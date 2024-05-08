@@ -50,7 +50,6 @@ final class MyPageViewController: BooltiViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
-        self.isAlreadyNavigated = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -239,7 +238,10 @@ final class MyPageViewController: BooltiViewController {
     }
 
     func configureLandingDestination() {
-        guard !self.isAlreadyNavigated else { return }
+        if self.isAlreadyNavigated {
+            self.isAlreadyNavigated = false
+            return
+        }
         guard let landingDestination = UserDefaults.landingDestination else { return }
 
         if case .reservationList = landingDestination {
