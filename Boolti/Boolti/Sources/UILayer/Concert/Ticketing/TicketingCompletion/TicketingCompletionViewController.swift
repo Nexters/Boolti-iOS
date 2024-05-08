@@ -284,7 +284,7 @@ extension TicketingCompletionViewController {
     private func setAccountTransferPaymentTicketCase(with entity: TicketReservationDetailEntity) {
         self.setPayerInfoLabel(with: entity)
         guard let accountTransferBank = entity.accountTransferBank else { return }
-        self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(accountTransferBank) / 계좌이체)"
+        self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원 (계좌이체)"
     }
 
     private func setSimplePaymentTicketCase(with entity: TicketReservationDetailEntity) {
