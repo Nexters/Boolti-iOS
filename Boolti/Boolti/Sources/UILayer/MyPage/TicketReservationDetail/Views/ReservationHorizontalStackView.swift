@@ -31,7 +31,7 @@ final class ReservationHorizontalStackView: UIStackView {
         return label
     }()
 
-    private let contentLabel: BooltiUILabel = {
+    private(set) var contentLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .pretendardR(16)
         label.textColor = .grey15

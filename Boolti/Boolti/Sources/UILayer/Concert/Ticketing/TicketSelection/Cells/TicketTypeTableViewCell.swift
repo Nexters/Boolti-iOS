@@ -56,7 +56,7 @@ final class TicketTypeTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        self.resetData()
+        self.resetCell()
     }
 }
 
@@ -82,11 +82,15 @@ extension TicketTypeTableViewCell {
         }
     }
     
-    func resetData() {
+    func resetCell() {
         self.nameLabel.text = nil
-        self.inventoryLabel.text = nil
+        self.nameLabel.textColor = .grey05
+        
         self.priceLabel.text = nil
-        self.inventoryLabel.isHidden = true
+        self.priceLabel.textColor = .grey05
+        
+        self.inventoryLabel.text = nil
+        self.inventoryLabel.isHidden = false
     }
 }
 

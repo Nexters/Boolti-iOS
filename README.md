@@ -20,7 +20,9 @@
 - RxKakaoSDK
 - Snapkit
 - FireBase
+
 ## 🚨 트러블 슈팅
-|목록|
+|김용재(@longlivedrgn)|
 |---|
 | [TabbarController의 presentingViewController(feat.currentContext)](https://github.com/Nexters/Boolti-iOS/wiki/TabbarController의-presentingViewController(feat.currentContext)) |
+| [셀 재사용에 따른 중복 binding 이슈(feat.disposeBag)](https://github.com/Nexters/Boolti-iOS/wiki/셀-재사용에-따른-중복-binding-이슈(feat.disposeBag)) |

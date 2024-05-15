@@ -7,11 +7,7 @@
 
 import Foundation
 
-struct TicketRefundRequestDTO {
-    let reservationID: Int
-    let refundReason: String
-    let refundPhoneNumber: String
-    let refundAccountName: String
-    let refundAccountNumber: String
-    let refundBankCode: String
+struct TicketRefundRequestDTO: Encodable {
+    let reservationId: Int
+    let cancelReason: String
 }

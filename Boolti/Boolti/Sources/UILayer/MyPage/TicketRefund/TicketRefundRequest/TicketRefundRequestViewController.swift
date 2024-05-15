@@ -15,6 +15,10 @@ import RxKeyboard
 
 final class TicketRefundRequestViewController: BooltiViewController {
 
+    private enum Constants {
+        static let booltiDomain = "@스튜디오불티"
+    }
+
     typealias ReservationID = String
     typealias ReasonText = String
 
@@ -45,36 +49,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
     private let concertInformationView = ConcertInformationView()
 
-    // 예금주 정보
-    private lazy var accountHolderTitleLabel = self.makeTitleLabel(title: "예금주 정보")
-    private let accountHolderNameView = AccountContentView(
-        title: "이름",
-        placeHolder: "실명을 입력해 주세요",
-        errorComment: "이름을 올바르게 입력해 주세요"
-    )
-    private let accountHolderPhoneNumberView = AccountContentView(
-        title: "연락처",
-        placeHolder: "숫자만 입력해 주세요",
-        errorComment: "연락처를 올바르게 입력해 주세요"
-    )
-    
-    private lazy var accountHolderStackView: UIStackView = self.makeContentStackView([
-        self.accountHolderTitleLabel,
-        self.accountHolderNameView,
-        self.accountHolderPhoneNumberView
-    ])
-
-    // 환불 계좌 정보
-    private lazy var refundAccountTitleLabel = self.makeTitleLabel(title: "환불 계좌 정보")
-    private let selectRefundBankView = SelectRefundBankView()
-    private let refundAccountNumberView = RefundAccountNumberView()
-
-    private lazy var refundAccountInformationView: UIStackView = self.makeContentStackView([
-        self.refundAccountTitleLabel,
-        self.selectRefundBankView,
-        self.refundAccountNumberView
-    ])
-
     // 환불 정보
     private lazy var refundInformationTitlelabel = self.makeTitleLabel(title: "환불 정보")
     private let refundAmountView = ReservationHorizontalStackView(title: "환불 예정 금액", alignment: .right)
@@ -88,18 +62,12 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
     // 취소/환불 규정
     private lazy var reversalPolicyTitlelabel = self.makeTitleLabel(title: "취소/환불 규정")
-    // Remote Config로 넘어갈 예정
     private let reversalPolicyLabel: BooltiPaddingLabel = {
         let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
-        label.text = """
-        • 티켓 판매 기간 내 발권 취소 및 환불은 서비스 내 처리가 가능하며, 판매 기간 이후에는 주최자에게 직접 연락 바랍니다.
-        • 티켓 판매 기간 내 환불 신청은 발권 후 마이 > 예매 내역 > 예매 상세에서 가능합니다.
-        • 계좌 이체를 통한 환불은 환불 계좌 정보가 필요하며 영업일 기준 약 1~2일이 소요됩니다.
-        • 환불 수수료는 부과되지 않습니다.
-        • 기타 사항은 카카오톡 채널 @스튜디오불티로 문의 부탁드립니다.
-        """
+        label.text = AppInfo.reversalPolicy
         label.numberOfLines = 0
         label.setHeadIndent()
+        label.setUnderLine(to: Constants.booltiDomain)
         label.font = .body1
         label.textColor = .grey50
         return label
@@ -145,8 +113,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
     private func configureUI() {
         self.view.backgroundColor = .grey95
         self.requestRefundButton.isEnabled = false
-        self.accountHolderPhoneNumberView.contentTextField.keyboardType = .phonePad
-        self.refundAccountNumberView.accountNumberTextField.keyboardType = .phonePad
 
         self.view.addSubviews([
             self.navigationBar,
@@ -159,8 +125,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
         self.configureConstraints()
         self.contentStackView.addArrangedSubviews([
             self.concertInformationView,
-            self.accountHolderStackView,
-            self.refundAccountInformationView,
             self.refundInformationStackView,
             self.reversalPolicyStackView,
             self.requestRefundButton,
@@ -192,9 +156,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
         [
             self.concertInformationView,
-            self.accountHolderStackView,
-            self.refundAccountInformationView,
-            self.refundInformationStackView,
             self.reversalPolicyStackView
         ].forEach {
             $0.snp.makeConstraints { make in make.width.equalTo(screenWidth)}
@@ -218,22 +179,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
             })
             .disposed(by: self.disposeBag)
 
-        self.selectRefundBankView.rx.tapGesture()
-            .when(.recognized)
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, _ in
-                let viewController = TicketRefundBankSelectionViewController(selectedBank: owner.viewModel.output.selectedBank.value)
-
-                viewController.selectedItem = { item in
-                    owner.dimmedBackgroundView.isHidden = true
-                    guard let item else { return }
-                    owner.viewModel.input.selectedItem.accept(item)
-                }
-                owner.dimmedBackgroundView.isHidden = false
-                owner.present(viewController, animated: true)
-            }
-            .disposed(by: self.disposeBag)
-
         self.scrollView.rx.tapGesture()
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
@@ -252,39 +197,16 @@ final class TicketRefundRequestViewController: BooltiViewController {
                     posterImageURLPath: entity.concertPosterImageURLPath,
                     concertTitle: entity.concertTitle,
                     salesTicketName: entity.salesTicketName,
-                    ticketCount: entity.ticketCount
+                    ticketCount: "\(entity.ticketCount)"
                 )
-                
-                owner.refundAmountView.setData("\(entity.totalPaymentAmount)원")
-                owner.refundMethodView.setData("계좌이체")
+                owner.configureRefundInformation(with: entity)
             }
             .disposed(by: self.disposeBag)
 
-        self.viewModel.output.isValidrefundAccountNumber
+        self.viewModel.output.isReversalPolicyChecked
             .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, isValid in
-                owner.refundAccountNumberView.isValidTextTyped = isValid
-            }
-            .disposed(by: self.disposeBag)
-
-        self.viewModel.output.selectedBank
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, bankEntity in
-                guard let bankEntity else { return }
-                owner.selectRefundBankView.setData(with: bankEntity.bankName)
-            }
-            .disposed(by: self.disposeBag)
-
-        Observable.combineLatest(
-            self.viewModel.output.isAccoundHolderNameEmpty,
-            self.viewModel.output.isAccoundHolderPhoneNumberEmpty,
-            self.viewModel.output.isValidrefundAccountNumber,
-            self.viewModel.output.selectedBank,
-            self.viewModel.output.isReversalPolicyChecked
-        )
-            .asDriver(onErrorDriveWith: .never())
-            .drive { [weak self] (isAccountHolderEmpty, isAccountPhoneNumberEmpty, isValidNumber, selectedBank, isChecked) in
-                self?.requestRefundButton.isEnabled = !isAccountHolderEmpty && !isAccountPhoneNumberEmpty && isValidNumber && (selectedBank != nil) && isChecked
+            .drive(with: self) { owner, isChecked in
+                owner.requestRefundButton.isEnabled = isChecked
             }
             .disposed(by: self.disposeBag)
     }
@@ -303,54 +225,6 @@ final class TicketRefundRequestViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.accountHolderNameView.contentTextField.rx.controlEvent(.editingDidEnd)
-            .asDriver()
-            .drive(with: self, onNext: { owner, _ in
-                guard let text = owner.accountHolderNameView.contentTextField.text else { return }
-                owner.viewModel.input.accoundHolderNameText.accept(text)
-            })
-            .disposed(by: self.disposeBag)
-        
-        self.accountHolderPhoneNumberView.contentTextField.rx.controlEvent(.editingDidBegin)
-            .asDriver()
-            .drive(with: self, onNext: { owner, _ in
-                guard let text = owner.accountHolderPhoneNumberView.contentTextField.text else { return }
-                
-                owner.accountHolderPhoneNumberView.contentTextField.text = text.replacingOccurrences(of: "-", with: "")
-            })
-            .disposed(by: self.disposeBag)
-        
-        self.accountHolderPhoneNumberView.contentTextField.rx.text
-            .orEmpty
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: "")
-            .drive(with: self, onNext: { owner, changedText in
-                let formattedNumber = changedText.formatPhoneNumber()
-                owner.accountHolderPhoneNumberView.contentTextField.text = formattedNumber
-                
-                if formattedNumber.count > 13 {
-                    owner.accountHolderPhoneNumberView.contentTextField.deleteBackward()
-                }
-            })
-            .disposed(by: self.disposeBag)
-
-
-        self.accountHolderPhoneNumberView.contentTextField.rx.controlEvent(.editingDidEnd)
-            .asDriver()
-            .drive(with: self, onNext: { owner, _ in
-                guard let text = owner.accountHolderPhoneNumberView.contentTextField.text else { return }
-                owner.viewModel.input.accountHolderPhoneNumberText.accept(text)
-            })
-            .disposed(by: self.disposeBag)
-
-        self.refundAccountNumberView.accountNumberTextField.rx.controlEvent(.editingDidEnd)
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                guard let text = owner.refundAccountNumberView.accountNumberTextField.text else { return }
-                owner.viewModel.input.refundAccountNumberText.accept(text)
-            }
-            .disposed(by: self.disposeBag)
-
         self.reversalPolicyConfirmButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.reversalPolicyConfirmButton.isSelected.toggle()
@@ -360,31 +234,45 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
         self.requestRefundButton.rx.tap
             .bind(with: self) { owner, _ in
-                let input = owner.viewModel.input
-                let output = owner.viewModel.output
-                let refundAccountInfomration = RefundAccountInformation(
-                    accountHolderName: input.accoundHolderNameText.value,
-                    accountHolderPhoneNumber: input.accountHolderPhoneNumberText.value,
-                    accountBankName: owner.selectRefundBankView.bankNameLabel.text ?? "",
-                    accountNumber: input.refundAccountNumberText.value,
-                    totalRefundAmount: output.tickerReservationDetail.value?.totalPaymentAmount ?? ""
+                guard let reservationDetail = owner.viewModel.output.tickerReservationDetail.value else { return }
+                let refundAccountInformation = RefundAccountInformation(
+                    refundMethod: owner.refundMethodView.contentLabel.text,
+                    totalRefundAmount: reservationDetail.totalPaymentAmount
                 )
                 let viewController = owner.ticketRefundConfirmViewControllerFactory(
                     owner.viewModel.reservationID,
                     owner.viewModel.reasonText,
-                    refundAccountInfomration
+                    refundAccountInformation
                 )
                 viewController.modalPresentationStyle = .overCurrentContext
                 owner.definesPresentationContext = true
                 owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
-        
+
         self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func configureRefundInformation(with entity: TicketReservationDetailEntity) {
+        self.refundAmountView.setData("\(entity.totalPaymentAmount)원")
+
+        guard let paymentMethod = entity.paymentMethod else { return }
+        switch paymentMethod {
+        case .accountTransfer:
+            self.refundMethodView.setData("계좌이체")
+        case .card:
+            guard let paymentCardDetail = entity.paymentCardDetail else { return }
+            self.refundMethodView.setData(paymentCardDetail.issuer)
+        case .free:
+            self.refundMethodView.removeFromSuperview()
+        case .simplePayment:
+            guard let easyPayProvider = entity.easyPayProvider else { return }
+            self.refundMethodView.setData(easyPayProvider)
+        }
     }
 
     private func makeTitleLabel(title: String) -> UILabel {

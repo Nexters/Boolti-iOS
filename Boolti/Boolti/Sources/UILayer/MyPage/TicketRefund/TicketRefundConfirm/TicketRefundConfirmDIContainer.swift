@@ -8,10 +8,7 @@
 import Foundation
 
 struct RefundAccountInformation {
-    let accountHolderName: String
-    let accountHolderPhoneNumber: String
-    let accountBankName: String
-    let accountNumber: String
+    let refundMethod: String?
     let totalRefundAmount: String
 }
 

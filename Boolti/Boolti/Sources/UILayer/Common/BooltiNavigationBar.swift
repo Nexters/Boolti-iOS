@@ -16,6 +16,7 @@ enum NavigationType {
     case titleWithCloseButton(title: String)
     case concertDetail
     case ticketingCompletion
+    case tossPaymentsWidget
 }
 
 final class BooltiNavigationBar: UIView {
@@ -62,6 +63,7 @@ final class BooltiNavigationBar: UIView {
         case .titleWithCloseButton(let title): self.configureTitleWithCloseButtonUI(title)
         case .concertDetail: self.configureConcertDetailUI()
         case .ticketingCompletion: self.configureTicketingCompletionUI()
+        case .tossPaymentsWidget: self.configureTossPaymentsWidgetUI()
         }
     }
     
@@ -180,6 +182,19 @@ extension BooltiNavigationBar {
             make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
         }
+        
+        self.closeButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.size.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+    }
+    
+    private func configureTossPaymentsWidgetUI() {
+        self.backgroundColor = .white00
+        self.closeButton.tintColor = .black100
+        
+        self.addSubview(self.closeButton)
         
         self.closeButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(20)

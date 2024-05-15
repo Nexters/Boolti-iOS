@@ -38,6 +38,8 @@ final class MyPageViewController: BooltiViewController {
         return button
     }()
 
+    private var isAlreadyNavigated = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
@@ -47,13 +49,12 @@ final class MyPageViewController: BooltiViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         self.tabBarController?.tabBar.isHidden = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
-          self.configureLandingDestination()
-      }
+        self.configureLandingDestination()
+    }
 
     init(
         viewModel: MyPageViewModel,
@@ -237,12 +238,18 @@ final class MyPageViewController: BooltiViewController {
     }
 
     func configureLandingDestination() {
+        if self.isAlreadyNavigated {
+            self.isAlreadyNavigated = false
+            return
+        }
         guard let landingDestination = UserDefaults.landingDestination else { return }
 
         if case .reservationList = landingDestination {
-            let viewController = self.ticketReservationsViewControllerFactory()
-            self.navigationController?.pushViewController(viewController, animated: true)
-            UserDefaults.landingDestination = nil
+            UserDefaults.landingDestination = nil // reservationList가 destination이면 Userdefaults 초기화해주기
         }
+ 
+        let viewController = self.ticketReservationsViewControllerFactory()
+        self.navigationController?.pushViewController(viewController, animated: true)
+        self.isAlreadyNavigated = true
     }
 }

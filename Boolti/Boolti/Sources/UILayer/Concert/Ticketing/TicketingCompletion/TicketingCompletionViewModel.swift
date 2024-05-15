@@ -16,44 +16,38 @@ final class TicketingCompletionViewModel {
     
     private let disposeBag = DisposeBag()
     private let ticketReservationsRepository: TicketReservationsRepositoryType
-    
+
     struct Input {
-        let didCopyButtonTap = PublishSubject<Void>()
+        let viewWillAppearEvent = PublishSubject<Void>()
     }
-    
+
     struct Output {
         let reservationDetail = PublishRelay<TicketReservationDetailEntity>()
     }
 
     let input: Input
     let output: Output
-    
-    let ticketingData: BehaviorRelay<TicketingEntity>
-    var copyData: String = ""
+    let reservationId: Int
 
     // MARK: Init
     
-    init(ticketingEntity: TicketingEntity,
+    init(reservationId: Int,
          ticketReservationsRepository: TicketReservationsRepositoryType) {
+        self.reservationId = reservationId
+        self.ticketReservationsRepository = ticketReservationsRepository
+
         self.input = Input()
         self.output = Output()
-        self.ticketingData = BehaviorRelay<TicketingEntity>(value: ticketingEntity)
-        self.ticketReservationsRepository = ticketReservationsRepository
-        
+
         self.bindInputs()
-        self.fetchReservationDetail()
     }
-}
 
-// MARK: - Methods
-
-extension TicketingCompletionViewModel {
-    
     private func bindInputs() {
-        self.input.didCopyButtonTap
-            .bind(with: self) { owner, _ in
-                UIPasteboard.general.string = owner.copyData
-            }
+        self.input.viewWillAppearEvent
+            .flatMap { self.fetchReservationDetail() }
+            .subscribe(with: self, onNext: { owner, ticketReservationDetail in
+                owner.output.reservationDetail.accept(ticketReservationDetail)
+            })
             .disposed(by: self.disposeBag)
     }
 }
@@ -61,12 +55,8 @@ extension TicketingCompletionViewModel {
 // MARK: - Network
 
 extension TicketingCompletionViewModel {
-    
-    private func fetchReservationDetail() {
-        self.ticketReservationsRepository.ticketReservationDetail(with: String(self.ticketingData.value.reservationId))
-            .do { self.copyData = $0.accountNumber }
-            .asObservable()
-            .bind(to: self.output.reservationDetail)
-            .disposed(by: self.disposeBag)
+
+    private func fetchReservationDetail() -> Single<TicketReservationDetailEntity> {
+        return self.ticketReservationsRepository.ticketReservationDetail(with: "\(self.reservationId)")
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 import RxSwift
 import RxCocoa
@@ -50,6 +51,7 @@ class BooltiViewController: UIViewController {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+        print("\(String(describing: self)) deinit - ☠️☠️☠️☠️")
     }
     
     // MARK: Override
@@ -73,6 +75,12 @@ extension BooltiViewController {
 
     func showToast(message: String) {
         self.toastView.showToast.accept(message)
+    }
+    
+    func openSafari(with url: URL) {
+        let safariViewController = SFSafariViewController(url: url)
+        safariViewController.modalPresentationStyle = .formSheet
+        self.present(safariViewController, animated: true)
     }
 }
 

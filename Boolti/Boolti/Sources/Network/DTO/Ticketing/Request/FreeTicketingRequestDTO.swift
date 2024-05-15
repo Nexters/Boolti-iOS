@@ -1,13 +1,11 @@
 //
-//  SalesTicketingRequestDTO.swift
+//  FreeTicketingRequestDTO.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 2/12/24.
 //
 
-import Foundation
-
-struct SalesTicketingRequestDTO: Encodable {
+struct FreeTicketingRequestDTO: Encodable {
     
     let userId: Int
     let showId: Int
@@ -15,8 +13,5 @@ struct SalesTicketingRequestDTO: Encodable {
     let ticketCount: Int
     let reservationName: String
     let reservationPhoneNumber: String
-    let depositorName: String
-    let depositorPhoneNumber: String
-    let paymentAmount: Int
-    let means: String
+    
 }

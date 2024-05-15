@@ -17,6 +17,7 @@ final class TicketingConfirmViewController: BooltiViewController {
     private let viewModel: TicketingConfirmViewModel
     private let disposeBag = DisposeBag()
     var onDismiss: ((TicketingEntity) -> ())?
+    var onDismissOrderFailure: (() -> ())?
     
     // MARK: UI Component
     
@@ -135,19 +136,36 @@ extension TicketingConfirmViewController {
                 guard let depositor = entity.depositor else { return }
                 self.depositorInfo.text = "\(depositor.name)\n\(depositor.phoneNumber.formatPhoneNumber())"
                 self.depositorInfo.setAlignment(.right)
-                self.methodInfo.text = "계좌 이체"
+                self.methodStackView.isHidden = true
             }
         case .invitation:
             self.depositorStackView.isHidden = true
             self.methodInfo.text = "초청 코드"
+            self.methodStackView.isHidden = true
         }
     }
 
     private func bindViewModel() {
+        self.viewModel.output.navigateToTossPayments
+            .subscribe(with: self) { owner, _ in
+                owner.dismiss(animated: true) {
+                    self.onDismiss?(owner.viewModel.ticketingEntity)
+                }
+            }
+            .disposed(by: self.disposeBag)
+        
         self.viewModel.output.navigateToCompletion
             .subscribe(with: self) { owner, _ in
                 owner.dismiss(animated: true) {
                     self.onDismiss?(owner.viewModel.ticketingEntity)
+                }
+            }
+            .disposed(by: self.disposeBag)
+            
+        self.viewModel.output.didFreeOrderPaymentFailed
+            .subscribe(with: self) { owner, _ in
+                owner.dismiss(animated: true) {
+                    self.onDismissOrderFailure?()
                 }
             }
             .disposed(by: self.disposeBag)
