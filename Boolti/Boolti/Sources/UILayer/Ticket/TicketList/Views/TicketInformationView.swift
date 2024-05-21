@@ -56,25 +56,24 @@ final class TicketInformationView: UIView {
         return label
     }()
 
-    let qrCodeImageView: UIImageView = {
+    private let qrCodeImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 4
         imageView.clipsToBounds = true
+        imageView.image = .qrIcon
 
         return imageView
     }()
 
-    private let stampImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.isHidden = true
-
-        return imageView
-    }()
-
-    private let dimmedView: UIView = {
+    private let qrCodeBorderView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.init("#000000").withAlphaComponent(0.8)
-        view.isHidden = true
+        view.layer.cornerRadius = 8
+        view.layer.borderColor = UIColor.white00.cgColor
+        view.layer.borderWidth = 1
+
+        view.layer.shadowColor = UIColor.white00.cgColor
+        view.layer.shadowRadius = 6
+        view.layer.shadowOffset = CGSize.zero
+        view.layer.shadowOpacity = 1
 
         return view
     }()
@@ -92,25 +91,22 @@ final class TicketInformationView: UIView {
         self.dateLabel.text = item.date
         self.locationLabel.text = " | \(item.location)"
         self.titleLabel.text = item.title
-        self.qrCodeImageView.image = item.qrCode
-        self.configureStamp(with: item.ticketStatus)
     }
     
     func resetData() {
         self.dateLabel.text = nil
         self.locationLabel.text = nil
         self.titleLabel.text = nil
-        self.qrCodeImageView.image = .qrCode
-        self.configureStamp(with: .notUsed)
     }
 
     private func configureUI() {
+
         self.addSubviews([
+            self.qrCodeBorderView,
             self.qrCodeImageView,
-            self.dimmedView,
-            self.stampImageView,
             self.verticalInformationStackView
         ])
+
         self.configureConstraints()
     }
 
@@ -119,38 +115,21 @@ final class TicketInformationView: UIView {
             make.height.equalTo(75)
         }
 
-        self.qrCodeImageView.snp.makeConstraints { make in
+        self.qrCodeBorderView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview()
-            make.size.equalTo(70)
+            make.size.equalTo(58)
         }
 
-        self.dimmedView.snp.makeConstraints { make in
-            make.size.equalTo(70)
-            make.center.equalTo(self.qrCodeImageView)
+        self.qrCodeImageView.snp.makeConstraints { make in
+            make.center.equalTo(self.qrCodeBorderView)
+            make.size.equalTo(32)
         }
 
         self.verticalInformationStackView.snp.makeConstraints { make in
             make.left.equalToSuperview()
-            make.centerY.equalTo(self.qrCodeImageView.snp.centerY)
-            make.right.equalTo(self.qrCodeImageView.snp.left).offset(-12)
+            make.centerY.equalTo(self.qrCodeBorderView.snp.centerY)
+            make.right.equalTo(self.qrCodeBorderView.snp.left).offset(-12)
         }
-
-        self.stampImageView.snp.makeConstraints { make in
-            make.center.equalTo(self.qrCodeImageView)
-        }
-    }
-
-    private func configureStamp(with status: TicketStatus) {
-        guard let stampImage = status.stampImage else {
-            self.dimmedView.isHidden = true
-            self.stampImageView.isHidden = true
-            return
-        }
-
-        self.dimmedView.isHidden = false
-        self.stampImageView.isHidden = false
-
-        self.stampImageView.image = stampImage
     }
 }
