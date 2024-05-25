@@ -158,7 +158,7 @@ extension ConcertDetailViewController {
                 owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
                 owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
                 owner.contentInfoView.setData(content: entity.notice)
-                owner.organizerInfoView.setData(hostName: entity.hostName, hostPhoneNumber: entity.hostPhoneNumber)
+                owner.organizerInfoView.setData(hostName: entity.hostName)
             }
             .disposed(by: self.disposeBag)
 
