@@ -31,6 +31,8 @@ final class ConcertContentExpandViewController: BooltiViewController {
         textView.textColor = .grey30
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = .zero
+        textView.linkTextAttributes = [.underlineStyle: 1, .foregroundColor: UIColor.init("#46A6FF")]
+        
         return textView
     }()
     

@@ -43,6 +43,7 @@ final class ContentInfoView: UIView {
         textView.textContainerInset = .zero
         textView.font = .body3
         textView.textColor = .grey30
+        textView.linkTextAttributes = [.underlineStyle: 1, .foregroundColor: UIColor.init("#46A6FF")]
         
         return textView
     }()
