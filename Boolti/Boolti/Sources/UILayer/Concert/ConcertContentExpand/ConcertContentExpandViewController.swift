@@ -23,10 +23,14 @@ final class ConcertContentExpandViewController: BooltiViewController {
     
     private let contentTextView: UITextView = {
         let textView = UITextView()
+        textView.isEditable = false
+        textView.dataDetectorTypes = .link
         textView.backgroundColor = .clear
         textView.isEditable = false
         textView.font = .pretendardR(16)
         textView.textColor = .grey30
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = .zero
         return textView
     }()
     

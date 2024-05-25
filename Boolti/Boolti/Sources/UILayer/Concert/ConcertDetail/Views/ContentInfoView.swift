@@ -33,13 +33,18 @@ final class ContentInfoView: UIView {
         return button
     }()
 
-    private let contentLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.textColor = .grey30
-        label.font = .body3
-        label.numberOfLines = 0
+    private let contentTextView: UITextView = {
+        let textView = UITextView()
+        textView.isEditable = false
+        textView.dataDetectorTypes = .link
+        textView.backgroundColor = .clear
+        textView.isScrollEnabled = false
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = .zero
+        textView.font = .body3
+        textView.textColor = .grey30
         
-        return label
+        return textView
     }()
     
     private let underLineView: UIView = {
@@ -68,10 +73,11 @@ final class ContentInfoView: UIView {
 extension ContentInfoView {
     
     func setData(content: String) {
-        self.contentLabel.text = content
+        self.contentTextView.text = content
+        self.contentTextView.setLineSpacing(lineSpacing: 6)
         
         self.snp.makeConstraints { make in
-            make.height.equalTo(106 + min(self.contentLabel.getLabelHeight(), 246))
+            make.height.equalTo(106 + min(self.contentTextView.getTextViewHeight(), 246))
         }
     }
     
@@ -85,7 +91,7 @@ extension ContentInfoView {
 extension ContentInfoView {
     
     private func configureUI() {
-        self.addSubviews([self.titleLabel, self.expandButton, self.contentLabel, self.underLineView])
+        self.addSubviews([self.titleLabel, self.expandButton, self.contentTextView, self.underLineView])
     }
     
     private func configureConstraints() {
@@ -99,7 +105,7 @@ extension ContentInfoView {
             make.right.equalTo(self.titleLabel)
         }
         
-        self.contentLabel.snp.makeConstraints { make in
+        self.contentTextView.snp.makeConstraints { make in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(16)
             make.horizontalEdges.equalTo(self.titleLabel)
             make.height.lessThanOrEqualTo(246)
@@ -108,7 +114,7 @@ extension ContentInfoView {
         self.underLineView.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.bottom.equalToSuperview()
-            make.horizontalEdges.equalTo(self.contentLabel)
+            make.horizontalEdges.equalTo(self.contentTextView)
         }
     }
 }
