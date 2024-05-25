@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxCocoa
+
 final class OrganizerInfoView: UIView {
     
     // MARK: UI Component
@@ -28,9 +30,9 @@ final class OrganizerInfoView: UIView {
         return label
     }()
     
-    private let phoneButton: UIButton = {
+    private let callButton: UIButton = {
         let button = UIButton()
-        button.setImage(.phone, for: .normal)
+        button.setImage(.call, for: .normal)
         
         return button
     }()
@@ -63,6 +65,15 @@ extension OrganizerInfoView {
     func setData(hostName: String) {
         self.organizerLabel.text = "\(hostName)"
     }
+    
+    func didCallButtonTap() -> Signal<Void> {
+        return self.callButton.rx.tap.asSignal()
+    }
+    
+    func didMessageButtonTap() -> Signal<Void> {
+        return self.messageButton.rx.tap.asSignal()
+    }
+    
 }
 
 // MARK: - UI
@@ -72,7 +83,7 @@ extension OrganizerInfoView {
     private func configureUI() {
         self.addSubviews([self.titleLabel,
                           self.organizerLabel,
-                          self.phoneButton,
+                          self.callButton,
                           self.messageButton])
     }
     
@@ -89,10 +100,10 @@ extension OrganizerInfoView {
         self.organizerLabel.snp.makeConstraints { make in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(16)
             make.leading.equalTo(self.titleLabel)
-            make.trailing.equalTo(self.phoneButton.snp.leading).offset(-20)
+            make.trailing.equalTo(self.callButton.snp.leading).offset(-20)
         }
         
-        self.phoneButton.snp.makeConstraints { make in
+        self.callButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.organizerLabel)
             make.trailing.equalTo(self.messageButton.snp.leading).offset(-20)
             make.size.equalTo(24)
