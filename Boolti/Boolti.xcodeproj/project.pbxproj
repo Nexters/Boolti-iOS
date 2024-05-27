@@ -12,6 +12,9 @@
 		221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */; };
 		2233EAAB2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */; };
 		2233EAAF2BE142C900A315BF /* TicketingErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAE2BE142C900A315BF /* TicketingErrorResponseDTO.swift */; };
+		2250FABD2C020BA100CCF487 /* ContactDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */; };
+		2250FABF2C020BC400CCF487 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABE2C020BC400CCF487 /* ContactViewController.swift */; };
+		2250FAC12C020BE800CCF487 /* ContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FAC02C020BE800CCF487 /* ContactViewModel.swift */; };
 		226D42BF2B9EBA3E00680198 /* BooltiBusinessInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */; };
 		22CDB2C62BA2635E00D2077D /* BusinessInfoDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */; };
 		22CF3A2F2BB51A710094711C /* SelectedSalesTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */; };
@@ -196,7 +199,7 @@
 		84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE082B67DF88009462E9 /* PolicyView.swift */; };
 		84FBBE0B2B6888CB009462E9 /* InvitationCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBBE0A2B6888CB009462E9 /* InvitationCodeView.swift */; };
 		84FEF6172B68A6D100EBB64F /* UIResponder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEF6162B68A6D100EBB64F /* UIResponder+.swift */; };
-		84FEF6192B68ACDD00EBB64F /* salesTicketingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEF6182B68ACDD00EBB64F /* salesTicketingEntity.swift */; };
+		84FEF6192B68ACDD00EBB64F /* TicketingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */; };
 		870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099AD2B77434A001779FB /* TicketDetailRequestDTO.swift */; };
 		870099B32B7744B5001779FB /* TicketReservationItemResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */; };
 		870099B52B77476E001779FB /* TicketReservationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B42B77476E001779FB /* TicketReservationAPI.swift */; };
@@ -321,6 +324,9 @@
 		221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoViewController.swift; sourceTree = "<group>"; };
 		2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentResponseDTO.swift; sourceTree = "<group>"; };
 		2233EAAE2BE142C900A315BF /* TicketingErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingErrorResponseDTO.swift; sourceTree = "<group>"; };
+		2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDIContainer.swift; sourceTree = "<group>"; };
+		2250FABE2C020BC400CCF487 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
+		2250FAC02C020BE800CCF487 /* ContactViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewModel.swift; sourceTree = "<group>"; };
 		226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBusinessInfoView.swift; sourceTree = "<group>"; };
 		22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoDIContainer.swift; sourceTree = "<group>"; };
 		22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedSalesTicketView.swift; sourceTree = "<group>"; };
@@ -481,7 +487,7 @@
 		84FBBE082B67DF88009462E9 /* PolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyView.swift; sourceTree = "<group>"; };
 		84FBBE0A2B6888CB009462E9 /* InvitationCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationCodeView.swift; sourceTree = "<group>"; };
 		84FEF6162B68A6D100EBB64F /* UIResponder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+.swift"; sourceTree = "<group>"; };
-		84FEF6182B68ACDD00EBB64F /* salesTicketingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = salesTicketingEntity.swift; sourceTree = "<group>"; };
+		84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingEntity.swift; sourceTree = "<group>"; };
 		870099AD2B77434A001779FB /* TicketDetailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailRequestDTO.swift; sourceTree = "<group>"; };
 		870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemResponseDTO.swift; sourceTree = "<group>"; };
 		870099B42B77476E001779FB /* TicketReservationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationAPI.swift; sourceTree = "<group>"; };
@@ -638,6 +644,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2250FABB2C020B8A00CCF487 /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */,
+				2250FABE2C020BC400CCF487 /* ContactViewController.swift */,
+				2250FAC02C020BE800CCF487 /* ContactViewModel.swift */,
+			);
+			path = Contact;
+			sourceTree = "<group>";
+		};
 		22CDB2C42BA2633600D2077D /* BusinessInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1044,6 +1060,7 @@
 				8769BF9B2B6267B200DA9A67 /* Common */,
 				8757BA9A2B5FCBF9008503B5 /* Login */,
 				22CDB2C42BA2633600D2077D /* BusinessInfo */,
+				2250FABB2C020B8A00CCF487 /* Contact */,
 				84781CCA2B5C002D00D37921 /* Concert */,
 				84781CC32B5BF9C600D37921 /* Ticket */,
 				84781CBB2B5BF94100D37921 /* MyPage */,
@@ -1258,7 +1275,7 @@
 			children = (
 				840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */,
 				842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */,
-				84FEF6182B68ACDD00EBB64F /* salesTicketingEntity.swift */,
+				84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */,
 				84625A102B63B48D00CC9077 /* SelectedTicketEntity.swift */,
 				84D1C3882B7A17C500527998 /* InvitationCodeStateEntity.swift */,
 			);
@@ -1996,6 +2013,7 @@
 				876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */,
 				847AA70E2B62B55500E5B55C /* BooltiNavigationBar.swift in Sources */,
 				8453D7FC2B7539270048F103 /* SalesTicketResponseDTO.swift in Sources */,
+				2250FABD2C020BA100CCF487 /* ContactDIContainer.swift in Sources */,
 				84896A4F2B6A723900CB3E33 /* Date+.swift in Sources */,
 				221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */,
 				22DD8C8A2BD289400083622C /* SavePaymentInfoResponseDTO.swift in Sources */,
@@ -2004,6 +2022,7 @@
 				8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */,
 				8730F0102B7B107F00D4F339 /* TicketRefundReasonViewController.swift in Sources */,
 				8757BAA82B5FDF0F008503B5 /* OAuth.swift in Sources */,
+				2250FABF2C020BC400CCF487 /* ContactViewController.swift in Sources */,
 				84FBB2CC2B80DC6B001F4211 /* MypageProfileView.swift in Sources */,
 				87681BDD2B7A695B008BF59F /* TicketEntryCodeRequestDTO.swift in Sources */,
 				22DD8C8E2BD28A4A0083622C /* TicketingRepository.swift in Sources */,
@@ -2030,13 +2049,14 @@
 				87CE4F6C2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift in Sources */,
 				84FBBDFB2B675834009462E9 /* UIStackView+.swift in Sources */,
 				87D2FAB22B6E96D20027FBE1 /* TicketDetailViewController.swift in Sources */,
+				2250FAC12C020BE800CCF487 /* ContactViewModel.swift in Sources */,
 				84781CAD2B5BF7A200D37921 /* HomeTabBarDIContainer.swift in Sources */,
 				840B39632B78CEF700E7F8C8 /* ConcertListResponseDTO.swift in Sources */,
 				8726054B2B793BCF005CD0D4 /* ReservationHorizontalStackView.swift in Sources */,
 				84781C752B5BEB5600D37921 /* UserDefault.swift in Sources */,
 				8710D9402B74E44400309FBF /* MypageContentView.swift in Sources */,
 				84781CAA2B5BF72200D37921 /* SplashViewModel.swift in Sources */,
-				84FEF6192B68ACDD00EBB64F /* salesTicketingEntity.swift in Sources */,
+				84FEF6192B68ACDD00EBB64F /* TicketingEntity.swift in Sources */,
 				845F25482B89FA5A00F6C328 /* PosterExpandViewModel.swift in Sources */,
 				8710D95A2B750A5500309FBF /* MyPageDestination.swift in Sources */,
 				8757BAA42B5FDEA2008503B5 /* OAuthAPIServiceType.swift in Sources */,
@@ -2332,7 +2352,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2349,7 +2369,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.boolti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2373,7 +2393,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2390,7 +2410,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.boolti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -12,6 +12,7 @@ final class ConcertDetailDIContainer {
     typealias Posters = [ConcertDetailEntity.Poster]
     typealias Content = String
     typealias ConcertId = Int
+    typealias PhoneNumber = String
     
     private let authRepository: AuthRepository
     private let concertRepository: ConcertRepository
@@ -63,6 +64,13 @@ final class ConcertDetailDIContainer {
             let viewController = DIContainer.createTicketSelectionViewController(concertId: concertId)
             return viewController
         }
+        
+        let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController = { (contactType, phoneNumber) in
+            let DIContainer = self.createContactDIContainer()
+            
+            let viewController = DIContainer.createContactViewController(contactType: contactType, phoneNumber: phoneNumber)
+            return viewController
+        }
 
         let viewController = ConcertDetailViewController(
             viewModel: viewModel, 
@@ -70,7 +78,8 @@ final class ConcertDetailDIContainer {
             posterExpandViewControllerFactory: posterExpandViewControllerFactory,
             concertContentExpandViewControllerFactory: concertContentExpandViewControllerFactory,
             reportViewControllerFactory: reportViewControllerFactory,
-            ticketSelectionViewControllerFactory: ticketSelectionViewControllerFactory
+            ticketSelectionViewControllerFactory: ticketSelectionViewControllerFactory,
+            contactViewControllerFactory: contactViewControllerFactory
         )
 
         return viewController
@@ -98,6 +107,10 @@ final class ConcertDetailDIContainer {
     
     private func createTicketSelectionDIContainer() -> TicketSelectionDIContainer {
         return TicketSelectionDIContainer(concertRepository: self.concertRepository)
+    }
+    
+    private func createContactDIContainer() -> ContactDIContainer {
+        return ContactDIContainer()
     }
     
     private func createConcertDetailViewModel(concertId: Int) -> ConcertDetailViewModel {

@@ -20,6 +20,7 @@ final class ConcertDetailViewController: BooltiViewController {
     typealias Content = String
     typealias Posters = [ConcertDetailEntity.Poster]
     typealias ConcertId = Int
+    typealias PhoneNumber = String
     
     private let viewModel: ConcertDetailViewModel
     private let disposeBag = DisposeBag()
@@ -29,6 +30,7 @@ final class ConcertDetailViewController: BooltiViewController {
     private let concertContentExpandViewControllerFactory: (Content) -> ConcertContentExpandViewController
     private let reportViewControllerFactory: () -> ReportViewController
     private let ticketSelectionViewControllerFactory: (ConcertId) -> TicketSelectionViewController
+    private let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController
     
     // MARK: UI Component
     
@@ -100,13 +102,15 @@ final class ConcertDetailViewController: BooltiViewController {
          posterExpandViewControllerFactory: @escaping (Posters) -> PosterExpandViewController,
          concertContentExpandViewControllerFactory: @escaping (Content) -> ConcertContentExpandViewController,
          reportViewControllerFactory: @escaping () -> ReportViewController,
-         ticketSelectionViewControllerFactory: @escaping (ConcertId) -> TicketSelectionViewController) {
+         ticketSelectionViewControllerFactory: @escaping (ConcertId) -> TicketSelectionViewController,
+         contactViewControllerFactory: @escaping (ContactType, PhoneNumber) -> ContactViewController) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.posterExpandViewControllerFactory = posterExpandViewControllerFactory
         self.concertContentExpandViewControllerFactory = concertContentExpandViewControllerFactory
         self.reportViewControllerFactory = reportViewControllerFactory
         self.ticketSelectionViewControllerFactory = ticketSelectionViewControllerFactory
+        self.contactViewControllerFactory = contactViewControllerFactory
         
         super.init()
     }
@@ -158,7 +162,7 @@ extension ConcertDetailViewController {
                 owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
                 owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
                 owner.contentInfoView.setData(content: entity.notice)
-                owner.organizerInfoView.setData(hostName: entity.hostName, hostPhoneNumber: entity.hostPhoneNumber)
+                owner.organizerInfoView.setData(hostName: entity.hostName)
             }
             .disposed(by: self.disposeBag)
 
@@ -203,6 +207,7 @@ extension ConcertDetailViewController {
         self.bindPosterView()
         self.bindContentInfoView()
         self.bindNavigationBar()
+        self.bindOrganizerInfoView()
     }
     
     private func bindPlaceInfoView() {
@@ -287,6 +292,22 @@ extension ConcertDetailViewController {
                 alertController.addAction(cancleAction)
 
                 owner.present(alertController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindOrganizerInfoView() {
+        self.organizerInfoView.didCallButtonTap()
+            .emit(with: self) { owner, _ in
+                guard let phoneNumber = owner.viewModel.output.concertDetail.value?.hostPhoneNumber else { return }
+                owner.present(owner.contactViewControllerFactory(.call, phoneNumber), animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.organizerInfoView.didMessageButtonTap()
+            .emit(with: self) { owner, _ in
+                guard let phoneNumber = owner.viewModel.output.concertDetail.value?.hostPhoneNumber else { return }
+                owner.present(owner.contactViewControllerFactory(.message, phoneNumber), animated: true)
             }
             .disposed(by: self.disposeBag)
     }
