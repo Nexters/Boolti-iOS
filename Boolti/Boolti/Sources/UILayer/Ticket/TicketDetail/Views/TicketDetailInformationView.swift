@@ -90,12 +90,12 @@ final class TicketDetailInformationView: UIView {
     }
 
     func setData(with item: TicketDetailItemEntity) {
-        self.dateLabel.text = item.date.formatToDate().format(.dateDay)
-        self.locationLabel.text = " | \(item.location)"
-        self.titleLabel.text = item.title
-        self.qrCodeImageView.image = item.qrCode
-        self.configureGradient()
-        self.configureStamp(with: item)
+//        self.dateLabel.text = item.date.formatToDate().format(.dateDay)
+//        self.locationLabel.text = " | \(item.location)"
+//        self.titleLabel.text = item.title
+//        self.qrCodeImageView.image = item.qrCode
+//        self.configureGradient()
+//        self.configureStamp(with: item)
     }
 
     private func configureUI() {
@@ -150,13 +150,13 @@ final class TicketDetailInformationView: UIView {
     }
 
     private func configureStamp(with item: TicketDetailItemEntity) {
-        let ticketStatus = item.ticketStatus
-        guard let stampImage = ticketStatus.stampImage else { return }
-
-        self.dimmedView.isHidden = false
-        self.stampImageView.isHidden = false
-
-        self.stampImageView.image = stampImage
+//        let ticketStatus = item.ticketStatus
+//        guard let stampImage = ticketStatus.stampImage else { return }
+//
+//        self.dimmedView.isHidden = false
+//        self.stampImageView.isHidden = false
+//
+//        self.stampImageView.image = stampImage
     }
 
 }

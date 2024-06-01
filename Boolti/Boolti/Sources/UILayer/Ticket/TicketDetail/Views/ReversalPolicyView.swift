@@ -110,6 +110,7 @@ final class ReversalPolicyView: UIStackView {
             .bind(with: self) { owner, _ in
                 owner.isCollapsed.toggle()
                 owner.reversalPolicyLabel.isHidden.toggle()
+                owner.didViewCollapseButtonTap.accept(())
             }
             .disposed(by: self.disposeBag)
     }

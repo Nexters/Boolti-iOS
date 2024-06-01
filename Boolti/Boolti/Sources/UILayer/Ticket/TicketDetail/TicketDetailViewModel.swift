@@ -61,6 +61,7 @@ final class TicketDetailViewModel {
         self.input.refreshControlEvent
             .flatMap { self.fetchTicketDetailItem() }
             .subscribe(with: self) { owner, ticketDetailItem in
+                let ticketCount = ticketDetailItem.ticketInformations.count
                 owner.output.fetchedTicketDetail.accept(ticketDetailItem)
                 owner.output.isLoading.accept(false)
             }
@@ -69,7 +70,7 @@ final class TicketDetailViewModel {
 
     private func fetchTicketDetailItem() -> Single<TicketDetailItemEntity> {
         // MARK: 의존성 networkService로 바꿔주기!..
-        let ticketDetailRequestDTO = TicketDetailRequestDTO(ticketID: self.ticketID)
+        let ticketDetailRequestDTO = TicketDetailRequestDTO(reservationID: self.ticketID)
         let ticketDetailAPI = TicketAPI.detail(requestDTO: ticketDetailRequestDTO)
 
         return networkService.request(ticketDetailAPI)
