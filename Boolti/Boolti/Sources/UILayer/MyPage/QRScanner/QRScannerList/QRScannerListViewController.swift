@@ -19,7 +19,7 @@ final class QRScannerListViewController: BooltiViewController {
     private let qrScannerViewControllerFactory: (QRScannerEntity) -> QRScannerViewController
     
     // MARK: UI Component
-    
+
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "QR 스캔"))
     
     private lazy var emtpyLabelStackView: UIStackView = {
@@ -65,7 +65,6 @@ final class QRScannerListViewController: BooltiViewController {
          qrScannerViewControllerFactory: @escaping (QRScannerEntity) -> QRScannerViewController) {
         self.viewModel = viewModel
         self.qrScannerViewControllerFactory = qrScannerViewControllerFactory
-        
         super.init()
     }
     
@@ -110,7 +109,7 @@ extension QRScannerListViewController {
             .disposed(by: disposeBag)
         
         self.viewModel.output.qrScanners
-            .do { self.emtpyLabelStackView.isHidden = !$0.isEmpty }
+            .do { [weak self] entities in self?.emtpyLabelStackView.isHidden = !entities.isEmpty }
             .bind(to: self.scannerTableView.rx.items(cellIdentifier: QRScannerListTableViewCell.className, cellType: QRScannerListTableViewCell.self)) { index, item, cell in
                 cell.selectionStyle = .none
                 cell.setData(concertName: item.concertName, isConcertEnd: item.isConcertEnd)

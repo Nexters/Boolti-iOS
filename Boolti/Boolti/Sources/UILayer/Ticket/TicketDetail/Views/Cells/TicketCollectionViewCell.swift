@@ -151,6 +151,7 @@ class TicketCollectionViewCell: UICollectionViewCell {
         self.configureTicketStatus(with: entity)
         self.csTicketLabel.text = entity.csTicketID
         self.ticketNameLabel.text = entity.ticketName
+
         DispatchQueue.main.async {
             let qrCodeImage = QRMaker.shared.makeQR(identifier: entity.entryCode) ?? .qrCode
             self.qrCodeImageView.image = qrCodeImage
