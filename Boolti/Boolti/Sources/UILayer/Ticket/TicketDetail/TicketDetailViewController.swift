@@ -83,6 +83,7 @@ final class TicketDetailViewController: BooltiViewController {
             forCellWithReuseIdentifier: TicketCollectionViewCell.className
         )
         collectionView.backgroundColor = .clear
+        collectionView.layer.cornerRadius = 8
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
 
