@@ -18,12 +18,24 @@ final class TicketInquiryView: UIView {
         return label
     }()
 
-    private let hostInformationLabel: UILabel = {
+    private let hostNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .body1
-        label.textColor = .grey50
+        label.font = .body3
+        label.textColor = .grey30
 
         return label
+    }()
+
+    private let phoneCallButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.phone, for: .normal)
+        return button
+    }()
+
+    private let messageButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.message, for: .normal)
+        return button
     }()
 
     init() {
@@ -38,13 +50,15 @@ final class TicketInquiryView: UIView {
     
     // API 붙힐 때, 수정할 예정!..
     func setData(with information: String) {
-        self.hostInformationLabel.text = "주최자   \(information)"
+        self.hostNameLabel.text = "\(information)"
     }
 
     private func configureUI() {
         self.addSubviews([
             self.titleLabel,
-            self.hostInformationLabel
+            self.hostNameLabel,
+            self.phoneCallButton,
+            self.messageButton
         ])
 
         self.snp.makeConstraints { make in
@@ -52,17 +66,26 @@ final class TicketInquiryView: UIView {
         }
 
         self.titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(16)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalToSuperview().offset(16)
+            make.horizontalEdges.equalToSuperview()
         }
 
-        self.hostInformationLabel.snp.makeConstraints { make in
+        self.hostNameLabel.snp.makeConstraints { make in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(12)
             make.left.equalTo(self.titleLabel)
         }
 
+        self.messageButton.snp.makeConstraints { make in
+            make.size.equalTo(24)
+            make.centerY.equalTo(self.hostNameLabel)
+            make.right.equalTo(self.titleLabel.snp.right)
+        }
+
+        self.phoneCallButton.snp.makeConstraints { make in
+            make.size.equalTo(24)
+            make.centerY.equalTo(self.hostNameLabel)
+            make.right.equalTo(self.messageButton.snp.left).offset(-20)
+        }
+
     }
-
-
-
 }

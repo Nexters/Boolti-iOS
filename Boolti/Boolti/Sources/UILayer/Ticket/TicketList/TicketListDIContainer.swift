@@ -29,13 +29,6 @@ final class TicketListDIContainer {
             return viewController
         }
 
-        let qrExpandViewControllerFactory: (QRCodeImage, TicketName) -> QRExpandViewController = { qrCodeImage, ticketName in
-            let DIContainer = self.createQRExpandDIContainer()
-
-            let viewController = DIContainer.createQRExpandViewController(qrCodeImage: qrCodeImage, ticketName: ticketName)
-            return viewController
-        }
-
         let ticketDetailViewControllerFactory: (TicketID) -> TicketDetailViewController = { ticketID in
             let DIContainer = self.createTicketDetailDIContainer()
 
@@ -46,7 +39,6 @@ final class TicketListDIContainer {
         let viewController = TicketListViewController(
             viewModel: viewModel,
             loginViewControllerFactory: loginViewControllerFactory,
-            qrExpandViewControllerFactory: qrExpandViewControllerFactory,
             ticketDetailViewControllerFactory: ticketDetailViewControllerFactory
         )
 
@@ -60,10 +52,6 @@ final class TicketListDIContainer {
             oauthRepository: OAuthRepository(),
             pushNotificationRepository: PushNotificationRepository(networkService: self.authRepository.networkService)
         )
-    }
-
-    private func createQRExpandDIContainer() -> QRExpandDIContainer {
-        return QRExpandDIContainer()
     }
 
     private func createTicketDetailDIContainer() -> TicketDetailDIContainer {

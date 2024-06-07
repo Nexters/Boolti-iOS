@@ -12,15 +12,15 @@ final class QRExpandViewModel {
     // MARK: Properties
 
     struct Output {
-        let qrCodeImage: UIImage
-        let ticketName: String
+        let indexPath: IndexPath
+        let tickets: [TicketDetailInformation]
     }
 
     let output: Output
 
     // MARK: Init
     
-    init(qrCodeImage: UIImage, ticketName: String) {
-        self.output = Output(qrCodeImage: qrCodeImage, ticketName: ticketName)
+    init(indexPath: IndexPath, tickets: [TicketDetailInformation]) {
+        self.output = Output(indexPath: indexPath, tickets: tickets)
     }
 }

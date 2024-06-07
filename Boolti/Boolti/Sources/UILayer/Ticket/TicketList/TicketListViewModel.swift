@@ -14,7 +14,7 @@ import RxMoya
 
 enum TicketListViewDestination {
     case login
-    case detail(ticketID: String)
+    case detail(reservationID: String)
 }
 
 final class TicketListViewModel {
@@ -27,6 +27,8 @@ final class TicketListViewModel {
         var viewDidAppearEvent = PublishSubject<Void>()
         var didloginButtonTapEvent = PublishSubject<Void>()
         var shouldLoadTableViewEvent = PublishSubject<Void>()
+        var currentTicketPage = BehaviorRelay<Int>(value: 1)
+        var ticketsCount = PublishRelay<Int>()
     }
 
     // Input에 의해서 생기는 ViewModel의 Output
@@ -36,6 +38,7 @@ final class TicketListViewModel {
         let isAccessTokenLoaded = BehaviorRelay<Bool>(value: false)
         let isTicketsExist = PublishRelay<Bool>()
         let sectionModels: BehaviorRelay<[TicketItemEntity]> = BehaviorRelay(value: [])
+        let ticketPage = PublishRelay<(Int, Int)>()
     }
 
     private let isAccessTokenExist = PublishRelay<Bool>()
@@ -55,6 +58,7 @@ final class TicketListViewModel {
     private func bindInputs() {
         self.bindViewDidAppearEvent()
         self.bindLoginButtonTapEvent()
+        self.bindTicketPage()
         self.bindShouldLoadTableViewEvent()
     }
 
@@ -70,6 +74,14 @@ final class TicketListViewModel {
         self.input.didloginButtonTapEvent
             .subscribe(with: self, onNext: { owner, _ in
                 owner.output.navigation.accept(.login)
+            })
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindTicketPage() {
+        Observable.combineLatest(self.input.currentTicketPage, self.input.ticketsCount)
+            .subscribe(with: self, onNext: { owner, ticketPage in
+                owner.output.ticketPage.accept(ticketPage)
             })
             .disposed(by: self.disposeBag)
     }

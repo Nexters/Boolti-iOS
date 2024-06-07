@@ -45,7 +45,7 @@ final class TicketNoticeView: UIView {
 
         self.titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(16)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview()
         }
 
         self.noticeLabel.snp.makeConstraints { make in
@@ -57,6 +57,5 @@ final class TicketNoticeView: UIView {
 
     func setData(with text: String) {
         self.noticeLabel.text = text
-        self.layoutIfNeeded()
     }
 }

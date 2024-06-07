@@ -15,13 +15,13 @@ import RxAppState
 
 final class TicketListViewController: BooltiViewController {
 
+    // MARK: Properties
+
     typealias TicketID = String
-    typealias QRCodeImage = UIImage
     typealias TicketName = String
 
     private let loginViewControllerFactory: () -> LoginViewController
     private let ticketDetailControllerFactory: (TicketID) -> TicketDetailViewController
-    private let qrExpandViewControllerFactory: (QRCodeImage, TicketName) -> QRExpandViewController
 
     private enum Section {
         case concertList
@@ -36,8 +36,8 @@ final class TicketListViewController: BooltiViewController {
     private let viewModel: TicketListViewModel
     private let disposeBag = DisposeBag()
 
-    private let currentTicketPage = BehaviorRelay<Int>(value: 1)
-    private let ticketPageCount = PublishRelay<Int>()
+
+    // MARK: UI Component
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
@@ -70,22 +70,24 @@ final class TicketListViewController: BooltiViewController {
         return view
     }()
 
+    // MARK: Init
+
     init(
         viewModel: TicketListViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
-        qrExpandViewControllerFactory: @escaping (QRCodeImage, TicketName) -> QRExpandViewController,
         ticketDetailViewControllerFactory: @escaping (TicketID) -> TicketDetailViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.ticketDetailControllerFactory = ticketDetailViewControllerFactory
-        self.qrExpandViewControllerFactory = qrExpandViewControllerFactory
         super.init()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,10 +98,110 @@ final class TicketListViewController: BooltiViewController {
         self.bindViewModel()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.loginEnterView.isHidden = true
-        self.tabBarController?.tabBar.isHidden = false
+    // MARK: - Binding Methods
+
+    private func bindUIComponents() {
+        self.collectionView.rx
+            .itemSelected
+            .asDriver()
+            .drive(with: self) { owner, indexPath in
+                guard let ticketItem = owner.datasource?.itemIdentifier(for: indexPath) else { return }
+                owner.viewModel.output.navigation.accept(.detail(reservationID: "\(ticketItem.reservationID)"))
+            }
+            .disposed(by: self.disposeBag)
     }
+
+    private func bindViewModel() {
+        self.bindInput()
+        self.bindOutput()
+    }
+
+    private func bindInput() {
+        self.rx.viewWillAppear
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self, onNext: { owner, _ in
+                owner.loginEnterView.isHidden = true
+                owner.tabBarController?.tabBar.isHidden = false
+            })
+            .disposed(by: self.disposeBag)
+
+        self.rx.viewDidAppear
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.input.viewDidAppearEvent.onNext(())
+            })
+            .disposed(by: self.disposeBag)
+
+        self.loginEnterView.loginButton.rx.tap
+            .asDriver()
+            .drive(self.viewModel.input.didloginButtonTapEvent)
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindOutput() {
+
+        self.viewModel.output.isLoading
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(self.isLoading)
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.isAccessTokenLoaded
+            .skip(1)
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self, onNext: { owner, isLoaded in
+                // AccessToken이 없으면 -> LoginEnterView를 띄우기!..
+                if !isLoaded {
+                    owner.loginEnterView.isHidden = false
+                } else {
+                    // AcessToken이 있으면 -> TableView를 띄어야한다고 VM에게 알리기
+                    owner.viewModel.input.shouldLoadTableViewEvent.onNext(())
+                }
+            })
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.isTicketsExist
+            .subscribe(with: self) { owner, isTicketsExist in
+                owner.concertEnterView.isHidden = isTicketsExist
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.sectionModels
+            .skip(1)
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: [])
+            .drive(with: self, onNext: { owner, ticketItems in
+                owner.applySnapshot(ticketItems)
+                owner.viewModel.input.ticketsCount.accept(ticketItems.count)
+            })
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.navigation
+            .subscribe(with: self) { owner, ticketDestination in
+                let viewController = owner.createViewController(ticketDestination)
+
+                if let viewController = viewController as? LoginViewController {
+                    viewController.hidesBottomBarWhenPushed = true
+                    viewController.modalPresentationStyle = .fullScreen
+                    owner.present(viewController, animated: true)
+                } else {
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bind(_ footerView: UICollectionReusableView) {
+        guard let footerView = footerView as? TicketListFooterView else { return }
+
+        self.viewModel.output.ticketPage.subscribe { (currentTicketPage, ticketsCount) in
+            footerView.isHidden = false
+            footerView.pageIndicatorLabel.text = "\(currentTicketPage)/\(ticketsCount)"
+        }
+        .disposed(by: self.disposeBag)
+    }
+
+    // MARK: Methods
 
     private func configureUI() {
         self.navigationController?.navigationBar.isHidden = true
@@ -180,7 +282,7 @@ final class TicketListViewController: BooltiViewController {
             // 현재 Page 관련 정보!..
             let currentPage = Int(max(0, floor((offset.x + inset) / ((environment.container.contentSize.width)*0.88))))
 
-            self?.currentTicketPage.accept(currentPage+1)
+            self?.viewModel.input.currentTicketPage.accept(currentPage+1)
 
             visibleCellItems.forEach { item in
                 let intersectedRect = item.frame.intersection(
@@ -193,106 +295,16 @@ final class TicketListViewController: BooltiViewController {
         }
     }
 
-    private func bindUIComponents() {
-        self.collectionView.rx
-            .itemSelected
-            .asDriver()
-            .drive(with: self) { owner, indexPath in
-                guard let ticketItem = owner.datasource?.itemIdentifier(for: indexPath) else { return }
-                owner.viewModel.output.navigation.accept(.detail(ticketID: "\(ticketItem.ticketID)"))
-            }
-            .disposed(by: self.disposeBag)
-    }
-
-    private func bindViewModel() {
-        self.bindInput()
-        self.bindOutput()
-    }
-
-    private func bindInput() {
-        self.rx.viewDidAppear
-            .asDriver(onErrorJustReturn: true)
-            .drive(with: self, onNext: { owner, _ in
-                owner.viewModel.input.viewDidAppearEvent.onNext(())
-            })
-            .disposed(by: self.disposeBag)
-
-        self.loginEnterView.loginButton.rx.tap
-            .asDriver()
-            .drive(self.viewModel.input.didloginButtonTapEvent)
-            .disposed(by: self.disposeBag)
-    }
-
-    private func bindOutput() {
-
-        self.viewModel.output.isLoading
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: false)
-            .drive(self.isLoading)
-            .disposed(by: self.disposeBag)
-
-        self.viewModel.output.isAccessTokenLoaded
-            .skip(1)
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self, onNext: { owner, isLoaded in
-                // AccessToken이 없으면 -> LoginEnterView를 띄우기!..
-                if !isLoaded {
-                    owner.loginEnterView.isHidden = false
-                } else {
-                    // AcessToken이 있으면 -> TableView를 띄어야한다고 VM에게 알리기
-                    owner.viewModel.input.shouldLoadTableViewEvent.onNext(())
-                }
-            })
-            .disposed(by: self.disposeBag)
-
-        self.viewModel.output.isTicketsExist
-            .subscribe(with: self) { owner, isTicketsExist in
-                if !isTicketsExist {
-                    owner.concertEnterView.isHidden = false
-                } else {
-                    owner.concertEnterView.isHidden = true
-                }
-            }
-            .disposed(by: self.disposeBag)
-
-        self.viewModel.output.sectionModels
-            .skip(1)
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: [])
-            .drive(with: self, onNext: { owner, ticketItems in
-                owner.applySnapshot(ticketItems)
-                owner.ticketPageCount.accept(ticketItems.count)
-            })
-            .disposed(by: self.disposeBag)
-
-        self.viewModel.output.navigation
-            .subscribe(with: self) { owner, ticketDestination in
-                let viewController = owner.createViewController(ticketDestination)
-
-                if let viewController = viewController as? LoginViewController {
-                    viewController.hidesBottomBarWhenPushed = true
-                    viewController.modalPresentationStyle = .fullScreen
-                    owner.present(viewController, animated: true)
-                } else {
-                    owner.navigationController?.pushViewController(viewController, animated: true)
-                }
-            }
-            .disposed(by: self.disposeBag)
-    }
-
     private func configureCollectionViewDatasource() {
         self.datasource = UICollectionViewDiffableDataSource(
             collectionView: self.collectionView,
-            cellProvider: { [weak self ] collectionView, indexPath, item in
+            cellProvider: { collectionView, indexPath, item in
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: TicketListCollectionViewCell.className,
                     for: indexPath
                 ) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
                 cell.disposeBag = DisposeBag()
                 cell.setData(with: item)
-                if item.ticketStatus == .notUsed {
-                    self?.bindQRCodeExpandView(cell, with: item)
-                }
 
                 return cell
             })
@@ -309,34 +321,6 @@ final class TicketListViewController: BooltiViewController {
         }
     }
 
-    private func bindQRCodeExpandView(_ cell: TicketListCollectionViewCell, with item: TicketItemEntity) {
-        let qrCodeImageView = cell.ticketInformationView.qrCodeImageView
-        let ticketName = item.ticketName
-
-        qrCodeImageView.rx.tapGesture()
-            .when(.recognized)
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, _ in
-                guard let QRCodeImage = qrCodeImageView.image else { return }
-                let viewController = owner.qrExpandViewControllerFactory(QRCodeImage, ticketName)
-                viewController.modalPresentationStyle = .fullScreen
-                owner.present(viewController, animated: true)
-            }
-            .disposed(by: cell.disposeBag)
-    }
-
-    private func bind(_ footerView: UICollectionReusableView) {
-        guard let footerView = footerView as? TicketListFooterView else { return }
-        footerView.isHidden = true
-        Observable.combineLatest(self.currentTicketPage, self.ticketPageCount)
-            .subscribe { (currentPage, pagesCount) in
-                guard pagesCount != 1 else { return }
-                footerView.isHidden = false
-                footerView.pageIndicatorLabel.text = "\(currentPage)/\(pagesCount)"
-            }
-            .disposed(by: self.disposeBag)
-    }
-
     private func applySnapshot(_ ticketItems: [TicketItemEntity]) {
         var snapshot = Snapshot()
         snapshot.appendSections([.concertList])
@@ -348,7 +332,7 @@ final class TicketListViewController: BooltiViewController {
     private func createViewController(_ next: TicketListViewDestination) -> UIViewController {
         switch next {
         case .login: return loginViewControllerFactory()
-        case .detail(ticketID: let id):
+        case .detail(reservationID: let id):
             return ticketDetailControllerFactory(id)
         }
     }
