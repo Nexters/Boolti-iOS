@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxCocoa
+
 final class OrganizerInfoView: UIView {
     
     // MARK: UI Component
@@ -15,20 +17,31 @@ final class OrganizerInfoView: UIView {
         let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .subhead2
-        label.text = "주최자"
+        label.text = "공연 관련 문의"
         
         return label
     }()
     
-    private let organizerLabel: BooltiPaddingLabel = {
-        let label = BooltiPaddingLabel(padding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
+    private let organizerLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
         label.textColor = .grey30
         label.font = .body3
-        label.backgroundColor = .grey85
-        label.layer.cornerRadius = 8
-        label.layer.masksToBounds = true
         
         return label
+    }()
+    
+    private let callButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.call, for: .normal)
+        
+        return button
+    }()
+    
+    private let messageButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.message, for: .normal)
+        
+        return button
     }()
     
     // MARK: Init
@@ -49,9 +62,18 @@ final class OrganizerInfoView: UIView {
 
 extension OrganizerInfoView {
     
-    func setData(hostName: String, hostPhoneNumber: String) {
-        self.organizerLabel.text = "\(hostName) (\(hostPhoneNumber))"
+    func setData(hostName: String) {
+        self.organizerLabel.text = "\(hostName)"
     }
+    
+    func didCallButtonTap() -> Signal<Void> {
+        return self.callButton.rx.tap.asSignal()
+    }
+    
+    func didMessageButtonTap() -> Signal<Void> {
+        return self.messageButton.rx.tap.asSignal()
+    }
+    
 }
 
 // MARK: - UI
@@ -59,7 +81,10 @@ extension OrganizerInfoView {
 extension OrganizerInfoView {
     
     private func configureUI() {
-        self.addSubviews([self.titleLabel, self.organizerLabel])
+        self.addSubviews([self.titleLabel,
+                          self.organizerLabel,
+                          self.callButton,
+                          self.messageButton])
     }
     
     private func configureConstraints() {
@@ -74,7 +99,20 @@ extension OrganizerInfoView {
         
         self.organizerLabel.snp.makeConstraints { make in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(16)
-            make.horizontalEdges.equalTo(self.titleLabel)
+            make.leading.equalTo(self.titleLabel)
+            make.trailing.equalTo(self.callButton.snp.leading).offset(-20)
+        }
+        
+        self.callButton.snp.makeConstraints { make in
+            make.centerY.equalTo(self.organizerLabel)
+            make.trailing.equalTo(self.messageButton.snp.leading).offset(-20)
+            make.size.equalTo(24)
+        }
+        
+        self.messageButton.snp.makeConstraints { make in
+            make.centerY.equalTo(self.organizerLabel)
+            make.trailing.equalToSuperview().inset(20)
+            make.size.equalTo(24)
         }
     }
 }
