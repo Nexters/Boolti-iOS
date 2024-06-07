@@ -303,7 +303,7 @@ extension ConcertDetailViewController {
                 owner.present(owner.contactViewControllerFactory(.call, phoneNumber), animated: true)
             }
             .disposed(by: self.disposeBag)
-        
+
         self.organizerInfoView.didMessageButtonTap()
             .emit(with: self) { owner, _ in
                 guard let phoneNumber = owner.viewModel.output.concertDetail.value?.hostPhoneNumber else { return }

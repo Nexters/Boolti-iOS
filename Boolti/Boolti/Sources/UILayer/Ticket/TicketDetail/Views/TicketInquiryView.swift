@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxCocoa
+
 final class TicketInquiryView: UIView {
 
     private let titleLabel: UILabel = {
@@ -48,9 +50,17 @@ final class TicketInquiryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // API 붙힐 때, 수정할 예정!..
+
     func setData(with information: String) {
         self.hostNameLabel.text = "\(information)"
+    }
+
+    func didCallButtonTap() -> Signal<Void> {
+        return self.phoneCallButton.rx.tap.asSignal()
+    }
+
+    func didMessageButtonTap() -> Signal<Void> {
+        return self.messageButton.rx.tap.asSignal()
     }
 
     private func configureUI() {
@@ -86,6 +96,5 @@ final class TicketInquiryView: UIView {
             make.centerY.equalTo(self.hostNameLabel)
             make.right.equalTo(self.messageButton.snp.left).offset(-20)
         }
-
     }
 }
