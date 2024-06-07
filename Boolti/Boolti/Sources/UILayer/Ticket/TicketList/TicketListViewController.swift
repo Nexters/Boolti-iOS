@@ -162,11 +162,7 @@ final class TicketListViewController: BooltiViewController {
 
         self.viewModel.output.isTicketsExist
             .subscribe(with: self) { owner, isTicketsExist in
-                if !isTicketsExist {
-                    owner.concertEnterView.isHidden = false
-                } else {
-                    owner.concertEnterView.isHidden = true
-                }
+                owner.concertEnterView.isHidden = isTicketsExist
             }
             .disposed(by: self.disposeBag)
 

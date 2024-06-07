@@ -7,14 +7,11 @@
 
 import UIKit
 
-class TicketCollectionViewCell: UICollectionViewCell {
+final class TicketCollectionViewCell: UICollectionViewCell {
 
     private let loadingIndicatorView = BooltiLoadingIndicatorView(style: .medium)
 
-    private let qrCodeImageView: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
-    }()
+    private let qrCodeImageView = UIImageView()
 
     private let ticketNameLabel: UILabel = {
         let label = UILabel()

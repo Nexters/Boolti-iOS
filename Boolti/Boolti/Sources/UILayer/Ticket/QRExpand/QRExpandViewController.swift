@@ -101,7 +101,7 @@ extension QRExpandViewController {
 
         self.QRCodeExpandCollectionView.rx.willDisplayCell
             .take(1)
-            .subscribe(with: self) { owner, argument in
+            .subscribe(with: self) { owner, _ in
                 owner.QRCodeExpandCollectionView.scrollToItem(
                     at: self.viewModel.output.indexPath,
                     at: .centeredHorizontally,

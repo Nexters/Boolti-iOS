@@ -60,7 +60,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         return view
     }()
 
-    private var ticketNameCountLabel: BooltiUILabel = {
+    private let ticketNameCountLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.textColor = .grey80.withAlphaComponent(0.75)
         label.font = .pretendardB(14)

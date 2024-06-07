@@ -42,19 +42,6 @@ extension TicketListItemResponseDTO {
     func convertToTicketItemEntity() -> TicketItemEntity {
         /// 티켓 타입
         let ticketType = self.ticketType == "SALE" ? TicketType.sale : TicketType.invitation
-//
-//        var ticketStatus: TicketStatus
-//        let formattedShowDate: Date = self.showDate.formatToDate()
-//
-//        if usedAt != nil {
-//            ticketStatus = .entryCompleted
-//        } else {
-//            if Date().getBetweenDay(to: formattedShowDate) < 0 {
-//                ticketStatus = .concertEnd
-//            } else {
-//                ticketStatus = .notUsed
-//            }
-//        }
 
         return TicketItemEntity(
             ticketType: ticketType,

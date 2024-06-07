@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class GradientBackgroundView: UIView {
+final class GradientBackgroundView: UIView {
 
     private let upperTagView: UIView = {
         let view = UIView()
