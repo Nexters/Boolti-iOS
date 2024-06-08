@@ -309,7 +309,6 @@
 		87D2FAB42B6E977C0027FBE1 /* TicketDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB32B6E977C0027FBE1 /* TicketDetailDIContainer.swift */; };
 		87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */; };
 		87D2FABA2B6EB5C50027FBE1 /* TicketNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB92B6EB5C50027FBE1 /* TicketNoticeView.swift */; };
-		87D2FABE2B6F89060027FBE1 /* TicketInquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FABD2B6F89060027FBE1 /* TicketInquiryView.swift */; };
 		87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */; };
 		87F7DF452B82322E0068A6C9 /* Notification.Name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */; };
 		87F7DF472B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF462B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift */; };
@@ -594,7 +593,6 @@
 		87D2FAB32B6E977C0027FBE1 /* TicketDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailDIContainer.swift; sourceTree = "<group>"; };
 		87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailViewModel.swift; sourceTree = "<group>"; };
 		87D2FAB92B6EB5C50027FBE1 /* TicketNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketNoticeView.swift; sourceTree = "<group>"; };
-		87D2FABD2B6F89060027FBE1 /* TicketInquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketInquiryView.swift; sourceTree = "<group>"; };
 		87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversalPolicyView.swift; sourceTree = "<group>"; };
 		87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+.swift"; sourceTree = "<group>"; };
 		87F7DF462B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeErrorResponseDTO.swift; sourceTree = "<group>"; };
@@ -1665,7 +1663,6 @@
 			children = (
 				879E92362BFB445A00EC7ED1 /* Cells */,
 				87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */,
-				87D2FABD2B6F89060027FBE1 /* TicketInquiryView.swift */,
 				87D2FAB92B6EB5C50027FBE1 /* TicketNoticeView.swift */,
 				879E92392BFB5DC200EC7ED1 /* GradientBackgroundView.swift */,
 			);
@@ -2072,7 +2069,6 @@
 				8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */,
 				87F7DF492B8275D30068A6C9 /* EntryCodeErrorEntity.swift in Sources */,
 				845D88552B87705700179F60 /* ResignReasonViewController.swift in Sources */,
-				87D2FABE2B6F89060027FBE1 /* TicketInquiryView.swift in Sources */,
 				879E923A2BFB5DC200EC7ED1 /* GradientBackgroundView.swift in Sources */,
 				840B395F2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift in Sources */,
 				87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */,

@@ -17,6 +17,8 @@ final class TicketDetailViewController: BooltiViewController {
 
     typealias TicketID = String
     typealias ConcertID = String
+    typealias ConcertId = Int
+    typealias PhoneNumber = String
     typealias Tickets = [TicketDetailInformation]
 
     private let disposeBag = DisposeBag()
@@ -24,6 +26,7 @@ final class TicketDetailViewController: BooltiViewController {
     private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
     private let qrExpandViewControllerFactory: (IndexPath, Tickets) -> QRExpandViewController
     private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
+    private let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController
 
     // MARK: UI Component
 
@@ -99,7 +102,7 @@ final class TicketDetailViewController: BooltiViewController {
     }()
 
     private let ticketNoticeView = TicketNoticeView()
-    private let ticketInquiryView = TicketInquiryView()
+    private let organizerInfoView = OrganizerInfoView(horizontalInset: .zero, verticalInset:.zero , height: 98)
     private let reversalPolicyView = ReversalPolicyView()
 
     private lazy var copyAddressButton = self.makeButton(
@@ -120,6 +123,8 @@ final class TicketDetailViewController: BooltiViewController {
             self.showConcertDetailButton
         ])
         stackView.spacing = 9
+        stackView.layoutMargins = UIEdgeInsets(top: .zero, left: .zero, bottom: 16, right: .zero)
+        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.distribution = .fillEqually
 
         return stackView
@@ -131,12 +136,14 @@ final class TicketDetailViewController: BooltiViewController {
         viewModel: TicketDetailViewModel,
         ticketEntryCodeViewControllerFactory: @escaping (TicketID, ConcertID) -> TicketEntryCodeViewController,
         qrExpandViewControllerFactory: @escaping (IndexPath, Tickets) -> QRExpandViewController,
-        concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController
+        concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController,
+        contactViewControllerFactory: @escaping (ContactType, PhoneNumber) -> ContactViewController
     ) {
         self.viewModel = viewModel
         self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
         self.qrExpandViewControllerFactory = qrExpandViewControllerFactory
         self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
+        self.contactViewControllerFactory = contactViewControllerFactory
         super.init()
     }
 
@@ -167,8 +174,9 @@ final class TicketDetailViewController: BooltiViewController {
     }
 
     private func bindUIComponents() {
-        self.QRCodeCollectionView.rx.setDelegate(self)
-            .disposed(by: self.disposeBag)
+        self.bindCollectionView()
+        self.bindConcertDetailButton()
+        self.bindInquiryView()
 
         self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
@@ -182,12 +190,24 @@ final class TicketDetailViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.copyAddressButton.rx.tap
+        self.entryCodeButton.rx.tap
             .bind(with: self) { owner, _ in
-                guard let streetAddress = owner.viewModel.output.fetchedTicketDetail.value?.streetAddress else { return }
-                UIPasteboard.general.string = streetAddress
-                owner.showToast(message: "공연장 주소가 복사되었어요")
+                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
+                let concertID = "\(ticketDetail.concertID)"
+                let currentTicketIndex = owner.QRCodePageControl.currentPage
+                let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
+                let currentTicketID = "\(currentTicket.ticketID)"
+
+                let viewController = owner.ticketEntryCodeControllerFactory(currentTicketID, concertID)
+                viewController.modalPresentationStyle = .overCurrentContext
+                owner.definesPresentationContext = true
+                owner.present(viewController, animated: true)
             }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindCollectionView() {
+        self.QRCodeCollectionView.rx.setDelegate(self)
             .disposed(by: self.disposeBag)
 
         self.QRCodeCollectionView.rx.itemSelected
@@ -209,6 +229,16 @@ final class TicketDetailViewController: BooltiViewController {
                 owner.QRCodePageControl.rx.currentPage.onNext(Int(offSet + horizontalCenter) / Int(width))
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func bindConcertDetailButton() {
+        self.copyAddressButton.rx.tap
+            .bind(with: self) { owner, _ in
+                guard let streetAddress = owner.viewModel.output.fetchedTicketDetail.value?.streetAddress else { return }
+                UIPasteboard.general.string = streetAddress
+                owner.showToast(message: "공연장 주소가 복사되었어요")
+            }
+            .disposed(by: self.disposeBag)
 
         self.showConcertDetailButton.rx.tap
             .bind(with: self) { owner, _ in
@@ -217,19 +247,20 @@ final class TicketDetailViewController: BooltiViewController {
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
 
-        self.entryCodeButton.rx.tap
-            .bind(with: self) { owner, _ in
-                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
-                let concertID = "\(ticketDetail.concertID)"
-                let currentTicketIndex = owner.QRCodePageControl.currentPage
-                let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
-                let currentTicketID = "\(currentTicket.ticketID)"
+    private func bindInquiryView() {
+        self.organizerInfoView.didCallButtonTap()
+            .emit(with: self) { owner, _ in
+                guard let phoneNumber = owner.viewModel.output.fetchedTicketDetail.value?.hostPhoneNumber else { return }
+                owner.present(owner.contactViewControllerFactory(.call, phoneNumber), animated: true)
+            }
+            .disposed(by: self.disposeBag)
 
-                let viewController = owner.ticketEntryCodeControllerFactory(currentTicketID, concertID)
-                viewController.modalPresentationStyle = .overCurrentContext
-                owner.definesPresentationContext = true
-                owner.present(viewController, animated: true)
+        self.organizerInfoView.didMessageButtonTap()
+            .emit(with: self) { owner, _ in
+                guard let phoneNumber = owner.viewModel.output.fetchedTicketDetail.value?.hostPhoneNumber else { return }
+                owner.present(owner.contactViewControllerFactory(.message, phoneNumber), animated: true)
             }
             .disposed(by: self.disposeBag)
     }
@@ -297,7 +328,7 @@ final class TicketDetailViewController: BooltiViewController {
             self.QRCodeCollectionView,
             self.QRCodePageControl,
             self.ticketNoticeView,
-            self.ticketInquiryView,
+            self.organizerInfoView,
             self.horizontalButtonStackView
         ])
 
@@ -345,7 +376,7 @@ final class TicketDetailViewController: BooltiViewController {
         }
 
         self.horizontalButtonStackView.snp.makeConstraints { make in
-            make.height.equalTo(48)
+            make.height.equalTo(64)
         }
 
         self.entryCodeButton.snp.makeConstraints { make in
@@ -366,7 +397,7 @@ final class TicketDetailViewController: BooltiViewController {
 
     private func setData(with entity: TicketDetailItemEntity) {
         self.ticketNoticeView.setData(with: entity.ticketNotice)
-        self.ticketInquiryView.setData(with: entity.hostName)
+        self.organizerInfoView.setData(hostName: entity.hostName)
         self.concertDetailBackgroundView.setData(
             with: entity.posterURLPath,
             concertName: entity.title

@@ -79,8 +79,8 @@ final class ConcertDetailViewController: BooltiViewController {
     
     private let contentInfoView = ContentInfoView()
     
-    private let organizerInfoView = OrganizerInfoView()
-    
+    private let organizerInfoView = OrganizerInfoView(horizontalInset: 20, verticalInset: 32, height: 170)
+
     private lazy var buttonBackgroundView: UIView = {
         let view = UIView()
 
@@ -303,7 +303,7 @@ extension ConcertDetailViewController {
                 owner.present(owner.contactViewControllerFactory(.call, phoneNumber), animated: true)
             }
             .disposed(by: self.disposeBag)
-        
+
         self.organizerInfoView.didMessageButtonTap()
             .emit(with: self) { owner, _ in
                 guard let phoneNumber = owner.viewModel.output.concertDetail.value?.hostPhoneNumber else { return }

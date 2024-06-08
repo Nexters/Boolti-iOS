@@ -45,17 +45,18 @@ final class OrganizerInfoView: UIView {
     }()
     
     // MARK: Init
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
+
+    init(horizontalInset: Int, verticalInset: Int, height: Int) {
+        super.init(frame: .zero)
+
         self.configureUI()
-        self.configureConstraints()
+        self.configureConstraints(horizontalInset: horizontalInset, verticalInset: verticalInset, height: height)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError()
     }
+
 }
 
 // MARK: - Methods
@@ -87,14 +88,14 @@ extension OrganizerInfoView {
                           self.messageButton])
     }
     
-    private func configureConstraints() {
+    private func configureConstraints(horizontalInset: Int, verticalInset: Int, height: Int) {
         self.snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(170)
+            make.height.greaterThanOrEqualTo(height)
         }
 
         self.titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(32)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalToSuperview().inset(verticalInset)
+            make.horizontalEdges.equalToSuperview().inset(horizontalInset)
         }
         
         self.organizerLabel.snp.makeConstraints { make in

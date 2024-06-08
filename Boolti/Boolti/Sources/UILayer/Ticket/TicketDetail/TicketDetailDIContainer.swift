@@ -13,6 +13,7 @@ final class TicketDetailDIContainer {
     private let networkService: NetworkProviderType
     
     typealias ConcertId = Int
+    typealias PhoneNumber = String
 
     init(authRepository: AuthRepositoryType) {
         self.authRepository = authRepository
@@ -40,11 +41,20 @@ final class TicketDetailDIContainer {
             return viewController
         }
 
+        let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController = { (contactType, phoneNumber) in
+            let DIContainer = self.createContactDIContainer()
+
+            let viewController = DIContainer.createContactViewController(contactType: contactType, phoneNumber: phoneNumber)
+            return viewController
+        }
+
+
         let viewController = TicketDetailViewController(
             viewModel: self.createTicketDetailViewModel(ticketID: ticketID),
             ticketEntryCodeViewControllerFactory: ticketEntryCodeViewControllerFactory,
             qrExpandViewControllerFactory: qrExpandViewControllerFactory,
-            concertDetailViewControllerFactory: concertDetailViewControllerFactory
+            concertDetailViewControllerFactory: concertDetailViewControllerFactory,
+            contactViewControllerFactory: contactViewControllerFactory
         )
 
         return viewController
@@ -56,6 +66,10 @@ final class TicketDetailDIContainer {
     
     private func createQRExpandDIContainer() -> QRExpandDIContainer {
         return QRExpandDIContainer()
+    }
+
+    private func createContactDIContainer() -> ContactDIContainer {
+        return ContactDIContainer()
     }
 
     private func createTicketDetailViewModel(ticketID: String) -> TicketDetailViewModel {
