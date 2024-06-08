@@ -79,8 +79,8 @@ final class ConcertDetailViewController: BooltiViewController {
     
     private let contentInfoView = ContentInfoView()
     
-    private let organizerInfoView = OrganizerInfoView()
-    
+    private let organizerInfoView = OrganizerInfoView(horizontalInset: 20, verticalInset: 32, height: 170)
+
     private lazy var buttonBackgroundView: UIView = {
         let view = UIView()
 

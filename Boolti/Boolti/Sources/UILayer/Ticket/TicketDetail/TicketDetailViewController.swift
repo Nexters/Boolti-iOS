@@ -102,7 +102,7 @@ final class TicketDetailViewController: BooltiViewController {
     }()
 
     private let ticketNoticeView = TicketNoticeView()
-    private let ticketInquiryView = TicketInquiryView()
+    private let organizerInfoView = OrganizerInfoView(horizontalInset: .zero, verticalInset:.zero , height: 98)
     private let reversalPolicyView = ReversalPolicyView()
 
     private lazy var copyAddressButton = self.makeButton(
@@ -123,6 +123,8 @@ final class TicketDetailViewController: BooltiViewController {
             self.showConcertDetailButton
         ])
         stackView.spacing = 9
+        stackView.layoutMargins = UIEdgeInsets(top: .zero, left: .zero, bottom: 16, right: .zero)
+        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.distribution = .fillEqually
 
         return stackView
@@ -248,14 +250,14 @@ final class TicketDetailViewController: BooltiViewController {
     }
 
     private func bindInquiryView() {
-        self.ticketInquiryView.didCallButtonTap()
+        self.organizerInfoView.didCallButtonTap()
             .emit(with: self) { owner, _ in
                 guard let phoneNumber = owner.viewModel.output.fetchedTicketDetail.value?.hostPhoneNumber else { return }
                 owner.present(owner.contactViewControllerFactory(.call, phoneNumber), animated: true)
             }
             .disposed(by: self.disposeBag)
 
-        self.ticketInquiryView.didMessageButtonTap()
+        self.organizerInfoView.didMessageButtonTap()
             .emit(with: self) { owner, _ in
                 guard let phoneNumber = owner.viewModel.output.fetchedTicketDetail.value?.hostPhoneNumber else { return }
                 owner.present(owner.contactViewControllerFactory(.message, phoneNumber), animated: true)
@@ -326,7 +328,7 @@ final class TicketDetailViewController: BooltiViewController {
             self.QRCodeCollectionView,
             self.QRCodePageControl,
             self.ticketNoticeView,
-            self.ticketInquiryView,
+            self.organizerInfoView,
             self.horizontalButtonStackView
         ])
 
@@ -374,7 +376,7 @@ final class TicketDetailViewController: BooltiViewController {
         }
 
         self.horizontalButtonStackView.snp.makeConstraints { make in
-            make.height.equalTo(48)
+            make.height.equalTo(64)
         }
 
         self.entryCodeButton.snp.makeConstraints { make in
@@ -395,7 +397,7 @@ final class TicketDetailViewController: BooltiViewController {
 
     private func setData(with entity: TicketDetailItemEntity) {
         self.ticketNoticeView.setData(with: entity.ticketNotice)
-        self.ticketInquiryView.setData(with: entity.hostName)
+        self.organizerInfoView.setData(hostName: entity.hostName)
         self.concertDetailBackgroundView.setData(
             with: entity.posterURLPath,
             concertName: entity.title
