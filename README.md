@@ -13,7 +13,7 @@
 ### 2️⃣ 결제하기
 | 결제 정보 입력 | 페이먼츠 결제 | 결제완료 |
 | ----- | ----- | ----- |
-|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/3cd48924-4ac8-428f-b699-edec2918d7b9" width="250"/>|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/27b865cd-dbf9-4c63-822c-e7157fa45a09" width="250"/>|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/168f2c70-7059-416b-b672-25a44d2faab3" width="250"/>|
+|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/3cd48924-4ac8-428f-b699-edec2918d7b9" width="250"/>|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/27b865cd-dbf9-4c63-822c-e7157fa45a09" width="250"/>|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/c92bae4b-b87d-4899-8a48-2eab532d68fd" width="250"/>|
 
 
 ### 3️⃣ 티켓 탭
@@ -28,7 +28,7 @@
 ### 4️⃣ 마이페이지
 | 마이페이지 | 예매 내역 | 환불하기 |
 | ----- | ----- | ----- |
-|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/fc8fabb1-2156-49f2-bfdb-feb0a123f758" width="250"/>|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/defcb787-bdbc-4c3e-9aec-5c85715fbeba" width="250"/>|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/cfe46437-75fd-463c-8801-e82f7d98c3b0" width="250"/>|
+|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/43effd4b-cfa0-488b-9ae3-86f643c4b1f2" width="250"/>|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/defcb787-bdbc-4c3e-9aec-5c85715fbeba" width="250"/>|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/cfe46437-75fd-463c-8801-e82f7d98c3b0" width="250"/>|
 
 ### 5️⃣ 푸시 알림 및 앱 링크 공유하기
 | 앱이 켜져있을 때 | 앱이 꺼져있을 때 |
@@ -38,7 +38,6 @@
 | 앱 링크 공유하기 | 링크로 앱 들어오기|
 | ----- | ----- |
 |<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/3de652c0-b9b8-4c7a-a2bb-2f40644dc23b" width="250"/>|<img src="https://github.com/Nexters/Boolti-iOS/assets/85781941/bccb9d97-9acd-43ce-a3c6-3fb3f01b568e" width="250"/>|
-
 
 ## 🏡 프로젝트 구조
 (작성 중)
