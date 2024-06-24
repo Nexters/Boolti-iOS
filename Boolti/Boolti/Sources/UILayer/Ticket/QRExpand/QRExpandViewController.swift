@@ -151,6 +151,7 @@ extension QRExpandViewController {
 
         self.QRCodeExpandPageControl.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
             make.bottom.equalToSuperview().inset(50)
         }
 
