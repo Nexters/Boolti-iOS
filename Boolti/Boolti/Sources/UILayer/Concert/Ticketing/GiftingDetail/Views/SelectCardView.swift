@@ -7,10 +7,13 @@
 
 import UIKit
 
+import RxSwift
+
 final class SelectCardView: UIView {
     
     // MARK: Properties
     
+    private let disposeBag = DisposeBag()
     private let cardWidth: CGFloat = UIScreen.main.bounds.width - 64
     private lazy var cardHeight: CGFloat = cardWidth * 1.23
     
@@ -33,7 +36,6 @@ final class SelectCardView: UIView {
     
     private let messageTextView: UITextView = {
         let textView = UITextView()
-        textView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         textView.font = .subhead2
         textView.text = "공연에 초대합니다."
         textView.backgroundColor = .clear
@@ -49,8 +51,6 @@ final class SelectCardView: UIView {
         let label = BooltiUILabel()
         label.font = .caption
         label.textColor = .grey10
-        label.text = "0/40자"
-        label.setAlignment(.center)
         return label
     }()
     
@@ -67,6 +67,7 @@ final class SelectCardView: UIView {
         super.init(frame: .zero)
         
         self.configureUI()
+        self.bindUIComponent()
     }
     
     required init?(coder: NSCoder) {
@@ -76,6 +77,27 @@ final class SelectCardView: UIView {
 }
 
 // MARK: - Methods
+
+extension SelectCardView {
+    
+    private func bindUIComponent() {
+        self.messageTextView.rx.text
+            .bind(with: self) { owner, changedText in
+                guard let changedText = changedText else { return }
+                
+                if changedText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    owner.messageTextView.text = ""
+                } else if changedText.count > 40 {
+                    owner.messageTextView.deleteBackward()
+                }
+                owner.messageCountLabel.text = "\(changedText.count)/40자"
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+}
+
+// MARK: - UI
 
 extension SelectCardView {
     
@@ -105,7 +127,7 @@ extension SelectCardView {
         }
         
         self.messageCountLabel.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(self.messageTextView)
+            make.centerX.equalToSuperview()
             make.bottom.equalTo(self.selectedImageView.snp.top).offset(-28)
         }
         
