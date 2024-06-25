@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		220013D92BE39F62007FF9E6 /* TicketingErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */; };
 		2201AC942C2A8AD600CEBD31 /* SelectCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2201AC932C2A8AD600CEBD31 /* SelectCardView.swift */; };
+		2201AC972C2AB35100CEBD31 /* CardImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2201AC962C2AB35100CEBD31 /* CardImageCollectionViewCell.swift */; };
 		221D09FC2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */; };
 		221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */; };
 		2233EAAB2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */; };
@@ -324,6 +325,7 @@
 /* Begin PBXFileReference section */
 		220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingErrorType.swift; sourceTree = "<group>"; };
 		2201AC932C2A8AD600CEBD31 /* SelectCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCardView.swift; sourceTree = "<group>"; };
+		2201AC962C2AB35100CEBD31 /* CardImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoViewController.swift; sourceTree = "<group>"; };
 		2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentResponseDTO.swift; sourceTree = "<group>"; };
@@ -658,6 +660,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		2201AC952C2AB33B00CEBD31 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2201AC962C2AB35100CEBD31 /* CardImageCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		2250FABB2C020B8A00CCF487 /* Contact */ = {
 			isa = PBXGroup;
 			children = (
@@ -726,6 +736,7 @@
 			isa = PBXGroup;
 			children = (
 				2201AC922C2A8AC400CEBD31 /* Views */,
+				2201AC952C2AB33B00CEBD31 /* Cells */,
 				22DEF7802C28396100EA492A /* GiftingDetailDIContainer.swift */,
 				22DEF7822C28396D00EA492A /* GiftingDetailViewController.swift */,
 				22DEF7842C28397600EA492A /* GiftingDetailViewModel.swift */,
@@ -2045,6 +2056,7 @@
 				84DF59DA2B722E5B000816DA /* UpdatePopupViewController.swift in Sources */,
 				876C65E02B73907D000F2746 /* TicketType.swift in Sources */,
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
+				2201AC972C2AB35100CEBD31 /* CardImageCollectionViewCell.swift in Sources */,
 				876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */,
 				847AA70E2B62B55500E5B55C /* BooltiNavigationBar.swift in Sources */,
 				8453D7FC2B7539270048F103 /* SalesTicketResponseDTO.swift in Sources */,

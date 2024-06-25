@@ -61,6 +61,21 @@ final class SelectCardView: UIView {
         return imageView
     }()
     
+    private lazy var cardImageCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.contentInset = .init(top: 0, left: 32, bottom: 0, right: 32)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
+        
+        collectionView.register(CardImageCollectionViewCell.self, forCellWithReuseIdentifier: CardImageCollectionViewCell.className)
+        return collectionView
+    }()
+    
     // MARK: Initailizer
     
     init() {
@@ -97,6 +112,37 @@ extension SelectCardView {
     
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension SelectCardView: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 52, height: 52)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+//        self.selectedImageView.setImage(with: "")
+    }
+
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension SelectCardView: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardImageCollectionViewCell.className, for: indexPath) as? CardImageCollectionViewCell else { return UICollectionViewCell() }
+//        cell.setData(with: "")
+        return cell
+    }
+
+}
+
 // MARK: - UI
 
 extension SelectCardView {
@@ -105,7 +151,8 @@ extension SelectCardView {
         self.addSubviews([self.selectedCardBackgroundView,
                           self.messageTextView,
                           self.messageCountLabel,
-                          self.selectedImageView])
+                          self.selectedImageView,
+                          self.cardImageCollectionView])
         
         self.configureConstraints()
     }
@@ -135,6 +182,12 @@ extension SelectCardView {
             make.horizontalEdges.equalTo(self.messageTextView)
             make.height.equalTo((self.cardWidth - 40) * (2/3))
             make.bottom.equalTo(self.selectedCardBackgroundView).inset(32)
+        }
+        
+        self.cardImageCollectionView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.top.equalTo(self.selectedCardBackgroundView.snp.bottom).offset(44)
+            make.bottom.equalToSuperview().inset(36)
         }
     }
     
