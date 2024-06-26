@@ -14,7 +14,6 @@ final class CardImageCollectionViewCell: UICollectionViewCell {
     private let cardImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey50
-        imageView.layer.cornerRadius = 4
         return imageView
     }()
     
@@ -25,9 +24,22 @@ final class CardImageCollectionViewCell: UICollectionViewCell {
         
         self.configureUI()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    // MARK: Override
+    
+    override var isSelected: Bool{
+        didSet {
+            if isSelected {
+                self.layer.borderColor = UIColor.orange01.cgColor
+                self.layer.borderWidth = 1
+            } else {
+                self.layer.borderWidth = 0
+            }
+        }
     }
     
 }
@@ -47,6 +59,8 @@ extension CardImageCollectionViewCell {
 extension CardImageCollectionViewCell {
     
     private func configureUI() {
+        self.layer.cornerRadius = 4
+        self.clipsToBounds = true
         self.addSubview(self.cardImageView)
         
         self.configureConstraints()

@@ -82,6 +82,7 @@ final class SelectCardView: UIView {
         super.init(frame: .zero)
         
         self.configureUI()
+        //        self.selectFirstItem()
         self.bindUIComponent()
     }
     
@@ -110,6 +111,11 @@ extension SelectCardView {
             .disposed(by: self.disposeBag)
     }
     
+    //    private func selectFirstItem() {
+    //        self.cardImageCollectionView.selectItem(at: [0,1], animated: false, scrollPosition: .init())
+    //        self.collectionView(cardImageCollectionView.self, didSelectItemAt: IndexPath(item: 1, section: 0))
+    //    }
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -120,11 +126,6 @@ extension SelectCardView: UICollectionViewDelegateFlowLayout {
         return CGSize(width: 52, height: 52)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
-//        self.selectedImageView.setImage(with: "")
-    }
-
 }
 
 // MARK: - UICollectionViewDataSource
@@ -137,10 +138,15 @@ extension SelectCardView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardImageCollectionViewCell.className, for: indexPath) as? CardImageCollectionViewCell else { return UICollectionViewCell() }
-//        cell.setData(with: "")
+        
+        if indexPath.item == 0 {
+            cell.isSelected = true
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init())
+        }
+        //        cell.setData(with: "")
         return cell
     }
-
+    
 }
 
 // MARK: - UI
