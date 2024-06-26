@@ -129,6 +129,8 @@ extension TicketingDetailViewModel {
             .map { depositorName, depositorPhoneNumber, isEqualButtonSelected in
                 return isEqualButtonSelected || (!depositorName.trimmingCharacters(in: .whitespaces).isEmpty && !depositorPhoneNumber.trimmingCharacters(in: .whitespaces).isEmpty)
             }
+        default:
+            return .just(false)
         }
     }
     

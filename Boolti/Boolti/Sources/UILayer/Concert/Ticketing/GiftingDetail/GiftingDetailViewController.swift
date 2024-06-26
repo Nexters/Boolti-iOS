@@ -16,6 +16,8 @@ final class GiftingDetailViewController: BooltiViewController {
     private let viewModel: GiftingDetailViewModel
     private let disposeBag = DisposeBag()
     
+    private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
+    
     // MARK: UI Component
     
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "선물하기"))
@@ -31,12 +33,30 @@ final class GiftingDetailViewController: BooltiViewController {
     
     private let selectCardView = SelectCardView()
     
+    private let receiverInputView = UserInfoInputView(type: .receiver)
+    
+    private let senderInputView = UserInfoInputView(type: .sender)
+    
+    private let policyView = PolicyView()
+    
+    private let agreeView = AgreeView()
+    
+    private let middlemanPolicyView = MiddlemanPolicyView()
+    
+    private let businessInfoView = BooltiBusinessInfoView()
+    
     private lazy var stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = 12
         
-        view.addArrangedSubviews([self.selectCardView])
+        view.addArrangedSubviews([self.selectCardView,
+                                  self.receiverInputView,
+                                  self.senderInputView,
+                                  self.policyView,
+                                  self.agreeView,
+                                  self.middlemanPolicyView,
+                                  self.businessInfoView])
         return view
     }()
     
@@ -52,13 +72,14 @@ final class GiftingDetailViewController: BooltiViewController {
         return view
     }()
     
-    
     private let payButton = BooltiButton(title: "\(0.formattedCurrency())원 결제하기")
     
     // MARK: Initailizer
     
-    init(viewModel: GiftingDetailViewModel) {
+    init(viewModel: GiftingDetailViewModel,
+         businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController) {
         self.viewModel = viewModel
+        self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
         
         super.init()
     }
@@ -84,6 +105,8 @@ extension GiftingDetailViewController {
     
     private func bindUIComponents() {
         self.bindNavigationBar()
+        self.bindBusinessInfoView()
+        self.bindAgreeView()
     }
     
     private func bindNavigationBar() {
@@ -91,6 +114,35 @@ extension GiftingDetailViewController {
             .emit(with: self, onNext: { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindBusinessInfoView() {
+        self.businessInfoView.didInfoButtonTap()
+            .emit(with: self) { owner, _ in
+                let viewController = self.businessInfoViewControllerFactory()
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindAgreeView() {
+        self.agreeView.didCollectionOpenButtonTap()
+            .emit(with: self) { owner, _ in
+                guard let url = URL(string: AppInfo.informationCollectionPolicyLink) else { return }
+                owner.openSafari(with: url)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.agreeView.didOfferOpenButtonTap()
+            .emit(with: self) { owner, _ in
+                guard let url = URL(string: AppInfo.informationOfferPolicyLink) else { return }
+                owner.openSafari(with: url)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.agreeView.isAllAgreeButtonSelected
+            .bind(to: self.viewModel.input.isAllAgreeButtonSelected)
             .disposed(by: self.disposeBag)
     }
     

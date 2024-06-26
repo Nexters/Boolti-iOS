@@ -8,6 +8,7 @@
 import Foundation
 
 import RxSwift
+import RxRelay
 
 final class GiftingDetailViewModel {
     
@@ -15,4 +16,16 @@ final class GiftingDetailViewModel {
     
     private let disposeBag = DisposeBag()
     
+    struct Input {
+        let isAllAgreeButtonSelected = BehaviorRelay<Bool>(value: false)
+    }
+    
+    let input: Input
+    
+    // MARK: Initailizer
+    
+    init() {
+        self.input = Input()
+    }
+
 }

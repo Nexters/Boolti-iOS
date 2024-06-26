@@ -13,6 +13,8 @@ import RxCocoa
 enum UserInfoInputType {
     case ticketHolder
     case depositor
+    case sender
+    case receiver
 }
 
 final class UserInfoInputView: UIView {
@@ -46,7 +48,6 @@ final class UserInfoInputView: UIView {
         return textField
     }()
 
-    
     private let phoneNumberLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .body1
@@ -63,7 +64,6 @@ final class UserInfoInputView: UIView {
         return textField
     }()
 
-    
     let isEqualButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
@@ -86,6 +86,22 @@ final class UserInfoInputView: UIView {
         return button
     }()
     
+    private let infoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .info
+        return imageView
+    }()
+    
+    private let infoLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .pretendardR(14)
+        label.textColor = .grey40
+        label.text = "결제 후 카카오톡 친구 목록에서 받는 분을 선택해주세요."
+        return label
+    }()
+    
+    
+    
     // MARK: Init
     
     init(type: UserInfoInputType) {
@@ -96,6 +112,10 @@ final class UserInfoInputView: UIView {
             self.configureTicketHolderUI()
         case .depositor:
             self.configureDepositorUI()
+        case .sender:
+            self.configureSenderUI()
+        case .receiver:
+            self.configureReceiverUI()
         }
         
         self.bindInputs()
@@ -162,6 +182,22 @@ extension UserInfoInputView {
         self.titleLabel.text = "결제자 정보"
     }
     
+    private func configureSenderUI() {
+        self.configureDefaultUI()
+
+        self.titleLabel.text = "보내는 분 정보"
+    }
+    
+    private func configureReceiverUI() {
+        self.configureDefaultUI()
+        
+        self.addSubviews([self.infoImageView,
+                          self.infoLabel])
+        self.configureReceiverConstraints()
+        
+        self.titleLabel.text = "받는 분 정보"
+    }
+    
     private func configureDefaultUI() {
         self.addSubviews([self.titleLabel,
                           self.nameLabel,
@@ -213,4 +249,23 @@ extension UserInfoInputView {
             make.right.equalToSuperview().inset(20)
         }
     }
+    
+    private func configureReceiverConstraints() {
+        self.snp.updateConstraints { make in
+            make.height.equalTo(234)
+        }
+        
+        self.infoImageView.snp.makeConstraints { make in
+            make.top.equalTo(self.phoneNumberTextField.snp.bottom).offset(16)
+            make.leading.equalToSuperview().inset(20)
+            make.size.equalTo(20)
+        }
+        
+        self.infoLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(self.infoImageView)
+            make.leading.equalTo(self.infoImageView.snp.trailing).offset(6)
+            make.trailing.equalToSuperview().inset(20)
+        }
+    }
+    
 }

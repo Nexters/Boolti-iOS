@@ -9,8 +9,15 @@ final class GiftingDetailDIContainer {
 
     func createGiftingDetailViewController() -> GiftingDetailViewController {
         let viewModel = createGiftingDetailViewModel()
+        
+        let businessInfoViewControllerFactory = {
+            let DIContainer = BusinessInfoDIContainer()
+            let viewController = DIContainer.createBusinessInfoViewController()
 
-        let viewController = GiftingDetailViewController(viewModel: viewModel)
+            return viewController
+        }
+
+        let viewController = GiftingDetailViewController(viewModel: viewModel, businessInfoViewControllerFactory: businessInfoViewControllerFactory)
         
         return viewController
     }
