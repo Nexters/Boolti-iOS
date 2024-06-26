@@ -40,6 +40,12 @@ final class QRScannerViewController: BooltiViewController {
         return button
     }()
 
+    private let bottomBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey95
+        return view
+    }()
+
     private let qrCodeResponsePopUpView = QRCodeResponsePopUpView()
 
     // MARK: Init
@@ -111,30 +117,22 @@ extension QRScannerViewController {
     }
 
     private func configureQRScanner() {
-        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
-            fatalError("No video device found")
-        }
+        guard let captureDevice = AVCaptureDevice.default(for: .video) else { return }
 
         do {
-            let cameraHeight = UIScreen.main.bounds.height - (self.navigationBar.statusBarHeight + 44) - 96
-            let rectOfInterest = CGRect(x: 0,
-                                        y: self.navigationBar.statusBarHeight + 44,
-                                        width: UIScreen.main.bounds.width,
-                                        height: cameraHeight)
-
             let input = try AVCaptureDeviceInput(device: captureDevice)
-            captureSession.addInput(input)
+            self.captureSession.addInput(input)
 
             let output = AVCaptureMetadataOutput()
-            captureSession.addOutput(output)
+            self.captureSession.addOutput(output)
 
             output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             output.metadataObjectTypes = [.qr]
 
-            let rectConverted = configureVideoLayer(rectOfInterest: rectOfInterest)
+            let rectConverted = self.configureVideoLayer()
             output.rectOfInterest = rectConverted
 
-            DispatchQueue.global(qos: .background).async {
+            DispatchQueue.global(qos: .userInitiated).async {
                 self.captureSession.startRunning()
             }
         } catch {
@@ -142,14 +140,27 @@ extension QRScannerViewController {
         }
     }
 
-    private func configureVideoLayer(rectOfInterest: CGRect) -> CGRect {
-        let videoLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+    private func configureVideoLayer() -> CGRect {
+        let videoLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
 
-        videoLayer.frame = rectOfInterest
+        videoLayer.frame = view.layer.bounds
         videoLayer.videoGravity = .resizeAspectFill
         self.view.layer.addSublayer(videoLayer)
 
-        return videoLayer.metadataOutputRectConverted(fromLayerRect: rectOfInterest)
+        let widthRatio: CGFloat = 0.7
+        let heightRatio: CGFloat = 0.5
+
+        let width = UIScreen.main.bounds.width * widthRatio
+        let height = UIScreen.main.bounds.height * heightRatio
+
+        let focusAreaRect = CGRect(
+            x: (UIScreen.main.bounds.width - width) / 2,
+            y: (UIScreen.main.bounds.height - height) / 2,
+            width:  UIScreen.main.bounds.width * widthRatio,
+            height: UIScreen.main.bounds.height * heightRatio
+        )
+
+        return videoLayer.metadataOutputRectConverted(fromLayerRect: focusAreaRect)
     }
 }
 
@@ -158,7 +169,12 @@ extension QRScannerViewController {
 extension QRScannerViewController {
 
     private func configureUI() {
-        self.view.addSubviews([self.navigationBar, self.entranceCodeButton, self.qrCodeResponsePopUpView])
+        self.view.addSubviews([
+            self.navigationBar,
+            self.qrCodeResponsePopUpView,
+            self.bottomBackgroundView,
+            self.entranceCodeButton,
+        ])
 
         self.view.backgroundColor = .grey95
         self.qrCodeResponsePopUpView.isHidden = true
@@ -179,6 +195,11 @@ extension QRScannerViewController {
             make.bottom.equalTo(self.entranceCodeButton.snp.top).offset(-44)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.centerX.equalToSuperview()
+        }
+
+        self.bottomBackgroundView.snp.makeConstraints { make in
+            make.width.bottom.equalToSuperview()
+            make.top.equalTo(self.entranceCodeButton.snp.top).offset(-20)
         }
     }
 }
