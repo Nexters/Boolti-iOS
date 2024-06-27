@@ -165,7 +165,7 @@ final class GradientBackgroundView: UIView {
         self.logoImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self.upperTagView)
             make.right.equalToSuperview().inset(20)
-            make.size.equalTo(16)
+            make.size.equalTo(22)
         }
     }
 

@@ -234,9 +234,9 @@ final class TicketListViewController: BooltiViewController {
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
             item.contentInsets = NSDirectionalEdgeInsets(
-                top: 40,
+                top: 20,
                 leading: 6,
-                bottom: 5,
+                bottom: 10,
                 trailing: 6
             )
 
@@ -257,11 +257,11 @@ final class TicketListViewController: BooltiViewController {
                 elementKind: TicketListViewController.ticketListFooterViewKind,
                 alignment: .bottom
             )
+            footer.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
 
             let section = NSCollectionLayoutSection(group: group)
             section.boundarySupplementaryItems = [footer]
             section.orthogonalScrollingBehavior = .groupPagingCentered
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 7, trailing: 0)
 
             self.configureCollectionViewCarousel(of: section)
 
