@@ -199,7 +199,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
 
         self.posterImageView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.065)
-            make.top.equalTo(self.upperTagView.snp.bottom).offset(self.bounds.height * 0.04)
+            make.top.equalTo(self.upperTagView.snp.bottom).offset(self.bounds.height * 0.03)
             make.height.equalToSuperview().multipliedBy(0.67)
         }
 
@@ -216,20 +216,20 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
 
         self.rightCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.805)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.795)
             make.centerX.equalTo(self.snp.right)
         }
 
         self.leftCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.805)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.795)
             make.centerX.equalTo(self.snp.left)
         }
     }
 
         private func configureSeperateLine() {
             let path = CGMutablePath()
-            let height = self.bounds.height * 0.805
+            let height = self.bounds.height * 0.795
             let width = self.bounds.width * 0.053
 
             path.move(to: CGPoint(x: width, y: height))
