@@ -112,7 +112,7 @@ extension OrganizerInfoView {
         
         self.messageButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.organizerLabel)
-            make.trailing.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(horizontalInset)
             make.size.equalTo(24)
         }
     }
