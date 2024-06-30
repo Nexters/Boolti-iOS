@@ -103,16 +103,16 @@ extension OrganizerInfoView {
             make.leading.equalTo(self.titleLabel)
             make.trailing.equalTo(self.callButton.snp.leading).offset(-20)
         }
-        
+
         self.callButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.organizerLabel)
             make.trailing.equalTo(self.messageButton.snp.leading).offset(-20)
             make.size.equalTo(24)
         }
-        
+
         self.messageButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.organizerLabel)
-            make.trailing.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(horizontalInset)
             make.size.equalTo(24)
         }
     }

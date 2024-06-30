@@ -388,10 +388,10 @@ final class TicketDetailViewController: BooltiViewController {
 
     private func setCustomStackViewSpacing() {
         if QRCodePageControl.numberOfPages == 1 {
-            self.concertDetailStackView.setCustomSpacing(80, after: self.QRCodeCollectionView)
+            self.concertDetailStackView.setCustomSpacing(60, after: self.QRCodeCollectionView)
         } else {
-            self.concertDetailStackView.setCustomSpacing(13, after: self.QRCodeCollectionView)
-            self.concertDetailStackView.setCustomSpacing(50, after: self.QRCodePageControl)
+            self.concertDetailStackView.setCustomSpacing(10, after: self.QRCodeCollectionView)
+            self.concertDetailStackView.setCustomSpacing(30, after: self.QRCodePageControl)
         }
     }
 
