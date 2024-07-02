@@ -39,7 +39,7 @@ final class TicketReservationsViewController: BooltiViewController {
         return stackView
     }()
 
-    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "예매 내역"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "결제 내역"))
 
     init(ticketReservationDetailViewControllerFactory: @escaping (ReservationID) -> TicketReservationDetailViewController,viewModel: TicketReservationsViewModel) {
         self.viewModel = viewModel

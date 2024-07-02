@@ -20,7 +20,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
     private let viewModel: TicketReservationDetailViewModel
     private let disposeBag = DisposeBag()
 
-    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "예매 내역 상세"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "결제 내역 상세"))
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -90,12 +90,12 @@ final class TicketReservationDetailViewController: BooltiViewController {
         isHidden: false
     )
 
-    private let purchasernNameView = ReservationHorizontalStackView(title: "이름", alignment: .right)
-    private let purchaserPhoneNumberView = ReservationHorizontalStackView(title: "연락처", alignment: .right)
+    private let visitorNameView = ReservationHorizontalStackView(title: "이름", alignment: .right)
+    private let visitorPhoneNumberView = ReservationHorizontalStackView(title: "연락처", alignment: .right)
 
-    private lazy var purchaserInformationStackView = ReservationCollapsableStackView(
-        title: "예매자 정보",
-        contentViews: [self.purchasernNameView, self.purchaserPhoneNumberView],
+    private lazy var visitorInformationStackView = ReservationCollapsableStackView(
+        title: "방문자 정보",
+        contentViews: [self.visitorNameView, self.visitorPhoneNumberView],
         isHidden: true
     )
 
@@ -208,7 +208,7 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.contentStackView.addArrangedSubviews([
             self.reservationUpperStackView,
             self.concertInformationView,
-            self.purchaserInformationStackView,
+            self.visitorInformationStackView,
             self.depositorInformationStackView,
             self.ticketInformationStackView,
             self.paymentInformationStackView,
@@ -286,9 +286,9 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.ticketTypeView.setData(entity.salesTicketName)
         self.ticketCountView.setData("\(entity.ticketCount)매")
 
-        // 예매자 정보
-        self.purchasernNameView.setData(entity.purchaseName)
-        self.purchaserPhoneNumberView.setData(entity.purchaserPhoneNumber)
+        // 방문자 정보
+        self.visitorNameView.setData(entity.purchaseName)
+        self.visitorPhoneNumberView.setData(entity.purchaserPhoneNumber)
 
         // 결제자 정보
         self.depositorNameView.setData(entity.depositorName)
