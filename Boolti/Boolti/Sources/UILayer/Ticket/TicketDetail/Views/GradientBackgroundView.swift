@@ -92,13 +92,34 @@ final class GradientBackgroundView: UIView {
     func setData(with posterImageURL: String, concertName: String) {
         self.posterImageView.setImage(with: posterImageURL)
         self.tagLabel.text = concertName
+
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: 20, y: 445))
+        path.addLine(to: CGPoint(x: self.frame.width - 20, y: 445))
+
+        self.shapeLayer.path = path
+    }
+
+    func setData(with posterImageURL: String, concertName: String, ticketCount: Int) {
+        self.posterImageView.setImage(with: posterImageURL)
+        self.tagLabel.text = concertName
+        self.configurePath(ticketCount: ticketCount)
+    }
+
+    private func configurePath(ticketCount: Int) {
+        let path = CGMutablePath()
+        let pointY = ticketCount == 1 ? CGFloat(445) : CGFloat(465)
+
+        path.move(to: CGPoint(x: 20, y: pointY))
+        path.addLine(to: CGPoint(x: self.frame.width - 20, y: pointY))
+
+        self.shapeLayer.path = path
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         self.gradientLayer.frame = self.posterImageView.bounds
         self.configureCircleViews()
-        self.updateSeperateLinePoint()
         self.configureGradientBorder()
     }
 
@@ -184,12 +205,18 @@ final class GradientBackgroundView: UIView {
         self.rightCircleView.layer.cornerRadius = self.rightCircleView.bounds.width / 2
     }
 
-    private func updateSeperateLinePoint() {
-        let path = CGMutablePath()
-        path.move(to: CGPoint(x: 20, y: 465))
-        path.addLine(to: CGPoint(x: self.frame.width - 20, y: 465))
+    func updateUIComponentsForSingleTicket() {
+        self.leftCircleView.snp.updateConstraints { make in
+            make.centerX.equalTo(self.snp.left)
+            make.width.height.equalTo(20)
+            make.centerY.equalTo(self.snp.top).offset(445)
+        }
 
-        self.shapeLayer.path = path
+        self.rightCircleView.snp.updateConstraints { make in
+            make.centerX.equalTo(self.snp.right)
+            make.width.height.equalTo(20)
+            make.centerY.equalTo(self.snp.top).offset(445)
+        }
     }
 
     private func configureGradientBorder() {
