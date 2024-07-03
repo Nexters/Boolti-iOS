@@ -13,7 +13,7 @@ final class EmptyReservationsStackView: UIStackView {
         let label = BooltiUILabel()
         label.font = .headline1
         label.textColor = .grey05
-        label.text = "예매 내역이 없어요"
+        label.text = "결제 내역이 없어요"
 
         return label
     }()
