@@ -150,7 +150,7 @@ extension UserInfoInputView {
     private func configureTicketHolderUI() {
         self.configureDefaultUI()
         
-        self.titleLabel.text = "방묹 정보"
+        self.titleLabel.text = "방문자 정보"
     }
     
     private func configureDepositorUI() {

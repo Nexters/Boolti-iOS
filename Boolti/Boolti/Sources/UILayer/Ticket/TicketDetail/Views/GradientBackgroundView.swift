@@ -89,17 +89,6 @@ final class GradientBackgroundView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setData(with posterImageURL: String, concertName: String) {
-        self.posterImageView.setImage(with: posterImageURL)
-        self.tagLabel.text = concertName
-
-        let path = CGMutablePath()
-        path.move(to: CGPoint(x: 20, y: 445))
-        path.addLine(to: CGPoint(x: self.frame.width - 20, y: 445))
-
-        self.shapeLayer.path = path
-    }
-
     func setData(with posterImageURL: String, concertName: String, ticketCount: Int) {
         self.posterImageView.setImage(with: posterImageURL)
         self.tagLabel.text = concertName
