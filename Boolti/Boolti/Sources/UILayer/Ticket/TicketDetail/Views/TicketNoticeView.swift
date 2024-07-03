@@ -9,7 +9,7 @@ import UIKit
 
 final class TicketNoticeView: UIView {
 
-    let titleLabel: BooltiUILabel = {
+    private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .subhead2
         label.text = "안내사항 for 주최자"
@@ -18,13 +18,17 @@ final class TicketNoticeView: UIView {
         return label
     }()
 
-    let noticeLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.font = .body1
-        label.numberOfLines = 0
-        label.textColor = .grey50
+    private let noticeTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = .body1
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.dataDetectorTypes = .link
+        textView.backgroundColor = .clear
+        textView.textColor = .grey50
+        textView.linkTextAttributes = [.underlineStyle: 1, .foregroundColor: UIColor.init("#46A6FF")]
 
-        return label
+        return textView
     }()
 
     init() {
@@ -40,7 +44,7 @@ final class TicketNoticeView: UIView {
     private func configureUI() {
         self.addSubviews([
             self.titleLabel,
-            self.noticeLabel
+            self.noticeTextView
         ])
 
         self.titleLabel.snp.makeConstraints { make in
@@ -48,14 +52,14 @@ final class TicketNoticeView: UIView {
             make.horizontalEdges.equalToSuperview()
         }
 
-        self.noticeLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(12)
+        self.noticeTextView.snp.makeConstraints { make in
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(self.titleLabel)
             make.bottom.equalToSuperview().inset(20)
         }
     }
 
     func setData(with text: String) {
-        self.noticeLabel.text = text
+        self.noticeTextView.text = text
     }
 }
