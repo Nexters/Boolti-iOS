@@ -61,5 +61,6 @@ final class TicketNoticeView: UIView {
 
     func setData(with text: String) {
         self.noticeTextView.text = text
+        self.noticeTextView.setLineSpacing(lineSpacing: 6)
     }
 }
