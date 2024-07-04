@@ -13,8 +13,8 @@ final class TicketCollectionViewCell: UICollectionViewCell {
 
     private let qrCodeImageView = UIImageView()
 
-    private let ticketNameLabel: UILabel = {
-        let label = UILabel()
+    private let ticketNameLabel: BooltiPaddingLabel = {
+        let label = BooltiPaddingLabel()
         label.textColor = .grey70
         label.font = .subhead1
         label.textAlignment = .center
@@ -104,7 +104,6 @@ final class TicketCollectionViewCell: UICollectionViewCell {
         }
 
         self.ticketNameLabel.snp.makeConstraints { make in
-            make.width.equalTo(105)
             make.height.equalTo(30)
             make.centerX.equalToSuperview()
             make.bottom.equalTo(self.qrCodeImageView.snp.top).offset(-16)

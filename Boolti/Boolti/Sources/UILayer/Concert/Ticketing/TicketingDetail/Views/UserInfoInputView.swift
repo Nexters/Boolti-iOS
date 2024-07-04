@@ -68,7 +68,7 @@ final class UserInfoInputView: UIView {
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        config.title = "예매자와 결제자가 같아요"
+        config.title = "방문자와 결제자가 같아요"
         config.attributedTitle?.font = .body2
         config.baseForegroundColor = .orange01
         config.baseBackgroundColor = .clear
@@ -170,7 +170,7 @@ extension UserInfoInputView {
     private func configureTicketHolderUI() {
         self.configureDefaultUI()
         
-        self.titleLabel.text = "예매자 정보"
+        self.titleLabel.text = "방문자 정보"
     }
     
     private func configureDepositorUI() {

@@ -24,7 +24,7 @@ final class MyPageViewController: BooltiViewController {
     private let viewModel: MyPageViewModel
 
     private let profileView = MypageProfileView()
-    private let ticketingReservationsNavigationView = MypageContentView(title: "예매 내역")
+    private let ticketingReservationsNavigationView = MypageContentView(title: "결제 내역")
     private let registerConcertView = MypageContentView(title: "공연 등록")
     private let qrScannerListNavigationView = MypageContentView(title: "QR 스캔")
     private let logoutNavigationView = MypageContentView(title: "로그아웃")

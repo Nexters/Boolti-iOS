@@ -54,9 +54,9 @@ final class TicketingConfirmViewController: BooltiViewController {
         return stackView
     }()
     
-    private lazy var ticketHolderTitle = self.makeLabel(with: "예매자")
-    private lazy var ticketHolderInfo = self.makeLabel()
-    private lazy var ticketHolderStackView = self.makeHorizontalStackView(with: [self.ticketHolderTitle, self.ticketHolderInfo])
+    private lazy var visitorTitle = self.makeLabel(with: "방문자")
+    private lazy var visitorInfo = self.makeLabel()
+    private lazy var visitorStackView = self.makeHorizontalStackView(with: [self.visitorTitle, self.visitorInfo])
     
     private lazy var depositorTitle = self.makeLabel(with: "결제자")
     private lazy var depositorInfo = self.makeLabel()
@@ -121,8 +121,8 @@ extension TicketingConfirmViewController {
     private func setData() {
         let entity = self.viewModel.ticketingEntity
         
-        self.ticketHolderInfo.text = "\(entity.ticketHolder.name)\n\(entity.ticketHolder.phoneNumber.formatPhoneNumber())"
-        self.ticketHolderInfo.setAlignment(.right)
+        self.visitorInfo.text = "\(entity.ticketHolder.name)\n\(entity.ticketHolder.phoneNumber.formatPhoneNumber())"
+        self.visitorInfo.setAlignment(.right)
         
         self.ticketInfo.text = "\(entity.selectedTicket.ticketName)\n\(entity.selectedTicket.count)매 / \((entity.selectedTicket.count * entity.selectedTicket.price).formattedCurrency())원"
         self.ticketInfo.setAlignment(.right)
@@ -198,7 +198,7 @@ extension TicketingConfirmViewController {
                                                 self.infoStackView,
                                                 self.payButton])
         
-        self.infoStackView.addArrangedSubviews([self.ticketHolderStackView,
+        self.infoStackView.addArrangedSubviews([self.visitorStackView,
                                                 self.depositorStackView,
                                                 self.ticketStackView,
                                                 self.methodStackView])

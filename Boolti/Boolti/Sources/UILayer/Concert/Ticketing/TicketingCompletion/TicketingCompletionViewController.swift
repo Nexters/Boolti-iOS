@@ -39,15 +39,15 @@ final class TicketingCompletionViewController: BooltiViewController {
     private lazy var reservationInfoLabel = self.makeLabel()
     private lazy var reservationStackView = self.makeInfoRowStackView(title: reservationTitleLabel, info: reservationInfoLabel)
     
-    private lazy var ticketHolderTitleLabel = self.makeLabel(text: "예매자 정보")
-    private lazy var ticketHolderInfoLabel = self.makeLabel()
-    private lazy var ticketHolderStackView = self.makeInfoRowStackView(title: ticketHolderTitleLabel, info: ticketHolderInfoLabel)
+    private lazy var visitorTitleLabel = self.makeLabel(text: "방문자 정보")
+    private lazy var visitorInfoLabel = self.makeLabel()
+    private lazy var visitorStackView = self.makeInfoRowStackView(title: visitorTitleLabel, info: visitorInfoLabel)
     
     private lazy var payerTitleLabel = self.makeLabel(text: "결제자 정보")
     private lazy var payerInfoLabel = self.makeLabel()
     private lazy var payerStackView = self.makeInfoRowStackView(title: payerTitleLabel, info: payerInfoLabel)
     
-    private lazy var firstInfoStackView = self.makeInfoGroupStackView(with: [reservationStackView, ticketHolderStackView, payerStackView])
+    private lazy var firstInfoStackView = self.makeInfoGroupStackView(with: [reservationStackView, visitorStackView, payerStackView])
     
     private let secondUnderlineView: UIView = {
         let view = UIView()
@@ -68,7 +68,7 @@ final class TicketingCompletionViewController: BooltiViewController {
     private let reservedTicketView = ReservedTicketView()
     
     private let openReservationButton: BooltiButton = {
-        let button = BooltiButton(title: "예매 내역보기")
+        let button = BooltiButton(title: "결제 내역보기")
         button.backgroundColor = .grey80
         return button
     }()
@@ -210,7 +210,7 @@ extension TicketingCompletionViewController {
             .compactMap { $0 }
             .bind(with: self) { owner, entity in
                 owner.reservationInfoLabel.text = entity.csReservationID
-                owner.ticketHolderInfoLabel.text = "\(entity.purchaseName) / \(entity.purchaserPhoneNumber.formatPhoneNumber())"
+                owner.visitorInfoLabel.text = "\(entity.purchaseName) / \(entity.purchaserPhoneNumber.formatPhoneNumber())"
                 owner.ticketInfoLabel.text = "\(entity.salesTicketName) / \(entity.ticketCount)매"
                 owner.reservedTicketView.setData(
                     concertName: entity.concertTitle,
