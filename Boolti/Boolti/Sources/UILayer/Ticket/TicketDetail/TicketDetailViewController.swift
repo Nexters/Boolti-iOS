@@ -309,6 +309,7 @@ final class TicketDetailViewController: BooltiViewController {
                 cellType: TicketCollectionViewCell.self)
             ) { index, entity, cell in
                 cell.setData(with: entity)
+                self.setInitialEntryCodeViewIsHidden()
             }
             .disposed(by: self.disposeBag)
 
@@ -430,6 +431,14 @@ final class TicketDetailViewController: BooltiViewController {
         let cellIndex = Int(offSet + horizontalCenter) / Int(width)
 
         return cellIndex
+    }
+
+    private func setInitialEntryCodeViewIsHidden() {
+        guard let ticketDetail = self.viewModel.output.fetchedTicketDetail.value else { return }
+        let currentTicketIndex = self.QRCodePageControl.currentPage
+        let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
+
+        self.entryCodeButton.isHidden = currentTicket.ticketStatus != .notUsed
     }
 
     // Rx로 뺄 계획!
