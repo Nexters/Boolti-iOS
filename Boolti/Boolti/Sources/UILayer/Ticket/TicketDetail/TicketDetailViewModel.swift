@@ -61,7 +61,6 @@ final class TicketDetailViewModel {
         self.input.refreshControlEvent
             .flatMap { self.fetchTicketDetailItem() }
             .subscribe(with: self) { owner, ticketDetailItem in
-                let ticketCount = ticketDetailItem.ticketInformations.count
                 owner.output.fetchedTicketDetail.accept(ticketDetailItem)
                 owner.output.isLoading.accept(false)
             }
