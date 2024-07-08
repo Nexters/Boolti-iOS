@@ -222,11 +222,18 @@ final class TicketDetailViewController: BooltiViewController {
 
         self.QRCodeCollectionView.rx.didScroll
             .subscribe(with: self) { owner, _ in
-                let offSet = owner.QRCodeCollectionView.contentOffset.x
-                let width = owner.QRCodeCollectionView.frame.width
-                let horizontalCenter = width / 2
+                let cellIndex = owner.calculateCollectionViewItemIndex()
+                owner.QRCodePageControl.rx.currentPage.onNext(cellIndex)
+            }
+            .disposed(by: self.disposeBag)
 
-                owner.QRCodePageControl.rx.currentPage.onNext(Int(offSet + horizontalCenter) / Int(width))
+        self.QRCodeCollectionView.rx.didEndDecelerating
+            .subscribe(with: self) { owner, _ in
+                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
+                let currentTicketIndex = owner.QRCodePageControl.currentPage
+                let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
+
+                owner.entryCodeButton.isHidden = currentTicket.ticketStatus != .notUsed
             }
             .disposed(by: self.disposeBag)
     }
@@ -302,6 +309,7 @@ final class TicketDetailViewController: BooltiViewController {
                 cellType: TicketCollectionViewCell.self)
             ) { index, entity, cell in
                 cell.setData(with: entity)
+                self.setInitialEntryCodeViewIsHidden()
             }
             .disposed(by: self.disposeBag)
 
@@ -416,8 +424,29 @@ final class TicketDetailViewController: BooltiViewController {
         self.scrollView.setContentOffset(bottomOffset, animated: true)
     }
 
+    private func calculateCollectionViewItemIndex() -> Int {
+        let offSet = self.QRCodeCollectionView.contentOffset.x
+        let width = self.QRCodeCollectionView.frame.width
+        let horizontalCenter = width / 2
+        let cellIndex = Int(offSet + horizontalCenter) / Int(width)
+
+        return cellIndex
+    }
+
+    private func setInitialEntryCodeViewIsHidden() {
+        guard let ticketDetail = self.viewModel.output.fetchedTicketDetail.value else { return }
+        let currentTicketIndex = self.QRCodePageControl.currentPage
+        let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
+
+        self.entryCodeButton.isHidden = currentTicket.ticketStatus != .notUsed
+    }
+
     // Rx로 뺄 계획!
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        self.refetchTicketInformations()
+    }
+
+    func refetchTicketInformations() {
         self.viewModel.input.refreshControlEvent.onNext(())
     }
 
