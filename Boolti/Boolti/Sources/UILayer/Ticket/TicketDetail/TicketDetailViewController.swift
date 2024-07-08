@@ -4,7 +4,6 @@
 //
 //  Created by Miro on 2/4/24.
 //
-
 import UIKit
 
 import RxSwift
@@ -14,24 +13,29 @@ import RxGesture
 
 final class TicketDetailViewController: BooltiViewController {
 
+    // MARK: Properties
+
     typealias TicketID = String
     typealias ConcertID = String
-    typealias QRCodeImage = UIImage
-    typealias TicketName = String
+    typealias ConcertId = Int
+    typealias PhoneNumber = String
+    typealias Tickets = [TicketDetailInformation]
 
-    private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
-    private let qrExpandViewControllerFactory: (QRCodeImage, TicketName) -> QRExpandViewController
-    private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
-
+    private let disposeBag = DisposeBag()
     private let viewModel: TicketDetailViewModel
+    private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
+    private let qrExpandViewControllerFactory: (IndexPath, Tickets) -> QRExpandViewController
+    private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
+    private let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController
 
-    private let navigationBar = BooltiNavigationBar(type: .backButton)
+    // MARK: UI Component
+
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "티켓 상세"))
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .grey95
         scrollView.showsVerticalScrollIndicator = false
-
         return scrollView
     }()
 
@@ -51,12 +55,19 @@ final class TicketDetailViewController: BooltiViewController {
         return stackView
     }()
 
-    private let entryCodeView: UIView = {
-        let view = UIView()
-        return view
+    private let concertDetailStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.layoutMargins = UIEdgeInsets(top: 55, left: 20, bottom: 24, right: 20)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+
+        return stackView
     }()
 
-    let entryCodeButton: UIButton = {
+    private let concertDetailBackgroundView = GradientBackgroundView()
+
+    private let entryCodeButton: UIButton = {
         let button = UIButton()
         button.setTitle("입장 코드 입력하기", for: .normal)
         button.setUnderline(font: .pretendardR(14), textColor: .grey50)
@@ -64,11 +75,83 @@ final class TicketDetailViewController: BooltiViewController {
         return button
     }()
 
-    private var ticketDetailView = TicketDetailView()
-    private let reversalPolicyView = ReversalPolicyView()
-    private let blankSpaceView = UIView()
+    private lazy var QRCodeCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumLineSpacing = 0 // 기본적으로 10으로 설정되어있다. 따라서 0으로 설정해줘야된다.
 
-    private let disposeBag = DisposeBag()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.register(
+            TicketCollectionViewCell.self,
+            forCellWithReuseIdentifier: TicketCollectionViewCell.className
+        )
+        collectionView.backgroundColor = .white00
+        collectionView.layer.cornerRadius = 8
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
+
+        return collectionView
+    }()
+
+    private let QRCodePageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.hidesForSinglePage = true
+        pageControl.pageIndicatorTintColor = .darkGray
+
+        return pageControl
+    }()
+
+    private let ticketNoticeView = TicketNoticeView()
+    private let organizerInfoView = OrganizerInfoView(horizontalInset: .zero, verticalInset:.zero , height: 98)
+    private let reversalPolicyView = ReversalPolicyView()
+
+    private lazy var copyAddressButton = self.makeButton(
+        title: "공연장 주소 복사",
+        color: .grey70,
+        titleColor: .grey05
+    )
+    private lazy var showConcertDetailButton = self.makeButton(
+        title: "공연 정보 보기",
+        color: .grey20,
+        titleColor: .grey90
+    )
+    private lazy var horizontalButtonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.addArrangedSubviews([
+            self.copyAddressButton,
+            self.showConcertDetailButton
+        ])
+        stackView.spacing = 9
+        stackView.layoutMargins = UIEdgeInsets(top: .zero, left: .zero, bottom: 16, right: .zero)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.distribution = .fillEqually
+
+        return stackView
+    }()
+
+    // MARK: Init
+
+    init(
+        viewModel: TicketDetailViewModel,
+        ticketEntryCodeViewControllerFactory: @escaping (TicketID, ConcertID) -> TicketEntryCodeViewController,
+        qrExpandViewControllerFactory: @escaping (IndexPath, Tickets) -> QRExpandViewController,
+        concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController,
+        contactViewControllerFactory: @escaping (ContactType, PhoneNumber) -> ContactViewController
+    ) {
+        self.viewModel = viewModel
+        self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
+        self.qrExpandViewControllerFactory = qrExpandViewControllerFactory
+        self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
+        self.contactViewControllerFactory = contactViewControllerFactory
+        super.init()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,86 +162,22 @@ final class TicketDetailViewController: BooltiViewController {
         self.bindUIComponents()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
+    override func viewDidLayoutSubviews() {
+        self.setCustomStackViewSpacing()
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    // MARK: - Binding Methods
 
-    init(
-        viewModel: TicketDetailViewModel,
-        ticketEntryCodeViewControllerFactory: @escaping (TicketID, ConcertID) -> TicketEntryCodeViewController,
-        qrExpandViewControllerFactory: @escaping (QRCodeImage, TicketName) -> QRExpandViewController,
-        concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController
-    ) {
-        self.viewModel = viewModel
-        self.ticketEntryCodeControllerFactory = ticketEntryCodeViewControllerFactory
-        self.qrExpandViewControllerFactory = qrExpandViewControllerFactory
-        self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
-        super.init()
-    }
-
-    private func configureUI() {
-        self.view.backgroundColor = .grey95
-
-        self.view.addSubviews([self.navigationBar, self.scrollView])
-        self.scrollView.addSubviews([
-            self.refreshControl,
-            self.contentStackView
-        ])
-        self.entryCodeView.addSubview(self.entryCodeButton)
-
-
-        self.contentStackView.addArrangedSubviews([
-            self.ticketDetailView,
-            self.reversalPolicyView,
-            self.entryCodeView,
-            self.blankSpaceView
-        ])
-
-        self.contentStackView.setCustomSpacing(20, after: self.ticketDetailView)
-        self.configureConstraints()
-    }
-
-    private func configureConstraints() {
-
-        self.navigationBar.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalToSuperview()
-        }
-
-        self.scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom)
-            make.bottom.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(29)
-        }
-
-        self.ticketDetailView.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-        }
-
-        self.entryCodeView.snp.makeConstraints { make in
-            make.height.equalTo(70)
-        }
-
-        self.entryCodeButton.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.height.equalTo(60)
-        }
-
-        self.blankSpaceView.snp.makeConstraints { make in
-            make.height.equalTo(40)
-        }
-
-        self.contentStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-
+    private func bindViewModel() {
+        self.bindInput()
+        self.bindOutput()
     }
 
     private func bindUIComponents() {
+        self.bindCollectionView()
+        self.bindConcertDetailButton()
+        self.bindInquiryView()
+
         self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
@@ -171,43 +190,15 @@ final class TicketDetailViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.ticketDetailView.didCopyAddressButtonTap
-            .bind(with: self) { owner, _ in
-                guard let streetAddress = owner.viewModel.output.fetchedTicketDetail.value?.streetAddress else { return }
-                UIPasteboard.general.string = streetAddress
-                owner.showToast(message: "공연장 주소가 복사되었어요")
-            }
-            .disposed(by: self.disposeBag)
-
-        self.ticketDetailView.didShowConcertDetailButtonTap
-            .bind(with: self) { owner, _ in
-                guard let concertId = owner.viewModel.output.fetchedTicketDetail.value?.concertID else { return }
-                let viewController = owner.concertDetailViewControllerFactory(concertId)
-                owner.navigationController?.pushViewController(viewController, animated: true)
-            }
-            .disposed(by: self.disposeBag)
-
-        self.ticketDetailView.ticketDetailInformationView.qrCodeImageView.rx.tapGesture()
-            .when(.recognized)
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, _ in
-                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
-                let qrCodeImage = ticketDetail.qrCode
-                let ticketName = ticketDetail.ticketName
-
-                let viewController = owner.qrExpandViewControllerFactory(qrCodeImage, ticketName)
-                viewController.modalPresentationStyle = .overFullScreen
-                owner.present(viewController, animated: true)
-            }
-            .disposed(by: self.disposeBag)
-
         self.entryCodeButton.rx.tap
             .bind(with: self) { owner, _ in
                 guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
-                let ticketID = String(ticketDetail.ticketID)
-                let concertID = String(ticketDetail.concertID)
+                let concertID = "\(ticketDetail.concertID)"
+                let currentTicketIndex = owner.QRCodePageControl.currentPage
+                let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
+                let currentTicketID = "\(currentTicket.ticketID)"
 
-                let viewController = owner.ticketEntryCodeControllerFactory(ticketID, concertID)
+                let viewController = owner.ticketEntryCodeControllerFactory(currentTicketID, concertID)
                 viewController.modalPresentationStyle = .overCurrentContext
                 owner.definesPresentationContext = true
                 owner.present(viewController, animated: true)
@@ -215,56 +206,269 @@ final class TicketDetailViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
     }
 
-    private func bindViewModel() {
-        self.bindInput()
-        self.bindOutput()
+    private func bindCollectionView() {
+        self.QRCodeCollectionView.rx.setDelegate(self)
+            .disposed(by: self.disposeBag)
+
+        self.QRCodeCollectionView.rx.itemSelected
+            .subscribe(with: self, onNext: { owner, indexPath in
+                guard let entity = owner.viewModel.output.fetchedTicketDetail.value else { return }
+                let tickets = entity.ticketInformations
+                let viewController = owner.qrExpandViewControllerFactory(indexPath, tickets)
+                viewController.modalPresentationStyle = .fullScreen
+                owner.present(viewController, animated: true)
+            })
+            .disposed(by: self.disposeBag)
+
+        self.QRCodeCollectionView.rx.didScroll
+            .subscribe(with: self) { owner, _ in
+                let cellIndex = owner.calculateCollectionViewItemIndex()
+                owner.QRCodePageControl.rx.currentPage.onNext(cellIndex)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.QRCodeCollectionView.rx.didEndDecelerating
+            .subscribe(with: self) { owner, _ in
+                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
+                let currentTicketIndex = owner.QRCodePageControl.currentPage
+                let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
+
+                owner.entryCodeButton.isHidden = currentTicket.ticketStatus != .notUsed
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindConcertDetailButton() {
+        self.copyAddressButton.rx.tap
+            .bind(with: self) { owner, _ in
+                guard let streetAddress = owner.viewModel.output.fetchedTicketDetail.value?.streetAddress else { return }
+                UIPasteboard.general.string = streetAddress
+                owner.showToast(message: "공연장 주소가 복사되었어요")
+            }
+            .disposed(by: self.disposeBag)
+
+        self.showConcertDetailButton.rx.tap
+            .bind(with: self) { owner, _ in
+                guard let concertId = owner.viewModel.output.fetchedTicketDetail.value?.concertID else { return }
+                let viewController = owner.concertDetailViewControllerFactory(concertId)
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindInquiryView() {
+        self.organizerInfoView.didCallButtonTap()
+            .emit(with: self) { owner, _ in
+                guard let phoneNumber = owner.viewModel.output.fetchedTicketDetail.value?.hostPhoneNumber else { return }
+                owner.present(owner.contactViewControllerFactory(.call, phoneNumber), animated: true)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.organizerInfoView.didMessageButtonTap()
+            .emit(with: self) { owner, _ in
+                guard let phoneNumber = owner.viewModel.output.fetchedTicketDetail.value?.hostPhoneNumber else { return }
+                owner.present(owner.contactViewControllerFactory(.message, phoneNumber), animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindInput() {
         self.rx.viewWillAppear
             .asDriver(onErrorJustReturn: true)
             .drive(with: self, onNext: { owner, _ in
+                owner.tabBarController?.tabBar.isHidden = true
                 owner.viewModel.input.viewWillAppearEvent.onNext(())
             })
             .disposed(by: self.disposeBag)
     }
 
     private func bindOutput() {
-        self.viewModel.output.fetchedTicketDetail
-            .do(onNext: { [weak self] _ in
-                self?.refreshControl.endRefreshing()
-            })
-            .bind(with: self) { owner, ticketDetailItem in
-                guard let ticketDetailItem else { return }
-                owner.ticketDetailView.setData(with: ticketDetailItem)
-                
-                if ticketDetailItem.usedAt != nil {
-                    owner.entryCodeButton.isHidden = true
-                } else {
-                    // 오늘 공연 여부에 따라 숨김 처리
-                    owner.entryCodeButton.isHidden = ticketDetailItem.date.formatToDate().getBetweenDay(to: Date()) != 0
-                }
-            }
-            .disposed(by: self.disposeBag)
 
         self.viewModel.output.isLoading
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: false)
             .drive(self.isLoading)
             .disposed(by: self.disposeBag)
+
+        self.viewModel.output.fetchedTicketDetail
+            .do(onNext: { [weak self] _ in
+                self?.refreshControl.endRefreshing()
+            })
+            .bind(with: self) { owner, ticketDetailItem in
+                guard let ticketDetailItem else { return }
+                owner.setData(with: ticketDetailItem)
+            }
+            .disposed(by: self.disposeBag)
+
+        let tickets = self.viewModel.output.fetchedTicketDetail
+            .compactMap { $0?.ticketInformations }
+
+        tickets
+            .bind(to: self.QRCodeCollectionView.rx.items(
+                cellIdentifier: TicketCollectionViewCell.className,
+                cellType: TicketCollectionViewCell.self)
+            ) { index, entity, cell in
+                cell.setData(with: entity)
+                self.setInitialEntryCodeViewIsHidden()
+            }
+            .disposed(by: self.disposeBag)
+
+        tickets
+            .map { $0.count }
+            .distinctUntilChanged()
+            .bind(to: self.QRCodePageControl.rx.numberOfPages)
+            .disposed(by: self.disposeBag)
+    }
+
+    // MARK: Methods
+
+    private func configureUI() {
+
+        self.view.backgroundColor = .grey95
+        self.view.addSubviews([self.navigationBar, self.scrollView])
+
+        self.scrollView.addSubviews([
+            self.refreshControl,
+            self.contentStackView
+        ])
+
+        self.concertDetailStackView.addArrangedSubviews([
+            self.QRCodeCollectionView,
+            self.QRCodePageControl,
+            self.ticketNoticeView,
+            self.organizerInfoView,
+            self.horizontalButtonStackView
+        ])
+
+        self.contentStackView.addArrangedSubviews([
+            self.concertDetailStackView,
+            self.reversalPolicyView,
+            self.entryCodeButton
+        ])
+
+        self.concertDetailStackView.insertSubview(self.concertDetailBackgroundView, at: 0)
+        self.configureConstraints()
+    }
+
+    private func configureConstraints() {
+
+        self.navigationBar.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+        }
+
+        self.scrollView.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom).offset(16)
+            make.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(29)
+        }
+
+        self.contentStackView.snp.makeConstraints { make in
+            make.verticalEdges.equalToSuperview()
+            make.horizontalEdges.equalTo(self.view.snp.horizontalEdges).inset(29)
+        }
+
+        self.concertDetailStackView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+        }
+
+        self.concertDetailBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        self.QRCodeCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(358)
+        }
+
+        self.QRCodePageControl.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+        }
+
+        self.horizontalButtonStackView.snp.makeConstraints { make in
+            make.height.equalTo(64)
+        }
+
+        self.entryCodeButton.snp.makeConstraints { make in
+            make.height.equalTo(60)
+        }
+
+        self.contentStackView.setCustomSpacing(20, after: self.concertDetailStackView)
+    }
+
+    private func setCustomStackViewSpacing() {
+        if QRCodePageControl.numberOfPages == 1 {
+            self.concertDetailStackView.setCustomSpacing(50, after: self.QRCodeCollectionView)
+            self.concertDetailBackgroundView.updateUIComponentsForSingleTicket()
+        } else {
+            self.concertDetailStackView.setCustomSpacing(10, after: self.QRCodeCollectionView)
+            self.concertDetailStackView.setCustomSpacing(30, after: self.QRCodePageControl)
+        }
+    }
+
+    private func setData(with entity: TicketDetailItemEntity) {
+        self.ticketNoticeView.setData(with: entity.ticketNotice)
+        self.organizerInfoView.setData(hostName: entity.hostName)
+        self.concertDetailBackgroundView.setData(
+            with: entity.posterURLPath,
+            concertName: entity.title,
+            ticketCount: entity.ticketInformations.count
+        )
     }
 
     private func scrollToBottom() {
+        self.scrollView.layoutIfNeeded()
         let scrollViewPaddingFromNavigationBar = CGFloat(16)
-        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollViewPaddingFromNavigationBar)
-
+        let bottomOffset = CGPoint(
+            x: 0,
+            y: max(self.scrollView.contentSize.height - self.scrollView.bounds.size.height + scrollViewPaddingFromNavigationBar, 0)
+        )
         self.scrollView.setContentOffset(bottomOffset, animated: true)
+    }
+
+    private func calculateCollectionViewItemIndex() -> Int {
+        let offSet = self.QRCodeCollectionView.contentOffset.x
+        let width = self.QRCodeCollectionView.frame.width
+        let horizontalCenter = width / 2
+        let cellIndex = Int(offSet + horizontalCenter) / Int(width)
+
+        return cellIndex
+    }
+
+    private func setInitialEntryCodeViewIsHidden() {
+        guard let ticketDetail = self.viewModel.output.fetchedTicketDetail.value else { return }
+        let currentTicketIndex = self.QRCodePageControl.currentPage
+        let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
+
+        self.entryCodeButton.isHidden = currentTicket.ticketStatus != .notUsed
+    }
+
+    // Rx로 뺄 계획!
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        self.refetchTicketInformations()
+    }
+
+    func refetchTicketInformations() {
+        self.viewModel.input.refreshControlEvent.onNext(())
+    }
+
+    private func makeButton(title: String, color: UIColor, titleColor: UIColor) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.backgroundColor = color
+        button.titleLabel?.font = .subhead1
+        button.setTitleColor(titleColor, for: .normal)
+        button.layer.cornerRadius = 4
+
+        return button
+    }
+
+    func hideEntryCodeButton() {
+        self.entryCodeButton.isHidden = true
     }
 }
 
-extension TicketDetailViewController {
-    // Rx로 뺄 계획!
-    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        self.viewModel.input.refreshControlEvent.onNext(())
+extension TicketDetailViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
 }

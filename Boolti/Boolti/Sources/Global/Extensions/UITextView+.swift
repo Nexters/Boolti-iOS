@@ -27,4 +27,10 @@ extension UITextView {
             self.attributedText = mutableAttributedText
         }
     }
+    
+    /// 현재 textView의 전체 높이를 반환하는 함수
+    func getTextViewHeight() -> CGFloat {
+        return self.sizeThatFits(CGSize(width: self.frame.width, height: CGFloat.greatestFiniteMagnitude)).height
+    }
+    
 }

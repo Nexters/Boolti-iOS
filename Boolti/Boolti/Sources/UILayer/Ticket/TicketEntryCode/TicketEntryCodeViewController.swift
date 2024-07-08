@@ -75,7 +75,8 @@ final class TicketEntryCodeViewController: BooltiViewController {
 
                     owner.dismiss(animated: true) {
                         detailViewController.showToast(message: "사용되었어요")
-                        detailViewController.entryCodeButton.isHidden = true
+                        detailViewController.hideEntryCodeButton()
+                        detailViewController.refetchTicketInformations()
                     }
                 default:
                     owner.entryCodeInputView.setData(with: response)

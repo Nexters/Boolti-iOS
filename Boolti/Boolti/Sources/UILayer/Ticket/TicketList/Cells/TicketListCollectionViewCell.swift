@@ -33,7 +33,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
 
-    let ticketInformationView = TicketInformationView()
+    private let ticketInformationView = TicketInformationView()
 
     private lazy var rightCircleView: UIView = {
         let view = UIView()
@@ -60,19 +60,10 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         return view
     }()
 
-    private let ticketNumberLabel: BooltiUILabel = {
+    private let ticketNameCountLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.textColor = .grey80.withAlphaComponent(0.75)
         label.font = .pretendardB(14)
-
-        return label
-    }()
-
-    private let titleLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.textColor = .grey10
-        label.font = .headline1
-        label.numberOfLines = 2
 
         return label
     }()
@@ -81,14 +72,6 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView(image: .booltiLogo.withTintColor(.grey80))
 
         return imageView
-    }()
-
-    private let ticketTypeLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.textColor = .grey80.withAlphaComponent(0.8)
-        label.font = .pretendardB(14)
-
-        return label
     }()
 
     override init(frame: CGRect) {
@@ -102,8 +85,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.ticketNumberLabel.text = nil
-        self.ticketTypeLabel.text = nil
+        self.ticketNameCountLabel.text = nil
         self.ticketInformationView.resetData()
     }
 
@@ -112,8 +94,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
         self.addSubviews([
             self.backgroundImageView,
             self.posterImageView,
-            self.ticketTypeLabel,
-            self.ticketNumberLabel,
+            self.ticketNameCountLabel,
             self.booltiLogoImageView,
             self.ticketInformationView,
             self.rightCircleView,
@@ -138,8 +119,7 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
     func setData(with item: TicketItemEntity) {
         self.backgroundImageView.setImage(with: item.posterURLPath)
         self.posterImageView.setImage(with: item.posterURLPath)
-        self.ticketNumberLabel.text = item.csTicketID
-        self.ticketTypeLabel.text = item.ticketName
+        self.ticketNameCountLabel.text = "\(item.ticketName) • \(item.ticketCount)매"
         self.ticketInformationView.setData(with: item)
     }
 
@@ -219,42 +199,37 @@ final class TicketListCollectionViewCell: UICollectionViewCell {
 
         self.posterImageView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(self.bounds.width * 0.065)
-            make.top.equalTo(self.upperTagView.snp.bottom).offset(self.bounds.height * 0.04)
+            make.top.equalTo(self.upperTagView.snp.bottom).offset(self.bounds.height * 0.03)
             make.height.equalToSuperview().multipliedBy(0.67)
         }
 
         self.booltiLogoImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self.upperTagView.snp.centerY)
-            make.left.equalTo(self.ticketInformationView)
+            make.right.equalTo(self.upperTagView.snp.right).inset(16)
             make.size.equalTo(20)
         }
 
-        self.ticketTypeLabel.snp.makeConstraints { make in
+        self.ticketNameCountLabel.snp.makeConstraints { make in
             make.centerY.equalTo(self.upperTagView.snp.centerY)
-            make.left.equalTo(self.booltiLogoImageView.snp.right).offset(5)
-        }
-
-        self.ticketNumberLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(self.upperTagView.snp.centerY)
-            make.right.equalTo(self.upperTagView.snp.right).inset(16)
+            make.left.equalTo(self.upperTagView.snp.left).inset(16)
         }
 
         self.rightCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.805)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height * 0.795)
             make.centerX.equalTo(self.snp.right)
         }
 
         self.leftCircleView.snp.makeConstraints { make in
             make.width.height.equalTo(self.bounds.height * 0.035)
-            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.805)
+            make.centerY.equalTo(self.snp.top).offset(self.bounds.height *  0.795)
             make.centerX.equalTo(self.snp.left)
         }
     }
 
         private func configureSeperateLine() {
             let path = CGMutablePath()
-            let height = self.bounds.height * 0.805
+            let height = self.bounds.height * 0.795
             let width = self.bounds.width * 0.053
 
             path.move(to: CGPoint(x: width, y: height))

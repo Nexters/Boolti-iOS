@@ -51,8 +51,8 @@ final class ConcertCollectionViewCell: UICollectionViewCell {
         
         var backgroundAlpha: CGFloat {
             switch self {
-            case .onSale, .endSale: 1
-            default: 0.4
+            case .onSale, .endSale, .endConcert: 1
+            case .beforeSale: 0.4
             }
         }
     }

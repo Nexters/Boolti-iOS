@@ -15,13 +15,13 @@ import RxAppState
 
 final class TicketListViewController: BooltiViewController {
 
+    // MARK: Properties
+
     typealias TicketID = String
-    typealias QRCodeImage = UIImage
     typealias TicketName = String
 
     private let loginViewControllerFactory: () -> LoginViewController
     private let ticketDetailControllerFactory: (TicketID) -> TicketDetailViewController
-    private let qrExpandViewControllerFactory: (QRCodeImage, TicketName) -> QRExpandViewController
 
     private enum Section {
         case concertList
@@ -36,8 +36,8 @@ final class TicketListViewController: BooltiViewController {
     private let viewModel: TicketListViewModel
     private let disposeBag = DisposeBag()
 
-    private let currentTicketPage = BehaviorRelay<Int>(value: 1)
-    private let ticketPageCount = PublishRelay<Int>()
+
+    // MARK: UI Component
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.createLayout())
@@ -70,22 +70,24 @@ final class TicketListViewController: BooltiViewController {
         return view
     }()
 
+    // MARK: Init
+
     init(
         viewModel: TicketListViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
-        qrExpandViewControllerFactory: @escaping (QRCodeImage, TicketName) -> QRExpandViewController,
         ticketDetailViewControllerFactory: @escaping (TicketID) -> TicketDetailViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.ticketDetailControllerFactory = ticketDetailViewControllerFactory
-        self.qrExpandViewControllerFactory = qrExpandViewControllerFactory
         super.init()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,102 +98,7 @@ final class TicketListViewController: BooltiViewController {
         self.bindViewModel()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.loginEnterView.isHidden = true
-        self.tabBarController?.tabBar.isHidden = false
-    }
-
-    private func configureUI() {
-        self.navigationController?.navigationBar.isHidden = true
-
-        self.view.addSubviews([
-            self.collectionView,
-            self.loginEnterView,
-            self.concertEnterView
-        ])
-
-        self.collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
-        self.loginEnterView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
-        }
-
-        self.concertEnterView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
-        }
-    }
-
-    private func createLayout() -> UICollectionViewCompositionalLayout {
-        let layout = UICollectionViewCompositionalLayout { _,_ in
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .fractionalHeight(1)
-            )
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-            item.contentInsets = NSDirectionalEdgeInsets(
-                top: 40,
-                leading: 6,
-                bottom: 5,
-                trailing: 6
-            )
-
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.66))
-
-            let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: groupSize,
-                subitems: [item]
-            )
-
-            let footerSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(35)
-            )
-
-            let footer = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: footerSize,
-                elementKind: TicketListViewController.ticketListFooterViewKind,
-                alignment: .bottom
-            )
-
-            let section = NSCollectionLayoutSection(group: group)
-            section.boundarySupplementaryItems = [footer]
-            section.orthogonalScrollingBehavior = .groupPagingCentered
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 7, trailing: 0)
-
-            self.configureCollectionViewCarousel(of: section)
-
-            return section
-        }
-
-        return layout
-    }
-
-    private func configureCollectionViewCarousel(of section: NSCollectionLayoutSection) {
-        section.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, environment in
-
-            let visibleCellItems = visibleItems.filter {
-                $0.representedElementKind != TicketListViewController.ticketListFooterViewKind
-            }
-
-            let inset = (environment.container.contentSize.width)*0.05
-            // 현재 Page 관련 정보!..
-            let currentPage = Int(max(0, floor((offset.x + inset) / ((environment.container.contentSize.width)*0.88))))
-
-            self?.currentTicketPage.accept(currentPage+1)
-
-            visibleCellItems.forEach { item in
-                let intersectedRect = item.frame.intersection(
-                    CGRect(x: offset.x, y: offset.y, width: environment.container.contentSize.width, height: item.frame.height)
-                )
-                let percentVisible = intersectedRect.width / item.frame.width
-                let scale = 0.8 + (0.2 * percentVisible)
-                item.transform = CGAffineTransform(scaleX: 1, y: scale)
-            }
-        }
-    }
+    // MARK: - Binding Methods
 
     private func bindUIComponents() {
         self.collectionView.rx
@@ -199,7 +106,7 @@ final class TicketListViewController: BooltiViewController {
             .asDriver()
             .drive(with: self) { owner, indexPath in
                 guard let ticketItem = owner.datasource?.itemIdentifier(for: indexPath) else { return }
-                owner.viewModel.output.navigation.accept(.detail(ticketID: "\(ticketItem.ticketID)"))
+                owner.viewModel.output.navigation.accept(.detail(reservationID: "\(ticketItem.reservationID)"))
             }
             .disposed(by: self.disposeBag)
     }
@@ -210,6 +117,14 @@ final class TicketListViewController: BooltiViewController {
     }
 
     private func bindInput() {
+        self.rx.viewWillAppear
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self, onNext: { owner, _ in
+                owner.loginEnterView.isHidden = true
+                owner.tabBarController?.tabBar.isHidden = false
+            })
+            .disposed(by: self.disposeBag)
+
         self.rx.viewDidAppear
             .asDriver(onErrorJustReturn: true)
             .drive(with: self, onNext: { owner, _ in
@@ -247,11 +162,7 @@ final class TicketListViewController: BooltiViewController {
 
         self.viewModel.output.isTicketsExist
             .subscribe(with: self) { owner, isTicketsExist in
-                if !isTicketsExist {
-                    owner.concertEnterView.isHidden = false
-                } else {
-                    owner.concertEnterView.isHidden = true
-                }
+                owner.concertEnterView.isHidden = isTicketsExist
             }
             .disposed(by: self.disposeBag)
 
@@ -261,7 +172,7 @@ final class TicketListViewController: BooltiViewController {
             .asDriver(onErrorJustReturn: [])
             .drive(with: self, onNext: { owner, ticketItems in
                 owner.applySnapshot(ticketItems)
-                owner.ticketPageCount.accept(ticketItems.count)
+                owner.viewModel.input.ticketsCount.accept(ticketItems.count)
             })
             .disposed(by: self.disposeBag)
 
@@ -280,19 +191,120 @@ final class TicketListViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
     }
 
+    private func bind(_ footerView: UICollectionReusableView) {
+        guard let footerView = footerView as? TicketListFooterView else { return }
+
+        self.viewModel.output.ticketPage.subscribe { (currentTicketPage, ticketsCount) in
+            footerView.isHidden = false
+            footerView.pageIndicatorLabel.text = "\(currentTicketPage)/\(ticketsCount)"
+        }
+        .disposed(by: self.disposeBag)
+    }
+
+    // MARK: Methods
+
+    private func configureUI() {
+        self.navigationController?.navigationBar.isHidden = true
+
+        self.view.addSubviews([
+            self.collectionView,
+            self.loginEnterView,
+            self.concertEnterView
+        ])
+
+        self.collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        self.loginEnterView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+
+        self.concertEnterView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+    }
+
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        let layout = UICollectionViewCompositionalLayout { _,_ in
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+            item.contentInsets = NSDirectionalEdgeInsets(
+                top: 20,
+                leading: 6,
+                bottom: 10,
+                trailing: 6
+            )
+
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1.66))
+
+            let group = NSCollectionLayoutGroup.horizontal(
+                layoutSize: groupSize,
+                subitems: [item]
+            )
+
+            let footerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(35)
+            )
+
+            let footer = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: footerSize,
+                elementKind: TicketListViewController.ticketListFooterViewKind,
+                alignment: .bottom
+            )
+            footer.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
+
+            let section = NSCollectionLayoutSection(group: group)
+            section.boundarySupplementaryItems = [footer]
+            section.orthogonalScrollingBehavior = .groupPagingCentered
+
+            self.configureCollectionViewCarousel(of: section)
+
+            return section
+        }
+
+        return layout
+    }
+
+    private func configureCollectionViewCarousel(of section: NSCollectionLayoutSection) {
+        section.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, environment in
+
+            let visibleCellItems = visibleItems.filter {
+                $0.representedElementKind != TicketListViewController.ticketListFooterViewKind
+            }
+
+            let inset = (environment.container.contentSize.width)*0.05
+            // 현재 Page 관련 정보!..
+            let currentPage = Int(max(0, floor((offset.x + inset) / ((environment.container.contentSize.width)*0.88))))
+
+            self?.viewModel.input.currentTicketPage.accept(currentPage+1)
+
+            visibleCellItems.forEach { item in
+                let intersectedRect = item.frame.intersection(
+                    CGRect(x: offset.x, y: offset.y, width: environment.container.contentSize.width, height: item.frame.height)
+                )
+                let percentVisible = intersectedRect.width / item.frame.width
+                let scale = 0.8 + (0.2 * percentVisible)
+                item.transform = CGAffineTransform(scaleX: 1, y: scale)
+            }
+        }
+    }
+
     private func configureCollectionViewDatasource() {
         self.datasource = UICollectionViewDiffableDataSource(
             collectionView: self.collectionView,
-            cellProvider: { [weak self ] collectionView, indexPath, item in
+            cellProvider: { collectionView, indexPath, item in
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: TicketListCollectionViewCell.className,
                     for: indexPath
                 ) as? TicketListCollectionViewCell else { return UICollectionViewCell() }
                 cell.disposeBag = DisposeBag()
                 cell.setData(with: item)
-                if item.ticketStatus == .notUsed {
-                    self?.bindQRCodeExpandView(cell, with: item)
-                }
 
                 return cell
             })
@@ -309,34 +321,6 @@ final class TicketListViewController: BooltiViewController {
         }
     }
 
-    private func bindQRCodeExpandView(_ cell: TicketListCollectionViewCell, with item: TicketItemEntity) {
-        let qrCodeImageView = cell.ticketInformationView.qrCodeImageView
-        let ticketName = item.ticketName
-
-        qrCodeImageView.rx.tapGesture()
-            .when(.recognized)
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, _ in
-                guard let QRCodeImage = qrCodeImageView.image else { return }
-                let viewController = owner.qrExpandViewControllerFactory(QRCodeImage, ticketName)
-                viewController.modalPresentationStyle = .fullScreen
-                owner.present(viewController, animated: true)
-            }
-            .disposed(by: cell.disposeBag)
-    }
-
-    private func bind(_ footerView: UICollectionReusableView) {
-        guard let footerView = footerView as? TicketListFooterView else { return }
-        footerView.isHidden = true
-        Observable.combineLatest(self.currentTicketPage, self.ticketPageCount)
-            .subscribe { (currentPage, pagesCount) in
-                guard pagesCount != 1 else { return }
-                footerView.isHidden = false
-                footerView.pageIndicatorLabel.text = "\(currentPage)/\(pagesCount)"
-            }
-            .disposed(by: self.disposeBag)
-    }
-
     private func applySnapshot(_ ticketItems: [TicketItemEntity]) {
         var snapshot = Snapshot()
         snapshot.appendSections([.concertList])
@@ -348,7 +332,7 @@ final class TicketListViewController: BooltiViewController {
     private func createViewController(_ next: TicketListViewDestination) -> UIViewController {
         switch next {
         case .login: return loginViewControllerFactory()
-        case .detail(ticketID: let id):
+        case .detail(reservationID: let id):
             return ticketDetailControllerFactory(id)
         }
     }

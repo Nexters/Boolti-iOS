@@ -8,5 +8,5 @@
 import Foundation
 
 struct TicketDetailRequestDTO: Encodable {
-    let ticketID: String
+    let reservationID: String
 }
