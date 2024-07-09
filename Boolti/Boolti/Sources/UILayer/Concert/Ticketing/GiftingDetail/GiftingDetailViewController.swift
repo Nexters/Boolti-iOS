@@ -26,8 +26,7 @@ final class GiftingDetailViewController: BooltiViewController {
         let view = UIScrollView()
         view.showsVerticalScrollIndicator = false
         view.contentInset = .init(top: 0, left: 0, bottom: 24, right: 0)
-        //        view.keyboardDismissMode = .onDrag
-        //        view.delegate = self
+        view.keyboardDismissMode = .onDrag
         return view
     }()
     
@@ -75,7 +74,7 @@ final class GiftingDetailViewController: BooltiViewController {
         return view
     }()
     
-    private let payButton = BooltiButton(title: "\(0.formattedCurrency())원 결제하기")
+    private let payButton = BooltiButton(title: "결제하기")
     
     // MARK: Initailizer
     
@@ -98,6 +97,8 @@ final class GiftingDetailViewController: BooltiViewController {
         
         self.configureUI()
         self.bindUIComponents()
+        self.bindViewModel()
+        self.bindInputs()
     }
     
 }
@@ -108,6 +109,7 @@ extension GiftingDetailViewController {
     
     private func bindUIComponents() {
         self.bindNavigationBar()
+        self.bindUserInputView()
         self.bindConcertTicketInfoView()
         self.bindBusinessInfoView()
         self.bindAgreeView()
@@ -119,6 +121,24 @@ extension GiftingDetailViewController {
                 owner.navigationController?.popViewController(animated: true)
             })
             .disposed(by: self.disposeBag)
+    }
+    
+    private func bindUserInputView() {
+        [self.receiverInputView, self.senderInputView].forEach { inputView in
+            inputView.phoneNumberTextField.rx.text
+                .orEmpty
+                .map { $0.formatPhoneNumber() }
+                .distinctUntilChanged()
+                .asDriver(onErrorJustReturn: "")
+                .drive(with: self, onNext: { owner, formattedNumber in
+                    inputView.phoneNumberTextField.text = formattedNumber
+                    
+                    if formattedNumber.count > 13 {
+                        inputView.phoneNumberTextField.deleteBackward()
+                    }
+                })
+                .disposed(by: self.disposeBag)
+        }
     }
     
     private func bindConcertTicketInfoView() {
@@ -165,6 +185,36 @@ extension GiftingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
+    private func bindViewModel() {
+        self.viewModel.output.isPaybuttonEnable
+            .bind(to: self.payButton.rx.isEnabled)
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindInputs() {
+        self.payButton.rx.tap
+            .bind(to: self.viewModel.input.didPayButtonTap)
+            .disposed(by: self.disposeBag)
+        
+        self.receiverInputView.nameTextField.rx.text.orEmpty
+            .bind(to: self.viewModel.input.receiverName)
+            .disposed(by: self.disposeBag)
+        
+        self.receiverInputView.phoneNumberTextField.rx.text.orEmpty
+            .map { $0.replacingOccurrences(of: "-", with: "") }
+            .bind(to: self.viewModel.input.receiverPhoneNumber)
+            .disposed(by: self.disposeBag)
+        
+        self.senderInputView.nameTextField.rx.text.orEmpty
+            .bind(to: self.viewModel.input.senderName)
+            .disposed(by: self.disposeBag)
+        
+        self.senderInputView.phoneNumberTextField.rx.text.orEmpty
+            .map { $0.replacingOccurrences(of: "-", with: "") }
+            .bind(to: self.viewModel.input.senderPhoneNumber)
+            .disposed(by: self.disposeBag)
+    }
+    
 }
 
 // MARK: - UI
@@ -173,6 +223,7 @@ extension GiftingDetailViewController {
     
     private func configureUI() {
         self.view.backgroundColor = .grey95
+        self.payButton.isEnabled = false
         
         self.view.addSubviews([self.navigationBar,
                                self.scrollView,
