@@ -105,6 +105,8 @@ extension SelectCardView {
                 } else if changedText.count > 40 {
                     owner.messageTextView.deleteBackward()
                 }
+                
+                owner.messageTextView.setLineHeight(alignment: .center)
                 owner.messageCountLabel.text = "\(changedText.count)/40자"
             }
             .disposed(by: self.disposeBag)
