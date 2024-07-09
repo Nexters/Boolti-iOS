@@ -18,6 +18,8 @@ final class GiftingDetailViewModel {
     private let concertRepository: ConcertRepositoryType
     
     struct Input {
+        let message = BehaviorRelay<String>(value: "")
+        let selectedImageIndex = BehaviorRelay<IndexPath>(value: .init(index: 0))
         let receiverName = BehaviorRelay<String>(value: "")
         let receiverPhoneNumber = BehaviorRelay<String>(value: "")
         let senderName = BehaviorRelay<String>(value: "")

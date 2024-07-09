@@ -34,7 +34,7 @@ final class SelectCardView: UIView {
         return view
     }()
     
-    private let messageTextView: UITextView = {
+    let messageTextView: UITextView = {
         let textView = UITextView()
         textView.font = .subhead2
         textView.text = "공연에 초대합니다."
@@ -61,7 +61,7 @@ final class SelectCardView: UIView {
         return imageView
     }()
     
-    private lazy var cardImageCollectionView: UICollectionView = {
+    lazy var cardImageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
@@ -82,7 +82,6 @@ final class SelectCardView: UIView {
         super.init(frame: .zero)
         
         self.configureUI()
-        //        self.selectFirstItem()
         self.bindUIComponent()
     }
     
@@ -110,11 +109,6 @@ extension SelectCardView {
             }
             .disposed(by: self.disposeBag)
     }
-    
-    //    private func selectFirstItem() {
-    //        self.cardImageCollectionView.selectItem(at: [0,1], animated: false, scrollPosition: .init())
-    //        self.collectionView(cardImageCollectionView.self, didSelectItemAt: IndexPath(item: 1, section: 0))
-    //    }
     
 }
 

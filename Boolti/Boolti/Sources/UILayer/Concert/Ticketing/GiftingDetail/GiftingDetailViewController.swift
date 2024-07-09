@@ -109,6 +109,7 @@ extension GiftingDetailViewController {
     
     private func bindUIComponents() {
         self.bindNavigationBar()
+        self.bindSelectCardView()
         self.bindUserInputView()
         self.bindConcertTicketInfoView()
         self.bindBusinessInfoView()
@@ -120,6 +121,16 @@ extension GiftingDetailViewController {
             .emit(with: self, onNext: { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindSelectCardView() {
+        self.selectCardView.messageTextView.rx.text.orEmpty
+            .bind(to: self.viewModel.input.message)
+            .disposed(by: self.disposeBag)
+        
+        self.selectCardView.cardImageCollectionView.rx.itemSelected
+            .bind(to: self.viewModel.input.selectedImageIndex)
             .disposed(by: self.disposeBag)
     }
     
