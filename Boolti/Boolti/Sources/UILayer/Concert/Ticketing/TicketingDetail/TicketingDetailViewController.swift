@@ -371,9 +371,9 @@ extension TicketingDetailViewController {
         tapGesture.rx.event
             .bind(with: self, onNext: { owner, _ in
                 owner.view.endEditing(true)
-                if self.isScrollViewOffsetChanged {
-                    owner.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y - self.changedScrollViewOffsetY), animated: true)
-                    self.isScrollViewOffsetChanged = false
+                if owner.isScrollViewOffsetChanged {
+                    owner.scrollView.setContentOffset(CGPoint(x: 0, y: owner.scrollView.contentOffset.y - owner.changedScrollViewOffsetY), animated: true)
+                    owner.isScrollViewOffsetChanged = false
                 }
             })
             .disposed(by: self.disposeBag)
