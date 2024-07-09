@@ -26,8 +26,8 @@ final class GiftingDetailViewController: BooltiViewController {
         let view = UIScrollView()
         view.showsVerticalScrollIndicator = false
         view.contentInset = .init(top: 0, left: 0, bottom: 24, right: 0)
-//        view.keyboardDismissMode = .onDrag
-//        view.delegate = self
+        //        view.keyboardDismissMode = .onDrag
+        //        view.delegate = self
         return view
     }()
     
@@ -36,6 +36,8 @@ final class GiftingDetailViewController: BooltiViewController {
     private let receiverInputView = UserInfoInputView(type: .receiver)
     
     private let senderInputView = UserInfoInputView(type: .sender)
+    
+    private let concertTicketInfoView = ConcertTicketInfoView()
     
     private let policyView = PolicyView()
     
@@ -53,6 +55,7 @@ final class GiftingDetailViewController: BooltiViewController {
         view.addArrangedSubviews([self.selectCardView,
                                   self.receiverInputView,
                                   self.senderInputView,
+                                  self.concertTicketInfoView,
                                   self.policyView,
                                   self.agreeView,
                                   self.middlemanPolicyView,
@@ -105,6 +108,7 @@ extension GiftingDetailViewController {
     
     private func bindUIComponents() {
         self.bindNavigationBar()
+        self.bindConcertTicketInfoView()
         self.bindBusinessInfoView()
         self.bindAgreeView()
     }
@@ -114,6 +118,21 @@ extension GiftingDetailViewController {
             .emit(with: self, onNext: { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindConcertTicketInfoView() {
+        self.viewModel.output.concertDetail
+            .bind(with: self) { owner, entity in
+                guard let concertInfo = entity else { return }
+                let ticketInfo = owner.viewModel.selectedTicket
+
+                owner.concertTicketInfoView.setData(posterURL: concertInfo.posters.first!.thumbnailPath,
+                                                    title: concertInfo.name,
+                                                    datetime: concertInfo.date,
+                                                    ticketInfo: ticketInfo)
+                owner.payButton.setTitle("\((ticketInfo.count * ticketInfo.price).formattedCurrency())원 결제하기", for: .normal)
+            }
             .disposed(by: self.disposeBag)
     }
     

@@ -6,9 +6,15 @@
 //
 
 final class GiftingDetailDIContainer {
+    
+    private let concertRepository: ConcertRepository
+    
+    init(concertRepository: ConcertRepository) {
+        self.concertRepository = concertRepository
+    }
 
-    func createGiftingDetailViewController() -> GiftingDetailViewController {
-        let viewModel = createGiftingDetailViewModel()
+    func createGiftingDetailViewController(selectedTicket: SelectedTicketEntity) -> GiftingDetailViewController {
+        let viewModel = createGiftingDetailViewModel(selectedTicket: selectedTicket)
         
         let businessInfoViewControllerFactory = {
             let DIContainer = BusinessInfoDIContainer()
@@ -22,8 +28,9 @@ final class GiftingDetailDIContainer {
         return viewController
     }
 
-    private func createGiftingDetailViewModel() -> GiftingDetailViewModel {
-        return GiftingDetailViewModel()
+    private func createGiftingDetailViewModel(selectedTicket: SelectedTicketEntity) -> GiftingDetailViewModel {
+        return GiftingDetailViewModel(concertRepository: self.concertRepository,
+                                      selectedTicket: selectedTicket)
     }
 
 }
