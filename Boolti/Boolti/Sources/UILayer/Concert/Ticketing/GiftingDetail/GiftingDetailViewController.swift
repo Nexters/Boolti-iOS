@@ -18,6 +18,9 @@ final class GiftingDetailViewController: BooltiViewController {
     
     private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
     
+    private var isScrollViewOffsetChanged: Bool = false
+    private var changedScrollViewOffsetY: CGFloat = 0
+    
     // MARK: UI Component
     
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "선물하기"))
@@ -27,6 +30,7 @@ final class GiftingDetailViewController: BooltiViewController {
         view.showsVerticalScrollIndicator = false
         view.contentInset = .init(top: 0, left: 0, bottom: 24, right: 0)
         view.keyboardDismissMode = .onDrag
+        view.delegate = self
         return view
     }()
     
@@ -96,6 +100,8 @@ final class GiftingDetailViewController: BooltiViewController {
         super.viewDidLoad()
         
         self.configureUI()
+        self.configureKeyboardNotification()
+        self.configureGesture()
         self.bindUIComponents()
         self.bindViewModel()
         self.bindInputs()
@@ -106,6 +112,41 @@ final class GiftingDetailViewController: BooltiViewController {
 // MARK: - Methods
 
 extension GiftingDetailViewController {
+    
+    private func configureKeyboardNotification() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { notification in
+            guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+                  let currentTextField = UIResponder.currentResponder as? UITextField else { return }
+            
+            let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+            let convertedTextFieldFrame = self.view.convert(currentTextField.frame,
+                                                            from: currentTextField.superview)
+            let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+            if textFieldBottomY > keyboardTopY * 0.9 {
+                let changeOffset = textFieldBottomY - keyboardTopY + convertedTextFieldFrame.size.height
+                self.scrollView.setContentOffset(CGPoint(x: 0, y: self.scrollView.contentOffset.y + changeOffset), animated: true)
+                
+                self.isScrollViewOffsetChanged = true
+                self.changedScrollViewOffsetY = changeOffset
+            }
+        }
+    }
+    
+    private func configureGesture() {
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rx.event
+            .bind(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
+                if owner.isScrollViewOffsetChanged {
+                    owner.scrollView.setContentOffset(CGPoint(x: 0, y: owner.scrollView.contentOffset.y - owner.changedScrollViewOffsetY), animated: true)
+                    owner.isScrollViewOffsetChanged = false
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
     
     private func bindUIComponents() {
         self.bindNavigationBar()
@@ -226,6 +267,15 @@ extension GiftingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension GiftingDetailViewController: UIScrollViewDelegate {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.isScrollViewOffsetChanged = false
+    }
 }
 
 // MARK: - UI
