@@ -41,7 +41,6 @@ final class SelectCardView: UIView {
         textView.backgroundColor = .clear
         textView.textColor = .white00
         textView.textAlignment = .center
-        textView.isScrollEnabled = false
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = .zero
         return textView
@@ -171,6 +170,7 @@ extension SelectCardView {
         self.messageTextView.snp.makeConstraints { make in
             make.top.equalTo(self.selectedCardBackgroundView).inset(32)
             make.horizontalEdges.equalTo(self.selectedCardBackgroundView).inset(20)
+            make.height.lessThanOrEqualTo(80)
         }
         
         self.messageCountLabel.snp.makeConstraints { make in
