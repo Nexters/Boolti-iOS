@@ -43,6 +43,7 @@ final class SelectCardView: UIView {
         textView.textAlignment = .center
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = .zero
+        textView.tintColor = .white00
         return textView
     }()
     
