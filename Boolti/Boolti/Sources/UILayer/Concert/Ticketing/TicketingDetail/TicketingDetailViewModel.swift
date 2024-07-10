@@ -86,15 +86,15 @@ extension TicketingDetailViewModel {
         switch self.selectedTicket.ticketType {
         case .sale:
             if self.selectedTicket.price > 0 {
-                Observable.combineLatest(self.checkInputViewTextFieldFilled(inputViewType: .ticketHolder),
-                                         self.checkInputViewTextFieldFilled(inputViewType: .depositor),
+                Observable.combineLatest(self.checkInputViewTextFieldFilled(isTicketHolder: true),
+                                         self.checkInputViewTextFieldFilled(isTicketHolder: false),
                                          self.input.isAllAgreeButtonSelected)
                 .map { $0 && $1 && $2 }
                 .distinctUntilChanged()
                 .bind(to: self.output.isPaybuttonEnable)
                 .disposed(by: self.disposeBag)
             } else {
-                Observable.combineLatest(self.checkInputViewTextFieldFilled(inputViewType: .ticketHolder),
+                Observable.combineLatest(self.checkInputViewTextFieldFilled(isTicketHolder: true),
                                          self.input.isAllAgreeButtonSelected)
                 .map { $0 && $1 }
                 .distinctUntilChanged()
@@ -102,7 +102,7 @@ extension TicketingDetailViewModel {
                 .disposed(by: self.disposeBag)
             }
         case .invitation:
-            Observable.combineLatest(self.checkInputViewTextFieldFilled(inputViewType: .ticketHolder),
+            Observable.combineLatest(self.checkInputViewTextFieldFilled(isTicketHolder: true),
                                      self.output.invitationCodeState,
                                      self.input.isAllAgreeButtonSelected)
             .map { ( isTicketHolderFilled, codeState, isAgree ) in
@@ -114,23 +114,20 @@ extension TicketingDetailViewModel {
         }
     }
     
-    private func checkInputViewTextFieldFilled(inputViewType: UserInfoInputType)  -> Observable<Bool> {
-        switch inputViewType {
-        case .ticketHolder:
+    private func checkInputViewTextFieldFilled(isTicketHolder: Bool)  -> Observable<Bool> {
+        if isTicketHolder {
             return Observable.combineLatest(self.input.ticketHolderName,
                                             self.input.ticketHolderPhoneNumber)
             .map { ticketHolderName, ticketHolderPhoneNumber in
                 return !ticketHolderName.trimmingCharacters(in: .whitespaces).isEmpty && !ticketHolderPhoneNumber.trimmingCharacters(in: .whitespaces).isEmpty
             }
-        case .depositor:
+        } else {
             return Observable.combineLatest(self.input.depositorName,
                                             self.input.depositorPhoneNumber,
                                             self.input.isEqualButtonSelected)
             .map { depositorName, depositorPhoneNumber, isEqualButtonSelected in
                 return isEqualButtonSelected || (!depositorName.trimmingCharacters(in: .whitespaces).isEmpty && !depositorPhoneNumber.trimmingCharacters(in: .whitespaces).isEmpty)
             }
-        default:
-            return .just(false)
         }
     }
     

@@ -41,9 +41,9 @@ final class TicketingDetailViewController: BooltiViewController {
     
     private let concertInfoView = ConcertInfoView()
     
-    private let ticketHolderInputView = UserInfoInputView(type: .ticketHolder)
+    private let ticketHolderInputView = UserInfoInputView(title: "방문자 정보", showEqualButton: false, showInfoLabel: false)
     
-    private let depositorInputView = UserInfoInputView(type: .depositor)
+    private let depositorInputView = UserInfoInputView(title: "결제자 정보", showEqualButton: true, showInfoLabel: false)
     
     private let ticketInfoView = TicketInfoView()
     

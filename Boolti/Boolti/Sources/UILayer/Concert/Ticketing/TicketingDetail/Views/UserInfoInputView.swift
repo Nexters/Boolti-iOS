@@ -10,13 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-enum UserInfoInputType {
-    case ticketHolder
-    case depositor
-    case sender
-    case receiver
-}
-
 final class UserInfoInputView: UIView {
     
     // MARK: Properties
@@ -100,30 +93,23 @@ final class UserInfoInputView: UIView {
         return label
     }()
     
-    
-    
     // MARK: Init
     
-    init(type: UserInfoInputType) {
+    init(title: String,
+         showEqualButton: Bool,
+         showInfoLabel: Bool) {
         super.init(frame: .zero)
         
-        switch type {
-        case .ticketHolder:
-            self.configureTicketHolderUI()
-        case .depositor:
-            self.configureDepositorUI()
-        case .sender:
-            self.configureSenderUI()
-        case .receiver:
-            self.configureReceiverUI()
-        }
-        
+        self.configureUI(title: title,
+                         showEqualButton: showEqualButton,
+                         showInfoLabel: showInfoLabel)
         self.bindInputs()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
 }
 
 // MARK: - Methods
@@ -161,44 +147,14 @@ extension UserInfoInputView {
         self.nameTextField.sendActions(for: .editingChanged)
         self.phoneNumberTextField.sendActions(for: .editingChanged)
     }
+
 }
 
 // MARK: - UI
 
 extension UserInfoInputView {
     
-    private func configureTicketHolderUI() {
-        self.configureDefaultUI()
-        
-        self.titleLabel.text = "방문자 정보"
-    }
-    
-    private func configureDepositorUI() {
-        self.configureDefaultUI()
-        
-        self.addSubview(self.isEqualButton)
-        self.configureDepositorConstraints()
-        
-        self.titleLabel.text = "결제자 정보"
-    }
-    
-    private func configureSenderUI() {
-        self.configureDefaultUI()
-
-        self.titleLabel.text = "보내는 분 정보"
-    }
-    
-    private func configureReceiverUI() {
-        self.configureDefaultUI()
-        
-        self.addSubviews([self.infoImageView,
-                          self.infoLabel])
-        self.configureReceiverConstraints()
-        
-        self.titleLabel.text = "받는 분 정보"
-    }
-    
-    private func configureDefaultUI() {
+    private func configureUI(title: String, showEqualButton: Bool, showInfoLabel: Bool) {
         self.addSubviews([self.titleLabel,
                           self.nameLabel,
                           self.nameTextField,
@@ -207,8 +163,20 @@ extension UserInfoInputView {
         self.configureDefaultConstraints()
         
         self.backgroundColor = .grey90
+        self.titleLabel.text = title
+
+        if showEqualButton {
+            self.addSubview(self.isEqualButton)
+            self.configureIsEqualButtonConstraints()
+        }
+        
+        if showInfoLabel {
+            self.addSubviews([self.infoImageView,
+                              self.infoLabel])
+            self.configureInfoConstraints()
+        }
     }
-    
+
     private func configureDefaultConstraints() {
         self.snp.makeConstraints { make in
             make.height.equalTo(210)
@@ -243,14 +211,14 @@ extension UserInfoInputView {
         }
     }
     
-    private func configureDepositorConstraints() {
+    private func configureIsEqualButtonConstraints() {
         self.isEqualButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.titleLabel)
             make.right.equalToSuperview().inset(20)
         }
     }
     
-    private func configureReceiverConstraints() {
+    private func configureInfoConstraints() {
         self.snp.updateConstraints { make in
             make.height.equalTo(234)
         }

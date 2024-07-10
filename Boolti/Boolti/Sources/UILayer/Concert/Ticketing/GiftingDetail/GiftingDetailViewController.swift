@@ -36,9 +36,9 @@ final class GiftingDetailViewController: BooltiViewController {
     
     private let selectCardView = SelectCardView()
     
-    private let receiverInputView = UserInfoInputView(type: .receiver)
+    private let senderInputView = UserInfoInputView(title: "보내는 분 정보", showEqualButton: false, showInfoLabel: false)
     
-    private let senderInputView = UserInfoInputView(type: .sender)
+    private let receiverInputView = UserInfoInputView(title: "받는 분 정보", showEqualButton: false, showInfoLabel: true)
     
     private let concertTicketInfoView = ConcertTicketInfoView()
     
@@ -188,11 +188,9 @@ extension GiftingDetailViewController {
         self.selectCardView.cardImageCollectionView.rx.willDisplayCell
             .take(1)
             .bind(with: self) { owner, item in
-                if item.at == .init(item: 0, section: 0) {
-                    item.cell.isSelected = true
-                    owner.selectCardView.cardImageCollectionView.selectItem(at: item.at, animated: false, scrollPosition: .left)
-                    owner.viewModel.input.selectedImageIndex.accept(item.at.item)
-                }
+                item.cell.isSelected = true
+                owner.selectCardView.cardImageCollectionView.selectItem(at: item.at, animated: false, scrollPosition: .left)
+                owner.viewModel.input.selectedImageIndex.accept(item.at.item)
             }
             .disposed(by: self.disposeBag)
     }
