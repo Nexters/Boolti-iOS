@@ -25,16 +25,26 @@ final class TicketSelectionDIContainer {
             return viewController
         }
         
-        let viewController = TicketSelectionViewController(
-            viewModel: viewModel,
-            ticketingDetailViewControllerFactory: ticketingDetailViewControllerFactory
-        )
+        let giftingDetailViewControllerFactory: (SelectedTicketEntity) -> GiftingDetailViewController = { selectedTicket in
+            let DIContainer = self.createGiftingDetailViewDIContainer()
+
+            let viewController = DIContainer.createGiftingDetailViewController(selectedTicket: selectedTicket)
+            return viewController
+        }
+        
+        let viewController = TicketSelectionViewController(viewModel: viewModel,
+                                                           ticketingDetailViewControllerFactory: ticketingDetailViewControllerFactory,
+                                                           giftingDetailViewControllerFactory: giftingDetailViewControllerFactory)
         
         return viewController
     }
     
     private func createTicketingDetailViewDIContainer() -> TicketingDetailDIContainer {
         return TicketingDetailDIContainer(concertRepository: self.concertRepository)
+    }
+    
+    private func createGiftingDetailViewDIContainer() -> GiftingDetailDIContainer {
+        return GiftingDetailDIContainer(concertRepository: self.concertRepository)
     }
 
     private func createTicketSelectionViewModel(concertId: Int) -> TicketSelectionViewModel {

@@ -10,11 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-enum UserInfoInputType {
-    case ticketHolder
-    case depositor
-}
-
 final class UserInfoInputView: UIView {
     
     // MARK: Properties
@@ -46,7 +41,6 @@ final class UserInfoInputView: UIView {
         return textField
     }()
 
-    
     private let phoneNumberLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .body1
@@ -63,7 +57,6 @@ final class UserInfoInputView: UIView {
         return textField
     }()
 
-    
     let isEqualButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
@@ -86,24 +79,37 @@ final class UserInfoInputView: UIView {
         return button
     }()
     
+    private let infoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .info
+        return imageView
+    }()
+    
+    private let infoLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .pretendardR(14)
+        label.textColor = .grey40
+        label.text = "결제 후 카카오톡 친구 목록에서 받는 분을 선택해주세요."
+        return label
+    }()
+    
     // MARK: Init
     
-    init(type: UserInfoInputType) {
+    init(title: String,
+         showEqualButton: Bool,
+         showInfoLabel: Bool) {
         super.init(frame: .zero)
         
-        switch type {
-        case .ticketHolder:
-            self.configureTicketHolderUI()
-        case .depositor:
-            self.configureDepositorUI()
-        }
-        
+        self.configureUI(title: title,
+                         showEqualButton: showEqualButton,
+                         showInfoLabel: showInfoLabel)
         self.bindInputs()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
 }
 
 // MARK: - Methods
@@ -141,28 +147,14 @@ extension UserInfoInputView {
         self.nameTextField.sendActions(for: .editingChanged)
         self.phoneNumberTextField.sendActions(for: .editingChanged)
     }
+
 }
 
 // MARK: - UI
 
 extension UserInfoInputView {
     
-    private func configureTicketHolderUI() {
-        self.configureDefaultUI()
-        
-        self.titleLabel.text = "방문자 정보"
-    }
-    
-    private func configureDepositorUI() {
-        self.configureDefaultUI()
-        
-        self.addSubview(self.isEqualButton)
-        self.configureDepositorConstraints()
-        
-        self.titleLabel.text = "결제자 정보"
-    }
-    
-    private func configureDefaultUI() {
+    private func configureUI(title: String, showEqualButton: Bool, showInfoLabel: Bool) {
         self.addSubviews([self.titleLabel,
                           self.nameLabel,
                           self.nameTextField,
@@ -171,8 +163,20 @@ extension UserInfoInputView {
         self.configureDefaultConstraints()
         
         self.backgroundColor = .grey90
+        self.titleLabel.text = title
+
+        if showEqualButton {
+            self.addSubview(self.isEqualButton)
+            self.configureIsEqualButtonConstraints()
+        }
+        
+        if showInfoLabel {
+            self.addSubviews([self.infoImageView,
+                              self.infoLabel])
+            self.configureInfoConstraints()
+        }
     }
-    
+
     private func configureDefaultConstraints() {
         self.snp.makeConstraints { make in
             make.height.equalTo(210)
@@ -207,10 +211,29 @@ extension UserInfoInputView {
         }
     }
     
-    private func configureDepositorConstraints() {
+    private func configureIsEqualButtonConstraints() {
         self.isEqualButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.titleLabel)
             make.right.equalToSuperview().inset(20)
         }
     }
+    
+    private func configureInfoConstraints() {
+        self.snp.updateConstraints { make in
+            make.height.equalTo(234)
+        }
+        
+        self.infoImageView.snp.makeConstraints { make in
+            make.top.equalTo(self.phoneNumberTextField.snp.bottom).offset(16)
+            make.leading.equalToSuperview().inset(20)
+            make.size.equalTo(20)
+        }
+        
+        self.infoLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(self.infoImageView)
+            make.leading.equalTo(self.infoImageView.snp.trailing).offset(6)
+            make.trailing.equalToSuperview().inset(20)
+        }
+    }
+    
 }

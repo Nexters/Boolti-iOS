@@ -23,6 +23,7 @@ final class TicketSelectionViewController: BooltiViewController {
     let viewModel: TicketSelectionViewModel
     private let disposeBag = DisposeBag()
     private let ticketingDetailViewControllerFactory: (SelectedTicketEntity) -> TicketingDetailViewController
+    private let giftingDetailViewControllerFactory: (SelectedTicketEntity) -> GiftingDetailViewController
     var onDismiss: (() -> ())?
     
     // MARK: UI Component
@@ -34,9 +35,11 @@ final class TicketSelectionViewController: BooltiViewController {
     // MARK: Init
     
     init(viewModel: TicketSelectionViewModel,
-         ticketingDetailViewControllerFactory: @escaping (SelectedTicketEntity) -> TicketingDetailViewController) {
+         ticketingDetailViewControllerFactory: @escaping (SelectedTicketEntity) -> TicketingDetailViewController,
+         giftingDetailViewControllerFactory: @escaping (SelectedTicketEntity) -> GiftingDetailViewController) {
         self.viewModel = viewModel
         self.ticketingDetailViewControllerFactory = ticketingDetailViewControllerFactory
+        self.giftingDetailViewControllerFactory = giftingDetailViewControllerFactory
         
         super.init()
     }
@@ -179,7 +182,8 @@ extension TicketSelectionViewController {
         
         self.viewModel.output.navigateTicketingDetail
             .bind(with: self) { owner, entity in
-                let viewController = owner.ticketingDetailViewControllerFactory(entity)
+//                let viewController = owner.ticketingDetailViewControllerFactory(entity)
+                let viewController = owner.giftingDetailViewControllerFactory(entity)
 
                 guard let presentingViewController = owner.presentingViewController as? HomeTabBarController else { return }
                 guard let rootviewController = presentingViewController.children[0] as? UINavigationController else { return }
