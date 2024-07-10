@@ -138,7 +138,8 @@ extension GiftingDetailViewController {
         self.view.addGestureRecognizer(tapGesture)
         
         tapGesture.rx.event
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver()
+            .drive(with: self, onNext: { owner, _ in
                 owner.view.endEditing(true)
                 if owner.isScrollViewOffsetChanged {
                     owner.scrollView.setContentOffset(CGPoint(x: 0, y: owner.scrollView.contentOffset.y - owner.changedScrollViewOffsetY), animated: true)
@@ -216,7 +217,7 @@ extension GiftingDetailViewController {
     
     private func bindConcertTicketInfoView() {
         self.viewModel.output.concertDetail
-            .bind(with: self) { owner, entity in
+            .subscribe(with: self) { owner, entity in
                 guard let concertInfo = entity else { return }
                 let ticketInfo = owner.viewModel.selectedTicket
                 
