@@ -42,6 +42,12 @@ final class CardImageCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.cardImageView.image = nil
+    }
+    
 }
 
 // MARK: - Methods

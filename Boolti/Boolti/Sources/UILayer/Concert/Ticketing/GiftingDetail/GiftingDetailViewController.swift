@@ -170,8 +170,29 @@ extension GiftingDetailViewController {
             .bind(to: self.viewModel.input.message)
             .disposed(by: self.disposeBag)
         
+        self.viewModel.output.cardImages
+            .bind(to: self.selectCardView.cardImageCollectionView.rx
+                .items(cellIdentifier: CardImageCollectionViewCell.className,
+                       cellType: CardImageCollectionViewCell.self)
+            ) { index, entity, cell in
+                cell.setData(with: entity.thumbnailPath)
+            }
+            .disposed(by: self.disposeBag)
+        
         self.selectCardView.cardImageCollectionView.rx.itemSelected
+            .map { $0.item }
             .bind(to: self.viewModel.input.selectedImageIndex)
+            .disposed(by: self.disposeBag)
+        
+        self.selectCardView.cardImageCollectionView.rx.willDisplayCell
+            .take(1)
+            .bind(with: self) { owner, item in
+                if item.at == .init(item: 0, section: 0) {
+                    item.cell.isSelected = true
+                    owner.selectCardView.cardImageCollectionView.selectItem(at: item.at, animated: false, scrollPosition: .left)
+                    owner.viewModel.input.selectedImageIndex.accept(item.at.item)
+                }
+            }
             .disposed(by: self.disposeBag)
     }
     
@@ -198,7 +219,7 @@ extension GiftingDetailViewController {
             .bind(with: self) { owner, entity in
                 guard let concertInfo = entity else { return }
                 let ticketInfo = owner.viewModel.selectedTicket
-
+                
                 owner.concertTicketInfoView.setData(posterURL: concertInfo.posters.first!.thumbnailPath,
                                                     title: concertInfo.name,
                                                     datetime: concertInfo.date,
@@ -241,6 +262,13 @@ extension GiftingDetailViewController {
         self.viewModel.output.isPaybuttonEnable
             .bind(to: self.payButton.rx.isEnabled)
             .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.selectedCardImageURL
+            .asDriver(onErrorJustReturn: "")
+            .drive(with: self) { owner, url in
+                owner.selectCardView.setSelectedImage(with: url)
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func bindInputs() {
@@ -276,6 +304,7 @@ extension GiftingDetailViewController: UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.isScrollViewOffsetChanged = false
     }
+    
 }
 
 // MARK: - UI
@@ -286,13 +315,12 @@ extension GiftingDetailViewController {
         self.view.backgroundColor = .grey95
         self.payButton.isEnabled = false
         
+        self.scrollView.addSubviews([self.stackView])
         self.view.addSubviews([self.navigationBar,
                                self.scrollView,
                                self.buttonBackgroundView,
                                self.payButton])
-        self.scrollView.addSubviews([self.stackView])
         
-        self.view.backgroundColor = .grey95
         self.configureConstraints()
     }
     

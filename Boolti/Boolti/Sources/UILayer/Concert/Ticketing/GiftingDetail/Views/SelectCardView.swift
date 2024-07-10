@@ -68,8 +68,6 @@ final class SelectCardView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.contentInset = .init(top: 0, left: 32, bottom: 0, right: 32)
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
         collectionView.backgroundColor = .clear
         
         collectionView.register(CardImageCollectionViewCell.self, forCellWithReuseIdentifier: CardImageCollectionViewCell.className)
@@ -94,6 +92,10 @@ final class SelectCardView: UIView {
 // MARK: - Methods
 
 extension SelectCardView {
+    
+    func setSelectedImage(with imageURL: String) {
+        self.selectedImageView.setImage(with: imageURL)
+    }
     
     private func bindUIComponent() {
         self.messageTextView.rx.text
@@ -120,27 +122,6 @@ extension SelectCardView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 52, height: 52)
-    }
-    
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension SelectCardView: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardImageCollectionViewCell.className, for: indexPath) as? CardImageCollectionViewCell else { return UICollectionViewCell() }
-        
-        if indexPath.item == 0 {
-            cell.isSelected = true
-            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init())
-        }
-        //        cell.setData(with: "")
-        return cell
     }
     
 }
