@@ -323,6 +323,9 @@
 		87F63D6D2C3F7E62001D7A56 /* GiftCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6C2C3F7E62001D7A56 /* GiftCompletionViewModel.swift */; };
 		87F63D6F2C3F8298001D7A56 /* GiftReservationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6E2C3F8298001D7A56 /* GiftReservationAPI.swift */; };
 		87F63D712C3F82F8001D7A56 /* GiftReservationDetailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D702C3F82F8001D7A56 /* GiftReservationDetailRequestDTO.swift */; };
+		87F63D732C3F8504001D7A56 /* GiftReservationDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D722C3F8504001D7A56 /* GiftReservationDetailResponseDTO.swift */; };
+		87F63D752C3F85DB001D7A56 /* GiftReservationDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D742C3F85DB001D7A56 /* GiftReservationDetailEntity.swift */; };
+		87F63D782C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D772C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift */; };
 		87F7DF452B82322E0068A6C9 /* Notification.Name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */; };
 		87F7DF472B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF462B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift */; };
 		87F7DF492B8275D30068A6C9 /* EntryCodeErrorEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */; };
@@ -620,6 +623,9 @@
 		87F63D6C2C3F7E62001D7A56 /* GiftCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionViewModel.swift; sourceTree = "<group>"; };
 		87F63D6E2C3F8298001D7A56 /* GiftReservationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationAPI.swift; sourceTree = "<group>"; };
 		87F63D702C3F82F8001D7A56 /* GiftReservationDetailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailRequestDTO.swift; sourceTree = "<group>"; };
+		87F63D722C3F8504001D7A56 /* GiftReservationDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailResponseDTO.swift; sourceTree = "<group>"; };
+		87F63D742C3F85DB001D7A56 /* GiftReservationDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailEntity.swift; sourceTree = "<group>"; };
+		87F63D772C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationDetailDTOProtocol.swift; sourceTree = "<group>"; };
 		87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+.swift"; sourceTree = "<group>"; };
 		87F7DF462B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeErrorResponseDTO.swift; sourceTree = "<group>"; };
 		87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeErrorEntity.swift; sourceTree = "<group>"; };
@@ -1393,6 +1399,7 @@
 				87FB0D3B2B6C09B500B42AF9 /* TicketItemEntity.swift */,
 				87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */,
 				872605522B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift */,
+				87F63D742C3F85DB001D7A56 /* GiftReservationDetailEntity.swift */,
 			);
 			path = Ticket;
 			sourceTree = "<group>";
@@ -1532,8 +1539,10 @@
 		870099B12B774450001779FB /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				87F63D762C3F8A76001D7A56 /* ReservationDetailDTOProtocol */,
 				870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */,
 				872605502B79FDE8005CD0D4 /* TicketReservationDetailResponseDTO.swift */,
+				87F63D722C3F8504001D7A56 /* GiftReservationDetailResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1912,6 +1921,14 @@
 			path = GiftCompletion;
 			sourceTree = "<group>";
 		};
+		87F63D762C3F8A76001D7A56 /* ReservationDetailDTOProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				87F63D772C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift */,
+			);
+			path = ReservationDetailDTOProtocol;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2172,6 +2189,7 @@
 				845D88552B87705700179F60 /* ResignReasonViewController.swift in Sources */,
 				879E923A2BFB5DC200EC7ED1 /* GradientBackgroundView.swift in Sources */,
 				840B395F2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift in Sources */,
+				87F63D752C3F85DB001D7A56 /* GiftReservationDetailEntity.swift in Sources */,
 				87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */,
 				84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */,
 				84D1C37F2B79379200527998 /* FreeTicketingRequestDTO.swift in Sources */,
@@ -2181,6 +2199,7 @@
 				84A0248C2B7B996F0095A56E /* QRScannerDIContainer.swift in Sources */,
 				84EF916A2B8A435C0073C89A /* PosterCollectionViewCell.swift in Sources */,
 				84781CBE2B5BF95100D37921 /* MyPageDIContainer.swift in Sources */,
+				87F63D782C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift in Sources */,
 				84781BCF2B5BDAFC00D37921 /* SceneDelegate.swift in Sources */,
 				842C1C642B7DA8A700EFE5A0 /* ResignInfoDIContainer.swift in Sources */,
 				8730F0182B7B29FE00D4F339 /* TicketRefundRequestViewModel.swift in Sources */,
@@ -2200,6 +2219,7 @@
 				87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */,
 				8755A1602B8BA5510067C5CE /* QRCodeResponsePopUpView.swift in Sources */,
 				8730F02E2B7BAA2B00D4F339 /* RefundAccountNumberView.swift in Sources */,
+				87F63D732C3F8504001D7A56 /* GiftReservationDetailResponseDTO.swift in Sources */,
 				8746AD202B6932B30037A1B1 /* ConcertEnterView.swift in Sources */,
 				8753CA7B2B7225AA002871C7 /* TicketDetailResponseDTO.swift in Sources */,
 				87F63D6B2C3F7E55001D7A56 /* GiftCompletionViewController.swift in Sources */,

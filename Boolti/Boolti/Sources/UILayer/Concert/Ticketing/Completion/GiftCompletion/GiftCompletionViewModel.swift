@@ -22,7 +22,7 @@ final class GiftCompletionViewModel {
     }
 
     struct Output {
-        let reservationDetail = PublishRelay<TicketReservationDetailEntity>()
+        let giftReservationDetail = PublishRelay<TicketReservationDetailEntity>()
     }
 
     let input: Input
@@ -44,9 +44,9 @@ final class GiftCompletionViewModel {
 
     private func bindInputs() {
         self.input.viewWillAppearEvent
-            .flatMap { self.fetchReservationDetail() }
+            .flatMap { self.fetchGiftReservationDetail() }
             .subscribe(with: self, onNext: { owner, ticketReservationDetail in
-                owner.output.reservationDetail.accept(ticketReservationDetail)
+                owner.output.giftReservationDetail.accept(ticketReservationDetail)
             })
             .disposed(by: self.disposeBag)
     }
@@ -56,7 +56,7 @@ final class GiftCompletionViewModel {
 
 extension GiftCompletionViewModel {
 
-    private func fetchReservationDetail() -> Single<TicketReservationDetailEntity> {
+    private func fetchGiftReservationDetail() -> Single<TicketReservationDetailEntity> {
         return self.ticketReservationsRepository.ticketReservationDetail(with: "\(self.reservationId)")
     }
 }
