@@ -326,6 +326,8 @@
 		87F63D732C3F8504001D7A56 /* GiftReservationDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D722C3F8504001D7A56 /* GiftReservationDetailResponseDTO.swift */; };
 		87F63D752C3F85DB001D7A56 /* GiftReservationDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D742C3F85DB001D7A56 /* GiftReservationDetailEntity.swift */; };
 		87F63D782C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D772C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift */; };
+		87F63D7B2C3FA0FB001D7A56 /* CompletionViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D7A2C3FA0FB001D7A56 /* CompletionViewControllerProtocol.swift */; };
+		87F63D7E2C3FBFC0001D7A56 /* ReservationDetailEntityProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D7D2C3FBFC0001D7A56 /* ReservationDetailEntityProtocol.swift */; };
 		87F7DF452B82322E0068A6C9 /* Notification.Name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */; };
 		87F7DF472B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF462B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift */; };
 		87F7DF492B8275D30068A6C9 /* EntryCodeErrorEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */; };
@@ -626,6 +628,8 @@
 		87F63D722C3F8504001D7A56 /* GiftReservationDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailResponseDTO.swift; sourceTree = "<group>"; };
 		87F63D742C3F85DB001D7A56 /* GiftReservationDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailEntity.swift; sourceTree = "<group>"; };
 		87F63D772C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationDetailDTOProtocol.swift; sourceTree = "<group>"; };
+		87F63D7A2C3FA0FB001D7A56 /* CompletionViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionViewControllerProtocol.swift; sourceTree = "<group>"; };
+		87F63D7D2C3FBFC0001D7A56 /* ReservationDetailEntityProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationDetailEntityProtocol.swift; sourceTree = "<group>"; };
 		87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+.swift"; sourceTree = "<group>"; };
 		87F7DF462B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeErrorResponseDTO.swift; sourceTree = "<group>"; };
 		87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeErrorEntity.swift; sourceTree = "<group>"; };
@@ -1395,6 +1399,7 @@
 			isa = PBXGroup;
 			children = (
 				8753CA7C2B7228F2002871C7 /* TicketDetailItemEntity.swift */,
+				87F63D7C2C3FBFA9001D7A56 /* Protocol */,
 				87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */,
 				87FB0D3B2B6C09B500B42AF9 /* TicketItemEntity.swift */,
 				87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */,
@@ -1905,6 +1910,7 @@
 		87F63D632C3EE9E2001D7A56 /* Completion */ = {
 			isa = PBXGroup;
 			children = (
+				87F63D792C3FA0E3001D7A56 /* Protocol */,
 				87F63D672C3EEC24001D7A56 /* GiftCompletion */,
 				84896A412B6A57B100CB3E33 /* TicketingCompletion */,
 			);
@@ -1927,6 +1933,22 @@
 				87F63D772C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift */,
 			);
 			path = ReservationDetailDTOProtocol;
+			sourceTree = "<group>";
+		};
+		87F63D792C3FA0E3001D7A56 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				87F63D7A2C3FA0FB001D7A56 /* CompletionViewControllerProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		87F63D7C2C3FBFA9001D7A56 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				87F63D7D2C3FBFC0001D7A56 /* ReservationDetailEntityProtocol.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2060,6 +2082,7 @@
 				841D77DE2B7462EA0068B1C5 /* ServiceAPI.swift in Sources */,
 				841D77DD2B7462980068B1C5 /* TicketItemEntity.swift in Sources */,
 				84886E8E2B70A651005D2329 /* PlaceInfoView.swift in Sources */,
+				87F63D7E2C3FBFC0001D7A56 /* ReservationDetailEntityProtocol.swift in Sources */,
 				87D2FABA2B6EB5C50027FBE1 /* TicketNoticeView.swift in Sources */,
 				84D1C38B2B7A448100527998 /* InvitationTicketingRequestDTO.swift in Sources */,
 				87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */,
@@ -2277,6 +2300,7 @@
 				84625A182B63E05700CC9077 /* BooltiPaddingLabel.swift in Sources */,
 				84A713392B7BD504000BABCB /* QRScanRequestDTO.swift in Sources */,
 				87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */,
+				87F63D7B2C3FA0FB001D7A56 /* CompletionViewControllerProtocol.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
 				87826AEE2BBFF7F2005176D4 /* LandingDestination.swift in Sources */,
 				84DF59DC2B722EA0000816DA /* UpdatePopupDIContainer.swift in Sources */,

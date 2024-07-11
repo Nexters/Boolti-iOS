@@ -15,8 +15,8 @@ final class GiftCompletionDIContainer {
         self.ticketReservationsRepository = ticketReservationsRepository
     }
 
-    func createGiftCompletionViewController(reservationId: Int) -> GiftCompletionViewController {
-        let viewModel = createGiftCompletionViewModel(reservationId: reservationId)
+    func createGiftCompletionViewController(giftID: Int) -> GiftCompletionViewController {
+        let viewModel = createGiftCompletionViewModel(giftID: giftID)
 
         let viewController = GiftCompletionViewController(
             viewModel: viewModel
@@ -25,8 +25,8 @@ final class GiftCompletionDIContainer {
         return viewController
     }
 
-    private func createGiftCompletionViewModel(reservationId: Int) -> GiftCompletionViewModel {
-        return GiftCompletionViewModel(reservationId: reservationId,
+    private func createGiftCompletionViewModel(giftID: Int) -> GiftCompletionViewModel {
+        return GiftCompletionViewModel(giftID: giftID,
                                             ticketReservationsRepository: ticketReservationsRepository)
     }
 

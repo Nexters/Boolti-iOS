@@ -10,8 +10,8 @@ import UIKit
 import RxSwift
 import RxAppState
 
-final class TicketingCompletionViewController: BooltiViewController {
-    
+final class TicketingCompletionViewController: BooltiViewController, CompletionViewControllerProtocol {
+
     // MARK: Properties
     
     let viewModel: TicketingCompletionViewModel
@@ -128,36 +128,6 @@ final class TicketingCompletionViewController: BooltiViewController {
 
 extension TicketingCompletionViewController {
     
-    private func makeLabel(text: String? = nil) -> BooltiUILabel {
-        let label = BooltiUILabel()
-        label.font = .pretendardR(16)
-        label.text = text
-        label.textColor = text == nil ? .grey15 : .grey30
-        label.numberOfLines = 2
-        return label
-    }
-    
-    private func makeInfoRowStackView(title: BooltiUILabel, info: BooltiUILabel) -> UIStackView {
-        title.snp.makeConstraints { make in
-            make.width.equalTo(100)
-        }
-        
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 12
-        stackView.addArrangedSubviews([title, info])
-        stackView.alignment = .top
-        return stackView
-    }
-    
-    private func makeInfoGroupStackView(with stackViews: [UIStackView]) -> UIStackView {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 16
-        stackView.addArrangedSubviews(stackViews)
-        return stackView
-    }
-    
     private func bindComponents() {
         self.openReservationButton.rx.tap
             .bind(with: self) { owner, _ in
@@ -239,7 +209,6 @@ extension TicketingCompletionViewController {
 extension TicketingCompletionViewController {
     
     private func configureUI() {
-        // 만약 선물하기라면 firstInfoStackView를 넣는다!..
         self.view.addSubviews([self.navigationBar,
                                self.titleLabel,
                                self.firstUnderlineView,
@@ -252,31 +221,17 @@ extension TicketingCompletionViewController {
         self.view.backgroundColor = .grey95
     }
 
-    private func configureSaleTicketCases(with entity: TicketReservationDetailEntity) {
-        guard let paymentMethod = entity.paymentMethod else { return }
-        switch paymentMethod {
-        case .accountTransfer:
-            self.setAccountTransferPaymentTicketCase(with: entity)
-        case .card:
-            self.setCardPaymentTicketCase(with: entity)
-        case .simplePayment:
-            self.setSimplePaymentTicketCase(with: entity)
-        case .free:
-            self.setFreeTicketCase(with: entity)
-        }
-    }
-
-    private func configureInvitationTicketCase(with entity: TicketReservationDetailEntity) {
+    func configureInvitationTicketCase(with entity: TicketReservationDetailEntity) {
         self.amountInfoLabel.text = "0원 (초청 코드)"
         self.payerStackView.isHidden = true
     }
 
-    private func setFreeTicketCase(with entity: TicketReservationDetailEntity) {
+    func setFreeTicketCase(with entity: TicketReservationDetailEntity) {
         self.amountInfoLabel.text = "0원"
         self.payerStackView.isHidden = true
     }
 
-    private func setCardPaymentTicketCase(with entity: TicketReservationDetailEntity) {
+    func setCardPaymentTicketCase(with entity: TicketReservationDetailEntity) {
         self.setPayerInfoLabel(with: entity)
 
         guard let paymentCardDetail = entity.paymentCardDetail else { return }
@@ -286,12 +241,12 @@ extension TicketingCompletionViewController {
         self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(paymentCardDetail.issuer) / \(paymentMonth))"
     }
 
-    private func setAccountTransferPaymentTicketCase(with entity: TicketReservationDetailEntity) {
+    func setAccountTransferPaymentTicketCase(with entity: TicketReservationDetailEntity) {
         self.setPayerInfoLabel(with: entity)
         self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원 (계좌이체)"
     }
 
-    private func setSimplePaymentTicketCase(with entity: TicketReservationDetailEntity) {
+    func setSimplePaymentTicketCase(with entity: TicketReservationDetailEntity) {
         self.setPayerInfoLabel(with: entity)
         guard let easyPayProvider = entity.easyPayProvider else { return }
         self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(easyPayProvider) / 간편결제)"
