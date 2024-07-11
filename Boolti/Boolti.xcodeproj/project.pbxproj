@@ -321,6 +321,8 @@
 		87F63D692C3F7E46001D7A56 /* GiftCompletionDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D682C3F7E46001D7A56 /* GiftCompletionDIContainer.swift */; };
 		87F63D6B2C3F7E55001D7A56 /* GiftCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6A2C3F7E55001D7A56 /* GiftCompletionViewController.swift */; };
 		87F63D6D2C3F7E62001D7A56 /* GiftCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6C2C3F7E62001D7A56 /* GiftCompletionViewModel.swift */; };
+		87F63D6F2C3F8298001D7A56 /* GiftReservationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6E2C3F8298001D7A56 /* GiftReservationAPI.swift */; };
+		87F63D712C3F82F8001D7A56 /* GiftReservationDetailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D702C3F82F8001D7A56 /* GiftReservationDetailRequestDTO.swift */; };
 		87F7DF452B82322E0068A6C9 /* Notification.Name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */; };
 		87F7DF472B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF462B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift */; };
 		87F7DF492B8275D30068A6C9 /* EntryCodeErrorEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */; };
@@ -616,6 +618,8 @@
 		87F63D682C3F7E46001D7A56 /* GiftCompletionDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionDIContainer.swift; sourceTree = "<group>"; };
 		87F63D6A2C3F7E55001D7A56 /* GiftCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionViewController.swift; sourceTree = "<group>"; };
 		87F63D6C2C3F7E62001D7A56 /* GiftCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionViewModel.swift; sourceTree = "<group>"; };
+		87F63D6E2C3F8298001D7A56 /* GiftReservationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationAPI.swift; sourceTree = "<group>"; };
+		87F63D702C3F82F8001D7A56 /* GiftReservationDetailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailRequestDTO.swift; sourceTree = "<group>"; };
 		87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+.swift"; sourceTree = "<group>"; };
 		87F7DF462B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeErrorResponseDTO.swift; sourceTree = "<group>"; };
 		87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeErrorEntity.swift; sourceTree = "<group>"; };
@@ -1098,6 +1102,7 @@
 				22DD8C8B2BD2897E0083622C /* TicketingAPI.swift */,
 				8753CA722B71EA68002871C7 /* TicketAPI.swift */,
 				870099B42B77476E001779FB /* TicketReservationAPI.swift */,
+				87F63D6E2C3F8298001D7A56 /* GiftReservationAPI.swift */,
 				846F5F392B7BBEC4000F86AE /* QRAPI.swift */,
 				87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */,
 			);
@@ -1519,6 +1524,7 @@
 			children = (
 				8726054E2B79FD49005CD0D4 /* TicketReservationDetailRequestDTO.swift */,
 				870B75FE2B7CC447008970B3 /* TicketRefundRequestDTO.swift */,
+				87F63D702C3F82F8001D7A56 /* GiftReservationDetailRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -2041,6 +2047,7 @@
 				84D1C38B2B7A448100527998 /* InvitationTicketingRequestDTO.swift in Sources */,
 				87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */,
 				84781CC92B5BFA1C00D37921 /* TicketListViewModel.swift in Sources */,
+				87F63D6F2C3F8298001D7A56 /* GiftReservationAPI.swift in Sources */,
 				84781CCC2B5C003700D37921 /* ConcertListDIContainer.swift in Sources */,
 				8753CA692B70DD00002871C7 /* UIButton+.swift in Sources */,
 				8769BF9D2B6267CC00DA9A67 /* BooltiButton.swift in Sources */,
@@ -2260,6 +2267,7 @@
 				841D77D22B73B0C10068B1C5 /* ConcertAPI.swift in Sources */,
 				84D1C3892B7A17C500527998 /* InvitationCodeStateEntity.swift in Sources */,
 				876667542B73A82300DDB2B5 /* EntryCodeInputView.swift in Sources */,
+				87F63D712C3F82F8001D7A56 /* GiftReservationDetailRequestDTO.swift in Sources */,
 				84FEF6172B68A6D100EBB64F /* UIResponder+.swift in Sources */,
 				8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */,
 				8710D9562B74FAC100309FBF /* LogoutViewModel.swift in Sources */,
