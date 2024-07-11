@@ -46,9 +46,13 @@ final class TicketingCompletionViewController: BooltiViewController {
     private lazy var payerTitleLabel = self.makeLabel(text: "결제자 정보")
     private lazy var payerInfoLabel = self.makeLabel()
     private lazy var payerStackView = self.makeInfoRowStackView(title: payerTitleLabel, info: payerInfoLabel)
-    
-    private lazy var firstInfoStackView = self.makeInfoGroupStackView(with: [reservationStackView, visitorStackView, payerStackView])
-    
+
+    private lazy var firstInfoStackView = self.makeInfoGroupStackView(with: [
+        reservationStackView,
+        visitorStackView,
+        payerStackView,
+    ])
+
     private let secondUnderlineView: UIView = {
         let view = UIView()
         view.backgroundColor = .grey85
@@ -235,6 +239,7 @@ extension TicketingCompletionViewController {
 extension TicketingCompletionViewController {
     
     private func configureUI() {
+        // 만약 선물하기라면 firstInfoStackView를 넣는다!..
         self.view.addSubviews([self.navigationBar,
                                self.titleLabel,
                                self.firstUnderlineView,
@@ -307,7 +312,7 @@ extension TicketingCompletionViewController {
             make.top.equalTo(self.navigationBar.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
-        
+
         self.firstUnderlineView.snp.makeConstraints { make in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)

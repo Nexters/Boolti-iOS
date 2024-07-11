@@ -39,37 +39,8 @@ final class LoginViewController: BooltiViewController {
         return label
     }()
 
-    private let kakaoLoginButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.title = "카카오톡으로 시작하기"
-        config.attributedTitle?.font = .subhead1
-        config.baseForegroundColor = .black100
-        config.background.backgroundColor = UIColor.init("#FFE833")
-        config.imagePadding = 20
-
-        let button = UIButton(configuration: config)
-        button.layer.cornerRadius = 12
-
-        return button
-    }()
-    
-    private let kakaoIconImageView = UIImageView(image: .kakao)
-
-    private let appleLoginButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.title = "Apple로 시작하기"
-        config.attributedTitle?.font = .subhead1
-        config.baseForegroundColor = .black100
-        config.background.backgroundColor = UIColor.init("#F6F7FF")
-        config.imagePadding = 20
-
-        let button = UIButton(configuration: config)
-        button.layer.cornerRadius = 12
-
-        return button
-    }()
-    
-    private let appleIconImageView = UIImageView(image: .apple)
+    private let kakaoLoginButton = SocialServiceButton(title: "카카오톡으로 시작하기", type: .kakao)
+    private let appleLoginButton = SocialServiceButton(title: "Apple로 시작하기", type: .apple)
 
     private let closeButton: UIButton = {
         let button = UIButton()
@@ -187,9 +158,7 @@ extension LoginViewController {
             self.headerTitleLabel,
             self.subTitleLabel,
             self.kakaoLoginButton,
-            self.kakaoIconImageView,
             self.appleLoginButton,
-            self.appleIconImageView,
             self.popupView
         ])
 
@@ -214,12 +183,6 @@ extension LoginViewController {
             make.height.equalTo(48)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
-        
-        self.kakaoIconImageView.snp.makeConstraints { make in
-            make.size.equalTo(20)
-            make.centerY.equalTo(self.kakaoLoginButton)
-            make.left.equalTo(self.kakaoLoginButton).offset(20)
-        }
 
         self.appleLoginButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -227,13 +190,7 @@ extension LoginViewController {
             make.horizontalEdges.equalTo(self.kakaoLoginButton)
             make.height.equalTo(48)
         }
-        
-        self.appleIconImageView.snp.makeConstraints { make in
-            make.size.equalTo(20)
-            make.centerY.equalTo(self.appleLoginButton)
-            make.left.equalTo(self.appleLoginButton).offset(20)
-        }
-        
+
         self.popupView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
