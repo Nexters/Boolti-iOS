@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GiftReservationDetailEntity {
+struct GiftReservationDetailEntity: ReservationDetailEntityProtocol {
 
     let reservationID: Int
     let concertPosterImageURLPath: String
@@ -19,16 +19,17 @@ struct GiftReservationDetailEntity {
     let paymentMethod: PaymentMethod?
     let totalPaymentAmount: String
     let reservationStatus: ReservationStatus
-    let giftID: Int
-    let giftMessage: String
-    let giftImageURLPath: String
     let ticketingDate: String?
-    let recipientName: String
-    let recipientPhoneNumber: String
     let salesEndTime: String
     let csReservationID: String
     let easyPayProvider: String?
     let accountTransferBank: String?
     let paymentCardDetail: PaymentCardDetail?
     let showDate: Date
+
+    let giftID: Int
+    let giftMessage: String
+    let giftImageURLPath: String
+    let recipientName: String
+    let recipientPhoneNumber: String
 }

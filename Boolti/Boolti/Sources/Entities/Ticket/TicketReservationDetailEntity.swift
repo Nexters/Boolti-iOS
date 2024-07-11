@@ -106,8 +106,7 @@ struct PaymentCardDetail {
     let issuer: String
 }
 
-
-struct TicketReservationDetailEntity {
+struct TicketReservationDetailEntity: ReservationDetailEntityProtocol {
 
     let reservationID: Int
     let concertPosterImageURLPath: String
@@ -120,14 +119,14 @@ struct TicketReservationDetailEntity {
     let totalPaymentAmount: String
     let reservationStatus: ReservationStatus
     let ticketingDate: String?
-    let purchaseName: String
-    let purchaserPhoneNumber: String
-    let depositorName: String
-    let depositorPhoneNumber: String
     let salesEndTime: String
     let csReservationID: String
     let easyPayProvider: String?
     let accountTransferBank: String?
     let paymentCardDetail: PaymentCardDetail?
     let showDate: Date
+    let purchaseName: String
+    let purchaserPhoneNumber: String
+    let depositorName: String
+    let depositorPhoneNumber: String
 }
