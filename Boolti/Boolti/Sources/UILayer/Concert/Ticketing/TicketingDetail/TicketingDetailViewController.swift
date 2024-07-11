@@ -15,14 +15,17 @@ final class TicketingDetailViewController: BooltiViewController {
     // MARK: Properties
     
     typealias ReservationId = Int
-    
+    typealias GiftID = Int
+
     private let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
     private let ticketingConfirmViewControllerFactory: (TicketingEntity) -> TicketingConfirmViewController
     private let tossPayementsViewControllerFactory: (TicketingEntity) -> TossPaymentViewController
     private let ticketingCompletionViewControllerFactory: (ReservationId) -> TicketingCompletionViewController
+    private let giftCompletionViewControllerFactory: (GiftID) -> GiftCompletionViewController
     private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
-    
+
+
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
     
@@ -97,13 +100,17 @@ final class TicketingDetailViewController: BooltiViewController {
         ticketingConfirmViewControllerFactory: @escaping (TicketingEntity) -> TicketingConfirmViewController,
         tossPayementsViewControllerFactory: @escaping (TicketingEntity) -> TossPaymentViewController,
         ticketingCompletionViewControllerFactory: @escaping (ReservationId) -> TicketingCompletionViewController,
+        giftCompletionViewControllerFactory: @escaping (GiftID) -> GiftCompletionViewController,
         businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController
+
     ) {
         self.viewModel = viewModel
         self.ticketingConfirmViewControllerFactory = ticketingConfirmViewControllerFactory
         self.tossPayementsViewControllerFactory = tossPayementsViewControllerFactory
         self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
+        self.giftCompletionViewControllerFactory = giftCompletionViewControllerFactory
         self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
+
         super.init()
     }
     
@@ -204,8 +211,10 @@ extension TicketingDetailViewController {
                         tossVC.modalPresentationStyle = .overFullScreen
 
                         tossVC.onDismissOrderSuccess = { ticketingEntity in
-                            let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
-                            owner.navigationController?.pushViewController(viewController, animated: true)
+//                            let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
+//                            owner.navigationController?.pushViewController(viewController, animated: true)
+                            let vc = owner.giftCompletionViewControllerFactory(123)
+                            owner.navigationController?.pushViewController(vc, animated: true)
                         }
 
                         tossVC.onDismissOrderFailure = { error in

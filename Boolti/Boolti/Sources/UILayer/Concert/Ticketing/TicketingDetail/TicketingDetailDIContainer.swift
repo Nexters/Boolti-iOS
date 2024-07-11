@@ -11,12 +11,15 @@ final class TicketingDetailDIContainer {
 
     private let concertRepository: ConcertRepository
     private let ticketingRepository: TicketingRepository
-    
+    private let ticketReservationRepository: TicketReservationRepository
+
     typealias ReservationId = Int
+    typealias GiftID = Int
 
     init(concertRepository: ConcertRepository) {
         self.concertRepository = concertRepository
         self.ticketingRepository = TicketingRepository(networkService: concertRepository.networkService)
+        self.ticketReservationRepository = TicketReservationRepository(networkService: concertRepository.networkService)
     }
 
     func createTicketingDetailViewController(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewController {
@@ -42,7 +45,14 @@ final class TicketingDetailDIContainer {
             let viewController = DIContainer.createTicketingCompletionViewController(reservationId: reservationId)
             return viewController
         }
-        
+
+        let giftCompletionViewControllerFactory: (GiftID) ->  GiftCompletionViewController = { giftID in
+            let DIContainer = self.createGiftCompletionDIContainer()
+
+            let viewController = DIContainer.createGiftCompletionViewController(giftID: giftID)
+            return viewController
+        }
+
         let businessInfoViewControllerFactory = {
             let DIContainer = self.createBusinessInfoDIContainer()
             let viewController = DIContainer.createBusinessInfoViewController()
@@ -55,6 +65,7 @@ final class TicketingDetailDIContainer {
             ticketingConfirmViewControllerFactory: ticketingConfirmViewControllerFactory,
             tossPayementsViewControllerFactory: tossPayementsViewControllerFactory,
             ticketingCompletionViewControllerFactory: ticketingCompletionViewControllerFactory,
+            giftCompletionViewControllerFactory: giftCompletionViewControllerFactory,
             businessInfoViewControllerFactory: businessInfoViewControllerFactory
         )
         
@@ -74,11 +85,15 @@ final class TicketingDetailDIContainer {
                                         concertRepository: self.concertRepository,
                                         selectedTicket: selectedTicket)
     }
-    
+
     private func createTicketingCompletionDIContainer() -> TicketingCompletionDIContainer {
-        return TicketingCompletionDIContainer(ticketReservationsRepository: TicketReservationRepository(networkService: self.concertRepository.networkService))
+        return TicketingCompletionDIContainer(ticketReservationsRepository: ticketReservationRepository)
     }
-    
+
+    private func createGiftCompletionDIContainer() -> GiftCompletionDIContainer {
+        return GiftCompletionDIContainer(ticketReservationsRepository: ticketReservationRepository)
+    }
+
     private func createBusinessInfoDIContainer() -> BusinessInfoDIContainer {
         return BusinessInfoDIContainer()
     }
