@@ -54,16 +54,16 @@ extension TicketReservationDetailResponseDTO {
             totalPaymentAmount: totalAmountPrice.formattedCurrency(),
             reservationStatus: reservationStatus,
             ticketingDate: self.completedTimeStamp,
-            purchaseName: self.reservationName,
-            purchaserPhoneNumber: self.reservationPhoneNumber,
-            depositorName: self.depositorName ?? "",
-            depositorPhoneNumber: self.depositorPhoneNumber ?? "",
             salesEndTime: self.salesEndTime,
             csReservationID: self.csReservationId,
             easyPayProvider: self.easyPayDetail?.provider ?? "",
             accountTransferBank: transferAccountBank,
             paymentCardDetail: paymentCardDetail,
-            showDate: self.showDate.formatToDate()
+            showDate: self.showDate.formatToDate(),
+            purchaseName: self.reservationName,
+            purchaserPhoneNumber: self.reservationPhoneNumber,
+            depositorName: self.depositorName ?? "",
+            depositorPhoneNumber: self.depositorPhoneNumber ?? ""
         )
     }
 }

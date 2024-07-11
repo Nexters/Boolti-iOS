@@ -54,18 +54,18 @@ extension GiftReservationDetailResponseDTO {
             paymentMethod: paymentMethod,
             totalPaymentAmount: totalAmountPrice.formattedCurrency(),
             reservationStatus: reservationStatus,
-            giftID: self.giftId,
-            giftMessage: self.giftMessage,
-            giftImageURLPath: self.giftImgPath,
             ticketingDate: self.completedTimeStamp,
-            recipientName: self.recipientName,
-            recipientPhoneNumber: self.recipientPhoneNumber,
             salesEndTime: self.salesEndTime,
             csReservationID: self.csReservationId,
             easyPayProvider: self.easyPayDetail?.provider ?? "",
             accountTransferBank: transferAccountBank,
             paymentCardDetail: paymentCardDetail,
-            showDate: self.showDate.formatToDate()
+            showDate: self.showDate.formatToDate(),
+            giftID: self.giftId,
+            giftMessage: self.giftMessage,
+            giftImageURLPath: self.giftImgPath,
+            recipientName: self.recipientName,
+            recipientPhoneNumber: self.recipientPhoneNumber
         )
     }
 }
