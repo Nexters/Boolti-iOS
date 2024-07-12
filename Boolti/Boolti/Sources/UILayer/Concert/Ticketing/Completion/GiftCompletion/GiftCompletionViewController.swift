@@ -7,8 +7,13 @@
 
 import UIKit
 
+import KakaoSDKShare
+import KakaoSDKTemplate
+import KakaoSDKCommon
+
 import RxSwift
 import RxCocoa
+import RxKakaoSDKShare
 
 final class GiftCompletionViewController: BooltiViewController, CompletionViewControllerProtocol {
 
@@ -140,12 +145,68 @@ final class GiftCompletionViewController: BooltiViewController, CompletionViewCo
 
         self.view.backgroundColor = .grey95
     }
-
 }
 
 extension GiftCompletionViewController {
 
     // MARK: Binding
+
+    private func bindComponents() {
+        self.kakaoGiftButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                // 아래 try catch로 에러 핸들링하는 걸로 변경
+                guard let giftReservationDetail = try! owner.viewModel.output.giftReservationDetail.value() else { return }
+
+                if ShareApi.isKakaoTalkSharingAvailable(){
+                    let link = Link(webUrl: URL(string:"https://www.naver.com/"),
+                                    mobileWebUrl: URL(string:"https://www.naver.com/"))
+
+                    // web link로 이어질 예정 -> 웹과 이야기해봐야됨
+                    let appLink = Link(iosExecutionParams: ["second": "vvv"])
+
+                    // 해당 appLink를 들고 있을 버튼을 만들어준다.
+                    let button = Button(title: "선물 확인하기", link: appLink)
+
+                    let itemContent = ItemContent(profileText: "To. 받는 분 이름")
+                    let content = Content(
+                        title: "보내는 분님이 보낸 선물이 도착했어요.",
+                        imageUrl: URL(string:giftReservationDetail.giftImageURLPath)!,
+                        description: "0월 0일까지 불티앱에서 선물을 등록해주세요.",
+                        link: appLink
+                    )
+                    let template = FeedTemplate(content: content, itemContent: itemContent, buttons: [button])
+
+                    //메시지 템플릿 encode
+                    if let templateJsonData = (try? SdkJSONEncoder.custom.encode(template)) {
+                        if let templateJsonObject = SdkUtils.toJsonObject(templateJsonData) {
+                            ShareApi.shared.shareDefault(templateObject:templateJsonObject) {(linkResult, error) in
+                                if let error = error {
+                                    print("error : \(error)")
+                                }
+                                else {
+                                    print("defaultLink(templateObject:templateJsonObject) success.")
+                                    guard let linkResult = linkResult else { return }
+                                    UIApplication.shared.open(linkResult.url, options: [:], completionHandler: nil)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .disposed(by: self.disposeBag)
+
+        self.openReservationButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.changeTab(to: .myPage)
+                UserDefaults.landingDestination = .reservationDetail(reservationID: owner.viewModel.giftID)
+                NotificationCenter.default.post(
+                    name: Notification.Name.LandingDestination.reservationDetail,
+                    object: nil
+                )
+            }
+            .disposed(by: self.disposeBag)
+    }
 
     private func bindInput() {
         self.navigationBar.didHomeButtonTap()
@@ -169,13 +230,8 @@ extension GiftCompletionViewController {
             .disposed(by: self.disposeBag)
     }
 
-
-    private func bindComponents() {
-    }
-
     private func bindOutput() {
         self.viewModel.output.giftReservationDetail
-            .take(1)
             .compactMap { $0 }
             .bind(with: self) { owner, entity in
                 owner.reservationInfoLabel.text = entity.csReservationID
@@ -196,8 +252,9 @@ extension GiftCompletionViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
+
     // MARK: UI Method
+
     private func configureConstraints() {
 
         self.navigationBar.snp.makeConstraints { make in
@@ -270,5 +327,15 @@ extension GiftCompletionViewController {
     func setSimplePaymentTicketCase(with entity: GiftReservationDetailEntity) {
         guard let easyPayProvider = entity.easyPayProvider else { return }
         self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(easyPayProvider) / 간편결제)"
+    }
+    
+
+    // MARK: Private Method
+    private func changeTab(to tab: HomeTab) {
+        NotificationCenter.default.post(
+            name: Notification.Name.didTabBarSelectedIndexChanged,
+            object: nil,
+            userInfo: ["tabBarIndex" : tab.rawValue]
+        )
     }
 }
