@@ -50,8 +50,8 @@ final class GiftCompletionViewController: BooltiViewController, CompletionViewCo
     private lazy var recipientStackView = self.makeInfoRowStackView(title: recipientTitleLabel, info: recipientInfoLabel)
 
     // 선물하기 티켓일 경우 -> 추후에 분기처리해야됨!
-    private lazy var kakaoGiftButton = SocialServiceButton(title: "받는 분 선택하기", type: .kakao)
-    private lazy var giftNoticeLabel: BooltiUILabel = {
+    private let kakaoGiftButton = SocialServiceButton(title: "받는 분 선택하기", type: .kakao)
+    private let giftNoticeLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .caption
         label.textColor = .grey40

@@ -36,7 +36,6 @@ struct GiftReservationDetailResponseDTO: Decodable, ReservationDetailDTOProtocol
 extension GiftReservationDetailResponseDTO {
     func convertToGiftReservationDetailEntity() -> GiftReservationDetailEntity {
 
-        let ticketType = self.salesTicketType == "SALE" ? TicketType.sale : TicketType.invitation
         let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.reservationCompleted
         let totalAmountPrice = self.totalAmountPrice ?? 0
         let paymentMethod = paymentMethod()
@@ -48,7 +47,7 @@ extension GiftReservationDetailResponseDTO {
             concertPosterImageURLPath: self.showImg,
             concertTitle: self.showName,
             salesTicketName: self.salesTicketName,
-            ticketType: ticketType,
+            ticketType: .sale,
             ticketCount: self.ticketCount,
             depositDeadLine: self.salesEndTime,
             paymentMethod: paymentMethod,
