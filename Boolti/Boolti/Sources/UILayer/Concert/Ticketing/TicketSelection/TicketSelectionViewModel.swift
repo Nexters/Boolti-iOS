@@ -36,13 +36,16 @@ final class TicketSelectionViewModel {
     var output: Output
     
     private let concertId: Int
+    let type: TicketingType
     
     // MARK: Init
 
     init(concertRepository: ConcertRepository,
-         concertId: Int) {
+         concertId: Int,
+         type: TicketingType) {
         self.concertRepository = concertRepository
         self.concertId = concertId
+        self.type = type
         
         self.input = Input()
         self.output = Output()
@@ -89,7 +92,14 @@ extension TicketSelectionViewModel {
     
     func fetchSalesTicket() {
         self.output.isLoading.accept(true)
-        self.concertRepository.salesTicket(concertId: self.concertId).asObservable()
+        self.concertRepository.salesTicket(concertId: self.concertId)
+            .map({ [weak self] tickets in
+                if self?.type == .gifting {
+                    return tickets.filter { $0.ticketType == .sale }
+                } else {
+                    return tickets
+                }
+            })
             .subscribe(with: self) { owner, tickets in
                 owner.output.salesTickets.accept(tickets)
                 owner.output.isLoading.accept(false)

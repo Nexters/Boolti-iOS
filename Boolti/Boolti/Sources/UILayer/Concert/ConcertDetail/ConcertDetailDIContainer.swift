@@ -58,10 +58,10 @@ final class ConcertDetailDIContainer {
             return viewController
         }
         
-        let ticketSelectionViewControllerFactory: (ConcertId) -> TicketSelectionViewController = { concertId in
+        let ticketSelectionViewControllerFactory: (ConcertId, TicketingType) -> TicketSelectionViewController = { concertId, type in
             let DIContainer = self.createTicketSelectionDIContainer()
 
-            let viewController = DIContainer.createTicketSelectionViewController(concertId: concertId)
+            let viewController = DIContainer.createTicketSelectionViewController(concertId: concertId, type: type)
             return viewController
         }
         
