@@ -26,6 +26,14 @@ final class GiftCompletionViewController: BooltiViewController, CompletionViewCo
 
     private let navigationBar = BooltiNavigationBar(type: .ticketingCompletion)
 
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+
+    private let contentView = UIView()
+
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .aggroM(24)
@@ -134,6 +142,11 @@ final class GiftCompletionViewController: BooltiViewController, CompletionViewCo
     private func configureUI() {
         self.view.addSubviews([
             self.navigationBar,
+            self.scrollView
+        ])
+
+        self.scrollView.addSubview(self.contentView)
+        self.contentView.addSubviews([
             self.titleLabel,
             self.firstUnderlineView,
             self.firstInfoStackView,
@@ -262,8 +275,13 @@ extension GiftCompletionViewController {
             make.horizontalEdges.equalToSuperview()
         }
 
+        self.scrollView.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.left.right.bottom.equalToSuperview()
+        }
+
         self.titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom).offset(20)
+            make.top.equalTo(self.scrollView.snp.top).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 
@@ -299,8 +317,15 @@ extension GiftCompletionViewController {
         }
 
         self.openReservationButton.snp.makeConstraints { make in
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(8)
+            make.height.equalTo(48)
+            make.top.equalTo(self.reservedTicketView.snp.bottom).offset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
+        self.contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(self.view)
+            make.bottom.equalTo(self.openReservationButton.snp.bottom).offset(10)
         }
     }
 
@@ -328,7 +353,7 @@ extension GiftCompletionViewController {
         guard let easyPayProvider = entity.easyPayProvider else { return }
         self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(easyPayProvider) / 간편결제)"
     }
-    
+
 
     // MARK: Private Method
     private func changeTab(to tab: HomeTab) {
