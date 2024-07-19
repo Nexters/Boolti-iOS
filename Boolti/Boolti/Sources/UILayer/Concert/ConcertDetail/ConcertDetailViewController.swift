@@ -29,7 +29,7 @@ final class ConcertDetailViewController: BooltiViewController {
     private let posterExpandViewControllerFactory: (Posters) -> PosterExpandViewController
     private let concertContentExpandViewControllerFactory: (Content) -> ConcertContentExpandViewController
     private let reportViewControllerFactory: () -> ReportViewController
-    private let ticketSelectionViewControllerFactory: (ConcertId) -> TicketSelectionViewController
+    private let ticketSelectionViewControllerFactory: (ConcertId, TicketingType) -> TicketSelectionViewController
     private let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController
     
     // MARK: UI Component
@@ -93,7 +93,22 @@ final class ConcertDetailViewController: BooltiViewController {
         return view
     }()
     
+    private let giftingButton: BooltiButton = {
+        let button = BooltiButton(title: "선물하기")
+        button.backgroundColor = .grey80
+        return button
+    }()
+    
     private let ticketingButton = BooltiButton(title: "예매하기")
+    
+    private lazy var buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 9
+        stackView.addArrangedSubviews([self.giftingButton, self.ticketingButton])
+        return stackView
+    }()
     
     // MARK: Init
     
@@ -102,7 +117,7 @@ final class ConcertDetailViewController: BooltiViewController {
          posterExpandViewControllerFactory: @escaping (Posters) -> PosterExpandViewController,
          concertContentExpandViewControllerFactory: @escaping (Content) -> ConcertContentExpandViewController,
          reportViewControllerFactory: @escaping () -> ReportViewController,
-         ticketSelectionViewControllerFactory: @escaping (ConcertId) -> TicketSelectionViewController,
+         ticketSelectionViewControllerFactory: @escaping (ConcertId, TicketingType) -> TicketSelectionViewController,
          contactViewControllerFactory: @escaping (ContactType, PhoneNumber) -> ContactViewController) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
@@ -146,7 +161,17 @@ extension ConcertDetailViewController {
     
     private func bindInputs() {
         self.ticketingButton.rx.tap
-            .bind(to: self.viewModel.input.didTicketingButtonTap)
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didTicketingButtonTap.accept(.ticketing)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.giftingButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didTicketingButtonTap.accept(.gifting)
+            }
             .disposed(by: self.disposeBag)
     }
     
@@ -168,6 +193,8 @@ extension ConcertDetailViewController {
 
         self.viewModel.output.buttonState
             .bind(with: self) { owner, state in
+                owner.giftingButton.isHidden = !state.isEnabled
+                
                 owner.ticketingButton.isEnabled = state.isEnabled
                 owner.ticketingButton.setTitle(state.title, for: .normal)
                 owner.ticketingButton.setTitleColor(state.titleColor, for: .normal)
@@ -189,8 +216,8 @@ extension ConcertDetailViewController {
                 case .contentExpand(let content):
                     let viewController = owner.concertContentExpandViewControllerFactory(content)
                     owner.navigationController?.pushViewController(viewController, animated: true)
-                case .ticketSelection(let concertId):
-                    let viewController = owner.ticketSelectionViewControllerFactory(concertId)
+                case .ticketSelection(let concertId, let type):
+                    let viewController = owner.ticketSelectionViewControllerFactory(concertId, type)
                     viewController.onDismiss = {
                         owner.dimmedBackgroundView.isHidden = true
                     }
@@ -222,8 +249,9 @@ extension ConcertDetailViewController {
     private func bindPosterView() {
         self.concertPosterView.rx.tapGesture()
             .when(.recognized)
-            .bind(with: self) { owner, _ in
-                owner.viewModel.input.didPosterViewTap.onNext(())
+            .asDriver(onErrorJustReturn: .init())
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didPosterViewTap.accept(())
             }
             .disposed(by: self.disposeBag)
     }
@@ -356,7 +384,7 @@ extension ConcertDetailViewController {
         self.view.addSubviews([self.navigationBar,
                                self.scrollView,
                                self.buttonBackgroundView,
-                               self.ticketingButton,
+                               self.buttonStackView,
                                self.dimmedBackgroundView])
         
         self.view.backgroundColor = .grey95
@@ -389,7 +417,7 @@ extension ConcertDetailViewController {
             make.height.equalTo(24)
         }
         
-        self.ticketingButton.snp.makeConstraints { make in
+        self.buttonStackView.snp.makeConstraints { make in
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
