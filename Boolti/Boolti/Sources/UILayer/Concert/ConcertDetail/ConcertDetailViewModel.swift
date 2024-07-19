@@ -14,7 +14,7 @@ enum ConcertDetailDestination {
     case login
     case posterExpand(posters: [ConcertDetailEntity.Poster])
     case contentExpand(content: String)
-    case ticketSelection(concertId: Int)
+    case ticketSelection(concertId: Int, type: TicketingType)
 }
 
 final class ConcertDetailViewModel {
@@ -57,9 +57,9 @@ final class ConcertDetailViewModel {
     private let concertRepository: ConcertRepositoryType
     
     struct Input {
-        let didTicketingButtonTap = PublishSubject<Void>()
-        let didPosterViewTap = PublishSubject<Void>()
-        let didExpandButtonTap = PublishSubject<Void>()
+        let didTicketingButtonTap = PublishRelay<TicketingType>()
+        let didPosterViewTap = PublishRelay<Void>()
+        let didExpandButtonTap = PublishRelay<Void>()
     }
     
     struct Output {
@@ -93,26 +93,29 @@ extension ConcertDetailViewModel {
     
     private func bindInputs() {
         self.input.didExpandButtonTap
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
                 guard let notice = owner.output.concertDetail.value?.notice else { return }
                 owner.output.navigate.accept(.contentExpand(content: notice))
             }
             .disposed(by: self.disposeBag)
         
         self.input.didPosterViewTap
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
                 guard let posters = owner.output.concertDetail.value?.posters else { return }
                 owner.output.navigate.accept(.posterExpand(posters: posters))
             }
             .disposed(by: self.disposeBag)
         
         self.input.didTicketingButtonTap
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorJustReturn: .ticketing)
+            .drive(with: self) { owner, type in
                 if UserDefaults.accessToken.isEmpty {
                     owner.output.navigate.accept(.login)
                 } else {
                     guard let concertId = owner.output.concertDetail.value?.id else { return }
-                    owner.output.navigate.accept(.ticketSelection(concertId: concertId))
+                    owner.output.navigate.accept(.ticketSelection(concertId: concertId, type: type))
                 }
             }
             .disposed(by: self.disposeBag)
