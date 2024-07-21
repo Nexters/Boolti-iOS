@@ -29,7 +29,7 @@ final class TicketingDetailDIContainer {
             return viewController
         }
         
-        let tossPayementsViewControllerFactory: (TicketingEntity) -> TossPaymentViewController = { ticketingEntity in
+        let tossPaymentsViewControllerFactory: (TicketingEntity) -> TossPaymentViewController = { ticketingEntity in
             let DIContainer = self.createTossPaymentsDIContainer()
             
             let viewController = DIContainer.createTossPaymentsViewController(ticketingEntity: ticketingEntity)
@@ -53,7 +53,7 @@ final class TicketingDetailDIContainer {
         let viewController = TicketingDetailViewController(
             viewModel: viewModel,
             ticketingConfirmViewControllerFactory: ticketingConfirmViewControllerFactory,
-            tossPayementsViewControllerFactory: tossPayementsViewControllerFactory,
+            tossPaymentsViewControllerFactory: tossPaymentsViewControllerFactory,
             ticketingCompletionViewControllerFactory: ticketingCompletionViewControllerFactory,
             businessInfoViewControllerFactory: businessInfoViewControllerFactory
         )
