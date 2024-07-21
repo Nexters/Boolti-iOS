@@ -17,6 +17,7 @@ struct TicketReservationItemResponseDTO: Decodable {
     let salesTicketName: String
     let ticketCount: Int
     let ticketPrice: Int?
+    let recipientName: String?
     let csReservationId: String
 }
 
@@ -42,6 +43,7 @@ extension TicketReservationItemResponseDTO {
             ticketName: ticketName,
             ticketCount: ticketCount,
             ticketPrice: ticketPrice ?? 0,
+            recipientName: self.recipientName,
             csReservationID: csReservationID
         )
     }
