@@ -14,6 +14,7 @@ protocol TicketReservationsRepositoryType {
     var networkService: NetworkProviderType { get }
     func ticketReservations() -> Single<[TicketReservationItemEntity]>
     func ticketReservationDetail(with reservationID: String) -> Single<TicketReservationDetailEntity>
+    func giftReservationDetail(with giftID: String) -> Single<GiftReservationDetailEntity>
     func requestRefund(with requestDTO: TicketRefundRequestDTO) -> Single<Void>
 }
 
@@ -39,6 +40,14 @@ final class TicketReservationRepository: TicketReservationsRepositoryType {
         return self.networkService.request(api)
             .map(TicketReservationDetailResponseDTO.self)
             .map { $0.convertToTicketReservationDetailEntity() }
+    }
+
+    func giftReservationDetail(with giftID: String) -> RxSwift.Single<GiftReservationDetailEntity> {
+        let requestDTO = GiftReservationDetailRequestDTO(giftID: giftID)
+        let api = GiftReservationAPI.detail(requestDTO: requestDTO)
+        return self.networkService.request(api)
+            .map(GiftReservationDetailResponseDTO.self)
+            .map { $0.convertToGiftReservationDetailEntity() }
     }
 
     func requestRefund(with requestDTO: TicketRefundRequestDTO) -> Single<Void> {

@@ -25,7 +25,12 @@ enum AppInfo {
         • 결제 수단에 따라 환불 완료까지 약 1~5 영업일이 소요될 수 있습니다.
         • 기타 사항은 카카오톡 채널 @스튜디오불티로 문의해 주시기 바랍니다.
         """
-
+    static var giftPolicy =
+        """
+        • 선물 등록 기간은 해당 공연의 티켓 판매 기간까지 입니다.
+        • 마이 > 결제 내역 > 결제 내역 상세에서 선물을 취소할 수 있습니다.
+        • 받는 분이 선물 거절 시 결제가 자동 취소됩니다.
+        """
     static let termsPolicyLink = "https://boolti.notion.site/b4c5beac61c2480886da75a1f3afb982"
     static let privacyPolicyLink = "https://boolti.notion.site/5f73661efdcd4507a1e5b6827aa0da70"
     static let refundPolicyLink = "https://boolti.notion.site/d2a89e2c19824c60bb1e928370d16989"

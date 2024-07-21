@@ -182,6 +182,7 @@ extension TicketSelectionViewController {
         
         self.viewModel.output.navigateTicketingDetail
             .bind(with: self) { owner, entity in
+                               
                 var viewController: BooltiViewController
                 switch owner.viewModel.type {
                 case .ticketing:
