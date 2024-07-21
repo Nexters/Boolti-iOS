@@ -182,8 +182,14 @@ extension TicketSelectionViewController {
         
         self.viewModel.output.navigateTicketingDetail
             .bind(with: self) { owner, entity in
-                let viewController = owner.ticketingDetailViewControllerFactory(entity)
-//                let viewController = owner.giftingDetailViewControllerFactory(entity)
+                               
+                var viewController: BooltiViewController
+                switch owner.viewModel.type {
+                case .ticketing:
+                    viewController = owner.ticketingDetailViewControllerFactory(entity)
+                case .gifting:
+                    viewController = owner.giftingDetailViewControllerFactory(entity)
+                }
 
                 guard let presentingViewController = owner.presentingViewController as? HomeTabBarController else { return }
                 guard let rootviewController = presentingViewController.children[0] as? UINavigationController else { return }

@@ -14,6 +14,7 @@
 		221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */; };
 		2233EAAB2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */; };
 		2233EAAF2BE142C900A315BF /* TicketingErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAE2BE142C900A315BF /* TicketingErrorResponseDTO.swift */; };
+		224BEEDF2C4A0B7700863970 /* TicketingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEEDE2C4A0B7700863970 /* TicketingType.swift */; };
 		224FE70F2C3E520A00C09D28 /* GiftCardImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224FE70E2C3E520A00C09D28 /* GiftCardImageEntity.swift */; };
 		2250FABD2C020BA100CCF487 /* ContactDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */; };
 		2250FABF2C020BC400CCF487 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABE2C020BC400CCF487 /* ContactViewController.swift */; };
@@ -368,6 +369,7 @@
 		221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoViewController.swift; sourceTree = "<group>"; };
 		2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentResponseDTO.swift; sourceTree = "<group>"; };
 		2233EAAE2BE142C900A315BF /* TicketingErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingErrorResponseDTO.swift; sourceTree = "<group>"; };
+		224BEEDE2C4A0B7700863970 /* TicketingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingType.swift; sourceTree = "<group>"; };
 		224FE70E2C3E520A00C09D28 /* GiftCardImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardImageEntity.swift; sourceTree = "<group>"; };
 		2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDIContainer.swift; sourceTree = "<group>"; };
 		2250FABE2C020BC400CCF487 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
@@ -1910,6 +1912,7 @@
 				87C7594B2BA93EA40009A83E /* NotificationMessage.swift */,
 				87826AED2BBFF7F2005176D4 /* LandingDestination.swift */,
 				220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */,
+				224BEEDE2C4A0B7700863970 /* TicketingType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -2225,6 +2228,7 @@
 				843918FA2B7A82B200CC62AA /* ReportDIContainer.swift in Sources */,
 				8753CA7D2B7228F2002871C7 /* TicketDetailItemEntity.swift in Sources */,
 				84D1C3852B7A14AD00527998 /* CheckInvitationCodeRequestDTO.swift in Sources */,
+				224BEEDF2C4A0B7700863970 /* TicketingType.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
 				84DF59DA2B722E5B000816DA /* UpdatePopupViewController.swift in Sources */,
 				876C65E02B73907D000F2746 /* TicketType.swift in Sources */,
@@ -2602,6 +2606,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.6.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.boolti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2643,6 +2648,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.6.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.boolti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
