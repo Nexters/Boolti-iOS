@@ -104,8 +104,6 @@ extension GiftingDetailViewModel {
                                           giftImgId: self.input.selectedImageIndex.value)
         
         self.output.giftingEntity = giftingEntity
-        
-        print("fjdsialf;jdsaiofㅓ얀매;럳ㅈ미러다짐럳ㅈ먈더먈더쟈맂ㄷ머랻ㅈㅁ")
         self.output.navigateToConfirm.accept(())
     }
     
