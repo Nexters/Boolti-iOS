@@ -172,22 +172,22 @@ extension GiftCompletionViewController {
                 guard let giftReservationDetail = try! owner.viewModel.output.giftReservationDetail.value() else { return }
 
                 if ShareApi.isKakaoTalkSharingAvailable(){
-                    let link = Link(webUrl: URL(string:"https://www.naver.com/"),
-                                    mobileWebUrl: URL(string:"https://www.naver.com/"))
+                    let link = Link(
+                        webUrl: URL(string:""),
+                        mobileWebUrl: URL(string:"")
+                    )
 
-                    // web link로 이어질 예정 -> 웹과 이야기해봐야됨
-                    let appLink = Link(iosExecutionParams: ["second": "vvv"])
-
-                    // 해당 appLink를 들고 있을 버튼을 만들어준다.
-                    let button = Button(title: "선물 확인하기", link: appLink)
+                    let button = Button(title: "선물 확인하기", link: link)
 
                     let itemContent = ItemContent(profileText: "To. \(giftReservationDetail.recipientName)")
+                    
                     let content = Content(
                         title: "\(giftReservationDetail.senderName)님이 보낸 선물이 도착했어요.",
                         imageUrl: URL(string:giftReservationDetail.giftImageURLPath)!,
                         description: "\(giftReservationDetail.salesEndTime.formatToDate().format(.simple))까지 불티앱에서 선물을 등록해주세요.",
-                        link: appLink
+                        link: link
                     )
+                    
                     let template = FeedTemplate(content: content, itemContent: itemContent, buttons: [button])
 
                     //메시지 템플릿 encode
