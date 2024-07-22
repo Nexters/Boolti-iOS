@@ -16,6 +16,7 @@ final class GiftingDetailViewController: BooltiViewController {
     private let viewModel: GiftingDetailViewModel
     private let disposeBag = DisposeBag()
     
+    private let giftingConfirmViewControllerFactory: (GiftingEntity) -> GiftingConfirmViewController
     private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
     
     private var isScrollViewOffsetChanged: Bool = false
@@ -80,11 +81,15 @@ final class GiftingDetailViewController: BooltiViewController {
     
     private let payButton = BooltiButton(title: "결제하기")
     
+    private let popupView = BooltiPopupView()
+    
     // MARK: Initailizer
     
     init(viewModel: GiftingDetailViewModel,
+         giftingConfirmViewControllerFactory: @escaping (GiftingEntity) -> GiftingConfirmViewController,
          businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController) {
         self.viewModel = viewModel
+        self.giftingConfirmViewControllerFactory = giftingConfirmViewControllerFactory
         self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
         
         super.init()
@@ -103,8 +108,8 @@ final class GiftingDetailViewController: BooltiViewController {
         self.configureKeyboardNotification()
         self.configureGesture()
         self.bindUIComponents()
-        self.bindViewModel()
         self.bindInputs()
+        self.bindOutputs()
     }
     
 }
@@ -156,6 +161,7 @@ extension GiftingDetailViewController {
         self.bindConcertTicketInfoView()
         self.bindBusinessInfoView()
         self.bindAgreeView()
+        self.bindPopupView()
     }
     
     private func bindNavigationBar() {
@@ -257,15 +263,17 @@ extension GiftingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
-    private func bindViewModel() {
-        self.viewModel.output.isPaybuttonEnable
-            .bind(to: self.payButton.rx.isEnabled)
-            .disposed(by: self.disposeBag)
-        
-        self.viewModel.output.selectedCardImageURL
-            .asDriver(onErrorJustReturn: "")
-            .drive(with: self) { owner, url in
-                owner.selectCardView.setSelectedImage(with: url)
+    private func bindPopupView() {
+        self.popupView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                switch owner.popupView.popupType {
+                case .soldoutBeforePayment:
+                    owner.navigationController?.popViewController(animated: true)
+                case .ticketingFailed:
+                    owner.popupView.isHidden = true
+                default:
+                    break
+                }
             }
             .disposed(by: self.disposeBag)
     }
@@ -294,6 +302,61 @@ extension GiftingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
+    private func bindOutputs() {
+        self.viewModel.output.isPaybuttonEnable
+            .bind(to: self.payButton.rx.isEnabled)
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.selectedCardImageURL
+            .asDriver(onErrorJustReturn: "")
+            .drive(with: self) { owner, url in
+                owner.selectCardView.setSelectedImage(with: url)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.navigateToConfirm
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
+                guard let giftingEntity = owner.viewModel.output.giftingEntity else { return }
+
+                let giftingConfirmVC = owner.giftingConfirmViewControllerFactory(giftingEntity)
+                giftingConfirmVC.modalPresentationStyle = .overFullScreen
+
+                giftingConfirmVC.onDismiss = { giftingEntity in
+//                    if giftingEntity.selectedTicket.price == 0 {
+//                        let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
+//                        owner.navigationController?.pushViewController(viewController, animated: true)
+//                    } else {
+//                        let tossVC = owner.tossPaymentsViewControllerFactory(ticketingEntity)
+//                        tossVC.modalPresentationStyle = .overFullScreen
+//
+//                        tossVC.onDismissOrderSuccess = { ticketingEntity in
+//                            let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
+//                            owner.navigationController?.pushViewController(viewController, animated: true)
+//                        }
+//
+//                        tossVC.onDismissOrderFailure = { error in
+//                            switch error {
+//                            case .noQuantity:
+//                                owner.popupView.showPopup(with: .soldoutBeforePayment)
+//                            case .tossError:
+//                                owner.popupView.showPopup(with: .ticketingFailed)
+//                            }
+//                        }
+//
+//                        owner.present(tossVC, animated: true)
+//                    }
+                }
+//                
+                giftingConfirmVC.onDismissOrderFailure = {
+                    owner.popupView.showPopup(with: .soldoutBeforePayment)
+                }
+                
+                owner.present(giftingConfirmVC, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
 }
 
 // MARK: - UIScrollViewDelegate
@@ -318,7 +381,8 @@ extension GiftingDetailViewController {
         self.view.addSubviews([self.navigationBar,
                                self.scrollView,
                                self.buttonBackgroundView,
-                               self.payButton])
+                               self.payButton,
+                               self.popupView])
         
         self.configureConstraints()
     }
@@ -348,6 +412,10 @@ extension GiftingDetailViewController {
         self.payButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
+        }
+        
+        self.popupView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     

@@ -16,6 +16,13 @@ final class GiftingDetailDIContainer {
     func createGiftingDetailViewController(selectedTicket: SelectedTicketEntity) -> GiftingDetailViewController {
         let viewModel = createGiftingDetailViewModel(selectedTicket: selectedTicket)
         
+        let giftingConfirmViewControllerFactory: (GiftingEntity) -> GiftingConfirmViewController = { giftingEntity in
+            let DIContainer = GiftingConfirmDIContainer(giftingRepository: GiftingRepository(networkService: self.concertRepository.networkService))
+
+            let viewController = DIContainer.createGiftingConfirmViewController(giftingEntity: giftingEntity)
+            return viewController
+        }
+        
         let businessInfoViewControllerFactory = {
             let DIContainer = BusinessInfoDIContainer()
             let viewController = DIContainer.createBusinessInfoViewController()
@@ -23,7 +30,9 @@ final class GiftingDetailDIContainer {
             return viewController
         }
 
-        let viewController = GiftingDetailViewController(viewModel: viewModel, businessInfoViewControllerFactory: businessInfoViewControllerFactory)
+        let viewController = GiftingDetailViewController(viewModel: viewModel,
+                                                         giftingConfirmViewControllerFactory: giftingConfirmViewControllerFactory,
+                                                         businessInfoViewControllerFactory: businessInfoViewControllerFactory)
         
         return viewController
     }
