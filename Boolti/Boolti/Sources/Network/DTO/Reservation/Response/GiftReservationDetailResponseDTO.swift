@@ -9,7 +9,6 @@ import Foundation
 
 struct GiftReservationDetailResponseDTO: Decodable, ReservationDetailDTOProtocol {
 
-    let reservationId: Int
     let showImg: String
     let showName: String
     let salesTicketName: String
@@ -31,6 +30,8 @@ struct GiftReservationDetailResponseDTO: Decodable, ReservationDetailDTOProtocol
     let giftId: Int
     let giftMessage: String
     let giftImgPath: String
+    let senderName: String
+    let senderPhoneNumber: String
 }
 
 extension GiftReservationDetailResponseDTO {
@@ -43,7 +44,6 @@ extension GiftReservationDetailResponseDTO {
         let transferAccountBank = transferAccountBank()
 
         return GiftReservationDetailEntity(
-            reservationID: self.reservationId,
             concertPosterImageURLPath: self.showImg,
             concertTitle: self.showName,
             salesTicketName: self.salesTicketName,
@@ -64,7 +64,9 @@ extension GiftReservationDetailResponseDTO {
             giftMessage: self.giftMessage,
             giftImageURLPath: self.giftImgPath,
             recipientName: self.recipientName,
-            recipientPhoneNumber: self.recipientPhoneNumber
+            recipientPhoneNumber: self.recipientPhoneNumber,
+            senderName: self.senderName,
+            senderPhoneNumber: self.senderPhoneNumber
         )
     }
 }

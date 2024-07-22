@@ -231,6 +231,9 @@
 		8710D9582B74FAC800309FBF /* LogoutDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710D9572B74FAC800309FBF /* LogoutDIContainer.swift */; };
 		8710D95A2B750A5500309FBF /* MyPageDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710D9592B750A5500309FBF /* MyPageDestination.swift */; };
 		871996F52C2C2B85003F3845 /* SocialServiceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871996F42C2C2B85003F3845 /* SocialServiceButton.swift */; };
+		871F3D162C4E892200AB1BB9 /* GiftReservationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D152C4E892200AB1BB9 /* GiftReservationDetailViewModel.swift */; };
+		871F3D182C4E894100AB1BB9 /* GiftReservationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D172C4E894100AB1BB9 /* GiftReservationDetailViewController.swift */; };
+		871F3D1A2C4E896300AB1BB9 /* GiftReservationDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D192C4E896300AB1BB9 /* GiftReservationDetailDIContainer.swift */; };
 		8721400A2B749A5D007C3BC1 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 872140092B749A5D007C3BC1 /* RxKeyboard */; };
 		8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8724C4BE2B6221A500484BFC /* UIView+.swift */; };
 		872605422B793223005CD0D4 /* TicketReservationDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872605412B793223005CD0D4 /* TicketReservationDetailDIContainer.swift */; };
@@ -560,6 +563,9 @@
 		8710D9572B74FAC800309FBF /* LogoutDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutDIContainer.swift; sourceTree = "<group>"; };
 		8710D9592B750A5500309FBF /* MyPageDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageDestination.swift; sourceTree = "<group>"; };
 		871996F42C2C2B85003F3845 /* SocialServiceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialServiceButton.swift; sourceTree = "<group>"; };
+		871F3D152C4E892200AB1BB9 /* GiftReservationDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailViewModel.swift; sourceTree = "<group>"; };
+		871F3D172C4E894100AB1BB9 /* GiftReservationDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailViewController.swift; sourceTree = "<group>"; };
+		871F3D192C4E896300AB1BB9 /* GiftReservationDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailDIContainer.swift; sourceTree = "<group>"; };
 		8724C4BE2B6221A500484BFC /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		872605412B793223005CD0D4 /* TicketReservationDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailDIContainer.swift; sourceTree = "<group>"; };
 		872605432B7932AF005CD0D4 /* TicketReservationDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailViewController.swift; sourceTree = "<group>"; };
@@ -1225,9 +1231,9 @@
 		84781CBB2B5BF94100D37921 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				8710D9412B74F9F600309FBF /* Main */,
 				8710D9432B74FA1300309FBF /* TicketReservations */,
-				872605402B79320B005CD0D4 /* TicketReservationDetail */,
+				871F3D122C4E88C200AB1BB9 /* ReservationDetail */,
+				8710D9412B74F9F600309FBF /* Main */,
 				8730F00A2B7B0FEC00D4F339 /* TicketRefund */,
 				8710D9442B74FA1B00309FBF /* QRScanner */,
 				8710D9422B74FA0C00309FBF /* Logout */,
@@ -1681,10 +1687,29 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		871F3D122C4E88C200AB1BB9 /* ReservationDetail */ = {
+			isa = PBXGroup;
+			children = (
+				871F3D132C4E88F400AB1BB9 /* GiftReservationDetail */,
+				872605472B793A18005CD0D4 /* Views */,
+				872605402B79320B005CD0D4 /* TicketReservationDetail */,
+			);
+			path = ReservationDetail;
+			sourceTree = "<group>";
+		};
+		871F3D132C4E88F400AB1BB9 /* GiftReservationDetail */ = {
+			isa = PBXGroup;
+			children = (
+				871F3D152C4E892200AB1BB9 /* GiftReservationDetailViewModel.swift */,
+				871F3D172C4E894100AB1BB9 /* GiftReservationDetailViewController.swift */,
+				871F3D192C4E896300AB1BB9 /* GiftReservationDetailDIContainer.swift */,
+			);
+			path = GiftReservationDetail;
+			sourceTree = "<group>";
+		};
 		872605402B79320B005CD0D4 /* TicketReservationDetail */ = {
 			isa = PBXGroup;
 			children = (
-				872605472B793A18005CD0D4 /* Views */,
 				872605412B793223005CD0D4 /* TicketReservationDetailDIContainer.swift */,
 				872605432B7932AF005CD0D4 /* TicketReservationDetailViewController.swift */,
 				872605452B7932BD005CD0D4 /* TicketReservationDetailViewModel.swift */,
@@ -2187,6 +2212,7 @@
 				84A713482B7C898E000BABCB /* QRExpandDIContainer.swift in Sources */,
 				872605532B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift in Sources */,
 				8730F01A2B7B2A0C00D4F339 /* TicketRefundRequestDIContainer.swift in Sources */,
+				871F3D182C4E894100AB1BB9 /* GiftReservationDetailViewController.swift in Sources */,
 				84A713412B7C6D96000BABCB /* EntranceCodeViewController.swift in Sources */,
 				22CF3A2F2BB51A710094711C /* SelectedSalesTicketView.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
@@ -2208,6 +2234,7 @@
 				84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */,
 				2233EAAF2BE142C900A315BF /* TicketingErrorResponseDTO.swift in Sources */,
 				8730F0142B7B10A300D4F339 /* TicketRefundReasonDIContainer.swift in Sources */,
+				871F3D1A2C4E896300AB1BB9 /* GiftReservationDetailDIContainer.swift in Sources */,
 				840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */,
 				84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */,
 				84FBBDFF2B67677A009462E9 /* UILabel+.swift in Sources */,
@@ -2384,6 +2411,7 @@
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
 				87826AEE2BBFF7F2005176D4 /* LandingDestination.swift in Sources */,
 				84DF59DC2B722EA0000816DA /* UpdatePopupDIContainer.swift in Sources */,
+				871F3D162C4E892200AB1BB9 /* GiftReservationDetailViewModel.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
 				8730F0162B7B29EC00D4F339 /* TicketRefundRequestViewController.swift in Sources */,
 				84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */,

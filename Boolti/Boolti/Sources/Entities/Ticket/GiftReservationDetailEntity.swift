@@ -9,7 +9,6 @@ import Foundation
 
 struct GiftReservationDetailEntity: ReservationDetailEntityProtocol {
 
-    let reservationID: Int
     let concertPosterImageURLPath: String
     let concertTitle: String
     let salesTicketName: String
@@ -32,4 +31,6 @@ struct GiftReservationDetailEntity: ReservationDetailEntityProtocol {
     let giftImageURLPath: String
     let recipientName: String
     let recipientPhoneNumber: String
+    let senderName: String
+    let senderPhoneNumber: String
 }

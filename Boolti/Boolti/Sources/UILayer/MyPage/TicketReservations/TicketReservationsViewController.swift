@@ -15,8 +15,10 @@ import RxDataSources
 final class TicketReservationsViewController: BooltiViewController {
 
     typealias ReservationID = String
+    typealias GiftID = String
 
     private let ticketReservationDetailViewControllerFactory: (ReservationID) -> TicketReservationDetailViewController
+    private let giftReservationDetailViewControllerFactory: (GiftID) -> GiftReservationDetailViewController
 
     private let viewModel: TicketReservationsViewModel
 
@@ -41,9 +43,14 @@ final class TicketReservationsViewController: BooltiViewController {
 
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "결제 내역"))
 
-    init(ticketReservationDetailViewControllerFactory: @escaping (ReservationID) -> TicketReservationDetailViewController,viewModel: TicketReservationsViewModel) {
+    init(
+        ticketReservationDetailViewControllerFactory: @escaping (ReservationID) -> TicketReservationDetailViewController,
+        giftReservationDetailViewControllerFactory: @escaping (GiftID) -> GiftReservationDetailViewController,
+        viewModel: TicketReservationsViewModel
+    ) {
         self.viewModel = viewModel
         self.ticketReservationDetailViewControllerFactory = ticketReservationDetailViewControllerFactory
+            self.giftReservationDetailViewControllerFactory = giftReservationDetailViewControllerFactory
         super.init()
     }
 
@@ -109,7 +116,13 @@ final class TicketReservationsViewController: BooltiViewController {
         self.tableView.rx.modelSelected(TicketReservationItemEntity.self)
             .asDriver()
             .drive(with: self) { owner, ticketReservationItemEntity in
-                let viewController = owner.ticketReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
+                let viewController: BooltiViewController
+//                if ticketReservationItemEntity.isGiftReservation {
+//                    viewController = owner.giftReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
+//                } else {
+//                    viewController = owner.ticketReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
+//                }
+                viewController = owner.giftReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)

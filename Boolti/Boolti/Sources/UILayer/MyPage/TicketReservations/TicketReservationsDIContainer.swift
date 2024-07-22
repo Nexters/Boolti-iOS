@@ -10,6 +10,8 @@ import Foundation
 final class TicketReservationsDIContainer {
 
     typealias ReservationID = String
+    typealias GiftID = String
+
 
     private let ticketReservationsRepository: TicketReservationsRepositoryType
 
@@ -26,8 +28,19 @@ final class TicketReservationsDIContainer {
             return viewController
         }
 
+        let giftReservationDetailViewControllerFactory: (GiftID) -> GiftReservationDetailViewController = { giftID in
+            let DIContainer = self.createGiftReservationDetailDIContainer()
+
+            let viewController = DIContainer.createTicketReservationDetailViewController(giftID: giftID)
+
+            return viewController
+        }
+
+
+
         return TicketReservationsViewController(
             ticketReservationDetailViewControllerFactory: ticketReservationDetailViewControllerFactory,
+            giftReservationDetailViewControllerFactory: giftReservationDetailViewControllerFactory,
             viewModel: self.createTicketResercationsViewModel())
     }
 
@@ -38,5 +51,9 @@ final class TicketReservationsDIContainer {
 
     private func createTicketReservationDetailDIContainer() -> TicketReservationDetailDIContainer {
         return TicketReservationDetailDIContainer(ticketReservationRepository: self.ticketReservationsRepository)
+    }
+
+    private func createGiftReservationDetailDIContainer() -> GiftReservationDetailDIContainer {
+        return GiftReservationDetailDIContainer(giftReservationRepository: self.ticketReservationsRepository)
     }
 }
