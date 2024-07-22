@@ -27,6 +27,7 @@ struct GiftReservationDetailEntity: ReservationDetailEntityProtocol {
     let showDate: Date
 
     let giftID: Int
+    let giftUUID: String
     let giftMessage: String
     let giftImageURLPath: String
     let recipientName: String
