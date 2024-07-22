@@ -13,7 +13,7 @@ struct GiftingEntity {
     var receiver: UserInfo
     var selectedTicket: SelectedTicketEntity
     var orderId: String?
-    var reservationId: Int = -1
+    var giftId: Int?
 
     var message: String
     var giftImgId: Int

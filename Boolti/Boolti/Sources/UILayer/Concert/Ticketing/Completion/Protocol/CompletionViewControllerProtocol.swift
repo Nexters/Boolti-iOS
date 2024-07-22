@@ -14,7 +14,6 @@ protocol CompletionViewControllerProtocol {
     func makeInfoRowStackView(title: BooltiUILabel, info: BooltiUILabel) -> UIStackView
     func makeInfoGroupStackView(with stackViews: [UIStackView]) -> UIStackView
 
-    func configureInvitationTicketCase(with entity: reservationEntity)
     func configureSaleTicketCases(with entity: reservationEntity)
     func setAccountTransferPaymentTicketCase(with entity: reservationEntity)
     func setSimplePaymentTicketCase(with entity: reservationEntity)

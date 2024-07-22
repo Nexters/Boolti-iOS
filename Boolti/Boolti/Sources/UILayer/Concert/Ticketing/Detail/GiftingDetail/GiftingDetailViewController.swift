@@ -13,10 +13,14 @@ final class GiftingDetailViewController: BooltiViewController {
     
     // MARK: Properties
     
+    typealias GiftID = Int
+    
     private let viewModel: GiftingDetailViewModel
     private let disposeBag = DisposeBag()
     
     private let giftingConfirmViewControllerFactory: (GiftingEntity) -> GiftingConfirmViewController
+    private let tossPaymentsViewControllerFactory: (GiftingEntity) -> TossPaymentViewController
+    private let giftCompletionViewControllerFactory: (GiftID) -> GiftCompletionViewController
     private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
     
     private var isScrollViewOffsetChanged: Bool = false
@@ -87,9 +91,13 @@ final class GiftingDetailViewController: BooltiViewController {
     
     init(viewModel: GiftingDetailViewModel,
          giftingConfirmViewControllerFactory: @escaping (GiftingEntity) -> GiftingConfirmViewController,
+         tossPaymentsViewControllerFactory: @escaping (GiftingEntity) -> TossPaymentViewController,
+         giftCompletionViewControllerFactory: @escaping (GiftID) -> GiftCompletionViewController,
          businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController) {
         self.viewModel = viewModel
         self.giftingConfirmViewControllerFactory = giftingConfirmViewControllerFactory
+        self.tossPaymentsViewControllerFactory = tossPaymentsViewControllerFactory
+        self.giftCompletionViewControllerFactory = giftCompletionViewControllerFactory
         self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
         
         super.init()
@@ -323,31 +331,33 @@ extension GiftingDetailViewController {
                 giftingConfirmVC.modalPresentationStyle = .overFullScreen
 
                 giftingConfirmVC.onDismiss = { giftingEntity in
-//                    if giftingEntity.selectedTicket.price == 0 {
-//                        let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
-//                        owner.navigationController?.pushViewController(viewController, animated: true)
-//                    } else {
-//                        let tossVC = owner.tossPaymentsViewControllerFactory(ticketingEntity)
-//                        tossVC.modalPresentationStyle = .overFullScreen
-//
-//                        tossVC.onDismissOrderSuccess = { ticketingEntity in
-//                            let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
-//                            owner.navigationController?.pushViewController(viewController, animated: true)
-//                        }
-//
-//                        tossVC.onDismissOrderFailure = { error in
-//                            switch error {
-//                            case .noQuantity:
-//                                owner.popupView.showPopup(with: .soldoutBeforePayment)
-//                            case .tossError:
-//                                owner.popupView.showPopup(with: .ticketingFailed)
-//                            }
-//                        }
-//
-//                        owner.present(tossVC, animated: true)
-//                    }
+                    if giftingEntity.selectedTicket.price == 0 {
+                        
+                        // TODO: - 옵셔널 수정 필요 entity랑 분리하기
+                        let viewController = owner.giftCompletionViewControllerFactory(giftingEntity.giftId ?? -1)
+                        owner.navigationController?.pushViewController(viewController, animated: true)
+                    } else {
+                        let tossVC = owner.tossPaymentsViewControllerFactory(giftingEntity)
+                        tossVC.modalPresentationStyle = .overFullScreen
+
+                        tossVC.onDismissOrderSuccess = { giftId in
+                            let viewController = owner.giftCompletionViewControllerFactory(giftId)
+                            owner.navigationController?.pushViewController(viewController, animated: true)
+                        }
+
+                        tossVC.onDismissOrderFailure = { error in
+                            switch error {
+                            case .noQuantity:
+                                owner.popupView.showPopup(with: .soldoutBeforePayment)
+                            case .tossError:
+                                owner.popupView.showPopup(with: .ticketingFailed)
+                            }
+                        }
+
+                        owner.present(tossVC, animated: true)
+                    }
                 }
-//                
+                
                 giftingConfirmVC.onDismissOrderFailure = {
                     owner.popupView.showPopup(with: .soldoutBeforePayment)
                 }
