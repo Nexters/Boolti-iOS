@@ -23,6 +23,7 @@
 		224BEF0B2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF0A2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift */; };
 		224BEF0D2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF0C2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift */; };
 		224BEF0F2C4E700A00863970 /* GiftingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF0E2C4E700A00863970 /* GiftingAPI.swift */; };
+		224BEF112C4EA91C00863970 /* FreeGiftingRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */; };
 		224FE70F2C3E520A00C09D28 /* GiftCardImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224FE70E2C3E520A00C09D28 /* GiftCardImageEntity.swift */; };
 		2250FABD2C020BA100CCF487 /* ContactDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */; };
 		2250FABF2C020BC400CCF487 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABE2C020BC400CCF487 /* ContactViewController.swift */; };
@@ -386,6 +387,7 @@
 		224BEF0A2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderGiftPaymentRequestDTO.swift; sourceTree = "<group>"; };
 		224BEF0C2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderGiftPaymentResponseDTO.swift; sourceTree = "<group>"; };
 		224BEF0E2C4E700A00863970 /* GiftingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingAPI.swift; sourceTree = "<group>"; };
+		224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeGiftingRequestDTO.swift; sourceTree = "<group>"; };
 		224FE70E2C3E520A00C09D28 /* GiftCardImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardImageEntity.swift; sourceTree = "<group>"; };
 		2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDIContainer.swift; sourceTree = "<group>"; };
 		2250FABE2C020BC400CCF487 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
@@ -841,6 +843,7 @@
 				22DD8C872BD289100083622C /* SavePaymentInfoRequestDTO.swift */,
 				22DD8C982BD499E90083622C /* OrderPaymentRequestDTO.swift */,
 				224BEF0A2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift */,
+				224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -2425,6 +2428,7 @@
 				841D77D82B73D2A20068B1C5 /* String+.swift in Sources */,
 				845D88572B87706000179F60 /* ResignReasonViewModel.swift in Sources */,
 				84D1C3832B79B71600527998 /* UserResponseDTO.swift in Sources */,
+				224BEF112C4EA91C00863970 /* FreeGiftingRequestDTO.swift in Sources */,
 				84A713452B7C83AE000BABCB /* QRMaker.swift in Sources */,
 				8710D94E2B74FA8B00309FBF /* TicketReservationsViewModel.swift in Sources */,
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,

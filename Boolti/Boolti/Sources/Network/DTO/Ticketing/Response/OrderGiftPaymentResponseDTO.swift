@@ -7,7 +7,7 @@
 
 struct OrderGiftPaymentResponseDTO: Decodable {
     
-    let orderId: String
+    let orderId: String?
     let reservationId: Int
     let giftId: Int
     let giftUuid: String
