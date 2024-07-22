@@ -1,14 +1,14 @@
 //
-//  TicketReservationDetailResponseDTO.swift
+//  GiftReservationDetailResponseDTO.swift
 //  Boolti
 //
-//  Created by Miro on 2/12/24.
+//  Created by Miro on 7/11/24.
 //
 
 import Foundation
 
-struct TicketReservationDetailResponseDTO: Decodable, ReservationDetailDTOProtocol {
-    
+struct GiftReservationDetailResponseDTO: Decodable, ReservationDetailDTOProtocol {
+
     let reservationId: Int
     let showImg: String
     let showName: String
@@ -26,28 +26,28 @@ struct TicketReservationDetailResponseDTO: Decodable, ReservationDetailDTOProtoc
     let transferDetail: TransferDetail?
     let showDate: String
 
-    let reservationName: String
-    let reservationPhoneNumber: String
-    let depositorName: String?
-    let depositorPhoneNumber: String?
+    let recipientName: String
+    let recipientPhoneNumber: String
+    let giftId: Int
+    let giftMessage: String
+    let giftImgPath: String
 }
 
-extension TicketReservationDetailResponseDTO {
-    func convertToTicketReservationDetailEntity() -> TicketReservationDetailEntity {
+extension GiftReservationDetailResponseDTO {
+    func convertToGiftReservationDetailEntity() -> GiftReservationDetailEntity {
 
-        let ticketType = self.salesTicketType == "SALE" ? TicketType.sale : TicketType.invitation
         let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.reservationCompleted
         let totalAmountPrice = self.totalAmountPrice ?? 0
         let paymentMethod = paymentMethod()
         let paymentCardDetail = paymentCardDetail()
         let transferAccountBank = transferAccountBank()
 
-        return TicketReservationDetailEntity(
+        return GiftReservationDetailEntity(
             reservationID: self.reservationId,
             concertPosterImageURLPath: self.showImg,
             concertTitle: self.showName,
             salesTicketName: self.salesTicketName,
-            ticketType: ticketType,
+            ticketType: .sale,
             ticketCount: self.ticketCount,
             depositDeadLine: self.salesEndTime,
             paymentMethod: paymentMethod,
@@ -60,10 +60,11 @@ extension TicketReservationDetailResponseDTO {
             accountTransferBank: transferAccountBank,
             paymentCardDetail: paymentCardDetail,
             showDate: self.showDate.formatToDate(),
-            purchaseName: self.reservationName,
-            purchaserPhoneNumber: self.reservationPhoneNumber,
-            depositorName: self.depositorName ?? "",
-            depositorPhoneNumber: self.depositorPhoneNumber ?? ""
+            giftID: self.giftId,
+            giftMessage: self.giftMessage,
+            giftImageURLPath: self.giftImgPath,
+            recipientName: self.recipientName,
+            recipientPhoneNumber: self.recipientPhoneNumber
         )
     }
 }
