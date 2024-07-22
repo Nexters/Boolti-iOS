@@ -181,11 +181,11 @@ extension GiftCompletionViewController {
                     // 해당 appLink를 들고 있을 버튼을 만들어준다.
                     let button = Button(title: "선물 확인하기", link: appLink)
 
-                    let itemContent = ItemContent(profileText: "To. 받는 분 이름")
+                    let itemContent = ItemContent(profileText: "To. \(giftReservationDetail.recipientName)")
                     let content = Content(
-                        title: "보내는 분님이 보낸 선물이 도착했어요.",
+                        title: "\(giftReservationDetail.senderName)님이 보낸 선물이 도착했어요.",
                         imageUrl: URL(string:giftReservationDetail.giftImageURLPath)!,
-                        description: "0월 0일까지 불티앱에서 선물을 등록해주세요.",
+                        description: "\(giftReservationDetail.salesEndTime.formatToDate().format(.simple))까지 불티앱에서 선물을 등록해주세요.",
                         link: appLink
                     )
                     let template = FeedTemplate(content: content, itemContent: itemContent, buttons: [button])
