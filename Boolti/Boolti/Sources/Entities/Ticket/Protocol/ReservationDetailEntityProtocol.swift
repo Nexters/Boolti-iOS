@@ -9,7 +9,6 @@ import Foundation
 
 protocol ReservationDetailEntityProtocol {
 
-    var reservationID: Int { get }
     var concertPosterImageURLPath: String { get }
     var concertTitle: String { get }
     var salesTicketName: String { get }

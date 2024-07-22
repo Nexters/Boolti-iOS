@@ -8,7 +8,6 @@
 import Foundation
 
 protocol ReservationDetailDTOProtocol {
-    var reservationId: Int { get }
     var showImg: String { get }
     var showName: String { get }
     var salesTicketName: String { get }
