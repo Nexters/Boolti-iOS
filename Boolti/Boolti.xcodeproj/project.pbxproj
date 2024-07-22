@@ -20,6 +20,10 @@
 		224BEF032C4CCAA300863970 /* GiftingConfirmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF022C4CCAA300863970 /* GiftingConfirmViewModel.swift */; };
 		224BEF052C4CCB5200863970 /* GiftingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF042C4CCB5200863970 /* GiftingEntity.swift */; };
 		224BEF082C4CCE5D00863970 /* GiftingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF072C4CCE5C00863970 /* GiftingRepository.swift */; };
+		224BEF0B2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF0A2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift */; };
+		224BEF0D2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF0C2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift */; };
+		224BEF0F2C4E700A00863970 /* GiftingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF0E2C4E700A00863970 /* GiftingAPI.swift */; };
+		224BEF112C4EA91C00863970 /* FreeGiftingRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */; };
 		224FE70F2C3E520A00C09D28 /* GiftCardImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224FE70E2C3E520A00C09D28 /* GiftCardImageEntity.swift */; };
 		2250FABD2C020BA100CCF487 /* ContactDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */; };
 		2250FABF2C020BC400CCF487 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABE2C020BC400CCF487 /* ContactViewController.swift */; };
@@ -380,6 +384,10 @@
 		224BEF022C4CCAA300863970 /* GiftingConfirmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingConfirmViewModel.swift; sourceTree = "<group>"; };
 		224BEF042C4CCB5200863970 /* GiftingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingEntity.swift; sourceTree = "<group>"; };
 		224BEF072C4CCE5C00863970 /* GiftingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingRepository.swift; sourceTree = "<group>"; };
+		224BEF0A2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderGiftPaymentRequestDTO.swift; sourceTree = "<group>"; };
+		224BEF0C2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderGiftPaymentResponseDTO.swift; sourceTree = "<group>"; };
+		224BEF0E2C4E700A00863970 /* GiftingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingAPI.swift; sourceTree = "<group>"; };
+		224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeGiftingRequestDTO.swift; sourceTree = "<group>"; };
 		224FE70E2C3E520A00C09D28 /* GiftCardImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardImageEntity.swift; sourceTree = "<group>"; };
 		2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDIContainer.swift; sourceTree = "<group>"; };
 		2250FABE2C020BC400CCF487 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
@@ -834,6 +842,8 @@
 				84D1C38A2B7A448100527998 /* InvitationTicketingRequestDTO.swift */,
 				22DD8C872BD289100083622C /* SavePaymentInfoRequestDTO.swift */,
 				22DD8C982BD499E90083622C /* OrderPaymentRequestDTO.swift */,
+				224BEF0A2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift */,
+				224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -847,6 +857,7 @@
 				84D1C3862B7A14F300527998 /* CheckInvitationCodeResponseDTO.swift */,
 				22DD8C892BD289400083622C /* SavePaymentInfoResponseDTO.swift */,
 				2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */,
+				224BEF0C2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -854,7 +865,6 @@
 		22DD8C932BD405800083622C /* TossPayments */ = {
 			isa = PBXGroup;
 			children = (
-				87F63D622C3EE9DA001D7A56 /* New Group */,
 				22DD8C942BD408200083622C /* TossPaymentsDIContainer.swift */,
 				22DD8C912BD348CD0083622C /* TossPaymentViewController.swift */,
 				22DD8C962BD4082A0083622C /* TossPaymentsViewModel.swift */,
@@ -1213,6 +1223,7 @@
 				84975BE82B60E04500F903E7 /* AuthAPI.swift */,
 				841D77D12B73B0C10068B1C5 /* ConcertAPI.swift */,
 				22DD8C8B2BD2897E0083622C /* TicketingAPI.swift */,
+				224BEF0E2C4E700A00863970 /* GiftingAPI.swift */,
 				8753CA722B71EA68002871C7 /* TicketAPI.swift */,
 				870099B42B77476E001779FB /* TicketReservationAPI.swift */,
 				87F63D6E2C3F8298001D7A56 /* GiftReservationAPI.swift */,
@@ -2000,13 +2011,6 @@
 			path = TicketDetail;
 			sourceTree = "<group>";
 		};
-		87F63D622C3EE9DA001D7A56 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		87F63D632C3EE9E2001D7A56 /* Completion */ = {
 			isa = PBXGroup;
 			children = (
@@ -2356,6 +2360,7 @@
 				87F63D782C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift in Sources */,
 				84781BCF2B5BDAFC00D37921 /* SceneDelegate.swift in Sources */,
 				842C1C642B7DA8A700EFE5A0 /* ResignInfoDIContainer.swift in Sources */,
+				224BEF0F2C4E700A00863970 /* GiftingAPI.swift in Sources */,
 				8730F0182B7B29FE00D4F339 /* TicketRefundRequestViewModel.swift in Sources */,
 				87101EFC2B5DFC60004BD418 /* NetworkProvider.swift in Sources */,
 				2201AC942C2A8AD600CEBD31 /* SelectCardView.swift in Sources */,
@@ -2383,10 +2388,12 @@
 				220013D92BE39F62007FF9E6 /* TicketingErrorType.swift in Sources */,
 				84D1C3872B7A14F300527998 /* CheckInvitationCodeResponseDTO.swift in Sources */,
 				22DD8C992BD499E90083622C /* OrderPaymentRequestDTO.swift in Sources */,
+				224BEF0B2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
 				8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */,
 				84896A452B6A672800CB3E33 /* TicketingCompletionViewController.swift in Sources */,
 				84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */,
+				224BEF0D2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift in Sources */,
 				84A0248E2B7B997A0095A56E /* QRScannerViewController.swift in Sources */,
 				846F5F3E2B7BBF60000F86AE /* QRRepository.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* OAuthRepository.swift in Sources */,
@@ -2421,6 +2428,7 @@
 				841D77D82B73D2A20068B1C5 /* String+.swift in Sources */,
 				845D88572B87706000179F60 /* ResignReasonViewModel.swift in Sources */,
 				84D1C3832B79B71600527998 /* UserResponseDTO.swift in Sources */,
+				224BEF112C4EA91C00863970 /* FreeGiftingRequestDTO.swift in Sources */,
 				84A713452B7C83AE000BABCB /* QRMaker.swift in Sources */,
 				8710D94E2B74FA8B00309FBF /* TicketReservationsViewModel.swift in Sources */,
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,

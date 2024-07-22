@@ -7,6 +7,8 @@
 
 final class GiftingDetailDIContainer {
     
+    typealias GiftID = Int
+    
     private let concertRepository: ConcertRepository
     
     init(concertRepository: ConcertRepository) {
@@ -23,6 +25,21 @@ final class GiftingDetailDIContainer {
             return viewController
         }
         
+        let tossPaymentsViewControllerFactory: (GiftingEntity) -> TossPaymentViewController = { giftingEntity in
+            let DIContainer = TossPaymentsDIContainer(ticketingRepository: TicketingRepository(networkService: self.concertRepository.networkService))
+
+            let viewController = DIContainer.createTossPaymentsViewController(giftingEntity: giftingEntity,
+                                                                              type: .gifting)
+            return viewController
+        }
+        
+        let giftCompletionViewControllerFactory: (GiftID) ->  GiftCompletionViewController = { giftID in
+            let DIContainer = GiftCompletionDIContainer(ticketReservationsRepository: TicketReservationRepository(networkService: self.concertRepository.networkService))
+
+            let viewController = DIContainer.createGiftCompletionViewController(giftID: giftID)
+            return viewController
+        }
+        
         let businessInfoViewControllerFactory = {
             let DIContainer = BusinessInfoDIContainer()
             let viewController = DIContainer.createBusinessInfoViewController()
@@ -32,6 +49,8 @@ final class GiftingDetailDIContainer {
 
         let viewController = GiftingDetailViewController(viewModel: viewModel,
                                                          giftingConfirmViewControllerFactory: giftingConfirmViewControllerFactory,
+                                                         tossPaymentsViewControllerFactory: tossPaymentsViewControllerFactory,
+                                                         giftCompletionViewControllerFactory: giftCompletionViewControllerFactory,
                                                          businessInfoViewControllerFactory: businessInfoViewControllerFactory)
         
         return viewController

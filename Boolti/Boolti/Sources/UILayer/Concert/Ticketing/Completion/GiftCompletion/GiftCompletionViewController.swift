@@ -255,13 +255,7 @@ extension GiftCompletionViewController {
                     concertDate: entity.showDate,
                     posterURL: entity.concertPosterImageURLPath
                 )
-
-                switch entity.ticketType {
-                case .invitation:
-                    owner.configureInvitationTicketCase(with: entity)
-                case .sale:
-                    owner.configureSaleTicketCases(with: entity)
-                }
+                owner.configureSaleTicketCases(with: entity)
             }
             .disposed(by: self.disposeBag)
     }
