@@ -16,10 +16,11 @@ final class GiftingDetailViewModel {
     
     private let disposeBag = DisposeBag()
     private let concertRepository: ConcertRepositoryType
+    private let giftingRepository: GiftingRepositoryType
     
     struct Input {
         let message = BehaviorRelay<String>(value: "")
-        let selectedImageIndex = BehaviorRelay<Int>(value: 1)
+        let selectedImageIndex = PublishRelay<Int>()
         let receiverName = BehaviorRelay<String>(value: "")
         let receiverPhoneNumber = BehaviorRelay<String>(value: "")
         let senderName = BehaviorRelay<String>(value: "")
@@ -32,7 +33,7 @@ final class GiftingDetailViewModel {
         let concertDetail = BehaviorRelay<ConcertDetailEntity?>(value: nil)
         let isPaybuttonEnable = PublishRelay<Bool>()
         let cardImages = BehaviorSubject<[GiftCardImageEntity]>(value: [])
-        let selectedCardImageURL = PublishRelay<String>()
+        let selectedCardImageEntity = BehaviorRelay<GiftCardImageEntity?>(value: nil)
         let navigateToConfirm = PublishRelay<Void>()
         var giftingEntity: GiftingEntity?
     }
@@ -45,14 +46,17 @@ final class GiftingDetailViewModel {
     // MARK: Initailizer
     
     init(concertRepository: ConcertRepositoryType,
+         giftingRepository: GiftingRepositoryType,
          selectedTicket: SelectedTicketEntity) {
         self.concertRepository = concertRepository
+        self.giftingRepository = giftingRepository
         self.selectedTicket = selectedTicket
         self.input = Input()
         self.output = Output()
         
         self.bindInputs()
         self.fetchConcertDetail()
+        self.fetchCardImages()
     }
     
 }
@@ -72,8 +76,8 @@ extension GiftingDetailViewModel {
         self.input.selectedImageIndex
             .bind(with: self) { owner, index in
                 do {
-                    let selectedImage = try owner.output.cardImages.value()
-//                    owner.output.selectedCardImageURL.accept(selectedImage[index].path)
+                    let imageUrls = try owner.output.cardImages.value()
+                    owner.output.selectedCardImageEntity.accept(imageUrls[index])
                 } catch {
                     print("Error: \(error.localizedDescription)")
                 }
@@ -96,12 +100,13 @@ extension GiftingDetailViewModel {
         let senderData = GiftingEntity.UserInfo(name: self.input.senderName.value,
                                                   phoneNumber: self.input.senderPhoneNumber.value)
         
+        guard let selectedImage = self.output.selectedCardImageEntity.value else { return }
         let giftingEntity = GiftingEntity(concert: concertDetail,
                                           sender: senderData,
                                           receiver: receiverData,
                                           selectedTicket: self.selectedTicket,
                                           message: self.input.message.value,
-                                          giftImgId: self.input.selectedImageIndex.value)
+                                          giftImgId: selectedImage.id)
         
         self.output.giftingEntity = giftingEntity
         self.output.navigateToConfirm.accept(())
@@ -130,6 +135,18 @@ extension GiftingDetailViewModel {
         self.concertRepository.concertDetail(concertId: self.selectedTicket.concertId)
             .subscribe(with: self) { owner, entity in
                 owner.output.concertDetail.accept(entity)
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func fetchCardImages() {
+        self.giftingRepository.giftCardImages()
+            .subscribe(with: self) { owner, images in
+                owner.output.cardImages.onNext(images)
+                
+                if !images.isEmpty {
+                    owner.input.selectedImageIndex.accept(0)
+                }
             }
             .disposed(by: self.disposeBag)
     }
