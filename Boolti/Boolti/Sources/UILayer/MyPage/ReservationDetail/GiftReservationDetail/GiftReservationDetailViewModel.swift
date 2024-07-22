@@ -23,7 +23,7 @@ final class GiftReservationDetailViewModel {
     }
 
     struct Output {
-        let tickerReservationDetail = PublishRelay<GiftReservationDetailEntity>()
+        let tickerReservationDetail = BehaviorRelay<GiftReservationDetailEntity?>(value: nil)
     }
 
     let input: Input

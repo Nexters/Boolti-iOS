@@ -7,6 +7,10 @@
 
 import UIKit
 
+import KakaoSDKShare
+import KakaoSDKTemplate
+import KakaoSDKCommon
+
 import RxSwift
 import RxAppState
 import RxCocoa
@@ -117,7 +121,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
     private lazy var visitorInformationStackView = ReservationCollapsableStackView(
         title: "방문자 정보",
         contentViews: [self.visitorNameView, self.visitorPhoneNumberView, self.giftInformationStackView],
-        isHidden: true
+        isHidden: false
     )
 
     private let depositorNameView = ReservationHorizontalStackView(title: "이름", alignment: .right)
@@ -272,6 +276,43 @@ final class GiftReservationDetailViewController: BooltiViewController {
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
+
+        self.kakaoGiftButton.rx.tap
+            .bind(with: self) { owner, _ in
+                guard let giftReservationDetail = owner.viewModel.output.tickerReservationDetail.value else { return }
+                if ShareApi.isKakaoTalkSharingAvailable(){
+                    let link = Link(
+                        webUrl: URL(string:"https://boolti.in/gift/:\(giftReservationDetail.giftID)"),
+                        mobileWebUrl: URL(string:"https://boolti.in/gift/:\(giftReservationDetail.giftID)")
+                    )
+
+                    let itemContent = ItemContent(profileText: "To. \(giftReservationDetail.recipientName)")
+
+                    let content = Content(
+                        title: "\(giftReservationDetail.senderName)님이 보낸 선물이 도착했어요.",
+                        imageUrl: URL(string:giftReservationDetail.giftImageURLPath)!,
+                        description: "\(giftReservationDetail.salesEndTime.formatToDate().format(.simple))일까지 불티앱에서 선물을 등록해주세요.",
+                        link: link
+                    )
+                    let template = FeedTemplate(content: content, itemContent: itemContent)
+
+                    if let templateJsonData = (try? SdkJSONEncoder.custom.encode(template)) {
+                        if let templateJsonObject = SdkUtils.toJsonObject(templateJsonData) {
+                            ShareApi.shared.shareDefault(templateObject:templateJsonObject) {(linkResult, error) in
+                                if let error = error {
+                                    print("error : \(error)")
+                                }
+                                else {
+                                    print("defaultLink(templateObject:templateJsonObject) success.")
+                                    guard let linkResult = linkResult else { return }
+                                    UIApplication.shared.open(linkResult.url, options: [:], completionHandler: nil)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {
@@ -290,6 +331,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
 
     private func bindOutputs() {
         self.viewModel.output.tickerReservationDetail
+            .compactMap { $0 }
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, entity in
                 owner.setData(with: entity)
