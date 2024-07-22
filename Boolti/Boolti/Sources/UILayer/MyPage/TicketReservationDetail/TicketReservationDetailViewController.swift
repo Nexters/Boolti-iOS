@@ -356,6 +356,8 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.requestRefundButton.isHidden = true
             self.refundInformationStackView.isHidden = false
             self.configureRefundInformationStackView(with: entity)
+        case .waitingForReceipt:
+            print("good")
         }
     }
 

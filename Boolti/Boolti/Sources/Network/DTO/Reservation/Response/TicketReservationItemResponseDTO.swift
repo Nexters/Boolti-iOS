@@ -22,7 +22,7 @@ struct TicketReservationItemResponseDTO: Decodable {
 }
 
 extension TicketReservationItemResponseDTO {
-    
+
     func convertToTicketReservationItemEntity() -> TicketReservationItemEntity {
         let reservationID = self.reservationId
         let reservationStatus = ReservationStatus(rawValue: self.reservationStatus) ?? ReservationStatus.reservationCompleted
@@ -33,6 +33,7 @@ extension TicketReservationItemResponseDTO {
         let ticketCount = self.ticketCount
         let ticketPrice = self.ticketPrice
         let csReservationID = self.csReservationId
+        let isGiftReservation = self.recipientName == nil ? false : true
 
         return TicketReservationItemEntity(
             reservationID: reservationID,
@@ -43,6 +44,7 @@ extension TicketReservationItemResponseDTO {
             ticketName: ticketName,
             ticketCount: ticketCount,
             ticketPrice: ticketPrice ?? 0,
+            isGiftReservation: isGiftReservation,
             recipientName: self.recipientName,
             csReservationID: csReservationID
         )

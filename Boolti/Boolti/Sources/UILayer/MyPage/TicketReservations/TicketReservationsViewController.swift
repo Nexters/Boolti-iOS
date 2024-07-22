@@ -130,6 +130,7 @@ final class TicketReservationsViewController: BooltiViewController {
 
     private func bindOutputs() {
         self.viewModel.output.tickerReservations
+            .compactMap{ $0 }
             .flatMap({ [weak self] ticketReservations in
                 if ticketReservations.isEmpty {
                     self?.emptyReservationsStackView.isHidden = false
@@ -160,6 +161,12 @@ final class TicketReservationsViewController: BooltiViewController {
 
 extension TicketReservationsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 177
+        guard let items = self.viewModel.output.tickerReservations.value else { return 177 }
+        print(indexPath.row)
+        if items[indexPath.row].isGiftReservation {
+            return 211
+        } else {
+            return 177
+        }
     }
 }
