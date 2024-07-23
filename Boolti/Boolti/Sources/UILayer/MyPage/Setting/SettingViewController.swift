@@ -42,6 +42,7 @@ final class SettingViewController: BooltiViewController {
         super.viewDidLoad()
         
         self.configureUI()
+        self.configureToastView(isButtonExisted: false)
         self.bindUIComponents()
         self.setData()
     }
@@ -62,10 +63,19 @@ extension SettingViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
+        
+        self.userCodeLabel.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                UIPasteboard.general.string = "#\(UserDefaults.userCode)"
+                owner.showToast(message: "식별 코드가 복사되었어요")
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func setData() {
-        self.userCodeLabel.text = "#dafdsf"
+        self.userCodeLabel.text = "#\(UserDefaults.userCode)"
         
         switch UserDefaults.oauthProvider {
         case .apple:
