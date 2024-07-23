@@ -28,7 +28,7 @@ final class BooltiPopupView: UIView {
             case .refreshTokenHasExpired: 
                 "로그인 세션이 만료되었습니다\n앱을 다시 시작해주세요"
             case .accountRemoveCancelled: 
-                "탈퇴 후 30일 이내에 로그인하여,\n계정 삭제가 취소되었어요\n불티를 다시 찾아주셔서 감사해요!"
+                "30일 내에 로그인하여\n계정 삭제가 취소되었어요.\n불티를 다시 찾아주셔서 감사해요!"
             case .soldoutBeforePayment, .ticketingFailed:
                 "결제에 실패했어요"
             }

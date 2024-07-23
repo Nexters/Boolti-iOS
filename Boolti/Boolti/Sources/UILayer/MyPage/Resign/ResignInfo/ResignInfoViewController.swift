@@ -20,13 +20,13 @@ final class ResignInfoViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "회원 탈퇴"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "계정 삭제"))
     
     private let mainTitle: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .point4
         label.textColor = .grey05
-        label.text = "탈퇴 전, 꼭 읽어 보세요!"
+        label.text = "삭제 전, 꼭 읽어 보세요!"
         return label
     }()
     
@@ -36,9 +36,9 @@ final class ResignInfoViewController: BooltiViewController {
         label.textColor = .grey50
         label.numberOfLines = 0
         label.text = """
-        • 주최한 공연 정보는 사라지지 않아요
-        • 예매한 티켓은 전부 사라지며 복구할 수 없어요
-        • 탈퇴일로부터 30일 이내 재 로그인 시 계정 삭제를 취소할 수 있어요
+        • 주최한 공연 정보는 사라지지 않아요.
+        • 예매한 티켓은 전부 사라지며 복구할 수 없어요.
+        • 삭제일로부터 30일 이내 재 로그인 시 계정 삭제를 취소할 수 있어요.
         """
         label.setHeadIndent()
         return label
