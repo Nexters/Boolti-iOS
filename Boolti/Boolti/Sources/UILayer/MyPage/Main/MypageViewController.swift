@@ -33,7 +33,7 @@ final class MyPageViewController: BooltiViewController {
 
     private let resignNavigationButton: UIButton = {
         let button = UIButton()
-        button.setTitle("회원 탈퇴", for: .normal)
+        button.setTitle("계정 삭제", for: .normal)
         button.setUnderline(font: .pretendardR(14), textColor: .grey60)
         button.isHidden = true
 
@@ -186,7 +186,6 @@ final class MyPageViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        // TODO: 임시로 회원 탈퇴 로그아웃 처리
         self.resignNavigationButton.rx.tap
             .bind(to: self.viewModel.input.didResignButtonTapEvent)
             .disposed(by: self.disposeBag)
