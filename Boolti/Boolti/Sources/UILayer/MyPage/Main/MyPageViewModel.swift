@@ -20,6 +20,7 @@ final class MyPageViewModel {
         var didLogoutButtonTapEvent = PublishSubject<Void>()
         var didLoginButtonTapEvent = PublishSubject<Void>()
         var didResignButtonTapEvent = PublishSubject<Void>()
+        var didSettingViewTapEvent = PublishSubject<Void>()
         var didTicketingReservationsViewTapEvent = PublishSubject<Void>()
         var didQRScannerListViewTapEvent = PublishSubject<Void>()
     }
@@ -70,6 +71,15 @@ final class MyPageViewModel {
         self.input.didResignButtonTapEvent
             .subscribe(with: self) { owner, _ in
                 owner.output.navigation.accept(.resign)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.input.didSettingViewTapEvent
+            .subscribe(with: self) { owner, _ in
+                guard owner.output.isAccessTokenLoaded.value else {
+                    return owner.output.navigation.accept(.login)
+                }
+                owner.output.navigation.accept(.setting)
             }
             .disposed(by: self.disposeBag)
 

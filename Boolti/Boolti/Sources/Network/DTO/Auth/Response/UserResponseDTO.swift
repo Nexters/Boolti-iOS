@@ -11,6 +11,7 @@ struct UserResponseDTO: Decodable {
 
     let id: Int
     let nickname: String?
+    let userCode: String?
     let email: String?
     let imgPath: String?
 }

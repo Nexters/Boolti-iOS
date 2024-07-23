@@ -51,6 +51,13 @@ final class MyPageDIContainer {
 
             return viewController
         }
+        
+        let settingViewControllerFactory = {
+            let DIContainer = SettingDIContainer(authRepository: self.authRepository)
+            let viewController = DIContainer.createSettingViewController()
+            
+            return viewController
+        }
 
         let viewController = MyPageViewController(
             viewModel: self.createMyPageViewModel(),
@@ -58,7 +65,8 @@ final class MyPageDIContainer {
             logoutViewControllerFactory: logoutViewControllerFactory,
             resignInfoViewControllerFactory: resignInfoViewControllerFactory,
             ticketReservationsViewControllerFactory: ticketReservationsViewControllerFactory,
-            qrScanViewControllerFactory: QRScannerListViewControllerFactory
+            qrScanViewControllerFactory: QRScannerListViewControllerFactory,
+            settingViewControllerFactory: settingViewControllerFactory
         )
 
         let navigationController = UINavigationController(rootViewController: viewController)
