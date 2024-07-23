@@ -272,7 +272,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
 
         self.requestRefundButton.rx.tap
             .bind(with: self) { owner, _ in
-                let viewController = owner.ticketRefundReasonViewControllerFactory(owner.viewModel.giftID)
+                let viewController = GiftReservationRefundAskViewController(giftID: owner.viewModel.giftID)
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
@@ -282,11 +282,12 @@ final class GiftReservationDetailViewController: BooltiViewController {
                 guard let giftReservationDetail = owner.viewModel.output.tickerReservationDetail.value else { return }
                 if ShareApi.isKakaoTalkSharingAvailable(){
                     let link = Link(
-                        webUrl: URL(string:"https://boolti.in/gift/:\(giftReservationDetail.giftID)"),
-                        mobileWebUrl: URL(string:"https://boolti.in/gift/:\(giftReservationDetail.giftID)")
+                        webUrl: URL(string:"https://boolti.in/gift/:\(giftReservationDetail.giftUuid)"),
+                        mobileWebUrl: URL(string:"https://boolti.in/gift/:\(giftReservationDetail.giftUuid)")
                     )
 
                     let itemContent = ItemContent(profileText: "To. \(giftReservationDetail.recipientName)")
+                    let button = Button(title: "선무 확인하기", link: link)
 
                     let content = Content(
                         title: "\(giftReservationDetail.senderName)님이 보낸 선물이 도착했어요.",
@@ -294,7 +295,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
                         description: "\(giftReservationDetail.salesEndTime.formatToDate().format(.simple))일까지 불티앱에서 선물을 등록해주세요.",
                         link: link
                     )
-                    let template = FeedTemplate(content: content, itemContent: itemContent)
+                    let template = FeedTemplate(content: content, itemContent: itemContent, buttons: [button])
 
                     if let templateJsonData = (try? SdkJSONEncoder.custom.encode(template)) {
                         if let templateJsonObject = SdkUtils.toJsonObject(templateJsonData) {

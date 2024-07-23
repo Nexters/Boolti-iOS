@@ -28,6 +28,7 @@ struct GiftReservationDetailResponseDTO: Decodable, ReservationDetailDTOProtocol
     let recipientName: String
     let recipientPhoneNumber: String
     let giftId: Int
+    let giftUuid: Int
     let giftMessage: String
     let giftImgPath: String
     let senderName: String
@@ -61,6 +62,7 @@ extension GiftReservationDetailResponseDTO {
             paymentCardDetail: paymentCardDetail,
             showDate: self.showDate.formatToDate(),
             giftID: self.giftId,
+            giftUuid: self.giftUuid,
             giftMessage: self.giftMessage,
             giftImageURLPath: self.giftImgPath,
             recipientName: self.recipientName,

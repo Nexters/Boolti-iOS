@@ -20,11 +20,11 @@ final class TicketRefundRequestDIContainer {
     
     func createTicketRefundRequestViewController(reservationID: String, reasonText: String) -> TicketRefundRequestViewController {
 
-        let ticketRefundConfirmViewControllerFactory: (ReservationID, ReasonText, RefundAccountInformation) -> TicketRefundConfirmViewController = {
-            (reservationID, reasonText, refundAccountInformation) in
+        let ticketRefundConfirmViewControllerFactory: (ReservationID, ReasonText?, RefundAccountInformation, Bool) -> TicketRefundConfirmViewController = {
+            (reservationID, reasonText, refundAccountInformation, isGift) in
 
             let DIContainer = self.createTicketRefundConfirmDIContainer()
-            let viewController = DIContainer.createTicketRefundConfirmViewController(reservationID: reservationID, reasonText: reasonText, refundAccoundInformation: refundAccountInformation)
+            let viewController = DIContainer.createTicketRefundConfirmViewController(reservationID: reservationID, reasonText: reasonText, isGift: isGift, refundAccoundInformation: refundAccountInformation)
 
             return viewController
         }

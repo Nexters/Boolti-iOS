@@ -117,12 +117,11 @@ final class TicketReservationsViewController: BooltiViewController {
             .asDriver()
             .drive(with: self) { owner, ticketReservationItemEntity in
                 let viewController: BooltiViewController
-//                if ticketReservationItemEntity.isGiftReservation {
-//                    viewController = owner.giftReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
-//                } else {
-//                    viewController = owner.ticketReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
-//                }
-                viewController = owner.giftReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
+                if ticketReservationItemEntity.isGiftReservation {
+                    viewController = owner.giftReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
+                } else {
+                    viewController = owner.ticketReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
+                }
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)

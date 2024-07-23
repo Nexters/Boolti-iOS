@@ -14,6 +14,7 @@ enum TicketReservationAPI {
     case reservations
     case detail(requestDTO: TicketReservationDetailRequestDTO)
     case requestRefund(requestDTO: TicketRefundRequestDTO)
+    case requestGiftRefund(requestDTO: GiftRefundRequestDTO)
 }
 
 extension TicketReservationAPI: ServiceAPI {
@@ -26,6 +27,8 @@ extension TicketReservationAPI: ServiceAPI {
             return "/api/v1/reservation/\(DTO.reservationID)"
         case .requestRefund: // 요건 결제 API랑 같이 이어 붙히면 좋을듯!
             return "/api/v1/order/cancel-payment"
+        case .requestGiftRefund(requestDTO: let requestDTO):
+            return "/api/v1/order/cancel-gift"
         }
     }
 
@@ -41,6 +44,8 @@ extension TicketReservationAPI: ServiceAPI {
     var task: Moya.Task {
         switch self {
         case .requestRefund(let DTO):
+            return .requestJSONEncodable(DTO)
+        case .requestGiftRefund(let DTO):
             return .requestJSONEncodable(DTO)
         default:
             return .requestPlain
