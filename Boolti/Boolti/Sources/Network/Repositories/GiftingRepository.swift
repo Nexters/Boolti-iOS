@@ -17,6 +17,7 @@ protocol GiftingRepositoryType {
                       amount: Int,
                       giftingEntity: GiftingEntity) -> Single<OrderGiftPaymentResponseDTO>
     func freeGifting(giftingEntity: GiftingEntity) -> Single<OrderGiftPaymentResponseDTO>
+    func giftCardImages() -> Single<[GiftCardImageEntity]>
 }
 
 final class GiftingRepository: GiftingRepositoryType {
@@ -84,6 +85,14 @@ final class GiftingRepository: GiftingRepositoryType {
         
         return networkService.request(api)
             .map(OrderGiftPaymentResponseDTO.self)
+    }
+    
+    func giftCardImages() -> Single<[GiftCardImageEntity]> {
+        let api = GiftingAPI.giftCardImages
+        
+        return networkService.request(api)
+            .map(GiftCardImagesResponseDTO.self)
+            .map { $0.convertToGiftCardImageEntities() }
     }
     
 }

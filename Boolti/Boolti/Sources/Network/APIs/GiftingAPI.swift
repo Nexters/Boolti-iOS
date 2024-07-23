@@ -12,6 +12,7 @@ import Moya
 enum GiftingAPI {
     case orderGiftPayment(requestDTO: OrderGiftPaymentRequestDTO)
     case freeGifting(requestDTO: FreeGiftingRequestDTO)
+    case giftCardImages
 }
 
 extension GiftingAPI: ServiceAPI {
@@ -22,6 +23,8 @@ extension GiftingAPI: ServiceAPI {
             return "/api/v1/order/gift-approve-payment"
         case .freeGifting:
             return "/api/v1/order/free-gift-reservation"
+        case .giftCardImages:
+            return "/api/v1/gift/img-list"
         }
     }
     
@@ -29,6 +32,8 @@ extension GiftingAPI: ServiceAPI {
         switch self {
         case .orderGiftPayment, .freeGifting:
             return .post
+        case .giftCardImages:
+            return .get
         }
     }
 
@@ -38,6 +43,8 @@ extension GiftingAPI: ServiceAPI {
             return .requestJSONEncodable(DTO)
         case .freeGifting(let DTO):
             return .requestJSONEncodable(DTO)
+        case .giftCardImages:
+            return .requestPlain
         }
     }
 }

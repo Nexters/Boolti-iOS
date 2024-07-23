@@ -14,6 +14,7 @@ enum Environment: String {
     enum Keys {
         enum Plist {
             static let baseURL = "BASE_URL"
+            static let giftURL = "GIFT_URL"
             static let kakaoNativeAppKey = "KAKAO_NATIVE_APP_KEY"
             static let tossPaymentsKey = "TOSS_PAYMENTS_KEY"
         }
@@ -27,6 +28,13 @@ enum Environment: String {
     static let BASE_URL: String = {
         guard let string = Environment.infoDictionary[Keys.Plist.baseURL] as? String else {
             fatalError("Base URL not set in plist for this environment")
+        }
+        return string
+    }()
+    
+    static let GIFT_URL: String = {
+        guard let string = Environment.infoDictionary[Keys.Plist.giftURL] as? String else {
+            fatalError("Gift URL not set in plist for this environment")
         }
         return string
     }()

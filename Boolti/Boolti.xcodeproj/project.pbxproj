@@ -24,6 +24,7 @@
 		224BEF0D2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF0C2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift */; };
 		224BEF0F2C4E700A00863970 /* GiftingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF0E2C4E700A00863970 /* GiftingAPI.swift */; };
 		224BEF112C4EA91C00863970 /* FreeGiftingRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */; };
+		224BEF152C4EB3AF00863970 /* GiftCardImagesResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF142C4EB3AF00863970 /* GiftCardImagesResponseDTO.swift */; };
 		224FE70F2C3E520A00C09D28 /* GiftCardImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224FE70E2C3E520A00C09D28 /* GiftCardImageEntity.swift */; };
 		2250FABD2C020BA100CCF487 /* ContactDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */; };
 		2250FABF2C020BC400CCF487 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABE2C020BC400CCF487 /* ContactViewController.swift */; };
@@ -388,6 +389,7 @@
 		224BEF0C2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderGiftPaymentResponseDTO.swift; sourceTree = "<group>"; };
 		224BEF0E2C4E700A00863970 /* GiftingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingAPI.swift; sourceTree = "<group>"; };
 		224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeGiftingRequestDTO.swift; sourceTree = "<group>"; };
+		224BEF142C4EB3AF00863970 /* GiftCardImagesResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardImagesResponseDTO.swift; sourceTree = "<group>"; };
 		224FE70E2C3E520A00C09D28 /* GiftCardImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardImageEntity.swift; sourceTree = "<group>"; };
 		2250FABC2C020BA100CCF487 /* ContactDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDIContainer.swift; sourceTree = "<group>"; };
 		2250FABE2C020BC400CCF487 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
@@ -858,6 +860,7 @@
 				22DD8C892BD289400083622C /* SavePaymentInfoResponseDTO.swift */,
 				2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */,
 				224BEF0C2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift */,
+				224BEF142C4EB3AF00863970 /* GiftCardImagesResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -2489,6 +2492,7 @@
 				878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */,
 				876BF1702B6A5FEF00DB4BCB /* RefreshAuthRepository.swift in Sources */,
 				8753CA6E2B70E30D002871C7 /* TicketEntryCodeDIContainer.swift in Sources */,
+				224BEF152C4EB3AF00863970 /* GiftCardImagesResponseDTO.swift in Sources */,
 				848CBF082B65480A00239303 /* TicketingDetailViewModel.swift in Sources */,
 				84896A432B6A583200CB3E33 /* TicketingCompletionDIContainer.swift in Sources */,
 				8710D9582B74FAC800309FBF /* LogoutDIContainer.swift in Sources */,

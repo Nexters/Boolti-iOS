@@ -58,6 +58,7 @@ final class GiftingDetailDIContainer {
 
     private func createGiftingDetailViewModel(selectedTicket: SelectedTicketEntity) -> GiftingDetailViewModel {
         return GiftingDetailViewModel(concertRepository: self.concertRepository,
+                                      giftingRepository: GiftingRepository(networkService: self.concertRepository.networkService),
                                       selectedTicket: selectedTicket)
     }
 
