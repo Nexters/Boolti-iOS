@@ -16,22 +16,18 @@ final class ConcertListViewModel {
     
     private let disposeBag = DisposeBag()
     private let concertRepository: ConcertRepositoryType
-    private let ticketReservationRepository: TicketReservationRepository
     
     struct Output {
         let concerts = BehaviorRelay<[ConcertEntity]>(value: [])
-        let checkingTicketCount = BehaviorRelay<Int>(value: -1)
     }
     
     let output: Output
     
     // MARK: Init
     
-    init(concertRepository: ConcertRepository,
-         ticketReservationRepository: TicketReservationRepository) {
+    init(concertRepository: ConcertRepository) {
         self.output = Output()
         self.concertRepository = concertRepository
-        self.ticketReservationRepository = ticketReservationRepository
     }
 }
 
