@@ -95,9 +95,23 @@ extension ConcertListViewController {
             .emit(with: self) { owner, _ in
                 owner.popupView.isHidden = true
                 
-                let viewController = owner.loginViewControllerFactory()
-                viewController.modalPresentationStyle = .fullScreen
-                owner.present(viewController, animated: true)
+                switch owner.popupView.popupType {
+                case .requireLogin:
+                    let viewController = owner.loginViewControllerFactory()
+                    viewController.modalPresentationStyle = .fullScreen
+                    owner.present(viewController, animated: true)
+                case .registerGift, .registerMyGift:
+                    // 선물 등록 하고 이동
+                    break
+                default:
+                    break
+                }
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.popupView.didCancelButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.popupView.isHidden = true
             }
             .disposed(by: self.disposeBag)
     }
@@ -263,6 +277,8 @@ extension ConcertListViewController {
         case .concertList(let giftUuid):
             if UserDefaults.accessToken.isEmpty {
                 self.popupView.showPopup(with: .requireLogin)
+            } else {
+                self.viewModel.input.checkGift.onNext(giftUuid)
             }
         default:
             break
