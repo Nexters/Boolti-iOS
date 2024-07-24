@@ -73,6 +73,7 @@ final class ConcertListViewController: BooltiViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         self.configureDynamicLinkDestination()
+        self.mainCollectionView.reloadSections([0], animationStyle: .automatic)
     }
 }
 
@@ -87,6 +88,16 @@ extension ConcertListViewController {
             .asDriver(onErrorJustReturn: [])
             .drive(with: self) { owner, concerts in
                 owner.mainCollectionView.reloadSections([2], animationStyle: .automatic)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.popupView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.popupView.isHidden = true
+                
+                let viewController = owner.loginViewControllerFactory()
+                viewController.modalPresentationStyle = .fullScreen
+                owner.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
@@ -227,7 +238,8 @@ extension ConcertListViewController {
     private func configureUI() {
         self.view.backgroundColor = .grey95
         
-        self.view.addSubview(self.mainCollectionView)
+        self.view.addSubviews([self.mainCollectionView,
+                               self.popupView])
     }
     
     private func configureConstraints() {
@@ -235,15 +247,27 @@ extension ConcertListViewController {
             make.bottom.horizontalEdges.equalToSuperview()
             make.top.equalTo(self.view.safeAreaLayoutGuide)
         }
+        
+        self.popupView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 
     func configureDynamicLinkDestination() {
         guard let landingDestination = UserDefaults.landingDestination else { return }
         
-        if case .concertDetail(let concertID) = landingDestination {
+        switch landingDestination {
+        case .concertDetail(let concertID):
             let viewController = concertDetailViewControllerFactory(concertID)
             self.navigationController?.pushViewController(viewController, animated: true)
-            UserDefaults.landingDestination = nil
+        case .concertList(let giftUuid):
+            if UserDefaults.accessToken.isEmpty {
+                self.popupView.showPopup(with: .requireLogin)
+            }
+        default:
+            break
         }
+        
+        UserDefaults.landingDestination = nil
     }
 }

@@ -16,5 +16,6 @@ extension Notification.Name {
         static let concertDetail = Notification.Name("concertDetail")
         static let reservationList = Notification.Name("reservationList")
         static let reservationDetail = Notification.Name("reservationDetail")
+        static let concertList = Notification.Name("concertList")
     }
 }

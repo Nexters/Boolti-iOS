@@ -43,26 +43,43 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let incomingURL = userActivity.webpageURL {
             let _ = DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { dynamicLinks, error in
 
-                // 현재 파라미터가 하나 뿐이므로 일단 showID만 때내기
-                // 만약 다른 dynamic link가 들어오게 되면 다른 함수로 빼서 처리하기!
                 guard let url = dynamicLinks?.url else { return }
                 let urlString = url.absoluteString
-                let components = urlString.split(separator: "/")
-
-                guard let lastComponent = components.last else { return }
-                guard let concertID = Int(lastComponent) else { return }
-                UserDefaults.landingDestination = .concertDetail(concertId: concertID)
+                var components = urlString.split(separator: "/")
                 
-                // active인지 아닌 지를 확인해서 둘 메소드 다 실행되지는 않게 구현하기
-                NotificationCenter.default.post(
-                    name: Notification.Name.didTabBarSelectedIndexChanged,
-                    object: nil,
-                    userInfo: ["tabBarIndex" : HomeTab.concert.rawValue]
-                )
-                NotificationCenter.default.post(
-                    name: Notification.Name.LandingDestination.concertDetail,
-                    object: nil
-                )
+                guard let data = components.popLast(),
+                      let key = components.popLast() else { return }
+                
+                // 선물 등록일 경우
+                if key == "gift" {
+                    let giftUuid = String(data)
+                    UserDefaults.landingDestination = .concertList(giftUuid: giftUuid)
+                    
+                    // active인지 아닌 지를 확인해서 둘 메소드 다 실행되지는 않게 구현하기
+                    NotificationCenter.default.post(
+                        name: Notification.Name.didTabBarSelectedIndexChanged,
+                        object: nil,
+                        userInfo: ["tabBarIndex" : HomeTab.concert.rawValue]
+                    )
+                    NotificationCenter.default.post(
+                        name: Notification.Name.LandingDestination.concertList,
+                        object: nil
+                    )
+                } else {
+                    guard let concertID = Int(data) else { return }
+                    UserDefaults.landingDestination = .concertDetail(concertId: concertID)
+                    
+                    // active인지 아닌 지를 확인해서 둘 메소드 다 실행되지는 않게 구현하기
+                    NotificationCenter.default.post(
+                        name: Notification.Name.didTabBarSelectedIndexChanged,
+                        object: nil,
+                        userInfo: ["tabBarIndex" : HomeTab.concert.rawValue]
+                    )
+                    NotificationCenter.default.post(
+                        name: Notification.Name.LandingDestination.concertDetail,
+                        object: nil
+                    )
+                }
             }
         }
     }

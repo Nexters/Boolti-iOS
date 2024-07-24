@@ -11,5 +11,6 @@ import Foundation
      case reservationList
      case reservationDetail(reservationID: Int)
      case concertDetail(concertId: Int)
+     case concertList(giftUuid: String)
      // 추가될 예정
  }

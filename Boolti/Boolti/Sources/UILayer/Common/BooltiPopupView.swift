@@ -20,6 +20,7 @@ final class BooltiPopupView: UIView {
         case accountRemoveCancelled
         case soldoutBeforePayment
         case ticketingFailed
+        case requireLogin
         
         var title: String {
             switch self {
@@ -31,6 +32,8 @@ final class BooltiPopupView: UIView {
                 "30일 내에 로그인하여\n계정 삭제가 취소되었어요.\n불티를 다시 찾아주셔서 감사해요!"
             case .soldoutBeforePayment, .ticketingFailed:
                 "결제에 실패했어요"
+            case .requireLogin:
+                "로그인 후 선물 등록이 가능합니다.\n로그인해 주세요."
             }
         }
         
@@ -47,6 +50,8 @@ final class BooltiPopupView: UIView {
             switch self {
             case .soldoutBeforePayment, .ticketingFailed:
                 "다시 예매하기"
+            case .requireLogin:
+                "로그인하기"
             default:
                 "확인"
             }
