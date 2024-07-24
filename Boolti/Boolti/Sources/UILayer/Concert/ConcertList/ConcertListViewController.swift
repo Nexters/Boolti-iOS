@@ -18,31 +18,33 @@ final class ConcertListViewController: BooltiViewController {
     private let viewModel: ConcertListViewModel
     private let disposeBag = DisposeBag()
     private let concertDetailViewControllerFactory: (ConcertId) -> ConcertDetailViewController
-    private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
     private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
+    private let loginViewControllerFactory: () -> LoginViewController
     
     // MARK: UI Component
     
     private let mainCollectionView: UICollectionView = {
-        let layout = ConcertCollectionViewFlowLayout(stickyIndexPath: IndexPath(item: 0, section: 2))
+        let layout = ConcertCollectionViewFlowLayout(stickyIndexPath: IndexPath(item: 0, section: 1))
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.contentInset = .init(top: 20, left: 20, bottom: 20, right: 20)
         collectionView.backgroundColor = .grey95
         return collectionView
     }()
+    
+    private let popupView = BooltiPopupView()
 
     // MARK: Init
     
     init(
         viewModel: ConcertListViewModel,
         concertDetailViewControllerFactory: @escaping (ConcertId) -> ConcertDetailViewController,
-        ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
-        businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController
+        businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController,
+        loginViewControllerFactory: @escaping () -> LoginViewController
     ) {
         self.viewModel = viewModel
         self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
-        self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
+        self.loginViewControllerFactory = loginViewControllerFactory
         super.init()
     }
 
@@ -66,7 +68,6 @@ final class ConcertListViewController: BooltiViewController {
         super.viewWillAppear(animated)
         
         self.tabBarController?.tabBar.isHidden = false
-        self.viewModel.confirmCheckingTickets()
         self.viewModel.fetchConcertList(concertName: nil)
     }
 
@@ -80,20 +81,12 @@ final class ConcertListViewController: BooltiViewController {
 extension ConcertListViewController {
     
     private func bindOutputs() {
-        self.viewModel.output.checkingTicketCount
-            .skip(1)
-            .asDriver(onErrorJustReturn: 0)
-            .drive(with: self) { owner, concerts in
-                owner.mainCollectionView.reloadSections([0, 1], animationStyle: .automatic)
-            }
-            .disposed(by: self.disposeBag)
-        
         self.viewModel.output.concerts
             .skip(1)
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
             .drive(with: self) { owner, concerts in
-                owner.mainCollectionView.reloadSections([3], animationStyle: .automatic)
+                owner.mainCollectionView.reloadSections([2], animationStyle: .automatic)
             }
             .disposed(by: self.disposeBag)
     }
@@ -102,12 +95,12 @@ extension ConcertListViewController {
         self.mainCollectionView.delegate = self
         self.mainCollectionView.dataSource = self
         
-        self.mainCollectionView.register(CheckingTicketCollectionViewCell.self, forCellWithReuseIdentifier: CheckingTicketCollectionViewCell.className)
         self.mainCollectionView.register(ConcertListMainTitleCollectionViewCell.self, forCellWithReuseIdentifier: ConcertListMainTitleCollectionViewCell.className)
         self.mainCollectionView.register(SearchBarCollectionViewCell.self, forCellWithReuseIdentifier: SearchBarCollectionViewCell.className)
         self.mainCollectionView.register(ConcertCollectionViewCell.self, forCellWithReuseIdentifier: ConcertCollectionViewCell.className)
         self.mainCollectionView.register(BusinessInfoCollectionViewCell.self, forCellWithReuseIdentifier: BusinessInfoCollectionViewCell.className)
     }
+    
 }
 
 // MARK: - UICollectionViewDelegate
@@ -115,11 +108,7 @@ extension ConcertListViewController {
 extension ConcertListViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            let viewController = ticketReservationsViewControllerFactory()
-            self.navigationController?.pushViewController(viewController, animated: true)
-        }
-        else if indexPath.section == 3 {
+        if indexPath.section == 2 {
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.concerts.value[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
         }
@@ -140,14 +129,12 @@ extension ConcertListViewController: UICollectionViewDelegate {
 extension ConcertListViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        return 4
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
-        case 0:
-            return self.viewModel.output.checkingTicketCount.value
-        case 3:
+        case 2:
             return viewModel.output.concerts.value.count
         default:
             return 1
@@ -157,13 +144,10 @@ extension ConcertListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CheckingTicketCollectionViewCell.className, for: indexPath) as? CheckingTicketCollectionViewCell else { return UICollectionViewCell() }
-            return cell
-        case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConcertListMainTitleCollectionViewCell.className, for: indexPath) as? ConcertListMainTitleCollectionViewCell else { return UICollectionViewCell() }
             cell.setTitle()
             return cell
-        case 2:
+        case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchBarCollectionViewCell.className, for: indexPath) as? SearchBarCollectionViewCell else { return UICollectionViewCell() }
             
             cell.didSearchTap()
@@ -173,7 +157,7 @@ extension ConcertListViewController: UICollectionViewDataSource {
                 .disposed(by: self.disposeBag)
             
             return cell
-        case 3:
+        case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConcertCollectionViewCell.className, for: indexPath) as? ConcertCollectionViewCell else { return UICollectionViewCell() }
             cell.setData(concertEntity: self.viewModel.output.concerts.value[indexPath.item])
             return cell
@@ -198,12 +182,10 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.section {
         case 0:
-            return CGSize(width: self.mainCollectionView.frame.width - 40, height: 52)
-        case 1:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 96)
-        case 2:
+        case 1:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 80)
-        case 3:
+        case 2:
             return CGSize(width: (self.mainCollectionView.frame.width - 40) / 2 - 7.5, height: max(313, 313 * self.view.bounds.height / 812))
         default:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 86)
@@ -212,7 +194,7 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         switch section {
-        case 3:
+        case 2:
             return UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
         default:
             return .zero
@@ -221,7 +203,7 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         switch section {
-        case 3:
+        case 2:
             return 15
         default:
             return 0
@@ -230,7 +212,7 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         switch section {
-        case 3:
+        case 2:
             return 20
         default:
             return 0

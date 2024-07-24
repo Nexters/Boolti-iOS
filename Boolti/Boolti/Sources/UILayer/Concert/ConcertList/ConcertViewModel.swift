@@ -46,23 +46,4 @@ extension ConcertListViewModel {
             .disposed(by: self.disposeBag)
     }
 
-    func confirmCheckingTickets() {
-        if UserDefaults.accessToken.isEmpty {
-            self.output.checkingTicketCount.accept(-1)
-        } else {
-            self.fetchCheckingTickets()
-        }
-    }
-    
-    private func fetchCheckingTickets() {
-        self.ticketReservationRepository.ticketReservations()
-            .asObservable()
-            .subscribe(with: self, onNext: { owner, ticketReservations in
-//                let waitingForDepositReservations = ticketReservations.filter { $0.reservationStatus == .waitingForDeposit }
-//                let count = waitingForDepositReservations.count > 0 ? 1 : 0
-                let count = 0
-                owner.output.checkingTicketCount.accept(count)
-            })
-            .disposed(by: self.disposeBag)
-    }
 }
