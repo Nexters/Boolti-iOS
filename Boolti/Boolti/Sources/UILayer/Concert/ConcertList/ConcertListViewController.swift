@@ -60,6 +60,7 @@ final class ConcertListViewController: BooltiViewController {
         self.configureUI()
         self.configureConstraints()
         
+        self.bindInputs()
         self.bindOutputs()
         self.configureCollectionView()
     }
@@ -81,16 +82,7 @@ final class ConcertListViewController: BooltiViewController {
 
 extension ConcertListViewController {
     
-    private func bindOutputs() {
-        self.viewModel.output.concerts
-            .skip(1)
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: [])
-            .drive(with: self) { owner, concerts in
-                owner.mainCollectionView.reloadSections([2], animationStyle: .automatic)
-            }
-            .disposed(by: self.disposeBag)
-        
+    private func bindInputs() {
         self.popupView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
                 owner.popupView.isHidden = true
@@ -101,8 +93,7 @@ extension ConcertListViewController {
                     viewController.modalPresentationStyle = .fullScreen
                     owner.present(viewController, animated: true)
                 case .registerGift, .registerMyGift:
-                    // 선물 등록 하고 이동
-                    break
+                    owner.viewModel.input.didRegisterGiftButtonTap.accept(())
                 default:
                     break
                 }
@@ -112,6 +103,39 @@ extension ConcertListViewController {
         self.popupView.didCancelButtonTap()
             .emit(with: self) { owner, _ in
                 owner.popupView.isHidden = true
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindOutputs() {
+        self.viewModel.output.concerts
+            .skip(1)
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: [])
+            .drive(with: self) { owner, concerts in
+                owner.mainCollectionView.reloadSections([2], animationStyle: .automatic)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.didRegisterGift
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isSuccess in
+                if isSuccess {
+                    owner.changeTab(to: .ticket)
+                } else {
+                    owner.popupView.showPopup(with: .registerGiftError)
+                }
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.showRegisterGiftPopUp
+            .subscribe(with: self) { owner, giftType in
+                switch giftType {
+                case .receive:
+                    owner.popupView.showPopup(with: .registerGift, withCancelButton: true)
+                case .send:
+                    owner.popupView.showPopup(with: .registerMyGift, withCancelButton: true)
+                }
             }
             .disposed(by: self.disposeBag)
     }

@@ -18,6 +18,7 @@ protocol GiftingRepositoryType {
                       giftingEntity: GiftingEntity) -> Single<OrderGiftPaymentResponseDTO>
     func freeGifting(giftingEntity: GiftingEntity) -> Single<OrderGiftPaymentResponseDTO>
     func giftCardImages() -> Single<[GiftCardImageEntity]>
+    func registerGift(giftUuid: String) -> Single<Bool>
 }
 
 final class GiftingRepository: GiftingRepositoryType {
@@ -93,6 +94,15 @@ final class GiftingRepository: GiftingRepositoryType {
         return networkService.request(api)
             .map(GiftCardImagesResponseDTO.self)
             .map { $0.convertToGiftCardImageEntities() }
+    }
+    
+    func registerGift(giftUuid: String) -> Single<Bool> {
+        let registerGiftRequestDTO = RegisterGiftRequestDTO(giftUuid: giftUuid)
+        
+        let api = GiftingAPI.registerGift(requestDTO: registerGiftRequestDTO)
+        
+        return networkService.request(api)
+            .map(Bool.self)
     }
     
 }

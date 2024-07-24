@@ -33,6 +33,7 @@
 		22739A3B2C4F86BA000A357B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A3A2C4F86BA000A357B /* SettingViewController.swift */; };
 		22739A3D2C4F86DA000A357B /* SettingDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A3C2C4F86DA000A357B /* SettingDIContainer.swift */; };
 		22739A422C4F8D92000A357B /* SettingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A412C4F8D92000A357B /* SettingContentView.swift */; };
+		22739A462C510585000A357B /* RegisterGiftRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A452C510585000A357B /* RegisterGiftRequestDTO.swift */; };
 		22CDB2C62BA2635E00D2077D /* BusinessInfoDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */; };
 		22CF3A2F2BB51A710094711C /* SelectedSalesTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */; };
 		22CF3A312BB586B50094711C /* SelectedInvitationTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A302BB586B50094711C /* SelectedInvitationTicketView.swift */; };
@@ -400,6 +401,7 @@
 		22739A3A2C4F86BA000A357B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		22739A3C2C4F86DA000A357B /* SettingDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDIContainer.swift; sourceTree = "<group>"; };
 		22739A412C4F8D92000A357B /* SettingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingContentView.swift; sourceTree = "<group>"; };
+		22739A452C510585000A357B /* RegisterGiftRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGiftRequestDTO.swift; sourceTree = "<group>"; };
 		22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoDIContainer.swift; sourceTree = "<group>"; };
 		22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedSalesTicketView.swift; sourceTree = "<group>"; };
 		22CF3A302BB586B50094711C /* SelectedInvitationTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedInvitationTicketView.swift; sourceTree = "<group>"; };
@@ -868,6 +870,7 @@
 				22DD8C982BD499E90083622C /* OrderPaymentRequestDTO.swift */,
 				224BEF0A2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift */,
 				224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */,
+				22739A452C510585000A357B /* RegisterGiftRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -2261,6 +2264,7 @@
 				84E5124B2B6E71FD002658D1 /* ConcertDetailDIContainer.swift in Sources */,
 				870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */,
 				22DD8C8C2BD2897E0083622C /* TicketingAPI.swift in Sources */,
+				22739A462C510585000A357B /* RegisterGiftRequestDTO.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
 				84A713482B7C898E000BABCB /* QRExpandDIContainer.swift in Sources */,
 				872605532B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift in Sources */,
