@@ -52,8 +52,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
                 // 선물 등록일 경우
                 if key == "gift" {
-                    let giftUuid = String(data)
-                    UserDefaults.landingDestination = .concertList(giftUuid: giftUuid)
+                    UserDefaults.landingDestination = .concertList(giftUuid: String(data))
                     
                     // active인지 아닌 지를 확인해서 둘 메소드 다 실행되지는 않게 구현하기
                     NotificationCenter.default.post(
