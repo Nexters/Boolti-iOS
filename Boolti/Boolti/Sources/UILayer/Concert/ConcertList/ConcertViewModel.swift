@@ -86,9 +86,15 @@ extension ConcertListViewModel {
     func checkGift(giftUuid: String) {
         self.giftUuid = giftUuid
         
-        // TODO: - 서버 확인 후 자신의 선물인지 확인
-        self.output.showRegisterGiftPopUp.accept(.receive)
-        self.output.showRegisterGiftPopUp.accept(.send)
+        self.giftingRepository.giftInfo(with: giftUuid)
+            .subscribe(with: self) { owner, userId in
+                if UserDefaults.userId == userId {
+                    self.output.showRegisterGiftPopUp.accept(.send)
+                } else {
+                    self.output.showRegisterGiftPopUp.accept(.receive)
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func registerGift(giftUuid: String) {
