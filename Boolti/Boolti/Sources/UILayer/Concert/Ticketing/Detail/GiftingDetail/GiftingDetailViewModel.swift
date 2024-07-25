@@ -105,7 +105,7 @@ extension GiftingDetailViewModel {
                                           sender: senderData,
                                           receiver: receiverData,
                                           selectedTicket: self.selectedTicket,
-                                          message: self.input.message.value,
+                                          message: self.input.message.value.isEmpty ? "공연에 초대합니다." : self.input.message.value,
                                           giftImgId: selectedImage.id)
         
         self.output.giftingEntity = giftingEntity

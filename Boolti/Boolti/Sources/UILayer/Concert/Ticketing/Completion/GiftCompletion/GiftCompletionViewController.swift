@@ -347,14 +347,5 @@ extension GiftCompletionViewController {
         guard let easyPayProvider = entity.easyPayProvider else { return }
         self.amountInfoLabel.text = "\(entity.totalPaymentAmount)원\n(\(easyPayProvider) / 간편결제)"
     }
-    
-    
-    // MARK: Private Method
-    private func changeTab(to tab: HomeTab) {
-        NotificationCenter.default.post(
-            name: Notification.Name.didTabBarSelectedIndexChanged,
-            object: nil,
-            userInfo: ["tabBarIndex" : tab.rawValue]
-        )
-    }
+
 }
