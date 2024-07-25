@@ -40,5 +40,6 @@ struct TicketReservationItemEntity {
     let ticketPrice: Int
     let isGiftReservation: Bool
     let recipientName: String?
+    let giftId: Int
     let csReservationID: String
 }

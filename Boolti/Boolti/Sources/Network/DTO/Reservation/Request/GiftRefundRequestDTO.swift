@@ -8,5 +8,5 @@
 import Foundation
 
 struct GiftRefundRequestDTO: Encodable {
-    let giftUuid: Int
+    let giftUuid: String
 }

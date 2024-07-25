@@ -28,7 +28,7 @@ struct GiftReservationDetailResponseDTO: Decodable, ReservationDetailDTOProtocol
     let recipientName: String
     let recipientPhoneNumber: String
     let giftId: Int
-    let giftUuid: Int
+    let giftUuid: String
     let giftMessage: String
     let giftImgPath: String
     let senderName: String

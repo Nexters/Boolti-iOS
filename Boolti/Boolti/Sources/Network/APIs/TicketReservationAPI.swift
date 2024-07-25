@@ -27,7 +27,7 @@ extension TicketReservationAPI: ServiceAPI {
             return "/api/v1/reservation/\(DTO.reservationID)"
         case .requestRefund: // 요건 결제 API랑 같이 이어 붙히면 좋을듯!
             return "/api/v1/order/cancel-payment"
-        case .requestGiftRefund(requestDTO: let requestDTO):
+        case .requestGiftRefund:
             return "/api/v1/order/cancel-gift"
         }
     }
@@ -35,6 +35,8 @@ extension TicketReservationAPI: ServiceAPI {
     var method: Moya.Method {
         switch self {
         case .requestRefund:
+            return .post
+        case .requestGiftRefund:
             return .post
         default:
             return .get
