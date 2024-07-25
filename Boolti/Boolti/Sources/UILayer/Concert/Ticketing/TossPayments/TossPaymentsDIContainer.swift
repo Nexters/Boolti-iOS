@@ -8,23 +8,25 @@
 import UIKit
 
 final class TossPaymentsDIContainer {
-
+    
     private let ticketingRepository: TicketingRepository
-
+    
     init(ticketingRepository: TicketingRepository) {
         self.ticketingRepository = ticketingRepository
     }
-
-    func createTossPaymentsViewController(ticketingEntity: TicketingEntity) -> TossPaymentViewController {
-        let viewModel = createTossPaymentsViewModel(ticketingEntity: ticketingEntity)
-
+    
+    func createTossPaymentsViewController(ticketingEntity: TicketingEntity? = nil,
+                                          giftingEntity: GiftingEntity? = nil,
+                                          type: TicketingType) -> TossPaymentViewController {
+        let viewModel = TossPaymentsViewModel(ticketingRepository: self.ticketingRepository,
+                                              giftingRepository: GiftingRepository(networkService: self.ticketingRepository.networkService),
+                                              ticketingEntity: ticketingEntity,
+                                              giftingEntity: giftingEntity,
+                                              type: type)
+        
         let viewController = TossPaymentViewController(viewModel: viewModel)
         
         return viewController
     }
-
-    private func createTossPaymentsViewModel(ticketingEntity: TicketingEntity) -> TossPaymentsViewModel {
-        return TossPaymentsViewModel(ticketingRepository: self.ticketingRepository, ticketingEntity: ticketingEntity)
-    }
-
+    
 }

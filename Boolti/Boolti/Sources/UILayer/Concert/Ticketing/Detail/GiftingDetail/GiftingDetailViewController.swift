@@ -13,9 +13,14 @@ final class GiftingDetailViewController: BooltiViewController {
     
     // MARK: Properties
     
+    typealias GiftID = Int
+    
     private let viewModel: GiftingDetailViewModel
     private let disposeBag = DisposeBag()
     
+    private let giftingConfirmViewControllerFactory: (GiftingEntity) -> GiftingConfirmViewController
+    private let tossPaymentsViewControllerFactory: (GiftingEntity) -> TossPaymentViewController
+    private let giftCompletionViewControllerFactory: (GiftID) -> GiftCompletionViewController
     private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
     
     private var isScrollViewOffsetChanged: Bool = false
@@ -80,11 +85,19 @@ final class GiftingDetailViewController: BooltiViewController {
     
     private let payButton = BooltiButton(title: "결제하기")
     
+    private let popupView = BooltiPopupView()
+    
     // MARK: Initailizer
     
     init(viewModel: GiftingDetailViewModel,
+         giftingConfirmViewControllerFactory: @escaping (GiftingEntity) -> GiftingConfirmViewController,
+         tossPaymentsViewControllerFactory: @escaping (GiftingEntity) -> TossPaymentViewController,
+         giftCompletionViewControllerFactory: @escaping (GiftID) -> GiftCompletionViewController,
          businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController) {
         self.viewModel = viewModel
+        self.giftingConfirmViewControllerFactory = giftingConfirmViewControllerFactory
+        self.tossPaymentsViewControllerFactory = tossPaymentsViewControllerFactory
+        self.giftCompletionViewControllerFactory = giftCompletionViewControllerFactory
         self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
         
         super.init()
@@ -103,8 +116,8 @@ final class GiftingDetailViewController: BooltiViewController {
         self.configureKeyboardNotification()
         self.configureGesture()
         self.bindUIComponents()
-        self.bindViewModel()
         self.bindInputs()
+        self.bindOutputs()
     }
     
 }
@@ -156,6 +169,7 @@ extension GiftingDetailViewController {
         self.bindConcertTicketInfoView()
         self.bindBusinessInfoView()
         self.bindAgreeView()
+        self.bindPopupView()
     }
     
     private func bindNavigationBar() {
@@ -257,15 +271,17 @@ extension GiftingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
-    private func bindViewModel() {
-        self.viewModel.output.isPaybuttonEnable
-            .bind(to: self.payButton.rx.isEnabled)
-            .disposed(by: self.disposeBag)
-        
-        self.viewModel.output.selectedCardImageURL
-            .asDriver(onErrorJustReturn: "")
-            .drive(with: self) { owner, url in
-                owner.selectCardView.setSelectedImage(with: url)
+    private func bindPopupView() {
+        self.popupView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                switch owner.popupView.popupType {
+                case .soldoutBeforePayment:
+                    owner.navigationController?.popViewController(animated: true)
+                case .ticketingFailed:
+                    owner.popupView.isHidden = true
+                default:
+                    break
+                }
             }
             .disposed(by: self.disposeBag)
     }
@@ -294,6 +310,64 @@ extension GiftingDetailViewController {
             .disposed(by: self.disposeBag)
     }
     
+    private func bindOutputs() {
+        self.viewModel.output.isPaybuttonEnable
+            .bind(to: self.payButton.rx.isEnabled)
+            .disposed(by: self.disposeBag)
+        
+        // TODO: 현재 서버에서 오는 이미지가 다름
+//        self.viewModel.output.selectedCardImageEntity
+//            .bind(with: self) { owner, image in
+//                guard let image = image else { return }
+//                owner.selectCardView.setSelectedImage(with: image.path)
+//            }
+//            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.navigateToConfirm
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
+                guard let giftingEntity = owner.viewModel.output.giftingEntity else { return }
+
+                let giftingConfirmVC = owner.giftingConfirmViewControllerFactory(giftingEntity)
+                giftingConfirmVC.modalPresentationStyle = .overFullScreen
+
+                giftingConfirmVC.onDismiss = { giftingEntity in
+                    if giftingEntity.selectedTicket.price == 0 {
+                        
+                        // TODO: - 옵셔널 수정 필요 entity랑 분리하기
+                        let viewController = owner.giftCompletionViewControllerFactory(giftingEntity.giftId ?? -1)
+                        owner.navigationController?.pushViewController(viewController, animated: true)
+                    } else {
+                        let tossVC = owner.tossPaymentsViewControllerFactory(giftingEntity)
+                        tossVC.modalPresentationStyle = .overFullScreen
+
+                        tossVC.onDismissOrderSuccess = { giftId in
+                            let viewController = owner.giftCompletionViewControllerFactory(giftId)
+                            owner.navigationController?.pushViewController(viewController, animated: true)
+                        }
+
+                        tossVC.onDismissOrderFailure = { error in
+                            switch error {
+                            case .noQuantity:
+                                owner.popupView.showPopup(with: .soldoutBeforePayment)
+                            case .tossError:
+                                owner.popupView.showPopup(with: .ticketingFailed)
+                            }
+                        }
+
+                        owner.present(tossVC, animated: true)
+                    }
+                }
+                
+                giftingConfirmVC.onDismissOrderFailure = {
+                    owner.popupView.showPopup(with: .soldoutBeforePayment)
+                }
+                
+                owner.present(giftingConfirmVC, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
 }
 
 // MARK: - UIScrollViewDelegate
@@ -318,7 +392,8 @@ extension GiftingDetailViewController {
         self.view.addSubviews([self.navigationBar,
                                self.scrollView,
                                self.buttonBackgroundView,
-                               self.payButton])
+                               self.payButton,
+                               self.popupView])
         
         self.configureConstraints()
     }
@@ -348,6 +423,10 @@ extension GiftingDetailViewController {
         self.payButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
+        }
+        
+        self.popupView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     

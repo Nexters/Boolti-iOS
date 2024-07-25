@@ -239,7 +239,7 @@ final class GiftRefundRequestViewController: BooltiViewController {
                     totalRefundAmount: reservationDetail.totalPaymentAmount
                 )
                 let viewController = owner.giftRefundConfirmViewControllerFactory(
-                    "\(reservationDetail.giftUuid)",
+                    "\(reservationDetail.giftUUID)",
                     refundAccountInformation
                 )
                 viewController.modalPresentationStyle = .overCurrentContext

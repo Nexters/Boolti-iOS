@@ -62,7 +62,7 @@ extension GiftReservationDetailResponseDTO {
             paymentCardDetail: paymentCardDetail,
             showDate: self.showDate.formatToDate(),
             giftID: self.giftId,
-            giftUuid: self.giftUuid,
+            giftUUID: self.giftUuid,
             giftMessage: self.giftMessage,
             giftImageURLPath: self.giftImgPath,
             recipientName: self.recipientName,

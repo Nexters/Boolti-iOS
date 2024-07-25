@@ -15,14 +15,12 @@ final class TicketingDetailViewController: BooltiViewController {
     // MARK: Properties
     
     typealias ReservationId = Int
-    typealias GiftID = Int
 
     private let viewModel: TicketingDetailViewModel
     private let disposeBag = DisposeBag()
     private let ticketingConfirmViewControllerFactory: (TicketingEntity) -> TicketingConfirmViewController
-    private let tossPayementsViewControllerFactory: (TicketingEntity) -> TossPaymentViewController
+    private let tossPaymentsViewControllerFactory: (TicketingEntity) -> TossPaymentViewController
     private let ticketingCompletionViewControllerFactory: (ReservationId) -> TicketingCompletionViewController
-    private let giftCompletionViewControllerFactory: (GiftID) -> GiftCompletionViewController
     private let businessInfoViewControllerFactory: () -> BusinessInfoViewController
 
 
@@ -98,17 +96,15 @@ final class TicketingDetailViewController: BooltiViewController {
     init(
         viewModel: TicketingDetailViewModel,
         ticketingConfirmViewControllerFactory: @escaping (TicketingEntity) -> TicketingConfirmViewController,
-        tossPayementsViewControllerFactory: @escaping (TicketingEntity) -> TossPaymentViewController,
+        tossPaymentsViewControllerFactory: @escaping (TicketingEntity) -> TossPaymentViewController,
         ticketingCompletionViewControllerFactory: @escaping (ReservationId) -> TicketingCompletionViewController,
-        giftCompletionViewControllerFactory: @escaping (GiftID) -> GiftCompletionViewController,
         businessInfoViewControllerFactory: @escaping () -> BusinessInfoViewController
 
     ) {
         self.viewModel = viewModel
         self.ticketingConfirmViewControllerFactory = ticketingConfirmViewControllerFactory
-        self.tossPayementsViewControllerFactory = tossPayementsViewControllerFactory
+        self.tossPaymentsViewControllerFactory = tossPaymentsViewControllerFactory
         self.ticketingCompletionViewControllerFactory = ticketingCompletionViewControllerFactory
-        self.giftCompletionViewControllerFactory = giftCompletionViewControllerFactory
         self.businessInfoViewControllerFactory = businessInfoViewControllerFactory
 
         super.init()
@@ -207,14 +203,12 @@ extension TicketingDetailViewController {
                         let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
                         owner.navigationController?.pushViewController(viewController, animated: true)
                     } else {
-                        let tossVC = owner.tossPayementsViewControllerFactory(ticketingEntity)
+                        let tossVC = owner.tossPaymentsViewControllerFactory(ticketingEntity)
                         tossVC.modalPresentationStyle = .overFullScreen
 
-                        tossVC.onDismissOrderSuccess = { ticketingEntity in
-//                            let viewController = owner.ticketingCompletionViewControllerFactory(ticketingEntity.reservationId)
-//                            owner.navigationController?.pushViewController(viewController, animated: true)
-                            let vc = owner.giftCompletionViewControllerFactory(123)
-                            owner.navigationController?.pushViewController(vc, animated: true)
+                        tossVC.onDismissOrderSuccess = { reservationId in
+                            let viewController = owner.ticketingCompletionViewControllerFactory(reservationId)
+                            owner.navigationController?.pushViewController(viewController, animated: true)
                         }
 
                         tossVC.onDismissOrderFailure = { error in

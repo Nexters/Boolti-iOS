@@ -161,6 +161,7 @@ final class AuthRepository: AuthRepositoryType {
             .flatMap({ user -> Single<Void> in
                 UserDefaults.userId = user.id
                 UserDefaults.userName = user.nickname ?? ""
+                UserDefaults.userCode = user.userCode ?? ""
                 UserDefaults.userEmail = user.email ?? ""
                 UserDefaults.userImageURLPath = user.imgPath ?? ""
 

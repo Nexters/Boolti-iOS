@@ -270,8 +270,8 @@ final class GiftReservationDetailViewController: BooltiViewController {
                 guard let giftReservationDetail = owner.viewModel.output.tickerReservationDetail.value else { return }
                 if ShareApi.isKakaoTalkSharingAvailable(){
                     let link = Link(
-                        webUrl: URL(string:"https://boolti.in/gift/:\(giftReservationDetail.giftUuid)"),
-                        mobileWebUrl: URL(string:"https://boolti.in/gift/:\(giftReservationDetail.giftUuid)")
+                        webUrl: URL(string:"\(Environment.GIFT_URL)/\(giftReservationDetail.giftUUID)"),
+                        mobileWebUrl: URL(string:"\(Environment.GIFT_URL)/\(giftReservationDetail.giftUUID)")
                     )
 
                     let itemContent = ItemContent(profileText: "To. \(giftReservationDetail.recipientName)")
@@ -413,6 +413,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
             } else {
                 self.requestRefundButton.isHidden = true
             }
+            self.requestRefundButton.isHidden = true
             self.giftInformationStackView.isHidden = true
         case .refundCompleted:
             self.requestRefundButton.isHidden = true

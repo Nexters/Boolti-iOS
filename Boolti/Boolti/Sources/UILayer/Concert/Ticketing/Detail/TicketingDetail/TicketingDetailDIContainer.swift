@@ -14,7 +14,6 @@ final class TicketingDetailDIContainer {
     private let ticketReservationRepository: TicketReservationRepository
 
     typealias ReservationId = Int
-    typealias GiftID = Int
 
     init(concertRepository: ConcertRepository) {
         self.concertRepository = concertRepository
@@ -32,10 +31,11 @@ final class TicketingDetailDIContainer {
             return viewController
         }
         
-        let tossPayementsViewControllerFactory: (TicketingEntity) -> TossPaymentViewController = { ticketingEntity in
+        let tossPaymentsViewControllerFactory: (TicketingEntity) -> TossPaymentViewController = { ticketingEntity in
             let DIContainer = self.createTossPaymentsDIContainer()
             
-            let viewController = DIContainer.createTossPaymentsViewController(ticketingEntity: ticketingEntity)
+            let viewController = DIContainer.createTossPaymentsViewController(ticketingEntity: ticketingEntity,
+                                                                              type: .ticketing)
             return viewController
         }
         
@@ -43,13 +43,6 @@ final class TicketingDetailDIContainer {
             let DIContainer = self.createTicketingCompletionDIContainer()
 
             let viewController = DIContainer.createTicketingCompletionViewController(reservationId: reservationId)
-            return viewController
-        }
-
-        let giftCompletionViewControllerFactory: (GiftID) ->  GiftCompletionViewController = { giftID in
-            let DIContainer = self.createGiftCompletionDIContainer()
-
-            let viewController = DIContainer.createGiftCompletionViewController(giftID: giftID)
             return viewController
         }
 
@@ -63,9 +56,8 @@ final class TicketingDetailDIContainer {
         let viewController = TicketingDetailViewController(
             viewModel: viewModel,
             ticketingConfirmViewControllerFactory: ticketingConfirmViewControllerFactory,
-            tossPayementsViewControllerFactory: tossPayementsViewControllerFactory,
+            tossPaymentsViewControllerFactory: tossPaymentsViewControllerFactory,
             ticketingCompletionViewControllerFactory: ticketingCompletionViewControllerFactory,
-            giftCompletionViewControllerFactory: giftCompletionViewControllerFactory,
             businessInfoViewControllerFactory: businessInfoViewControllerFactory
         )
         
@@ -88,10 +80,6 @@ final class TicketingDetailDIContainer {
 
     private func createTicketingCompletionDIContainer() -> TicketingCompletionDIContainer {
         return TicketingCompletionDIContainer(ticketReservationsRepository: ticketReservationRepository)
-    }
-
-    private func createGiftCompletionDIContainer() -> GiftCompletionDIContainer {
-        return GiftCompletionDIContainer(ticketReservationsRepository: ticketReservationRepository)
     }
 
     private func createBusinessInfoDIContainer() -> BusinessInfoDIContainer {

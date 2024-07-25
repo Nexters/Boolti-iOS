@@ -148,14 +148,6 @@ extension TicketingCompletionViewController {
             .disposed(by: self.disposeBag)
     }
     
-    private func changeTab(to tab: HomeTab) {
-        NotificationCenter.default.post(
-            name: Notification.Name.didTabBarSelectedIndexChanged,
-            object: nil,
-            userInfo: ["tabBarIndex" : tab.rawValue]
-        )
-    }
-    
     private func bindInput() {
         self.navigationBar.didHomeButtonTap()
             .emit(with: self) { owner, _ in

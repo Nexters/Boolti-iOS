@@ -162,10 +162,13 @@ final class TicketReservationsViewController: BooltiViewController {
 
     func configureLandingDestination() {
         guard let landingDestination = UserDefaults.landingDestination else { return }
-
         if case .reservationDetail(let reservationID) = landingDestination {
             UserDefaults.landingDestination = nil // 할일 다하면 nil로 설정하기
             let viewController = self.ticketReservationDetailViewControllerFactory("\(reservationID)")
+            self.navigationController?.pushViewController(viewController, animated: true)
+        } else if case .giftDetail(let giftID) = landingDestination {
+            UserDefaults.landingDestination = nil
+            let viewController = self.giftReservationDetailViewControllerFactory(giftID)
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
