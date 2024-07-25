@@ -170,7 +170,6 @@ extension GiftCompletionViewController {
             .drive(with: self) { owner, _ in
                 // 아래 try catch로 에러 핸들링하는 걸로 변경
                 guard let giftReservationDetail = try? owner.viewModel.output.giftReservationDetail.value() else { return }
-
                 if ShareApi.isKakaoTalkSharingAvailable(){
                     let link = Link(
                         webUrl: URL(string:"\(Environment.GIFT_URL)/\(giftReservationDetail.giftUUID)"),
