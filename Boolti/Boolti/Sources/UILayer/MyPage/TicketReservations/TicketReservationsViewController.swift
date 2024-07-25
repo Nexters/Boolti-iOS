@@ -118,7 +118,7 @@ final class TicketReservationsViewController: BooltiViewController {
             .drive(with: self) { owner, ticketReservationItemEntity in
                 let viewController: BooltiViewController
                 if ticketReservationItemEntity.isGiftReservation {
-                    viewController = owner.giftReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
+                    viewController = owner.giftReservationDetailViewControllerFactory(String(ticketReservationItemEntity.giftId))
                 } else {
                     viewController = owner.ticketReservationDetailViewControllerFactory(String(ticketReservationItemEntity.reservationID))
                 }

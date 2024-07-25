@@ -298,8 +298,6 @@
 		876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */; };
 		876BF1702B6A5FEF00DB4BCB /* RefreshAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16F2B6A5FEF00DB4BCB /* RefreshAuthRepository.swift */; };
 		876C65E02B73907D000F2746 /* TicketType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C65DF2B73907D000F2746 /* TicketType.swift */; };
-		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
-		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
 		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
 		876E41482B5F875D006BEEB7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */; };
 		876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */; };
@@ -327,6 +325,8 @@
 		87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */; };
 		87D2FABA2B6EB5C50027FBE1 /* TicketNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB92B6EB5C50027FBE1 /* TicketNoticeView.swift */; };
 		87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */; };
+		87DB76C02C52823400DE8B14 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87DB76BE2C52823400DE8B14 /* Debug.xcconfig */; };
+		87DB76C12C52823400DE8B14 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87DB76BF2C52823400DE8B14 /* Release.xcconfig */; };
 		87F63D692C3F7E46001D7A56 /* GiftCompletionDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D682C3F7E46001D7A56 /* GiftCompletionDIContainer.swift */; };
 		87F63D6B2C3F7E55001D7A56 /* GiftCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6A2C3F7E55001D7A56 /* GiftCompletionViewController.swift */; };
 		87F63D6D2C3F7E62001D7A56 /* GiftCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6C2C3F7E62001D7A56 /* GiftCompletionViewModel.swift */; };
@@ -634,8 +634,6 @@
 		876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponseDTO.swift; sourceTree = "<group>"; };
 		876BF16F2B6A5FEF00DB4BCB /* RefreshAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshAuthRepository.swift; sourceTree = "<group>"; };
 		876C65DF2B73907D000F2746 /* TicketType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketType.swift; sourceTree = "<group>"; };
-		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiLoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -663,6 +661,8 @@
 		87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailViewModel.swift; sourceTree = "<group>"; };
 		87D2FAB92B6EB5C50027FBE1 /* TicketNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketNoticeView.swift; sourceTree = "<group>"; };
 		87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversalPolicyView.swift; sourceTree = "<group>"; };
+		87DB76BE2C52823400DE8B14 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		87DB76BF2C52823400DE8B14 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		87F63D682C3F7E46001D7A56 /* GiftCompletionDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionDIContainer.swift; sourceTree = "<group>"; };
 		87F63D6A2C3F7E55001D7A56 /* GiftCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionViewController.swift; sourceTree = "<group>"; };
 		87F63D6C2C3F7E62001D7A56 /* GiftCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionViewModel.swift; sourceTree = "<group>"; };
@@ -1063,8 +1063,8 @@
 		84781BE42B5BE03600D37921 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				876E41422B5F874B006BEEB7 /* Debug.xcconfig */,
-				876E41412B5F874B006BEEB7 /* Release.xcconfig */,
+				87DB76BE2C52823400DE8B14 /* Debug.xcconfig */,
+				87DB76BF2C52823400DE8B14 /* Release.xcconfig */,
 				876E41432B5F874B006BEEB7 /* Shared.xcconfig */,
 				84781BE72B5BE17400D37921 /* Enviroment.swift */,
 			);
@@ -2190,15 +2190,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				84FBBDFD2B675E78009462E9 /* OTSBAggroB.otf in Resources */,
+				87DB76C02C52823400DE8B14 /* Debug.xcconfig in Resources */,
 				876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */,
 				84781BD92B5BDAFD00D37921 /* LaunchScreen.storyboard in Resources */,
+				87DB76C12C52823400DE8B14 /* Release.xcconfig in Resources */,
 				84781BD62B5BDAFD00D37921 /* Assets.xcassets in Resources */,
 				84975BFF2B6123E500F903E7 /* Pretendard-SemiBold.otf in Resources */,
 				84896A532B6A86A800CB3E33 /* OTSAggroM.otf in Resources */,
 				84975C002B6123E500F903E7 /* Pretendard-Regular.otf in Resources */,
-				876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */,
 				84975BEF2B6113D000F903E7 /* Colors.xcassets in Resources */,
-				876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */,
 				876E41482B5F875D006BEEB7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2523,7 +2523,7 @@
 /* Begin XCBuildConfiguration section */
 		84781BDB2B5BDAFD00D37921 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */;
+			baseConfigurationReference = 87DB76BE2C52823400DE8B14 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -2587,7 +2587,7 @@
 		};
 		84781BDC2B5BDAFD00D37921 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 876E41412B5F874B006BEEB7 /* Release.xcconfig */;
+			baseConfigurationReference = 87DB76BF2C52823400DE8B14 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -2645,7 +2645,7 @@
 		};
 		84781BDE2B5BDAFD00D37921 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */;
+			baseConfigurationReference = 87DB76BE2C52823400DE8B14 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2687,7 +2687,7 @@
 		};
 		84781BDF2B5BDAFD00D37921 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 876E41412B5F874B006BEEB7 /* Release.xcconfig */;
+			baseConfigurationReference = 87DB76BF2C52823400DE8B14 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

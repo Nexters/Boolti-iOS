@@ -133,15 +133,6 @@ final class GiftReservationDetailViewController: BooltiViewController {
         isHidden: true
     )
 
-    private let refundMethodView = ReservationHorizontalStackView(title: "환불 수단", alignment: .right)
-    private let totalRefundAmountView = ReservationHorizontalStackView(title: "총 환불 금액", alignment: .right)
-
-    private lazy var refundInformationStackView = ReservationCollapsableStackView(
-        title: "환불 내역",
-        contentViews: [self.totalRefundAmountView, self.refundMethodView],
-        isHidden: false
-    )
-
     private let reversalPolicyView = ReversalPolicyView(isWithoutBorder: true)
 
     private let requestRefundButton: UIButton = {
@@ -241,9 +232,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
             self.depositorInformationStackView,
             self.ticketInformationStackView,
             self.paymentInformationStackView,
-            self.refundInformationStackView,
             self.reversalPolicyView,
-            self.blankSpaceView,
             self.requestRefundButton,
         ])
 
@@ -253,7 +242,6 @@ final class GiftReservationDetailViewController: BooltiViewController {
         self.giftInformationStackView.snp.makeConstraints { make in
             make.width.equalTo(self.visitorNameView)
         }
-        self.contentStackView.setCustomSpacing(0, after: self.reversalPolicyView)
     }
 
     private func bindUIComponents() {
@@ -287,7 +275,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
                     )
 
                     let itemContent = ItemContent(profileText: "To. \(giftReservationDetail.recipientName)")
-                    let button = Button(title: "선무 확인하기", link: link)
+                    let button = Button(title: "선물 확인하기", link: link)
 
                     let content = Content(
                         title: "\(giftReservationDetail.senderName)님이 보낸 선물이 도착했어요.",
@@ -359,11 +347,11 @@ final class GiftReservationDetailViewController: BooltiViewController {
 
         // 방문자 정보
         self.visitorNameView.setData(entity.recipientName)
-        self.visitorPhoneNumberView.setData(entity.recipientPhoneNumber)
+        self.visitorPhoneNumberView.setData(self.formatPhoneNumber(entity.recipientPhoneNumber))
 
         // 결제자 정보
         self.depositorNameView.setData(entity.senderName)
-        self.depositorPhoneNumberView.setData(entity.senderPhoneNumber)
+        self.depositorPhoneNumberView.setData(self.formatPhoneNumber(entity.senderPhoneNumber))
 
         // 결제 금액
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
@@ -409,7 +397,6 @@ final class GiftReservationDetailViewController: BooltiViewController {
     }
 
     private func configureFreeTicket() {
-        self.depositorInformationStackView.isHidden = true
         self.paymentMethodView.removeFromSuperview()
     }
 
@@ -422,31 +409,11 @@ final class GiftReservationDetailViewController: BooltiViewController {
             } else {
                 self.requestRefundButton.isHidden = true
             }
-            self.refundInformationStackView.isHidden = true
         case .refundCompleted:
             self.requestRefundButton.isHidden = true
-            self.refundInformationStackView.isHidden = false
-            self.configureRefundInformationStackView(with: entity)
+            self.giftInformationStackView.isHidden = true
         case .waitingForReceipt:
             print("good")
-        }
-    }
-
-    private func configureRefundInformationStackView(with entity: some ReservationDetailEntityProtocol) {
-        self.totalRefundAmountView.setData("\(entity.totalPaymentAmount)원")
-
-        guard let paymentMethod = entity.paymentMethod else { return }
-        switch paymentMethod {
-        case .accountTransfer:
-            self.refundMethodView.setData("계좌이체")
-        case .card:
-            guard let paymentCardDetail = entity.paymentCardDetail else { return }
-            self.refundMethodView.setData("\(paymentCardDetail.issuer)")
-        case .simplePayment:
-            guard let easyPayProvider = entity.easyPayProvider else { return }
-            self.refundMethodView.setData(easyPayProvider)
-        case .free:
-            self.refundMethodView.removeFromSuperview()
         }
     }
 
@@ -467,5 +434,15 @@ final class GiftReservationDetailViewController: BooltiViewController {
         self.blankSpaceView.snp.updateConstraints { make in
             make.height.equalTo(20)
         }
+    }
+
+    private func formatPhoneNumber(_ number: String) -> String {
+
+        guard number.count == 11 else {
+            return number
+        }
+        let formattedNumber = "\(number.prefix(3))-\(number.dropFirst(3).prefix(4))-\(number.dropFirst(7))"
+
+        return formattedNumber
     }
 }
