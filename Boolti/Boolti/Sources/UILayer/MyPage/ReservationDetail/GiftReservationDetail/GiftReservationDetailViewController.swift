@@ -332,7 +332,11 @@ final class GiftReservationDetailViewController: BooltiViewController {
 
         // 콘서트 정보
         self.reservationIDLabel.text = "No. \(entity.csReservationID)"
-        self.reservationStatusLabel.text = entity.reservationStatus.description
+        if entity.reservationStatus == .reservationCompleted {
+            self.reservationStatusLabel.text = "등록 완료"
+        } else {
+            self.reservationStatusLabel.text = entity.reservationStatus.description
+        }
         self.reservationStatusLabel.textColor = entity.reservationStatus.color
         self.concertInformationView.setData(
             posterImageURLPath: entity.concertPosterImageURLPath,
@@ -409,11 +413,12 @@ final class GiftReservationDetailViewController: BooltiViewController {
             } else {
                 self.requestRefundButton.isHidden = true
             }
+            self.giftInformationStackView.isHidden = true
         case .refundCompleted:
             self.requestRefundButton.isHidden = true
             self.giftInformationStackView.isHidden = true
         case .waitingForReceipt:
-            print("good")
+            return
         }
     }
 
