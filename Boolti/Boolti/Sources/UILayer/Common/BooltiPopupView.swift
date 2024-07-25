@@ -91,6 +91,12 @@ final class BooltiPopupView: UIView {
         return view
     }()
     
+    private lazy var closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.closeButton.withTintColor(.grey50), for: .normal)
+        return button
+    }()
+    
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .subhead2
@@ -140,7 +146,9 @@ final class BooltiPopupView: UIView {
 
 extension BooltiPopupView {
     
-    func showPopup(with type: PopupType, withCancelButton: Bool = false) {
+    func showPopup(with type: PopupType,
+                   withCancelButton: Bool = false,
+                   withCloseButton: Bool = false) {
         self.titleLabel.text = type.title
         self.titleLabel.setAlignment(.center)
         self.descriptionLabel.text = type.description
@@ -151,6 +159,34 @@ extension BooltiPopupView {
     
         self.popupType = type
         self.isHidden = false
+
+        if withCloseButton {
+            self.addCloseButton()
+        } else {
+            self.removeCloseButton()
+        }
+    }
+    
+    private func addCloseButton() {
+        self.addSubview(self.closeButton)
+        
+        self.closeButton.snp.makeConstraints { make in
+            make.top.equalTo(self.popupBackgroundView).offset(12)
+            make.trailing.equalTo(self.popupBackgroundView).inset(20)
+            make.size.equalTo(24)
+        }
+        
+        self.titleLabel.snp.updateConstraints { make in
+            make.top.equalTo(self.popupBackgroundView).offset(48)
+        }
+    }
+    
+    private func removeCloseButton() {
+        self.closeButton.removeFromSuperview()
+        
+        self.titleLabel.snp.updateConstraints { make in
+            make.top.equalTo(self.popupBackgroundView).offset(32)
+        }
     }
     
     func didCancelButtonTap() -> Signal<Void> {
@@ -159,6 +195,10 @@ extension BooltiPopupView {
     
     func didConfirmButtonTap() -> Signal<Void> {
         return self.confirmButton.rx.tap.asSignal()
+    }
+    
+    func didCloseButtonTap() -> Signal<Void> {
+        return self.closeButton.rx.tap.asSignal()
     }
 }
 

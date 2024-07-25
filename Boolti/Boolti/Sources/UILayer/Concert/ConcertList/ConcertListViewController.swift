@@ -105,6 +105,12 @@ extension ConcertListViewController {
                 owner.popupView.isHidden = true
             }
             .disposed(by: self.disposeBag)
+        
+        self.popupView.didCloseButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.popupView.isHidden = true
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func bindOutputs() {
@@ -132,9 +138,13 @@ extension ConcertListViewController {
             .subscribe(with: self) { owner, giftType in
                 switch giftType {
                 case .receive:
-                    owner.popupView.showPopup(with: .registerGift, withCancelButton: true)
+                    owner.popupView.showPopup(with: .registerGift,
+                                              withCancelButton: true,
+                                              withCloseButton: true)
                 case .send:
-                    owner.popupView.showPopup(with: .registerMyGift, withCancelButton: true)
+                    owner.popupView.showPopup(with: .registerMyGift,
+                                              withCancelButton: true,
+                                              withCloseButton: true)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -298,16 +308,16 @@ extension ConcertListViewController {
         case .concertDetail(let concertID):
             let viewController = concertDetailViewControllerFactory(concertID)
             self.navigationController?.pushViewController(viewController, animated: true)
+            UserDefaults.landingDestination = nil
         case .concertList(let giftUuid):
             if UserDefaults.accessToken.isEmpty {
                 self.popupView.showPopup(with: .requireLogin)
             } else {
                 self.viewModel.input.checkGift.onNext(giftUuid)
+                UserDefaults.landingDestination = nil
             }
         default:
             break
         }
-        
-        UserDefaults.landingDestination = nil
     }
 }
