@@ -182,13 +182,23 @@ final class TicketRefundConfirmViewController: BooltiViewController {
         self.viewModel.output.didRequestFundCompleted
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                guard let refundRequestViewController = owner.presentingViewController as? TicketRefundRequestViewController else { return }
-                guard let viewControllers = refundRequestViewController.navigationController?.viewControllers else { return }
-                guard let reservationDetailViewController = viewControllers.filter({ $0 is TicketReservationDetailViewController }).first as? TicketReservationDetailViewController else { return }
-
-                owner.showToast(message: "취소 요청이 완료되었어요")
-                owner.dismiss(animated: true) {
-                    refundRequestViewController.navigationController?.popToViewController(reservationDetailViewController, animated: true)
+                // TODO: 통합해서 한번에 관리하기
+                if owner.viewModel.isGift {
+                    guard let refundRequestViewController = owner.presentingViewController as? GiftRefundRequestViewController else { return }
+                    guard let viewControllers = refundRequestViewController.navigationController?.viewControllers else { return }
+                    guard let reservationDetailViewController = viewControllers.filter({ $0 is GiftReservationDetailViewController }).first as? GiftReservationDetailViewController else { return }
+                    owner.showToast(message: "취소 요청이 완료되었어요")
+                    owner.dismiss(animated: true) {
+                        refundRequestViewController.navigationController?.popToViewController(reservationDetailViewController, animated: true)
+                    }
+                } else {
+                    guard let refundRequestViewController = owner.presentingViewController as? TicketRefundRequestViewController else { return }
+                    guard let viewControllers = refundRequestViewController.navigationController?.viewControllers else { return }
+                    guard let reservationDetailViewController = viewControllers.filter({ $0 is TicketReservationDetailViewController }).first as? TicketReservationDetailViewController else { return }
+                    owner.showToast(message: "취소 요청이 완료되었어요")
+                    owner.dismiss(animated: true) {
+                        refundRequestViewController.navigationController?.popToViewController(reservationDetailViewController, animated: true)
+                    }
                 }
             }
             .disposed(by: self.disposeBag)

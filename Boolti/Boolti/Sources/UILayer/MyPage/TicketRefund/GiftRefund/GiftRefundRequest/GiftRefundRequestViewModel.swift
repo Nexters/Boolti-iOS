@@ -1,8 +1,8 @@
 //
-//  TicketRefundRequestViewModel.swift
+//  GiftRefundRequestViewModel.swift
 //  Boolti
 //
-//  Created by Miro on 2/13/24.
+//  Created by Miro on 7/24/24.
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-final class TicketRefundRequestViewModel {
+final class GiftRefundRequestViewModel {
 
     struct Input {
         let viewWillAppearEvent = PublishRelay<Void>()
@@ -18,7 +18,7 @@ final class TicketRefundRequestViewModel {
     }
 
     struct Output {
-        let tickerReservationDetail = BehaviorRelay<TicketReservationDetailEntity?>(value: nil)
+        let giftReservationDetail = BehaviorRelay<GiftReservationDetailEntity?>(value: nil)
         let isReversalPolicyChecked = PublishRelay<Bool>()
     }
 
@@ -27,13 +27,12 @@ final class TicketRefundRequestViewModel {
 
     private let disposeBag = DisposeBag()
 
-    let reservationID: String
-    let reasonText: String?
+    let giftID: String
+
     private let ticketReservationsRepository: TicketReservationsRepositoryType
 
-    init(reservationID: String, reasonText: String, ticketReservationsRepository: TicketReservationsRepositoryType) {
-        self.reservationID = reservationID
-        self.reasonText = reasonText
+    init(giftID: String, ticketReservationsRepository: TicketReservationsRepositoryType) {
+        self.giftID = giftID
         self.ticketReservationsRepository = ticketReservationsRepository
 
         self.input = Input()
@@ -44,9 +43,9 @@ final class TicketRefundRequestViewModel {
 
     private func bindInputs() {
         self.input.viewWillAppearEvent
-            .flatMap { self.fetchReservationDetail() }
-            .subscribe(with: self, onNext: { owner, ticketReservationDetail in
-                owner.output.tickerReservationDetail.accept(ticketReservationDetail)
+            .flatMap { self.fetchGiftReservationDetail() }
+            .subscribe(with: self, onNext: { owner, giftReservationDetail in
+                owner.output.giftReservationDetail.accept(giftReservationDetail)
             })
             .disposed(by: self.disposeBag)
 
@@ -57,7 +56,7 @@ final class TicketRefundRequestViewModel {
             .disposed(by: self.disposeBag)
     }
 
-    private func fetchReservationDetail() -> Single<TicketReservationDetailEntity> {
-        return self.ticketReservationsRepository.ticketReservationDetail(with: self.reservationID)
+    private func fetchGiftReservationDetail() -> Single<GiftReservationDetailEntity> {
+        return self.ticketReservationsRepository.giftReservationDetail(with: self.giftID)
     }
 }

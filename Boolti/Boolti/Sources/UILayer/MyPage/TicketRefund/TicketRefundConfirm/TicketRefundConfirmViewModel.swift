@@ -26,16 +26,19 @@ final class TicketRefundConfirmViewModel {
 
     private let disposeBag = DisposeBag()
 
-    private let reasonText: String
-    private let reservationID: String
+    private let reasonText: String?
+    private let refundID: String
+
+    let isGift: Bool
     let refundAccountInformation: RefundAccountInformation
     
     private let ticketReservationRepository: TicketReservationsRepositoryType
 
-    init(reasonText: String, reservationID: String, refundAccountInformation: RefundAccountInformation, ticketReservationRepository: TicketReservationsRepositoryType) {
+    init(reasonText: String?, reservationID: String, refundAccountInformation: RefundAccountInformation, isGift: Bool, ticketReservationRepository: TicketReservationsRepositoryType) {
         self.reasonText = reasonText
-        self.reservationID = reservationID
+        self.refundID = reservationID
         self.refundAccountInformation = refundAccountInformation
+        self.isGift = isGift
         self.ticketReservationRepository = ticketReservationRepository
 
         self.input = Input()
@@ -54,7 +57,15 @@ final class TicketRefundConfirmViewModel {
     }
 
     private func requestReservationRefund() -> Single<Void>{
-        let requestDTO = TicketRefundRequestDTO(reservationId: Int(self.reservationID)!, cancelReason: self.reasonText)
-        return self.ticketReservationRepository.requestRefund(with: requestDTO)
+        // TODO: 이거 또 정리하기... RefundID가 혼동되고 있음
+        if isGift {
+            print(self.refundID)
+            let requestDTO = GiftRefundRequestDTO(giftUuid: self.refundID)
+            return self.ticketReservationRepository.requestGiftRefund(with: requestDTO)
+        } else {
+            let requestDTO = TicketRefundRequestDTO(reservationId: Int(self.refundID)!, cancelReason: self.reasonText ?? "")
+            return self.ticketReservationRepository.requestRefund(with: requestDTO)
+        }
+
     }
 }

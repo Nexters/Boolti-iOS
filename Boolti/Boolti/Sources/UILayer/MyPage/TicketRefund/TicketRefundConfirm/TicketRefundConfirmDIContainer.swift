@@ -20,13 +20,12 @@ final class TicketRefundConfirmDIContainer {
         self.ticketReservationRepository = ticketReservationRepository
     }
 
-    func createTicketRefundConfirmViewController(reservationID: String, reasonText: String, refundAccoundInformation: RefundAccountInformation) -> TicketRefundConfirmViewController{
-        return TicketRefundConfirmViewController(viewModel: self.createTicketRefundConfirmViewModel(reservationID: reservationID, reasonText: reasonText, refundAccountInfomration: refundAccoundInformation))
-
+    func createTicketRefundConfirmViewController(reservationID: String, reasonText: String?, isGift: Bool, refundAccoundInformation: RefundAccountInformation) -> TicketRefundConfirmViewController{
+        return TicketRefundConfirmViewController(viewModel: self.createTicketRefundConfirmViewModel(reservationID: reservationID, reasonText: reasonText, isGift: isGift, refundAccountInfomration: refundAccoundInformation))
     }
 
-    private func createTicketRefundConfirmViewModel(reservationID: String, reasonText: String, refundAccountInfomration: RefundAccountInformation) -> TicketRefundConfirmViewModel{
-        return TicketRefundConfirmViewModel(reasonText: reasonText, reservationID: reservationID, refundAccountInformation: refundAccountInfomration, ticketReservationRepository: self.ticketReservationRepository)
+    private func createTicketRefundConfirmViewModel(reservationID: String, reasonText: String?, isGift: Bool, refundAccountInfomration: RefundAccountInformation) -> TicketRefundConfirmViewModel{
+        return TicketRefundConfirmViewModel(reasonText: reasonText, reservationID: reservationID, refundAccountInformation: refundAccountInfomration, isGift: isGift, ticketReservationRepository: self.ticketReservationRepository)
     }
 
 }

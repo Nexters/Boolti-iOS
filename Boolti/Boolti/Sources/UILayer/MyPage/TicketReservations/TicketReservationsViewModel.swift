@@ -17,7 +17,7 @@ final class TicketReservationsViewModel {
     }
 
     struct Output {
-        let tickerReservations = PublishRelay<[TicketReservationItemEntity]>()
+        let tickerReservations = BehaviorRelay<[TicketReservationItemEntity]?>(value: nil)
     }
 
     let input: Input

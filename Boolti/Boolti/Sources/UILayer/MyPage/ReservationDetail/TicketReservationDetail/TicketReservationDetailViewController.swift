@@ -288,11 +288,11 @@ final class TicketReservationDetailViewController: BooltiViewController {
 
         // 방문자 정보
         self.visitorNameView.setData(entity.purchaseName)
-        self.visitorPhoneNumberView.setData(entity.purchaserPhoneNumber)
+        self.visitorPhoneNumberView.setData(self.formatPhoneNumber(entity.purchaserPhoneNumber))
 
         // 결제자 정보
         self.depositorNameView.setData(entity.depositorName)
-        self.depositorPhoneNumberView.setData(entity.depositorPhoneNumber)
+        self.depositorPhoneNumberView.setData(self.formatPhoneNumber(entity.depositorPhoneNumber))
         
         // 결제 금액
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
@@ -356,6 +356,8 @@ final class TicketReservationDetailViewController: BooltiViewController {
             self.requestRefundButton.isHidden = true
             self.refundInformationStackView.isHidden = false
             self.configureRefundInformationStackView(with: entity)
+        case .waitingForReceipt:
+            print("good")
         }
     }
 
@@ -394,5 +396,14 @@ final class TicketReservationDetailViewController: BooltiViewController {
         self.blankSpaceView.snp.updateConstraints { make in
             make.height.equalTo(20)
         }
+    }
+
+    private func formatPhoneNumber(_ number: String) -> String {
+
+        guard number.count == 11 else {
+            return number
+        }
+        let formattedNumber = "\(number.prefix(3))-\(number.dropFirst(3).prefix(4))-\(number.dropFirst(7))"
+        return formattedNumber
     }
 }

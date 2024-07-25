@@ -1,4 +1,5 @@
 {
+  "originHash" : "ba72e758b1b94600eb81e0357ba3aff8e6794b75600107a0940665d577057d88",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -122,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kakao/kakao-ios-sdk.git",
       "state" : {
-        "revision" : "08089eeffc9b442da1c7343a70bf66c6de1a72c9",
-        "version" : "2.22.4"
+        "revision" : "66b3bddc2657e8ccb7a16fa0264aac99c57be09b",
+        "version" : "2.22.5"
       }
     },
     {
@@ -132,7 +133,7 @@
       "location" : "https://github.com/kakao/kakao-ios-sdk-rx",
       "state" : {
         "branch" : "master",
-        "revision" : "bdcb118183ef59a75753a69ac5d3cc93def0baa3"
+        "revision" : "b5d6cd4bbf29e5e2a79b8a1d3c43e8df606dbb40"
       }
     },
     {
@@ -311,10 +312,10 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
       "state" : {
-        "revision" : "d57a5aecf24a25b32ec4a74be2f5d0a995a47c4b",
-        "version" : "1.27.0"
+        "revision" : "e17d61f26df0f0e06f58f6977ba05a097a720106",
+        "version" : "1.27.1"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

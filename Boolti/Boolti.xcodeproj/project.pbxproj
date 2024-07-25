@@ -246,6 +246,14 @@
 		8710D9582B74FAC800309FBF /* LogoutDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710D9572B74FAC800309FBF /* LogoutDIContainer.swift */; };
 		8710D95A2B750A5500309FBF /* MyPageDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710D9592B750A5500309FBF /* MyPageDestination.swift */; };
 		871996F52C2C2B85003F3845 /* SocialServiceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871996F42C2C2B85003F3845 /* SocialServiceButton.swift */; };
+		871F3D162C4E892200AB1BB9 /* GiftReservationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D152C4E892200AB1BB9 /* GiftReservationDetailViewModel.swift */; };
+		871F3D182C4E894100AB1BB9 /* GiftReservationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D172C4E894100AB1BB9 /* GiftReservationDetailViewController.swift */; };
+		871F3D1A2C4E896300AB1BB9 /* GiftReservationDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D192C4E896300AB1BB9 /* GiftReservationDetailDIContainer.swift */; };
+		871F3D1E2C4EBEB900AB1BB9 /* GiftReservationRefundAskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D1D2C4EBEB900AB1BB9 /* GiftReservationRefundAskViewController.swift */; };
+		871F3D202C4FFFFA00AB1BB9 /* GiftRefundRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D1F2C4FFFFA00AB1BB9 /* GiftRefundRequestDTO.swift */; };
+		871F3D232C50015300AB1BB9 /* GiftRefundRequestDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D222C50015300AB1BB9 /* GiftRefundRequestDIContainer.swift */; };
+		871F3D252C50016600AB1BB9 /* GiftReservationRefundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D242C50016600AB1BB9 /* GiftReservationRefundViewController.swift */; };
+		871F3D272C50017800AB1BB9 /* GiftRefundRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D262C50017800AB1BB9 /* GiftRefundRequestViewModel.swift */; };
 		8721400A2B749A5D007C3BC1 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 872140092B749A5D007C3BC1 /* RxKeyboard */; };
 		8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8724C4BE2B6221A500484BFC /* UIView+.swift */; };
 		872605422B793223005CD0D4 /* TicketReservationDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872605412B793223005CD0D4 /* TicketReservationDetailDIContainer.swift */; };
@@ -305,8 +313,6 @@
 		876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */; };
 		876BF1702B6A5FEF00DB4BCB /* RefreshAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16F2B6A5FEF00DB4BCB /* RefreshAuthRepository.swift */; };
 		876C65E02B73907D000F2746 /* TicketType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C65DF2B73907D000F2746 /* TicketType.swift */; };
-		876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41412B5F874B006BEEB7 /* Release.xcconfig */; };
-		876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */; };
 		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
 		876E41482B5F875D006BEEB7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */; };
 		876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */; };
@@ -334,6 +340,8 @@
 		87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */; };
 		87D2FABA2B6EB5C50027FBE1 /* TicketNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB92B6EB5C50027FBE1 /* TicketNoticeView.swift */; };
 		87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */; };
+		87DB76C02C52823400DE8B14 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87DB76BE2C52823400DE8B14 /* Debug.xcconfig */; };
+		87DB76C12C52823400DE8B14 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87DB76BF2C52823400DE8B14 /* Release.xcconfig */; };
 		87F63D692C3F7E46001D7A56 /* GiftCompletionDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D682C3F7E46001D7A56 /* GiftCompletionDIContainer.swift */; };
 		87F63D6B2C3F7E55001D7A56 /* GiftCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6A2C3F7E55001D7A56 /* GiftCompletionViewController.swift */; };
 		87F63D6D2C3F7E62001D7A56 /* GiftCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6C2C3F7E62001D7A56 /* GiftCompletionViewModel.swift */; };
@@ -590,6 +598,14 @@
 		8710D9572B74FAC800309FBF /* LogoutDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutDIContainer.swift; sourceTree = "<group>"; };
 		8710D9592B750A5500309FBF /* MyPageDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageDestination.swift; sourceTree = "<group>"; };
 		871996F42C2C2B85003F3845 /* SocialServiceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialServiceButton.swift; sourceTree = "<group>"; };
+		871F3D152C4E892200AB1BB9 /* GiftReservationDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailViewModel.swift; sourceTree = "<group>"; };
+		871F3D172C4E894100AB1BB9 /* GiftReservationDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailViewController.swift; sourceTree = "<group>"; };
+		871F3D192C4E896300AB1BB9 /* GiftReservationDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationDetailDIContainer.swift; sourceTree = "<group>"; };
+		871F3D1D2C4EBEB900AB1BB9 /* GiftReservationRefundAskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationRefundAskViewController.swift; sourceTree = "<group>"; };
+		871F3D1F2C4FFFFA00AB1BB9 /* GiftRefundRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftRefundRequestDTO.swift; sourceTree = "<group>"; };
+		871F3D222C50015300AB1BB9 /* GiftRefundRequestDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftRefundRequestDIContainer.swift; sourceTree = "<group>"; };
+		871F3D242C50016600AB1BB9 /* GiftReservationRefundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationRefundViewController.swift; sourceTree = "<group>"; };
+		871F3D262C50017800AB1BB9 /* GiftRefundRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftRefundRequestViewModel.swift; sourceTree = "<group>"; };
 		8724C4BE2B6221A500484BFC /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		872605412B793223005CD0D4 /* TicketReservationDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailDIContainer.swift; sourceTree = "<group>"; };
 		872605432B7932AF005CD0D4 /* TicketReservationDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailViewController.swift; sourceTree = "<group>"; };
@@ -648,8 +664,6 @@
 		876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponseDTO.swift; sourceTree = "<group>"; };
 		876BF16F2B6A5FEF00DB4BCB /* RefreshAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshAuthRepository.swift; sourceTree = "<group>"; };
 		876C65DF2B73907D000F2746 /* TicketType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketType.swift; sourceTree = "<group>"; };
-		876E41412B5F874B006BEEB7 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		876E41422B5F874B006BEEB7 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		876E41432B5F874B006BEEB7 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiLoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -677,6 +691,8 @@
 		87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailViewModel.swift; sourceTree = "<group>"; };
 		87D2FAB92B6EB5C50027FBE1 /* TicketNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketNoticeView.swift; sourceTree = "<group>"; };
 		87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversalPolicyView.swift; sourceTree = "<group>"; };
+		87DB76BE2C52823400DE8B14 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		87DB76BF2C52823400DE8B14 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		87F63D682C3F7E46001D7A56 /* GiftCompletionDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionDIContainer.swift; sourceTree = "<group>"; };
 		87F63D6A2C3F7E55001D7A56 /* GiftCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionViewController.swift; sourceTree = "<group>"; };
 		87F63D6C2C3F7E62001D7A56 /* GiftCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionViewModel.swift; sourceTree = "<group>"; };
@@ -1139,8 +1155,8 @@
 		84781BE42B5BE03600D37921 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				876E41422B5F874B006BEEB7 /* Debug.xcconfig */,
-				876E41412B5F874B006BEEB7 /* Release.xcconfig */,
+				87DB76BE2C52823400DE8B14 /* Debug.xcconfig */,
+				87DB76BF2C52823400DE8B14 /* Release.xcconfig */,
 				876E41432B5F874B006BEEB7 /* Shared.xcconfig */,
 				84781BE72B5BE17400D37921 /* Enviroment.swift */,
 			);
@@ -1321,7 +1337,8 @@
 				8710D9412B74F9F600309FBF /* Main */,
 				22739A392C4F86AC000A357B /* Setting */,
 				8710D9432B74FA1300309FBF /* TicketReservations */,
-				872605402B79320B005CD0D4 /* TicketReservationDetail */,
+				871F3D122C4E88C200AB1BB9 /* ReservationDetail */,
+				8710D9412B74F9F600309FBF /* Main */,
 				8730F00A2B7B0FEC00D4F339 /* TicketRefund */,
 				8710D9442B74FA1B00309FBF /* QRScanner */,
 				8710D9422B74FA0C00309FBF /* Logout */,
@@ -1678,6 +1695,7 @@
 			children = (
 				8726054E2B79FD49005CD0D4 /* TicketReservationDetailRequestDTO.swift */,
 				870B75FE2B7CC447008970B3 /* TicketRefundRequestDTO.swift */,
+				871F3D1F2C4FFFFA00AB1BB9 /* GiftRefundRequestDTO.swift */,
 				87F63D702C3F82F8001D7A56 /* GiftReservationDetailRequestDTO.swift */,
 				22739A472C511058000A357B /* GiftInfoRequestDTO.swift */,
 			);
@@ -1773,10 +1791,48 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		871F3D122C4E88C200AB1BB9 /* ReservationDetail */ = {
+			isa = PBXGroup;
+			children = (
+				871F3D132C4E88F400AB1BB9 /* GiftReservationDetail */,
+				872605472B793A18005CD0D4 /* Views */,
+				872605402B79320B005CD0D4 /* TicketReservationDetail */,
+			);
+			path = ReservationDetail;
+			sourceTree = "<group>";
+		};
+		871F3D132C4E88F400AB1BB9 /* GiftReservationDetail */ = {
+			isa = PBXGroup;
+			children = (
+				871F3D152C4E892200AB1BB9 /* GiftReservationDetailViewModel.swift */,
+				871F3D172C4E894100AB1BB9 /* GiftReservationDetailViewController.swift */,
+				871F3D192C4E896300AB1BB9 /* GiftReservationDetailDIContainer.swift */,
+			);
+			path = GiftReservationDetail;
+			sourceTree = "<group>";
+		};
+		871F3D1C2C4EBEA600AB1BB9 /* GiftRefund */ = {
+			isa = PBXGroup;
+			children = (
+				871F3D1D2C4EBEB900AB1BB9 /* GiftReservationRefundAskViewController.swift */,
+				871F3D212C50014400AB1BB9 /* GiftRefundRequest */,
+			);
+			path = GiftRefund;
+			sourceTree = "<group>";
+		};
+		871F3D212C50014400AB1BB9 /* GiftRefundRequest */ = {
+			isa = PBXGroup;
+			children = (
+				871F3D222C50015300AB1BB9 /* GiftRefundRequestDIContainer.swift */,
+				871F3D242C50016600AB1BB9 /* GiftReservationRefundViewController.swift */,
+				871F3D262C50017800AB1BB9 /* GiftRefundRequestViewModel.swift */,
+			);
+			path = GiftRefundRequest;
+			sourceTree = "<group>";
+		};
 		872605402B79320B005CD0D4 /* TicketReservationDetail */ = {
 			isa = PBXGroup;
 			children = (
-				872605472B793A18005CD0D4 /* Views */,
 				872605412B793223005CD0D4 /* TicketReservationDetailDIContainer.swift */,
 				872605432B7932AF005CD0D4 /* TicketReservationDetailViewController.swift */,
 				872605452B7932BD005CD0D4 /* TicketReservationDetailViewModel.swift */,
@@ -1797,6 +1853,7 @@
 		8730F00A2B7B0FEC00D4F339 /* TicketRefund */ = {
 			isa = PBXGroup;
 			children = (
+				871F3D1C2C4EBEA600AB1BB9 /* GiftRefund */,
 				8730F00B2B7B100700D4F339 /* TicketRefundReason */,
 				8730F00C2B7B103700D4F339 /* TicketRefundRequest */,
 				8730F00E2B7B106300D4F339 /* TicketRefundConfirm */,
@@ -2219,15 +2276,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				84FBBDFD2B675E78009462E9 /* OTSBAggroB.otf in Resources */,
+				87DB76C02C52823400DE8B14 /* Debug.xcconfig in Resources */,
 				876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */,
 				84781BD92B5BDAFD00D37921 /* LaunchScreen.storyboard in Resources */,
+				87DB76C12C52823400DE8B14 /* Release.xcconfig in Resources */,
 				84781BD62B5BDAFD00D37921 /* Assets.xcassets in Resources */,
 				84975BFF2B6123E500F903E7 /* Pretendard-SemiBold.otf in Resources */,
 				84896A532B6A86A800CB3E33 /* OTSAggroM.otf in Resources */,
 				84975C002B6123E500F903E7 /* Pretendard-Regular.otf in Resources */,
-				876E41452B5F874B006BEEB7 /* Debug.xcconfig in Resources */,
 				84975BEF2B6113D000F903E7 /* Colors.xcassets in Resources */,
-				876E41442B5F874B006BEEB7 /* Release.xcconfig in Resources */,
 				876E41482B5F875D006BEEB7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2277,6 +2334,7 @@
 				872605532B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift in Sources */,
 				8730F01A2B7B2A0C00D4F339 /* TicketRefundRequestDIContainer.swift in Sources */,
 				22739A3D2C4F86DA000A357B /* SettingDIContainer.swift in Sources */,
+				871F3D182C4E894100AB1BB9 /* GiftReservationDetailViewController.swift in Sources */,
 				84A713412B7C6D96000BABCB /* EntranceCodeViewController.swift in Sources */,
 				22CF3A2F2BB51A710094711C /* SelectedSalesTicketView.swift in Sources */,
 				84781CAF2B5BF7CA00D37921 /* HomeTab.swift in Sources */,
@@ -2298,6 +2356,7 @@
 				84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */,
 				2233EAAF2BE142C900A315BF /* TicketingErrorResponseDTO.swift in Sources */,
 				8730F0142B7B10A300D4F339 /* TicketRefundReasonDIContainer.swift in Sources */,
+				871F3D1A2C4E896300AB1BB9 /* GiftReservationDetailDIContainer.swift in Sources */,
 				840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */,
 				84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */,
 				84FBBDFF2B67677A009462E9 /* UILabel+.swift in Sources */,
@@ -2393,6 +2452,7 @@
 				84D1C37F2B79379200527998 /* FreeTicketingRequestDTO.swift in Sources */,
 				84BAB8262B8CA8DB00DEA35C /* TicketingConfirmDIContainer.swift in Sources */,
 				22DD8C882BD289100083622C /* SavePaymentInfoRequestDTO.swift in Sources */,
+				871F3D202C4FFFFA00AB1BB9 /* GiftRefundRequestDTO.swift in Sources */,
 				84896A472B6A677400CB3E33 /* TicketingCompletionViewModel.swift in Sources */,
 				84A0248C2B7B996F0095A56E /* QRScannerDIContainer.swift in Sources */,
 				84EF916A2B8A435C0073C89A /* PosterCollectionViewCell.swift in Sources */,
@@ -2425,12 +2485,14 @@
 				84975BF82B611EA500F903E7 /* UIFont+.swift in Sources */,
 				84625A0E2B63B2E600CC9077 /* TicketSelectionDIContainer.swift in Sources */,
 				220013D92BE39F62007FF9E6 /* TicketingErrorType.swift in Sources */,
+				871F3D252C50016600AB1BB9 /* GiftReservationRefundViewController.swift in Sources */,
 				84D1C3872B7A14F300527998 /* CheckInvitationCodeResponseDTO.swift in Sources */,
 				22DD8C992BD499E90083622C /* OrderPaymentRequestDTO.swift in Sources */,
 				224BEF0B2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift in Sources */,
 				8757BAA02B5FDDAB008503B5 /* LoginViewDIContainer.swift in Sources */,
 				8757BA9C2B5FCC06008503B5 /* LoginViewController.swift in Sources */,
 				84896A452B6A672800CB3E33 /* TicketingCompletionViewController.swift in Sources */,
+				871F3D1E2C4EBEB900AB1BB9 /* GiftReservationRefundAskViewController.swift in Sources */,
 				84FBBE092B67DF88009462E9 /* PolicyView.swift in Sources */,
 				224BEF0D2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift in Sources */,
 				84A0248E2B7B997A0095A56E /* QRScannerViewController.swift in Sources */,
@@ -2462,6 +2524,7 @@
 				872605462B7932BD005CD0D4 /* TicketReservationDetailViewModel.swift in Sources */,
 				84781CC52B5BF9DE00D37921 /* TicketListViewController.swift in Sources */,
 				84BAB82A2B8CA94400DEA35C /* TicketingConfirmViewController.swift in Sources */,
+				871F3D272C50017800AB1BB9 /* GiftRefundRequestViewModel.swift in Sources */,
 				876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */,
 				8730F01E2B7B38F700D4F339 /* AccountContentView.swift in Sources */,
 				841D77D82B73D2A20068B1C5 /* String+.swift in Sources */,
@@ -2480,8 +2543,10 @@
 				87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */,
 				87F63D7B2C3FA0FB001D7A56 /* CompletionViewControllerProtocol.swift in Sources */,
 				84781BE82B5BE17400D37921 /* Enviroment.swift in Sources */,
+				871F3D232C50015300AB1BB9 /* GiftRefundRequestDIContainer.swift in Sources */,
 				87826AEE2BBFF7F2005176D4 /* LandingDestination.swift in Sources */,
 				84DF59DC2B722EA0000816DA /* UpdatePopupDIContainer.swift in Sources */,
+				871F3D162C4E892200AB1BB9 /* GiftReservationDetailViewModel.swift in Sources */,
 				84781CD02B5C006500D37921 /* ConcertViewModel.swift in Sources */,
 				8730F0162B7B29EC00D4F339 /* TicketRefundRequestViewController.swift in Sources */,
 				84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */,
@@ -2559,7 +2624,7 @@
 /* Begin XCBuildConfiguration section */
 		84781BDB2B5BDAFD00D37921 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */;
+			baseConfigurationReference = 87DB76BE2C52823400DE8B14 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -2623,7 +2688,7 @@
 		};
 		84781BDC2B5BDAFD00D37921 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 876E41412B5F874B006BEEB7 /* Release.xcconfig */;
+			baseConfigurationReference = 87DB76BF2C52823400DE8B14 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -2681,7 +2746,7 @@
 		};
 		84781BDE2B5BDAFD00D37921 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 876E41422B5F874B006BEEB7 /* Debug.xcconfig */;
+			baseConfigurationReference = 87DB76BE2C52823400DE8B14 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2723,7 +2788,7 @@
 		};
 		84781BDF2B5BDAFD00D37921 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 876E41412B5F874B006BEEB7 /* Release.xcconfig */;
+			baseConfigurationReference = 87DB76BF2C52823400DE8B14 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

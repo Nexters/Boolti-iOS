@@ -1,8 +1,8 @@
 //
-//  TicketRefundRequestViewController.swift
+//  GiftReservationRefundViewController.swift
 //  Boolti
 //
-//  Created by Miro on 2/13/24.
+//  Created by Miro on 7/24/24.
 //
 
 import UIKit
@@ -13,18 +13,17 @@ import RxCocoa
 import RxGesture
 import RxKeyboard
 
-final class TicketRefundRequestViewController: BooltiViewController {
+final class GiftRefundRequestViewController: BooltiViewController {
 
     private enum Constants {
         static let booltiDomain = "@스튜디오불티"
     }
 
-    typealias ReservationID = String
-    typealias ReasonText = String
+    typealias GiftUuid = String
 
-    private let ticketRefundConfirmViewControllerFactory: (ReservationID, ReasonText?, RefundAccountInformation, Bool) -> TicketRefundConfirmViewController
+    private let giftRefundConfirmViewControllerFactory: (GiftUuid, RefundAccountInformation) -> TicketRefundConfirmViewController
 
-    private let viewModel: TicketRefundRequestViewModel
+    private let viewModel: GiftRefundRequestViewModel
     private let disposeBag = DisposeBag()
 
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "취소 요청하기"))
@@ -91,10 +90,10 @@ final class TicketRefundRequestViewController: BooltiViewController {
     }()
 
     init(
-        ticketRefundConfirmViewControllerFactory: @escaping (ReservationID, ReasonText?, RefundAccountInformation, Bool) -> TicketRefundConfirmViewController,
-        viewModel: TicketRefundRequestViewModel
+        giftRefundConfirmViewControllerFactory: @escaping ((GiftUuid, RefundAccountInformation) -> TicketRefundConfirmViewController),
+        viewModel: GiftRefundRequestViewModel
     ) {
-        self.ticketRefundConfirmViewControllerFactory = ticketRefundConfirmViewControllerFactory
+        self.giftRefundConfirmViewControllerFactory = giftRefundConfirmViewControllerFactory
         self.viewModel = viewModel
         super.init()
     }
@@ -189,7 +188,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
     }
 
     private func bindOutputs() {
-        self.viewModel.output.tickerReservationDetail
+        self.viewModel.output.giftReservationDetail
             .compactMap { $0 }
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, entity in
@@ -234,16 +233,14 @@ final class TicketRefundRequestViewController: BooltiViewController {
 
         self.requestRefundButton.rx.tap
             .bind(with: self) { owner, _ in
-                guard let reservationDetail = owner.viewModel.output.tickerReservationDetail.value else { return }
+                guard let reservationDetail = owner.viewModel.output.giftReservationDetail.value else { return }
                 let refundAccountInformation = RefundAccountInformation(
                     refundMethod: owner.refundMethodView.contentLabel.text,
                     totalRefundAmount: reservationDetail.totalPaymentAmount
                 )
-                let viewController = owner.ticketRefundConfirmViewControllerFactory(
-                    owner.viewModel.reservationID,
-                    owner.viewModel.reasonText,
-                    refundAccountInformation,
-                    false
+                let viewController = owner.giftRefundConfirmViewControllerFactory(
+                    "\(reservationDetail.giftUUID)",
+                    refundAccountInformation
                 )
                 viewController.modalPresentationStyle = .overCurrentContext
                 owner.definesPresentationContext = true
@@ -258,7 +255,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
     }
 
-    private func configureRefundInformation(with entity: TicketReservationDetailEntity) {
+    private func configureRefundInformation(with entity: GiftReservationDetailEntity) {
         self.refundAmountView.setData("\(entity.totalPaymentAmount)원")
 
         guard let paymentMethod = entity.paymentMethod else { return }
