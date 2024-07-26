@@ -31,12 +31,12 @@ final class GiftReservationDetailViewModel {
 
     private let disposeBag = DisposeBag()
 
-    private let giftReservationsRepository: TicketReservationsRepositoryType
+    private let giftReservationRepository: ReservationRepositoryType
     let giftID: String
 
-    init(giftID: String, giftReservationsRepository: TicketReservationsRepositoryType) {
+    init(giftID: String, giftReservationRepository: ReservationRepositoryType) {
         self.giftID = giftID
-        self.giftReservationsRepository = giftReservationsRepository
+        self.giftReservationRepository = giftReservationRepository
 
         self.input = Input()
         self.output = Output()
@@ -54,6 +54,6 @@ final class GiftReservationDetailViewModel {
     }
 
     private func fetchGiftReservationDetail() -> Single<GiftReservationDetailEntity> {
-        return self.giftReservationsRepository.giftReservationDetail(with: self.giftID)
+        return self.giftReservationRepository.giftReservationDetail(with: self.giftID)
     }
 }

@@ -29,11 +29,11 @@ final class GiftRefundRequestViewModel {
 
     let giftID: String
 
-    private let ticketReservationsRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
 
-    init(giftID: String, ticketReservationsRepository: TicketReservationsRepositoryType) {
+    init(giftID: String, reservationRepository: ReservationRepositoryType) {
         self.giftID = giftID
-        self.ticketReservationsRepository = ticketReservationsRepository
+        self.reservationRepository = reservationRepository
 
         self.input = Input()
         self.output = Output()
@@ -57,6 +57,6 @@ final class GiftRefundRequestViewModel {
     }
 
     private func fetchGiftReservationDetail() -> Single<GiftReservationDetailEntity> {
-        return self.ticketReservationsRepository.giftReservationDetail(with: self.giftID)
+        return self.reservationRepository.giftReservationDetail(with: self.giftID)
     }
 }

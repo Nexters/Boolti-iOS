@@ -11,14 +11,14 @@ final class TicketingDetailDIContainer {
 
     private let concertRepository: ConcertRepository
     private let ticketingRepository: TicketingRepository
-    private let ticketReservationRepository: TicketReservationRepository
+    private let reservationRepository: ReservationRepository
 
     typealias ReservationId = Int
 
     init(concertRepository: ConcertRepository) {
         self.concertRepository = concertRepository
         self.ticketingRepository = TicketingRepository(networkService: concertRepository.networkService)
-        self.ticketReservationRepository = TicketReservationRepository(networkService: concertRepository.networkService)
+        self.reservationRepository = ReservationRepository(networkService: concertRepository.networkService)
     }
 
     func createTicketingDetailViewController(selectedTicket: SelectedTicketEntity) -> TicketingDetailViewController {
@@ -79,7 +79,7 @@ final class TicketingDetailDIContainer {
     }
 
     private func createTicketingCompletionDIContainer() -> TicketingCompletionDIContainer {
-        return TicketingCompletionDIContainer(ticketReservationsRepository: ticketReservationRepository)
+        return TicketingCompletionDIContainer(reservationRepository: reservationRepository)
     }
 
     private func createBusinessInfoDIContainer() -> BusinessInfoDIContainer {

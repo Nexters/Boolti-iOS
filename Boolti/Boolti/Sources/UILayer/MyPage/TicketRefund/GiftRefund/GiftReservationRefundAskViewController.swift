@@ -112,7 +112,7 @@ final class GiftReservationRefundAskViewController: BooltiViewController {
             .asDriver()
             .drive(with: self) { owner, _ in
                 // TODO: 아래 로직 MVP 배포 후 변경!..
-                let DIContainer = GiftRefundRequestDIContainer(ticketReservationRepository: TicketReservationRepository(networkService: NetworkProvider()))
+                let DIContainer = GiftRefundRequestDIContainer(reservationRepository: ReservationRepository(networkService: NetworkProvider()))
                 let viewController = DIContainer.createGiftRefundRequestViewController(giftID: owner.giftID)
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }

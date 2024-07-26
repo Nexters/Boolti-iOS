@@ -14,9 +14,9 @@ final class GiftReservationDetailDIContainer {
 
     typealias giftID = String
 
-    private let giftReservationRepository: TicketReservationsRepositoryType
+    private let giftReservationRepository: ReservationRepositoryType
 
-    init(giftReservationRepository: TicketReservationsRepositoryType) {
+    init(giftReservationRepository: ReservationRepositoryType) {
         self.giftReservationRepository = giftReservationRepository
     }
 
@@ -33,11 +33,11 @@ final class GiftReservationDetailDIContainer {
     }
 
     private func createTicketRefundReasonDIContainer() -> TicketRefundReasonDIContainer {
-        return TicketRefundReasonDIContainer(ticketReservationsRepository: self.giftReservationRepository)
+        return TicketRefundReasonDIContainer(reservationRepository: self.giftReservationRepository)
     }
 
     private func createGiftReservationDetailViewModel(giftID: String) -> GiftReservationDetailViewModel {
-        return GiftReservationDetailViewModel(giftID: giftID, giftReservationsRepository: giftReservationRepository)
+        return GiftReservationDetailViewModel(giftID: giftID, giftReservationRepository: giftReservationRepository)
     }
 
 }

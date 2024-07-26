@@ -1,5 +1,5 @@
 //
-//  SalesTicketEntity.swift
+//  SelectedTicketEntity.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 1/26/24.
