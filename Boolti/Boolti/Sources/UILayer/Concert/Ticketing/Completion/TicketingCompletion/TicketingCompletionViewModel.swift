@@ -15,7 +15,7 @@ final class TicketingCompletionViewModel {
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
-    private let ticketReservationsRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
 
     struct Input {
         let viewWillAppearEvent = PublishSubject<Void>()
@@ -32,9 +32,9 @@ final class TicketingCompletionViewModel {
     // MARK: Init
     
     init(reservationId: Int,
-         ticketReservationsRepository: TicketReservationsRepositoryType) {
+         reservationRepository: ReservationRepositoryType) {
         self.reservationId = reservationId
-        self.ticketReservationsRepository = ticketReservationsRepository
+        self.reservationRepository = reservationRepository
 
         self.input = Input()
         self.output = Output()
@@ -57,6 +57,6 @@ final class TicketingCompletionViewModel {
 extension TicketingCompletionViewModel {
 
     private func fetchReservationDetail() -> Single<TicketReservationDetailEntity> {
-        return self.ticketReservationsRepository.ticketReservationDetail(with: "\(self.reservationId)")
+        return self.reservationRepository.ticketReservationDetail(with: "\(self.reservationId)")
     }
 }

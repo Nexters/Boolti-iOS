@@ -34,7 +34,7 @@ final class GiftingDetailDIContainer {
         }
         
         let giftCompletionViewControllerFactory: (GiftID) ->  GiftCompletionViewController = { giftID in
-            let DIContainer = GiftCompletionDIContainer(ticketReservationsRepository: TicketReservationRepository(networkService: self.concertRepository.networkService))
+            let DIContainer = GiftCompletionDIContainer(reservationRepository: ReservationRepository(networkService: self.concertRepository.networkService))
 
             let viewController = DIContainer.createGiftCompletionViewController(giftID: giftID)
             return viewController

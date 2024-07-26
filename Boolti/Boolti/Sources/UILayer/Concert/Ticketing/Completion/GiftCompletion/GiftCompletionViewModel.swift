@@ -15,7 +15,7 @@ final class GiftCompletionViewModel {
     // MARK: Properties
 
     private let disposeBag = DisposeBag()
-    private let ticketReservationsRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
 
     struct Input {
         let viewWillAppearEvent = PublishSubject<Void>()
@@ -31,9 +31,9 @@ final class GiftCompletionViewModel {
 
     // MARK: Init
 
-    init(giftID: Int, ticketReservationsRepository: TicketReservationsRepositoryType) {
+    init(giftID: Int, reservationRepository: ReservationRepositoryType) {
         self.giftID = giftID
-        self.ticketReservationsRepository = ticketReservationsRepository
+        self.reservationRepository = reservationRepository
 
         self.input = Input()
         self.output = Output()
@@ -56,6 +56,6 @@ final class GiftCompletionViewModel {
 extension GiftCompletionViewModel {
 
     private func fetchGiftReservationDetail() -> Single<GiftReservationDetailEntity> {
-        return self.ticketReservationsRepository.giftReservationDetail(with: "\(self.giftID)")
+        return self.reservationRepository.giftReservationDetail(with: "\(self.giftID)")
     }
 }

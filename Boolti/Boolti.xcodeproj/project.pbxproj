@@ -226,7 +226,7 @@
 		870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099AD2B77434A001779FB /* TicketDetailRequestDTO.swift */; };
 		870099B32B7744B5001779FB /* TicketReservationItemResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */; };
 		870099B52B77476E001779FB /* TicketReservationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B42B77476E001779FB /* TicketReservationAPI.swift */; };
-		870099B72B77489A001779FB /* TicketReservationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B62B77489A001779FB /* TicketReservationsRepository.swift */; };
+		870099B72B77489A001779FB /* ReservationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099B62B77489A001779FB /* ReservationsRepository.swift */; };
 		870099BA2B775A9C001779FB /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 870099B92B775A9C001779FB /* RxGesture */; };
 		870099BE2B7767E7001779FB /* EmptyReservationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870099BD2B7767E7001779FB /* EmptyReservationsView.swift */; };
 		870B75FF2B7CC447008970B3 /* TicketRefundRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870B75FE2B7CC447008970B3 /* TicketRefundRequestDTO.swift */; };
@@ -580,7 +580,7 @@
 		870099AD2B77434A001779FB /* TicketDetailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailRequestDTO.swift; sourceTree = "<group>"; };
 		870099B22B7744B5001779FB /* TicketReservationItemResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemResponseDTO.swift; sourceTree = "<group>"; };
 		870099B42B77476E001779FB /* TicketReservationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationAPI.swift; sourceTree = "<group>"; };
-		870099B62B77489A001779FB /* TicketReservationsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationsRepository.swift; sourceTree = "<group>"; };
+		870099B62B77489A001779FB /* ReservationsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationsRepository.swift; sourceTree = "<group>"; };
 		870099BD2B7767E7001779FB /* EmptyReservationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyReservationsView.swift; sourceTree = "<group>"; };
 		870B75FE2B7CC447008970B3 /* TicketRefundRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundRequestDTO.swift; sourceTree = "<group>"; };
 		870C33352BBC29B600ED212C /* UICollectionReusableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+.swift"; sourceTree = "<group>"; };
@@ -861,6 +861,46 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		22A0D0FF2C53DD3900E8157A /* Ticketing */ = {
+			isa = PBXGroup;
+			children = (
+				84625A102B63B48D00CC9077 /* SelectedTicketEntity.swift */,
+				84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */,
+				84D1C3882B7A17C500527998 /* InvitationCodeStateEntity.swift */,
+				224FE70E2C3E520A00C09D28 /* GiftCardImageEntity.swift */,
+				224BEF042C4CCB5200863970 /* GiftingEntity.swift */,
+			);
+			path = Ticketing;
+			sourceTree = "<group>";
+		};
+		22A0D1002C53DE5200E8157A /* Gifting */ = {
+			isa = PBXGroup;
+			children = (
+				22A0D1012C53DE5C00E8157A /* Request */,
+				22A0D1022C53DE6100E8157A /* Response */,
+			);
+			path = Gifting;
+			sourceTree = "<group>";
+		};
+		22A0D1012C53DE5C00E8157A /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				224BEF0A2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift */,
+				224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */,
+				22739A452C510585000A357B /* RegisterGiftRequestDTO.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		22A0D1022C53DE6100E8157A /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				224BEF0C2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift */,
+				224BEF142C4EB3AF00863970 /* GiftCardImagesResponseDTO.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
 		22CDB2C42BA2633600D2077D /* BusinessInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -888,9 +928,6 @@
 				84D1C38A2B7A448100527998 /* InvitationTicketingRequestDTO.swift */,
 				22DD8C872BD289100083622C /* SavePaymentInfoRequestDTO.swift */,
 				22DD8C982BD499E90083622C /* OrderPaymentRequestDTO.swift */,
-				224BEF0A2C4E6EA800863970 /* OrderGiftPaymentRequestDTO.swift */,
-				224BEF102C4EA91C00863970 /* FreeGiftingRequestDTO.swift */,
-				22739A452C510585000A357B /* RegisterGiftRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -904,8 +941,6 @@
 				84D1C3862B7A14F300527998 /* CheckInvitationCodeResponseDTO.swift */,
 				22DD8C892BD289400083622C /* SavePaymentInfoResponseDTO.swift */,
 				2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */,
-				224BEF0C2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift */,
-				224BEF142C4EB3AF00863970 /* GiftCardImagesResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -969,10 +1004,10 @@
 				84360F702B6BF70E009510D9 /* Auth */,
 				841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */,
 				22DD8C8D2BD28A4A0083622C /* TicketingRepository.swift */,
-				870099B62B77489A001779FB /* TicketReservationsRepository.swift */,
+				224BEF072C4CCE5C00863970 /* GiftingRepository.swift */,
+				870099B62B77489A001779FB /* ReservationsRepository.swift */,
 				87CE4F702B8DF7CE007A0C8F /* PushNotificationRepository.swift */,
 				846F5F3D2B7BBF60000F86AE /* QRRepository.swift */,
-				224BEF072C4CCE5C00863970 /* GiftingRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1043,6 +1078,7 @@
 			children = (
 				848F9F4B2B8ED9370026F527 /* Auth */,
 				84D1C3792B792D0D00527998 /* Concert */,
+				22A0D0FF2C53DD3900E8157A /* Ticketing */,
 				84E48AC42B7E543600F8BFD0 /* Ticket */,
 				84E48AC52B7E544200F8BFD0 /* QR */,
 			);
@@ -1224,6 +1260,7 @@
 				84781C7A2B5BEBE500D37921 /* Auth */,
 				84DC6F632B728792001F9576 /* Concert */,
 				22DD8C842BD288CC0083622C /* Ticketing */,
+				22A0D1002C53DE5200E8157A /* Gifting */,
 				870099AA2B7742DC001779FB /* Ticket */,
 				870099AF2B77443B001779FB /* Reservation */,
 				846F5F342B7BBDA5000F86AE /* QR */,
@@ -1288,6 +1325,7 @@
 				22CDB2C42BA2633600D2077D /* BusinessInfo */,
 				2250FABB2C020B8A00CCF487 /* Contact */,
 				84781CCA2B5C002D00D37921 /* Concert */,
+				84BAB8232B8CA7C800DEA35C /* Ticketing */,
 				84781CC32B5BF9C600D37921 /* Ticket */,
 				84781CBB2B5BF94100D37921 /* MyPage */,
 				84781CAB2B5BF79000D37921 /* TabBar */,
@@ -1334,7 +1372,6 @@
 		84781CBB2B5BF94100D37921 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				8710D9412B74F9F600309FBF /* Main */,
 				22739A392C4F86AC000A357B /* Setting */,
 				8710D9432B74FA1300309FBF /* TicketReservations */,
 				871F3D122C4E88C200AB1BB9 /* ReservationDetail */,
@@ -1366,7 +1403,6 @@
 				845F25412B89F9CC00F6C328 /* PosterExpand */,
 				84DF59DF2B726C34000816DA /* ConcertContentExpand */,
 				843918F82B7A827F00CC62AA /* Report */,
-				84BAB8232B8CA7C800DEA35C /* Ticketing */,
 			);
 			path = Concert;
 			sourceTree = "<group>";
@@ -1485,7 +1521,8 @@
 				22DD8C932BD405800083622C /* TossPayments */,
 				87F63D632C3EE9E2001D7A56 /* Completion */,
 			);
-			path = Ticketing;
+			name = Ticketing;
+			path = Concert/Ticketing;
 			sourceTree = "<group>";
 		};
 		84BAB8242B8CA8BD00DEA35C /* TicketingConfirm */ = {
@@ -1503,11 +1540,6 @@
 			children = (
 				840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */,
 				842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */,
-				84FEF6182B68ACDD00EBB64F /* TicketingEntity.swift */,
-				84625A102B63B48D00CC9077 /* SelectedTicketEntity.swift */,
-				84D1C3882B7A17C500527998 /* InvitationCodeStateEntity.swift */,
-				224FE70E2C3E520A00C09D28 /* GiftCardImageEntity.swift */,
-				224BEF042C4CCB5200863970 /* GiftingEntity.swift */,
 			);
 			path = Concert;
 			sourceTree = "<group>";
@@ -2360,7 +2392,7 @@
 				840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */,
 				84781CA32B5BF6BF00D37921 /* RootViewModel.swift in Sources */,
 				84FBBDFF2B67677A009462E9 /* UILabel+.swift in Sources */,
-				870099B72B77489A001779FB /* TicketReservationsRepository.swift in Sources */,
+				870099B72B77489A001779FB /* ReservationsRepository.swift in Sources */,
 				22739A4A2C5110FB000A357B /* GiftInfoResponseDTO.swift in Sources */,
 				84DC6F672B728858001F9576 /* ConcertDetailRequestDTO.swift in Sources */,
 				879E92382BFB447B00EC7ED1 /* TicketCollectionViewCell.swift in Sources */,
@@ -2753,7 +2785,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2795,7 +2827,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;

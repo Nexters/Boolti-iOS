@@ -29,12 +29,12 @@ final class TicketRefundRequestViewModel {
 
     let reservationID: String
     let reasonText: String?
-    private let ticketReservationsRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
 
-    init(reservationID: String, reasonText: String, ticketReservationsRepository: TicketReservationsRepositoryType) {
+    init(reservationID: String, reasonText: String, reservationRepository: ReservationRepositoryType) {
         self.reservationID = reservationID
         self.reasonText = reasonText
-        self.ticketReservationsRepository = ticketReservationsRepository
+        self.reservationRepository = reservationRepository
 
         self.input = Input()
         self.output = Output()
@@ -58,6 +58,6 @@ final class TicketRefundRequestViewModel {
     }
 
     private func fetchReservationDetail() -> Single<TicketReservationDetailEntity> {
-        return self.ticketReservationsRepository.ticketReservationDetail(with: self.reservationID)
+        return self.reservationRepository.ticketReservationDetail(with: self.reservationID)
     }
 }

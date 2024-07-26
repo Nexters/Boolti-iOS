@@ -11,10 +11,10 @@ final class GiftRefundRequestDIContainer {
 
     typealias GiftUuid = String
 
-    private let ticketReservationRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
 
-    init(ticketReservationRepository: TicketReservationsRepositoryType) {
-        self.ticketReservationRepository = ticketReservationRepository
+    init(reservationRepository: ReservationRepositoryType) {
+        self.reservationRepository = reservationRepository
     }
 
     func createGiftRefundRequestViewController(giftID: String) -> GiftRefundRequestViewController {
@@ -36,10 +36,10 @@ final class GiftRefundRequestDIContainer {
 
 
     private func giftRefundRequestViewModel(giftID: String) -> GiftRefundRequestViewModel {
-        return GiftRefundRequestViewModel(giftID: giftID, ticketReservationsRepository: ticketReservationRepository)
+        return GiftRefundRequestViewModel(giftID: giftID, reservationRepository: reservationRepository)
     }
 
     private func createGiftRefundConfirmDIContainer() -> TicketRefundConfirmDIContainer {
-        return TicketRefundConfirmDIContainer(ticketReservationRepository: self.ticketReservationRepository)
+        return TicketRefundConfirmDIContainer(reservationRepository: self.reservationRepository)
     }
 }

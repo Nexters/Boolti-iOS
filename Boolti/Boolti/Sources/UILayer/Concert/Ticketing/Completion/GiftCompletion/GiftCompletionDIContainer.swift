@@ -8,26 +8,26 @@
 import UIKit
 
 final class GiftCompletionDIContainer {
-
-    private let ticketReservationsRepository: TicketReservationsRepositoryType
-
-    init(ticketReservationsRepository: TicketReservationsRepositoryType) {
-        self.ticketReservationsRepository = ticketReservationsRepository
+    
+    private let reservationRepository: ReservationRepositoryType
+    
+    init(reservationRepository: ReservationRepositoryType) {
+        self.reservationRepository = reservationRepository
     }
-
+    
     func createGiftCompletionViewController(giftID: Int) -> GiftCompletionViewController {
         let viewModel = createGiftCompletionViewModel(giftID: giftID)
-
+        
         let viewController = GiftCompletionViewController(
             viewModel: viewModel
         )
-
+        
         return viewController
     }
-
+    
     private func createGiftCompletionViewModel(giftID: Int) -> GiftCompletionViewModel {
         return GiftCompletionViewModel(giftID: giftID,
-                                            ticketReservationsRepository: ticketReservationsRepository)
+                                       reservationRepository: reservationRepository)
     }
-
+    
 }

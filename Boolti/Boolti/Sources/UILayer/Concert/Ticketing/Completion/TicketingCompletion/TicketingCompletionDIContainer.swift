@@ -9,10 +9,10 @@ import UIKit
 
 final class TicketingCompletionDIContainer {
     
-    private let ticketReservationsRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
     
-    init(ticketReservationsRepository: TicketReservationsRepositoryType) {
-        self.ticketReservationsRepository = ticketReservationsRepository
+    init(reservationRepository: ReservationRepositoryType) {
+        self.reservationRepository = reservationRepository
     }
 
     func createTicketingCompletionViewController(reservationId: Int) -> TicketingCompletionViewController {
@@ -27,7 +27,7 @@ final class TicketingCompletionDIContainer {
 
     private func createTicketingCompletionViewModel(reservationId: Int) -> TicketingCompletionViewModel {
         return TicketingCompletionViewModel(reservationId: reservationId,
-                                            ticketReservationsRepository: ticketReservationsRepository)
+                                            reservationRepository: reservationRepository)
     }
 
 }

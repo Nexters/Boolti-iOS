@@ -1,5 +1,5 @@
 //
-//  TicketReservationsRepository.swift
+//  ReservationRepository.swift
 //  Boolti
 //
 //  Created by Miro on 2/10/24.
@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-protocol TicketReservationsRepositoryType {
+protocol ReservationRepositoryType {
     
     var networkService: NetworkProviderType { get }
     func ticketReservations() -> Single<[TicketReservationItemEntity]>
@@ -19,7 +19,7 @@ protocol TicketReservationsRepositoryType {
     func requestGiftRefund(with requestDTO: GiftRefundRequestDTO) -> Single<Void>
 }
 
-final class TicketReservationRepository: TicketReservationsRepositoryType {
+final class ReservationRepository: ReservationRepositoryType {
 
     let networkService: NetworkProviderType
 

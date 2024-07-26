@@ -32,14 +32,14 @@ final class TicketRefundConfirmViewModel {
     let isGift: Bool
     let refundAccountInformation: RefundAccountInformation
     
-    private let ticketReservationRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
 
-    init(reasonText: String?, reservationID: String, refundAccountInformation: RefundAccountInformation, isGift: Bool, ticketReservationRepository: TicketReservationsRepositoryType) {
+    init(reasonText: String?, reservationID: String, refundAccountInformation: RefundAccountInformation, isGift: Bool, reservationRepository: ReservationRepositoryType) {
         self.reasonText = reasonText
         self.refundID = reservationID
         self.refundAccountInformation = refundAccountInformation
         self.isGift = isGift
-        self.ticketReservationRepository = ticketReservationRepository
+        self.reservationRepository = reservationRepository
 
         self.input = Input()
         self.output = Output()
@@ -61,10 +61,10 @@ final class TicketRefundConfirmViewModel {
         if isGift {
             print(self.refundID)
             let requestDTO = GiftRefundRequestDTO(giftUuid: self.refundID)
-            return self.ticketReservationRepository.requestGiftRefund(with: requestDTO)
+            return self.reservationRepository.requestGiftRefund(with: requestDTO)
         } else {
             let requestDTO = TicketRefundRequestDTO(reservationId: Int(self.refundID)!, cancelReason: self.reasonText ?? "")
-            return self.ticketReservationRepository.requestRefund(with: requestDTO)
+            return self.reservationRepository.requestRefund(with: requestDTO)
         }
 
     }
