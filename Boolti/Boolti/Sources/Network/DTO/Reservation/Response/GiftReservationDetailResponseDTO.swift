@@ -31,6 +31,7 @@ struct GiftReservationDetailResponseDTO: Decodable, ReservationDetailDTOProtocol
     let giftUuid: String
     let giftMessage: String
     let giftImgPath: String
+    let giftInvitePath: String
     let senderName: String
     let senderPhoneNumber: String
 }
@@ -64,7 +65,7 @@ extension GiftReservationDetailResponseDTO {
             giftID: self.giftId,
             giftUUID: self.giftUuid,
             giftMessage: self.giftMessage,
-            giftImageURLPath: self.giftImgPath,
+            giftImageURLPath: self.giftInvitePath,
             recipientName: self.recipientName,
             recipientPhoneNumber: self.recipientPhoneNumber,
             senderName: self.senderName,
