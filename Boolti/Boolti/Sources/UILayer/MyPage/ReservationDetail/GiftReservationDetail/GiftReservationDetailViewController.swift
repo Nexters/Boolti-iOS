@@ -280,7 +280,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
                     let content = Content(
                         title: "\(giftReservationDetail.senderName)님이 보낸 선물이 도착했어요.",
                         imageUrl: URL(string:giftReservationDetail.giftImageURLPath)!,
-                        description: "\(giftReservationDetail.salesEndTime.formatToDate().format(.simple))일까지 불티앱에서 선물을 등록해주세요.",
+                        description: "\(giftReservationDetail.salesEndTime.formatToDate().format(.simple))까지 불티앱에서 선물을 등록해주세요.",
                         link: link
                     )
                     let template = FeedTemplate(content: content, itemContent: itemContent, buttons: [button])
