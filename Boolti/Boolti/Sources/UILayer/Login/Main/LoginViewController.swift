@@ -26,16 +26,10 @@ final class LoginViewController: BooltiViewController {
     private let headerTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .headline2
-        label.text = "불티나게 팔리는 티켓, 불티"
+        label.text = "지금 불티에 로그인하고\n 당신의 공연을 시작해보세요"
+        label.textAlignment = .center
         label.textColor = .grey05
-        return label
-    }()
-
-    private let subTitleLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.font = .body3
-        label.text = "지금 티켓을 예매하고 공연을 즐겨보세요!"
-        label.textColor = .grey30
+        label.numberOfLines = 0
         return label
     }()
 
@@ -156,7 +150,6 @@ extension LoginViewController {
         self.view.addSubviews([
             self.closeButton,
             self.headerTitleLabel,
-            self.subTitleLabel,
             self.kakaoLoginButton,
             self.appleLoginButton,
             self.popupView
@@ -169,12 +162,7 @@ extension LoginViewController {
         
         self.headerTitleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.subTitleLabel.snp.top).offset(-6)
-        }
-
-        self.subTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.view.snp.centerY).offset(-48)
+            make.bottom.equalTo(self.kakaoLoginButton.snp.top).offset(-48)
         }
 
         self.kakaoLoginButton.snp.makeConstraints { make in
