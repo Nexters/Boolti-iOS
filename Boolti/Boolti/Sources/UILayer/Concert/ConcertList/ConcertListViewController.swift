@@ -63,6 +63,7 @@ final class ConcertListViewController: BooltiViewController {
         self.bindInputs()
         self.bindOutputs()
         self.configureCollectionView()
+        self.configureToastView(isButtonExisted: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,12 +106,6 @@ extension ConcertListViewController {
                 owner.popupView.isHidden = true
             }
             .disposed(by: self.disposeBag)
-        
-        self.popupView.didCloseButtonTap()
-            .emit(with: self) { owner, _ in
-                owner.popupView.isHidden = true
-            }
-            .disposed(by: self.disposeBag)
     }
     
     private func bindOutputs() {
@@ -127,6 +122,7 @@ extension ConcertListViewController {
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, isSuccess in
                 if isSuccess {
+                    owner.showToast(message: "선물이 등록되었어요")
                     owner.changeTab(to: .ticket)
                 } else {
                     owner.popupView.showPopup(with: .registerGiftError)
@@ -139,12 +135,10 @@ extension ConcertListViewController {
                 switch giftType {
                 case .receive:
                     owner.popupView.showPopup(with: .registerGift,
-                                              withCancelButton: true,
-                                              withCloseButton: true)
+                                              withCancelButton: true)
                 case .send:
                     owner.popupView.showPopup(with: .registerMyGift,
-                                              withCancelButton: true,
-                                              withCloseButton: true)
+                                              withCancelButton: true)
                 }
             }
             .disposed(by: self.disposeBag)
