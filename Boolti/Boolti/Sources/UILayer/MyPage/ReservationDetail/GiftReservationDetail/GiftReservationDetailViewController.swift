@@ -114,6 +114,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
         stackView.axis = .vertical
         stackView.spacing = 24
         stackView.addArrangedSubviews([self.kakaoGiftButton, self.giftNoticeLabel])
+        stackView.isHidden = true
 
         return stackView
     }()
@@ -131,6 +132,15 @@ final class GiftReservationDetailViewController: BooltiViewController {
         title: "결제자 정보",
         contentViews: [self.depositorNameView, self.depositorPhoneNumberView],
         isHidden: true
+    )
+    
+    private let refundMethodView = ReservationHorizontalStackView(title: "환불 수단", alignment: .right)
+    private let totalRefundAmountView = ReservationHorizontalStackView(title: "총 환불 금액", alignment: .right)
+
+    private lazy var refundInformationStackView = ReservationCollapsableStackView(
+        title: "환불 내역",
+        contentViews: [self.totalRefundAmountView, self.refundMethodView],
+        isHidden: false
     )
 
     private let reversalPolicyView = ReversalPolicyView(isWithoutBorder: true)
@@ -232,6 +242,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
             self.depositorInformationStackView,
             self.ticketInformationStackView,
             self.paymentInformationStackView,
+            self.refundInformationStackView,
             self.reversalPolicyView,
             self.requestRefundButton,
         ])
@@ -360,13 +371,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
         // 결제 금액
         self.totalPaymentAmountView.setData("\(entity.totalPaymentAmount)원")
 
-        let ticketType = entity.ticketType
-        switch ticketType {
-        case .sale:
-            self.setAdditionalDataForSale(with: entity)
-        case .invitation:
-            self.configureInvitationUI(with: entity)
-        }
+        self.setAdditionalDataForSale(with: entity)
 
         // 환불
         self.configureRefundCase(with: entity)
@@ -407,7 +412,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
     private func configureRefundCase(with entity: some ReservationDetailEntityProtocol) {
         switch entity.reservationStatus {
         case .reservationCompleted:
-            if Date() <= entity.salesEndTime.formatToDate() && entity.ticketType != .invitation {
+            if Date() <= entity.salesEndTime.formatToDate() {
                 self.requestRefundButton.isHidden = false
                 self.changeBlankSpaceViewHeight()
             } else {
@@ -415,19 +420,34 @@ final class GiftReservationDetailViewController: BooltiViewController {
             }
             self.requestRefundButton.isHidden = true
             self.giftInformationStackView.isHidden = true
+            self.refundInformationStackView.isHidden = true
         case .refundCompleted:
             self.requestRefundButton.isHidden = true
             self.giftInformationStackView.isHidden = true
+            self.refundInformationStackView.isHidden = false
+            self.configureRefundInformationStackView(with: entity)
         case .waitingForReceipt:
-            return
+            self.giftInformationStackView.isHidden = false
+            self.refundInformationStackView.isHidden = true
         }
     }
+    
+    private func configureRefundInformationStackView(with entity: ReservationDetailEntityProtocol) {
+        self.totalRefundAmountView.setData("\(entity.totalPaymentAmount)원")
 
-    private func configureInvitationUI(with entity: some ReservationDetailEntityProtocol) {
-        self.paymentMethodView.setData("초청 코드")
-        self.depositorInformationStackView.isHidden = true
-        self.reversalPolicyView.isHidden = true
-        self.requestRefundButton.isHidden = true
+        guard let paymentMethod = entity.paymentMethod else { return }
+        switch paymentMethod {
+        case .accountTransfer:
+            self.refundMethodView.setData("계좌이체")
+        case .card:
+            guard let paymentCardDetail = entity.paymentCardDetail else { return }
+            self.refundMethodView.setData("\(paymentCardDetail.issuer)")
+        case .simplePayment:
+            guard let easyPayProvider = entity.easyPayProvider else { return }
+            self.refundMethodView.setData(easyPayProvider)
+        case .free:
+            self.refundMethodView.removeFromSuperview()
+        }
     }
 
     private func scrollToBottom() {
