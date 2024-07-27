@@ -109,7 +109,7 @@ extension TicketSelectionViewController {
                 
                 switch entity.ticketType {
                 case .sale:
-                    owner.selectedSalesTicketView.setData(entity: entity)
+                    owner.selectedSalesTicketView.setData(entity: entity, type: owner.viewModel.type)
                 case .invitation:
                     owner.selectedInvitationTicketView.setData(entity: entity)
                 }
