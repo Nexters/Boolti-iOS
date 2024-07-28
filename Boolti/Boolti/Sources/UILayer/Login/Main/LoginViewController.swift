@@ -26,7 +26,7 @@ final class LoginViewController: BooltiViewController {
     private let headerTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .headline2
-        label.text = "지금 불티에 로그인하고\n 당신의 공연을 시작해보세요"
+        label.text = "지금 불티에 로그인하고\n당신의 공연을 시작해 보세요!"
         label.textAlignment = .center
         label.textColor = .grey05
         label.numberOfLines = 0
