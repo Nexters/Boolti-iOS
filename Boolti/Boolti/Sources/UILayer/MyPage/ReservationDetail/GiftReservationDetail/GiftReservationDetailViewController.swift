@@ -419,8 +419,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
                 self.requestRefundButton.isHidden = true
             }
             self.requestRefundButton.isHidden = true
-            self.giftInformationStackView.removeFromSuperview()
-            self.giftInformationStackView.isHidden = true
+            self.giftInformationStackView.isHidden = false
             self.refundInformationStackView.isHidden = true
         case .refundCompleted:
             self.requestRefundButton.isHidden = true
