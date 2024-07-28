@@ -25,6 +25,8 @@ final class TicketNoticeView: UIView {
         textView.isScrollEnabled = false
         textView.dataDetectorTypes = .link
         textView.backgroundColor = .clear
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = .zero
         textView.textColor = .grey50
         textView.linkTextAttributes = [.underlineStyle: 1, .foregroundColor: UIColor.init("#46A6FF")]
 
@@ -60,7 +62,11 @@ final class TicketNoticeView: UIView {
     }
 
     func setData(with text: String) {
-        self.noticeTextView.text = text
-        self.noticeTextView.setLineSpacing(lineSpacing: 6)
+        if text.isEmpty || text == "undefined" {
+            self.noticeTextView.text = "-"
+        } else {
+            self.noticeTextView.text = text
+        }
+        self.noticeTextView.setLineHeight(alignment: .left)
     }
 }
