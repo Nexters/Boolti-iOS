@@ -251,7 +251,7 @@ final class TicketReservationsTableViewCell: UITableViewCell {
         self.removeAllConstraints()
 
         self.recipientStackView.isHidden = false
-        self.recipientLabel.text = "TO.\(entity.recipientName ?? "")"
+        self.recipientLabel.text = "TO. \(entity.recipientName ?? "")"
         if entity.reservationStatus == ReservationStatus.reservationCompleted {
             self.reservationStatusLabel.text = "등록 완료"
         }
