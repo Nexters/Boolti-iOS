@@ -62,7 +62,11 @@ final class TicketNoticeView: UIView {
     }
 
     func setData(with text: String) {
-        self.noticeTextView.text = text
+        if text.isEmpty || text == "undefined" {
+            self.noticeTextView.text = "-"
+        } else {
+            self.noticeTextView.text = text
+        }
         self.noticeTextView.setLineHeight(alignment: .left)
     }
 }
