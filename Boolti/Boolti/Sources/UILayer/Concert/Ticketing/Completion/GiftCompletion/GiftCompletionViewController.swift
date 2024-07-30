@@ -280,28 +280,28 @@ extension GiftCompletionViewController {
         }
         
         self.firstUnderlineView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(15)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(1)
         }
         
         self.kakaoGiftButton.snp.makeConstraints { make in
-            make.height.equalTo(48)
+            make.height.equalTo(45)
         }
         
         self.firstInfoStackView.snp.makeConstraints { make in
-            make.top.equalTo(self.firstUnderlineView.snp.bottom).offset(24)
+            make.top.equalTo(self.firstUnderlineView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
         self.secondUnderlineView.snp.makeConstraints { make in
-            make.top.equalTo(self.firstInfoStackView.snp.bottom).offset(25)
+            make.top.equalTo(self.firstInfoStackView.snp.bottom).offset(23)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(1)
         }
         
         self.secondInfoStackView.snp.makeConstraints { make in
-            make.top.equalTo(self.secondUnderlineView.snp.bottom).offset(24)
+            make.top.equalTo(self.secondUnderlineView.snp.bottom).offset(21)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
