@@ -42,6 +42,20 @@ final class MyPageViewController: BooltiViewController {
     
     private let registerConcertView = MypageContentView(icon: .addConcert, title: "공연 등록")
     private let qrScannerListNavigationView = MypageContentView(icon: .qrScanner, title: "입장 확인")
+    
+    private let logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .mypageLogo
+        return imageView
+    }()
+    
+    private lazy var versionLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .body1
+        label.textColor = .grey80
+        label.text = "Version \(String(describing: AppInfo.appVersion!))"
+        return label
+    }()
 
     private var isAlreadyNavigated = false
 
@@ -92,6 +106,8 @@ final class MyPageViewController: BooltiViewController {
             self.subTitleLabel,
             self.registerConcertView,
             self.qrScannerListNavigationView,
+            self.logoImageView,
+            self.versionLabel
         ])
 
         self.profileView.snp.makeConstraints { make in
@@ -127,6 +143,16 @@ final class MyPageViewController: BooltiViewController {
         self.qrScannerListNavigationView.snp.makeConstraints { make in
             make.horizontalEdges.height.equalTo(self.ticketingReservationsNavigationView)
             make.top.equalTo(self.registerConcertView.snp.bottom)
+        }
+        
+        self.logoImageView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(self.versionLabel.snp.top).offset(-8)
+        }
+        
+        self.versionLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(36)
         }
     }
 
