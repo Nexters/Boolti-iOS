@@ -12,10 +12,10 @@ final class TicketRefundReasonDIContainer {
     typealias ReservationID = String
     typealias ReasonText = String
 
-    private let ticketReservationsRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
 
-    init(ticketReservationsRepository: TicketReservationsRepositoryType) {
-        self.ticketReservationsRepository = ticketReservationsRepository
+    init(reservationRepository: ReservationRepositoryType) {
+        self.reservationRepository = reservationRepository
     }
 
     func createTicketRefundReasonViewController(reservationID: String) -> TicketRefundReasonViewController {
@@ -39,6 +39,6 @@ final class TicketRefundReasonDIContainer {
     }
 
     private func createTicketRefundRequestDIContainer() -> TicketRefundRequestDIContainer {
-        return TicketRefundRequestDIContainer(ticketReservationRepository: self.ticketReservationsRepository)
+        return TicketRefundRequestDIContainer(reservationRepository: self.reservationRepository)
     }
 }

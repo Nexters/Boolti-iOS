@@ -99,7 +99,7 @@ extension OrganizerInfoView {
         }
         
         self.organizerLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(16)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(12)
             make.leading.equalTo(self.titleLabel)
             make.trailing.equalTo(self.callButton.snp.leading).offset(-20)
         }

@@ -12,19 +12,19 @@ final class TicketRefundRequestDIContainer {
     typealias ReservationID = String
     typealias ReasonText = String
 
-    private let ticketReservationRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
 
-    init(ticketReservationRepository: TicketReservationsRepositoryType) {
-        self.ticketReservationRepository = ticketReservationRepository
+    init(reservationRepository: ReservationRepositoryType) {
+        self.reservationRepository = reservationRepository
     }
     
     func createTicketRefundRequestViewController(reservationID: String, reasonText: String) -> TicketRefundRequestViewController {
 
-        let ticketRefundConfirmViewControllerFactory: (ReservationID, ReasonText, RefundAccountInformation) -> TicketRefundConfirmViewController = {
-            (reservationID, reasonText, refundAccountInformation) in
+        let ticketRefundConfirmViewControllerFactory: (ReservationID, ReasonText?, RefundAccountInformation, Bool) -> TicketRefundConfirmViewController = {
+            (reservationID, reasonText, refundAccountInformation, isGift) in
 
             let DIContainer = self.createTicketRefundConfirmDIContainer()
-            let viewController = DIContainer.createTicketRefundConfirmViewController(reservationID: reservationID, reasonText: reasonText, refundAccoundInformation: refundAccountInformation)
+            let viewController = DIContainer.createTicketRefundConfirmViewController(reservationID: reservationID, reasonText: reasonText, isGift: isGift, refundAccoundInformation: refundAccountInformation)
 
             return viewController
         }
@@ -37,10 +37,10 @@ final class TicketRefundRequestDIContainer {
 
 
     private func ticketRefundRequestViewModel(reservationID: String, reasonText: String) -> TicketRefundRequestViewModel {
-        return TicketRefundRequestViewModel(reservationID: reservationID, reasonText: reasonText, ticketReservationsRepository: ticketReservationRepository)
+        return TicketRefundRequestViewModel(reservationID: reservationID, reasonText: reasonText, reservationRepository: reservationRepository)
     }
 
     private func createTicketRefundConfirmDIContainer() -> TicketRefundConfirmDIContainer {
-        return TicketRefundConfirmDIContainer(ticketReservationRepository: self.ticketReservationRepository)
+        return TicketRefundConfirmDIContainer(reservationRepository: self.reservationRepository)
     }
 }

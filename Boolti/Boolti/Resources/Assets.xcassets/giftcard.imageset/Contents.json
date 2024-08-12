@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "giftcard.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

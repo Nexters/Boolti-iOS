@@ -28,13 +28,13 @@ final class TicketRefundRequestViewModel {
     private let disposeBag = DisposeBag()
 
     let reservationID: String
-    let reasonText: String
-    private let ticketReservationsRepository: TicketReservationsRepositoryType
+    let reasonText: String?
+    private let reservationRepository: ReservationRepositoryType
 
-    init(reservationID: String, reasonText: String, ticketReservationsRepository: TicketReservationsRepositoryType) {
+    init(reservationID: String, reasonText: String, reservationRepository: ReservationRepositoryType) {
         self.reservationID = reservationID
         self.reasonText = reasonText
-        self.ticketReservationsRepository = ticketReservationsRepository
+        self.reservationRepository = reservationRepository
 
         self.input = Input()
         self.output = Output()
@@ -58,11 +58,6 @@ final class TicketRefundRequestViewModel {
     }
 
     private func fetchReservationDetail() -> Single<TicketReservationDetailEntity> {
-        return self.ticketReservationsRepository.ticketReservationDetail(with: self.reservationID)
-    }
-
-    private func checkAccountNumber(_ text: String) -> Bool {
-        let phoneNumberPattern = #"^\d{11,14}$"#
-        return text.range(of: phoneNumberPattern, options: .regularExpression) != nil
+        return self.reservationRepository.ticketReservationDetail(with: self.reservationID)
     }
 }

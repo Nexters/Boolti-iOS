@@ -26,50 +26,15 @@ final class LoginViewController: BooltiViewController {
     private let headerTitleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .headline2
-        label.text = "불티나게 팔리는 티켓, 불티"
+        label.text = "지금 불티에 로그인하고\n당신의 공연을 시작해 보세요!"
+        label.textAlignment = .center
         label.textColor = .grey05
+        label.numberOfLines = 0
         return label
     }()
 
-    private let subTitleLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.font = .body3
-        label.text = "지금 티켓을 예매하고 공연을 즐겨보세요!"
-        label.textColor = .grey30
-        return label
-    }()
-
-    private let kakaoLoginButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.title = "카카오톡으로 시작하기"
-        config.attributedTitle?.font = .subhead1
-        config.baseForegroundColor = .black100
-        config.background.backgroundColor = UIColor.init("#FFE833")
-        config.imagePadding = 20
-
-        let button = UIButton(configuration: config)
-        button.layer.cornerRadius = 12
-
-        return button
-    }()
-    
-    private let kakaoIconImageView = UIImageView(image: .kakao)
-
-    private let appleLoginButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.title = "Apple로 시작하기"
-        config.attributedTitle?.font = .subhead1
-        config.baseForegroundColor = .black100
-        config.background.backgroundColor = UIColor.init("#F6F7FF")
-        config.imagePadding = 20
-
-        let button = UIButton(configuration: config)
-        button.layer.cornerRadius = 12
-
-        return button
-    }()
-    
-    private let appleIconImageView = UIImageView(image: .apple)
+    private let kakaoLoginButton = SocialServiceButton(title: "카카오톡으로 시작하기", type: .kakao)
+    private let appleLoginButton = SocialServiceButton(title: "Apple로 시작하기", type: .apple)
 
     private let closeButton: UIButton = {
         let button = UIButton()
@@ -185,11 +150,8 @@ extension LoginViewController {
         self.view.addSubviews([
             self.closeButton,
             self.headerTitleLabel,
-            self.subTitleLabel,
             self.kakaoLoginButton,
-            self.kakaoIconImageView,
             self.appleLoginButton,
-            self.appleIconImageView,
             self.popupView
         ])
 
@@ -200,12 +162,7 @@ extension LoginViewController {
         
         self.headerTitleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.subTitleLabel.snp.top).offset(-6)
-        }
-
-        self.subTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.view.snp.centerY).offset(-48)
+            make.bottom.equalTo(self.kakaoLoginButton.snp.top).offset(-48)
         }
 
         self.kakaoLoginButton.snp.makeConstraints { make in
@@ -214,12 +171,6 @@ extension LoginViewController {
             make.height.equalTo(48)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
-        
-        self.kakaoIconImageView.snp.makeConstraints { make in
-            make.size.equalTo(20)
-            make.centerY.equalTo(self.kakaoLoginButton)
-            make.left.equalTo(self.kakaoLoginButton).offset(20)
-        }
 
         self.appleLoginButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -227,13 +178,7 @@ extension LoginViewController {
             make.horizontalEdges.equalTo(self.kakaoLoginButton)
             make.height.equalTo(48)
         }
-        
-        self.appleIconImageView.snp.makeConstraints { make in
-            make.size.equalTo(20)
-            make.centerY.equalTo(self.appleLoginButton)
-            make.left.equalTo(self.appleLoginButton).offset(20)
-        }
-        
+
         self.popupView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

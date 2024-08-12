@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct TicketReservationDetailResponseDTO: Decodable {
+struct TicketReservationDetailResponseDTO: Decodable, ReservationDetailDTOProtocol {
+    
     let reservationId: Int
     let showImg: String
     let showName: String
@@ -19,28 +20,16 @@ struct TicketReservationDetailResponseDTO: Decodable {
     let totalAmountPrice: Int?
     let reservationStatus: String
     let completedTimeStamp: String?
-    let reservationName: String
-    let reservationPhoneNumber: String
-    let depositorName: String?
-    let depositorPhoneNumber: String?
     let csReservationId: String
     let easyPayDetail: EasyPayDetail?
     let cardDetail: CardDetail?
     let transferDetail: TransferDetail?
     let showDate: String
-}
 
-struct EasyPayDetail: Decodable {
-    let provider: String
-}
-
-struct CardDetail: Decodable {
-    let installmentPlanMonths: Int
-    let issuerCode: String
-}
-
-struct TransferDetail: Decodable {
-    let bankCode: String
+    let reservationName: String
+    let reservationPhoneNumber: String
+    let depositorName: String?
+    let depositorPhoneNumber: String?
 }
 
 extension TicketReservationDetailResponseDTO {
@@ -65,37 +54,16 @@ extension TicketReservationDetailResponseDTO {
             totalPaymentAmount: totalAmountPrice.formattedCurrency(),
             reservationStatus: reservationStatus,
             ticketingDate: self.completedTimeStamp,
-            purchaseName: self.reservationName,
-            purchaserPhoneNumber: self.reservationPhoneNumber,
-            depositorName: self.depositorName ?? "",
-            depositorPhoneNumber: self.depositorPhoneNumber ?? "",
             salesEndTime: self.salesEndTime,
             csReservationID: self.csReservationId,
             easyPayProvider: self.easyPayDetail?.provider ?? "",
             accountTransferBank: transferAccountBank,
             paymentCardDetail: paymentCardDetail,
-            showDate: self.showDate.formatToDate()
+            showDate: self.showDate.formatToDate(),
+            purchaseName: self.reservationName,
+            purchaserPhoneNumber: self.reservationPhoneNumber,
+            depositorName: self.depositorName ?? "",
+            depositorPhoneNumber: self.depositorPhoneNumber ?? ""
         )
-    }
-
-    private func paymentMethod() -> PaymentMethod? {
-        guard let meansType = self.meansType else { return nil }
-        return PaymentMethod(rawValue: meansType)
-    }
-
-    private func paymentCardDetail() -> PaymentCardDetail? {
-        guard let cardDetail = self.cardDetail else { return nil }
-        guard cardDetail.issuerCode != "" else { return nil }
-
-        return PaymentCardDetail(
-            installmentPlanMonths: cardDetail.installmentPlanMonths == 0 ? "일시불" : "\(cardDetail.installmentPlanMonths)개월",
-            issuer: PaymentMethod.issuerByCode[cardDetail.issuerCode] ?? ""
-        )
-    }
-
-    private func transferAccountBank() -> String? {
-        guard let transferDetail = self.transferDetail else { return nil }
-
-        return PaymentMethod.issuerByCode[transferDetail.bankCode]
     }
 }

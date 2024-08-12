@@ -19,13 +19,13 @@ final class ResignReasonViewController: BooltiViewController {
     
     // MARK: UI Component
     
-    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "회원 탈퇴"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "계정 삭제"))
     
     private let mainTitle: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .point4
         label.textColor = .grey05
-        label.text = "탈퇴 이유를 입력해 주세요"
+        label.text = "삭제 이유를 입력해 주세요"
         return label
     }()
     
@@ -35,12 +35,12 @@ final class ResignReasonViewController: BooltiViewController {
         textView.backgroundColor = .grey85
         textView.layer.cornerRadius = 4
         textView.font = .body3
-        textView.text = "예) 계정 탈퇴 후 재 가입할게요"
+        textView.text = "예) 계정 삭제 후 재 가입할게요"
         textView.textColor = .grey70
         return textView
     }()
     
-    private let resignButton = BooltiButton(title: "탈퇴하기")
+    private let resignButton = BooltiButton(title: "삭제하기")
     
     // MARK: Init
     
@@ -83,7 +83,7 @@ extension ResignReasonViewController {
         
         self.viewModel.output.didResignAccount
             .subscribe(with: self) { owner, _ in
-                owner.showToast(message: "회원 탈퇴가 완료되었어요")
+                owner.showToast(message: "계정 삭제가 완료되었어요")
                 owner.navigationController?.popToRootViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
@@ -103,7 +103,7 @@ extension ResignReasonViewController {
                 
                 if changedText.isEmpty {
                     owner.reasonTextView.textColor = .grey70
-                    owner.reasonTextView.text = "예) 계정 탈퇴 후 재 가입할게요"
+                    owner.reasonTextView.text = "예) 계정 삭제 후 재 가입할게요"
                     owner.resignButton.isEnabled = false
                 } else {
                     owner.viewModel.input.reason.accept(changedText)

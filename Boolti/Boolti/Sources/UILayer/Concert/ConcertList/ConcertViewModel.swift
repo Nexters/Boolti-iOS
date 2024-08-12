@@ -16,23 +16,60 @@ final class ConcertListViewModel {
     
     private let disposeBag = DisposeBag()
     private let concertRepository: ConcertRepositoryType
-    private let ticketReservationRepository: TicketReservationRepository
+    private let giftingRepository: GiftingRepositoryType
+    
+    enum GiftType {
+        case send
+        case receive
+    }
+    
+    struct Input {
+        let checkGift = PublishSubject<String>()
+        let didRegisterGiftButtonTap = PublishRelay<Void>()
+    }
     
     struct Output {
         let concerts = BehaviorRelay<[ConcertEntity]>(value: [])
-        let checkingTicketCount = BehaviorRelay<Int>(value: -1)
+        let showRegisterGiftPopUp = PublishRelay<GiftType>()
+        let didRegisterGift = PublishRelay<Bool>()
     }
     
+    let input: Input
     let output: Output
+    
+    var giftUuid: String?
     
     // MARK: Init
     
-    init(concertRepository: ConcertRepository,
-         ticketReservationRepository: TicketReservationRepository) {
+    init(concertRepository: ConcertRepository) {
+        self.input = Input()
         self.output = Output()
         self.concertRepository = concertRepository
-        self.ticketReservationRepository = ticketReservationRepository
+        self.giftingRepository = GiftingRepository(networkService: self.concertRepository.networkService)
+        
+        self.bindInputs()
     }
+}
+
+// MARK: - Methods
+
+extension ConcertListViewModel {
+    
+    private func bindInputs() {
+        self.input.checkGift
+            .subscribe(with: self) { owner, giftUuid in
+                owner.checkGift(giftUuid: giftUuid)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.input.didRegisterGiftButtonTap
+            .subscribe(with: self, onNext: { owner, _ in
+                guard let giftUuid = owner.giftUuid else { return }
+                owner.registerGift(giftUuid: giftUuid)
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
 }
 
 // MARK: - Network
@@ -45,24 +82,29 @@ extension ConcertListViewModel {
             .bind(to: self.output.concerts)
             .disposed(by: self.disposeBag)
     }
-
-    func confirmCheckingTickets() {
-        if UserDefaults.accessToken.isEmpty {
-            self.output.checkingTicketCount.accept(-1)
-        } else {
-            self.fetchCheckingTickets()
-        }
+    
+    func checkGift(giftUuid: String) {
+        self.giftUuid = giftUuid
+        
+        self.giftingRepository.giftInfo(with: giftUuid)
+            .subscribe(with: self) { owner, userId in
+                if UserDefaults.userId == userId {
+                    self.output.showRegisterGiftPopUp.accept(.send)
+                } else {
+                    self.output.showRegisterGiftPopUp.accept(.receive)
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
-    private func fetchCheckingTickets() {
-        self.ticketReservationRepository.ticketReservations()
-            .asObservable()
-            .subscribe(with: self, onNext: { owner, ticketReservations in
-//                let waitingForDepositReservations = ticketReservations.filter { $0.reservationStatus == .waitingForDeposit }
-//                let count = waitingForDepositReservations.count > 0 ? 1 : 0
-                let count = 0
-                owner.output.checkingTicketCount.accept(count)
+    private func registerGift(giftUuid: String) {
+        self.giftingRepository.registerGift(giftUuid: giftUuid)
+            .subscribe(with: self, onSuccess: { owner, _ in
+                owner.output.didRegisterGift.accept(true)
+            }, onFailure: { owner, _ in
+                owner.output.didRegisterGift.accept(false)
             })
             .disposed(by: self.disposeBag)
     }
+    
 }

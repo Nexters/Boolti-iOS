@@ -13,4 +13,5 @@ enum MyPageDestination {
     case resign
     case qrScannerList
     case ticketReservations
+    case setting
 }

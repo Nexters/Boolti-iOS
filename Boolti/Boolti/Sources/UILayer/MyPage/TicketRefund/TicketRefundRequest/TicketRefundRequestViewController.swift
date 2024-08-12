@@ -22,7 +22,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
     typealias ReservationID = String
     typealias ReasonText = String
 
-    private let ticketRefundConfirmViewControllerFactory: (ReservationID, ReasonText, RefundAccountInformation) -> TicketRefundConfirmViewController
+    private let ticketRefundConfirmViewControllerFactory: (ReservationID, ReasonText?, RefundAccountInformation, Bool) -> TicketRefundConfirmViewController
 
     private let viewModel: TicketRefundRequestViewModel
     private let disposeBag = DisposeBag()
@@ -91,7 +91,7 @@ final class TicketRefundRequestViewController: BooltiViewController {
     }()
 
     init(
-        ticketRefundConfirmViewControllerFactory: @escaping (ReservationID, ReasonText, RefundAccountInformation) -> TicketRefundConfirmViewController,
+        ticketRefundConfirmViewControllerFactory: @escaping (ReservationID, ReasonText?, RefundAccountInformation, Bool) -> TicketRefundConfirmViewController,
         viewModel: TicketRefundRequestViewModel
     ) {
         self.ticketRefundConfirmViewControllerFactory = ticketRefundConfirmViewControllerFactory
@@ -242,7 +242,8 @@ final class TicketRefundRequestViewController: BooltiViewController {
                 let viewController = owner.ticketRefundConfirmViewControllerFactory(
                     owner.viewModel.reservationID,
                     owner.viewModel.reasonText,
-                    refundAccountInformation
+                    refundAccountInformation,
+                    false
                 )
                 viewController.modalPresentationStyle = .overCurrentContext
                 owner.definesPresentationContext = true

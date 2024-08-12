@@ -39,6 +39,14 @@ final class HomeTabBarViewModel {
             name: Notification.Name.didTabBarSelectedIndexChanged,
             object: nil
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(navigateToConcertList),
+            name: Notification.Name.LandingDestination.concertList,
+            object: nil
+        )
+
         // 요것도 파라미터로 받아서 ConcertDetail을 넣을 수 있도록 하기
         NotificationCenter.default.addObserver(
             self,
@@ -72,6 +80,10 @@ final class HomeTabBarViewModel {
         self.selectTab(index: index)
     }
 
+    @objc func navigateToConcertList() {
+        self.initialLandingTab.accept(HomeTab.concert)
+    }
+    
     @objc func navigateToConcertDetail() {
         self.initialLandingTab.accept(HomeTab.concert)
     }

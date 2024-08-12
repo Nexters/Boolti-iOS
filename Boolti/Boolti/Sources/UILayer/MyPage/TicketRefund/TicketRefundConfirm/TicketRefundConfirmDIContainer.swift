@@ -14,19 +14,18 @@ struct RefundAccountInformation {
 
 final class TicketRefundConfirmDIContainer {
 
-    private let ticketReservationRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
 
-    init(ticketReservationRepository: TicketReservationsRepositoryType) {
-        self.ticketReservationRepository = ticketReservationRepository
+    init(reservationRepository: ReservationRepositoryType) {
+        self.reservationRepository = reservationRepository
     }
 
-    func createTicketRefundConfirmViewController(reservationID: String, reasonText: String, refundAccoundInformation: RefundAccountInformation) -> TicketRefundConfirmViewController{
-        return TicketRefundConfirmViewController(viewModel: self.createTicketRefundConfirmViewModel(reservationID: reservationID, reasonText: reasonText, refundAccountInfomration: refundAccoundInformation))
-
+    func createTicketRefundConfirmViewController(reservationID: String, reasonText: String?, isGift: Bool, refundAccoundInformation: RefundAccountInformation) -> TicketRefundConfirmViewController{
+        return TicketRefundConfirmViewController(viewModel: self.createTicketRefundConfirmViewModel(reservationID: reservationID, reasonText: reasonText, isGift: isGift, refundAccountInfomration: refundAccoundInformation))
     }
 
-    private func createTicketRefundConfirmViewModel(reservationID: String, reasonText: String, refundAccountInfomration: RefundAccountInformation) -> TicketRefundConfirmViewModel{
-        return TicketRefundConfirmViewModel(reasonText: reasonText, reservationID: reservationID, refundAccountInformation: refundAccountInfomration, ticketReservationRepository: self.ticketReservationRepository)
+    private func createTicketRefundConfirmViewModel(reservationID: String, reasonText: String?, isGift: Bool, refundAccountInfomration: RefundAccountInformation) -> TicketRefundConfirmViewModel{
+        return TicketRefundConfirmViewModel(reasonText: reasonText, reservationID: reservationID, refundAccountInformation: refundAccountInfomration, isGift: isGift, reservationRepository: self.reservationRepository)
     }
 
 }

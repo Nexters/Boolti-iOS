@@ -17,17 +17,17 @@ final class TicketReservationsViewModel {
     }
 
     struct Output {
-        let tickerReservations = PublishRelay<[TicketReservationItemEntity]>()
+        let tickerReservations = BehaviorRelay<[TicketReservationItemEntity]?>(value: nil)
     }
 
     let input: Input
     let output: Output
 
     private let disposeBag = DisposeBag()
-    private let ticketReservationsRepository: TicketReservationsRepositoryType
+    private let reservationRepository: ReservationRepositoryType
 
-    init(ticketReservationsRepository: TicketReservationsRepositoryType) {
-        self.ticketReservationsRepository = ticketReservationsRepository
+    init(reservationRepository: ReservationRepositoryType) {
+        self.reservationRepository = reservationRepository
 
         self.input = Input()
         self.output = Output()
@@ -45,6 +45,6 @@ final class TicketReservationsViewModel {
     }
 
     private func fetchTicketReservations() -> Single<[TicketReservationItemEntity]> {
-        return self.ticketReservationsRepository.ticketReservations()
+        return self.reservationRepository.ticketReservations()
     }
 }

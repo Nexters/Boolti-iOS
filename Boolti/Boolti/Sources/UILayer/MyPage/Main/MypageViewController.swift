@@ -19,11 +19,13 @@ final class MyPageViewController: BooltiViewController {
     private let resignInfoViewControllerFactory: () -> ResignInfoViewController
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
     private let qrScanViewControllerFactory: () -> QRScannerListViewController
+    private let settingViewControllerFactory: () -> SettingViewController
 
     private let disposeBag = DisposeBag()
     private let viewModel: MyPageViewModel
 
     private let profileView = MypageProfileView()
+    private let settingNavigationView = MypageContentView(title: "계정 설정")
     private let ticketingReservationsNavigationView = MypageContentView(title: "결제 내역")
     private let registerConcertView = MypageContentView(title: "공연 등록")
     private let qrScannerListNavigationView = MypageContentView(title: "QR 스캔")
@@ -31,7 +33,7 @@ final class MyPageViewController: BooltiViewController {
 
     private let resignNavigationButton: UIButton = {
         let button = UIButton()
-        button.setTitle("회원 탈퇴", for: .normal)
+        button.setTitle("계정 삭제", for: .normal)
         button.setUnderline(font: .pretendardR(14), textColor: .grey60)
         button.isHidden = true
 
@@ -62,7 +64,8 @@ final class MyPageViewController: BooltiViewController {
         logoutViewControllerFactory: @escaping () -> LogoutViewController,
         resignInfoViewControllerFactory: @escaping () -> ResignInfoViewController,
         ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
-        qrScanViewControllerFactory: @escaping () -> QRScannerListViewController
+        qrScanViewControllerFactory: @escaping () -> QRScannerListViewController,
+        settingViewControllerFactory: @escaping () -> SettingViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
@@ -70,6 +73,7 @@ final class MyPageViewController: BooltiViewController {
         self.resignInfoViewControllerFactory = resignInfoViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.qrScanViewControllerFactory = qrScanViewControllerFactory
+        self.settingViewControllerFactory = settingViewControllerFactory
 
         super.init()
     }
@@ -83,6 +87,7 @@ final class MyPageViewController: BooltiViewController {
 
         self.view.addSubviews([
             self.profileView,
+            self.settingNavigationView,
             self.ticketingReservationsNavigationView,
             self.registerConcertView,
             self.qrScannerListNavigationView,
@@ -96,11 +101,17 @@ final class MyPageViewController: BooltiViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()
         }
-
-        self.ticketingReservationsNavigationView.snp.makeConstraints { make in
+        
+        self.settingNavigationView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(66)
             make.top.equalTo(self.profileView.snp.bottom)
+        }
+
+        self.ticketingReservationsNavigationView.snp.makeConstraints { make in
+            make.horizontalEdges.height.equalTo(self.settingNavigationView)
+            make.height.equalTo(66)
+            make.top.equalTo(self.settingNavigationView.snp.bottom).offset(12)
         }
 
         self.registerConcertView.snp.makeConstraints { make in
@@ -131,6 +142,14 @@ final class MyPageViewController: BooltiViewController {
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
                 owner.viewModel.input.didLoginButtonTapEvent.onNext(())
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.settingNavigationView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didSettingViewTapEvent.onNext(())
             }
             .disposed(by: self.disposeBag)
 
@@ -167,7 +186,6 @@ final class MyPageViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        // TODO: 임시로 회원 탈퇴 로그아웃 처리
         self.resignNavigationButton.rx.tap
             .bind(to: self.viewModel.input.didResignButtonTapEvent)
             .disposed(by: self.disposeBag)
@@ -209,7 +227,7 @@ final class MyPageViewController: BooltiViewController {
                 case .login, .logout:
                     viewController.modalPresentationStyle = .fullScreen
                     owner.present(viewController, animated: true)
-                case .ticketReservations, .qrScannerList, .resign:
+                case .setting, .ticketReservations, .qrScannerList, .resign:
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             })
@@ -234,6 +252,8 @@ final class MyPageViewController: BooltiViewController {
         case .resign: return resignInfoViewControllerFactory()
         case .qrScannerList: return qrScanViewControllerFactory()
         case .ticketReservations: return ticketReservationsViewControllerFactory()
+        case .setting: return settingViewControllerFactory()
+
         }
     }
 

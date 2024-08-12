@@ -13,14 +13,11 @@ final class ConcertListDIContainer {
 
     private let authRepository: AuthRepository
     private let concertRepository: ConcertRepository
-    private let ticketReservationRepository: TicketReservationRepository
 
     init(authRepository: AuthRepository,
-         concertRepository: ConcertRepository,
-         ticketReservationRepository: TicketReservationRepository) {
+         concertRepository: ConcertRepository) {
         self.authRepository = authRepository
         self.concertRepository = concertRepository
-        self.ticketReservationRepository = ticketReservationRepository
     }
     
     func createConcertListViewController() -> UIViewController {
@@ -33,25 +30,25 @@ final class ConcertListDIContainer {
             return viewController
         }
         
-        let ticketReservationsViewControllerFactory = {
-            let DIContainer = self.createTicketReservationsDIContainer()
-            let viewController = DIContainer.createTicketReservationsViewController()
-
-            return viewController
-        }
-        
         let businessInfoViewControllerFactory = {
             let DIContainer = self.createBusinessInfoDIContainer()
             let viewController = DIContainer.createBusinessInfoViewController()
 
             return viewController
         }
+        
+        let loginViewControllerFactory: () -> LoginViewController = {
+            let DIContainer = self.createLoginViewDIContainer()
+            
+            let viewController = DIContainer.createLoginViewController()
+            return viewController
+        }
 
         let viewController = ConcertListViewController(
             viewModel: viewModel,
             concertDetailViewControllerFactory: concertDetailViewControllerFactory,
-            ticketReservationsViewControllerFactory: ticketReservationsViewControllerFactory,
-            businessInfoViewControllerFactory: businessInfoViewControllerFactory
+            businessInfoViewControllerFactory: businessInfoViewControllerFactory,
+            loginViewControllerFactory: loginViewControllerFactory
         )
 
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -60,12 +57,7 @@ final class ConcertListDIContainer {
     }
     
     private func createConcertListViewModel() -> ConcertListViewModel {
-        return ConcertListViewModel(concertRepository: self.concertRepository,
-                                    ticketReservationRepository: self.ticketReservationRepository)
-    }
-    
-    private func createTicketReservationsDIContainer() -> TicketReservationsDIContainer {
-        return TicketReservationsDIContainer(networkService: self.authRepository.networkService)
+        return ConcertListViewModel(concertRepository: self.concertRepository)
     }
     
     private func createConcertDetailDIContainer() -> ConcertDetailDIContainer {
@@ -74,5 +66,13 @@ final class ConcertListDIContainer {
 
     private func createBusinessInfoDIContainer() -> BusinessInfoDIContainer {
         return BusinessInfoDIContainer()
+    }
+    
+    private func createLoginViewDIContainer() -> LoginViewDIContainer {
+        return LoginViewDIContainer(
+            authRepository: self.authRepository,
+            oauthRepository: OAuthRepository(),
+            pushNotificationRepository: PushNotificationRepository(networkService: self.authRepository.networkService)
+        )
     }
 }

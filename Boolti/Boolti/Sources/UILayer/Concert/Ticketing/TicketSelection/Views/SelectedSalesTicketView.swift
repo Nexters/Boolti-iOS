@@ -119,11 +119,18 @@ final class SelectedSalesTicketView: UIView {
 
 extension SelectedSalesTicketView {
     
-    func setData(entity: SelectedTicketEntity) {
+    func setData(entity: SelectedTicketEntity, type: TicketingType) {
         self.nameLabel.text = entity.ticketName
         self.inventoryLabel.text = "\(entity.quantity)매 남음"
         self.priceLabel.text = "\(entity.price.formattedCurrency())원"
         self.setCount(price: entity.price, count: 1, maxCount: entity.quantity)
+        
+        switch type {
+        case .ticketing:
+            self.ticketingButton.setTitle("예매하기", for: .normal)
+        case .gifting:
+            self.ticketingButton.setTitle("선물하기", for: .normal)
+        }
     }
     
     func setCount(price: Int, count: Int, maxCount: Int) {

@@ -41,6 +41,24 @@ final class TicketReservationsTableViewCell: UITableViewCell {
         return view
     }()
 
+    let giftIconImageView = UIImageView(image: .gift)
+
+    private let recipientLabel: UILabel = {
+        let label = UILabel()
+        label.font = .pretendardB(14)
+        label.textColor = .grey30
+
+        return label
+    }()
+
+    private lazy var recipientStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.addArrangedSubviews([self.giftIconImageView, self.recipientLabel])
+        stackView.spacing = 8
+        return stackView
+    }()
+
     private let concertPosterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -76,6 +94,10 @@ final class TicketReservationsTableViewCell: UITableViewCell {
         return label
     }()
 
+    override func prepareForReuse() {
+        self.removeAllConstraints()
+        self.resetData()
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -92,7 +114,7 @@ final class TicketReservationsTableViewCell: UITableViewCell {
 
     func setData(with ticketReservation: TicketReservationItemEntity) {
         self.configureUI()
-        
+
         self.reservationDateLabel.text = ticketReservation.reservationDate.formatToDate().format(.dateTime)
         self.concertPosterImageView.setImage(with: ticketReservation.concertImageURLPath)
         self.reservationStatusLabel.text = ticketReservation.reservationStatus.description
@@ -100,6 +122,20 @@ final class TicketReservationsTableViewCell: UITableViewCell {
         self.concertTitleLabel.text = ticketReservation.concertTitle
         self.reservationDetailLabel.text = "\(ticketReservation.ticketName) / \(ticketReservation.ticketCount)매 / \(ticketReservation.ticketPrice.formattedCurrency())원"
 
+        if ticketReservation.isGiftReservation {
+            self.resetAndMakeConstraintsForGift(entity: ticketReservation)
+        } else {
+            self.makeConstraintForNonGift()
+        }
+    }
+
+    private func resetData() {
+        self.reservationDateLabel.text = nil
+        self.concertPosterImageView.image = nil
+        self.reservationStatusLabel.text = nil
+        self.concertTitleLabel.text = nil
+        self.reservationDetailLabel.text = nil
+        self.recipientLabel.text = nil
     }
 
     private func configureUI() {
@@ -111,6 +147,7 @@ final class TicketReservationsTableViewCell: UITableViewCell {
             self.detailNavigationLabel,
             self.detailNavigationImage,
             self.seperationLineView,
+            self.recipientStackView,
             self.concertPosterImageView,
             self.reservationStatusLabel,
             self.concertTitleLabel,
@@ -137,6 +174,54 @@ final class TicketReservationsTableViewCell: UITableViewCell {
             make.height.equalTo(1)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
+    }
+
+    private func removeAllConstraints() {
+        self.recipientStackView.snp.removeConstraints()
+        self.concertPosterImageView.snp.removeConstraints()
+        self.reservationStatusLabel.snp.removeConstraints()
+        self.concertTitleLabel.snp.removeConstraints()
+        self.reservationDetailLabel.snp.removeConstraints()
+    }
+
+    private func makeConstraintsForGift() {
+
+        self.recipientStackView.snp.makeConstraints { make in
+            make.top.equalTo(self.reservationDateLabel.snp.bottom).offset(26)
+            make.left.equalTo(self.reservationDateLabel)
+        }
+
+        self.concertPosterImageView.snp.makeConstraints { make in
+            make.height.equalTo(84)
+            make.width.equalTo(60)
+            make.left.equalTo(self.reservationDateLabel)
+            make.top.equalTo(self.recipientStackView.snp.bottom).offset(12)
+        }
+
+        self.reservationStatusLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.concertPosterImageView.snp.top).inset(5)
+            make.left.equalTo(self.concertPosterImageView.snp.right).offset(16)
+        }
+
+        self.concertTitleLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.reservationStatusLabel)
+            make.centerY.equalTo(self.concertPosterImageView)
+            make.right.equalToSuperview().inset(20)
+        }
+
+        self.reservationDetailLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.reservationStatusLabel)
+            make.bottom.equalTo(self.concertPosterImageView.snp.bottom).inset(5)
+        }
+    }
+
+    private func makeConstraintForNonGift() {
+        self.recipientStackView.isHidden = true
+
+        self.recipientStackView.snp.makeConstraints { make in
+            make.top.equalTo(self.reservationDateLabel.snp.bottom).offset(26)
+            make.left.equalTo(self.reservationDateLabel)
+        }
 
         self.concertPosterImageView.snp.makeConstraints { make in
             make.height.equalTo(84)
@@ -160,6 +245,18 @@ final class TicketReservationsTableViewCell: UITableViewCell {
             make.left.equalTo(self.reservationStatusLabel)
             make.bottom.equalTo(self.concertPosterImageView.snp.bottom).inset(5)
         }
+    }
+
+    func resetAndMakeConstraintsForGift(entity: TicketReservationItemEntity) {
+        self.removeAllConstraints()
+
+        self.recipientStackView.isHidden = false
+        self.recipientLabel.text = "TO. \(entity.recipientName ?? "")"
+        if entity.reservationStatus == ReservationStatus.reservationCompleted {
+            self.reservationStatusLabel.text = "등록 완료"
+        }
+
+        self.makeConstraintsForGift()
     }
 
 }

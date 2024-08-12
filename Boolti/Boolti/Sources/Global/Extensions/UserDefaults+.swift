@@ -15,6 +15,9 @@ extension UserDefaults {
 
     @UserDefault<String>(key: UserDefaultsKey.userName.rawValue, defaultValue: "")
     static var userName
+    
+    @UserDefault<String>(key: UserDefaultsKey.userCode.rawValue, defaultValue: "")
+    static var userCode
 
     @UserDefault<String>(key: UserDefaultsKey.userEmail.rawValue, defaultValue: "")
     static var userEmail
@@ -47,6 +50,7 @@ extension UserDefaults {
         UserDefaults.refreshToken = ""
         UserDefaults.userId = -1
         UserDefaults.userName = ""
+        UserDefaults.userCode = ""
         UserDefaults.userEmail = ""
         UserDefaults.userImageURLPath = ""
         UserDefaults.oauthProvider = .kakao

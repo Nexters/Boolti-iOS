@@ -82,6 +82,14 @@ extension BooltiViewController {
         safariViewController.modalPresentationStyle = .formSheet
         self.present(safariViewController, animated: true)
     }
+    
+    func changeTab(to tab: HomeTab) {
+        NotificationCenter.default.post(
+            name: Notification.Name.didTabBarSelectedIndexChanged,
+            object: nil,
+            userInfo: ["tabBarIndex" : tab.rawValue]
+        )
+    }
 }
 
 // MARK: - UI
