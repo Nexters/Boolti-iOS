@@ -157,8 +157,7 @@ final class MyPageViewController: BooltiViewController {
     }
 
     private func bindUIComponents() {
-        self.profileView.rx.tapGesture()
-            .when(.recognized)
+        self.profileView.didLoginButtonTap()
             .filter{ _ in !self.viewModel.output.isAccessTokenLoaded.value }
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in

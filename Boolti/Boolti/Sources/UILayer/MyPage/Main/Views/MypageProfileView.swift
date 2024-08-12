@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxCocoa
+
 final class MypageProfileView: UIView {
     
     // MARK: Properties
@@ -48,6 +50,20 @@ final class MypageProfileView: UIView {
                                        self.profileNameLabel])
         return stackView
     }()
+    
+    private let loginButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
+        config.title = "로그인"
+        config.attributedTitle?.font = .pretendardR(12)
+        config.background.backgroundColor = .grey80
+        config.baseForegroundColor = .grey05
+        config.background.cornerRadius = 4
+        
+        let button = UIButton(configuration: config)
+        return button
+    }()
+
 
     // MARK: Init
     
@@ -79,11 +95,18 @@ extension MypageProfileView {
             self.profileImageView.setImage(with: profileImageURLPath)
             self.profileImageView.layer.borderWidth = 1
         }
+        
+        self.loginButton.isHidden = true
     }
 
     func resetProfileUI() {
         self.profileImageView.isHidden = true
         self.profileNameLabel.text = "로그인하고 이용해 보세요"
+        self.loginButton.isHidden = false
+    }
+    
+    func didLoginButtonTap() -> Signal<Void> {
+        return self.loginButton.rx.tap.asSignal()
     }
 }
 
@@ -92,7 +115,8 @@ extension MypageProfileView {
 extension MypageProfileView {
     
     private func configureUI() {
-        self.addSubviews([self.profileStackView])
+        self.addSubviews([self.profileStackView,
+                          self.loginButton])
         
         self.backgroundColor = .grey90
         self.layer.maskedCorners = CACornerMask(
@@ -113,6 +137,11 @@ extension MypageProfileView {
         self.profileStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(29)
+        }
+        
+        self.loginButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(28)
+            make.centerY.equalTo(self.profileStackView)
         }
     }
 }
