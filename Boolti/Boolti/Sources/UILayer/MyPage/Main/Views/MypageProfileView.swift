@@ -11,6 +11,15 @@ final class MypageProfileView: UIView {
     
     // MARK: Properties
     
+    var statusBarHeight: CGFloat {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            return windowScene.statusBarManager?.statusBarFrame.height ?? 44
+        }
+        return 44
+    }
+    
+    // MARK: UI Components
+    
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey80
@@ -94,7 +103,7 @@ extension MypageProfileView {
     
     private func configureConstraints() {
         self.snp.makeConstraints { make in
-            make.height.equalTo(92)
+            make.height.equalTo(self.statusBarHeight + 92)
         }
         
         self.profileImageView.snp.makeConstraints { make in
@@ -103,7 +112,7 @@ extension MypageProfileView {
         
         self.profileStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.centerY.equalToSuperview()
+            make.bottom.equalToSuperview().inset(29)
         }
     }
 }

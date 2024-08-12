@@ -15,8 +15,6 @@ import RxGesture
 final class MyPageViewController: BooltiViewController {
 
     private let loginViewControllerFactory: () -> LoginViewController
-    private let logoutViewControllerFactory: () -> LogoutViewController
-    private let resignInfoViewControllerFactory: () -> ResignInfoViewController
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
     private let qrScanViewControllerFactory: () -> QRScannerListViewController
     private let settingViewControllerFactory: () -> SettingViewController
@@ -25,20 +23,25 @@ final class MyPageViewController: BooltiViewController {
     private let viewModel: MyPageViewModel
 
     private let profileView = MypageProfileView()
-    private let settingNavigationView = MypageContentView(title: "계정 설정")
-    private let ticketingReservationsNavigationView = MypageContentView(title: "결제 내역")
-    private let registerConcertView = MypageContentView(title: "공연 등록")
-    private let qrScannerListNavigationView = MypageContentView(title: "QR 스캔")
-    private let logoutNavigationView = MypageContentView(title: "로그아웃")
-
-    private let resignNavigationButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("계정 삭제", for: .normal)
-        button.setUnderline(font: .pretendardR(14), textColor: .grey60)
-        button.isHidden = true
-
-        return button
+    private let settingNavigationView = MypageContentView(icon: .profile, title: "계정 설정")
+    private let ticketingReservationsNavigationView = MypageContentView(icon: .receipt, title: "결제 내역")
+    
+    private let separateLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey85
+        return view
     }()
+    
+    private let subTitleLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .subhead2
+        label.textColor = .grey10
+        label.text = "내 공연"
+        return label
+    }()
+    
+    private let registerConcertView = MypageContentView(icon: .addConcert, title: "공연 등록")
+    private let qrScannerListNavigationView = MypageContentView(icon: .qrScanner, title: "입장 확인")
 
     private var isAlreadyNavigated = false
 
@@ -61,16 +64,12 @@ final class MyPageViewController: BooltiViewController {
     init(
         viewModel: MyPageViewModel,
         loginViewControllerFactory: @escaping () -> LoginViewController,
-        logoutViewControllerFactory: @escaping () -> LogoutViewController,
-        resignInfoViewControllerFactory: @escaping () -> ResignInfoViewController,
         ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
         qrScanViewControllerFactory: @escaping () -> QRScannerListViewController,
         settingViewControllerFactory: @escaping () -> SettingViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
-        self.logoutViewControllerFactory = logoutViewControllerFactory
-        self.resignInfoViewControllerFactory = resignInfoViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.qrScanViewControllerFactory = qrScanViewControllerFactory
         self.settingViewControllerFactory = settingViewControllerFactory
@@ -89,49 +88,45 @@ final class MyPageViewController: BooltiViewController {
             self.profileView,
             self.settingNavigationView,
             self.ticketingReservationsNavigationView,
+            self.separateLineView,
+            self.subTitleLabel,
             self.registerConcertView,
             self.qrScannerListNavigationView,
-            self.logoutNavigationView,
-            self.resignNavigationButton
         ])
 
-        self.logoutNavigationView.isHidden = true
-
         self.profileView.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.horizontalEdges.equalToSuperview()
+            make.top.horizontalEdges.equalToSuperview()
         }
         
         self.settingNavigationView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(66)
-            make.top.equalTo(self.profileView.snp.bottom)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalTo(self.profileView.snp.bottom).offset(20)
         }
 
         self.ticketingReservationsNavigationView.snp.makeConstraints { make in
             make.horizontalEdges.height.equalTo(self.settingNavigationView)
-            make.height.equalTo(66)
-            make.top.equalTo(self.settingNavigationView.snp.bottom).offset(12)
+            make.top.equalTo(self.settingNavigationView.snp.bottom)
+        }
+        
+        self.separateLineView.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(self.settingNavigationView)
+            make.top.equalTo(self.ticketingReservationsNavigationView.snp.bottom).offset(32)
+            make.height.equalTo(1)
+        }
+        
+        self.subTitleLabel.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(self.settingNavigationView)
+            make.top.equalTo(self.separateLineView.snp.bottom).offset(32)
         }
 
         self.registerConcertView.snp.makeConstraints { make in
             make.horizontalEdges.height.equalTo(self.ticketingReservationsNavigationView)
-            make.top.equalTo(self.ticketingReservationsNavigationView.snp.bottom).offset(12)
+            make.top.equalTo(self.subTitleLabel.snp.bottom).offset(8)
         }
 
         self.qrScannerListNavigationView.snp.makeConstraints { make in
             make.horizontalEdges.height.equalTo(self.ticketingReservationsNavigationView)
-            make.top.equalTo(self.registerConcertView.snp.bottom).offset(12)
-        }
-
-        self.logoutNavigationView.snp.makeConstraints { make in
-            make.horizontalEdges.height.equalTo(self.ticketingReservationsNavigationView)
-            make.top.equalTo(self.qrScannerListNavigationView.snp.bottom).offset(12)
-        }
-
-        self.resignNavigationButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(40)
+            make.top.equalTo(self.registerConcertView.snp.bottom)
         }
     }
 
@@ -177,18 +172,6 @@ final class MyPageViewController: BooltiViewController {
                 owner.viewModel.input.didQRScannerListViewTapEvent.onNext(())
             }
             .disposed(by: self.disposeBag)
-
-        self.logoutNavigationView.rx.tapGesture()
-            .when(.recognized)
-            .asDriver(onErrorDriveWith: .never())
-            .drive(with: self) { owner, _ in
-                owner.viewModel.input.didLogoutButtonTapEvent.onNext(())
-            }
-            .disposed(by: self.disposeBag)
-
-        self.resignNavigationButton.rx.tap
-            .bind(to: self.viewModel.input.didResignButtonTapEvent)
-            .disposed(by: self.disposeBag)
     }
 
     private func bindViewModel() {
@@ -211,10 +194,8 @@ final class MyPageViewController: BooltiViewController {
             .drive(with: self) { owner, isLoaded in
                 if isLoaded {
                     owner.profileView.updateProfileUI()
-                    owner.updateProfileUI()
                 } else {
                     owner.profileView.resetProfileUI()
-                    owner.resetProfileUI()
                 }
             }
             .disposed(by: self.disposeBag)
@@ -224,32 +205,19 @@ final class MyPageViewController: BooltiViewController {
             .drive(with: self, onNext: { owner, destination in
                 let viewController = owner.createViewController(destination)
                 switch destination {
-                case .login, .logout:
+                case .login:
                     viewController.modalPresentationStyle = .fullScreen
                     owner.present(viewController, animated: true)
-                case .setting, .ticketReservations, .qrScannerList, .resign:
+                case .setting, .ticketReservations, .qrScannerList:
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             })
             .disposed(by: self.disposeBag)
     }
 
-    private func updateProfileUI() {
-        self.resignNavigationButton.isHidden = false
-        self.logoutNavigationView.isHidden = false
-    }
-
-    private func resetProfileUI() {
-        self.resignNavigationButton.isHidden = true
-        self.logoutNavigationView.isHidden = true
-    }
-
-
     private func createViewController(_ next: MyPageDestination) -> UIViewController {
         switch next {
         case .login: return loginViewControllerFactory()
-        case .logout: return logoutViewControllerFactory()
-        case .resign: return resignInfoViewControllerFactory()
         case .qrScannerList: return qrScanViewControllerFactory()
         case .ticketReservations: return ticketReservationsViewControllerFactory()
         case .setting: return settingViewControllerFactory()
