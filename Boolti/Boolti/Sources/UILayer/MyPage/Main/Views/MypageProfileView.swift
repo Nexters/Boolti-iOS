@@ -7,53 +7,64 @@
 
 import UIKit
 
+import RxCocoa
+
 final class MypageProfileView: UIView {
     
     // MARK: Properties
     
+    var statusBarHeight: CGFloat {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            return windowScene.statusBarManager?.statusBarFrame.height ?? 44
+        }
+        return 44
+    }
+    
+    // MARK: UI Components
+    
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey80
-        imageView.layer.cornerRadius = 35
+        imageView.layer.cornerRadius = 18
         imageView.clipsToBounds = true
         imageView.layer.borderColor = UIColor.grey80.cgColor
 
         return imageView
     }()
+
+    private let profileNameLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .aggroM(24)
+        label.textColor = .grey10
+        label.text = "로그인하고 이용해 보세요"
+
+        return label
+    }()
     
-    private lazy var labelStackView: UIStackView = {
+    private lazy var profileStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 4
-        stackView.addArrangedSubviews([self.profileNameLabel, self.profileEmailLabel])
+        stackView.axis = .horizontal
+        stackView.spacing = 12
+        stackView.alignment = .center
+        stackView.addArrangedSubviews([self.profileImageView,
+                                       self.profileNameLabel])
         return stackView
     }()
     
-    private let profileNameLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.font = .subhead2
-        label.textColor = .grey10
-        label.text = "불티 로그인 하러가기"
-
-        return label
-    }()
-
-    private let profileEmailLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.font = .body3
-        label.textColor = .grey30
-        label.text = "원하는 공연 티켓을 예매해보세요!"
-
-        return label
-    }()
-    
-    private let loginNavigationButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.navigate, for: .normal)
-
+    private let loginButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
+        config.title = "로그인"
+        config.attributedTitle?.font = .pretendardR(12)
+        config.background.backgroundColor = .grey80
+        config.baseForegroundColor = .grey05
+        config.background.cornerRadius = 4
+        
+        let button = UIButton(configuration: config)
         return button
     }()
-    
+
+
     // MARK: Init
     
     init() {
@@ -71,10 +82,9 @@ final class MypageProfileView: UIView {
 
 extension MypageProfileView {
     func updateProfileUI() {
-        self.loginNavigationButton.isHidden = true
-
+        self.profileImageView.isHidden = false
+        
         self.profileNameLabel.text =  UserDefaults.userName.isEmpty ? "불티 유저" : UserDefaults.userName
-        self.profileEmailLabel.text = UserDefaults.userEmail.isEmpty ? "-" : UserDefaults.userEmail
 
         let profileImageURLPath = UserDefaults.userImageURLPath
 
@@ -85,14 +95,18 @@ extension MypageProfileView {
             self.profileImageView.setImage(with: profileImageURLPath)
             self.profileImageView.layer.borderWidth = 1
         }
+        
+        self.loginButton.isHidden = true
     }
 
     func resetProfileUI() {
-        self.loginNavigationButton.isHidden = false
-
-        self.profileImageView.image = .defaultProfile
-        self.profileNameLabel.text = "불티 로그인 하러가기"
-        self.profileEmailLabel.text = "원하는 공연 티켓을 예매해보세요!"
+        self.profileImageView.isHidden = true
+        self.profileNameLabel.text = "로그인하고 이용해 보세요"
+        self.loginButton.isHidden = false
+    }
+    
+    func didLoginButtonTap() -> Signal<Void> {
+        return self.loginButton.rx.tap.asSignal()
     }
 }
 
@@ -101,31 +115,33 @@ extension MypageProfileView {
 extension MypageProfileView {
     
     private func configureUI() {
-        self.addSubviews([self.profileImageView,
-                          self.labelStackView,
-                          self.loginNavigationButton])
+        self.addSubviews([self.profileStackView,
+                          self.loginButton])
+        
+        self.backgroundColor = .grey90
+        self.layer.maskedCorners = CACornerMask(
+            arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
+        )
+        self.layer.cornerRadius = 12
     }
     
     private func configureConstraints() {
         self.snp.makeConstraints { make in
-            make.height.equalTo(142)
+            make.height.equalTo(self.statusBarHeight + 92)
         }
         
         self.profileImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(40)
-            make.left.equalToSuperview().inset(20)
-            make.size.equalTo(70)
+            make.size.equalTo(36)
         }
         
-        self.labelStackView.snp.makeConstraints { make in
-            make.centerY.equalTo(self.profileImageView)
-            make.left.equalTo(self.profileImageView.snp.right).offset(12)
+        self.profileStackView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(29)
         }
         
-        self.loginNavigationButton.snp.makeConstraints { make in
-            make.centerY.equalTo(self.profileImageView)
-            make.right.equalToSuperview().inset(20)
-            make.size.equalTo(24)
+        self.loginButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(28)
+            make.centerY.equalTo(self.profileStackView)
         }
     }
 }

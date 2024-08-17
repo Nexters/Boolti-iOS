@@ -13,24 +13,20 @@ import RxCocoa
 final class MypageContentView: UIView {
 
     private let disposeBag = DisposeBag()
+    
+    private let iconImageView = UIImageView()
 
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.font = .pretendardB(18)
-        label.textColor = .grey10
+        label.font = .body3
+        label.textColor = .grey30
 
         return label
     }()
 
-    private let navigateImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = .navigate
-
-        return imageView
-    }()
-
-    init(title: String) {
+    init(icon: UIImage, title: String) {
         super.init(frame: .zero)
+        self.iconImageView.image = icon.withTintColor(.grey30, renderingMode: .alwaysOriginal)
         self.titleLabel.text = title
         self.configureUI()
     }
@@ -40,21 +36,24 @@ final class MypageContentView: UIView {
     }
 
     private func configureUI() {
-        self.backgroundColor = .grey90
-
         self.addSubviews([
-            self.titleLabel,
-            self.navigateImageView
+            self.iconImageView,
+            self.titleLabel
         ])
+        
+        self.snp.makeConstraints { make in
+            make.height.equalTo(48)
+        }
+        
+        self.iconImageView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.size.equalTo(24)
+        }
 
         self.titleLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(20)
-        }
-
-        self.navigateImageView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(20)
+            make.leading.equalTo(self.iconImageView.snp.trailing).offset(12)
         }
     }
 }
