@@ -125,6 +125,17 @@ extension SettingViewController {
             }
             .disposed(by: self.disposeBag)
         
+        self.logoutStackView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                let viewController = owner.logoutViewControllerFactory()
+                viewController.modalPresentationStyle = .overCurrentContext
+                owner.definesPresentationContext = true
+                owner.present(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
         self.resignNavigationButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
