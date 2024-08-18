@@ -16,6 +16,9 @@ final class SettingViewController: BooltiViewController {
     
     private let disposeBag = DisposeBag()
     
+    private let logoutViewControllerFactory: () -> LogoutViewController
+    private let resignInfoViewControllerFactory: () -> ResignInfoViewController
+    
     // MARK: UI Components
     
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "계정 설정"))
@@ -35,6 +38,55 @@ final class SettingViewController: BooltiViewController {
         imageView.clipsToBounds = true
         return imageView
     }()
+    
+    private let logoutLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .subhead2
+        label.textColor = .grey10
+        label.text = "로그아웃"
+        return label
+    }()
+    
+    private let navigateImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .navigate
+        return imageView
+    }()
+    
+    private lazy var logoutStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.addArrangedSubviews([self.logoutLabel,
+                                       self.navigateImageView])
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.backgroundColor = .grey90
+        
+        stackView.layoutMargins = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
+    }()
+    
+    private let resignNavigationButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("계정 삭제", for: .normal)
+        button.setUnderline(font: .pretendardR(14), textColor: .grey60)
+        return button
+    }()
+    
+    // MARK: Initailizer
+    
+    init(logoutViewControllerFactory: @escaping () -> LogoutViewController,
+         resignInfoViewControllerFactory: @escaping () -> ResignInfoViewController) {
+        self.logoutViewControllerFactory = logoutViewControllerFactory
+        self.resignInfoViewControllerFactory = resignInfoViewControllerFactory
+        
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: Life Cycle
     
@@ -72,6 +124,24 @@ extension SettingViewController {
                 owner.showToast(message: "식별 코드가 복사되었어요")
             }
             .disposed(by: self.disposeBag)
+        
+        self.logoutStackView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                let viewController = owner.logoutViewControllerFactory()
+                viewController.modalPresentationStyle = .overCurrentContext
+                owner.definesPresentationContext = true
+                owner.present(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.resignNavigationButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.navigationController?.pushViewController(owner.resignInfoViewControllerFactory(), animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func setData() {
@@ -95,7 +165,9 @@ extension SettingViewController {
         self.view.backgroundColor = .grey95
         self.view.addSubviews([self.navigationBar,
                                self.userCodeContentView,
-                               self.oauthProviderContentView])
+                               self.oauthProviderContentView,
+                               self.logoutStackView,
+                               self.resignNavigationButton])
         
         self.userCodeContentView.addSubview(self.userCodeLabel)
         self.oauthProviderContentView.addSubview(self.oauthProviderImageView)
@@ -128,6 +200,16 @@ extension SettingViewController {
             make.top.equalTo(self.oauthProviderContentView.titleLabel.snp.bottom).offset(16)
             make.leading.equalTo(self.oauthProviderContentView.titleLabel)
             make.bottom.equalToSuperview().inset(16)
+        }
+        
+        self.logoutStackView.snp.makeConstraints { make in
+            make.top.equalTo(self.oauthProviderContentView.snp.bottom).offset(12)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.resignNavigationButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(38)
         }
     }
     
