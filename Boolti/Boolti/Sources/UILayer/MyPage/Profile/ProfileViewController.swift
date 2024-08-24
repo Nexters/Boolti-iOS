@@ -60,6 +60,7 @@ final class ProfileViewController: BooltiViewController {
         self.configureUI()
         self.configureCollectionView()
         self.bindUIComponents()
+        self.bindViewModel()
     }
     
 }
@@ -68,10 +69,30 @@ final class ProfileViewController: BooltiViewController {
 
 extension ProfileViewController {
     
+    private func bindViewModel() {
+        self.viewModel.output.didProfileFetch
+            .subscribe(with: self) { owner, _ in
+                if owner.viewModel.output.introduction == nil {
+                    owner.profileMainHeight = 256
+                }
+                
+                owner.mainCollectionView.reloadData()
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
     private func bindUIComponents() {
         self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.mainCollectionView.rx.itemSelected
+            .map { $0.row }
+            .subscribe(with: self) { owner, index in
+                guard let url = URL(string: owner.viewModel.output.links[index].link) else { return }
+                owner.openSafari(with: url)
             }
             .disposed(by: self.disposeBag)
         
@@ -115,7 +136,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 1:
-            return 10
+            return self.viewModel.output.links.count
         default:
             return 0
         }
@@ -137,7 +158,7 @@ extension ProfileViewController: UICollectionViewDataSource {
                     print("edit button tap!")
                 }
                 .disposed(by: self.disposeBag)
-            header.setData()
+            header.setData(introduction: self.viewModel.output.introduction)
             return header
         default:
             guard kind == UICollectionView.elementKindSectionHeader,
@@ -153,7 +174,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileLinkCollectionViewCell.className, for: indexPath) as? ProfileLinkCollectionViewCell else { return UICollectionViewCell() }
-        cell.setData(linkName: "안녕하세요")
+        cell.setData(linkName: self.viewModel.output.links[indexPath.row].title)
         return cell
     }
     
@@ -176,6 +197,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
         case 0:
             return CGSize(width: self.mainCollectionView.frame.width, height: self.profileMainHeight)
         case 1:
+            guard !self.viewModel.output.links.isEmpty else { return .zero }
             return CGSize(width: self.mainCollectionView.frame.width, height: 74)
         default:
             return .zero

@@ -27,16 +27,14 @@ final class ProfileMainView: UICollectionReusableView {
         let label = BooltiUILabel()
         label.font = .aggroM(24)
         label.textColor = .grey10
-        label.text = "재미있는"
 
         return label
     }()
     
-    private let descriptionLabel: BooltiUILabel = {
+    private let introductionLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .grey30
-        label.text = "재미있는 음악을 추구해요"
 
         return label
     }()
@@ -46,7 +44,7 @@ final class ProfileMainView: UICollectionReusableView {
         stackView.axis = .vertical
         stackView.spacing = 2
         stackView.addArrangedSubviews([self.nameLabel,
-                                       self.descriptionLabel])
+                                       self.introductionLabel])
         
         return stackView
     }()
@@ -85,10 +83,10 @@ final class ProfileMainView: UICollectionReusableView {
 
 extension ProfileMainView {
     
-    func setData() {
+    func setData(introduction: String?) {
         self.profileImageView.setImage(with: UserDefaults.userImageURLPath)
         self.nameLabel.text = UserDefaults.userName
-        self.descriptionLabel.text = UserDefaults.userEmail
+        self.introductionLabel.text = introduction ?? ""
     }
     
     func didEditButtonTap() -> Signal<Void> {

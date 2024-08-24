@@ -20,6 +20,7 @@ protocol AuthRepositoryType {
     func signUp(provider: OAuthProvider, identityToken: String?) -> Single<Void>
     func logout() -> Single<Void>
     func userInfo() -> Single<Void>
+    func userProfile() -> Single<UserResponseDTO>
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void>
 }
 
@@ -167,6 +168,12 @@ final class AuthRepository: AuthRepositoryType {
 
                 return .just(())
             })
+    }
+    
+    func userProfile() -> Single<UserResponseDTO> {
+        let api = AuthAPI.user
+        return self.networkService.request(api)
+            .map(UserResponseDTO.self)
     }
     
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void> {

@@ -85,8 +85,3 @@ extension ProfileLinkCollectionViewCell {
         }
     }
 }
-
-struct linkEntity {
-    let name: String
-    let urlString: String
-}

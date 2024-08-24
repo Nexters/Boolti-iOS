@@ -8,7 +8,6 @@
 import Foundation
 
 import RxSwift
-import RxRelay
 
 final class ProfileViewModel {
     
@@ -18,10 +17,12 @@ final class ProfileViewModel {
     private let authRepository: AuthRepositoryType
     
     struct Output {
-        let links = PublishRelay<[linkEntity]>()
+        var links: [LinkEntity] = []
+        var introduction: String?
+        var didProfileFetch = PublishSubject<Void>()
     }
     
-    let output: Output
+    var output: Output
     
     // MARK: Initailizer
     
@@ -37,10 +38,13 @@ final class ProfileViewModel {
 extension ProfileViewModel {
     
     func fetchLinkList() {
-//        self.authRepository.userInfo()
-        self.output.links.accept([linkEntity(name: "rads", urlString: "daf"),
-                                  linkEntity(name: "rads", urlString: "daf"),
-                                  linkEntity(name: "rads", urlString: "daf"),
-                                  linkEntity(name: "rads", urlString: "daf")])
+        self.authRepository.userProfile()
+            .subscribe(with: self) { owner, profile in
+                owner.output.links = profile.link ?? []
+                owner.output.introduction = profile.introduction
+                
+                owner.output.didProfileFetch.onNext(())
+            }
+            .disposed(by: self.disposeBag)
     }
 }
