@@ -53,6 +53,9 @@
 		22DEF7812C28396100EA492A /* GiftingDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DEF7802C28396100EA492A /* GiftingDetailDIContainer.swift */; };
 		22DEF7832C28396D00EA492A /* GiftingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DEF7822C28396D00EA492A /* GiftingDetailViewController.swift */; };
 		22DEF7852C28397600EA492A /* GiftingDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DEF7842C28397600EA492A /* GiftingDetailViewModel.swift */; };
+		22DFC54E2C79B1E000C8433D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC54D2C79B1E000C8433D /* ProfileViewController.swift */; };
+		22DFC5502C79B1E800C8433D /* ProfileDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC54F2C79B1E800C8433D /* ProfileDIContainer.swift */; };
+		22DFC5522C79B1F000C8433D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC5512C79B1F000C8433D /* ProfileViewModel.swift */; };
 		22FA98232C3D0BE500831F64 /* ConcertTicketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FA98222C3D0BE500831F64 /* ConcertTicketInfoView.swift */; };
 		840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */; };
 		840B39572B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */; };
@@ -430,6 +433,9 @@
 		22DEF7802C28396100EA492A /* GiftingDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingDetailDIContainer.swift; sourceTree = "<group>"; };
 		22DEF7822C28396D00EA492A /* GiftingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingDetailViewController.swift; sourceTree = "<group>"; };
 		22DEF7842C28397600EA492A /* GiftingDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingDetailViewModel.swift; sourceTree = "<group>"; };
+		22DFC54D2C79B1E000C8433D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		22DFC54F2C79B1E800C8433D /* ProfileDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDIContainer.swift; sourceTree = "<group>"; };
+		22DFC5512C79B1F000C8433D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		22FA98222C3D0BE500831F64 /* ConcertTicketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertTicketInfoView.swift; sourceTree = "<group>"; };
 		840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -967,6 +973,16 @@
 			path = GiftingDetail;
 			sourceTree = "<group>";
 		};
+		22DFC54C2C79B13300C8433D /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				22DFC54F2C79B1E800C8433D /* ProfileDIContainer.swift */,
+				22DFC54D2C79B1E000C8433D /* ProfileViewController.swift */,
+				22DFC5512C79B1F000C8433D /* ProfileViewModel.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		840B39532B7667B100E7F8C8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1325,7 +1341,6 @@
 				22CDB2C42BA2633600D2077D /* BusinessInfo */,
 				2250FABB2C020B8A00CCF487 /* Contact */,
 				84781CCA2B5C002D00D37921 /* Concert */,
-				84BAB8232B8CA7C800DEA35C /* Ticketing */,
 				84781CC32B5BF9C600D37921 /* Ticket */,
 				84781CBB2B5BF94100D37921 /* MyPage */,
 				84781CAB2B5BF79000D37921 /* TabBar */,
@@ -1372,10 +1387,11 @@
 		84781CBB2B5BF94100D37921 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				8710D9412B74F9F600309FBF /* Main */,
+				22DFC54C2C79B13300C8433D /* Profile */,
 				22739A392C4F86AC000A357B /* Setting */,
 				8710D9432B74FA1300309FBF /* TicketReservations */,
 				871F3D122C4E88C200AB1BB9 /* ReservationDetail */,
-				8710D9412B74F9F600309FBF /* Main */,
 				8730F00A2B7B0FEC00D4F339 /* TicketRefund */,
 				8710D9442B74FA1B00309FBF /* QRScanner */,
 				8710D9422B74FA0C00309FBF /* Logout */,
@@ -1403,6 +1419,7 @@
 				845F25412B89F9CC00F6C328 /* PosterExpand */,
 				84DF59DF2B726C34000816DA /* ConcertContentExpand */,
 				843918F82B7A827F00CC62AA /* Report */,
+				84BAB8232B8CA7C800DEA35C /* Ticketing */,
 			);
 			path = Concert;
 			sourceTree = "<group>";
@@ -1521,8 +1538,7 @@
 				22DD8C932BD405800083622C /* TossPayments */,
 				87F63D632C3EE9E2001D7A56 /* Completion */,
 			);
-			name = Ticketing;
-			path = Concert/Ticketing;
+			path = Ticketing;
 			sourceTree = "<group>";
 		};
 		84BAB8242B8CA8BD00DEA35C /* TicketingConfirm */ = {
@@ -2340,6 +2356,7 @@
 				84D1C38B2B7A448100527998 /* InvitationTicketingRequestDTO.swift in Sources */,
 				87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */,
 				84781CC92B5BFA1C00D37921 /* TicketListViewModel.swift in Sources */,
+				22DFC54E2C79B1E000C8433D /* ProfileViewController.swift in Sources */,
 				87F63D6F2C3F8298001D7A56 /* GiftReservationAPI.swift in Sources */,
 				84781CCC2B5C003700D37921 /* ConcertListDIContainer.swift in Sources */,
 				8753CA692B70DD00002871C7 /* UIButton+.swift in Sources */,
@@ -2447,6 +2464,7 @@
 				224BEF082C4CCE5D00863970 /* GiftingRepository.swift in Sources */,
 				8753CA772B71F004002871C7 /* TicketListItemResponseDTO.swift in Sources */,
 				224BEF012C4CCA9A00863970 /* GiftingConfirmViewController.swift in Sources */,
+				22DFC5502C79B1E800C8433D /* ProfileDIContainer.swift in Sources */,
 				849FBD512B5E920A006EB865 /* AppInfo.swift in Sources */,
 				221D09FC2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift in Sources */,
 				870C33362BBC29B600ED212C /* UICollectionReusableView+.swift in Sources */,
@@ -2596,6 +2614,7 @@
 				872605492B793A3F005CD0D4 /* ReservationCollapsableStackView.swift in Sources */,
 				8710D9482B74FA6600309FBF /* QRScannerListViewModel.swift in Sources */,
 				846F5F3A2B7BBEC4000F86AE /* QRAPI.swift in Sources */,
+				22DFC5522C79B1F000C8433D /* ProfileViewModel.swift in Sources */,
 				84EC6A642B6CF973009AC6BB /* BooltiToastView.swift in Sources */,
 				87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */,
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,
