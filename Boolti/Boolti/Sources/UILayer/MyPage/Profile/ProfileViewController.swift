@@ -17,6 +17,8 @@ final class ProfileViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: ProfileViewModel
     
+    private var profileMainHeight: CGFloat = 280
+    
     // MARK: UI Components
     
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "프로필"))
@@ -76,7 +78,7 @@ extension ProfileViewController {
         self.mainCollectionView.rx.didScroll
             .subscribe(with: self) { owner, _ in
                 let offset = owner.mainCollectionView.contentOffset.y
-                if offset <= 280 {
+                if offset <= self.profileMainHeight {
                     self.navigationBar.setBackgroundColor(with: .grey90)
                 } else {
                     self.navigationBar.setBackgroundColor(with: .grey95)
@@ -172,7 +174,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         switch section {
         case 0:
-            return CGSize(width: self.mainCollectionView.frame.width, height: 280)
+            return CGSize(width: self.mainCollectionView.frame.width, height: self.profileMainHeight)
         case 1:
             return CGSize(width: self.mainCollectionView.frame.width, height: 74)
         default:
