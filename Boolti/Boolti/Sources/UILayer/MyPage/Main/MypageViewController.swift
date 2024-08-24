@@ -165,6 +165,14 @@ final class MyPageViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
         
+        self.profileView.didShowProfileButtonTap()
+            .filter{ _ in self.viewModel.output.isAccessTokenLoaded.value }
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                debugPrint("프로필 보기 클릭!")
+            }
+            .disposed(by: self.disposeBag)
+        
         self.settingNavigationView.rx.tapGesture()
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
