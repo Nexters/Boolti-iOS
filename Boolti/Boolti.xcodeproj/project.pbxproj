@@ -56,6 +56,7 @@
 		22DFC54E2C79B1E000C8433D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC54D2C79B1E000C8433D /* ProfileViewController.swift */; };
 		22DFC5502C79B1E800C8433D /* ProfileDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC54F2C79B1E800C8433D /* ProfileDIContainer.swift */; };
 		22DFC5522C79B1F000C8433D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC5512C79B1F000C8433D /* ProfileViewModel.swift */; };
+		22DFC5582C79C1B900C8433D /* ProfileMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC5572C79C1B900C8433D /* ProfileMainView.swift */; };
 		22FA98232C3D0BE500831F64 /* ConcertTicketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FA98222C3D0BE500831F64 /* ConcertTicketInfoView.swift */; };
 		840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */; };
 		840B39572B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */; };
@@ -436,6 +437,7 @@
 		22DFC54D2C79B1E000C8433D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		22DFC54F2C79B1E800C8433D /* ProfileDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDIContainer.swift; sourceTree = "<group>"; };
 		22DFC5512C79B1F000C8433D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		22DFC5572C79C1B900C8433D /* ProfileMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainView.swift; sourceTree = "<group>"; };
 		22FA98222C3D0BE500831F64 /* ConcertTicketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertTicketInfoView.swift; sourceTree = "<group>"; };
 		840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -976,11 +978,20 @@
 		22DFC54C2C79B13300C8433D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				22DFC55A2C79C1F600C8433D /* Views */,
 				22DFC54F2C79B1E800C8433D /* ProfileDIContainer.swift */,
 				22DFC54D2C79B1E000C8433D /* ProfileViewController.swift */,
 				22DFC5512C79B1F000C8433D /* ProfileViewModel.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		22DFC55A2C79C1F600C8433D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				22DFC5572C79C1B900C8433D /* ProfileMainView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		840B39532B7667B100E7F8C8 /* Cells */ = {
@@ -2601,6 +2612,7 @@
 				8730F0162B7B29EC00D4F339 /* TicketRefundRequestViewController.swift in Sources */,
 				84625A0B2B63B2AE00CC9077 /* TicketSelectionViewModel.swift in Sources */,
 				870099B52B77476E001779FB /* TicketReservationAPI.swift in Sources */,
+				22DFC5582C79C1B900C8433D /* ProfileMainView.swift in Sources */,
 				841D77D22B73B0C10068B1C5 /* ConcertAPI.swift in Sources */,
 				84D1C3892B7A17C500527998 /* InvitationCodeStateEntity.swift in Sources */,
 				876667542B73A82300DDB2B5 /* EntryCodeInputView.swift in Sources */,
