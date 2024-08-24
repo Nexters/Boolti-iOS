@@ -9,7 +9,7 @@ import UIKit
 
 import RxCocoa
 
-final class ProfileMainView: UIView {
+final class ProfileMainView: UICollectionReusableView {
     
     // MARK: UI Components
 
@@ -69,13 +69,14 @@ final class ProfileMainView: UIView {
     
     // MARK: Initailizer
     
-    init() {
+    override init(frame: CGRect) {
         super.init(frame: .zero)
+        
         self.configureUI()
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) has not been implemented")
     }
     
 }
@@ -83,6 +84,12 @@ final class ProfileMainView: UIView {
 // MARK: - Methods
 
 extension ProfileMainView {
+    
+    func setData() {
+        self.profileImageView.setImage(with: UserDefaults.userImageURLPath)
+        self.nameLabel.text = UserDefaults.userName
+        self.descriptionLabel.text = UserDefaults.userEmail
+    }
     
     func didEditButtonTap() -> Signal<Void> {
         return self.editButton.rx.tap.asSignal()
