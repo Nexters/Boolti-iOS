@@ -21,14 +21,6 @@ final class ProfileViewController: BooltiViewController {
     
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "프로필"))
     
-    private lazy var profileStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.addArrangedSubviews([self.profileMainView,
-                                       self.dataCollectionView])
-        return stackView
-    }()
-    
     private let profileMainView = ProfileMainView()
     
     private let dataCollectionView: UICollectionView = {
@@ -39,7 +31,7 @@ final class ProfileViewController: BooltiViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.bounces = false
-        collectionView.contentInset = .init(top: 32, left: 20, bottom: 32, right: 20)
+        collectionView.contentInset = .init(top: 0, left: 20, bottom: 32, right: 20)
         return collectionView
     }()
     
@@ -161,6 +153,13 @@ extension ProfileViewController: UICollectionViewDataSource {
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.profileMainView.snp.updateConstraints { make in
+            let offset = scrollView.contentOffset.y
+            make.top.equalTo(self.navigationBar.snp.bottom).offset(-offset)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: self.dataCollectionView.frame.width - 40, height: 56)
     }
@@ -171,7 +170,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard !self.viewModel.output.links.isEmpty else { return .zero }
-        return CGSize(width: self.dataCollectionView.frame.width, height: 42)
+        return CGSize(width: self.dataCollectionView.frame.width, height: 74)
     }
 }
 
@@ -181,8 +180,9 @@ extension ProfileViewController {
     
     private func configureUI() {
         self.view.backgroundColor = .grey95
-        self.view.addSubviews([self.navigationBar,
-                               self.profileStackView])
+        self.view.addSubviews([self.profileMainView,
+                               self.dataCollectionView,
+                               self.navigationBar])
         self.navigationBar.setBackgroundColor(with: .grey90)
         self.configureConstraints()
     }
@@ -192,8 +192,13 @@ extension ProfileViewController {
             make.top.horizontalEdges.equalToSuperview()
         }
         
-        self.profileStackView.snp.makeConstraints { make in
+        self.profileMainView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationBar.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.dataCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(self.profileMainView.snp.bottom)
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
