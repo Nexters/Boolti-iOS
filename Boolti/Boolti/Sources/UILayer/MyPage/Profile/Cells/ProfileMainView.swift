@@ -1,5 +1,5 @@
 //
-//  ProfileMainView.swift
+//  ProfileMainViewCell.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 8/24/24.
@@ -7,9 +7,15 @@
 
 import UIKit
 
+import RxSwift
 import RxCocoa
 
-final class ProfileMainView: UICollectionReusableView {
+final class ProfileMainView: UIView {
+    
+    // MARK: Properties
+    
+    var didHeightChanged: ((CGFloat) -> ())?
+    var disposeBag = DisposeBag()
     
     // MARK: UI Components
 
@@ -27,6 +33,7 @@ final class ProfileMainView: UICollectionReusableView {
         let label = BooltiUILabel()
         label.font = .aggroM(24)
         label.textColor = .grey10
+        label.numberOfLines = 0
 
         return label
     }()
@@ -35,6 +42,7 @@ final class ProfileMainView: UICollectionReusableView {
         let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .grey30
+        label.numberOfLines = 0
 
         return label
     }()
@@ -87,8 +95,11 @@ extension ProfileMainView {
         self.profileImageView.setImage(with: UserDefaults.userImageURLPath)
         self.nameLabel.text = UserDefaults.userName
         self.introductionLabel.text = introduction ?? ""
+        
+        let height = 222 + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
+        self.didHeightChanged?(height)
     }
-    
+
     func didEditButtonTap() -> Signal<Void> {
         return self.editButton.rx.tap.asSignal()
     }

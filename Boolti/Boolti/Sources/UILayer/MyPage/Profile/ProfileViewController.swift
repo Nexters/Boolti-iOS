@@ -17,13 +17,21 @@ final class ProfileViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: ProfileViewModel
     
-    private var profileMainHeight: CGFloat = 280
-    
     // MARK: UI Components
     
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "프로필"))
     
-    private let mainCollectionView: UICollectionView = {
+    private lazy var profileStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.addArrangedSubviews([self.profileMainView,
+                                       self.dataCollectionView])
+        return stackView
+    }()
+    
+    private let profileMainView = ProfileMainView()
+    
+    private let dataCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         
@@ -31,7 +39,7 @@ final class ProfileViewController: BooltiViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.bounces = false
-        collectionView.contentInset = .init(top: 0, left: 0, bottom: 32, right: 0)
+        collectionView.contentInset = .init(top: 32, left: 20, bottom: 32, right: 20)
         return collectionView
     }()
     
@@ -71,12 +79,9 @@ extension ProfileViewController {
     
     private func bindViewModel() {
         self.viewModel.output.didProfileFetch
-            .subscribe(with: self) { owner, _ in
-                if owner.viewModel.output.introduction == nil {
-                    owner.profileMainHeight = 256
-                }
-                
-                owner.mainCollectionView.reloadData()
+            .subscribe(with: self) { owner, introduction in
+                owner.profileMainView.setData(introduction: introduction)
+                owner.dataCollectionView.reloadData()
             }
             .disposed(by: self.disposeBag)
     }
@@ -88,39 +93,30 @@ extension ProfileViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.mainCollectionView.rx.itemSelected
+        self.profileMainView.didEditButtonTap()
+            .emit(with: self) { owner, _ in
+                print("edit button tap!")
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.dataCollectionView.rx.itemSelected
             .map { $0.row }
             .subscribe(with: self) { owner, index in
                 guard let url = URL(string: owner.viewModel.output.links[index].link) else { return }
                 owner.openSafari(with: url)
             }
             .disposed(by: self.disposeBag)
-        
-        self.mainCollectionView.rx.didScroll
-            .subscribe(with: self) { owner, _ in
-                let offset = owner.mainCollectionView.contentOffset.y
-                if offset <= self.profileMainHeight {
-                    self.navigationBar.setBackgroundColor(with: .grey90)
-                } else {
-                    self.navigationBar.setBackgroundColor(with: .grey95)
-                }
-            }
-            .disposed(by: self.disposeBag)
     }
     
     private func configureCollectionView() {
-        self.mainCollectionView.delegate = self
-        self.mainCollectionView.dataSource = self
-        
-        self.mainCollectionView.register(ProfileMainView.self,
-                                         forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                         withReuseIdentifier: ProfileMainView.className
-        )
-        self.mainCollectionView.register(ProfileLinkHeaderView.self,
+        self.dataCollectionView.delegate = self
+        self.dataCollectionView.dataSource = self
+
+        self.dataCollectionView.register(ProfileLinkHeaderView.self,
                                          forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                          withReuseIdentifier: ProfileLinkHeaderView.className
         )
-        self.mainCollectionView.register(ProfileLinkCollectionViewCell.self, forCellWithReuseIdentifier: ProfileLinkCollectionViewCell.className)
+        self.dataCollectionView.register(ProfileLinkCollectionViewCell.self, forCellWithReuseIdentifier: ProfileLinkCollectionViewCell.className)
     }
     
 }
@@ -130,37 +126,16 @@ extension ProfileViewController {
 extension ProfileViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 1:
-            return self.viewModel.output.links.count
-        default:
-            return 0
-        }
+        return self.viewModel.output.links.count
     }
     
     /// 헤더를 결정하는 메서드
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch indexPath.section {
-        case 0:
-            guard kind == UICollectionView.elementKindSectionHeader,
-                  let header = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: kind,
-                    withReuseIdentifier: ProfileMainView.className,
-                    for: indexPath
-                  ) as? ProfileMainView else {return UICollectionReusableView()}
-            
-            header.didEditButtonTap()
-                .emit(with: self) { owner, _ in
-                    print("edit button tap!")
-                }
-                .disposed(by: self.disposeBag)
-            header.setData(introduction: self.viewModel.output.introduction)
-            return header
-        default:
+        if indexPath.section == 0 {
             guard kind == UICollectionView.elementKindSectionHeader,
                   let header = collectionView.dequeueReusableSupplementaryView(
                     ofKind: kind,
@@ -169,6 +144,8 @@ extension ProfileViewController: UICollectionViewDataSource {
                   ) as? ProfileLinkHeaderView else {return UICollectionReusableView()}
             
             return header
+        } else {
+            return .init()
         }
     }
     
@@ -185,7 +162,7 @@ extension ProfileViewController: UICollectionViewDataSource {
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.mainCollectionView.frame.width - 40, height: 56)
+        return CGSize(width: self.dataCollectionView.frame.width - 40, height: 56)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -193,15 +170,8 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        switch section {
-        case 0:
-            return CGSize(width: self.mainCollectionView.frame.width, height: self.profileMainHeight)
-        case 1:
-            guard !self.viewModel.output.links.isEmpty else { return .zero }
-            return CGSize(width: self.mainCollectionView.frame.width, height: 74)
-        default:
-            return .zero
-        }
+        guard !self.viewModel.output.links.isEmpty else { return .zero }
+        return CGSize(width: self.dataCollectionView.frame.width, height: 42)
     }
 }
 
@@ -212,7 +182,7 @@ extension ProfileViewController {
     private func configureUI() {
         self.view.backgroundColor = .grey95
         self.view.addSubviews([self.navigationBar,
-                               self.mainCollectionView])
+                               self.profileStackView])
         self.navigationBar.setBackgroundColor(with: .grey90)
         self.configureConstraints()
     }
@@ -222,7 +192,7 @@ extension ProfileViewController {
             make.top.horizontalEdges.equalToSuperview()
         }
         
-        self.mainCollectionView.snp.makeConstraints { make in
+        self.profileStackView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationBar.snp.bottom)
             make.horizontalEdges.bottom.equalToSuperview()
         }

@@ -146,11 +146,12 @@ extension MypageProfileView {
         }
         
         self.profileStackView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(29)
         }
         
         self.loginButton.snp.makeConstraints { make in
+            make.leading.equalTo(self.profileStackView.snp.trailing).offset(24)
             make.trailing.equalToSuperview().inset(28)
             make.centerY.equalTo(self.profileStackView)
         }

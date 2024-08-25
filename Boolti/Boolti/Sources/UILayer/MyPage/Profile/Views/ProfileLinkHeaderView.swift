@@ -45,7 +45,6 @@ extension ProfileLinkHeaderView {
     private func configureConstraints() {
         self.titleLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.top.equalToSuperview().inset(32)
         }
     }
     

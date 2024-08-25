@@ -174,6 +174,12 @@ final class AuthRepository: AuthRepositoryType {
         let api = AuthAPI.user
         return self.networkService.request(api)
             .map(UserResponseDTO.self)
+            .flatMap({ user -> Single<UserResponseDTO> in
+                UserDefaults.userName = user.nickname ?? ""
+                UserDefaults.userImageURLPath = user.imgPath ?? ""
+
+                return .just(user)
+            })
     }
     
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void> {
