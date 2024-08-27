@@ -140,7 +140,7 @@ extension MypageProfileView {
         }
         
         self.loginButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(28)
+            make.trailing.equalToSuperview().inset(20)
             make.centerY.equalTo(self.profileStackView)
         }
     }
