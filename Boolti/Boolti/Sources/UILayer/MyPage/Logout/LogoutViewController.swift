@@ -114,7 +114,10 @@ final class LogoutViewController: BooltiViewController {
         self.viewModel.output.didLogoutAccount
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { owner, _ in
-                owner.dismiss(animated: true)
+                guard let settingViewController = owner.presentingViewController as? SettingViewController else { return }
+                owner.dismiss(animated: true) {
+                    settingViewController.navigationController?.popViewController(animated: true)
+                }
             }
             .disposed(by: self.disposeBag)
     }

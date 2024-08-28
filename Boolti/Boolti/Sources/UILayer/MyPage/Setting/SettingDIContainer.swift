@@ -17,6 +17,21 @@ final class SettingDIContainer {
     }
 
     func createSettingViewController() -> SettingViewController {
-        return SettingViewController()
+        let logoutViewControllerFactory: () -> LogoutViewController = { 
+            let DIContainer = LogoutDIContainer(authRepository: self.authRepository)
+            let viewController = DIContainer.createLogoutViewController()
+            
+            return viewController
+        }
+        
+        let resignInfoViewControllerFactory: () -> ResignInfoViewController = {
+            let DIContainer = ResignInfoDIContainer(authRepository: self.authRepository)
+            let viewController = DIContainer.createResignInfoViewController()
+            
+            return viewController
+        }
+        
+        return SettingViewController(logoutViewControllerFactory: logoutViewControllerFactory,
+                                     resignInfoViewControllerFactory: resignInfoViewControllerFactory)
     }
 }
