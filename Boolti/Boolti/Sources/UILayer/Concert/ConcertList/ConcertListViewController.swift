@@ -148,6 +148,7 @@ extension ConcertListViewController {
         self.mainCollectionView.register(ConcertListMainTitleCollectionViewCell.self, forCellWithReuseIdentifier: ConcertListMainTitleCollectionViewCell.className)
         self.mainCollectionView.register(SearchBarCollectionViewCell.self, forCellWithReuseIdentifier: SearchBarCollectionViewCell.className)
         self.mainCollectionView.register(ConcertCollectionViewCell.self, forCellWithReuseIdentifier: ConcertCollectionViewCell.className)
+        self.mainCollectionView.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: BannerCollectionViewCell.className)
         self.mainCollectionView.register(BusinessInfoCollectionViewCell.self, forCellWithReuseIdentifier: BusinessInfoCollectionViewCell.className)
     }
     
@@ -162,6 +163,9 @@ extension ConcertListViewController: UICollectionViewDelegate {
         case 2:
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.topConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
+        case 3:
+            guard let url = URL(string: "https://boolti.in/login") else { return }
+            self.openSafari(with: url)
         case 4:
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.bottomConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
@@ -185,7 +189,7 @@ extension ConcertListViewController: UICollectionViewDelegate {
 extension ConcertListViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        return 6
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -234,7 +238,9 @@ extension ConcertListViewController: UICollectionViewDataSource {
             return cell
         // 중간 배너
         case 3:
-            return .init()
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCollectionViewCell.className, for: indexPath) as? BannerCollectionViewCell else { return UICollectionViewCell() }
+            
+            return cell
         // 하단 사업자 정보
         case 5:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return UICollectionViewCell() }
@@ -265,7 +271,7 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
         case 2, 4:
             return CGSize(width: (self.mainCollectionView.frame.width - 40) / 2 - 7.5, height: max(313, 313 * self.view.bounds.height / 812))
         case 3:
-            return CGSize(width: self.mainCollectionView.frame.width - 40, height: 100)
+            return CGSize(width: self.mainCollectionView.frame.width - 40, height: 80)
         case 5:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 86)
         default:
@@ -276,7 +282,9 @@ extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         switch section {
         case 2, 4:
-            return UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+            return UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
+        case 3:
+            return UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
         default:
             return .zero
         }
