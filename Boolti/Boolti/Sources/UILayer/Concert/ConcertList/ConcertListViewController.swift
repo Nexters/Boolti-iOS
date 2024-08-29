@@ -13,8 +13,17 @@ final class ConcertListViewController: BooltiViewController {
     
     // MARK: Properties
     
+    enum Section: Int, CaseIterable {
+        case title
+        case searchBar
+        case topConcerts
+        case banner
+        case bottomConcerts
+        case information
+    }
+    
     typealias ConcertId = Int
-
+    
     private let viewModel: ConcertListViewModel
     private let disposeBag = DisposeBag()
     private let concertDetailViewControllerFactory: (ConcertId) -> ConcertDetailViewController
@@ -32,7 +41,7 @@ final class ConcertListViewController: BooltiViewController {
     }()
     
     private let popupView = BooltiPopupView()
-
+    
     // MARK: Init
     
     init(
@@ -47,13 +56,13 @@ final class ConcertListViewController: BooltiViewController {
         self.loginViewControllerFactory = loginViewControllerFactory
         super.init()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
     
     // MARK: Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,7 +80,7 @@ final class ConcertListViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.viewModel.fetchConcertList(concertName: nil)
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         self.configureDynamicLinkDestination()
         self.mainCollectionView.reloadSections([0], animationStyle: .automatic)
@@ -157,19 +166,21 @@ extension ConcertListViewController {
 // MARK: - UICollectionViewDelegate
 
 extension ConcertListViewController: UICollectionViewDelegate {
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 2:
+        guard let section = Section(rawValue: indexPath.section) else { return }
+        
+        switch section {
+        case .topConcerts:
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.topConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
-        case 3:
+        case .banner:
             guard let url = URL(string: "https://boolti.in/login") else { return }
             self.openSafari(with: url)
-        case 4:
+        case .bottomConcerts:
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.bottomConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
-        default:
+        case .title, .searchBar, .information:
             break
         }
     }
@@ -187,33 +198,33 @@ extension ConcertListViewController: UICollectionViewDelegate {
 // MARK: - UICollectionViewDataSource
 
 extension ConcertListViewController: UICollectionViewDataSource {
-
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 6
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let section = Section(rawValue: section) else { return 0 }
+        
         switch section {
-        case 2:
+        case .topConcerts:
             return viewModel.output.topConcerts.count
-        case 4:
+        case .bottomConcerts:
             return viewModel.output.bottomConcerts.count
-        case 0, 1, 3, 5:
+        case .title, .searchBar, .banner, .information:
             return 1
-        default:
-            return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch indexPath.section {
-        // 상단 title
-        case 0:
+        guard let section = Section(rawValue: indexPath.section) else { return .init() }
+        
+        switch section {
+        case .title:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConcertListMainTitleCollectionViewCell.className, for: indexPath) as? ConcertListMainTitleCollectionViewCell else { return UICollectionViewCell() }
             cell.setTitle()
             return cell
-        // 검색바
-        case 1:
+        case .searchBar:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchBarCollectionViewCell.className, for: indexPath) as? SearchBarCollectionViewCell else { return UICollectionViewCell() }
             
             cell.didSearchTap()
@@ -223,12 +234,11 @@ extension ConcertListViewController: UICollectionViewDataSource {
                 .disposed(by: self.disposeBag)
             
             return cell
-        // concert
-        case 2, 4:
+        case .topConcerts, .bottomConcerts:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConcertCollectionViewCell.className, for: indexPath) as? ConcertCollectionViewCell else { return UICollectionViewCell() }
             
             // 배너 상단
-            if indexPath.section == 2 {
+            if section == .topConcerts {
                 cell.setData(concertEntity: self.viewModel.output.topConcerts[indexPath.item])
             }
             // 배너 하단
@@ -236,13 +246,11 @@ extension ConcertListViewController: UICollectionViewDataSource {
                 cell.setData(concertEntity: self.viewModel.output.bottomConcerts[indexPath.item])
             }
             return cell
-        // 중간 배너
-        case 3:
+        case .banner:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCollectionViewCell.className, for: indexPath) as? BannerCollectionViewCell else { return UICollectionViewCell() }
             
             return cell
-        // 하단 사업자 정보
-        case 5:
+        case .information:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return UICollectionViewCell() }
             
             cell.businessInfoView.didInfoButtonTap()
@@ -252,8 +260,6 @@ extension ConcertListViewController: UICollectionViewDataSource {
                 }
                 .disposed(by: cell.disposeBag)
             return cell
-        default:
-            return .init()
         }
     }
 }
@@ -263,47 +269,53 @@ extension ConcertListViewController: UICollectionViewDataSource {
 extension ConcertListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        switch indexPath.section {
-        case 0:
+        guard let section = Section(rawValue: indexPath.section) else { return .zero }
+        
+        switch section {
+        case .title:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 96)
-        case 1:
+        case .searchBar:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 80)
-        case 2, 4:
+        case .topConcerts, .bottomConcerts:
             return CGSize(width: (self.mainCollectionView.frame.width - 40) / 2 - 7.5, height: max(313, 313 * self.view.bounds.height / 812))
-        case 3:
+        case .banner:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 80)
-        case 5:
+        case .information:
             return CGSize(width: self.mainCollectionView.frame.width - 40, height: 86)
-        default:
-            return .zero
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        guard let section = Section(rawValue: section) else { return .zero }
+        
         switch section {
-        case 2, 4:
+        case .topConcerts, .bottomConcerts:
             return UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
-        case 3:
+        case .banner:
             return UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
-        default:
+        case .title, .searchBar, .information:
             return .zero
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        guard let section = Section(rawValue: section) else { return 0 }
+        
         switch section {
-        case 2, 4:
+        case .topConcerts, .bottomConcerts:
             return 15
-        default:
+        case .title, .searchBar, .banner, .information:
             return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        guard let section = Section(rawValue: section) else { return 0 }
+        
         switch section {
-        case 2, 4:
+        case .topConcerts, .bottomConcerts:
             return 20
-        default:
+        case .title, .searchBar, .banner, .information:
             return 0
         }
     }
@@ -330,7 +342,7 @@ extension ConcertListViewController {
             make.edges.equalToSuperview()
         }
     }
-
+    
     func configureDynamicLinkDestination() {
         guard let landingDestination = UserDefaults.landingDestination else { return }
         
