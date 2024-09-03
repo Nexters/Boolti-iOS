@@ -7,8 +7,11 @@
 
 import UIKit
 
-final class ProfileLinkCollectionViewCell: UICollectionViewCell {
-    
+final class ProfileLinkView: UIView {
+
+    // TODO: View가 직접 Entity 가지고 있는 거 수정하기
+    private var linkEntity: LinkEntity
+
     // MARK: UI Component
     
     private let linkImageView: UIImageView = {
@@ -22,15 +25,16 @@ final class ProfileLinkCollectionViewCell: UICollectionViewCell {
         let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .grey15
-        
+
         return label
     }()
     
     // MARK: Init
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
+    init(with linkEntity: LinkEntity) {
+        self.linkEntity = linkEntity
+        super.init(frame: .zero)
+
         self.configureUI()
         self.configureConstraints()
     }
@@ -38,39 +42,20 @@ final class ProfileLinkCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
-    // MARK: - Override
-    
-    override func prepareForReuse() {
-        self.resetData()
-    }
-}
-
-// MARK: - Methods
-
-extension ProfileLinkCollectionViewCell {
-    
-    func setData(linkName: String) {
-        self.linkNameLabel.text = linkName
-    }
-    
-    private func resetData() {
-        self.linkNameLabel.text = nil
-    }
 }
 
 // MARK: - UI
 
-extension ProfileLinkCollectionViewCell {
-    
+extension ProfileLinkView {
+
     private func configureUI() {
-        self.contentView.addSubviews([self.linkImageView,
-                                             self.linkNameLabel])
-    
-        self.contentView.backgroundColor = .grey90
-        self.backgroundColor = .grey95
+        self.addSubviews([self.linkImageView, self.linkNameLabel])
+        
+        self.linkNameLabel.text = self.linkEntity.title
+        self.backgroundColor = .grey90
+        self.layer.cornerRadius = 4
     }
-    
+
     private func configureConstraints() {
         self.linkImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
