@@ -10,11 +10,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ProfileMainView: UIView {
+final class ProfileMainView: UICollectionReusableView {
     
     // MARK: Properties
     
-    var didHeightChanged: ((CGFloat) -> ())?
     var disposeBag = DisposeBag()
     
     // MARK: UI Components
@@ -91,13 +90,13 @@ final class ProfileMainView: UIView {
 
 extension ProfileMainView {
     
-    func setData(introduction: String?) {
+    func setData(introduction: String?, completion: @escaping (CGFloat) -> ()) {
         self.profileImageView.setImage(with: UserDefaults.userImageURLPath)
         self.nameLabel.text = UserDefaults.userName
         self.introductionLabel.text = introduction ?? ""
         
         let height = 222 + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
-        self.didHeightChanged?(height)
+        completion(height)
     }
 
     func didEditButtonTap() -> Signal<Void> {

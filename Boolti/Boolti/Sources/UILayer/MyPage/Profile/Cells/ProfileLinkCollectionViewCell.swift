@@ -27,14 +27,14 @@ final class ProfileLinkCollectionViewCell: UICollectionViewCell {
     }()
     
     // MARK: Init
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.configureUI()
         self.configureConstraints()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
@@ -65,8 +65,9 @@ extension ProfileLinkCollectionViewCell {
     
     private func configureUI() {
         self.contentView.addSubviews([self.linkImageView,
-                                             self.linkNameLabel])
-    
+                                      self.linkNameLabel])
+        
+        self.contentView.layer.cornerRadius = 4
         self.contentView.backgroundColor = .grey90
         self.backgroundColor = .grey95
     }
