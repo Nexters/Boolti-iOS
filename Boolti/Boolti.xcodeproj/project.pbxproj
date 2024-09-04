@@ -53,6 +53,7 @@
 		22DEF7812C28396100EA492A /* GiftingDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DEF7802C28396100EA492A /* GiftingDetailDIContainer.swift */; };
 		22DEF7832C28396D00EA492A /* GiftingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DEF7822C28396D00EA492A /* GiftingDetailViewController.swift */; };
 		22DEF7852C28397600EA492A /* GiftingDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DEF7842C28397600EA492A /* GiftingDetailViewModel.swift */; };
+		22DFC56D2C7F60E600C8433D /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */; };
 		22DFC54E2C79B1E000C8433D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC54D2C79B1E000C8433D /* ProfileViewController.swift */; };
 		22DFC5502C79B1E800C8433D /* ProfileDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC54F2C79B1E800C8433D /* ProfileDIContainer.swift */; };
 		22DFC5522C79B1F000C8433D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC5512C79B1F000C8433D /* ProfileViewModel.swift */; };
@@ -348,6 +349,9 @@
 		87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */; };
 		87DB76C02C52823400DE8B14 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87DB76BE2C52823400DE8B14 /* Debug.xcconfig */; };
 		87DB76C12C52823400DE8B14 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87DB76BF2C52823400DE8B14 /* Release.xcconfig */; };
+		87EFEEDB2C7E1C4300A8993C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EFEEDA2C7E1C4300A8993C /* Preview.swift */; };
+		87EFEEDE2C7E21EF00A8993C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EFEEDD2C7E21EF00A8993C /* WebKit.framework */; };
+		87EFEEE12C7F597700A8993C /* AgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EFEEE02C7F597700A8993C /* AgreementViewController.swift */; };
 		87F63D692C3F7E46001D7A56 /* GiftCompletionDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D682C3F7E46001D7A56 /* GiftCompletionDIContainer.swift */; };
 		87F63D6B2C3F7E55001D7A56 /* GiftCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6A2C3F7E55001D7A56 /* GiftCompletionViewController.swift */; };
 		87F63D6D2C3F7E62001D7A56 /* GiftCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F63D6C2C3F7E62001D7A56 /* GiftCompletionViewModel.swift */; };
@@ -436,6 +440,7 @@
 		22DEF7802C28396100EA492A /* GiftingDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingDetailDIContainer.swift; sourceTree = "<group>"; };
 		22DEF7822C28396D00EA492A /* GiftingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingDetailViewController.swift; sourceTree = "<group>"; };
 		22DEF7842C28397600EA492A /* GiftingDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingDetailViewModel.swift; sourceTree = "<group>"; };
+		22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		22DFC54D2C79B1E000C8433D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		22DFC54F2C79B1E800C8433D /* ProfileDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDIContainer.swift; sourceTree = "<group>"; };
 		22DFC5512C79B1F000C8433D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -705,6 +710,9 @@
 		87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversalPolicyView.swift; sourceTree = "<group>"; };
 		87DB76BE2C52823400DE8B14 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		87DB76BF2C52823400DE8B14 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		87EFEEDA2C7E1C4300A8993C /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
+		87EFEEDD2C7E21EF00A8993C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		87EFEEE02C7F597700A8993C /* AgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementViewController.swift; sourceTree = "<group>"; };
 		87F63D682C3F7E46001D7A56 /* GiftCompletionDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionDIContainer.swift; sourceTree = "<group>"; };
 		87F63D6A2C3F7E55001D7A56 /* GiftCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionViewController.swift; sourceTree = "<group>"; };
 		87F63D6C2C3F7E62001D7A56 /* GiftCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCompletionViewModel.swift; sourceTree = "<group>"; };
@@ -727,6 +735,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87EFEEDE2C7E21EF00A8993C /* WebKit.framework in Frameworks */,
 				84B3219D2B61543E007FD669 /* FirebaseAnalyticsSwift in Frameworks */,
 				84781C972B5BF15A00D37921 /* RxKakaoSDKCommon in Frameworks */,
 				87F63D812C3FC372001D7A56 /* KakaoSDK in Frameworks */,
@@ -817,6 +826,7 @@
 		224BEEFC2C4CC99900863970 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				87EFEEDF2C7F596C00A8993C /* ViewController */,
 				224BEF092C4CD18500863970 /* Views */,
 				848CBF042B6547DB00239303 /* TicketingDetail */,
 				22DEF77F2C2838E100EA492A /* GiftingDetail */,
@@ -1014,6 +1024,7 @@
 				840B395A2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift */,
 				840B395E2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift */,
 				840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */,
+				22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */,
 				221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -1161,6 +1172,7 @@
 			children = (
 				84781BCB2B5BDAFC00D37921 /* Boolti */,
 				84781BCA2B5BDAFC00D37921 /* Products */,
+				87EFEEDC2C7E21D000A8993C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1281,6 +1293,7 @@
 				84FEF6162B68A6D100EBB64F /* UIResponder+.swift */,
 				87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */,
 				870C33352BBC29B600ED212C /* UICollectionReusableView+.swift */,
+				87EFEEDA2C7E1C4300A8993C /* Preview.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2175,6 +2188,22 @@
 			path = TicketDetail;
 			sourceTree = "<group>";
 		};
+		87EFEEDC2C7E21D000A8993C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				87EFEEDD2C7E21EF00A8993C /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		87EFEEDF2C7F596C00A8993C /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				87EFEEE02C7F597700A8993C /* AgreementViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		87F63D632C3EE9E2001D7A56 /* Completion */ = {
 			isa = PBXGroup;
 			children = (
@@ -2388,6 +2417,7 @@
 				8769BF9D2B6267CC00DA9A67 /* BooltiButton.swift in Sources */,
 				841D77E12B7464250068B1C5 /* UIImageView+.swift in Sources */,
 				84A713432B7C6DEA000BABCB /* EntranceCodeViewModel.swift in Sources */,
+				22DFC56D2C7F60E600C8433D /* BannerCollectionViewCell.swift in Sources */,
 				224BEEFF2C4CC9BA00863970 /* GiftingConfirmDIContainer.swift in Sources */,
 				84E512532B6E9E0B002658D1 /* ConcertPosterView.swift in Sources */,
 				872605422B793223005CD0D4 /* TicketReservationDetailDIContainer.swift in Sources */,
@@ -2550,6 +2580,7 @@
 				8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */,
 				22CF3A382BB806560094711C /* MiddlemanPolicyView.swift in Sources */,
 				87F7DF472B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift in Sources */,
+				87EFEEE12C7F597700A8993C /* AgreementViewController.swift in Sources */,
 				87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */,
 				8755A1602B8BA5510067C5CE /* QRCodeResponsePopUpView.swift in Sources */,
 				8730F02E2B7BAA2B00D4F339 /* RefundAccountNumberView.swift in Sources */,
@@ -2591,6 +2622,7 @@
 				84DF59E52B726E3F000816DA /* ConcertContentExpandViewModel.swift in Sources */,
 				84DF59E12B726E0A000816DA /* ConcertContentExpandDIContainer.swift in Sources */,
 				84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */,
+				87EFEEDB2C7E1C4300A8993C /* Preview.swift in Sources */,
 				8710D9462B74FA5700309FBF /* QRScannerListViewController.swift in Sources */,
 				876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */,
 				870099BE2B7767E7001779FB /* EmptyReservationsView.swift in Sources */,
@@ -2834,7 +2866,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2876,7 +2908,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;

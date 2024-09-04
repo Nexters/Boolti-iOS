@@ -306,15 +306,20 @@ extension TicketingDetailViewController {
     private func bindAgreeView() {
         self.agreeView.didCollectionOpenButtonTap()
             .emit(with: self) { owner, _ in
-                guard let url = URL(string: AppInfo.informationCollectionPolicyLink) else { return }
-                owner.openSafari(with: url)
+                owner.presentAgreementViewController(
+                    urlString: "https://boolti.in/site-policy/privacy",
+                    detentHeight: 628
+                )
+
             }
             .disposed(by: self.disposeBag)
         
         self.agreeView.didOfferOpenButtonTap()
             .emit(with: self) { owner, _ in
-                guard let url = URL(string: AppInfo.informationOfferPolicyLink) else { return }
-                owner.openSafari(with: url)
+                owner.presentAgreementViewController(
+                    urlString: "https://boolti.in/site-policy/consent",
+                    detentHeight: 512
+                )
             }
             .disposed(by: self.disposeBag)
         
@@ -322,7 +327,22 @@ extension TicketingDetailViewController {
             .bind(to: self.viewModel.input.isAllAgreeButtonSelected)
             .disposed(by: self.disposeBag)
     }
-    
+
+    private func presentAgreementViewController(urlString: String, detentHeight: CGFloat) {
+        guard let url = URL(string: urlString) else { return }
+        let agreementViewController = AgreementViewController(url: url)
+        let customDent = UISheetPresentationController.Detent.custom { _ in
+            return detentHeight
+        }
+        if let sheet = agreementViewController.sheetPresentationController {
+            sheet.detents = [customDent]
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 16
+        }
+
+        self.present(agreementViewController, animated: true)
+    }
+
     private func bindBusinessInfoView() {
         self.businessInfoView.didInfoButtonTap()
             .emit(with: self) { owner, _ in

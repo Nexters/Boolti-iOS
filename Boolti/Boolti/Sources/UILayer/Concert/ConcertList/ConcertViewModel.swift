@@ -29,13 +29,15 @@ final class ConcertListViewModel {
     }
     
     struct Output {
-        let concerts = BehaviorRelay<[ConcertEntity]>(value: [])
+        let didConcertFetch = PublishRelay<Void>()
+        var topConcerts: [ConcertEntity] = []
+        var bottomConcerts: [ConcertEntity] = []
         let showRegisterGiftPopUp = PublishRelay<GiftType>()
         let didRegisterGift = PublishRelay<Bool>()
     }
     
     let input: Input
-    let output: Output
+    var output: Output
     
     var giftUuid: String?
     
@@ -78,8 +80,11 @@ extension ConcertListViewModel {
     
     func fetchConcertList(concertName: String?) {
         self.concertRepository.concertList(concertName: concertName)
-            .asObservable()
-            .bind(to: self.output.concerts)
+            .subscribe(with: self) { owner, concerts in
+                owner.output.topConcerts = Array(concerts.prefix(4))
+                owner.output.bottomConcerts = Array(concerts.dropFirst(4))
+                owner.output.didConcertFetch.accept(())
+            }
             .disposed(by: self.disposeBag)
     }
     
