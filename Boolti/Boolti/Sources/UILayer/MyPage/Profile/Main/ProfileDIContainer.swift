@@ -16,8 +16,16 @@ final class ProfileDIContainer {
     }
 
     func createProfileViewController() -> ProfileViewController {
+        let editProfileViewControllerFactory = {
+            let DIContainer = EditProfileDIContainer(authRepository: self.authRepository)
+            let viewController = DIContainer.createEditProfileViewController()
+            
+            return viewController
+        }
+        
         let viewModel = ProfileViewModel(authRepository: self.authRepository)
-        let viewController = ProfileViewController(viewModel: viewModel)
+        let viewController = ProfileViewController(viewModel: viewModel,
+                                                   editProfileViewControllerFactory: editProfileViewControllerFactory)
 
         return viewController
     }

@@ -23,6 +23,8 @@ final class ProfileViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: ProfileViewModel
     
+    private let editProfileViewControllerFactory: () -> EditProfileViewController
+    
     // MARK: UI Components
     
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "프로필"))
@@ -41,8 +43,10 @@ final class ProfileViewController: BooltiViewController {
     
     // MARK: Initailizer
     
-    init(viewModel: ProfileViewModel) {
+    init(viewModel: ProfileViewModel,
+         editProfileViewControllerFactory: @escaping () -> EditProfileViewController) {
         self.viewModel = viewModel
+        self.editProfileViewControllerFactory = editProfileViewControllerFactory
         
         super.init()
     }
@@ -151,7 +155,7 @@ extension ProfileViewController: UICollectionViewDataSource {
 
             header.didEditButtonTap()
                 .emit(with: self) { owner, _ in
-                    print("click")
+                    owner.navigationController?.pushViewController(owner.editProfileViewControllerFactory(), animated: true)
                 }
                 .disposed(by: self.disposeBag)
             
