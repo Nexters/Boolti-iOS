@@ -17,6 +17,7 @@ enum NavigationType {
     case concertDetail
     case ticketingCompletion
     case tossPaymentsWidget
+    case addLink
 }
 
 final class BooltiNavigationBar: UIView {
@@ -48,7 +49,9 @@ final class BooltiNavigationBar: UIView {
     private lazy var shareButton = self.makeButton(image: .share)
     
     private lazy var moreButton = self.makeButton(image: .more)
-    
+
+    private lazy var completeButton = self.makeButton(title: "완료")
+
     // MARK: Init
     
     init(type: NavigationType) {
@@ -64,6 +67,7 @@ final class BooltiNavigationBar: UIView {
         case .concertDetail: self.configureConcertDetailUI()
         case .ticketingCompletion: self.configureTicketingCompletionUI()
         case .tossPaymentsWidget: self.configureTossPaymentsWidgetUI()
+        case .addLink: self.configureAddLink()
         }
     }
     
@@ -84,6 +88,14 @@ extension BooltiNavigationBar {
         let button = UIButton(type: .system)
         button.setImage(image, for: .normal)
         button.tintColor = .grey10
+        return button
+    }
+
+    private func makeButton(title: String) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .subhead2
+        button.titleLabel?.textColor = .grey10
         return button
     }
 }
@@ -199,6 +211,27 @@ extension BooltiNavigationBar {
         self.closeButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(20)
             make.size.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+    }
+
+    private func configureAddLink() {
+        self.titleLabel.text = "링크 추가"
+        self.addSubviews([self.titleLabel, self.backButton, self.completeButton])
+        
+        self.backButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(20)
+            make.size.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+
+        self.titleLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.backButton.snp.right).offset(12)
+            make.bottom.equalToSuperview().inset(10)
+        }
+
+        self.completeButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(10)
         }
     }

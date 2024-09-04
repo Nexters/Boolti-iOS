@@ -53,13 +53,13 @@
 		22DEF7812C28396100EA492A /* GiftingDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DEF7802C28396100EA492A /* GiftingDetailDIContainer.swift */; };
 		22DEF7832C28396D00EA492A /* GiftingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DEF7822C28396D00EA492A /* GiftingDetailViewController.swift */; };
 		22DEF7852C28397600EA492A /* GiftingDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DEF7842C28397600EA492A /* GiftingDetailViewModel.swift */; };
-		22DFC56D2C7F60E600C8433D /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */; };
 		22DFC54E2C79B1E000C8433D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC54D2C79B1E000C8433D /* ProfileViewController.swift */; };
 		22DFC5502C79B1E800C8433D /* ProfileDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC54F2C79B1E800C8433D /* ProfileDIContainer.swift */; };
 		22DFC5522C79B1F000C8433D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC5512C79B1F000C8433D /* ProfileViewModel.swift */; };
 		22DFC5582C79C1B900C8433D /* ProfileMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC5572C79C1B900C8433D /* ProfileMainView.swift */; };
 		22DFC55F2C79C7A400C8433D /* ProfileLinkCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC55E2C79C7A400C8433D /* ProfileLinkCollectionViewCell.swift */; };
 		22DFC5632C7A00E900C8433D /* ProfileLinkHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC5622C7A00E900C8433D /* ProfileLinkHeaderView.swift */; };
+		22DFC56D2C7F60E600C8433D /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */; };
 		22FA98232C3D0BE500831F64 /* ConcertTicketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FA98222C3D0BE500831F64 /* ConcertTicketInfoView.swift */; };
 		840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */; };
 		840B39572B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */; };
@@ -284,6 +284,7 @@
 		8746AD122B680A3E0037A1B1 /* TicketTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD112B680A3E0037A1B1 /* TicketTypeView.swift */; };
 		8746AD142B680A5C0037A1B1 /* TicketTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD132B680A5C0037A1B1 /* TicketTypeTableViewCell.swift */; };
 		8746AD202B6932B30037A1B1 /* ConcertEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */; };
+		8749F5832C88B90C00FC4365 /* AddLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8749F5822C88B90C00FC4365 /* AddLinkViewController.swift */; };
 		8753CA692B70DD00002871C7 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA682B70DD00002871C7 /* UIButton+.swift */; };
 		8753CA6C2B70E17B002871C7 /* TicketEntryCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA6B2B70E17B002871C7 /* TicketEntryCodeViewController.swift */; };
 		8753CA6E2B70E30D002871C7 /* TicketEntryCodeDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753CA6D2B70E30D002871C7 /* TicketEntryCodeDIContainer.swift */; };
@@ -440,13 +441,13 @@
 		22DEF7802C28396100EA492A /* GiftingDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingDetailDIContainer.swift; sourceTree = "<group>"; };
 		22DEF7822C28396D00EA492A /* GiftingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingDetailViewController.swift; sourceTree = "<group>"; };
 		22DEF7842C28397600EA492A /* GiftingDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingDetailViewModel.swift; sourceTree = "<group>"; };
-		22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		22DFC54D2C79B1E000C8433D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		22DFC54F2C79B1E800C8433D /* ProfileDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDIContainer.swift; sourceTree = "<group>"; };
 		22DFC5512C79B1F000C8433D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		22DFC5572C79C1B900C8433D /* ProfileMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainView.swift; sourceTree = "<group>"; };
 		22DFC55E2C79C7A400C8433D /* ProfileLinkCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLinkCollectionViewCell.swift; sourceTree = "<group>"; };
 		22DFC5622C7A00E900C8433D /* ProfileLinkHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLinkHeaderView.swift; sourceTree = "<group>"; };
+		22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		22FA98222C3D0BE500831F64 /* ConcertTicketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertTicketInfoView.swift; sourceTree = "<group>"; };
 		840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -647,6 +648,7 @@
 		8746AD112B680A3E0037A1B1 /* TicketTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketTypeView.swift; sourceTree = "<group>"; };
 		8746AD132B680A5C0037A1B1 /* TicketTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertEnterView.swift; sourceTree = "<group>"; };
+		8749F5822C88B90C00FC4365 /* AddLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkViewController.swift; sourceTree = "<group>"; };
 		8753CA682B70DD00002871C7 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		8753CA6B2B70E17B002871C7 /* TicketEntryCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEntryCodeViewController.swift; sourceTree = "<group>"; };
 		8753CA6D2B70E30D002871C7 /* TicketEntryCodeDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEntryCodeDIContainer.swift; sourceTree = "<group>"; };
@@ -1425,6 +1427,7 @@
 		84781CBB2B5BF94100D37921 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				8749F5812C88B8E200FC4365 /* AddLink */,
 				8710D9412B74F9F600309FBF /* Main */,
 				22DFC54C2C79B13300C8433D /* Profile */,
 				22739A392C4F86AC000A357B /* Setting */,
@@ -2017,6 +2020,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		8749F5812C88B8E200FC4365 /* AddLink */ = {
+			isa = PBXGroup;
+			children = (
+				8749F5822C88B90C00FC4365 /* AddLinkViewController.swift */,
+			);
+			path = AddLink;
+			sourceTree = "<group>";
+		};
 		8753CA6A2B70E15A002871C7 /* TicketEntryCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -2555,6 +2566,7 @@
 				87F63D752C3F85DB001D7A56 /* GiftReservationDetailEntity.swift in Sources */,
 				87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */,
 				84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */,
+				8749F5832C88B90C00FC4365 /* AddLinkViewController.swift in Sources */,
 				84D1C37F2B79379200527998 /* FreeTicketingRequestDTO.swift in Sources */,
 				84BAB8262B8CA8DB00DEA35C /* TicketingConfirmDIContainer.swift in Sources */,
 				22DD8C882BD289100083622C /* SavePaymentInfoRequestDTO.swift in Sources */,
