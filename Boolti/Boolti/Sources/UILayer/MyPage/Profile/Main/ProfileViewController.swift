@@ -186,22 +186,22 @@ extension ProfileViewController: UICollectionViewDataSource {
         }
     }
 
-//    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
-//        guard let section = Section(rawValue: indexPath.section) else { return }
-//        
-//        switch section {
-//        case .profile:
-//            guard let header = collectionView.dequeueReusableSupplementaryView(
-//                    ofKind: elementKind,
-//                    withReuseIdentifier: ProfileMainView.className,
-//                    for: indexPath
-//                  ) as? ProfileMainView else { return }
-//            
-//            header.disposeBag = DisposeBag()
-//        case .snsLink:
-//            return
-//        }
-//    }
+    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        guard let section = Section(rawValue: indexPath.section) else { return }
+        
+        switch section {
+        case .profile:
+            guard let header = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: elementKind,
+                    withReuseIdentifier: ProfileMainView.className,
+                    for: indexPath
+                  ) as? ProfileMainView else { return }
+            
+            header.disposeBag = DisposeBag()
+        case .snsLink:
+            return
+        }
+    }
 
 }
 

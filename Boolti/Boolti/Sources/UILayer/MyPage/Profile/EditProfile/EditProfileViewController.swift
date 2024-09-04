@@ -19,7 +19,25 @@ final class EditProfileViewController: BooltiViewController {
     
     // MARK: UI Components
     
-    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "프로필 편집"))
+    private let navigationBar = BooltiNavigationBar(type: .editProfile)
+    
+    private lazy var mainScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.addSubviews([self.stackView])
+        
+        return scrollView
+    }()
+
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.addArrangedSubviews([self.profileImageView])
+        
+        return stackView
+    }()
+    
+    private let profileImageView = ProfileImageView()
     
     // MARK: Initailizer
     
@@ -39,6 +57,7 @@ final class EditProfileViewController: BooltiViewController {
         super.viewDidLoad()
         
         self.configureUI()
+        self.bindUIComponents()
     }
     
 }
@@ -46,6 +65,16 @@ final class EditProfileViewController: BooltiViewController {
 // MARK: - Methods
 
 extension EditProfileViewController {
+    
+    private func bindUIComponents() {
+        self.profileImageView.profileImageView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                print("image view tap")
+            }
+            .disposed(by: self.disposeBag)
+    }
     
 }
 
@@ -55,13 +84,25 @@ extension EditProfileViewController {
     
     private func configureUI() {
         self.view.backgroundColor = .grey95
-        self.view.addSubviews([self.navigationBar])
+        self.view.addSubviews([self.navigationBar,
+                               self.mainScrollView])
         self.configureConstraints()
     }
     
     private func configureConstraints() {
         self.navigationBar.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
+        }
+        
+        self.mainScrollView.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.width.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        
+        self.stackView.snp.makeConstraints { make in
+            make.verticalEdges.equalTo(self.mainScrollView)
+            make.width.equalTo(self.mainScrollView)
         }
     }
     

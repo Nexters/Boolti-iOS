@@ -13,6 +13,7 @@
 		221393562C88995F00459A20 /* EditProfileDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221393552C88995F00459A20 /* EditProfileDIContainer.swift */; };
 		221393582C88996A00459A20 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221393572C88996A00459A20 /* EditProfileViewController.swift */; };
 		2213935A2C88997600459A20 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221393592C88997600459A20 /* EditProfileViewModel.swift */; };
+		2213935D2C889FA200459A20 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2213935C2C889FA200459A20 /* ProfileImageView.swift */; };
 		221D09FC2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */; };
 		221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */; };
 		2233EAAB2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */; };
@@ -404,6 +405,7 @@
 		221393552C88995F00459A20 /* EditProfileDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDIContainer.swift; sourceTree = "<group>"; };
 		221393572C88996A00459A20 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		221393592C88997600459A20 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
+		2213935C2C889FA200459A20 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoViewController.swift; sourceTree = "<group>"; };
 		2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentResponseDTO.swift; sourceTree = "<group>"; };
@@ -835,11 +837,20 @@
 		221393542C88991200459A20 /* EditProfile */ = {
 			isa = PBXGroup;
 			children = (
+				2213935B2C889F9800459A20 /* Views */,
 				221393552C88995F00459A20 /* EditProfileDIContainer.swift */,
 				221393572C88996A00459A20 /* EditProfileViewController.swift */,
 				221393592C88997600459A20 /* EditProfileViewModel.swift */,
 			);
 			path = EditProfile;
+			sourceTree = "<group>";
+		};
+		2213935B2C889F9800459A20 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2213935C2C889FA200459A20 /* ProfileImageView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		224BEEFB2C4CC98C00863970 /* Confirm */ = {
@@ -2669,6 +2680,7 @@
 				84A713452B7C83AE000BABCB /* QRMaker.swift in Sources */,
 				8710D94E2B74FA8B00309FBF /* TicketReservationsViewModel.swift in Sources */,
 				84781CA62B5BF6F500D37921 /* SplashDIContainer.swift in Sources */,
+				2213935D2C889FA200459A20 /* ProfileImageView.swift in Sources */,
 				22DD8C802BD211790083622C /* AgreeView.swift in Sources */,
 				87CE4F6A2B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift in Sources */,
 				22DD8C922BD348CD0083622C /* TossPaymentViewController.swift in Sources */,

@@ -96,7 +96,8 @@ extension ProfileMainView {
         self.introductionLabel.text = introduction ?? ""
         
         let height = 222 + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
-        completion(height)
+//        completion(height)
+        completion(350)
     }
 
     func didEditButtonTap() -> Signal<Void> {
