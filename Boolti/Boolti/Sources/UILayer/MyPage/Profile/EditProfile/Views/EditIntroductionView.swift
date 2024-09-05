@@ -34,7 +34,6 @@ final class EditIntroductionView: UIView {
         textView.font = .body3
         textView.text = "예) 재즈와 펑크락을 좋아해요"
         textView.textColor = .grey70
-        textView.isScrollEnabled = false
         return textView
     }()
 
