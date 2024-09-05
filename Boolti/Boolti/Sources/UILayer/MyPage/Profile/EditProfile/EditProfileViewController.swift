@@ -75,6 +75,17 @@ final class EditProfileViewController: BooltiViewController {
         self.configureGesture()
         self.configureKeyboardNotification()
         self.configureToastView(isButtonExisted: false)
+        self.setOriginData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
 }
@@ -82,6 +93,11 @@ final class EditProfileViewController: BooltiViewController {
 // MARK: - Methods
 
 extension EditProfileViewController {
+    
+    private func setOriginData() {
+        self.editProfileImageView.setImage(imageURL: UserDefaults.userImageURLPath)
+        self.editNicknameView.setData(with: UserDefaults.userName)
+    }
     
     private func bindUIComponents() {
         self.editProfileImageView.profileImageView.rx.tapGesture()

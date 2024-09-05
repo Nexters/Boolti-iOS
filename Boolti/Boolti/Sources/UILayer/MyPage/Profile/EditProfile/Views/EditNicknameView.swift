@@ -48,7 +48,6 @@ final class EditNicknameView: UIView {
         
         self.configureUI()
         self.bindTextField()
-        self.setOriginData()
     }
     
     required init?(coder: NSCoder) {
@@ -61,7 +60,7 @@ final class EditNicknameView: UIView {
 
 extension EditNicknameView {
     
-    private func setOriginData() {
+    func setData(with: String) {
         self.nicknameTextField.text = UserDefaults.userName
         self.nicknameTextField.sendActions(for: .editingChanged)
     }
