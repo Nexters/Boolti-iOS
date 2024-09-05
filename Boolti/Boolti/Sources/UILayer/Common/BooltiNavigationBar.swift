@@ -50,7 +50,7 @@ final class BooltiNavigationBar: UIView {
     
     private lazy var moreButton = self.makeButton(image: .more)
     
-    private lazy var confirmButton = self.makeLabelButton(label: "완료")
+    lazy var confirmButton = self.makeLabelButton(label: "완료")
     
     // MARK: Init
     

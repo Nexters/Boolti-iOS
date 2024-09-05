@@ -26,7 +26,7 @@ final class EditNicknameView: UIView {
         return label
     }()
     
-    private let nicknameTextField: BooltiTextField = {
+    let nicknameTextField: BooltiTextField = {
         let textField = BooltiTextField()
         textField.setPlaceHolderText(placeholder: "닉네임을 입력해주세요 (20자 이내)", foregroundColor: .grey70)
         textField.layer.borderColor = UIColor.error.cgColor

@@ -56,6 +56,8 @@ final class EditProfileViewController: BooltiViewController {
     
     private let editLinkView = EditLinkView()
     
+    private let popupView = BooltiPopupView()
+    
     // MARK: Initailizer
     
     init(viewModel: EditProfileViewModel) {
@@ -113,7 +115,41 @@ extension EditProfileViewController {
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                print("image view tap")
+                // TODO: - 이미지 변경
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.editNicknameView.nicknameTextField.rx.text
+            .asDriver()
+            .drive(with: self) { owner, text in
+                guard let text = text else { return }
+                owner.navigationBar.confirmButton.isEnabled = !text.isEmpty
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.navigationBar.didBackButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.popupView.showPopup(with: .saveProfile, withCancelButton: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.navigationBar.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                // TODO: - 저장 후 pop하면서 toast 띄우기
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.popupView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                // TODO: - 저장 후 pop하면서 toast 띄우기
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.popupView.didCancelButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.popupView.isHidden = true
             }
             .disposed(by: self.disposeBag)
     }
@@ -249,7 +285,8 @@ extension EditProfileViewController {
     private func configureUI() {
         self.view.backgroundColor = .grey95
         self.view.addSubviews([self.navigationBar,
-                               self.mainScrollView])
+                               self.mainScrollView,
+                               self.popupView])
         self.configureConstraints()
     }
     
@@ -267,6 +304,10 @@ extension EditProfileViewController {
         self.stackView.snp.makeConstraints { make in
             make.verticalEdges.equalTo(self.mainScrollView)
             make.width.equalTo(self.mainScrollView)
+        }
+        
+        self.popupView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
