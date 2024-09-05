@@ -1,5 +1,5 @@
 //
-//  ProfileImageView.swift
+//  EditProfileImageView.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 9/4/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProfileImageView: UIView {
+final class EditProfileImageView: UIView {
     
     // MARK: UI Components
     
@@ -43,7 +43,7 @@ final class ProfileImageView: UIView {
 
 // MARK: - Methods
 
-extension ProfileImageView {
+extension EditProfileImageView {
     
     func setImage(imageURL: String) {
         self.profileImageView.setImage(with: imageURL)
@@ -53,7 +53,7 @@ extension ProfileImageView {
 
 // MARK: - UI
 
-extension ProfileImageView {
+extension EditProfileImageView {
     
     private func configureUI() {
         self.backgroundColor = .grey95

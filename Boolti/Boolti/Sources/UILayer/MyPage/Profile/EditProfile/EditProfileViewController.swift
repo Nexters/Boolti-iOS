@@ -32,12 +32,17 @@ final class EditProfileViewController: BooltiViewController {
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.addArrangedSubviews([self.profileImageView])
-        
+        stackView.spacing = 12
+        stackView.addArrangedSubviews([self.editProfileImageView,
+                                       self.editNicknameView])
+        stackView.setCustomSpacing(0, after: self.editProfileImageView)
+
         return stackView
     }()
     
-    private let profileImageView = ProfileImageView()
+    private let editProfileImageView = EditProfileImageView()
+    
+    private let editNicknameView = EditNicknameView()
     
     // MARK: Initailizer
     
@@ -67,7 +72,7 @@ final class EditProfileViewController: BooltiViewController {
 extension EditProfileViewController {
     
     private func bindUIComponents() {
-        self.profileImageView.profileImageView.rx.tapGesture()
+        self.editProfileImageView.profileImageView.rx.tapGesture()
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
