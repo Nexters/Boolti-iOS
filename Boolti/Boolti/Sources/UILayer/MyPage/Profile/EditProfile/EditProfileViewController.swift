@@ -167,9 +167,14 @@ extension EditProfileViewController {
     }
     
     private func saveProfile() {
-        guard let nickname = self.editNicknameView.nicknameTextField.text else { return }
+        guard let nickname = self.editNicknameView.nicknameTextField.text,
+              var introduction = self.editIntroductionView.introductionTextView.text else { return }
+        if self.editIntroductionView.introductionTextView.textColor == .grey70 {
+            introduction = ""
+        }
+        
         self.viewModel.saveProfile(nickname: nickname,
-                                    introduction: self.editIntroductionView.introductionTextView.text,
+                                    introduction: introduction,
                                     // TODO: - 이미지 변경 필요
                                     profileImageUrl: UserDefaults.userImageURLPath,
                                     links: self.viewModel.output.links)
