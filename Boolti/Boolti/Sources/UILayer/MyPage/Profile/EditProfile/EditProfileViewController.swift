@@ -74,6 +74,7 @@ final class EditProfileViewController: BooltiViewController {
         self.bindUIComponents()
         self.configureGesture()
         self.configureKeyboardNotification()
+        self.configureToastView(isButtonExisted: false)
     }
     
 }
