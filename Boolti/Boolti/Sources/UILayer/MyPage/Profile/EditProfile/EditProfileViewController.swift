@@ -41,7 +41,8 @@ final class EditProfileViewController: BooltiViewController {
         stackView.spacing = 12
         stackView.addArrangedSubviews([self.editProfileImageView,
                                        self.editNicknameView,
-                                       self.editIntroductionView])
+                                       self.editIntroductionView,
+                                       self.editLinkView])
         stackView.setCustomSpacing(0, after: self.editProfileImageView)
 
         return stackView
@@ -52,6 +53,8 @@ final class EditProfileViewController: BooltiViewController {
     private let editNicknameView = EditNicknameView()
     
     private let editIntroductionView = EditIntroductionView()
+    
+    private let editLinkView = EditLinkView()
     
     // MARK: Initailizer
     
@@ -76,6 +79,7 @@ final class EditProfileViewController: BooltiViewController {
         self.configureKeyboardNotification()
         self.configureToastView(isButtonExisted: false)
         self.setOriginData()
+        self.configureLinkCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,6 +90,11 @@ final class EditProfileViewController: BooltiViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.updateCollectionViewHeight()
     }
     
 }
@@ -107,6 +116,22 @@ extension EditProfileViewController {
                 print("image view tap")
             }
             .disposed(by: self.disposeBag)
+    }
+    
+    private func configureLinkCollectionView() {
+        self.editLinkView.linkCollectionView.dataSource = self
+        self.editLinkView.linkCollectionView.delegate = self
+        
+        self.editLinkView.linkCollectionView.register(EditLinkCollectionViewCell.self,
+                                                      forCellWithReuseIdentifier: EditLinkCollectionViewCell.className)
+    }
+    
+    private func updateCollectionViewHeight() {
+        self.editLinkView.linkCollectionView.layoutIfNeeded()
+        let height = self.editLinkView.linkCollectionView.contentSize.height
+        self.editLinkView.linkCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(height)
+        }
     }
     
     private func configureKeyboardNotification() {
@@ -155,6 +180,51 @@ extension EditProfileViewController: UIScrollViewDelegate {
         self.isScrollViewOffsetChanged = false
     }
 
+}
+
+
+// MARK: - UICollectionViewDataSource
+
+extension EditProfileViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    /// 헤더를 결정하는 메서드
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        return .init()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("호출")
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditLinkCollectionViewCell.className,
+                                                            for: indexPath) as? EditLinkCollectionViewCell else { return UICollectionViewCell() }
+        cell.setData(title: "YouTube", url: "www.youtube.com/watch?v=AaHV1Eea1R0")
+        return cell
+    }
+
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension EditProfileViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: UIScreen.main.bounds.width - 40, height: 56)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 12
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return .zero
+    }
 }
 
 // MARK: - UI
