@@ -37,6 +37,7 @@ final class EditNicknameView: UIView {
         let label = BooltiUILabel()
         label.font = .pretendardR(14)
         label.textColor = .error
+        label.numberOfLines = 0
         return label
     }()
     
@@ -69,20 +70,28 @@ extension EditNicknameView {
         self.nicknameTextField.rx.text
             .asDriver()
             .drive(with: self) { owner, changedText in
-                guard let changedText = changedText?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+                guard let changedText = changedText else { return }
                 owner.nicknameTextField.text = changedText
                 
-                if changedText.count > 20 {
-                    owner.nicknameTextField.deleteBackward()
-                }
-                
-                if changedText.isEmpty {
+                if changedText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    owner.nicknameTextField.text = nil
                     owner.nicknameTextField.layer.borderWidth = 1
                     owner.errorInfoLabel.text = "1자 이상 입력해주세요"
                 } else {
+                    if changedText.count > 20 {
+                        owner.nicknameTextField.deleteBackward()
+                    }
                     owner.nicknameTextField.layer.borderWidth = 0
                     owner.errorInfoLabel.text = ""
                 }
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.nicknameTextField.rx.controlEvent(.editingDidEnd)
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                guard let text = owner.nicknameTextField.text else { return }
+                owner.nicknameTextField.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
             }
             .disposed(by: self.disposeBag)
     }

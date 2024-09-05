@@ -15,6 +15,7 @@
 		2213935A2C88997600459A20 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221393592C88997600459A20 /* EditProfileViewModel.swift */; };
 		2213935D2C889FA200459A20 /* EditProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2213935C2C889FA200459A20 /* EditProfileImageView.swift */; };
 		2213935F2C88A6DB00459A20 /* EditNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2213935E2C88A6DB00459A20 /* EditNicknameView.swift */; };
+		221393612C89C17300459A20 /* EditIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221393602C89C17300459A20 /* EditIntroductionView.swift */; };
 		221D09FC2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */; };
 		221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */; };
 		2233EAAB2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */; };
@@ -408,6 +409,7 @@
 		221393592C88997600459A20 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		2213935C2C889FA200459A20 /* EditProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileImageView.swift; sourceTree = "<group>"; };
 		2213935E2C88A6DB00459A20 /* EditNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameView.swift; sourceTree = "<group>"; };
+		221393602C89C17300459A20 /* EditIntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditIntroductionView.swift; sourceTree = "<group>"; };
 		221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoViewController.swift; sourceTree = "<group>"; };
 		2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentResponseDTO.swift; sourceTree = "<group>"; };
@@ -852,6 +854,7 @@
 			children = (
 				2213935C2C889FA200459A20 /* EditProfileImageView.swift */,
 				2213935E2C88A6DB00459A20 /* EditNicknameView.swift */,
+				221393602C89C17300459A20 /* EditIntroductionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2717,6 +2720,7 @@
 				8710D9482B74FA6600309FBF /* QRScannerListViewModel.swift in Sources */,
 				846F5F3A2B7BBEC4000F86AE /* QRAPI.swift in Sources */,
 				22DFC5522C79B1F000C8433D /* ProfileViewModel.swift in Sources */,
+				221393612C89C17300459A20 /* EditIntroductionView.swift in Sources */,
 				84EC6A642B6CF973009AC6BB /* BooltiToastView.swift in Sources */,
 				2213935A2C88997600459A20 /* EditProfileViewModel.swift in Sources */,
 				87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */,

@@ -17,6 +17,9 @@ final class EditProfileViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: EditProfileViewModel
     
+    private var isScrollViewOffsetChanged: Bool = false
+    private var changedScrollViewOffsetY: CGFloat = 0
+    
     // MARK: UI Components
     
     private let navigationBar = BooltiNavigationBar(type: .editProfile)
@@ -24,7 +27,10 @@ final class EditProfileViewController: BooltiViewController {
     private lazy var mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
-        scrollView.addSubviews([self.stackView])
+        scrollView.contentInset = .init(top: 0, left: 0, bottom: 12, right: 0)
+        scrollView.keyboardDismissMode = .onDrag
+        scrollView.addSubview(self.stackView)
+        scrollView.delegate = self
         
         return scrollView
     }()
@@ -34,7 +40,8 @@ final class EditProfileViewController: BooltiViewController {
         stackView.axis = .vertical
         stackView.spacing = 12
         stackView.addArrangedSubviews([self.editProfileImageView,
-                                       self.editNicknameView])
+                                       self.editNicknameView,
+                                       self.editIntroductionView])
         stackView.setCustomSpacing(0, after: self.editProfileImageView)
 
         return stackView
@@ -43,6 +50,8 @@ final class EditProfileViewController: BooltiViewController {
     private let editProfileImageView = EditProfileImageView()
     
     private let editNicknameView = EditNicknameView()
+    
+    private let editIntroductionView = EditIntroductionView()
     
     // MARK: Initailizer
     
@@ -63,6 +72,8 @@ final class EditProfileViewController: BooltiViewController {
         
         self.configureUI()
         self.bindUIComponents()
+        self.configureGesture()
+        self.configureKeyboardNotification()
     }
     
 }
@@ -81,6 +92,52 @@ extension EditProfileViewController {
             .disposed(by: self.disposeBag)
     }
     
+    private func configureKeyboardNotification() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { notification in
+            guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+                  let currentTextView = UIResponder.currentResponder as? UITextView else { return }
+            
+            let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+            let convertedTextViewFrame = self.view.convert(currentTextView.frame,
+                                                            from: currentTextView.superview)
+            let textViewBottomY = convertedTextViewFrame.origin.y + convertedTextViewFrame.size.height
+            if textViewBottomY > keyboardTopY * 0.9 {
+                let changeOffset = textViewBottomY - keyboardTopY + convertedTextViewFrame.size.height
+                self.mainScrollView.setContentOffset(CGPoint(x: 0, y: self.mainScrollView.contentOffset.y + changeOffset), animated: true)
+                
+                self.isScrollViewOffsetChanged = true
+                self.changedScrollViewOffsetY = changeOffset
+            }
+        }
+    }
+    
+    private func configureGesture() {
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rx.event
+            .bind(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
+                if owner.isScrollViewOffsetChanged {
+                    owner.mainScrollView.setContentOffset(CGPoint(x: 0, y: owner.mainScrollView.contentOffset.y - owner.changedScrollViewOffsetY), animated: true)
+                    owner.isScrollViewOffsetChanged = false
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
+}
+
+
+// MARK: - UIScrollViewDelegate
+
+extension EditProfileViewController: UIScrollViewDelegate {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.isScrollViewOffsetChanged = false
+    }
+
 }
 
 // MARK: - UI
