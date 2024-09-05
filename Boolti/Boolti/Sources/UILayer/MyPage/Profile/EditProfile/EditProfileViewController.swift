@@ -31,6 +31,7 @@ final class EditProfileViewController: BooltiViewController {
         scrollView.keyboardDismissMode = .onDrag
         scrollView.addSubview(self.stackView)
         scrollView.delegate = self
+        scrollView.isHidden = true
         
         return scrollView
     }()
@@ -114,6 +115,15 @@ extension EditProfileViewController {
                 owner.editIntroductionView.setData(with: owner.viewModel.output.introduction)
                 owner.editLinkView.linkCollectionView.reloadData()
                 owner.updateCollectionViewHeight()
+                
+                owner.mainScrollView.isHidden = false
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.didProfileSave
+            .subscribe(with: self) { owner, _ in
+                owner.showToast(message: "프로필 편집을 완료했어요")
+                owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
     }
@@ -143,21 +153,20 @@ extension EditProfileViewController {
         
         self.navigationBar.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
-                // TODO: - 저장 후 pop하면서 toast 띄우기
-                owner.navigationController?.popViewController(animated: true)
+                // TODO: - 저장
             }
             .disposed(by: self.disposeBag)
         
         self.popupView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
-                // TODO: - 저장 후 pop하면서 toast 띄우기
-                owner.navigationController?.popViewController(animated: true)
+                // TODO: - 저장
             }
             .disposed(by: self.disposeBag)
         
         self.popupView.didCancelButtonTap()
             .emit(with: self) { owner, _ in
                 owner.popupView.isHidden = true
+                owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
     }
@@ -251,6 +260,13 @@ extension EditProfileViewController: UICollectionViewDataSource {
                 for: indexPath
               ) as? AddLinkHeaderView else { return UICollectionReusableView() }
         
+        header.rx.tapGesture()
+            .when(.recognized)
+            .bind(with: self) { owner, _ in
+                // TODO: - 링크 추가 화면으로 연결
+            }
+            .disposed(by: self.disposeBag)
+        
         return header
     }
     
@@ -261,6 +277,10 @@ extension EditProfileViewController: UICollectionViewDataSource {
         let data = self.viewModel.output.links[indexPath.row]
         cell.setData(title: data.title, url: data.link)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // TODO: - 편집 화면 연결
     }
     
 }
