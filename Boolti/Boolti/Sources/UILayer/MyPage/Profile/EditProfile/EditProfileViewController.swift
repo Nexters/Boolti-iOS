@@ -34,7 +34,7 @@ final class EditProfileViewController: BooltiViewController {
         
         return scrollView
     }()
-
+    
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -44,7 +44,7 @@ final class EditProfileViewController: BooltiViewController {
                                        self.editIntroductionView,
                                        self.editLinkView])
         stackView.setCustomSpacing(0, after: self.editProfileImageView)
-
+        
         return stackView
     }()
     
@@ -122,6 +122,9 @@ extension EditProfileViewController {
         self.editLinkView.linkCollectionView.dataSource = self
         self.editLinkView.linkCollectionView.delegate = self
         
+        self.editLinkView.linkCollectionView.register(AddLinkHeaderView.self,
+                                                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                                      withReuseIdentifier: AddLinkHeaderView.className)
         self.editLinkView.linkCollectionView.register(EditLinkCollectionViewCell.self,
                                                       forCellWithReuseIdentifier: EditLinkCollectionViewCell.className)
     }
@@ -141,7 +144,7 @@ extension EditProfileViewController {
             
             let keyboardTopY = keyboardFrame.cgRectValue.origin.y
             let convertedTextViewFrame = self.view.convert(currentTextView.frame,
-                                                            from: currentTextView.superview)
+                                                           from: currentTextView.superview)
             let textViewBottomY = convertedTextViewFrame.origin.y + convertedTextViewFrame.size.height
             if textViewBottomY > keyboardTopY * 0.9 {
                 let changeOffset = textViewBottomY - keyboardTopY + convertedTextViewFrame.size.height
@@ -179,7 +182,7 @@ extension EditProfileViewController: UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.isScrollViewOffsetChanged = false
     }
-
+    
 }
 
 
@@ -197,17 +200,25 @@ extension EditProfileViewController: UICollectionViewDataSource {
     
     /// 헤더를 결정하는 메서드
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        return .init()
+        guard kind == UICollectionView.elementKindSectionHeader,
+              let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: AddLinkHeaderView.className,
+                for: indexPath
+              ) as? AddLinkHeaderView else { return UICollectionReusableView() }
+        
+        return header
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("호출")
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditLinkCollectionViewCell.className,
                                                             for: indexPath) as? EditLinkCollectionViewCell else { return UICollectionViewCell() }
+        
+        // TODO: - setdata 서버 값으로 변경
         cell.setData(title: "YouTube", url: "www.youtube.com/watch?v=AaHV1Eea1R0")
         return cell
     }
-
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -218,12 +229,16 @@ extension EditProfileViewController: UICollectionViewDelegateFlowLayout {
         CGSize(width: UIScreen.main.bounds.width - 40, height: 56)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .init(top: 12, left: 0, bottom: 0, right: 0)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 12
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return .zero
+        return CGSize(width: UIScreen.main.bounds.width - 40, height: 56)
     }
 }
 
