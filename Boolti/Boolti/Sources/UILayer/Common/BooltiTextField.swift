@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BooltiTextField: UITextField {
+class BooltiTextField: UITextField {
 
     // MARK: Init
     
