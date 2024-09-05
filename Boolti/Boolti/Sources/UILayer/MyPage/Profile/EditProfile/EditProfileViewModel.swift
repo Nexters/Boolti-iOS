@@ -17,6 +17,10 @@ final class EditProfileViewModel {
     private let authRepository: AuthRepositoryType
     
     struct Output {
+        var didProfileFetch = PublishSubject<Void>()
+        var introduction: String?
+        var links: [LinkEntity] = []
+        let didProfileSave = PublishSubject<Void>()
     }
     
     var output: Output
@@ -33,5 +37,15 @@ final class EditProfileViewModel {
 // MARK: - Network
 
 extension EditProfileViewModel {
+    
+    func fetchProfile() {
+        self.authRepository.userProfile()
+            .subscribe(with: self) { owner, profile in
+                owner.output.introduction = profile.introduction
+                owner.output.links = profile.link ?? []
+                owner.output.didProfileFetch.onNext(())
+            }
+            .disposed(by: self.disposeBag)
+    }
     
 }

@@ -77,16 +77,17 @@ final class EditProfileViewController: BooltiViewController {
         
         self.configureUI()
         self.bindUIComponents()
+        self.bindViewModel()
         self.configureGesture()
         self.configureKeyboardNotification()
         self.configureToastView(isButtonExisted: false)
-        self.setOriginData()
         self.configureLinkCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        self.viewModel.fetchProfile()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -94,10 +95,10 @@ final class EditProfileViewController: BooltiViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.updateCollectionViewHeight()
-    }
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        self.updateCollectionViewHeight()
+//    }
     
 }
 
@@ -105,9 +106,16 @@ final class EditProfileViewController: BooltiViewController {
 
 extension EditProfileViewController {
     
-    private func setOriginData() {
-        self.editProfileImageView.setImage(imageURL: UserDefaults.userImageURLPath)
-        self.editNicknameView.setData(with: UserDefaults.userName)
+    private func bindViewModel() {
+        self.viewModel.output.didProfileFetch
+            .subscribe(with: self) { owner, _ in
+                owner.editProfileImageView.setImage(imageURL: UserDefaults.userImageURLPath)
+                owner.editNicknameView.setData(with: UserDefaults.userName)
+                owner.editIntroductionView.setData(with: owner.viewModel.output.introduction)
+                owner.editLinkView.linkCollectionView.reloadData()
+                owner.updateCollectionViewHeight()
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func bindUIComponents() {
@@ -231,7 +239,7 @@ extension EditProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return self.viewModel.output.links.count
     }
     
     /// 헤더를 결정하는 메서드
@@ -250,8 +258,8 @@ extension EditProfileViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditLinkCollectionViewCell.className,
                                                             for: indexPath) as? EditLinkCollectionViewCell else { return UICollectionViewCell() }
         
-        // TODO: - setdata 서버 값으로 변경
-        cell.setData(title: "YouTube", url: "www.youtube.com/watch?v=AaHV1Eea1R0")
+        let data = self.viewModel.output.links[indexPath.row]
+        cell.setData(title: data.title, url: data.link)
         return cell
     }
     

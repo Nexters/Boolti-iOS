@@ -34,6 +34,7 @@ final class EditIntroductionView: UIView {
         textView.font = .body3
         textView.text = "예) 재즈와 펑크락을 좋아해요"
         textView.textColor = .grey70
+        textView.isScrollEnabled = false
         return textView
     }()
 
@@ -62,6 +63,16 @@ final class EditIntroductionView: UIView {
 // MARK: - Methods
 
 extension EditIntroductionView {
+    
+    func setData(with introduction: String?) {
+        guard let introduction = introduction else { return }
+        
+        if !introduction.isEmpty {
+            self.introductionTextView.textColor = .grey10
+            self.introductionTextView.text = introduction
+            self.textCountLabel.text = "\(introduction.count)/60자"
+        }
+    }
 
     private func bindTextView() {
         self.introductionTextView.rx.didBeginEditing
