@@ -97,6 +97,7 @@ extension BooltiNavigationBar {
         config.attributedTitle?.font = .subhead2
         config.background.backgroundColor = .clear
         config.baseForegroundColor = .grey10
+        config.contentInsets = .zero
         
         let button = UIButton(configuration: config)
         return button
