@@ -24,6 +24,7 @@ final class BooltiPopupView: UIView {
         case registerGift
         case registerMyGift
         case registerGiftError
+        case saveProfile
         
         var title: String {
             switch self {
@@ -43,6 +44,8 @@ final class BooltiPopupView: UIView {
                 "본인이 결제한 선물입니다.\n선물을 등록하면 다른 분께 보낼 수\n없습니다. 등록하시겠습니까?"
             case .registerGiftError:
                 "선물 등록에 실패했어요"
+            case .saveProfile:
+                "저장하지 않고 이 페이지를 나가면\n작성한 정보가 손실됩니다.\n변경된 정보를 저장할까요?"
             }
         }
         
@@ -67,6 +70,8 @@ final class BooltiPopupView: UIView {
                 "등록하기"
             case .registerGiftError:
                 "닫기"
+            case .saveProfile:
+                "저장하기"
             default:
                 "확인"
             }
