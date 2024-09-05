@@ -17,6 +17,7 @@ enum AuthAPI {
     case refresh(requestDTO: TokenRefreshRequestDTO)
     case resign(requestDTO: ResignRequestDTO)
     case user
+    case fetchProfile(requestDTO: EditProfileRequestDTO)
 }
 
 extension AuthAPI: ServiceAPI {
@@ -31,7 +32,7 @@ extension AuthAPI: ServiceAPI {
             return "/papi/v1/signup/sns"
         case .refresh:
             return "/papi/v1/login/refresh"
-        case .resign, .user:
+        case .resign, .user, .fetchProfile:
             return "/api/v1/user"
         }
     }
@@ -42,6 +43,8 @@ extension AuthAPI: ServiceAPI {
             return .delete
         case .user:
             return .get
+        case .fetchProfile:
+            return .patch
         default:
             return .post
         }
@@ -51,7 +54,7 @@ extension AuthAPI: ServiceAPI {
         switch self {
         case .logout, .user:
             return nil
-        case .login, .refresh, .signup, .resign:
+        case .login, .refresh, .signup, .resign, .fetchProfile:
             return ["Content-Type": "application/json"]
         }
     }
@@ -74,6 +77,8 @@ extension AuthAPI: ServiceAPI {
         case .refresh(let DTO):
             return .requestJSONEncodable(DTO)
         case .resign(let DTO):
+            return .requestJSONEncodable(DTO)
+        case .fetchProfile(let DTO):
             return .requestJSONEncodable(DTO)
         }
     }

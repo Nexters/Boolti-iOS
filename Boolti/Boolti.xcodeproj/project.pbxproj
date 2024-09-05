@@ -19,6 +19,7 @@
 		221393632C89CC7E00459A20 /* EditLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221393622C89CC7E00459A20 /* EditLinkView.swift */; };
 		221393662C89CECB00459A20 /* EditLinkCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221393652C89CECB00459A20 /* EditLinkCollectionViewCell.swift */; };
 		221393682C89D97F00459A20 /* AddLinkHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221393672C89D97F00459A20 /* AddLinkHeaderView.swift */; };
+		2213936A2C89EBA800459A20 /* EditProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221393692C89EBA800459A20 /* EditProfileRequestDTO.swift */; };
 		221D09FC2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */; };
 		221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */; };
 		2233EAAB2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */; };
@@ -416,6 +417,7 @@
 		221393622C89CC7E00459A20 /* EditLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLinkView.swift; sourceTree = "<group>"; };
 		221393652C89CECB00459A20 /* EditLinkCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLinkCollectionViewCell.swift; sourceTree = "<group>"; };
 		221393672C89D97F00459A20 /* AddLinkHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkHeaderView.swift; sourceTree = "<group>"; };
+		221393692C89EBA800459A20 /* EditProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileRequestDTO.swift; sourceTree = "<group>"; };
 		221D09FB2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoViewController.swift; sourceTree = "<group>"; };
 		2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentResponseDTO.swift; sourceTree = "<group>"; };
@@ -1398,6 +1400,7 @@
 				84781C7D2B5BEC0700D37921 /* LoginRequestDTO.swift */,
 				876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */,
 				845D88582B877B0E00179F60 /* ResignRequestDTO.swift */,
+				221393692C89EBA800459A20 /* EditProfileRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -2518,6 +2521,7 @@
 				84781C9F2B5BF6A000D37921 /* SplashViewModelDelegate.swift in Sources */,
 				848CBF032B65458900239303 /* Int+.swift in Sources */,
 				84886E902B70A7D4005D2329 /* ContentInfoView.swift in Sources */,
+				2213936A2C89EBA800459A20 /* EditProfileRequestDTO.swift in Sources */,
 				84975BE92B60E04500F903E7 /* AuthAPI.swift in Sources */,
 				2233EAAF2BE142C900A315BF /* TicketingErrorResponseDTO.swift in Sources */,
 				8730F0142B7B10A300D4F339 /* TicketRefundReasonDIContainer.swift in Sources */,

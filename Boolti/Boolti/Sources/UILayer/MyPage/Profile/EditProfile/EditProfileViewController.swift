@@ -96,11 +96,6 @@ final class EditProfileViewController: BooltiViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        self.updateCollectionViewHeight()
-//    }
-    
 }
 
 // MARK: - Methods
@@ -153,13 +148,13 @@ extension EditProfileViewController {
         
         self.navigationBar.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
-                // TODO: - 저장
+                owner.saveProfile()
             }
             .disposed(by: self.disposeBag)
         
         self.popupView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
-                // TODO: - 저장
+                owner.saveProfile()
             }
             .disposed(by: self.disposeBag)
         
@@ -169,6 +164,15 @@ extension EditProfileViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+    
+    private func saveProfile() {
+        guard let nickname = self.editNicknameView.nicknameTextField.text else { return }
+        self.viewModel.saveProfile(nickname: nickname,
+                                    introduction: self.editIntroductionView.introductionTextView.text,
+                                    // TODO: - 이미지 변경 필요
+                                    profileImageUrl: UserDefaults.userImageURLPath,
+                                    links: self.viewModel.output.links)
     }
     
     private func configureLinkCollectionView() {

@@ -17,6 +17,7 @@ final class EditProfileImageView: UIView {
         imageView.backgroundColor = .grey80
         imageView.layer.borderColor = UIColor.grey80.cgColor
         imageView.layer.borderWidth = 1
+        imageView.image = .defaultProfile
         imageView.clipsToBounds = true
         
         return imageView

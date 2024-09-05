@@ -24,6 +24,7 @@ final class ProfileMainView: UICollectionReusableView {
         imageView.layer.cornerRadius = 35
         imageView.clipsToBounds = true
         imageView.layer.borderColor = UIColor.grey80.cgColor
+        imageView.image = .defaultProfile
 
         return imageView
     }()

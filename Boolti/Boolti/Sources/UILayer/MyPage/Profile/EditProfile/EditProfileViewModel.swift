@@ -48,4 +48,15 @@ extension EditProfileViewModel {
             .disposed(by: self.disposeBag)
     }
     
+    func saveProfile(nickname: String, introduction: String, profileImageUrl: String, links: [LinkEntity]) {
+        self.authRepository.fetchProfile(profileImageUrl: profileImageUrl,
+                                         nickname: nickname,
+                                         introduction: introduction,
+                                         links: links)
+        .subscribe(with: self) { owner, _ in
+            owner.output.didProfileSave.onNext(())
+        }
+        .disposed(by: self.disposeBag)
+    }
+    
 }

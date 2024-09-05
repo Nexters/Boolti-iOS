@@ -26,7 +26,7 @@ final class EditIntroductionView: UIView {
         return label
     }()
     
-    private let introductionTextView: UITextView = {
+    let introductionTextView: UITextView = {
         let textView = UITextView()
         textView.contentInset = .init(top: 8, left: 12, bottom: 38, right: 12)
         textView.backgroundColor = .grey85
