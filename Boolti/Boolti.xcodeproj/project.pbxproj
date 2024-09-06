@@ -24,6 +24,8 @@
 		221D09FE2BA1E6C30035B0E6 /* BusinessInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */; };
 		2233EAAB2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */; };
 		2233EAAF2BE142C900A315BF /* TicketingErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAE2BE142C900A315BF /* TicketingErrorResponseDTO.swift */; };
+		223698F92C8B36B6002C8081 /* GetUploadURLReponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223698F82C8B36B6002C8081 /* GetUploadURLReponseDTO.swift */; };
+		223698FB2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223698FA2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift */; };
 		224BEEDF2C4A0B7700863970 /* TicketingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEEDE2C4A0B7700863970 /* TicketingType.swift */; };
 		224BEEFF2C4CC9BA00863970 /* GiftingConfirmDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEEFE2C4CC9BA00863970 /* GiftingConfirmDIContainer.swift */; };
 		224BEF012C4CCA9A00863970 /* GiftingConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF002C4CCA9A00863970 /* GiftingConfirmViewController.swift */; };
@@ -425,6 +427,8 @@
 		221D09FD2BA1E6C30035B0E6 /* BusinessInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoViewController.swift; sourceTree = "<group>"; };
 		2233EAAA2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentResponseDTO.swift; sourceTree = "<group>"; };
 		2233EAAE2BE142C900A315BF /* TicketingErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingErrorResponseDTO.swift; sourceTree = "<group>"; };
+		223698F82C8B36B6002C8081 /* GetUploadURLReponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUploadURLReponseDTO.swift; sourceTree = "<group>"; };
+		223698FA2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfileImageRequestDTO.swift; sourceTree = "<group>"; };
 		224BEEDE2C4A0B7700863970 /* TicketingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingType.swift; sourceTree = "<group>"; };
 		224BEEFE2C4CC9BA00863970 /* GiftingConfirmDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingConfirmDIContainer.swift; sourceTree = "<group>"; };
 		224BEF002C4CCA9A00863970 /* GiftingConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingConfirmViewController.swift; sourceTree = "<group>"; };
@@ -1407,6 +1411,7 @@
 				876BF16B2B6A43BB00DB4BCB /* TokenRefreshRequestDTO.swift */,
 				845D88582B877B0E00179F60 /* ResignRequestDTO.swift */,
 				221393692C89EBA800459A20 /* EditProfileRequestDTO.swift */,
+				223698FA2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1418,6 +1423,7 @@
 				8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */,
 				876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */,
 				84D1C3822B79B71600527998 /* UserResponseDTO.swift */,
+				223698F82C8B36B6002C8081 /* GetUploadURLReponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -2512,6 +2518,7 @@
 				84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */,
 				84E5124B2B6E71FD002658D1 /* ConcertDetailDIContainer.swift in Sources */,
 				870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */,
+				223698FB2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift in Sources */,
 				22DD8C8C2BD2897E0083622C /* TicketingAPI.swift in Sources */,
 				22739A462C510585000A357B /* RegisterGiftRequestDTO.swift in Sources */,
 				84781CB12B5BF85400D37921 /* HomeTabBarController.swift in Sources */,
@@ -2783,6 +2790,7 @@
 				84A7134A2B7C8999000BABCB /* QRExpandViewController.swift in Sources */,
 				877CAFC92B7BC2FB004799C8 /* TicketRefundConfirmViewModel.swift in Sources */,
 				84625A092B63A01100CC9077 /* TicketSelectionViewController.swift in Sources */,
+				223698F92C8B36B6002C8081 /* GetUploadURLReponseDTO.swift in Sources */,
 				8757BAAA2B5FDF29008503B5 /* KakaoOAuth.swift in Sources */,
 				84E5124F2B6E773F002658D1 /* ConcertDetailViewModel.swift in Sources */,
 				877CAFC72B7BC2ED004799C8 /* TicketRefundConfirmViewController.swift in Sources */,

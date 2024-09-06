@@ -5,7 +5,7 @@
 //  Created by Miro on 1/23/24.
 //
 
-import Foundation
+import UIKit
 
 import RxSwift
 import KakaoSDKUser
@@ -23,6 +23,8 @@ protocol AuthRepositoryType {
     func userProfile() -> Single<UserResponseDTO>
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void>
     func fetchProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void>
+    func getUploadImageURL() -> Single<GetUploadURLReponseDTO>
+    func uploadProfileImage(uploadURL: String, imageData: UIImage) -> Single<String>
 }
 
 final class AuthRepository: AuthRepositoryType {
@@ -206,6 +208,20 @@ final class AuthRepository: AuthRepositoryType {
                 UserDefaults.userImageURLPath = user.imgPath ?? ""
                 return .just(())
             })
+    }
+    
+    func getUploadImageURL() -> Single<GetUploadURLReponseDTO> {
+        let api = AuthAPI.getUploadImageURL
+        
+        return self.networkService.request(api)
+            .map(GetUploadURLReponseDTO.self)
+    }
+    
+    func uploadProfileImage(uploadURL: String, imageData: UIImage) -> Single<String> {
+        let api = AuthAPI.uploadProfileImage(data: UploadProfileImageRequestDTO(uploadUrl: uploadURL, image: imageData))
+        
+        return self.networkService.request(api)
+            .map { _ in return uploadURL }
     }
 
 }

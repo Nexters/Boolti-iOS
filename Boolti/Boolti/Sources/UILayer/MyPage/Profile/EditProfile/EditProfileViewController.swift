@@ -182,10 +182,9 @@ extension EditProfileViewController {
         }
         
         self.viewModel.saveProfile(nickname: nickname,
-                                    introduction: introduction,
-                                    // TODO: - 이미지 변경 필요
-                                    profileImageUrl: UserDefaults.userImageURLPath,
-                                    links: self.viewModel.output.links)
+                                   introduction: introduction,
+                                   profileImage: self.editProfileImageView.profileImageView.image,
+                                   links: self.viewModel.output.links)
     }
     
     private func configureLinkCollectionView() {
@@ -251,7 +250,7 @@ extension EditProfileViewController {
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true) {
             if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
@@ -259,7 +258,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
             }
         }
     }
-
+    
 }
 
 // MARK: - UIScrollViewDelegate
