@@ -59,6 +59,13 @@ final class EditProfileViewController: BooltiViewController {
     
     private let popupView = BooltiPopupView()
     
+    private let imagePickerController: UIImagePickerController = {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true
+        return imagePickerController
+    }()
+    
     // MARK: Initailizer
     
     init(viewModel: EditProfileViewModel) {
@@ -83,6 +90,7 @@ final class EditProfileViewController: BooltiViewController {
         self.configureKeyboardNotification()
         self.configureToastView(isButtonExisted: false)
         self.configureLinkCollectionView()
+        self.configureImagePickerController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -128,7 +136,7 @@ extension EditProfileViewController {
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                // TODO: - 이미지 변경
+                owner.present(owner.imagePickerController, animated: true)
             }
             .disposed(by: self.disposeBag)
         
@@ -191,6 +199,10 @@ extension EditProfileViewController {
                                                       forCellWithReuseIdentifier: EditLinkCollectionViewCell.className)
     }
     
+    private func configureImagePickerController() {
+        self.imagePickerController.delegate = self
+    }
+    
     private func updateCollectionViewHeight() {
         self.editLinkView.linkCollectionView.layoutIfNeeded()
         let height = self.editLinkView.linkCollectionView.contentSize.height
@@ -236,6 +248,19 @@ extension EditProfileViewController {
     
 }
 
+// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
+extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true) {
+            if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                self.editProfileImageView.profileImageView.image = image
+            }
+        }
+    }
+
+}
 
 // MARK: - UIScrollViewDelegate
 
