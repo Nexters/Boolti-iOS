@@ -1079,8 +1079,8 @@
 		22DFC5642C7A00EC00C8433D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				22DFC5622C7A00E900C8433D /* ProfileLinkHeaderView.swift */,
 				22DFC5572C79C1B900C8433D /* ProfileMainView.swift */,
+				22DFC5622C7A00E900C8433D /* ProfileLinkHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

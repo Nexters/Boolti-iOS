@@ -18,8 +18,7 @@ final class ProfileViewModel {
     
     struct Output {
         var links: [LinkEntity] = []
-        var didProfileFetch = PublishSubject<Void>()
-        var introduction: String?
+        var didProfileFetch = PublishSubject<String?>()
     }
     
     var output: Output
@@ -40,9 +39,8 @@ extension ProfileViewModel {
     func fetchLinkList() {
         self.authRepository.userProfile()
             .subscribe(with: self) { owner, profile in
-                owner.output.introduction = profile.introduction
                 owner.output.links = profile.link ?? []
-                owner.output.didProfileFetch.onNext(())
+                owner.output.didProfileFetch.onNext(profile.introduction)
             }
             .disposed(by: self.disposeBag)
     }
