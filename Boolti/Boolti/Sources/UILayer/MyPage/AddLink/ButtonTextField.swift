@@ -29,6 +29,7 @@ final class ButtonTextField: BooltiTextField {
         super.init(withRightButton: true)
         super.setPlaceHolderText(placeholder: placeHolder)
         self.button.setImage(image, for: .normal)
+        self.button.isHidden = true
 
         self.configureUI()
     }

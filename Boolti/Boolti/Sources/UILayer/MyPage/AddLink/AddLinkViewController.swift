@@ -60,31 +60,31 @@ final class AddLinkViewController: BooltiViewController {
     private func bindUIComponents() {
         // 링크 네임
         self.linkNameTextField.rx.text.orEmpty
-            .map { $0.isEmpty }
-            .distinctUntilChanged()
-            .bind(with: self) { owner, isEmpty in
-                owner.linkNameTextField.isButtonHidden = isEmpty
+            .skip(1)
+            .bind(with: self) { owner, text in
+                owner.linkNameTextField.isButtonHidden = text.isEmpty
             }
             .disposed(by: self.disposeBag)
 
         self.linkNameTextField.didButtonTap
             .bind(with: self) { owner, _ in
-                owner.linkNameTextField.text = nil
+                owner.linkNameTextField.text = ""
+                owner.linkNameTextField.isButtonHidden = true
             }
             .disposed(by: self.disposeBag)
 
         // URL 설정
         self.URLTextField.rx.text.orEmpty
-            .map { $0.isEmpty }
-            .distinctUntilChanged()
-            .bind(with: self) { owner, isEmpty in
-                owner.URLTextField.isButtonHidden = isEmpty
+            .skip(1)
+            .bind(with: self) { owner, text in
+                owner.URLTextField.isButtonHidden = text.isEmpty
             }
             .disposed(by: self.disposeBag)
 
         self.URLTextField.didButtonTap
             .bind(with: self) { owner, _ in
-                owner.URLTextField.text = nil
+                owner.URLTextField.text = ""
+                owner.URLTextField.isButtonHidden = true
             }
             .disposed(by: self.disposeBag)
     }

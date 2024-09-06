@@ -15,7 +15,9 @@ class BooltiTextField: UITextField {
         super.init(frame: .zero)
         self.configureUI(backgroundColor: backgroundColor)
         self.configureConstraints()
-        
+        self.autocorrectionType = .no
+        self.spellCheckingType = .no
+
         if withRightButton { self.addRightPadding() }
     }
 
