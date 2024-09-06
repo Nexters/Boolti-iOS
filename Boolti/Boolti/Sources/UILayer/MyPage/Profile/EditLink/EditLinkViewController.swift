@@ -89,10 +89,11 @@ final class EditLinkViewController: BooltiViewController {
 extension EditLinkViewController {
     
     private func bindUIComponents() {
-        self.linkNameTextField.rx.text.orEmpty
-            .skip(1)
+        self.linkNameTextField.rx.text
             .bind(with: self) { owner, text in
+                guard let text = text else { return }
                 owner.linkNameTextField.isButtonHidden = text.isEmpty
+                owner.navigationBar.completeButton.isEnabled = !text.isEmpty
             }
             .disposed(by: self.disposeBag)
         
@@ -103,10 +104,11 @@ extension EditLinkViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.URLTextField.rx.text.orEmpty
-            .skip(1)
+        self.URLTextField.rx.text
             .bind(with: self) { owner, text in
+                guard let text = text else { return }
                 owner.URLTextField.isButtonHidden = text.isEmpty
+                owner.navigationBar.completeButton.isEnabled = !text.isEmpty
             }
             .disposed(by: self.disposeBag)
         
@@ -239,7 +241,9 @@ extension EditLinkViewController {
     
     private func configureEditCase(with socialLink: LinkEntity) {
         self.linkNameTextField.text = socialLink.title
+        self.linkNameTextField.sendActions(for: .editingChanged)
         self.URLTextField.text = socialLink.link
+        self.URLTextField.sendActions(for: .editingChanged)
         self.deleteLinkButton.isHidden = false
         self.navigationBar.changeTitle(to: "링크 편집")
     }
