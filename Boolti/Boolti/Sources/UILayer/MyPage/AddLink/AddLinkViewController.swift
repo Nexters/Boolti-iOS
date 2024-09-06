@@ -47,7 +47,7 @@ final class AddLinkViewController: BooltiViewController {
         }
 
         self.linkNameStackView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.top.equalTo(self.navigationBar.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 
@@ -85,6 +85,14 @@ final class AddLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 owner.URLTextField.text = ""
                 owner.URLTextField.isButtonHidden = true
+            }
+            .disposed(by: self.disposeBag)
+
+        // 완료 버튼
+        self.navigationBar.didCompleteButtonTap()
+            .emit(with: self) { owner, _ in
+                // 완료 API 쏘기
+                print("완료되었습니다.")
             }
             .disposed(by: self.disposeBag)
     }

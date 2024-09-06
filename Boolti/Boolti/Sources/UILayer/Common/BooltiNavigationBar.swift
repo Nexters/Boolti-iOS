@@ -260,4 +260,7 @@ extension BooltiNavigationBar {
     func didMoreButtonTap() -> Signal<Void> {
         return moreButton.rx.tap.asSignal()
     }
-}
+
+    func didCompleteButtonTap() -> Signal<Void> {
+        return completeButton.rx.tap.asSignal()
+    }}
