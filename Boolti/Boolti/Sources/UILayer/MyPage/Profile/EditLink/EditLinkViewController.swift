@@ -136,6 +136,13 @@ extension EditLinkViewController {
             }
             .disposed(by: self.disposeBag)
         
+        self.viewModel.output.didLinkRemove
+            .subscribe(with: self) { owner, _ in
+                owner.showToast(message: "링크를 삭제했어요")
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
         self.bindPopUpViewComponents()
         self.bindNavigationBar()
     }

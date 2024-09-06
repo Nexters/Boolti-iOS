@@ -18,6 +18,7 @@ final class EditLinkViewModel {
     
     struct Output {
         let didLinkSave = PublishSubject<Void>()
+        let didLinkRemove = PublishSubject<Void>()
     }
     
     var output: Output
@@ -51,16 +52,20 @@ extension EditLinkViewModel {
     
     func removeLink(indexPath: IndexPath) {
         self.profile.links.remove(at: indexPath.row)
-        self.saveProfile()
+        self.saveProfile(isRemoveAction: true)
     }
     
-    func saveProfile() {
+    func saveProfile(isRemoveAction: Bool = false) {
         self.authRepository.fetchProfile(profileImageUrl: self.profile.profileImageURL,
                                          nickname: self.profile.nickname,
                                          introduction: self.profile.introduction,
                                          links: self.profile.links)
         .subscribe(with: self) { owner, _ in
-            owner.output.didLinkSave.onNext(())
+            if isRemoveAction {
+                owner.output.didLinkRemove.onNext(())
+            } else {
+                owner.output.didLinkSave.onNext(())
+            }
         }
         .disposed(by: self.disposeBag)
     }
