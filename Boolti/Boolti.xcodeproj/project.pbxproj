@@ -1068,6 +1068,7 @@
 			children = (
 				221393532C88990A00459A20 /* Main */,
 				221393542C88991200459A20 /* EditProfile */,
+				8749F5812C88B8E200FC4365 /* EditLink */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1499,7 +1500,6 @@
 		84781CBB2B5BF94100D37921 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				8749F5812C88B8E200FC4365 /* EditLink */,
 				8710D9412B74F9F600309FBF /* Main */,
 				22DFC54C2C79B13300C8433D /* Profile */,
 				22739A392C4F86AC000A357B /* Setting */,
