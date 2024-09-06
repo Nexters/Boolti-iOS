@@ -10,6 +10,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+// TODO: Close Button 있는 거까지 고려 및 모든 팝업 체크해서 재사용성 높게 변경하기
+
 final class BooltiPopupView: UIView {
     
     // MARK: Properties
@@ -24,6 +26,7 @@ final class BooltiPopupView: UIView {
         case registerGift
         case registerMyGift
         case registerGiftError
+        case deleteLink
         case saveProfile
         
         var title: String {
@@ -44,6 +47,8 @@ final class BooltiPopupView: UIView {
                 "본인이 결제한 선물입니다.\n선물을 등록하면 다른 분께 보낼 수\n없습니다. 등록하시겠습니까?"
             case .registerGiftError:
                 "선물 등록에 실패했어요"
+            case .deleteLink:
+                "링크를 삭제하시겠어요?"
             case .saveProfile:
                 "저장하지 않고 이 페이지를 나가면\n작성한 정보가 손실됩니다.\n변경된 정보를 저장할까요?"
             }
@@ -70,10 +75,21 @@ final class BooltiPopupView: UIView {
                 "등록하기"
             case .registerGiftError:
                 "닫기"
+            case .deleteLink:
+                "삭제하기"
             case .saveProfile:
                 "저장하기"
             default:
                 "확인"
+            }
+        }
+
+        var withCloseButton: Bool {
+            switch self {
+            case .deleteLink:
+                true
+            default:
+                false
             }
         }
     }
@@ -118,7 +134,13 @@ final class BooltiPopupView: UIView {
         button.isHidden = true
         return button
     }()
-    
+
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.closeButton, for: .normal)
+        return button
+    }()
+
     private let confirmButton = BooltiButton(title: "확인")
     
     private lazy var buttonStackView: UIStackView = {
@@ -154,7 +176,11 @@ extension BooltiPopupView {
         self.confirmButton.setTitle(type.buttonTitle, for: .normal)
         
         self.cancelButton.isHidden = !withCancelButton
-    
+
+        if type.withCloseButton {
+            self.configureCloseButton()
+        }
+
         self.popupType = type
         self.isHidden = false
     }
@@ -167,6 +193,9 @@ extension BooltiPopupView {
         return self.confirmButton.rx.tap.asSignal()
     }
 
+    func didCloseButtonTap() -> Signal<Void> {
+        return self.closeButton.rx.tap.asSignal()
+    }
 }
 
 // MARK: - UI
@@ -178,10 +207,26 @@ extension BooltiPopupView {
                           self.popupBackgroundView,
                           self.titleLabel,
                           self.descriptionLabel,
-                          self.buttonStackView])
+                          self.buttonStackView,
+                         ])
         self.isHidden = true
     }
-    
+
+    private func configureCloseButton() {
+        self.addSubview(self.closeButton)
+
+        self.closeButton.snp.makeConstraints { make in
+            make.size.equalTo(24)
+            make.top.equalTo(self.popupBackgroundView).inset(12)
+            make.right.equalTo(self.popupBackgroundView.snp.right).inset(20)
+        }
+
+        self.titleLabel.snp.remakeConstraints { make in
+            make.top.equalTo(self.closeButton.snp.bottom).offset(12)
+            make.horizontalEdges.equalTo(self.popupBackgroundView).inset(20)
+        }
+    }
+
     private func configureConstraints() {
         self.dimmedBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
