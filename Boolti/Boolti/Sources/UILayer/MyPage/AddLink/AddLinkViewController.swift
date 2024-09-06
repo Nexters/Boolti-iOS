@@ -26,6 +26,12 @@ final class AddLinkViewController: BooltiViewController {
         textField: URLTextField
     )
 
+    // TODO: BooltiButton 더 재사용성 높게 변경하기
+    private let deleteLinkButton = BooltiButton(title: "링크 삭제")
+
+    // TODO: BooltiPopUpView도 더 재사용성 높게 변경하기 -> Init에서 설정하게!
+    private let deleteLinkPopUpView = BooltiPopupView()
+
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -36,8 +42,11 @@ final class AddLinkViewController: BooltiViewController {
     }
 
     private func configureUI() {
+        self.view.addSubviews([navigationBar, linkNameStackView, URLStackView, deleteLinkButton, deleteLinkPopUpView])
+
         self.view.backgroundColor = .grey95
-        self.view.addSubviews([navigationBar, linkNameStackView, URLStackView])
+        self.deleteLinkButton.setTitleColor(.grey90, for: .normal)
+        self.deleteLinkButton.backgroundColor = .grey15
     }
 
     private func configureConstraints() {
@@ -54,6 +63,15 @@ final class AddLinkViewController: BooltiViewController {
         self.URLStackView.snp.makeConstraints { make in
             make.top.equalTo(self.linkNameStackView.snp.bottom).offset(16)
             make.horizontalEdges.equalTo(self.linkNameStackView)
+        }
+
+        self.deleteLinkButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(42)
+        }
+
+        self.deleteLinkPopUpView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 
