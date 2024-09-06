@@ -114,6 +114,7 @@ final class EditLinkViewController: BooltiViewController {
         self.linkNameTextField.text = socialLink.linkName
         self.URLTextField.text = socialLink.URLLink
         self.deleteLinkButton.isHidden = false
+        self.navigationBar.changeTitle(to: "링크 편집")
     }
 
     private func bindUIComponents() {
@@ -150,7 +151,7 @@ final class EditLinkViewController: BooltiViewController {
         // 완료 버튼
         self.navigationBar.didCompleteButtonTap()
             .emit(with: self) { owner, _ in
-                // 완료 API 쏘기
+                // Delegate 메소드 호출하기
                 print("완료되었습니다.")
             }
             .disposed(by: self.disposeBag)

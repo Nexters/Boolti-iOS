@@ -79,7 +79,12 @@ final class BooltiNavigationBar: UIView {
 // MARK: - Methods
 
 extension BooltiNavigationBar {
-    
+
+    // 임시로 추가
+    func changeTitle(to title: String) {
+        self.titleLabel.text = title
+    }
+
     func setBackgroundColor(with color: UIColor) {
         self.backgroundColor = color
     }
