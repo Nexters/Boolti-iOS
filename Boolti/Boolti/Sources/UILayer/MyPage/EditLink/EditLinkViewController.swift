@@ -1,5 +1,5 @@
 //
-//  AddLinkViewController.swift
+//  EditLinkViewController.swift
 //  Boolti
 //
 //  Created by Miro on 9/5/24.
@@ -10,7 +10,20 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class AddLinkViewController: BooltiViewController {
+struct SocialLink {
+    let linkName: String
+    let URLLink: String
+}
+
+final class EditLinkViewController: BooltiViewController {
+
+    /// EditType
+    // - add => 소셜 링크 추가
+    // - edit => 편집 및 삭제
+    enum EditType {
+        case add
+        case edit(SocialLink)
+    }
 
     private let navigationBar = BooltiNavigationBar(type: .addLink)
 
@@ -27,13 +40,32 @@ final class AddLinkViewController: BooltiViewController {
     )
 
     // TODO: BooltiButton 더 재사용성 높게 변경하기
-    private let deleteLinkButton = BooltiButton(title: "링크 삭제")
+    private let deleteLinkButton: BooltiButton = {
+        let button = BooltiButton(title: "링크 삭제")
+        button.setTitleColor(.grey90, for: .normal)
+        button.backgroundColor = .grey15
+        button.isHidden = true
+
+        return button
+    }()
+
 
     // TODO: BooltiPopUpView도 더 재사용성 높게 변경하기 -> Init에서 설정하게!
     private let deleteLinkPopUpView = BooltiPopupView()
 
+    private let editType: EditType
+
     private let disposeBag = DisposeBag()
 
+    init(editType: EditType) {
+        self.editType = editType
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
@@ -45,8 +77,10 @@ final class AddLinkViewController: BooltiViewController {
         self.view.addSubviews([navigationBar, linkNameStackView, URLStackView, deleteLinkButton, deleteLinkPopUpView])
 
         self.view.backgroundColor = .grey95
-        self.deleteLinkButton.setTitleColor(.grey90, for: .normal)
-        self.deleteLinkButton.backgroundColor = .grey15
+
+        if case .edit(let link) = self.editType {
+            self.configureEditCase(with: link)
+        }
     }
 
     private func configureConstraints() {
@@ -73,6 +107,12 @@ final class AddLinkViewController: BooltiViewController {
         self.deleteLinkPopUpView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+
+    private func configureEditCase(with socialLink: SocialLink) {
+        self.linkNameTextField.text = socialLink.linkName
+        self.URLTextField.text = socialLink.URLLink
+        self.deleteLinkButton.isHidden = false
     }
 
     private func bindUIComponents() {
