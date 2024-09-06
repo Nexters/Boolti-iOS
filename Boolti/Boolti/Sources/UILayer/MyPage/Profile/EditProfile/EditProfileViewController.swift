@@ -136,7 +136,7 @@ extension EditProfileViewController {
             .asDriver()
             .drive(with: self) { owner, text in
                 guard let text = text else { return }
-                owner.navigationBar.confirmButton.isEnabled = !text.isEmpty
+                owner.navigationBar.completeButton.isEnabled = !text.isEmpty
             }
             .disposed(by: self.disposeBag)
         
@@ -146,7 +146,7 @@ extension EditProfileViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.navigationBar.didConfirmButtonTap()
+        self.navigationBar.didCompleteButtonTap()
             .emit(with: self) { owner, _ in
                 owner.saveProfile()
             }
