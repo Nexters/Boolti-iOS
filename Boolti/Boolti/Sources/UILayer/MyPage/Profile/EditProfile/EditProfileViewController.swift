@@ -20,6 +20,8 @@ final class EditProfileViewController: BooltiViewController {
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
     
+    private let editLinkViewControllerFactory: (LinkEditType) -> EditLinkViewController
+    
     // MARK: UI Components
     
     private let navigationBar = BooltiNavigationBar(type: .editProfile)
@@ -68,9 +70,11 @@ final class EditProfileViewController: BooltiViewController {
     
     // MARK: Initailizer
     
-    init(viewModel: EditProfileViewModel) {
+    init(viewModel: EditProfileViewModel,
+         editLinkViewControllerFactory: @escaping (LinkEditType) -> EditLinkViewController) {
         self.viewModel = viewModel
-        
+        self.editLinkViewControllerFactory = editLinkViewControllerFactory
+
         super.init()
     }
     
@@ -296,9 +300,10 @@ extension EditProfileViewController: UICollectionViewDataSource {
         header.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                // TODO: - 링크 추가 화면으로 연결
+                let viewController = owner.editLinkViewControllerFactory(.add)
+                owner.navigationController?.pushViewController(viewController, animated: true)
             }
-            .disposed(by: self.disposeBag)
+            .disposed(by: header.disposeBag)
         
         return header
     }
@@ -313,7 +318,19 @@ extension EditProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: - 편집 화면 연결
+        let linkEntityData = self.viewModel.output.links[indexPath.row]
+        let viewController = self.editLinkViewControllerFactory(.edit(linkEntityData))
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: elementKind,
+                withReuseIdentifier: AddLinkHeaderView.className,
+                for: indexPath
+              ) as? AddLinkHeaderView else { return }
+        
+        header.disposeBag = DisposeBag()
     }
     
 }
