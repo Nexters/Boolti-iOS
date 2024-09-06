@@ -141,6 +141,12 @@ extension ProfileViewController {
         self.dataCollectionView.snp.makeConstraints { make in
             make.height.equalTo(collectionViewHeight)
         }
+        
+        self.profileMainView.layoutIfNeeded()
+        let profileViewHeight = self.profileMainView.getHeight()
+        self.profileMainView.snp.updateConstraints { make in
+            make.height.equalTo(profileViewHeight)
+        }
     }
     
 }
@@ -230,6 +236,10 @@ extension ProfileViewController {
         
         self.dataCollectionView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.profileMainView.snp.makeConstraints { make in
+            make.height.equalTo(400)
         }
     }
     

@@ -95,12 +95,10 @@ extension ProfileMainView {
         self.profileImageView.setImage(with: UserDefaults.userImageURLPath)
         self.nameLabel.text = UserDefaults.userName
         self.introductionLabel.text = introduction ?? ""
-        
-        self.layoutIfNeeded()
-        let profileViewHeight = self.frame.height
-        self.snp.makeConstraints { make in
-            make.height.equalTo(profileViewHeight)
-        }
+    }
+    
+    func getHeight() -> CGFloat {
+        return 222 + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
     }
 
     func didEditButtonTap() -> Signal<Void> {
