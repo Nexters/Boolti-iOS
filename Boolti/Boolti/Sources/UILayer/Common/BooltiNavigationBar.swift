@@ -51,9 +51,7 @@ final class BooltiNavigationBar: UIView {
     
     private lazy var moreButton = self.makeButton(image: .more)
   
-    private lazy var completeButton = self.makeButton(title: "완료")
-    
-    lazy var confirmButton = self.makeLabelButton(label: "완료")
+    lazy var completeButton = self.makeButton(title: "완료")
     
     // MARK: Init
     
@@ -105,18 +103,9 @@ extension BooltiNavigationBar {
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .subhead2
         button.titleLabel?.textColor = .grey10
-    
-    private func makeLabelButton(label: String) -> UIButton {
-        var config = UIButton.Configuration.plain()
-        config.title = label
-        config.attributedTitle?.font = .subhead2
-        config.background.backgroundColor = .clear
-        config.baseForegroundColor = .grey10
-        config.contentInsets = .zero
-        
-        let button = UIButton(configuration: config)
         return button
     }
+
 }
 
 // MARK: - UI
@@ -236,12 +225,16 @@ extension BooltiNavigationBar {
 
     private func configureAddLink() {
         self.titleLabel.text = "링크 추가"
-        self.addSubviews([self.titleLabel, self.backButton, self.completeButton])
+        self.configureUIWithCompleteButton()
+    }
     
     private func configureEditProfileUI() {
         self.titleLabel.text = "프로필 편집"
-        
-        self.addSubviews([self.backButton, self.titleLabel, self.confirmButton])
+        self.configureUIWithCompleteButton()
+    }
+    
+    private func configureUIWithCompleteButton() {
+        self.addSubviews([self.backButton, self.titleLabel, self.completeButton])
         
         self.backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
@@ -257,12 +250,9 @@ extension BooltiNavigationBar {
         self.completeButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(10)
-        
-        self.confirmButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(20)
-            make.centerY.equalTo(self.backButton)
         }
     }
+
 }
 
 // MARK: - Methods
@@ -291,9 +281,6 @@ extension BooltiNavigationBar {
 
     func didCompleteButtonTap() -> Signal<Void> {
         return completeButton.rx.tap.asSignal()
-    }}
-    
-    func didConfirmButtonTap() -> Signal<Void> {
-        return confirmButton.rx.tap.asSignal()
     }
+
 }
