@@ -100,6 +100,7 @@ extension EditLinkViewController {
         self.linkNameTextField.didButtonTap
             .bind(with: self) { owner, _ in
                 owner.linkNameTextField.text = ""
+                owner.linkNameTextField.sendActions(for: .editingChanged)
                 owner.linkNameTextField.isButtonHidden = true
             }
             .disposed(by: self.disposeBag)
@@ -115,9 +116,23 @@ extension EditLinkViewController {
         self.URLTextField.didButtonTap
             .bind(with: self) { owner, _ in
                 owner.URLTextField.text = ""
+                owner.URLTextField.sendActions(for: .editingChanged)
                 owner.URLTextField.isButtonHidden = true
             }
             .disposed(by: self.disposeBag)
+        
+        Observable.combineLatest(self.linkNameTextField.rx.text,
+                                 self.URLTextField.rx.text)
+        .map { linkName, url in
+            guard let title = linkName,
+                  let link = url else { return false }
+            return !title.isEmpty && !link.isEmpty
+        }
+        .asDriver(onErrorJustReturn: false)
+        .drive(with: self) { owner, isEnabled in
+            owner.navigationBar.completeButton.isEnabled = isEnabled
+        }
+        .disposed(by: self.disposeBag)
 
         self.deleteLinkButton.rx.tap
             .asDriver()
