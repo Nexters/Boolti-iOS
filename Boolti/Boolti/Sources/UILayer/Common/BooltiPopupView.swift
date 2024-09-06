@@ -31,11 +31,11 @@ final class BooltiPopupView: UIView {
         
         var title: String {
             switch self {
-            case .networkError: 
+            case .networkError:
                 "네트워크 오류가 발생했습니다\n잠시후 다시 시도해주세요"
-            case .refreshTokenHasExpired: 
+            case .refreshTokenHasExpired:
                 "로그인 세션이 만료되었습니다\n앱을 다시 시작해주세요"
-            case .accountRemoveCancelled: 
+            case .accountRemoveCancelled:
                 "30일 내에 로그인하여\n계정 삭제가 취소되었어요.\n불티를 다시 찾아주셔서 감사해요!"
             case .soldoutBeforePayment, .ticketingFailed:
                 "결제에 실패했어요"
@@ -83,10 +83,19 @@ final class BooltiPopupView: UIView {
                 "확인"
             }
         }
-
+        
+        var cancelButtonTitle: String {
+            switch self {
+            case .saveProfile:
+                "나가기"
+            default:
+                "취소하기"
+            }
+        }
+        
         var withCloseButton: Bool {
             switch self {
-            case .deleteLink:
+            case .deleteLink, .saveProfile:
                 true
             default:
                 false
@@ -134,13 +143,13 @@ final class BooltiPopupView: UIView {
         button.isHidden = true
         return button
     }()
-
+    
     private let closeButton: UIButton = {
         let button = UIButton()
         button.setImage(.closeButton, for: .normal)
         return button
     }()
-
+    
     private let confirmButton = BooltiButton(title: "확인")
     
     private lazy var buttonStackView: UIStackView = {
@@ -151,7 +160,7 @@ final class BooltiPopupView: UIView {
         stackView.addArrangedSubviews([self.cancelButton, self.confirmButton])
         return stackView
     }()
-
+    
     init() {
         super.init(frame: .zero)
         self.configureUI()
@@ -176,11 +185,12 @@ extension BooltiPopupView {
         self.confirmButton.setTitle(type.buttonTitle, for: .normal)
         
         self.cancelButton.isHidden = !withCancelButton
-
+        
         if type.withCloseButton {
+            self.cancelButton.setTitle(type.cancelButtonTitle, for: .normal)
             self.configureCloseButton()
         }
-
+        
         self.popupType = type
         self.isHidden = false
     }
@@ -192,7 +202,7 @@ extension BooltiPopupView {
     func didConfirmButtonTap() -> Signal<Void> {
         return self.confirmButton.rx.tap.asSignal()
     }
-
+    
     func didCloseButtonTap() -> Signal<Void> {
         return self.closeButton.rx.tap.asSignal()
     }
@@ -211,22 +221,22 @@ extension BooltiPopupView {
                          ])
         self.isHidden = true
     }
-
+    
     private func configureCloseButton() {
         self.addSubview(self.closeButton)
-
+        
         self.closeButton.snp.makeConstraints { make in
             make.size.equalTo(24)
             make.top.equalTo(self.popupBackgroundView).inset(12)
             make.right.equalTo(self.popupBackgroundView.snp.right).inset(20)
         }
-
+        
         self.titleLabel.snp.remakeConstraints { make in
             make.top.equalTo(self.closeButton.snp.bottom).offset(12)
             make.horizontalEdges.equalTo(self.popupBackgroundView).inset(20)
         }
     }
-
+    
     private func configureConstraints() {
         self.dimmedBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

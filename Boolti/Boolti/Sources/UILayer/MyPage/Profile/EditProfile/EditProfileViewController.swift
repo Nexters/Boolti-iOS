@@ -181,6 +181,12 @@ extension EditProfileViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
+        
+        self.popupView.didCloseButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.popupView.isHidden = true
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func saveProfile() {
