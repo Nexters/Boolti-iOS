@@ -5,7 +5,7 @@
 //  Created by Juhyeon Byun on 9/4/24.
 //
 
-import Foundation
+import UIKit
 
 import RxSwift
 
@@ -48,15 +48,26 @@ extension EditProfileViewModel {
             .disposed(by: self.disposeBag)
     }
     
-    func saveProfile(nickname: String, introduction: String, profileImageUrl: String, links: [LinkEntity]) {
-        self.authRepository.fetchProfile(profileImageUrl: profileImageUrl,
-                                         nickname: nickname,
-                                         introduction: introduction,
-                                         links: links)
-        .subscribe(with: self) { owner, _ in
-            owner.output.didProfileSave.onNext(())
-        }
-        .disposed(by: self.disposeBag)
+    func saveProfile(nickname: String, introduction: String, profileImage: UIImage?, links: [LinkEntity]) {
+        guard let profileImage = profileImage else { return }
+        
+        self.authRepository.getUploadImageURL()
+            .flatMap({ [weak self] response -> Single<String> in
+                guard let self = self else { return .just("") }
+                return self.authRepository.uploadProfileImage(uploadURL: response.uploadUrl, imageData: profileImage)
+                    .map { _ in response.expectedUrl }
+            })
+            .flatMap({ [weak self] profileImageUrl -> Single<Void> in
+                guard let self = self else { return .just(()) }
+                return self.authRepository.fetchProfile(profileImageUrl: profileImageUrl,
+                                                        nickname: nickname,
+                                                        introduction: introduction,
+                                                        links: links)
+            })
+            .subscribe(with: self) { owner, _ in
+                owner.output.didProfileSave.onNext(())
+            }
+            .disposed(by: self.disposeBag)
     }
     
 }

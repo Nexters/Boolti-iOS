@@ -23,6 +23,7 @@ final class NetworkProvider: NetworkProviderType {
     }
 
     func request(_ api: ServiceAPI) -> Single<Response> {
+        let baseURL = "\(api.baseURL)"
         let requestString = "\(api.path)"
         let endpoint = MultiTarget.target(api)
 
@@ -100,7 +101,7 @@ final class NetworkProvider: NetworkProviderType {
                     }
                 },
                 onSubscribed: {
-                    debugPrint("❓ REQUEST: [\(api.method.rawValue)] \(requestString)")
+                    debugPrint("❓ REQUEST: [\(api.method.rawValue)] \(baseURL)\(requestString)")
                 }
             )
     }
