@@ -138,7 +138,7 @@ extension ProfileViewController {
     private func updateCollectionViewHeight() {
         self.dataCollectionView.layoutIfNeeded()
         let collectionViewHeight = self.dataCollectionView.contentSize.height
-        self.dataCollectionView.snp.makeConstraints { make in
+        self.dataCollectionView.snp.updateConstraints { make in
             make.height.equalTo(collectionViewHeight)
         }
         
@@ -240,6 +240,10 @@ extension ProfileViewController {
         
         self.profileMainView.snp.makeConstraints { make in
             make.height.equalTo(400)
+        }
+        
+        self.dataCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(0)
         }
     }
     

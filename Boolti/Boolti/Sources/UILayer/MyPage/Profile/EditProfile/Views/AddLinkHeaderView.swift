@@ -7,9 +7,13 @@
 
 import UIKit
 
+import RxSwift
+
 final class AddLinkHeaderView: UICollectionReusableView {
     
     // MARK: UI Components
+    
+    var disposeBag = DisposeBag()
     
     private let addLinkImageView: UIImageView = {
         let imageView = UIImageView()

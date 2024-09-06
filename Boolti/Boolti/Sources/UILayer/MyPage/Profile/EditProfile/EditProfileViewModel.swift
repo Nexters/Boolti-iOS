@@ -18,6 +18,7 @@ final class EditProfileViewModel {
     
     struct Output {
         var didProfileFetch = PublishSubject<Void>()
+        var didLinksFetch = PublishSubject<Void>()
         var introduction: String?
         var links: [LinkEntity] = []
         let didProfileSave = PublishSubject<Void>()
@@ -38,12 +39,16 @@ final class EditProfileViewModel {
 
 extension EditProfileViewModel {
     
-    func fetchProfile() {
+    func fetchProfile(isViewDidLoadEvent: Bool = true) {
         self.authRepository.userProfile()
             .subscribe(with: self) { owner, profile in
-                owner.output.introduction = profile.introduction
                 owner.output.links = profile.link ?? []
-                owner.output.didProfileFetch.onNext(())
+                if isViewDidLoadEvent {
+                    owner.output.introduction = profile.introduction
+                    owner.output.didProfileFetch.onNext(())
+                } else {
+                    owner.output.didLinksFetch.onNext(())
+                }
             }
             .disposed(by: self.disposeBag)
     }
