@@ -16,9 +16,10 @@ final class EditProfileDIContainer {
     }
 
     func createEditProfileViewController() -> EditProfileViewController {
-        let editLinkViewControllerFactory: (LinkEditType) -> EditLinkViewController = { editType in
+        let editLinkViewControllerFactory: (LinkEditType, ProfileEntity) -> EditLinkViewController = { editType, profileEntity in
             let DIContainer = EditLinkDIContainer(authRepository: self.authRepository)
-            let viewController = DIContainer.createEditLinkViewController(editType: editType)
+            let viewController = DIContainer.createEditLinkViewController(editType: editType,
+                                                                          profileEntity: profileEntity)
             
             return viewController
         }

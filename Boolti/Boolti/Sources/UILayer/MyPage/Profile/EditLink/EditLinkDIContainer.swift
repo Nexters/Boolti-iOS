@@ -15,8 +15,9 @@ final class EditLinkDIContainer {
         self.authRepository = authRepository
     }
 
-    func createEditLinkViewController(editType: LinkEditType) -> EditLinkViewController {
-        let viewModel = EditLinkViewModel(authRepository: self.authRepository)
+    func createEditLinkViewController(editType: LinkEditType, profileEntity: ProfileEntity) -> EditLinkViewController {
+        let viewModel = EditLinkViewModel(authRepository: self.authRepository,
+                                          profileEntity: profileEntity)
         let viewController = EditLinkViewController(viewModel: viewModel,
                                                     editType: editType)
 

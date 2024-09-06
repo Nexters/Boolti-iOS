@@ -28,6 +28,7 @@
 		223698FB2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223698FA2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift */; };
 		223698FD2C8B4863002C8081 /* EditLinkDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223698FC2C8B4863002C8081 /* EditLinkDIContainer.swift */; };
 		223698FF2C8B4886002C8081 /* EditLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223698FE2C8B4886002C8081 /* EditLinkViewModel.swift */; };
+		223699012C8B5268002C8081 /* ProfileEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223699002C8B5268002C8081 /* ProfileEntity.swift */; };
 		224BEEDF2C4A0B7700863970 /* TicketingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEEDE2C4A0B7700863970 /* TicketingType.swift */; };
 		224BEEFF2C4CC9BA00863970 /* GiftingConfirmDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEEFE2C4CC9BA00863970 /* GiftingConfirmDIContainer.swift */; };
 		224BEF012C4CCA9A00863970 /* GiftingConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEF002C4CCA9A00863970 /* GiftingConfirmViewController.swift */; };
@@ -433,6 +434,7 @@
 		223698FA2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfileImageRequestDTO.swift; sourceTree = "<group>"; };
 		223698FC2C8B4863002C8081 /* EditLinkDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLinkDIContainer.swift; sourceTree = "<group>"; };
 		223698FE2C8B4886002C8081 /* EditLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLinkViewModel.swift; sourceTree = "<group>"; };
+		223699002C8B5268002C8081 /* ProfileEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntity.swift; sourceTree = "<group>"; };
 		224BEEDE2C4A0B7700863970 /* TicketingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingType.swift; sourceTree = "<group>"; };
 		224BEEFE2C4CC9BA00863970 /* GiftingConfirmDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingConfirmDIContainer.swift; sourceTree = "<group>"; };
 		224BEF002C4CCA9A00863970 /* GiftingConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingConfirmViewController.swift; sourceTree = "<group>"; };
@@ -1575,6 +1577,7 @@
 			isa = PBXGroup;
 			children = (
 				848F9F4C2B8ED9400026F527 /* SignupConditionEntity.swift */,
+				223699002C8B5268002C8081 /* ProfileEntity.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -2725,6 +2728,7 @@
 				84DF59E12B726E0A000816DA /* ConcertContentExpandDIContainer.swift in Sources */,
 				84781C7E2B5BEC0700D37921 /* LoginRequestDTO.swift in Sources */,
 				87EFEEDB2C7E1C4300A8993C /* Preview.swift in Sources */,
+				223699012C8B5268002C8081 /* ProfileEntity.swift in Sources */,
 				8710D9462B74FA5700309FBF /* QRScannerListViewController.swift in Sources */,
 				876E41572B5F972A006BEEB7 /* LoginResponseDTO.swift in Sources */,
 				870099BE2B7767E7001779FB /* EmptyReservationsView.swift in Sources */,

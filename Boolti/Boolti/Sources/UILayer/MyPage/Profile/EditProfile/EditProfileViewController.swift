@@ -20,7 +20,7 @@ final class EditProfileViewController: BooltiViewController {
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
     
-    private let editLinkViewControllerFactory: (LinkEditType) -> EditLinkViewController
+    private let editLinkViewControllerFactory: (LinkEditType, ProfileEntity) -> EditLinkViewController
     
     // MARK: UI Components
     
@@ -71,10 +71,10 @@ final class EditProfileViewController: BooltiViewController {
     // MARK: Initailizer
     
     init(viewModel: EditProfileViewModel,
-         editLinkViewControllerFactory: @escaping (LinkEditType) -> EditLinkViewController) {
+         editLinkViewControllerFactory: @escaping (LinkEditType, ProfileEntity) -> EditLinkViewController) {
         self.viewModel = viewModel
         self.editLinkViewControllerFactory = editLinkViewControllerFactory
-
+        
         super.init()
     }
     
@@ -209,7 +209,7 @@ extension EditProfileViewController {
     private func updateCollectionViewHeight() {
         self.editLinkView.linkCollectionView.layoutIfNeeded()
         let height = self.editLinkView.linkCollectionView.contentSize.height
-        self.editLinkView.linkCollectionView.snp.makeConstraints { make in
+        self.editLinkView.linkCollectionView.snp.updateConstraints { make in
             make.height.equalTo(height)
         }
     }
@@ -300,7 +300,11 @@ extension EditProfileViewController: UICollectionViewDataSource {
         header.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                let viewController = owner.editLinkViewControllerFactory(.add)
+                let viewController = owner.editLinkViewControllerFactory(.add,
+                                                                         ProfileEntity(profileImageURL: UserDefaults.userImageURLPath,
+                                                                                       nickname: UserDefaults.userName,
+                                                                                       introduction: owner.viewModel.output.introduction ?? "",
+                                                                                       links: owner.viewModel.output.links))
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: header.disposeBag)
@@ -319,16 +323,20 @@ extension EditProfileViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let linkEntityData = self.viewModel.output.links[indexPath.row]
-        let viewController = self.editLinkViewControllerFactory(.edit(linkEntityData))
+        let viewController = self.editLinkViewControllerFactory(.edit(indexPath),
+                                                                ProfileEntity(profileImageURL: UserDefaults.userImageURLPath,
+                                                                              nickname: UserDefaults.userName,
+                                                                              introduction: self.viewModel.output.introduction ?? "",
+                                                                              links: self.viewModel.output.links))
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         guard let header = collectionView.dequeueReusableSupplementaryView(
-                ofKind: elementKind,
-                withReuseIdentifier: AddLinkHeaderView.className,
-                for: indexPath
-              ) as? AddLinkHeaderView else { return }
+            ofKind: elementKind,
+            withReuseIdentifier: AddLinkHeaderView.className,
+            for: indexPath
+        ) as? AddLinkHeaderView else { return }
         
         header.disposeBag = DisposeBag()
     }
@@ -386,6 +394,10 @@ extension EditProfileViewController {
         
         self.popupView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        
+        self.editLinkView.linkCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(0)
         }
     }
     

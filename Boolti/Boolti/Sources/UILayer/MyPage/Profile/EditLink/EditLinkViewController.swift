@@ -13,9 +13,10 @@ import RxCocoa
 /// LinkEditType
 // - add => 소셜 링크 추가
 // - edit => 편집 및 삭제
+
 enum LinkEditType {
     case add
-    case edit(LinkEntity)
+    case edit(IndexPath)
 }
 
 final class EditLinkViewController: BooltiViewController {
@@ -115,12 +116,6 @@ extension EditLinkViewController {
                 owner.URLTextField.isButtonHidden = true
             }
             .disposed(by: self.disposeBag)
-        
-        self.navigationBar.didCompleteButtonTap()
-            .emit(with: self) { owner, _ in
-                // TODO: - 링크 추가 api 연결
-            }
-            .disposed(by: self.disposeBag)
 
         self.deleteLinkButton.rx.tap
             .asDriver()
@@ -154,7 +149,9 @@ extension EditLinkViewController {
         
         self.deleteLinkPopUpView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
-                // TODO: - 링크 삭제 api 연결
+                if case .edit(let indexPath) = self.editType {
+                    owner.viewModel.removeLink(indexPath: indexPath)
+                }
             }
             .disposed(by: self.disposeBag)
         
@@ -174,8 +171,15 @@ extension EditLinkViewController {
         
         self.navigationBar.didCompleteButtonTap()
             .emit(with: self) { owner, _ in
-                // 데이터 저장
-                owner.navigationController?.popViewController(animated: true)
+                guard let title = owner.linkNameTextField.text,
+                      let link = owner.URLTextField.text else { return }
+                
+                switch owner.editType {
+                case .add:
+                    owner.viewModel.addLink(title: title, link: link)
+                case .edit(let indexPath):
+                    owner.viewModel.editLink(title: title, link: link, indexPath: indexPath)
+                }
             }
             .disposed(by: self.disposeBag)
     }
@@ -195,8 +199,8 @@ extension EditLinkViewController {
         
         self.view.backgroundColor = .grey95
         
-        if case .edit(let link) = self.editType {
-            self.configureEditCase(with: link)
+        if case .edit(let indexPath) = self.editType {
+            self.configureEditCase(with: self.viewModel.profile.links[indexPath.row])
         }
     }
     
