@@ -101,7 +101,7 @@ final class EditProfileViewController: BooltiViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        self.reloadLinks()
+        self.viewModel.fetchProfile(isViewDidLoadEvent: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -129,6 +129,12 @@ extension EditProfileViewController {
                 owner.reloadLinks()
                 
                 owner.mainScrollView.isHidden = false
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.didLinksFetch
+            .subscribe(with: self) { owner, _ in
+                owner.reloadLinks()
             }
             .disposed(by: self.disposeBag)
         
