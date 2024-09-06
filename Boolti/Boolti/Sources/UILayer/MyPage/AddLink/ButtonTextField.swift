@@ -4,8 +4,9 @@
 //
 //  Created by Miro on 9/6/24.
 //
-
 import UIKit
+
+import RxCocoa
 
 final class ButtonTextField: BooltiTextField {
 
@@ -13,6 +14,10 @@ final class ButtonTextField: BooltiTextField {
         didSet {
             self.button.isHidden = isButtonHidden
         }
+    }
+
+    var didButtonTap: ControlEvent<Void> {
+        return self.button.rx.tap
     }
 
     private let button: UIButton = {
@@ -27,7 +32,7 @@ final class ButtonTextField: BooltiTextField {
 
         self.configureUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
