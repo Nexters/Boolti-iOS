@@ -188,6 +188,9 @@ extension BooltiPopupView {
         return self.confirmButton.rx.tap.asSignal()
     }
 
+    func didCloseButtonTap() -> Signal<Void> {
+        return self.closeButton.rx.tap.asSignal()
+    }
 }
 
 // MARK: - UI

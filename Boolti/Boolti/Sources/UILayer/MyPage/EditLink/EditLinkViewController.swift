@@ -51,6 +51,7 @@ final class EditLinkViewController: BooltiViewController {
 
 
     // TODO: BooltiPopUpView도 더 재사용성 높게 변경하기 -> Init에서 설정하게!
+    // 항상 PopUpView를 띄어두고 있는 것(메모리)이 아니라 present하는 방식도 고민해보기
     private let deleteLinkPopUpView = BooltiPopupView()
 
     private let editType: EditType
@@ -151,6 +152,37 @@ final class EditLinkViewController: BooltiViewController {
             .emit(with: self) { owner, _ in
                 // 완료 API 쏘기
                 print("완료되었습니다.")
+            }
+            .disposed(by: self.disposeBag)
+
+        // 삭제 버튼
+        self.deleteLinkButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.deleteLinkPopUpView.showPopup(with: .deleteLink, withCancelButton: true)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.bindPopUpViewComponents()
+    }
+
+    private func bindPopUpViewComponents() {
+        self.deleteLinkPopUpView.didCancelButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.deleteLinkPopUpView.isHidden = true
+            }
+            .disposed(by: self.disposeBag)
+
+        self.deleteLinkPopUpView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                // Delegate 메소드 요청
+//                owner.deleteLinkPopUpView.isHidden = true
+            }
+            .disposed(by: self.disposeBag)
+
+        self.deleteLinkPopUpView.didCloseButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.deleteLinkPopUpView.isHidden = true
             }
             .disposed(by: self.disposeBag)
     }
