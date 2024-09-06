@@ -19,7 +19,7 @@ struct UserResponseDTO: Decodable {
     
 }
 
-struct LinkEntity: Decodable {
+struct LinkEntity: Codable {
     let title: String
     let link: String
 }

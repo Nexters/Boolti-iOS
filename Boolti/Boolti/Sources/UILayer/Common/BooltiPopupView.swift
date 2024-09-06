@@ -27,7 +27,8 @@ final class BooltiPopupView: UIView {
         case registerMyGift
         case registerGiftError
         case deleteLink
-
+        case saveProfile
+        
         var title: String {
             switch self {
             case .networkError: 
@@ -48,6 +49,8 @@ final class BooltiPopupView: UIView {
                 "선물 등록에 실패했어요"
             case .deleteLink:
                 "링크를 삭제하시겠어요?"
+            case .saveProfile:
+                "저장하지 않고 이 페이지를 나가면\n작성한 정보가 손실됩니다.\n변경된 정보를 저장할까요?"
             }
         }
         
@@ -74,6 +77,8 @@ final class BooltiPopupView: UIView {
                 "닫기"
             case .deleteLink:
                 "삭제하기"
+            case .saveProfile:
+                "저장하기"
             default:
                 "확인"
             }
