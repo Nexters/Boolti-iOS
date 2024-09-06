@@ -95,12 +95,13 @@ final class EditProfileViewController: BooltiViewController {
         self.configureToastView(isButtonExisted: false)
         self.configureLinkCollectionView()
         self.configureImagePickerController()
+        self.viewModel.fetchProfile()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        self.viewModel.fetchProfile()
+        self.reloadLinks()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -114,14 +115,18 @@ final class EditProfileViewController: BooltiViewController {
 
 extension EditProfileViewController {
     
+    private func reloadLinks() {
+        self.editLinkView.linkCollectionView.reloadData()
+        self.updateCollectionViewHeight()
+    }
+    
     private func bindViewModel() {
         self.viewModel.output.didProfileFetch
             .subscribe(with: self) { owner, _ in
                 owner.editProfileImageView.setImage(imageURL: UserDefaults.userImageURLPath)
                 owner.editNicknameView.setData(with: UserDefaults.userName)
                 owner.editIntroductionView.setData(with: owner.viewModel.output.introduction)
-                owner.editLinkView.linkCollectionView.reloadData()
-                owner.updateCollectionViewHeight()
+                owner.reloadLinks()
                 
                 owner.mainScrollView.isHidden = false
             }
