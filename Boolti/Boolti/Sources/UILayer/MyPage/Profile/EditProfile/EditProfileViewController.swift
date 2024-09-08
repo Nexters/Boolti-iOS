@@ -339,7 +339,6 @@ extension EditProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let linkEntityData = self.viewModel.output.links[indexPath.row]
         let viewController = self.editLinkViewControllerFactory(.edit(indexPath),
                                                                 ProfileEntity(profileImageURL: UserDefaults.userImageURLPath,
                                                                               nickname: UserDefaults.userName,
