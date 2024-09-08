@@ -19,9 +19,7 @@ final class EditProfileViewController: BooltiViewController {
     
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
-    
-    private let editLinkViewControllerFactory: (LinkEditType, ProfileEntity) -> EditLinkViewController
-    
+
     // MARK: UI Components
     
     private let navigationBar = BooltiNavigationBar(type: .editProfile)
@@ -70,11 +68,9 @@ final class EditProfileViewController: BooltiViewController {
     
     // MARK: Initailizer
     
-    init(viewModel: EditProfileViewModel,
-         editLinkViewControllerFactory: @escaping (LinkEditType, ProfileEntity) -> EditLinkViewController) {
+    init(viewModel: EditProfileViewModel) {
         self.viewModel = viewModel
-        self.editLinkViewControllerFactory = editLinkViewControllerFactory
-        
+
         super.init()
     }
     
@@ -317,12 +313,12 @@ extension EditProfileViewController: UICollectionViewDataSource {
         header.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                let viewController = owner.editLinkViewControllerFactory(.add,
-                                                                         ProfileEntity(profileImageURL: UserDefaults.userImageURLPath,
-                                                                                       nickname: UserDefaults.userName,
-                                                                                       introduction: owner.viewModel.output.introduction ?? "",
-                                                                                       links: owner.viewModel.output.links))
-                owner.navigationController?.pushViewController(viewController, animated: true)
+//                let viewController = owner.editLinkViewControllerFactory(.add,
+//                                                                         ProfileEntity(profileImageURL: UserDefaults.userImageURLPath,
+//                                                                                       nickname: UserDefaults.userName,
+//                                                                                       introduction: owner.viewModel.output.introduction ?? "",
+//                                                                                       links: owner.viewModel.output.links))
+//                owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: header.disposeBag)
         
@@ -339,11 +335,8 @@ extension EditProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let viewController = self.editLinkViewControllerFactory(.edit(indexPath),
-                                                                ProfileEntity(profileImageURL: UserDefaults.userImageURLPath,
-                                                                              nickname: UserDefaults.userName,
-                                                                              introduction: self.viewModel.output.introduction ?? "",
-                                                                              links: self.viewModel.output.links))
+        let linkEntity = self.viewModel.output.links[indexPath.row]
+        let viewController = EditLinkViewController(editType: .edit(linkEntity))
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
