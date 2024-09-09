@@ -83,6 +83,7 @@ final class ProfileViewController: BooltiViewController {
         
         self.configureUI()
         self.configureCollectionView()
+        self.configureToastView(isButtonExisted: false)
         self.bindUIComponents()
         self.bindViewModel()
     }
@@ -114,7 +115,11 @@ extension ProfileViewController {
             .map { $0.row }
             .subscribe(with: self) { owner, index in
                 guard let url = URL(string: owner.viewModel.output.links[index].link) else { return }
-                owner.openSafari(with: url)
+                if UIApplication.shared.canOpenURL(url) {
+                    owner.openSafari(with: url)
+                } else {
+                    owner.showToast(message: "링크를 열 수 없습니다")
+                }
             }
             .disposed(by: self.disposeBag)
         
