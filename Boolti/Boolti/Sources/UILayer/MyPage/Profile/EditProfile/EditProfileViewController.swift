@@ -160,7 +160,9 @@ extension EditProfileViewController {
         self.editIntroductionView.introductionTextView.rx.text
             .orEmpty
             .asDriver()
-            .drive(self.viewModel.input.didIntroductionTyped)
+            .drive(with: self, onNext: { owner, text in
+                owner.viewModel.input.didIntroductionTyped.accept(text)
+            })
             .disposed(by: self.disposeBag)
 
         self.navigationBar.didBackButtonTap()
@@ -191,22 +193,7 @@ extension EditProfileViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
-    private func saveProfile() {
-        guard let nickname = self.editNicknameView.nicknameTextField.text,
-              var introduction = self.editIntroductionView.introductionTextView.text else { return }
 
-        // 🚨 이게 뭐지?...🚨
-        if self.editIntroductionView.introductionTextView.textColor == .grey70 {
-            introduction = ""
-        }
-//        
-//        self.viewModel.saveProfile(nickname: nickname,
-//                                   introduction: introduction,
-//                                   profileImage: self.editProfileImageView.profileImageView.image,
-//                                   links: self.viewModel.output.links)
-    }
-    
     private func configureLinkCollectionView() {
         self.editLinkView.linkCollectionView.dataSource = self
         self.editLinkView.linkCollectionView.delegate = self
@@ -302,7 +289,7 @@ extension EditProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let links = self.viewModel.output.fetchedProfile.value?.links else { return 0 }
+        guard let links = self.viewModel.output.profile.links else { return 0 }
         return links.count
     }
     
@@ -330,7 +317,8 @@ extension EditProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditLinkCollectionViewCell.className,
                                                             for: indexPath) as? EditLinkCollectionViewCell else { return UICollectionViewCell() }
-        guard let links = self.viewModel.output.fetchedProfile.value?.links else { return UICollectionViewCell() }
+        guard let links = self.viewModel.output.profile.links else { return UICollectionViewCell() }
+
         let data = links[indexPath.row]
 
         cell.setData(title: data.title, url: data.link)
@@ -338,7 +326,7 @@ extension EditProfileViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let links = self.viewModel.output.fetchedProfile.value?.links else { return }
+        guard let links = self.viewModel.output.profile.links else { return }
 
         let linkEntity = links[indexPath.row]
         self.selectedItemIndex = indexPath.row
@@ -423,8 +411,7 @@ extension EditProfileViewController {
 
 extension EditProfileViewController: EditLinkViewControllerDelegate {
     func editLinkDidDeleted(_ viewController: UIViewController) {
-        guard var links = self.viewModel.output.fetchedProfile.value?.links else { return }
-
+        guard var links = self.viewModel.output.profile.links else { return }
         links.remove(at: self.selectedItemIndex)
 
         self.viewModel.input.didLinkChanged.accept(links)
@@ -432,8 +419,7 @@ extension EditProfileViewController: EditLinkViewControllerDelegate {
     }
     
     func editLinkViewController(_ viewController: UIViewController, didChangedLink entity: LinkEntity) {
-        guard var links = self.viewModel.output.fetchedProfile.value?.links else { return }
-
+        guard var links = self.viewModel.output.profile.links else { return }
         links[self.selectedItemIndex] = entity
 
         self.viewModel.input.didLinkChanged.accept(links)
@@ -441,8 +427,7 @@ extension EditProfileViewController: EditLinkViewControllerDelegate {
     }
     
     func editLinkViewController(_ viewController: UIViewController, didAddedLink entity: LinkEntity) {
-
-        guard var links = self.viewModel.output.fetchedProfile.value?.links else { return }
+        guard var links = self.viewModel.output.profile.links else { return }
         links.insert(entity, at: 0)
 
         self.viewModel.input.didLinkChanged.accept(links)

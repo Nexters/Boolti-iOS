@@ -60,8 +60,8 @@ final class EditNicknameView: UIView {
 
 extension EditNicknameView {
     
-    func setData(with: String) {
-        self.nicknameTextField.text = UserDefaults.userName
+    func setData(with name: String) {
+        self.nicknameTextField.text = name
         self.nicknameTextField.sendActions(for: .editingChanged)
     }
     

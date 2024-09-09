@@ -28,10 +28,10 @@ final class EditProfileViewModel {
     private let authRepository: AuthRepositoryType
 
     struct Input {
-        let didNickNameTyped = BehaviorRelay<String>(value: "")
-        let didIntroductionTyped = BehaviorRelay<String>(value: "")
-        let didProfileImageSelected = BehaviorRelay<UIImage>(value: UIImage())
-        let didLinkChanged = BehaviorRelay<[LinkEntity]>(value: [])
+        let didNickNameTyped = PublishRelay<String>()
+        let didIntroductionTyped = PublishRelay<String>()
+        let didProfileImageSelected = PublishRelay<UIImage>()
+        let didLinkChanged = PublishRelay<[LinkEntity]>()
 
         let didNavigationBarCompleteButtonTapped = PublishSubject<Void>()
         let didPopUpConfirmButtonTapped = PublishSubject<Void>()
@@ -40,6 +40,7 @@ final class EditProfileViewModel {
     struct Output {
         // Links - RxCocoa Datasource로 변경하기
         let fetchedProfile = BehaviorRelay<Profile?>(value: nil)
+        var profile = Profile()
         let didProfileSave = PublishSubject<Void>()
     }
     
@@ -62,31 +63,34 @@ final class EditProfileViewModel {
 extension EditProfileViewModel {
     private func bindInputs() {
 
-        Observable.combineLatest(
-            self.input.didNickNameTyped,
-            self.input.didIntroductionTyped,
-            self.input.didProfileImageSelected,
-            self.input.didLinkChanged
-        )
-        .withLatestFrom(self.output.fetchedProfile) { (latest, fetchedProfile) -> Profile? in
-            guard var profile = fetchedProfile else { return nil }
-            let (nickName, introduction, uiImage, links) = latest
-            profile.nickName = nickName
-            profile.introduction = introduction
-            profile.image = uiImage
-            profile.links = links
-            return profile
-        }
-        .compactMap { $0 }
-        .subscribe(with: self) { owner, updatedProfile in
-            owner.output.fetchedProfile.accept(updatedProfile)
-        }
-        .disposed(by: self.disposeBag)
+        // CombineLatest는 모든 요구사항을 다 만족했을 때 넘길 때 활용할 것!
+        self.input.didNickNameTyped
+            .subscribe(with: self, onNext: { owner, nickName in
+                owner.output.profile.nickName = nickName
+            })
+            .disposed(by: self.disposeBag)
+
+        self.input.didIntroductionTyped
+            .subscribe(with: self, onNext: { owner, introduction in
+                owner.output.profile.introduction = introduction
+            })
+            .disposed(by: self.disposeBag)
+
+        self.input.didProfileImageSelected
+            .subscribe(with: self, onNext: { owner, image in
+                owner.output.profile.image = image
+            })
+            .disposed(by: self.disposeBag)
+
+        self.input.didLinkChanged
+            .subscribe(with: self, onNext: { owner, links in
+                owner.output.profile.links = links
+            })
+            .disposed(by: self.disposeBag)
 
         Observable.merge(self.input.didNavigationBarCompleteButtonTapped, self.input.didPopUpConfirmButtonTapped)
             .subscribe(with: self) { owner, _ in
-                guard let profile = owner.output.fetchedProfile.value else { return }
-                owner.save(profile)
+                owner.save(owner.output.profile)
             }
             .disposed(by: self.disposeBag)
     }
