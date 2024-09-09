@@ -4,6 +4,12 @@ import RxSwift
 import RxCocoa
 import RxKeyboard
 
+protocol EditLinkViewControllerDelegate: AnyObject {
+    func editLinkViewController(_ viewController: UIViewController, didChangedLink entity: LinkEntity)
+    func editLinkViewController(_ viewController: UIViewController, didAddedLink entity: LinkEntity)
+    func editLinkDidDeleted(_ viewController: UIViewController)
+}
+
 final class EditLinkViewController: BooltiViewController {
 
     /// EditType
@@ -46,6 +52,8 @@ final class EditLinkViewController: BooltiViewController {
 
     private let editType: EditType
 
+    weak var delegate: EditLinkViewControllerDelegate?
+
     private let disposeBag = DisposeBag()
 
     init(editType: EditType) {
@@ -66,7 +74,6 @@ final class EditLinkViewController: BooltiViewController {
 
     private func configureUI() {
         self.view.addSubviews([navigationBar, linkNameStackView, URLStackView, deleteLinkButton, deleteLinkPopUpView])
-
         self.view.backgroundColor = .grey95
 
         if case .edit(let link) = self.editType {
@@ -109,12 +116,12 @@ final class EditLinkViewController: BooltiViewController {
 
     private func bindUIComponents() {
         // 링크 네임
-        self.linkNameTextField.rx.text
-            .orEmpty
+        let linkNameTextFieldObservable = self.linkNameTextField.rx.text.orEmpty
+
+        linkNameTextFieldObservable
             .skip(1)
             .distinctUntilChanged()
             .bind(with: self) { owner, text in
-                print("isText 불린다!..\(text)")
                 owner.linkNameTextField.isButtonHidden = text.isEmpty
             }
             .disposed(by: self.disposeBag)
@@ -123,11 +130,14 @@ final class EditLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 owner.linkNameTextField.text = ""
                 owner.linkNameTextField.isButtonHidden = true
+                owner.navigationBar.completeButton.isEnabled = false
             }
             .disposed(by: self.disposeBag)
 
         // URL 설정
-        self.URLTextField.rx.text.orEmpty
+        let URLTextFieldObservable = self.URLTextField.rx.text.orEmpty
+
+        URLTextFieldObservable
             .skip(1)
             .distinctUntilChanged()
             .bind(with: self) { owner, text in
@@ -139,14 +149,33 @@ final class EditLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 owner.URLTextField.text = ""
                 owner.URLTextField.isButtonHidden = true
+                owner.navigationBar.completeButton.isEnabled = false
             }
             .disposed(by: self.disposeBag)
+
+        Observable.combineLatest(
+            linkNameTextFieldObservable.distinctUntilChanged(),
+            URLTextFieldObservable.distinctUntilChanged()
+        )
+        .map { urlText, linkNameText in
+            print("urlText - \(urlText)")
+            print("linkNameText - \(linkNameText)")
+            return !urlText.isEmpty && !linkNameText.isEmpty
+        }
+        .bind(to: self.navigationBar.completeButton.rx.isEnabled)
+        .disposed(by: self.disposeBag)
 
         // 완료 버튼
         self.navigationBar.didCompleteButtonTap()
             .emit(with: self) { owner, _ in
-                // Delegate 메소드 호출하기
-                print("완료되었습니다.")
+                guard let title = owner.linkNameTextField.text else { return }
+                guard let link = owner.URLTextField.text else { return }
+                switch owner.editType {
+                case .add:
+                    owner.delegate?.editLinkViewController(self, didAddedLink: LinkEntity(title: title, link: link))
+                case .edit:
+                    owner.delegate?.editLinkViewController(self, didChangedLink: LinkEntity(title: title, link: link))
+                }
             }
             .disposed(by: self.disposeBag)
 
@@ -196,8 +225,8 @@ final class EditLinkViewController: BooltiViewController {
 
         self.deleteLinkPopUpView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
-                // Delegate 메소드 요청
-                //                owner.deleteLinkPopUpView.isHidden = true
+                owner.delegate?.editLinkDidDeleted(self)
+                owner.deleteLinkPopUpView.isHidden = true
             }
             .disposed(by: self.disposeBag)
 
