@@ -97,13 +97,6 @@ extension EditProfileViewModel {
     }
 }
 
-// MARK: - Ouputs
-extension EditProfileViewModel {
-    private func bindOutputs() {
-
-    }
-}
-
 // MARK: - Network
 
 extension EditProfileViewModel {

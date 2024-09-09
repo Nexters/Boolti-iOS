@@ -173,15 +173,23 @@ extension EditProfileViewController {
             }
             .disposed(by: self.disposeBag)
         
-        // TODO: 아래와 같은 방식으로 변경하기
         self.navigationBar.didCompleteButtonTap()
-            .emit(to: self.viewModel.input.didNavigationBarCompleteButtonTapped)
+            .emit(with: self, onNext: { owner, _ in
+                // TODO: 아래와 같이 url이랑 image 따로 보내는 거 해결하기 (vm 참고)
+                let image = owner.editProfileImageView.profileImageView.image ?? UIImage()
+                owner.viewModel.input.didProfileImageSelected.accept(image)
+                owner.viewModel.input.didNavigationBarCompleteButtonTapped.onNext(())
+            })
             .disposed(by: self.disposeBag)
 
         self.popupView.didConfirmButtonTap()
-            .emit(to: self.viewModel.input.didPopUpConfirmButtonTapped)
+            .emit(with: self, onNext: { owner, _ in
+                let image = owner.editProfileImageView.profileImageView.image ?? UIImage()
+                owner.viewModel.input.didProfileImageSelected.accept(image)
+                owner.viewModel.input.didPopUpConfirmButtonTapped.onNext(())
+            })
             .disposed(by: self.disposeBag)
-        
+
         self.popupView.didCancelButtonTap()
             .emit(with: self) { owner, _ in
                 owner.popupView.isHidden = true
