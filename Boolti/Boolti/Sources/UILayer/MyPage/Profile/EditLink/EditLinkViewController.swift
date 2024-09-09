@@ -158,8 +158,6 @@ final class EditLinkViewController: BooltiViewController {
             URLTextFieldObservable.distinctUntilChanged()
         )
         .map { urlText, linkNameText in
-            print("urlText - \(urlText)")
-            print("linkNameText - \(linkNameText)")
             return !urlText.isEmpty && !linkNameText.isEmpty
         }
         .bind(to: self.navigationBar.completeButton.rx.isEnabled)
