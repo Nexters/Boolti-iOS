@@ -176,6 +176,7 @@ final class EditLinkViewController: BooltiViewController {
                 case .edit:
                     owner.delegate?.editLinkViewController(self, didChangedLink: LinkEntity(title: title, link: link))
                 }
+                owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
 
@@ -223,16 +224,17 @@ final class EditLinkViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.deleteLinkPopUpView.didConfirmButtonTap()
+        self.deleteLinkPopUpView.didCloseButtonTap()
             .emit(with: self) { owner, _ in
-                owner.delegate?.editLinkDidDeleted(self)
                 owner.deleteLinkPopUpView.isHidden = true
             }
             .disposed(by: self.disposeBag)
 
-        self.deleteLinkPopUpView.didCloseButtonTap()
+        self.deleteLinkPopUpView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
+                owner.delegate?.editLinkDidDeleted(self)
                 owner.deleteLinkPopUpView.isHidden = true
+                owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
     }
