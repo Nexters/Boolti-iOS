@@ -24,6 +24,7 @@ final class MypageProfileView: UIView {
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = .grey80
         imageView.layer.cornerRadius = 18
         imageView.clipsToBounds = true
@@ -89,7 +90,9 @@ extension MypageProfileView {
         self.profileImageView.isHidden = false
         
         self.profileNameLabel.text =  UserDefaults.userName.isEmpty ? "불티 유저" : UserDefaults.userName
-
+        
+        // TODO: 🚨 이렇게 userDefaults에 넣으면 앱을 깔았다가 다시 들어올 때 카톡 이미지가 보이게된다.
+        /// 그래서 여기서 유저 API를 한번 더 찌르게 구현하기!
         let profileImageURLPath = UserDefaults.userImageURLPath
 
         if profileImageURLPath.isEmpty {

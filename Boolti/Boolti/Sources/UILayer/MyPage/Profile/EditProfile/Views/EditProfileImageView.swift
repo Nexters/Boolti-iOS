@@ -18,16 +18,13 @@ final class EditProfileImageView: UIView {
         imageView.layer.borderColor = UIColor.grey80.cgColor
         imageView.layer.borderWidth = 1
         imageView.image = .defaultProfile
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         
         return imageView
     }()
     
-    private let cameraImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = .camera
-        return imageView
-    }()
+    private let cameraImageView = UIImageView(image: .camera)
     
     // MARK: Initailizer
     

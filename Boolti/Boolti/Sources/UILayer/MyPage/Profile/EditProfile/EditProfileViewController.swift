@@ -64,7 +64,6 @@ final class EditProfileViewController: BooltiViewController {
     private let imagePickerController: UIImagePickerController = {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .photoLibrary
-        imagePickerController.allowsEditing = true
         return imagePickerController
     }()
     
@@ -72,7 +71,6 @@ final class EditProfileViewController: BooltiViewController {
     
     init(viewModel: EditProfileViewModel) {
         self.viewModel = viewModel
-
         super.init()
     }
     
@@ -269,14 +267,12 @@ extension EditProfileViewController {
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let selectedImage = info[.originalImage] as? UIImage else { return }
         picker.dismiss(animated: true) {
-            if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-                self.editProfileImageView.profileImageView.image = image
-                self.viewModel.input.didProfileImageSelected.accept(image)
-            }
+            self.editProfileImageView.profileImageView.image = selectedImage
+            self.viewModel.input.didProfileImageSelected.accept(selectedImage)
         }
     }
-    
 }
 
 // MARK: - UIScrollViewDelegate
