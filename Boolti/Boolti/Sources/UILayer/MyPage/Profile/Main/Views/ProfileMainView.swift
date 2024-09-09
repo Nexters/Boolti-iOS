@@ -22,6 +22,7 @@ final class ProfileMainView: UIView {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey80
         imageView.layer.cornerRadius = 35
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.borderColor = UIColor.grey80.cgColor
         imageView.image = .defaultProfile

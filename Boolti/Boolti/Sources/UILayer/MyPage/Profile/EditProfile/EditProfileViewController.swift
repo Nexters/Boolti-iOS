@@ -19,9 +19,9 @@ final class EditProfileViewController: BooltiViewController {
     
     private var isScrollViewOffsetChanged: Bool = false
     private var changedScrollViewOffsetY: CGFloat = 0
-    
-    private let editLinkViewControllerFactory: (LinkEditType, ProfileEntity) -> EditLinkViewController
-    
+
+    private var selectedItemIndex = 0
+
     // MARK: UI Components
     
     private let navigationBar = BooltiNavigationBar(type: .editProfile)
@@ -64,17 +64,13 @@ final class EditProfileViewController: BooltiViewController {
     private let imagePickerController: UIImagePickerController = {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .photoLibrary
-        imagePickerController.allowsEditing = true
         return imagePickerController
     }()
     
     // MARK: Initailizer
     
-    init(viewModel: EditProfileViewModel,
-         editLinkViewControllerFactory: @escaping (LinkEditType, ProfileEntity) -> EditLinkViewController) {
+    init(viewModel: EditProfileViewModel) {
         self.viewModel = viewModel
-        self.editLinkViewControllerFactory = editLinkViewControllerFactory
-        
         super.init()
     }
     
@@ -101,7 +97,6 @@ final class EditProfileViewController: BooltiViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        self.viewModel.fetchProfile(isViewDidLoadEvent: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -121,20 +116,16 @@ extension EditProfileViewController {
     }
     
     private func bindViewModel() {
-        self.viewModel.output.didProfileFetch
-            .subscribe(with: self) { owner, _ in
-                owner.editProfileImageView.setImage(imageURL: UserDefaults.userImageURLPath)
-                owner.editNicknameView.setData(with: UserDefaults.userName)
-                owner.editIntroductionView.setData(with: owner.viewModel.output.introduction)
+        self.viewModel.output.fetchedProfile
+            .subscribe(with: self) { owner, profile in
+                owner.editProfileImageView.setImage(imageURL: profile?.imageURL ?? "")
+                owner.editNicknameView.setData(with: profile?.nickName ?? "")
+                owner.editIntroductionView.setData(with: profile?.introduction ?? "")
+                // TODO: 추후에 RxCocoa Datasource로 끌고 가는게 더 좋을듯
+                /// 그래서 links를 그냥 input으로 넣어줘서 바로 해당 array로 collection view를 만들 수 있도록..
                 owner.reloadLinks()
                 
                 owner.mainScrollView.isHidden = false
-            }
-            .disposed(by: self.disposeBag)
-        
-        self.viewModel.output.didLinksFetch
-            .subscribe(with: self) { owner, _ in
-                owner.reloadLinks()
             }
             .disposed(by: self.disposeBag)
         
@@ -156,13 +147,24 @@ extension EditProfileViewController {
             .disposed(by: self.disposeBag)
         
         self.editNicknameView.nicknameTextField.rx.text
+            .orEmpty
             .asDriver()
             .drive(with: self) { owner, text in
-                guard let text = text else { return }
                 owner.navigationBar.completeButton.isEnabled = !text.isEmpty
+                owner.viewModel.input.didNickNameTyped.accept(text)
             }
             .disposed(by: self.disposeBag)
-        
+
+        self.editIntroductionView.introductionTextView.rx.text
+            .orEmpty
+            .asDriver()
+            .drive(with: self, onNext: { owner, text in
+                // TODO: 아래와 같이 placeholder 판단하는 로직 변경하기
+                owner.navigationBar.completeButton.isEnabled = !text.isEmpty && (text != "예) 재즈와 펑크락을 좋아해요")
+                owner.viewModel.input.didIntroductionTyped.accept(text)
+            })
+            .disposed(by: self.disposeBag)
+
         self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.popupView.showPopup(with: .saveProfile, withCancelButton: true)
@@ -170,17 +172,22 @@ extension EditProfileViewController {
             .disposed(by: self.disposeBag)
         
         self.navigationBar.didCompleteButtonTap()
-            .emit(with: self) { owner, _ in
-                owner.saveProfile()
-            }
+            .emit(with: self, onNext: { owner, _ in
+                // TODO: 아래와 같이 url이랑 image 따로 보내는 거 해결하기 (vm 참고)
+                let image = owner.editProfileImageView.profileImageView.image ?? UIImage()
+                owner.viewModel.input.didProfileImageSelected.accept(image)
+                owner.viewModel.input.didNavigationBarCompleteButtonTapped.onNext(())
+            })
             .disposed(by: self.disposeBag)
-        
+
         self.popupView.didConfirmButtonTap()
-            .emit(with: self) { owner, _ in
-                owner.saveProfile()
-            }
+            .emit(with: self, onNext: { owner, _ in
+                let image = owner.editProfileImageView.profileImageView.image ?? UIImage()
+                owner.viewModel.input.didProfileImageSelected.accept(image)
+                owner.viewModel.input.didPopUpConfirmButtonTapped.onNext(())
+            })
             .disposed(by: self.disposeBag)
-        
+
         self.popupView.didCancelButtonTap()
             .emit(with: self) { owner, _ in
                 owner.popupView.isHidden = true
@@ -194,20 +201,7 @@ extension EditProfileViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
-    private func saveProfile() {
-        guard let nickname = self.editNicknameView.nicknameTextField.text,
-              var introduction = self.editIntroductionView.introductionTextView.text else { return }
-        if self.editIntroductionView.introductionTextView.textColor == .grey70 {
-            introduction = ""
-        }
-        
-        self.viewModel.saveProfile(nickname: nickname,
-                                   introduction: introduction,
-                                   profileImage: self.editProfileImageView.profileImageView.image,
-                                   links: self.viewModel.output.links)
-    }
-    
+
     private func configureLinkCollectionView() {
         self.editLinkView.linkCollectionView.dataSource = self
         self.editLinkView.linkCollectionView.delegate = self
@@ -273,13 +267,12 @@ extension EditProfileViewController {
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let selectedImage = info[.originalImage] as? UIImage else { return }
         picker.dismiss(animated: true) {
-            if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-                self.editProfileImageView.profileImageView.image = image
-            }
+            self.editProfileImageView.profileImageView.image = selectedImage
+            self.viewModel.input.didProfileImageSelected.accept(selectedImage)
         }
     }
-    
 }
 
 // MARK: - UIScrollViewDelegate
@@ -302,7 +295,8 @@ extension EditProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel.output.links.count
+        guard let links = self.viewModel.output.profile.links else { return 0 }
+        return links.count
     }
     
     /// 헤더를 결정하는 메서드
@@ -317,11 +311,8 @@ extension EditProfileViewController: UICollectionViewDataSource {
         header.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                let viewController = owner.editLinkViewControllerFactory(.add,
-                                                                         ProfileEntity(profileImageURL: UserDefaults.userImageURLPath,
-                                                                                       nickname: UserDefaults.userName,
-                                                                                       introduction: owner.viewModel.output.introduction ?? "",
-                                                                                       links: owner.viewModel.output.links))
+                let viewController = EditLinkViewController(editType: .add)
+                viewController.delegate = self
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: header.disposeBag)
@@ -332,19 +323,22 @@ extension EditProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditLinkCollectionViewCell.className,
                                                             for: indexPath) as? EditLinkCollectionViewCell else { return UICollectionViewCell() }
-        
-        let data = self.viewModel.output.links[indexPath.row]
+        guard let links = self.viewModel.output.profile.links else { return UICollectionViewCell() }
+
+        let data = links[indexPath.row]
+
         cell.setData(title: data.title, url: data.link)
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let linkEntityData = self.viewModel.output.links[indexPath.row]
-        let viewController = self.editLinkViewControllerFactory(.edit(indexPath),
-                                                                ProfileEntity(profileImageURL: UserDefaults.userImageURLPath,
-                                                                              nickname: UserDefaults.userName,
-                                                                              introduction: self.viewModel.output.introduction ?? "",
-                                                                              links: self.viewModel.output.links))
+        guard let links = self.viewModel.output.profile.links else { return }
+
+        let linkEntity = links[indexPath.row]
+        self.selectedItemIndex = indexPath.row
+
+        let viewController = EditLinkViewController(editType: .edit(linkEntity))
+        viewController.delegate = self
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -417,5 +411,32 @@ extension EditProfileViewController {
             make.height.equalTo(0)
         }
     }
+}
+
+// MARK: EditLinkViewControllerDelegate
+
+extension EditProfileViewController: EditLinkViewControllerDelegate {
+    func editLinkDidDeleted(_ viewController: UIViewController) {
+        guard var links = self.viewModel.output.profile.links else { return }
+        links.remove(at: self.selectedItemIndex)
+
+        self.viewModel.input.didLinkChanged.accept(links)
+        self.reloadLinks()
+    }
     
+    func editLinkViewController(_ viewController: UIViewController, didChangedLink entity: LinkEntity) {
+        guard var links = self.viewModel.output.profile.links else { return }
+        links[self.selectedItemIndex] = entity
+
+        self.viewModel.input.didLinkChanged.accept(links)
+        self.reloadLinks()
+    }
+    
+    func editLinkViewController(_ viewController: UIViewController, didAddedLink entity: LinkEntity) {
+        guard var links = self.viewModel.output.profile.links else { return }
+        links.insert(entity, at: 0)
+
+        self.viewModel.input.didLinkChanged.accept(links)
+        self.reloadLinks()
+    }
 }

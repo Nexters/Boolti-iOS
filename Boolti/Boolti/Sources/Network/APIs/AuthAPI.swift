@@ -17,7 +17,7 @@ enum AuthAPI {
     case refresh(requestDTO: TokenRefreshRequestDTO)
     case resign(requestDTO: ResignRequestDTO)
     case user
-    case fetchProfile(requestDTO: EditProfileRequestDTO)
+    case editProfile(requestDTO: EditProfileRequestDTO)
     case getUploadImageURL
     case uploadProfileImage(data: UploadProfileImageRequestDTO)
 }
@@ -43,7 +43,7 @@ extension AuthAPI: ServiceAPI {
             return "/papi/v1/signup/sns"
         case .refresh:
             return "/papi/v1/login/refresh"
-        case .resign, .user, .fetchProfile:
+        case .resign, .user, .editProfile:
             return "/api/v1/user"
         case .getUploadImageURL:
             return "/api/v1/user/profile-images/upload-urls"
@@ -58,7 +58,7 @@ extension AuthAPI: ServiceAPI {
             return .delete
         case .user:
             return .get
-        case .fetchProfile:
+        case .editProfile:
             return .patch
         case .uploadProfileImage:
             return .put
@@ -71,7 +71,7 @@ extension AuthAPI: ServiceAPI {
         switch self {
         case .logout, .user, .getUploadImageURL:
             return nil
-        case .login, .refresh, .signup, .resign, .fetchProfile:
+        case .login, .refresh, .signup, .resign, .editProfile:
             return ["Content-Type": "application/json"]
         case .uploadProfileImage:
             return ["Content-Type": "image/jpeg"]
@@ -97,7 +97,7 @@ extension AuthAPI: ServiceAPI {
             return .requestJSONEncodable(DTO)
         case .resign(let DTO):
             return .requestJSONEncodable(DTO)
-        case .fetchProfile(let DTO):
+        case .editProfile(let DTO):
             return .requestJSONEncodable(DTO)
         case .uploadProfileImage(let DTO):
             return .requestData(DTO.imageData.jpegData(compressionQuality: 0.8) ?? Data())

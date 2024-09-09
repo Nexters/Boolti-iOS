@@ -35,11 +35,11 @@ final class EditLinkCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let editButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.pencil.withRenderingMode(.alwaysOriginal), for: .normal)
-        button.tintColor = .grey50
-        return button
+    private let editImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .pencil
+        imageView.tintColor = .grey50
+        return imageView
     }()
     
     // MARK: Init
@@ -86,20 +86,20 @@ extension EditLinkCollectionViewCell {
     private func configureUI() {
         self.contentView.backgroundColor = .grey90
         self.contentView.addSubviews([self.labelStackView,
-                                      self.editButton])
+                                      self.editImageView])
     }
     
     private func configureConstraints() {
         self.labelStackView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview().inset(40)
         }
         
-        self.editButton.snp.makeConstraints { make in
+        self.editImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.centerY.equalTo(self.labelStackView)
             make.size.equalTo(20)
         }
     }
-    
 }

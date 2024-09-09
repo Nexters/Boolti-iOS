@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+// TODO: EditIntroductionView - TextView의 PlaceHolder등 추가해서 리팩토링 진행하기
 final class EditIntroductionView: UIView {
     
     // MARK: Properties
@@ -17,7 +18,6 @@ final class EditIntroductionView: UIView {
     private let disposeBag = DisposeBag()
     
     // MARK: UI Components
-    
     private let introductionLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .subhead2
@@ -28,13 +28,19 @@ final class EditIntroductionView: UIView {
     
     let introductionTextView: UITextView = {
         let textView = UITextView()
-        textView.contentInset = .init(top: 8, left: 12, bottom: 38, right: 12)
         textView.backgroundColor = .grey85
-        textView.layer.cornerRadius = 4
         textView.font = .body3
         textView.text = "예) 재즈와 펑크락을 좋아해요"
         textView.textColor = .grey70
+        textView.isScrollEnabled = false
         return textView
+    }()
+
+    private let backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey85
+        view.layer.cornerRadius = 4
+        return view
     }()
 
     private let textCountLabel: BooltiUILabel = {
@@ -123,9 +129,9 @@ extension EditIntroductionView {
     private func configureUI() {
         self.backgroundColor = .grey90
         self.addSubviews([self.introductionLabel,
+                          self.backgroundView,
                           self.introductionTextView,
                           self.textCountLabel])
-
         self.configureConstraints()
     }
     
@@ -133,16 +139,27 @@ extension EditIntroductionView {
         self.introductionLabel.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(20)
         }
-        
+
         self.introductionTextView.snp.makeConstraints { make in
-            make.horizontalEdges.bottom.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview().inset(32)
+            make.top.equalToSuperview().inset(74)
+            make.bottom.equalToSuperview().inset(58)
+            make.height.greaterThanOrEqualTo(72)
+        }
+
+        self.backgroundView.snp.makeConstraints { make in
+            make.height.greaterThanOrEqualTo(122)
+            make.horizontalEdges.equalToSuperview().inset(20)
             make.top.equalTo(self.introductionLabel.snp.bottom).offset(16)
-            make.height.equalTo(122)
+            make.bottom.equalTo(self.introductionTextView.snp.bottom).offset(38)
         }
         
         self.textCountLabel.snp.makeConstraints { make in
-            make.bottom.trailing.equalTo(self.introductionTextView).inset(12)
+            make.bottom.trailing.equalTo(self.backgroundView).inset(12)
         }
-        
+
+        self.snp.makeConstraints { make in
+            make.bottom.equalTo(self.backgroundView.snp.bottom).offset(20)
+        }
     }
 }

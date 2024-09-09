@@ -22,7 +22,7 @@ protocol AuthRepositoryType {
     func userInfo() -> Single<Void>
     func userProfile() -> Single<UserResponseDTO>
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void>
-    func fetchProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void>
+    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void>
     func getUploadImageURL() -> Single<GetUploadURLReponseDTO>
     func uploadProfileImage(uploadURL: String, imageData: UIImage) -> Single<String>
 }
@@ -196,8 +196,8 @@ final class AuthRepository: AuthRepositoryType {
             .map { _ in return () }
     }
     
-    func fetchProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void> {
-        let api = AuthAPI.fetchProfile(requestDTO: EditProfileRequestDTO(nickname: nickname,
+    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void> {
+        let api = AuthAPI.editProfile(requestDTO: EditProfileRequestDTO(nickname: nickname,
                                                                          profileImagePath: profileImageUrl,
                                                                          introduction: introduction,
                                                                          link: links))
