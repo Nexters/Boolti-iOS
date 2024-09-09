@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+// TODO: EditIntroductionView - TextView의 PlaceHolder등 추가해서 리팩토링 진행하기
 final class EditIntroductionView: UIView {
     
     // MARK: Properties
@@ -17,7 +18,6 @@ final class EditIntroductionView: UIView {
     private let disposeBag = DisposeBag()
     
     // MARK: UI Components
-    
     private let introductionLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .subhead2

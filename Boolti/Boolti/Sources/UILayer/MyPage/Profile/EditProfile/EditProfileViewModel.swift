@@ -40,6 +40,7 @@ final class EditProfileViewModel {
     struct Output {
         // Links - RxCocoa Datasource로 변경하기
         let fetchedProfile = BehaviorRelay<Profile?>(value: nil)
+        // Edit이된 Profile
         var profile = Profile()
         let didProfileSave = PublishSubject<Void>()
     }
@@ -115,6 +116,7 @@ extension EditProfileViewModel {
                 return Profile(image: nil, imageURL: DTO.imgPath, nickName: DTO.nickname, introduction: DTO.introduction, links: DTO.link)
             })
             .subscribe(with: self) { owner, profile in
+                owner.output.profile = profile
                 owner.output.fetchedProfile.accept(profile)
             }
             .disposed(by: self.disposeBag)
