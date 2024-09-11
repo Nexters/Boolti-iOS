@@ -129,10 +129,20 @@ extension EditProfileViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.viewModel.output.didProfileSave
+        self.viewModel.output.didProfileSaved
             .subscribe(with: self) { owner, _ in
                 owner.showToast(message: "프로필 편집을 완료했어요")
                 owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.isProfileChanged
+            .subscribe(with: self) { owner, isChanged in
+                if isChanged {
+                    owner.popupView.showPopup(with: .saveProfile, withCancelButton: true)
+                } else {
+                    owner.navigationController?.popViewController(animated: true)
+                }
             }
             .disposed(by: self.disposeBag)
     }
@@ -166,9 +176,7 @@ extension EditProfileViewController {
             .disposed(by: self.disposeBag)
 
         self.navigationBar.didBackButtonTap()
-            .emit(with: self) { owner, _ in
-                owner.popupView.showPopup(with: .saveProfile, withCancelButton: true)
-            }
+            .emit(to: self.viewModel.input.didBackButtonTapped)
             .disposed(by: self.disposeBag)
         
         self.navigationBar.didCompleteButtonTap()
