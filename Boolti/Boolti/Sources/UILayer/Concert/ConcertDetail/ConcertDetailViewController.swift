@@ -347,18 +347,6 @@ extension ConcertDetailViewController {
             link: link,
             domainURIPrefix: dynamicLinksDomainURIPrefix
         ) else { return nil }
-        
-        // iOS
-        linkBuilder.iOSParameters = DynamicLinkIOSParameters(bundleID: AppInfo.bundleID)
-
-        // Android
-        #if DEBUG
-        linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: AppInfo.androidDebugPackageName)
-        #elseif RELEASE
-        linkBuilder.androidParameters = DynamicLinkAndroidParameters(packageName: AppInfo.bundleID)
-        #endif
-        linkBuilder.androidParameters?.fallbackURL = link
-
         return linkBuilder.url
     }
 }
