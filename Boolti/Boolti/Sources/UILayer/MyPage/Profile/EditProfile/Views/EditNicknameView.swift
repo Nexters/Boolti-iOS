@@ -62,12 +62,12 @@ extension EditNicknameView {
     
     func setData(with name: String) {
         self.nicknameTextField.text = name
-        self.nicknameTextField.sendActions(for: .editingChanged)
     }
     
     private func bindTextField() {
         self.nicknameTextField.rx.text
             .asDriver()
+            .skip(1)
             .drive(with: self) { owner, changedText in
                 guard let changedText = changedText else { return }
                 owner.nicknameTextField.text = changedText
