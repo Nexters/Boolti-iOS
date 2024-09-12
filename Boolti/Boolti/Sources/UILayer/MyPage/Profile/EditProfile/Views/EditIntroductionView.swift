@@ -32,7 +32,7 @@ final class EditIntroductionView: UIView {
         textView.font = .body3
         textView.text = "예) 재즈와 펑크락을 좋아해요"
         textView.textColor = .grey70
-        textView.isScrollEnabled = false
+        textView.isScrollEnabled = true
         return textView
     }()
 
@@ -140,26 +140,25 @@ extension EditIntroductionView {
             make.top.leading.equalToSuperview().inset(20)
         }
 
-        self.introductionTextView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(32)
-            make.top.equalToSuperview().inset(74)
-            make.bottom.equalToSuperview().inset(58)
-            make.height.greaterThanOrEqualTo(72)
-        }
-
         self.backgroundView.snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(122)
+            make.height.equalTo(122)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.top.equalTo(self.introductionLabel.snp.bottom).offset(16)
-            make.bottom.equalTo(self.introductionTextView.snp.bottom).offset(38)
+        }
+
+        self.introductionTextView.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(self.backgroundView.snp.horizontalEdges).inset(12)
+            make.top.equalTo(self.backgroundView.snp.top).inset(12)
+            make.height.equalTo(72)
         }
         
         self.textCountLabel.snp.makeConstraints { make in
-            make.bottom.trailing.equalTo(self.backgroundView).inset(12)
+            make.top.equalTo(self.introductionTextView.snp.bottom).offset(8)
+            make.trailing.equalTo(self.backgroundView).inset(12)
         }
 
         self.snp.makeConstraints { make in
-            make.bottom.equalTo(self.backgroundView.snp.bottom).offset(20)
+            make.height.equalTo(204)
         }
     }
 }
