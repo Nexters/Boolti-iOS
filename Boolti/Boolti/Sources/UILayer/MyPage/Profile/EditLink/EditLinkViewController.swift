@@ -134,6 +134,13 @@ final class EditLinkViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
+        self.linkNameTextField.rx.controlEvent([.editingDidBegin])
+            .bind(with: self) { owner, _ in
+                guard let nameText = owner.linkNameTextField.text else { return }
+                owner.linkNameTextField.isButtonHidden = nameText.isEmpty
+            }
+            .disposed(by: self.disposeBag)
+
         // URL 설정
         let URLTextFieldObservable = self.URLTextField.rx.text.orEmpty
 
@@ -150,6 +157,14 @@ final class EditLinkViewController: BooltiViewController {
                 owner.URLTextField.text = ""
                 owner.URLTextField.isButtonHidden = true
                 owner.navigationBar.completeButton.isEnabled = false
+            }
+            .disposed(by: self.disposeBag)
+
+        // textField를 선택하면 empty인 지 판단하여 button을 보여줄 지 말지 결정한다.
+        self.URLTextField.rx.controlEvent([.editingDidBegin])
+            .bind(with: self) { owner, _ in
+                guard let urlText = owner.URLTextField.text else { return }
+                owner.URLTextField.isButtonHidden = urlText.isEmpty
             }
             .disposed(by: self.disposeBag)
 
@@ -196,20 +211,13 @@ final class EditLinkViewController: BooltiViewController {
         self.bindPopUpViewComponents()
 
         // 키보드
+        /// 키보드가 내려갈 때는 무조건 button을 숨긴다.
         RxKeyboard.instance.isHidden
             .skip(1)
             .drive(with: self) { owner, isHidden in
-                print("isHidden = \(isHidden)")
                 if isHidden {
                     owner.linkNameTextField.isButtonHidden = true
                     owner.URLTextField.isButtonHidden = true
-                } else {
-                    if let nameText = owner.linkNameTextField.text {
-                        owner.linkNameTextField.isButtonHidden = nameText.isEmpty
-                    }
-                    if let urlText = owner.URLTextField.text {
-                        owner.URLTextField.isButtonHidden = urlText.isEmpty
-                    }
                 }
             }
             .disposed(by: self.disposeBag)
