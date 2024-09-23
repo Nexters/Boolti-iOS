@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BooltiTextField: UITextField {
+class BooltiTextField: UITextField {
 
     // MARK: Init
     
@@ -15,7 +15,9 @@ final class BooltiTextField: UITextField {
         super.init(frame: .zero)
         self.configureUI(backgroundColor: backgroundColor)
         self.configureConstraints()
-        
+        self.autocorrectionType = .no
+        self.spellCheckingType = .no
+
         if withRightButton { self.addRightPadding() }
     }
 
@@ -46,7 +48,7 @@ extension BooltiTextField {
         self.textColor = .grey15
         self.backgroundColor = backgroundColor
 
-        self.addLeftPadding()
+        self.addPadding()
     }
     
     private func configureConstraints() {
@@ -55,10 +57,12 @@ extension BooltiTextField {
         }
     }
     
-    private func addLeftPadding() {
+    private func addPadding() {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: self.frame.height))
         self.leftView = paddingView
         self.leftViewMode = ViewMode.always
+        self.rightView = paddingView
+        self.rightViewMode = ViewMode.always
     }
     
     private func addRightPadding() {

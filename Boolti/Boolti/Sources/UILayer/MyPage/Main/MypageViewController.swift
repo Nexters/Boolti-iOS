@@ -18,6 +18,7 @@ final class MyPageViewController: BooltiViewController {
     private let ticketReservationsViewControllerFactory: () -> TicketReservationsViewController
     private let qrScanViewControllerFactory: () -> QRScannerListViewController
     private let settingViewControllerFactory: () -> SettingViewController
+    private let profileViewControllerFactory: () -> ProfileViewController
 
     private let disposeBag = DisposeBag()
     private let viewModel: MyPageViewModel
@@ -80,14 +81,16 @@ final class MyPageViewController: BooltiViewController {
         loginViewControllerFactory: @escaping () -> LoginViewController,
         ticketReservationsViewControllerFactory: @escaping () -> TicketReservationsViewController,
         qrScanViewControllerFactory: @escaping () -> QRScannerListViewController,
-        settingViewControllerFactory: @escaping () -> SettingViewController
+        settingViewControllerFactory: @escaping () -> SettingViewController,
+        profileViewControllerFactory: @escaping () -> ProfileViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.ticketReservationsViewControllerFactory = ticketReservationsViewControllerFactory
         self.qrScanViewControllerFactory = qrScanViewControllerFactory
         self.settingViewControllerFactory = settingViewControllerFactory
-
+        self.profileViewControllerFactory = profileViewControllerFactory
+        
         super.init()
     }
 
@@ -165,6 +168,14 @@ final class MyPageViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
         
+        self.profileView.didShowProfileButtonTap()
+            .filter{ _ in self.viewModel.output.isAccessTokenLoaded.value }
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.didProfileButtonTapEvent.onNext(())
+            }
+            .disposed(by: self.disposeBag)
+        
         self.settingNavigationView.rx.tapGesture()
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
@@ -233,7 +244,7 @@ final class MyPageViewController: BooltiViewController {
                 case .login:
                     viewController.modalPresentationStyle = .fullScreen
                     owner.present(viewController, animated: true)
-                case .setting, .ticketReservations, .qrScannerList:
+                case .setting, .ticketReservations, .qrScannerList, .profile:
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             })
@@ -246,6 +257,7 @@ final class MyPageViewController: BooltiViewController {
         case .qrScannerList: return qrScanViewControllerFactory()
         case .ticketReservations: return ticketReservationsViewControllerFactory()
         case .setting: return settingViewControllerFactory()
+        case .profile: return profileViewControllerFactory()
 
         }
     }

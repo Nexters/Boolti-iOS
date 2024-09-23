@@ -24,6 +24,7 @@ final class MypageProfileView: UIView {
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = .grey80
         imageView.layer.cornerRadius = 18
         imageView.clipsToBounds = true
@@ -51,19 +52,9 @@ final class MypageProfileView: UIView {
         return stackView
     }()
     
-    private let loginButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
-        config.title = "로그인"
-        config.attributedTitle?.font = .pretendardR(12)
-        config.background.backgroundColor = .grey80
-        config.baseForegroundColor = .grey05
-        config.background.cornerRadius = 4
-        
-        let button = UIButton(configuration: config)
-        return button
-    }()
-
+    private lazy var loginButton = self.makeRightButton(title: "로그인")
+    
+    private lazy var showProfileButton = self.makeRightButton(title: "프로필 보기")
 
     // MARK: Init
     
@@ -81,11 +72,27 @@ final class MypageProfileView: UIView {
 // MARK: - Methods
 
 extension MypageProfileView {
+    
+    private func makeRightButton(title: String) -> UIButton {
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
+        config.title = title
+        config.attributedTitle?.font = .pretendardR(12)
+        config.background.backgroundColor = .grey80
+        config.baseForegroundColor = .grey05
+        config.background.cornerRadius = 4
+        
+        let button = UIButton(configuration: config)
+        return button
+    }
+    
     func updateProfileUI() {
         self.profileImageView.isHidden = false
         
         self.profileNameLabel.text =  UserDefaults.userName.isEmpty ? "불티 유저" : UserDefaults.userName
-
+        
+        // TODO: 🚨 이렇게 userDefaults에 넣으면 앱을 깔았다가 다시 들어올 때 카톡 이미지가 보이게된다.
+        /// 그래서 여기서 유저 API를 한번 더 찌르게 구현하기!
         let profileImageURLPath = UserDefaults.userImageURLPath
 
         if profileImageURLPath.isEmpty {
@@ -97,16 +104,22 @@ extension MypageProfileView {
         }
         
         self.loginButton.isHidden = true
+        self.showProfileButton.isHidden = false
     }
 
     func resetProfileUI() {
         self.profileImageView.isHidden = true
         self.profileNameLabel.text = "로그인하고 이용해 보세요"
         self.loginButton.isHidden = false
+        self.showProfileButton.isHidden = true
     }
     
     func didLoginButtonTap() -> Signal<Void> {
         return self.loginButton.rx.tap.asSignal()
+    }
+    
+    func didShowProfileButtonTap() -> Signal<Void> {
+        return self.showProfileButton.rx.tap.asSignal()
     }
 }
 
@@ -116,7 +129,8 @@ extension MypageProfileView {
     
     private func configureUI() {
         self.addSubviews([self.profileStackView,
-                          self.loginButton])
+                          self.loginButton,
+                          self.showProfileButton])
         
         self.backgroundColor = .grey90
         self.layer.maskedCorners = CACornerMask(
@@ -135,12 +149,18 @@ extension MypageProfileView {
         }
         
         self.profileStackView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(29)
         }
         
         self.loginButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(20)
+            make.leading.equalTo(self.profileStackView.snp.trailing).offset(24)
+            make.trailing.equalToSuperview().inset(28)
+            make.centerY.equalTo(self.profileStackView)
+        }
+        
+        self.showProfileButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(28)
             make.centerY.equalTo(self.profileStackView)
         }
     }

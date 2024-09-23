@@ -17,6 +17,8 @@ enum NavigationType {
     case concertDetail
     case ticketingCompletion
     case tossPaymentsWidget
+    case addLink
+    case editProfile
 }
 
 final class BooltiNavigationBar: UIView {
@@ -48,6 +50,8 @@ final class BooltiNavigationBar: UIView {
     private lazy var shareButton = self.makeButton(image: .share)
     
     private lazy var moreButton = self.makeButton(image: .more)
+  
+    lazy var completeButton = self.makeButton(title: "완료")
     
     // MARK: Init
     
@@ -64,6 +68,8 @@ final class BooltiNavigationBar: UIView {
         case .concertDetail: self.configureConcertDetailUI()
         case .ticketingCompletion: self.configureTicketingCompletionUI()
         case .tossPaymentsWidget: self.configureTossPaymentsWidgetUI()
+        case .addLink: self.configureAddLink()
+        case .editProfile: self.configureEditProfileUI()
         }
     }
     
@@ -75,7 +81,12 @@ final class BooltiNavigationBar: UIView {
 // MARK: - Methods
 
 extension BooltiNavigationBar {
-    
+
+    // 임시로 추가
+    func changeTitle(to title: String) {
+        self.titleLabel.text = title
+    }
+
     func setBackgroundColor(with color: UIColor) {
         self.backgroundColor = color
     }
@@ -86,6 +97,15 @@ extension BooltiNavigationBar {
         button.tintColor = .grey10
         return button
     }
+
+    private func makeButton(title: String) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .subhead2
+        button.titleLabel?.textColor = .grey10
+        return button
+    }
+
 }
 
 // MARK: - UI
@@ -97,7 +117,7 @@ extension BooltiNavigationBar {
             make.height.equalTo(self.statusBarHeight + 44)
         }
     }
-
+    
     private func configureBackButtonUI() {
         self.addSubview(self.backButton)
         
@@ -110,7 +130,7 @@ extension BooltiNavigationBar {
     
     private func configureBackButtonWithTitleUI(_ title: String) {
         self.titleLabel.text = title
-
+        
         self.addSubviews([self.backButton, self.titleLabel])
         
         self.backButton.snp.makeConstraints { make in
@@ -146,7 +166,7 @@ extension BooltiNavigationBar {
     
     private func configureConcertDetailUI() {
         self.backgroundColor = .grey90
-
+        
         self.addSubviews([self.backButton, self.homeButton, self.shareButton, self.moreButton])
         
         self.backButton.snp.makeConstraints { make in
@@ -202,6 +222,37 @@ extension BooltiNavigationBar {
             make.bottom.equalToSuperview().inset(10)
         }
     }
+
+    private func configureAddLink() {
+        self.titleLabel.text = "링크 추가"
+        self.configureUIWithCompleteButton()
+    }
+    
+    private func configureEditProfileUI() {
+        self.titleLabel.text = "프로필 편집"
+        self.configureUIWithCompleteButton()
+    }
+    
+    private func configureUIWithCompleteButton() {
+        self.addSubviews([self.backButton, self.titleLabel, self.completeButton])
+        
+        self.backButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(20)
+            make.size.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+
+        self.titleLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.backButton.snp.right).offset(12)
+            make.bottom.equalToSuperview().inset(10)
+        }
+
+        self.completeButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(10)
+        }
+    }
+
 }
 
 // MARK: - Methods
@@ -227,4 +278,9 @@ extension BooltiNavigationBar {
     func didMoreButtonTap() -> Signal<Void> {
         return moreButton.rx.tap.asSignal()
     }
+
+    func didCompleteButtonTap() -> Signal<Void> {
+        return completeButton.rx.tap.asSignal()
+    }
+
 }

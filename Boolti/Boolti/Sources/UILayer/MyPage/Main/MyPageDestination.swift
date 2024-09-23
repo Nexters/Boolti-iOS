@@ -12,4 +12,5 @@ enum MyPageDestination {
     case qrScannerList
     case ticketReservations
     case setting
+    case profile
 }

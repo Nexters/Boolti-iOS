@@ -17,9 +17,21 @@ enum AuthAPI {
     case refresh(requestDTO: TokenRefreshRequestDTO)
     case resign(requestDTO: ResignRequestDTO)
     case user
+    case editProfile(requestDTO: EditProfileRequestDTO)
+    case getUploadImageURL
+    case uploadProfileImage(data: UploadProfileImageRequestDTO)
 }
 
 extension AuthAPI: ServiceAPI {
+    
+    var baseURL: URL {
+        switch self {
+        case .uploadProfileImage(let data):
+            return URL(string: data.uploadUrl)!
+        default:
+            return URL(string: Environment.BASE_URL)!
+        }
+    }
     
     var path: String {
         switch self {
@@ -31,8 +43,12 @@ extension AuthAPI: ServiceAPI {
             return "/papi/v1/signup/sns"
         case .refresh:
             return "/papi/v1/login/refresh"
-        case .resign, .user:
+        case .resign, .user, .editProfile:
             return "/api/v1/user"
+        case .getUploadImageURL:
+            return "/api/v1/user/profile-images/upload-urls"
+        case .uploadProfileImage:
+            return ""
         }
     }
 
@@ -42,6 +58,10 @@ extension AuthAPI: ServiceAPI {
             return .delete
         case .user:
             return .get
+        case .editProfile:
+            return .patch
+        case .uploadProfileImage:
+            return .put
         default:
             return .post
         }
@@ -49,10 +69,12 @@ extension AuthAPI: ServiceAPI {
 
     var headers: [String : String]? {
         switch self {
-        case .logout, .user:
+        case .logout, .user, .getUploadImageURL:
             return nil
-        case .login, .refresh, .signup, .resign:
+        case .login, .refresh, .signup, .resign, .editProfile:
             return ["Content-Type": "application/json"]
+        case .uploadProfileImage:
+            return ["Content-Type": "image/jpeg"]
         }
     }
 
@@ -67,7 +89,7 @@ extension AuthAPI: ServiceAPI {
                 params = ["idToken": DTO.accessToken]
             }
             return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
-        case .logout, .user:
+        case .logout, .user, .getUploadImageURL:
             return .requestPlain
         case .signup(let DTO):
             return .requestJSONEncodable(DTO)
@@ -75,6 +97,10 @@ extension AuthAPI: ServiceAPI {
             return .requestJSONEncodable(DTO)
         case .resign(let DTO):
             return .requestJSONEncodable(DTO)
+        case .editProfile(let DTO):
+            return .requestJSONEncodable(DTO)
+        case .uploadProfileImage(let DTO):
+            return .requestData(DTO.imageData.jpegData(compressionQuality: 0.8) ?? Data())
         }
     }
 }

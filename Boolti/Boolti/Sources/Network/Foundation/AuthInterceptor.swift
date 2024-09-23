@@ -21,10 +21,14 @@ final class AuthInterceptor: RequestInterceptor {
 
         var urlRequest = urlRequest
 
-        urlRequest.headers.add(.authorization(bearerToken: UserDefaults.accessToken))
-        
-        debugPrint("🔥 요청한 AccessToken: \(UserDefaults.accessToken) 🔥")
-        debugPrint("🔥 요청한 userId: \(UserDefaults.userId) 🔥")
+        if urlRequest.method == .put {
+            debugPrint("🔥 이미지 업로드 요청 🔥")
+        } else {
+            urlRequest.headers.add(.authorization(bearerToken: UserDefaults.accessToken))
+            
+            debugPrint("🔥 요청한 AccessToken: \(UserDefaults.accessToken) 🔥")
+            debugPrint("🔥 요청한 userId: \(UserDefaults.userId) 🔥")
+        }
 
         completion(.success(urlRequest))
     }

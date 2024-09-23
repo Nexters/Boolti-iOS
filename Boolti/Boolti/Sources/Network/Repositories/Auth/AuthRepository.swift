@@ -5,7 +5,7 @@
 //  Created by Miro on 1/23/24.
 //
 
-import Foundation
+import UIKit
 
 import RxSwift
 import KakaoSDKUser
@@ -20,7 +20,11 @@ protocol AuthRepositoryType {
     func signUp(provider: OAuthProvider, identityToken: String?) -> Single<Void>
     func logout() -> Single<Void>
     func userInfo() -> Single<Void>
+    func userProfile() -> Single<UserResponseDTO>
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void>
+    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void>
+    func getUploadImageURL() -> Single<GetUploadURLReponseDTO>
+    func uploadProfileImage(uploadURL: String, imageData: UIImage) -> Single<String>
 }
 
 final class AuthRepository: AuthRepositoryType {
@@ -169,6 +173,18 @@ final class AuthRepository: AuthRepositoryType {
             })
     }
     
+    func userProfile() -> Single<UserResponseDTO> {
+        let api = AuthAPI.user
+        return self.networkService.request(api)
+            .map(UserResponseDTO.self)
+            .flatMap({ user -> Single<UserResponseDTO> in
+                UserDefaults.userName = user.nickname ?? ""
+                UserDefaults.userImageURLPath = user.imgPath ?? ""
+
+                return .just(user)
+            })
+    }
+    
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void> {
         let api = AuthAPI.resign(requestDTO: ResignRequestDTO(reason: reason,
                                                               appleIdAuthorizationCode: appleIdAuthorizationCode))
@@ -179,4 +195,33 @@ final class AuthRepository: AuthRepositoryType {
             })
             .map { _ in return () }
     }
+    
+    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void> {
+        let api = AuthAPI.editProfile(requestDTO: EditProfileRequestDTO(nickname: nickname,
+                                                                         profileImagePath: profileImageUrl,
+                                                                         introduction: introduction,
+                                                                         link: links))
+        return self.networkService.request(api)
+            .map(UserResponseDTO.self)
+            .flatMap({ user -> Single<Void> in
+                UserDefaults.userName = user.nickname ?? ""
+                UserDefaults.userImageURLPath = user.imgPath ?? ""
+                return .just(())
+            })
+    }
+    
+    func getUploadImageURL() -> Single<GetUploadURLReponseDTO> {
+        let api = AuthAPI.getUploadImageURL
+        
+        return self.networkService.request(api)
+            .map(GetUploadURLReponseDTO.self)
+    }
+    
+    func uploadProfileImage(uploadURL: String, imageData: UIImage) -> Single<String> {
+        let api = AuthAPI.uploadProfileImage(data: UploadProfileImageRequestDTO(uploadUrl: uploadURL, image: imageData))
+        
+        return self.networkService.request(api)
+            .map { _ in return uploadURL }
+    }
+
 }

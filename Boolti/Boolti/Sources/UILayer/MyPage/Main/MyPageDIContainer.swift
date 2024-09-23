@@ -19,8 +19,8 @@ final class MyPageDIContainer {
 
         let loginViewControllerFactory: () -> LoginViewController = {
             let DIContainer = self.createLoginViewDIContainer()
-
             let viewController = DIContainer.createLoginViewController()
+            
             return viewController
         }
 
@@ -44,13 +44,21 @@ final class MyPageDIContainer {
             
             return viewController
         }
+        
+        let profileViewControllerFactory = {
+            let DIContainer = ProfileDIContainer(authRepository: self.authRepository)
+            let viewController = DIContainer.createProfileViewController()
+            
+            return viewController
+        }
 
         let viewController = MyPageViewController(
             viewModel: self.createMyPageViewModel(),
             loginViewControllerFactory: loginViewControllerFactory,
             ticketReservationsViewControllerFactory: ticketReservationsViewControllerFactory,
             qrScanViewControllerFactory: QRScannerListViewControllerFactory,
-            settingViewControllerFactory: settingViewControllerFactory
+            settingViewControllerFactory: settingViewControllerFactory,
+            profileViewControllerFactory: profileViewControllerFactory
         )
 
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -76,6 +84,6 @@ final class MyPageDIContainer {
     }
 
     private func createMyPageViewModel() -> MyPageViewModel {
-        return MyPageViewModel(authRepository: self.authRepository, networkService: self.authRepository.networkService)
+        return MyPageViewModel(authRepository: self.authRepository)
     }
 }

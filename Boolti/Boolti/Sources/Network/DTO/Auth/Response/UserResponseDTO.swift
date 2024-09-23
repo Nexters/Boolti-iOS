@@ -14,4 +14,12 @@ struct UserResponseDTO: Decodable {
     let userCode: String?
     let email: String?
     let imgPath: String?
+    let introduction: String?
+    let link: [LinkEntity]?
+    
+}
+
+struct LinkEntity: Codable, Equatable {
+    let title: String
+    let link: String
 }

@@ -13,7 +13,6 @@ import RxRelay
 final class MyPageViewModel {
 
     private let authRepository: AuthRepositoryType
-    private let networkService: NetworkProviderType
 
     struct Input {
         var viewDidAppearEvent = PublishSubject<Void>()
@@ -21,6 +20,7 @@ final class MyPageViewModel {
         var didSettingViewTapEvent = PublishSubject<Void>()
         var didTicketingReservationsViewTapEvent = PublishSubject<Void>()
         var didQRScannerListViewTapEvent = PublishSubject<Void>()
+        var didProfileButtonTapEvent = PublishSubject<Void>()
     }
 
     struct Output {
@@ -33,8 +33,7 @@ final class MyPageViewModel {
 
     private let disposeBag = DisposeBag()
 
-    init(authRepository: AuthRepositoryType, networkService: NetworkProviderType) {
-        self.networkService = networkService
+    init(authRepository: AuthRepositoryType) {
         self.authRepository = authRepository
 
         self.input = Input()
@@ -84,6 +83,15 @@ final class MyPageViewModel {
                     return owner.output.navigation.accept(.login)
                 }
                 owner.output.navigation.accept(.qrScannerList)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.input.didProfileButtonTapEvent
+            .subscribe(with: self) { owner, _ in
+                guard owner.output.isAccessTokenLoaded.value else {
+                    return owner.output.navigation.accept(.login)
+                }
+                owner.output.navigation.accept(.profile)
             }
             .disposed(by: self.disposeBag)
     }
