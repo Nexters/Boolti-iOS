@@ -16,7 +16,18 @@ final class EditIntroductionView: UIView {
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
-    
+
+    var isShowingPlaceHolder:  Bool = true {
+        didSet {
+            switch self.isShowingPlaceHolder {
+            case true:
+                self.introductionTextView.textColor = .grey70
+            case false:
+                self.introductionTextView.textColor = .grey10
+            }
+        }
+    }
+
     // MARK: UI Components
     private let introductionLabel: BooltiUILabel = {
         let label = BooltiUILabel()
@@ -73,7 +84,7 @@ extension EditIntroductionView {
         guard let introduction = introduction else { return }
         
         if !introduction.isEmpty {
-            self.introductionTextView.textColor = .grey10
+            self.isShowingPlaceHolder = false
             self.introductionTextView.text = introduction
             self.textCountLabel.text = "\(introduction.count)/60자"
         }
@@ -82,9 +93,9 @@ extension EditIntroductionView {
     private func bindTextView() {
         self.introductionTextView.rx.didBeginEditing
             .bind(with: self) { owner, _ in
-                if owner.introductionTextView.textColor == .grey70 {
+                if owner.isShowingPlaceHolder {
                     owner.introductionTextView.text = nil
-                    owner.introductionTextView.textColor = .grey10
+                    owner.isShowingPlaceHolder = false
                 }
             }
             .disposed(by: self.disposeBag)
@@ -94,7 +105,7 @@ extension EditIntroductionView {
                 guard let changedText = owner.introductionTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
                 
                 if changedText.isEmpty {
-                    owner.introductionTextView.textColor = .grey70
+                    owner.isShowingPlaceHolder = true
                     owner.introductionTextView.text = "예) 재즈와 펑크락을 좋아해요"
                 }
             }
@@ -109,10 +120,10 @@ extension EditIntroductionView {
                     owner.introductionTextView.deleteBackward()
                 }
                 
-                if owner.introductionTextView.textColor == .grey10 {
-                    owner.textCountLabel.text = "\(changedText.count)/60자"
-                } else {
+                if owner.isShowingPlaceHolder {
                     owner.textCountLabel.text = "0/60자"
+                } else {
+                    owner.textCountLabel.text = "\(changedText.count)/60자"
                 }
                 
                 owner.introductionTextView.setLineHeight(alignment: .left)
