@@ -120,7 +120,7 @@ extension ConcertListViewController {
         self.viewModel.output.didConcertFetch
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { owner, concerts in
-                owner.mainCollectionView.reloadSections([2, 4], animationStyle: .automatic)
+                owner.mainCollectionView.reloadSections([2, 3, 4], animationStyle: .automatic)
             }
             .disposed(by: self.disposeBag)
         
@@ -209,9 +209,11 @@ extension ConcertListViewController: UICollectionViewDataSource {
         switch section {
         case .topConcerts:
             return viewModel.output.topConcerts.count
+        case .banner:
+            return viewModel.output.showBanner ? 1 : 0
         case .bottomConcerts:
             return viewModel.output.bottomConcerts.count
-        case .title, .searchBar, .banner, .information:
+        case .title, .searchBar, .information:
             return 1
         }
     }
