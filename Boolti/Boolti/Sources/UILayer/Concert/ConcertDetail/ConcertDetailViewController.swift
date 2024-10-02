@@ -60,6 +60,7 @@ final class ConcertDetailViewController: BooltiViewController {
 
         stackView.addArrangedSubviews([self.concertPosterView,
                                        self.ticketingPeriodView,
+                                       self.segmentedControlContainerView,
                                        self.datetimeInfoView,
                                        self.placeInfoView,
                                        self.contentInfoView,
@@ -74,7 +75,9 @@ final class ConcertDetailViewController: BooltiViewController {
     private let ticketingPeriodView = TicketingPeriodView()
     
     private let datetimeInfoView = DatetimeInfoView()
-    
+
+    private let segmentedControlContainerView = SegmentedControlContainerView(items: ["공연 정보", "출연진"])
+
     private let placeInfoView = PlaceInfoView()
     
     private let contentInfoView = ContentInfoView()
@@ -363,6 +366,7 @@ extension ConcertDetailViewController {
                                self.dimmedBackgroundView])
         
         self.view.backgroundColor = .grey95
+        self.configureSegmentedControl()
     }
     
     private func configureConstraints() {
@@ -385,7 +389,7 @@ extension ConcertDetailViewController {
             make.width.equalToSuperview()
             make.edges.equalTo(self.scrollView)
         }
-        
+
         self.buttonBackgroundView.snp.makeConstraints { make in
             make.bottom.equalTo(self.ticketingButton.snp.top)
             make.horizontalEdges.equalToSuperview()
@@ -396,5 +400,23 @@ extension ConcertDetailViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
+    }
+
+    private func configureSegmentedControl() {
+        self.segmentedControlContainerView.segmentedControl.setTitleTextAttributes(
+            [
+            NSAttributedString.Key.foregroundColor: UIColor.grey70,
+            .font: UIFont.subhead1
+            ],
+            for: .normal
+        )
+        self.segmentedControlContainerView.segmentedControl.setTitleTextAttributes(
+            [
+            NSAttributedString.Key.foregroundColor: UIColor.grey10,
+            .font: UIFont.subhead1
+            ],
+            for: .selected
+        )
+        self.segmentedControlContainerView.segmentedControl.selectedSegmentIndex = 0
     }
 }
