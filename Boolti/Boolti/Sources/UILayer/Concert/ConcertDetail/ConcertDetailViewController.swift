@@ -293,17 +293,14 @@ extension ConcertDetailViewController {
                 guard let concertID = owner.viewModel.output.concertDetail.value?.id else { return }
 
                 let image = KFImage(URL(string: posterURL))
-                guard let longDeepLinkURL = owner.concerDetailDeepLinkURL(concertID) else { return }
 
-                DynamicLinkComponents.shortenURL(longDeepLinkURL, options: nil) { url, warnings, error in
-                    guard let url = url, error == nil else { return }
-                    let activityViewController = UIActivityViewController(
-                        activityItems: [url, image],
-                        applicationActivities: nil
-                    )
-                    activityViewController.popoverPresentationController?.sourceView = owner.view
-                    owner.present(activityViewController, animated: true, completion: nil)
-                }
+                guard let link = URL(string: "https://preview.boolti.in/show/\(concertID)") else { return }
+                let activityViewController = UIActivityViewController(
+                    activityItems: [link, image],
+                    applicationActivities: nil
+                )
+                activityViewController.popoverPresentationController?.sourceView = owner.view
+                owner.present(activityViewController, animated: true, completion: nil)
             }
             .disposed(by: self.disposeBag)
         self.navigationBar.didMoreButtonTap()
@@ -338,16 +335,6 @@ extension ConcertDetailViewController {
                 owner.present(owner.contactViewControllerFactory(.message, phoneNumber), animated: true)
             }
             .disposed(by: self.disposeBag)
-    }
-
-    private func concerDetailDeepLinkURL(_ concertID: Int) -> URL? {
-        guard let link = URL(string: "https://preview.boolti.in/show/\(concertID)") else { return nil }
-        let dynamicLinksDomainURIPrefix = AppInfo.booltiDeepLinkPrefix
-        guard let linkBuilder = DynamicLinkComponents(
-            link: link,
-            domainURIPrefix: dynamicLinksDomainURIPrefix
-        ) else { return nil }
-        return linkBuilder.url
     }
 }
 
