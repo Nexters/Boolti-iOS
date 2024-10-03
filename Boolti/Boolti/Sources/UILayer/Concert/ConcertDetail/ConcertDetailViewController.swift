@@ -31,7 +31,7 @@ final class ConcertDetailViewController: BooltiViewController {
     private let reportViewControllerFactory: () -> ReportViewController
     private let ticketSelectionViewControllerFactory: (ConcertId, TicketingType) -> TicketSelectionViewController
     private let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController
-    
+
     // MARK: UI Component
     
     private let navigationBar = BooltiNavigationBar(type: .concertDetail)
@@ -58,18 +58,45 @@ final class ConcertDetailViewController: BooltiViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
 
-        stackView.addArrangedSubviews([self.concertPosterView,
-                                       self.ticketingPeriodView,
-                                       self.segmentedControlContainerView,
-                                       self.datetimeInfoView,
-                                       self.placeInfoView,
-                                       self.contentInfoView,
-                                       self.organizerInfoView])
-        
+        stackView.addArrangedSubviews([
+            self.concertPosterView,
+            self.ticketingPeriodView,
+            self.segmentedControlContainerView,
+            self.concertDetailStackView,
+            self.castTeamsListStackView
+        ])
+
         stackView.setCustomSpacing(40, after: self.concertPosterView)
+        stackView.setCustomSpacing(40, after: self.ticketingPeriodView)
         return stackView
     }()
-    
+
+    private lazy var concertDetailStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.isHidden = false
+
+        stackView.addArrangedSubviews([
+            self.datetimeInfoView,
+            self.placeInfoView,
+//            self.contentInfoView,
+//            self.organizerInfoView
+        ])
+        return stackView
+    }()
+
+    private lazy var castTeamsListStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.isHidden = true
+
+        stackView.addArrangedSubviews([
+            self.contentInfoView,
+            self.organizerInfoView
+        ])
+        return stackView
+    }()
+
     private let concertPosterView = ConcertPosterView()
     
     private let ticketingPeriodView = TicketingPeriodView()
@@ -418,5 +445,13 @@ extension ConcertDetailViewController {
             for: .selected
         )
         self.segmentedControlContainerView.segmentedControl.selectedSegmentIndex = 0
+
+        self.segmentedControlContainerView.segmentedControl.rx.selectedSegmentIndex
+            .asDriver()
+            .drive(with: self, onNext: { owner, _ in
+                owner.concertDetailStackView.isHidden.toggle()
+                owner.castTeamsListStackView.isHidden.toggle()
+            })
+            .disposed(by: self.disposeBag)
     }
 }
