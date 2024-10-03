@@ -286,6 +286,7 @@
 		8726054F2B79FD49005CD0D4 /* TicketReservationDetailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8726054E2B79FD49005CD0D4 /* TicketReservationDetailRequestDTO.swift */; };
 		872605512B79FDE8005CD0D4 /* TicketReservationDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872605502B79FDE8005CD0D4 /* TicketReservationDetailResponseDTO.swift */; };
 		872605532B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872605522B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift */; };
+		8730BD5E2CAE7E110093A00F /* CastTeamListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8730BD5D2CAE7E110093A00F /* CastTeamListCollectionViewCell.swift */; };
 		8730F0102B7B107F00D4F339 /* TicketRefundReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8730F00F2B7B107F00D4F339 /* TicketRefundReasonViewController.swift */; };
 		8730F0122B7B108F00D4F339 /* TicketRefundReasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8730F0112B7B108F00D4F339 /* TicketRefundReasonViewModel.swift */; };
 		8730F0142B7B10A300D4F339 /* TicketRefundReasonDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8730F0132B7B10A300D4F339 /* TicketRefundReasonDIContainer.swift */; };
@@ -666,6 +667,7 @@
 		8726054E2B79FD49005CD0D4 /* TicketReservationDetailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailRequestDTO.swift; sourceTree = "<group>"; };
 		872605502B79FDE8005CD0D4 /* TicketReservationDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailResponseDTO.swift; sourceTree = "<group>"; };
 		872605522B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailEntity.swift; sourceTree = "<group>"; };
+		8730BD5D2CAE7E110093A00F /* CastTeamListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastTeamListCollectionViewCell.swift; sourceTree = "<group>"; };
 		8730F00F2B7B107F00D4F339 /* TicketRefundReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundReasonViewController.swift; sourceTree = "<group>"; };
 		8730F0112B7B108F00D4F339 /* TicketRefundReasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundReasonViewModel.swift; sourceTree = "<group>"; };
 		8730F0132B7B10A300D4F339 /* TicketRefundReasonDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRefundReasonDIContainer.swift; sourceTree = "<group>"; };
@@ -1803,6 +1805,7 @@
 				84886E912B70AA85005D2329 /* OrganizerInfoView.swift */,
 				87C7A5EB2CADABDA0078213E /* UnderlineSegmentedControl.swift */,
 				87C7A5ED2CADB1CD0078213E /* SegmentedControlContainerView.swift */,
+				8730BD5D2CAE7E110093A00F /* CastTeamListCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2693,6 +2696,7 @@
 				8730F02E2B7BAA2B00D4F339 /* RefundAccountNumberView.swift in Sources */,
 				87F63D732C3F8504001D7A56 /* GiftReservationDetailResponseDTO.swift in Sources */,
 				8746AD202B6932B30037A1B1 /* ConcertEnterView.swift in Sources */,
+				8730BD5E2CAE7E110093A00F /* CastTeamListCollectionViewCell.swift in Sources */,
 				8753CA7B2B7225AA002871C7 /* TicketDetailResponseDTO.swift in Sources */,
 				87F63D6B2C3F7E55001D7A56 /* GiftCompletionViewController.swift in Sources */,
 				87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */,

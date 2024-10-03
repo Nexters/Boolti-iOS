@@ -63,7 +63,7 @@ final class ConcertDetailViewController: BooltiViewController {
             self.ticketingPeriodView,
             self.segmentedControlContainerView,
             self.concertDetailStackView,
-            self.castTeamsListStackView
+            self.castTeamListCollectionView
         ])
 
         stackView.setCustomSpacing(40, after: self.concertPosterView)
@@ -79,22 +79,28 @@ final class ConcertDetailViewController: BooltiViewController {
         stackView.addArrangedSubviews([
             self.datetimeInfoView,
             self.placeInfoView,
-//            self.contentInfoView,
-//            self.organizerInfoView
-        ])
-        return stackView
-    }()
-
-    private lazy var castTeamsListStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.isHidden = true
-
-        stackView.addArrangedSubviews([
             self.contentInfoView,
             self.organizerInfoView
         ])
         return stackView
+    }()
+
+    private lazy var castTeamListCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = .green
+        collectionView.isHidden = true
+
+        collectionView.register(
+            CastTeamListCollectionViewCell.self,
+            forCellWithReuseIdentifier: CastTeamListCollectionViewCell.className
+        )
+
+        return collectionView
     }()
 
     private let concertPosterView = ConcertPosterView()
@@ -182,6 +188,11 @@ final class ConcertDetailViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.dimmedBackgroundView.isHidden = true
         self.viewModel.fetchConcertDetail()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.updateCollectionViewHeight()
     }
 }
 
@@ -427,6 +438,11 @@ extension ConcertDetailViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
+
+        self.castTeamListCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(100) // 초기 설정
+            make.horizontalEdges.equalToSuperview()
+        }
     }
 
     private func configureSegmentedControl() {
@@ -448,10 +464,59 @@ extension ConcertDetailViewController {
 
         self.segmentedControlContainerView.segmentedControl.rx.selectedSegmentIndex
             .asDriver()
+            .skip(1)
             .drive(with: self, onNext: { owner, _ in
                 owner.concertDetailStackView.isHidden.toggle()
-                owner.castTeamsListStackView.isHidden.toggle()
+                owner.castTeamListCollectionView.isHidden.toggle()
             })
             .disposed(by: self.disposeBag)
+    }
+}
+
+// MARK: CollectionView
+
+extension ConcertDetailViewController {
+
+    private func updateCollectionViewHeight() {
+        self.castTeamListCollectionView.snp.updateConstraints { make in
+            make.height.equalTo(self.castTeamListCollectionView.contentSize.height)
+        }
+    }
+}
+
+// MARK: CollectionViewDatasource
+
+extension ConcertDetailViewController: UICollectionViewDataSource {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 18
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CastTeamListCollectionViewCell.className,
+            for: indexPath
+        ) as? CastTeamListCollectionViewCell else {
+            fatalError("Failed to load cell!")
+        }
+        return cell
+    }
+}
+
+// MARK: CollectionViewDelegateFlowLayout
+
+extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width / 2
+        let size = CGSize(width: width, height: 48)
+        return size
     }
 }
