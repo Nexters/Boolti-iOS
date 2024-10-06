@@ -36,7 +36,7 @@ final class CastTeamListCollectionViewCell: UICollectionViewCell {
         let label = BooltiUILabel()
         label.font = .body1
         label.textColor = .grey50
-        label.text = "보컬"
+        label.text = "보컬보렄보컬보렄보컬보렄보컬보렄보컬보렄보컬보렄보컬보렄보컬보렄보컬보렄"
 
         return label
     }()
@@ -58,6 +58,13 @@ final class CastTeamListCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.profileNameLabel.text = ""
+        self.profileImageView.image = nil
+        self.roleNameLabel.text = ""
+    }
+
     private func configureUI() {
         self.contentView.addSubviews([
             self.profileImageView,
@@ -72,6 +79,8 @@ final class CastTeamListCollectionViewCell: UICollectionViewCell {
 
         self.profileStackView.snp.makeConstraints { make in
             make.leading.equalTo(self.profileImageView.snp.trailing).offset(8)
+            make.trailing.equalToSuperview()
+            make.verticalEdges.equalToSuperview()
         }
     }
 }

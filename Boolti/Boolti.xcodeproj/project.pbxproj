@@ -358,6 +358,8 @@
 		87C7594C2BA93EA40009A83E /* NotificationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7594B2BA93EA40009A83E /* NotificationMessage.swift */; };
 		87C7A5EC2CADABDA0078213E /* UnderlineSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7A5EB2CADABDA0078213E /* UnderlineSegmentedControl.swift */; };
 		87C7A5EE2CADB1CD0078213E /* SegmentedControlContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7A5ED2CADB1CD0078213E /* SegmentedControlContainerView.swift */; };
+		87CC3FEB2CB255D00056A974 /* CastTeamListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FEA2CB255D00056A974 /* CastTeamListHeaderView.swift */; };
+		87CC3FED2CB25E9A0056A974 /* CastTeamListFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FEC2CB25E9A0056A974 /* CastTeamListFooterView.swift */; };
 		87CE4F6A2B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */; };
 		87CE4F6C2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */; };
 		87CE4F6F2B8DDA59007A0C8F /* PushNotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */; };
@@ -739,6 +741,8 @@
 		87C7594B2BA93EA40009A83E /* NotificationMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationMessage.swift; sourceTree = "<group>"; };
 		87C7A5EB2CADABDA0078213E /* UnderlineSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentedControl.swift; sourceTree = "<group>"; };
 		87C7A5ED2CADB1CD0078213E /* SegmentedControlContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlContainerView.swift; sourceTree = "<group>"; };
+		87CC3FEA2CB255D00056A974 /* CastTeamListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastTeamListHeaderView.swift; sourceTree = "<group>"; };
+		87CC3FEC2CB25E9A0056A974 /* CastTeamListFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastTeamListFooterView.swift; sourceTree = "<group>"; };
 		87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterRequestDTO.swift; sourceTree = "<group>"; };
 		87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterResponseDTO.swift; sourceTree = "<group>"; };
 		87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationAPI.swift; sourceTree = "<group>"; };
@@ -1806,6 +1810,8 @@
 				87C7A5EB2CADABDA0078213E /* UnderlineSegmentedControl.swift */,
 				87C7A5ED2CADB1CD0078213E /* SegmentedControlContainerView.swift */,
 				8730BD5D2CAE7E110093A00F /* CastTeamListCollectionViewCell.swift */,
+				87CC3FEA2CB255D00056A974 /* CastTeamListHeaderView.swift */,
+				87CC3FEC2CB25E9A0056A974 /* CastTeamListFooterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2673,6 +2679,7 @@
 				84A0248C2B7B996F0095A56E /* QRScannerDIContainer.swift in Sources */,
 				84EF916A2B8A435C0073C89A /* PosterCollectionViewCell.swift in Sources */,
 				84781CBE2B5BF95100D37921 /* MyPageDIContainer.swift in Sources */,
+				87CC3FED2CB25E9A0056A974 /* CastTeamListFooterView.swift in Sources */,
 				87F63D782C3F8A8C001D7A56 /* ReservationDetailDTOProtocol.swift in Sources */,
 				84781BCF2B5BDAFC00D37921 /* SceneDelegate.swift in Sources */,
 				842C1C642B7DA8A700EFE5A0 /* ResignInfoDIContainer.swift in Sources */,
@@ -2742,6 +2749,7 @@
 				870099BE2B7767E7001779FB /* EmptyReservationsView.swift in Sources */,
 				87F63D692C3F7E46001D7A56 /* GiftCompletionDIContainer.swift in Sources */,
 				8710D9542B74FAB500309FBF /* LogoutViewController.swift in Sources */,
+				87CC3FEB2CB255D00056A974 /* CastTeamListHeaderView.swift in Sources */,
 				87CE4F6F2B8DDA59007A0C8F /* PushNotificationAPI.swift in Sources */,
 				872605462B7932BD005CD0D4 /* TicketReservationDetailViewModel.swift in Sources */,
 				84781CC52B5BF9DE00D37921 /* TicketListViewController.swift in Sources */,
