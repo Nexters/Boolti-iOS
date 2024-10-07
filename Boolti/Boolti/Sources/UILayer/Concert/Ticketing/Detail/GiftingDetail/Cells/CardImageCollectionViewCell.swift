@@ -18,6 +18,13 @@ final class CardImageCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    private let dimmedView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black100.withAlphaComponent(0.45)
+        view.isHidden = true
+        return view
+    }()
+    
     // MARK: Initailizer
     
     override init(frame: CGRect) {
@@ -36,9 +43,11 @@ final class CardImageCollectionViewCell: UICollectionViewCell {
         didSet {
             if isSelected {
                 self.layer.borderColor = UIColor.orange01.cgColor
-                self.layer.borderWidth = 1
+                self.layer.borderWidth = 2
+                self.dimmedView.isHidden = false
             } else {
                 self.layer.borderWidth = 0
+                self.dimmedView.isHidden = true
             }
         }
     }
@@ -68,13 +77,18 @@ extension CardImageCollectionViewCell {
     private func configureUI() {
         self.layer.cornerRadius = 4
         self.clipsToBounds = true
-        self.addSubview(self.cardImageView)
+        self.addSubviews([self.cardImageView,
+                          self.dimmedView])
         
         self.configureConstraints()
     }
     
     private func configureConstraints() {
         self.cardImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        self.dimmedView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
