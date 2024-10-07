@@ -540,14 +540,21 @@ extension ConcertDetailViewController: UICollectionViewDataSource {
         ) as? CastTeamListCollectionViewCell else {
             fatalError("Failed to load cell!")
         }
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return UICollectionViewCell() }
+
+        let entity = listEntities[indexPath.section].members[indexPath.row]
+        cell.configure(with: entity)
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return UICollectionReusableView() }
+
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CastTeamListHeaderView.className, for: indexPath) as? CastTeamListHeaderView else { return UICollectionReusableView() }
-            headerView.configure(with: "Salty & Sweet")
+            let headerTitle = listEntities[indexPath.section].name
+            headerView.configure(with: headerTitle)
             return headerView
         case UICollectionView.elementKindSectionFooter:
             guard let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CastTeamListFooterView.className, for: indexPath) as? CastTeamListFooterView else { return UICollectionReusableView() }

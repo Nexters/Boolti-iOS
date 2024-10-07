@@ -63,6 +63,12 @@ final class CastTeamListCollectionViewCell: UICollectionViewCell {
         self.roleNameLabel.text = ""
     }
 
+    func configure(with entity: TeamMember) {
+        self.profileNameLabel.text = entity.nickName
+        self.roleNameLabel.text = entity.roleName
+        self.profileImageView.setImage(with: entity.imagePath)
+    }
+
     private func configureUI() {
         self.contentView.addSubviews([
             self.profileImageView,
