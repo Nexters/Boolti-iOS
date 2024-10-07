@@ -366,6 +366,7 @@
 		87CC3FF52CB40F2F0056A974 /* RepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FF42CB40F2F0056A974 /* RepositoryType.swift */; };
 		87CC3FF72CB415BB0056A974 /* ConcertUserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FF62CB415BB0056A974 /* ConcertUserProfileRequestDTO.swift */; };
 		87CC3FF92CB43A240056A974 /* ConcertUserProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FF82CB43A240056A974 /* ConcertUserProfileResponseDTO.swift */; };
+		87CC3FFB2CB44B000056A974 /* EmptyCastTeamListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FFA2CB44B000056A974 /* EmptyCastTeamListView.swift */; };
 		87CE4F6A2B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */; };
 		87CE4F6C2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */; };
 		87CE4F6F2B8DDA59007A0C8F /* PushNotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */; };
@@ -755,6 +756,7 @@
 		87CC3FF42CB40F2F0056A974 /* RepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryType.swift; sourceTree = "<group>"; };
 		87CC3FF62CB415BB0056A974 /* ConcertUserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertUserProfileRequestDTO.swift; sourceTree = "<group>"; };
 		87CC3FF82CB43A240056A974 /* ConcertUserProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertUserProfileResponseDTO.swift; sourceTree = "<group>"; };
+		87CC3FFA2CB44B000056A974 /* EmptyCastTeamListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCastTeamListView.swift; sourceTree = "<group>"; };
 		87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterRequestDTO.swift; sourceTree = "<group>"; };
 		87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterResponseDTO.swift; sourceTree = "<group>"; };
 		87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationAPI.swift; sourceTree = "<group>"; };
@@ -1830,6 +1832,7 @@
 				8730BD5D2CAE7E110093A00F /* CastTeamListCollectionViewCell.swift */,
 				87CC3FEA2CB255D00056A974 /* CastTeamListHeaderView.swift */,
 				87CC3FEC2CB25E9A0056A974 /* CastTeamListFooterView.swift */,
+				87CC3FFA2CB44B000056A974 /* EmptyCastTeamListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2816,6 +2819,7 @@
 				8757BAB02B60069B008503B5 /* OAuthResponse.swift in Sources */,
 				8710D9562B74FAC100309FBF /* LogoutViewModel.swift in Sources */,
 				8753CA6C2B70E17B002871C7 /* TicketEntryCodeViewController.swift in Sources */,
+				87CC3FFB2CB44B000056A974 /* EmptyCastTeamListView.swift in Sources */,
 				845D88532B87704A00179F60 /* ResignReasonDIContainer.swift in Sources */,
 				84A024882B7B8AA70095A56E /* QRScannerEntity.swift in Sources */,
 				872605492B793A3F005CD0D4 /* ReservationCollapsableStackView.swift in Sources */,

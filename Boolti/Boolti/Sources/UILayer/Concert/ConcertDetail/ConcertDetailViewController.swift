@@ -284,9 +284,12 @@ extension ConcertDetailViewController {
         self.viewModel.output.teamListEntities
             .asDriver()
             .drive(with: self) { owner, entity in
-                owner.castTeamListCollectionView.reloadData()
-                owner.castTeamListCollectionView.layoutIfNeeded()
-                owner.updateCollectionViewHeight()
+                guard let entity else { return }
+                if entity.isEmpty {
+                    owner.configureEmptyCastTeamListView()
+                } else {
+                    owner.configureCollectionView()
+                }
             }
             .disposed(by: self.disposeBag)
     }
@@ -397,6 +400,18 @@ extension ConcertDetailViewController {
                 owner.present(owner.contactViewControllerFactory(.message, phoneNumber), animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+
+    private func configureCollectionView() {
+        self.castTeamListCollectionView.reloadData()
+        self.castTeamListCollectionView.layoutIfNeeded()
+        self.updateCollectionViewHeight()
+    }
+
+    private func configureEmptyCastTeamListView() {
+        self.castTeamListCollectionView.isHidden = true
+        let emptyCastTeamListView = EmptyCastTeamListView()
+        self.stackView.addArrangedSubview(emptyCastTeamListView)
     }
 }
 
