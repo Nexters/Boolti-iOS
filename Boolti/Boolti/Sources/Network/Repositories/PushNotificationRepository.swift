@@ -10,7 +10,7 @@ import Foundation
 import FirebaseMessaging
 import RxSwift
 
-protocol PushNotificationRepositoryType {
+protocol PushNotificationRepositoryType: RepositoryType {
 
     var networkService: NetworkProviderType { get }
     func registerDeviceToken()

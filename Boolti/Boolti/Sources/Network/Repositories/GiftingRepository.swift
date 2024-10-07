@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-protocol GiftingRepositoryType {
+protocol GiftingRepositoryType: RepositoryType {
     var networkService: NetworkProviderType { get }
     func savePaymentInfo(concertId: Int,
                          selectedTicket: SelectedTicketEntity) -> Single<SavePaymentInfoResponseDTO>

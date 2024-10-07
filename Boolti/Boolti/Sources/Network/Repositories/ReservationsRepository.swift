@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-protocol ReservationRepositoryType {
+protocol ReservationRepositoryType: RepositoryType {
     
     var networkService: NetworkProviderType { get }
     func ticketReservations() -> Single<[TicketReservationItemEntity]>

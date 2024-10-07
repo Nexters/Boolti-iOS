@@ -363,6 +363,9 @@
 		87CC3FEF2CB2683E0056A974 /* ConcertCastTeamListRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FEE2CB2683E0056A974 /* ConcertCastTeamListRequestDTO.swift */; };
 		87CC3FF12CB269390056A974 /* ConcertCastTeamListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FF02CB269390056A974 /* ConcertCastTeamListResponseDTO.swift */; };
 		87CC3FF32CB26AF60056A974 /* ConcertCastTeamListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FF22CB26AF60056A974 /* ConcertCastTeamListEntity.swift */; };
+		87CC3FF52CB40F2F0056A974 /* RepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FF42CB40F2F0056A974 /* RepositoryType.swift */; };
+		87CC3FF72CB415BB0056A974 /* ConcertUserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FF62CB415BB0056A974 /* ConcertUserProfileRequestDTO.swift */; };
+		87CC3FF92CB43A240056A974 /* ConcertUserProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FF82CB43A240056A974 /* ConcertUserProfileResponseDTO.swift */; };
 		87CE4F6A2B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */; };
 		87CE4F6C2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */; };
 		87CE4F6F2B8DDA59007A0C8F /* PushNotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */; };
@@ -749,6 +752,9 @@
 		87CC3FEE2CB2683E0056A974 /* ConcertCastTeamListRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCastTeamListRequestDTO.swift; sourceTree = "<group>"; };
 		87CC3FF02CB269390056A974 /* ConcertCastTeamListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCastTeamListResponseDTO.swift; sourceTree = "<group>"; };
 		87CC3FF22CB26AF60056A974 /* ConcertCastTeamListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCastTeamListEntity.swift; sourceTree = "<group>"; };
+		87CC3FF42CB40F2F0056A974 /* RepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryType.swift; sourceTree = "<group>"; };
+		87CC3FF62CB415BB0056A974 /* ConcertUserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertUserProfileRequestDTO.swift; sourceTree = "<group>"; };
+		87CC3FF82CB43A240056A974 /* ConcertUserProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertUserProfileResponseDTO.swift; sourceTree = "<group>"; };
 		87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterRequestDTO.swift; sourceTree = "<group>"; };
 		87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterResponseDTO.swift; sourceTree = "<group>"; };
 		87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationAPI.swift; sourceTree = "<group>"; };
@@ -1152,6 +1158,7 @@
 				870099B62B77489A001779FB /* ReservationsRepository.swift */,
 				87CE4F702B8DF7CE007A0C8F /* PushNotificationRepository.swift */,
 				846F5F3D2B7BBF60000F86AE /* QRRepository.swift */,
+				87CC3FF42CB40F2F0056A974 /* RepositoryType.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1710,6 +1717,7 @@
 				840B39602B78CE6300E7F8C8 /* ConcertListRequestDTO.swift */,
 				84DC6F662B728858001F9576 /* ConcertDetailRequestDTO.swift */,
 				87CC3FEE2CB2683E0056A974 /* ConcertCastTeamListRequestDTO.swift */,
+				87CC3FF62CB415BB0056A974 /* ConcertUserProfileRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1718,6 +1726,7 @@
 			isa = PBXGroup;
 			children = (
 				840B39622B78CEF700E7F8C8 /* ConcertListResponseDTO.swift */,
+				87CC3FF82CB43A240056A974 /* ConcertUserProfileResponseDTO.swift */,
 				87CC3FF02CB269390056A974 /* ConcertCastTeamListResponseDTO.swift */,
 				84C6E0022B7320280023BAE6 /* ConcertDetailResponseDTO.swift */,
 			);
@@ -2597,6 +2606,7 @@
 				226D42BF2B9EBA3E00680198 /* BooltiBusinessInfoView.swift in Sources */,
 				84781BCD2B5BDAFC00D37921 /* AppDelegate.swift in Sources */,
 				87D2FAB42B6E977C0027FBE1 /* TicketDetailDIContainer.swift in Sources */,
+				87CC3FF72CB415BB0056A974 /* ConcertUserProfileRequestDTO.swift in Sources */,
 				8730F0122B7B108F00D4F339 /* TicketRefundReasonViewModel.swift in Sources */,
 				84781BF02B5BE3C000D37921 /* NetworkProviderType.swift in Sources */,
 				8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */,
@@ -2706,6 +2716,7 @@
 				842183732B71D75D00A52E1C /* ConcertDetailEntity.swift in Sources */,
 				84C6E0032B7320280023BAE6 /* ConcertDetailResponseDTO.swift in Sources */,
 				870099B32B7744B5001779FB /* TicketReservationItemResponseDTO.swift in Sources */,
+				87CC3FF52CB40F2F0056A974 /* RepositoryType.swift in Sources */,
 				8769BF9A2B625DC900DA9A67 /* TermsAgreementDIContainer.swift in Sources */,
 				22CF3A382BB806560094711C /* MiddlemanPolicyView.swift in Sources */,
 				87F7DF472B8275980068A6C9 /* EntryCodeErrorResponseDTO.swift in Sources */,
@@ -2839,6 +2850,7 @@
 				22DEF7852C28397600EA492A /* GiftingDetailViewModel.swift in Sources */,
 				84A7134C2B7C89A1000BABCB /* QRExpandViewModel.swift in Sources */,
 				2233EAAB2BD7A1E200A315BF /* OrderPaymentResponseDTO.swift in Sources */,
+				87CC3FF92CB43A240056A974 /* ConcertUserProfileResponseDTO.swift in Sources */,
 				871996F52C2C2B85003F3845 /* SocialServiceButton.swift in Sources */,
 				877563DA2B6E0CDA001504FE /* TicketListFooterView.swift in Sources */,
 				878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */,

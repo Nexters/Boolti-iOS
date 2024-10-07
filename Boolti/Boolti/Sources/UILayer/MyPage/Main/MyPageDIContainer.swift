@@ -46,8 +46,8 @@ final class MyPageDIContainer {
         }
         
         let profileViewControllerFactory = {
-            let DIContainer = ProfileDIContainer(authRepository: self.authRepository)
-            let viewController = DIContainer.createProfileViewController()
+            let DIContainer = ProfileDIContainer(repository: self.authRepository)
+            let viewController = DIContainer.createMyProfileViewController()
             
             return viewController
         }

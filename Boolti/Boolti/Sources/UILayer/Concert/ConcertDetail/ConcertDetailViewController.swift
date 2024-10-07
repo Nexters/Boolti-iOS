@@ -21,7 +21,8 @@ final class ConcertDetailViewController: BooltiViewController {
     typealias Posters = [ConcertDetailEntity.Poster]
     typealias ConcertId = Int
     typealias PhoneNumber = String
-    
+    typealias UserCode = String
+
     private let viewModel: ConcertDetailViewModel
     private let disposeBag = DisposeBag()
     
@@ -31,6 +32,7 @@ final class ConcertDetailViewController: BooltiViewController {
     private let reportViewControllerFactory: () -> ReportViewController
     private let ticketSelectionViewControllerFactory: (ConcertId, TicketingType) -> TicketSelectionViewController
     private let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController
+    private let profileViewControllerFactory: (UserCode) -> ProfileViewController
 
     // MARK: UI Component
     
@@ -161,7 +163,9 @@ final class ConcertDetailViewController: BooltiViewController {
          concertContentExpandViewControllerFactory: @escaping (Content) -> ConcertContentExpandViewController,
          reportViewControllerFactory: @escaping () -> ReportViewController,
          ticketSelectionViewControllerFactory: @escaping (ConcertId, TicketingType) -> TicketSelectionViewController,
-         contactViewControllerFactory: @escaping (ContactType, PhoneNumber) -> ContactViewController) {
+         contactViewControllerFactory: @escaping (ContactType, PhoneNumber) -> ContactViewController,
+         profileViewControllerFactory: @escaping (UserCode) -> ProfileViewController
+    ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.posterExpandViewControllerFactory = posterExpandViewControllerFactory
@@ -169,7 +173,8 @@ final class ConcertDetailViewController: BooltiViewController {
         self.reportViewControllerFactory = reportViewControllerFactory
         self.ticketSelectionViewControllerFactory = ticketSelectionViewControllerFactory
         self.contactViewControllerFactory = contactViewControllerFactory
-        
+        self.profileViewControllerFactory = profileViewControllerFactory
+
         super.init()
     }
 
@@ -292,7 +297,6 @@ extension ConcertDetailViewController {
         self.bindContentInfoView()
         self.bindNavigationBar()
         self.bindOrganizerInfoView()
-        self.bindCollectionView()
     }
     
     private func bindPlaceInfoView() {
@@ -393,10 +397,6 @@ extension ConcertDetailViewController {
                 owner.present(owner.contactViewControllerFactory(.message, phoneNumber), animated: true)
             }
             .disposed(by: self.disposeBag)
-    }
-
-    private func bindCollectionView() {
-//        self.
     }
 }
 
@@ -584,4 +584,17 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
         let width = collectionView.frame.width
         return CGSize(width: width, height: 1)
     }
+}
+
+// MARK: UICollectionViewDelegate
+
+extension ConcertDetailViewController: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return }
+        let user = listEntities[indexPath.section].members[indexPath.row]
+        let viewController = self.profileViewControllerFactory(user.code)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+
 }
