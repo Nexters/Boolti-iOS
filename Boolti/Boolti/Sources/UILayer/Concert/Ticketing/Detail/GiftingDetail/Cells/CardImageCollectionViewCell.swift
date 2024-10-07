@@ -14,6 +14,7 @@ final class CardImageCollectionViewCell: UICollectionViewCell {
     private let cardImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey50
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     

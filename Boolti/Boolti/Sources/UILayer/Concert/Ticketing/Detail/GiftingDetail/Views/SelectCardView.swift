@@ -56,10 +56,9 @@ final class SelectCardView: UIView {
     
     private let selectedImageView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.backgroundColor = .white00
         imageView.backgroundColor = .clear
-        imageView.image = .giftcard
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -137,15 +136,14 @@ extension SelectCardView {
                           self.messageTextView,
                           self.messageCountLabel,
                           self.selectedImageView,
-                          /*self.cardImageCollectionView*/])
+                          self.cardImageCollectionView])
         
         self.configureConstraints()
     }
     
     private func configureConstraints() {
         self.snp.makeConstraints { make in
-//            make.height.equalTo(self.cardHeight + 156)
-            make.height.equalTo(self.cardHeight + 40)
+            make.height.equalTo(self.cardHeight + 140)
         }
         
         self.selectedCardBackgroundView.snp.makeConstraints { make in
@@ -166,20 +164,16 @@ extension SelectCardView {
         }
         
         self.selectedImageView.snp.makeConstraints { make in
-//            make.horizontalEdges.equalTo(self.messageTextView)
-//            make.height.equalTo((self.cardWidth - 40) * (2/3))
-//            make.bottom.equalTo(self.selectedCardBackgroundView).inset(32)
-
-            make.centerX.equalToSuperview()
-            make.size.equalTo(232)
+            make.horizontalEdges.equalTo(self.messageTextView)
+            make.height.equalTo((self.cardWidth - 40) * 0.78)
             make.bottom.equalTo(self.selectedCardBackgroundView)
         }
         
-//        self.cardImageCollectionView.snp.makeConstraints { make in
-//            make.horizontalEdges.equalToSuperview()
-//            make.top.equalTo(self.selectedCardBackgroundView.snp.bottom).offset(44)
-//            make.bottom.equalToSuperview().inset(36)
-//        }
+        self.cardImageCollectionView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.top.equalTo(self.selectedCardBackgroundView.snp.bottom).offset(32)
+            make.bottom.equalToSuperview().inset(32)
+        }
     }
     
 }
