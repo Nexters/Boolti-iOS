@@ -18,7 +18,7 @@ final class CastTeamListCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 24
         imageView.clipsToBounds = true
         imageView.layer.borderColor = UIColor.grey80.cgColor
-        imageView.image = .kakao
+        imageView.image = .defaultProfile
 
         return imageView
     }()
@@ -27,7 +27,6 @@ final class CastTeamListCollectionViewCell: UICollectionViewCell {
         let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .grey10
-        label.text = "김불티"
 
         return label
     }()
@@ -36,7 +35,6 @@ final class CastTeamListCollectionViewCell: UICollectionViewCell {
         let label = BooltiUILabel()
         label.font = .body1
         label.textColor = .grey50
-        label.text = "보컬보렄보컬보렄보컬보렄보컬보렄보컬보렄보컬보렄보컬보렄보컬보렄보컬보렄"
 
         return label
     }()

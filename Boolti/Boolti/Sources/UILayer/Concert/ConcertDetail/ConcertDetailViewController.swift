@@ -275,6 +275,15 @@ extension ConcertDetailViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+
+        self.viewModel.output.teamListEntities
+            .asDriver()
+            .drive(with: self) { owner, entity in
+                owner.castTeamListCollectionView.reloadData()
+                owner.castTeamListCollectionView.layoutIfNeeded()
+                owner.updateCollectionViewHeight()
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func bindUIComponents() {
@@ -283,6 +292,7 @@ extension ConcertDetailViewController {
         self.bindContentInfoView()
         self.bindNavigationBar()
         self.bindOrganizerInfoView()
+        self.bindCollectionView()
     }
     
     private func bindPlaceInfoView() {
@@ -384,6 +394,10 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
     }
+
+    private func bindCollectionView() {
+//        self.
+    }
 }
 
 // MARK: - UIScrollViewDelegate
@@ -468,13 +482,25 @@ extension ConcertDetailViewController {
             for: .selected
         )
         self.segmentedControlContainerView.segmentedControl.selectedSegmentIndex = 0
+        
+        let selectedSegmentIndex =  self.segmentedControlContainerView.segmentedControl.rx.selectedSegmentIndex
 
-        self.segmentedControlContainerView.segmentedControl.rx.selectedSegmentIndex
+        selectedSegmentIndex
             .asDriver()
+            .distinctUntilChanged()
             .skip(1)
             .drive(with: self, onNext: { owner, _ in
                 owner.concertDetailStackView.isHidden.toggle()
                 owner.castTeamListCollectionView.isHidden.toggle()
+            })
+            .disposed(by: self.disposeBag)
+
+        selectedSegmentIndex
+            .distinctUntilChanged()
+            .filter { $0 == 1 }
+            .take(1)
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.viewModel.fetchCastTeamList()
             })
             .disposed(by: self.disposeBag)
     }
@@ -496,11 +522,15 @@ extension ConcertDetailViewController {
 extension ConcertDetailViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return 0 }
+        return listEntities.count
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 19
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return 0 }
+        let members = listEntities[section].members
+
+        return members.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

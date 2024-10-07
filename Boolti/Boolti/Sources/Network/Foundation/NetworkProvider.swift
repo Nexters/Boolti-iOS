@@ -26,7 +26,6 @@ final class NetworkProvider: NetworkProviderType {
         let baseURL = "\(api.baseURL)"
         let requestString = "\(api.path)"
         let endpoint = MultiTarget.target(api)
-
         return provider.rx.request(endpoint)
             .do(
                 onSuccess: { response in

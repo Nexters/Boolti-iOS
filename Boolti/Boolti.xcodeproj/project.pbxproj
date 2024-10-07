@@ -360,6 +360,9 @@
 		87C7A5EE2CADB1CD0078213E /* SegmentedControlContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7A5ED2CADB1CD0078213E /* SegmentedControlContainerView.swift */; };
 		87CC3FEB2CB255D00056A974 /* CastTeamListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FEA2CB255D00056A974 /* CastTeamListHeaderView.swift */; };
 		87CC3FED2CB25E9A0056A974 /* CastTeamListFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FEC2CB25E9A0056A974 /* CastTeamListFooterView.swift */; };
+		87CC3FEF2CB2683E0056A974 /* ConcertCastTeamListRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FEE2CB2683E0056A974 /* ConcertCastTeamListRequestDTO.swift */; };
+		87CC3FF12CB269390056A974 /* ConcertCastTeamListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FF02CB269390056A974 /* ConcertCastTeamListResponseDTO.swift */; };
+		87CC3FF32CB26AF60056A974 /* ConcertCastTeamListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CC3FF22CB26AF60056A974 /* ConcertCastTeamListEntity.swift */; };
 		87CE4F6A2B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */; };
 		87CE4F6C2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */; };
 		87CE4F6F2B8DDA59007A0C8F /* PushNotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */; };
@@ -743,6 +746,9 @@
 		87C7A5ED2CADB1CD0078213E /* SegmentedControlContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlContainerView.swift; sourceTree = "<group>"; };
 		87CC3FEA2CB255D00056A974 /* CastTeamListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastTeamListHeaderView.swift; sourceTree = "<group>"; };
 		87CC3FEC2CB25E9A0056A974 /* CastTeamListFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastTeamListFooterView.swift; sourceTree = "<group>"; };
+		87CC3FEE2CB2683E0056A974 /* ConcertCastTeamListRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCastTeamListRequestDTO.swift; sourceTree = "<group>"; };
+		87CC3FF02CB269390056A974 /* ConcertCastTeamListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCastTeamListResponseDTO.swift; sourceTree = "<group>"; };
+		87CC3FF22CB26AF60056A974 /* ConcertCastTeamListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCastTeamListEntity.swift; sourceTree = "<group>"; };
 		87CE4F692B8DD9A8007A0C8F /* DeviceTokenRegisterRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterRequestDTO.swift; sourceTree = "<group>"; };
 		87CE4F6B2B8DD9BB007A0C8F /* DeviceTokenRegisterResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTokenRegisterResponseDTO.swift; sourceTree = "<group>"; };
 		87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationAPI.swift; sourceTree = "<group>"; };
@@ -1684,6 +1690,7 @@
 			children = (
 				840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */,
 				842183722B71D75D00A52E1C /* ConcertDetailEntity.swift */,
+				87CC3FF22CB26AF60056A974 /* ConcertCastTeamListEntity.swift */,
 			);
 			path = Concert;
 			sourceTree = "<group>";
@@ -1702,6 +1709,7 @@
 			children = (
 				840B39602B78CE6300E7F8C8 /* ConcertListRequestDTO.swift */,
 				84DC6F662B728858001F9576 /* ConcertDetailRequestDTO.swift */,
+				87CC3FEE2CB2683E0056A974 /* ConcertCastTeamListRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1710,6 +1718,7 @@
 			isa = PBXGroup;
 			children = (
 				840B39622B78CEF700E7F8C8 /* ConcertListResponseDTO.swift */,
+				87CC3FF02CB269390056A974 /* ConcertCastTeamListResponseDTO.swift */,
 				84C6E0022B7320280023BAE6 /* ConcertDetailResponseDTO.swift */,
 			);
 			path = Response;
@@ -2557,6 +2566,7 @@
 				84886E8C2B70A45F005D2329 /* DatetimeInfoView.swift in Sources */,
 				84896A512B6A827E00CB3E33 /* ReservedTicketView.swift in Sources */,
 				84886E922B70AA85005D2329 /* OrganizerInfoView.swift in Sources */,
+				87CC3FF12CB269390056A974 /* ConcertCastTeamListResponseDTO.swift in Sources */,
 				8757BAAC2B5FDF69008503B5 /* AppleOAuth.swift in Sources */,
 				22CDB2C62BA2635E00D2077D /* BusinessInfoDIContainer.swift in Sources */,
 				845D88592B877B0E00179F60 /* ResignRequestDTO.swift in Sources */,
@@ -2664,6 +2674,8 @@
 				8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */,
 				87F7DF492B8275D30068A6C9 /* EntryCodeErrorEntity.swift in Sources */,
 				845D88552B87705700179F60 /* ResignReasonViewController.swift in Sources */,
+				87CC3FF32CB26AF60056A974 /* ConcertCastTeamListEntity.swift in Sources */,
+				87CC3FEF2CB2683E0056A974 /* ConcertCastTeamListRequestDTO.swift in Sources */,
 				879E923A2BFB5DC200EC7ED1 /* GradientBackgroundView.swift in Sources */,
 				840B395F2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift in Sources */,
 				87F63D752C3F85DB001D7A56 /* GiftReservationDetailEntity.swift in Sources */,

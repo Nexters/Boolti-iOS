@@ -65,6 +65,8 @@ final class ConcertDetailViewModel {
     struct Output {
         let navigate = PublishRelay<ConcertDetailDestination>()
         let concertDetail = BehaviorRelay<ConcertDetailEntity?>(value: nil)
+        var teamListEntities = BehaviorRelay<[ConcertCastTeamListEntity]?>(value: nil)
+
         let buttonState = BehaviorRelay<ConcertTicketingState>(value: .endSale)
     }
     
@@ -81,7 +83,7 @@ final class ConcertDetailViewModel {
         self.concertId = concertId
         self.input = Input()
         self.output = Output()
-        
+
         self.bindInputs()
         self.bindOutputs()
     }
@@ -155,6 +157,13 @@ extension ConcertDetailViewModel {
         self.concertRepository.concertDetail(concertId: self.concertId)
             .asObservable()
             .bind(to: self.output.concertDetail)
+            .disposed(by: self.disposeBag)
+    }
+
+    func fetchCastTeamList() {
+        self.concertRepository.castTeamList(concertId: self.concertId)
+            .asObservable()
+            .bind(to: self.output.teamListEntities)
             .disposed(by: self.disposeBag)
     }
 
