@@ -15,23 +15,19 @@ final class SelectCardView: UIView {
     
     private let disposeBag = DisposeBag()
     private let cardWidth: CGFloat = UIScreen.main.bounds.width - 64
-    private lazy var cardHeight: CGFloat = cardWidth * 1.23
+    private lazy var cardHeight: CGFloat = cardWidth * 1.267
     
     // MARK: UI Component
     
-    private lazy var selectedCardBackgroundView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 8
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.init("FFA883").cgColor
-        view.clipsToBounds = true
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = .init(x: 0, y: 0, width: self.cardWidth, height: self.cardHeight)
-        gradientLayer.colors = [UIColor.init("FF5A14").cgColor,
-                                UIColor.init("FFA883").cgColor]
-        view.layer.addSublayer(gradientLayer)
-        return view
+    private let selectedCardBackgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 8
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.white00.withAlphaComponent(0.4).cgColor
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .clear
+        imageView.contentMode = .scaleAspectFill
+        return imageView
     }()
     
     let messageTextView: UITextView = {
@@ -52,14 +48,6 @@ final class SelectCardView: UIView {
         label.font = .caption
         label.textColor = .grey10
         return label
-    }()
-    
-    private let selectedImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.backgroundColor = .clear
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
-        return imageView
     }()
     
     lazy var cardImageCollectionView: UICollectionView = {
@@ -95,7 +83,7 @@ final class SelectCardView: UIView {
 extension SelectCardView {
     
     func setSelectedImage(with imageURL: String) {
-        self.selectedImageView.setImage(with: imageURL)
+        self.selectedCardBackgroundImageView.setImage(with: imageURL)
     }
     
     private func bindUIComponent() {
@@ -132,10 +120,9 @@ extension SelectCardView: UICollectionViewDelegateFlowLayout {
 extension SelectCardView {
     
     private func configureUI() {
-        self.addSubviews([self.selectedCardBackgroundView,
+        self.addSubviews([self.selectedCardBackgroundImageView,
                           self.messageTextView,
                           self.messageCountLabel,
-                          self.selectedImageView,
                           self.cardImageCollectionView])
         
         self.configureConstraints()
@@ -146,32 +133,26 @@ extension SelectCardView {
             make.height.equalTo(self.cardHeight + 140)
         }
         
-        self.selectedCardBackgroundView.snp.makeConstraints { make in
+        self.selectedCardBackgroundImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(24)
             make.horizontalEdges.equalToSuperview().inset(32)
             make.height.equalTo(self.cardHeight)
         }
         
         self.messageTextView.snp.makeConstraints { make in
-            make.top.equalTo(self.selectedCardBackgroundView).inset(32)
-            make.horizontalEdges.equalTo(self.selectedCardBackgroundView).inset(20)
+            make.top.equalTo(self.selectedCardBackgroundImageView).inset(32)
+            make.horizontalEdges.equalTo(self.selectedCardBackgroundImageView).inset(20)
             make.height.lessThanOrEqualTo(80)
         }
         
         self.messageCountLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.selectedImageView.snp.top).offset(-28)
-        }
-        
-        self.selectedImageView.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(self.messageTextView)
-            make.height.equalTo((self.cardWidth - 40) * 0.78)
-            make.bottom.equalTo(self.selectedCardBackgroundView)
+            make.top.equalTo(self.messageTextView.snp.bottom).offset(12)
         }
         
         self.cardImageCollectionView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(self.selectedCardBackgroundView.snp.bottom).offset(32)
+            make.top.equalTo(self.selectedCardBackgroundImageView.snp.bottom).offset(32)
             make.bottom.equalToSuperview().inset(32)
         }
     }
