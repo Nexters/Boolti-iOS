@@ -12,7 +12,8 @@ import KakaoSDKUser
 import RxKakaoSDKUser
 import SwiftJWT
 
-protocol AuthRepositoryType {
+// TODO: Auth와 유저의 정보 관리 API 나누기
+protocol AuthRepositoryType: RepositoryType {
 
     var networkService: NetworkProviderType { get }
     func fetchTokens() -> (String, String)

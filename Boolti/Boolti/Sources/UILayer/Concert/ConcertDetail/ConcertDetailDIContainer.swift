@@ -13,7 +13,8 @@ final class ConcertDetailDIContainer {
     typealias Content = String
     typealias ConcertId = Int
     typealias PhoneNumber = String
-    
+    typealias UserCode = String
+
     private let authRepository: AuthRepository
     private let concertRepository: ConcertRepository
 
@@ -72,6 +73,13 @@ final class ConcertDetailDIContainer {
             return viewController
         }
 
+        let profileViewControllerFactory: (UserCode) -> ProfileViewController = { (userCode) in
+            let DIContainer = self.createProfileDIContainer()
+
+            let viewController = DIContainer.createProfileViewController(userCode: userCode)
+            return viewController
+        }
+
         let viewController = ConcertDetailViewController(
             viewModel: viewModel, 
             loginViewControllerFactory: loginViewControllerFactory,
@@ -79,7 +87,8 @@ final class ConcertDetailDIContainer {
             concertContentExpandViewControllerFactory: concertContentExpandViewControllerFactory,
             reportViewControllerFactory: reportViewControllerFactory,
             ticketSelectionViewControllerFactory: ticketSelectionViewControllerFactory,
-            contactViewControllerFactory: contactViewControllerFactory
+            contactViewControllerFactory: contactViewControllerFactory,
+            profileViewControllerFactory: profileViewControllerFactory
         )
 
         return viewController
@@ -116,6 +125,10 @@ final class ConcertDetailDIContainer {
     private func createConcertDetailViewModel(concertId: Int) -> ConcertDetailViewModel {
         return ConcertDetailViewModel(concertRepository: self.concertRepository,
                                       concertId: concertId)
+    }
+
+    private func createProfileDIContainer() -> ProfileDIContainer {
+        return ProfileDIContainer(repository: self.concertRepository)
     }
 
 }

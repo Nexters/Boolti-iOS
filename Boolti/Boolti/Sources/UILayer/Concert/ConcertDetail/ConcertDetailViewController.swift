@@ -21,7 +21,8 @@ final class ConcertDetailViewController: BooltiViewController {
     typealias Posters = [ConcertDetailEntity.Poster]
     typealias ConcertId = Int
     typealias PhoneNumber = String
-    
+    typealias UserCode = String
+
     private let viewModel: ConcertDetailViewModel
     private let disposeBag = DisposeBag()
     
@@ -31,7 +32,8 @@ final class ConcertDetailViewController: BooltiViewController {
     private let reportViewControllerFactory: () -> ReportViewController
     private let ticketSelectionViewControllerFactory: (ConcertId, TicketingType) -> TicketSelectionViewController
     private let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController
-    
+    private let profileViewControllerFactory: (UserCode) -> ProfileViewController
+
     // MARK: UI Component
     
     private let navigationBar = BooltiNavigationBar(type: .concertDetail)
@@ -58,23 +60,66 @@ final class ConcertDetailViewController: BooltiViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
 
-        stackView.addArrangedSubviews([self.concertPosterView,
-                                       self.ticketingPeriodView,
-                                       self.datetimeInfoView,
-                                       self.placeInfoView,
-                                       self.contentInfoView,
-                                       self.organizerInfoView])
-        
+        stackView.addArrangedSubviews([
+            self.concertPosterView,
+            self.ticketingPeriodView,
+            self.segmentedControlContainerView,
+            self.concertDetailStackView,
+            self.castTeamListCollectionView
+        ])
+
         stackView.setCustomSpacing(40, after: self.concertPosterView)
+        stackView.setCustomSpacing(40, after: self.ticketingPeriodView)
         return stackView
     }()
-    
+
+    private lazy var concertDetailStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.isHidden = false
+
+        stackView.addArrangedSubviews([
+            self.datetimeInfoView,
+            self.placeInfoView,
+            self.contentInfoView,
+            self.organizerInfoView
+        ])
+        return stackView
+    }()
+
+    private lazy var castTeamListCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 32, right: 20)
+        flowLayout.minimumLineSpacing = 20
+        flowLayout.minimumInteritemSpacing = 0
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = .grey95
+        collectionView.isScrollEnabled = false
+        collectionView.isHidden = true
+
+        collectionView.register(
+            CastTeamListCollectionViewCell.self,
+            forCellWithReuseIdentifier: CastTeamListCollectionViewCell.className
+        )
+
+        collectionView.register(CastTeamListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CastTeamListHeaderView.className)
+        collectionView.register(CastTeamListFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CastTeamListFooterView.className)
+
+        return collectionView
+    }()
+
     private let concertPosterView = ConcertPosterView()
     
     private let ticketingPeriodView = TicketingPeriodView()
     
     private let datetimeInfoView = DatetimeInfoView()
-    
+
+    private let segmentedControlContainerView = SegmentedControlContainerView(items: ["공연 정보", "출연진"])
+
     private let placeInfoView = PlaceInfoView()
     
     private let contentInfoView = ContentInfoView()
@@ -118,7 +163,9 @@ final class ConcertDetailViewController: BooltiViewController {
          concertContentExpandViewControllerFactory: @escaping (Content) -> ConcertContentExpandViewController,
          reportViewControllerFactory: @escaping () -> ReportViewController,
          ticketSelectionViewControllerFactory: @escaping (ConcertId, TicketingType) -> TicketSelectionViewController,
-         contactViewControllerFactory: @escaping (ContactType, PhoneNumber) -> ContactViewController) {
+         contactViewControllerFactory: @escaping (ContactType, PhoneNumber) -> ContactViewController,
+         profileViewControllerFactory: @escaping (UserCode) -> ProfileViewController
+    ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
         self.posterExpandViewControllerFactory = posterExpandViewControllerFactory
@@ -126,7 +173,8 @@ final class ConcertDetailViewController: BooltiViewController {
         self.reportViewControllerFactory = reportViewControllerFactory
         self.ticketSelectionViewControllerFactory = ticketSelectionViewControllerFactory
         self.contactViewControllerFactory = contactViewControllerFactory
-        
+        self.profileViewControllerFactory = profileViewControllerFactory
+
         super.init()
     }
 
@@ -152,6 +200,11 @@ final class ConcertDetailViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.dimmedBackgroundView.isHidden = true
         self.viewModel.fetchConcertDetail()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.updateCollectionViewHeight()
     }
 }
 
@@ -227,6 +280,18 @@ extension ConcertDetailViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+
+        self.viewModel.output.teamListEntities
+            .asDriver()
+            .drive(with: self) { owner, entity in
+                guard let entity else { return }
+                if entity.isEmpty {
+                    owner.configureEmptyCastTeamListView()
+                } else {
+                    owner.configureCollectionView()
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func bindUIComponents() {
@@ -293,17 +358,14 @@ extension ConcertDetailViewController {
                 guard let concertID = owner.viewModel.output.concertDetail.value?.id else { return }
 
                 let image = KFImage(URL(string: posterURL))
-                guard let longDeepLinkURL = owner.concerDetailDeepLinkURL(concertID) else { return }
 
-                DynamicLinkComponents.shortenURL(longDeepLinkURL, options: nil) { url, warnings, error in
-                    guard let url = url, error == nil else { return }
-                    let activityViewController = UIActivityViewController(
-                        activityItems: [url, image],
-                        applicationActivities: nil
-                    )
-                    activityViewController.popoverPresentationController?.sourceView = owner.view
-                    owner.present(activityViewController, animated: true, completion: nil)
-                }
+                guard let link = URL(string: "https://preview.boolti.in/show/\(concertID)") else { return }
+                let activityViewController = UIActivityViewController(
+                    activityItems: [link, image],
+                    applicationActivities: nil
+                )
+                activityViewController.popoverPresentationController?.sourceView = owner.view
+                owner.present(activityViewController, animated: true, completion: nil)
             }
             .disposed(by: self.disposeBag)
         self.navigationBar.didMoreButtonTap()
@@ -340,14 +402,16 @@ extension ConcertDetailViewController {
             .disposed(by: self.disposeBag)
     }
 
-    private func concerDetailDeepLinkURL(_ concertID: Int) -> URL? {
-        guard let link = URL(string: "https://preview.boolti.in/show/\(concertID)") else { return nil }
-        let dynamicLinksDomainURIPrefix = AppInfo.booltiDeepLinkPrefix
-        guard let linkBuilder = DynamicLinkComponents(
-            link: link,
-            domainURIPrefix: dynamicLinksDomainURIPrefix
-        ) else { return nil }
-        return linkBuilder.url
+    private func configureCollectionView() {
+        self.castTeamListCollectionView.reloadData()
+        self.castTeamListCollectionView.layoutIfNeeded()
+        self.updateCollectionViewHeight()
+    }
+
+    private func configureEmptyCastTeamListView() {
+        self.castTeamListCollectionView.isHidden = true
+        let emptyCastTeamListView = EmptyCastTeamListView()
+        self.stackView.addArrangedSubview(emptyCastTeamListView)
     }
 }
 
@@ -376,6 +440,7 @@ extension ConcertDetailViewController {
                                self.dimmedBackgroundView])
         
         self.view.backgroundColor = .grey95
+        self.configureSegmentedControl()
     }
     
     private func configureConstraints() {
@@ -398,7 +463,7 @@ extension ConcertDetailViewController {
             make.width.equalToSuperview()
             make.edges.equalTo(self.scrollView)
         }
-        
+
         self.buttonBackgroundView.snp.makeConstraints { make in
             make.bottom.equalTo(self.ticketingButton.snp.top)
             make.horizontalEdges.equalToSuperview()
@@ -409,5 +474,142 @@ extension ConcertDetailViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-8)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
+
+        self.castTeamListCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(100) // 초기 설정
+            make.horizontalEdges.equalToSuperview()
+        }
     }
+
+    private func configureSegmentedControl() {
+        self.segmentedControlContainerView.segmentedControl.setTitleTextAttributes(
+            [
+            NSAttributedString.Key.foregroundColor: UIColor.grey70,
+            .font: UIFont.subhead1
+            ],
+            for: .normal
+        )
+        self.segmentedControlContainerView.segmentedControl.setTitleTextAttributes(
+            [
+            NSAttributedString.Key.foregroundColor: UIColor.grey10,
+            .font: UIFont.subhead1
+            ],
+            for: .selected
+        )
+        self.segmentedControlContainerView.segmentedControl.selectedSegmentIndex = 0
+        
+        let selectedSegmentIndex =  self.segmentedControlContainerView.segmentedControl.rx.selectedSegmentIndex
+
+        selectedSegmentIndex
+            .asDriver()
+            .distinctUntilChanged()
+            .skip(1)
+            .drive(with: self, onNext: { owner, _ in
+                owner.concertDetailStackView.isHidden.toggle()
+                owner.castTeamListCollectionView.isHidden.toggle()
+            })
+            .disposed(by: self.disposeBag)
+
+        selectedSegmentIndex
+            .distinctUntilChanged()
+            .filter { $0 == 1 }
+            .take(1)
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.viewModel.fetchCastTeamList()
+            })
+            .disposed(by: self.disposeBag)
+    }
+}
+
+// MARK: CollectionView
+
+extension ConcertDetailViewController {
+
+    private func updateCollectionViewHeight() {
+        self.castTeamListCollectionView.snp.updateConstraints { make in
+            make.height.equalTo(self.castTeamListCollectionView.contentSize.height)
+        }
+    }
+}
+
+// MARK: CollectionViewDatasource
+
+extension ConcertDetailViewController: UICollectionViewDataSource {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return 0 }
+        return listEntities.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return 0 }
+        let members = listEntities[section].members
+
+        return members.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CastTeamListCollectionViewCell.className,
+            for: indexPath
+        ) as? CastTeamListCollectionViewCell else {
+            fatalError("Failed to load cell!")
+        }
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return UICollectionViewCell() }
+
+        let entity = listEntities[indexPath.section].members[indexPath.row]
+        cell.configure(with: entity)
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return UICollectionReusableView() }
+
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CastTeamListHeaderView.className, for: indexPath) as? CastTeamListHeaderView else { return UICollectionReusableView() }
+            let headerTitle = listEntities[indexPath.section].name
+            headerView.configure(with: headerTitle)
+            return headerView
+        case UICollectionView.elementKindSectionFooter:
+            guard let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CastTeamListFooterView.className, for: indexPath) as? CastTeamListFooterView else { return UICollectionReusableView() }
+            return footerView
+        default:
+            return UICollectionReusableView()
+        }
+    }
+}
+
+// MARK: CollectionViewDelegateFlowLayout
+
+extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width / 2 - 40
+        let size = CGSize(width: width, height: 48)
+        return size
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let width = collectionView.frame.width
+        return CGSize(width: width, height: 62)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        let width = collectionView.frame.width
+        return CGSize(width: width, height: 1)
+    }
+}
+
+// MARK: UICollectionViewDelegate
+
+extension ConcertDetailViewController: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return }
+        let user = listEntities[indexPath.section].members[indexPath.row]
+        let viewController = self.profileViewControllerFactory(user.code)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+
 }

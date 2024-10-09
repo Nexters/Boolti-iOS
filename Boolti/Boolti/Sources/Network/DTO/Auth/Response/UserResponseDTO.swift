@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct UserResponseDTO: Decodable {
+// TODO: DTO와 Entity 분리하기!
+struct UserResponseDTO: UserProfileResponseDTO {
 
     let id: Int
     let nickname: String?
@@ -16,7 +17,6 @@ struct UserResponseDTO: Decodable {
     let imgPath: String?
     let introduction: String?
     let link: [LinkEntity]?
-    
 }
 
 struct LinkEntity: Codable, Equatable {

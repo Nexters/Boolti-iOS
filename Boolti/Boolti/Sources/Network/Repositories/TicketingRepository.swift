@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-protocol TicketingRepositoryType {
+protocol TicketingRepositoryType: RepositoryType {
     var networkService: NetworkProviderType { get }
     func checkInvitationCode(concertId: Int,
                              ticketId: Int,

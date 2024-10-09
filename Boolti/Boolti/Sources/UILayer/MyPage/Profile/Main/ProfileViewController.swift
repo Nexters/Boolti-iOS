@@ -9,6 +9,7 @@ import UIKit
 
 import RxSwift
 import RxCocoa
+import RxAppState
 
 final class ProfileViewController: BooltiViewController {
     
@@ -17,8 +18,8 @@ final class ProfileViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: ProfileViewModel
     
-    private let editProfileViewControllerFactory: () -> EditProfileViewController
-    
+    private let editProfileViewControllerFactory: (() -> EditProfileViewController)?
+
     // MARK: UI Components
     
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "프로필"))
@@ -60,13 +61,14 @@ final class ProfileViewController: BooltiViewController {
     // MARK: Initailizer
     
     init(viewModel: ProfileViewModel,
-         editProfileViewControllerFactory: @escaping () -> EditProfileViewController) {
+         editProfileViewControllerFactory: (() -> EditProfileViewController)? = nil
+    ) {
         self.viewModel = viewModel
         self.editProfileViewControllerFactory = editProfileViewControllerFactory
         
         super.init()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError()
     }
@@ -75,7 +77,6 @@ final class ProfileViewController: BooltiViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
-        self.viewModel.fetchLinkList()
     }
     
     override func viewDidLoad() {
@@ -84,23 +85,33 @@ final class ProfileViewController: BooltiViewController {
         self.configureUI()
         self.configureCollectionView()
         self.configureToastView(isButtonExisted: false)
+        self.bindInput()
         self.bindUIComponents()
         self.bindViewModel()
     }
-
 }
 
 // MARK: - Methods
 
 extension ProfileViewController {
-    
-    private func bindViewModel() {
-        self.viewModel.output.didProfileFetch
-            .subscribe(with: self) { owner, introduction in
-                owner.profileMainView.setData(introduction: introduction)
-                owner.dataCollectionView.reloadData()
-                owner.updateCollectionViewHeight()
+
+    private func bindInput() {
+        self.rx.viewWillAppear
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                owner.viewModel.input.viewWillAppearEvent.onNext(())
             }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindViewModel() {
+        print("🚨 bindViewModel")
+        self.viewModel.output.didProfileFetch
+            .subscribe(onNext: { [weak self] (entity, isMyProfile) in
+                self?.profileMainView.setData(entity: entity, isMyProfile: isMyProfile)
+                self?.dataCollectionView.reloadData()
+                self?.updateCollectionViewHeight()
+            })
             .disposed(by: self.disposeBag)
     }
     
@@ -125,7 +136,8 @@ extension ProfileViewController {
         
         self.profileMainView.didEditButtonTap()
             .emit(with: self) { owner, _ in
-                owner.navigationController?.pushViewController(owner.editProfileViewControllerFactory(), animated: true)
+                guard let editProfileViewControllerFactory = owner.editProfileViewControllerFactory?() else { return }
+                owner.navigationController?.pushViewController(editProfileViewControllerFactory, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
