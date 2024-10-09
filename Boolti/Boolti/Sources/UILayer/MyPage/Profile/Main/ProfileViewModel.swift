@@ -46,7 +46,6 @@ final class ProfileViewModel {
     private func bindInputs() {
         self.input.viewWillAppearEvent
             .subscribe(with: self) { owner, _ in
-                print("viewWillAppear")
                 if let _ = owner.userCode {
                     owner.fetchProfileInformation()
                 } else {

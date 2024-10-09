@@ -108,7 +108,6 @@ extension ProfileViewController {
         print("🚨 bindViewModel")
         self.viewModel.output.didProfileFetch
             .subscribe(onNext: { [weak self] (entity, isMyProfile) in
-                print("🚨 didProfileFetch")
                 self?.profileMainView.setData(entity: entity, isMyProfile: isMyProfile)
                 self?.dataCollectionView.reloadData()
                 self?.updateCollectionViewHeight()
