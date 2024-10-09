@@ -334,13 +334,12 @@ extension GiftingDetailViewController {
             .bind(to: self.payButton.rx.isEnabled)
             .disposed(by: self.disposeBag)
         
-        // TODO: 현재 서버에서 오는 이미지가 다름
-//        self.viewModel.output.selectedCardImageEntity
-//            .bind(with: self) { owner, image in
-//                guard let image = image else { return }
-//                owner.selectCardView.setSelectedImage(with: image.path)
-//            }
-//            .disposed(by: self.disposeBag)
+        self.viewModel.output.selectedCardImageEntity
+            .bind(with: self) { owner, image in
+                guard let image = image else { return }
+                owner.selectCardView.setSelectedImage(with: image.path)
+            }
+            .disposed(by: self.disposeBag)
         
         self.viewModel.output.navigateToConfirm
             .asDriver(onErrorJustReturn: ())
