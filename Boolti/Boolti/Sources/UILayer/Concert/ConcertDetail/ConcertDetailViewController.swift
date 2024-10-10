@@ -199,6 +199,7 @@ final class ConcertDetailViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.dimmedBackgroundView.isHidden = true
         self.viewModel.fetchConcertDetail()
+        self.viewModel.fetchCastTeamList()
     }
 
     override func viewDidLayoutSubviews() {
@@ -508,15 +509,6 @@ extension ConcertDetailViewController {
                 owner.castTeamListCollectionView.isHidden.toggle()
             })
             .disposed(by: self.disposeBag)
-
-        selectedSegmentIndex
-            .distinctUntilChanged()
-            .filter { $0 == 1 }
-            .take(1)
-            .subscribe(with: self, onNext: { owner, _ in
-                owner.viewModel.fetchCastTeamList()
-            })
-            .disposed(by: self.disposeBag)
     }
 }
 
@@ -601,13 +593,24 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         guard let listEntities = self.viewModel.output.teamListEntities.value else { return UIEdgeInsets() }
-        
-        // TODO: 아래의 spacing 이름 다 정해서 따로 빼기
-        if section == listEntities.count-1 {
-            return  UIEdgeInsets(top: 20, left: 20, bottom: 40, right: 20)
+
+        let isLastSection = section == listEntities.count - 1
+        let hasMembers = !listEntities[section].members.isEmpty
+
+        let topInset: CGFloat = 20
+        let leftInset: CGFloat = 20
+        let rightInset: CGFloat = 20
+        let bottomInset: CGFloat
+
+        if isLastSection {
+            bottomInset = 40
+        } else if hasMembers {
+            bottomInset = 24
         } else {
-            return  UIEdgeInsets(top: 20, left: 20, bottom: 24, right: 20)
+            bottomInset = 0
         }
+
+        return UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
