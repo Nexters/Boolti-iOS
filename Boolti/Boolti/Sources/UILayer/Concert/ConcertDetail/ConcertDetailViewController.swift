@@ -90,7 +90,6 @@ final class ConcertDetailViewController: BooltiViewController {
     private lazy var castTeamListCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 32, right: 20)
         flowLayout.minimumLineSpacing = 20
         flowLayout.minimumInteritemSpacing = 0
 
@@ -592,7 +591,23 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let width = collectionView.frame.width
-        return CGSize(width: width, height: 62)
+
+        if section == 0 {
+            return CGSize(width: width, height: 66)
+        } else {
+            return CGSize(width: width, height: 50)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return UIEdgeInsets() }
+        
+        // TODO: 아래의 spacing 이름 다 정해서 따로 빼기
+        if section == listEntities.count-1 {
+            return  UIEdgeInsets(top: 20, left: 20, bottom: 40, right: 20)
+        } else {
+            return  UIEdgeInsets(top: 20, left: 20, bottom: 24, right: 20)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
