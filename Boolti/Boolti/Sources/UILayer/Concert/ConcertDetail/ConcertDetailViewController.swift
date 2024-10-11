@@ -125,6 +125,8 @@ final class ConcertDetailViewController: BooltiViewController {
     
     private let organizerInfoView = OrganizerInfoView(horizontalInset: 20, verticalInset: 32, height: 170)
 
+    private let emptyCastView = EmptyCastTeamListView()
+
     private lazy var buttonBackgroundView: UIView = {
         let view = UIView()
 
@@ -284,12 +286,8 @@ extension ConcertDetailViewController {
         self.viewModel.output.teamListEntities
             .asDriver()
             .drive(with: self) { owner, entity in
-                guard let entity else { return }
-                if entity.isEmpty {
                     owner.configureEmptyCastTeamListView()
-                } else {
                     owner.configureCollectionView()
-                }
             }
             .disposed(by: self.disposeBag)
     }
@@ -409,9 +407,8 @@ extension ConcertDetailViewController {
     }
 
     private func configureEmptyCastTeamListView() {
-        self.castTeamListCollectionView.isHidden = true
-        let emptyCastTeamListView = EmptyCastTeamListView()
-        self.stackView.addArrangedSubview(emptyCastTeamListView)
+        self.stackView.addArrangedSubview(self.emptyCastView)
+        self.emptyCastView.isHidden = true
     }
 }
 
@@ -497,18 +494,36 @@ extension ConcertDetailViewController {
             for: .selected
         )
         self.segmentedControlContainerView.segmentedControl.selectedSegmentIndex = 0
-        
-        let selectedSegmentIndex =  self.segmentedControlContainerView.segmentedControl.rx.selectedSegmentIndex
 
-        selectedSegmentIndex
+        self.segmentedControlContainerView.segmentedControl.rx.selectedSegmentIndex
             .asDriver()
             .distinctUntilChanged()
-            .skip(1)
-            .drive(with: self, onNext: { owner, _ in
-                owner.concertDetailStackView.isHidden.toggle()
-                owner.castTeamListCollectionView.isHidden.toggle()
+            .drive(with: self, onNext: { owner, index in
+                if index == 1 {
+                    owner.configureCastView()
+                } else {
+                    owner.configureConcertDetailView()
+                }
             })
             .disposed(by: self.disposeBag)
+    }
+
+    private func configureCastView() {
+        self.concertDetailStackView.isHidden = true
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return }
+        if listEntities.isEmpty {
+            self.emptyCastView.isHidden = false
+            self.castTeamListCollectionView.isHidden = true
+        } else {
+            self.castTeamListCollectionView.isHidden = false
+            self.emptyCastView.isHidden = true
+        }
+    }
+
+    private func configureConcertDetailView() {
+        self.emptyCastView.isHidden = true
+        self.castTeamListCollectionView.isHidden = true
+        self.concertDetailStackView.isHidden = false
     }
 }
 
@@ -585,9 +600,9 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
         let width = collectionView.frame.width
 
         if section == 0 {
-            return CGSize(width: width, height: 66)
+            return CGSize(width: width, height: 60)
         } else {
-            return CGSize(width: width, height: 50)
+            return CGSize(width: width, height: 40)
         }
     }
 
