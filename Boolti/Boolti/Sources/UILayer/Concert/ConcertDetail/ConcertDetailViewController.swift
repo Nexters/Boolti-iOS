@@ -600,9 +600,9 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
         let width = collectionView.frame.width
 
         if section == 0 {
-            return CGSize(width: width, height: 60)
+            return CGSize(width: width, height: 65)
         } else {
-            return CGSize(width: width, height: 40)
+            return CGSize(width: width, height: 50)
         }
     }
 
@@ -619,7 +619,7 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
         } else if hasMembers {
             bottomInset = 24
         } else {
-            bottomInset = 0
+            bottomInset = 10
         }
 
         return UIEdgeInsets(top: 20, left: 20, bottom: bottomInset, right: 20)
