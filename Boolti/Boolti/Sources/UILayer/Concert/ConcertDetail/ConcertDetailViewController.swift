@@ -90,7 +90,6 @@ final class ConcertDetailViewController: BooltiViewController {
     private lazy var castTeamListCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 32, right: 20)
         flowLayout.minimumLineSpacing = 20
         flowLayout.minimumInteritemSpacing = 0
 
@@ -200,6 +199,7 @@ final class ConcertDetailViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.dimmedBackgroundView.isHidden = true
         self.viewModel.fetchConcertDetail()
+        self.viewModel.fetchCastTeamList()
     }
 
     override func viewDidLayoutSubviews() {
@@ -509,15 +509,6 @@ extension ConcertDetailViewController {
                 owner.castTeamListCollectionView.isHidden.toggle()
             })
             .disposed(by: self.disposeBag)
-
-        selectedSegmentIndex
-            .distinctUntilChanged()
-            .filter { $0 == 1 }
-            .take(1)
-            .subscribe(with: self, onNext: { owner, _ in
-                owner.viewModel.fetchCastTeamList()
-            })
-            .disposed(by: self.disposeBag)
     }
 }
 
@@ -592,7 +583,31 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let width = collectionView.frame.width
-        return CGSize(width: width, height: 62)
+
+        if section == 0 {
+            return CGSize(width: width, height: 66)
+        } else {
+            return CGSize(width: width, height: 50)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return UIEdgeInsets() }
+
+        let isLastSection = section == listEntities.count - 1
+        let hasMembers = !listEntities[section].members.isEmpty
+
+        let bottomInset: CGFloat
+
+        if isLastSection {
+            bottomInset = 40
+        } else if hasMembers {
+            bottomInset = 24
+        } else {
+            bottomInset = 0
+        }
+
+        return UIEdgeInsets(top: 20, left: 20, bottom: bottomInset, right: 20)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
