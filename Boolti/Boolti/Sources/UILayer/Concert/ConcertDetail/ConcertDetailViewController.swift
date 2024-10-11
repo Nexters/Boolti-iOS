@@ -597,9 +597,6 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
         let isLastSection = section == listEntities.count - 1
         let hasMembers = !listEntities[section].members.isEmpty
 
-        let topInset: CGFloat = 20
-        let leftInset: CGFloat = 20
-        let rightInset: CGFloat = 20
         let bottomInset: CGFloat
 
         if isLastSection {
@@ -610,7 +607,7 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
             bottomInset = 0
         }
 
-        return UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
+        return UIEdgeInsets(top: 20, left: 20, bottom: bottomInset, right: 20)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
