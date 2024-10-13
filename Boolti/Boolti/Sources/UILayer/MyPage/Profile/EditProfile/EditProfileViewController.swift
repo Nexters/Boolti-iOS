@@ -169,9 +169,10 @@ extension EditProfileViewController {
             .orEmpty
             .asDriver()
             .drive(with: self, onNext: { owner, text in
-                // TODO: 아래와 같이 placeholder 판단하는 로직 변경하기
-                owner.navigationBar.completeButton.isEnabled = !text.isEmpty && (text != "예) 재즈와 펑크락을 좋아해요")
-                owner.viewModel.input.didIntroductionTyped.accept(text)
+                owner.navigationBar.completeButton.isEnabled = !text.isEmpty
+                if !owner.editIntroductionView.isShowingPlaceHolder {
+                    owner.viewModel.input.didIntroductionTyped.accept(text)
+                }
             })
             .disposed(by: self.disposeBag)
 

@@ -92,20 +92,21 @@ final class ProfileMainView: UIView {
 
 extension ProfileMainView {
     
-    func setData(introduction: String?) {
-        self.profileImageView.setImage(with: UserDefaults.userImageURLPath)
-        self.nameLabel.text = UserDefaults.userName
-        self.introductionLabel.text = introduction ?? ""
+    func setData(entity: UserProfileResponseDTO, isMyProfile: Bool) {
+        self.profileImageView.setImage(with: entity.imgPath ?? "")
+        self.nameLabel.text = entity.nickname
+        self.introductionLabel.text = entity.introduction ?? ""
+        self.editButton.isHidden = !isMyProfile
     }
     
     func getHeight() -> CGFloat {
-        return 222 + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
+        let height = self.editButton.isHidden ? 192 : 222
+        return CGFloat(height) + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
     }
 
     func didEditButtonTap() -> Signal<Void> {
         return self.editButton.rx.tap.asSignal()
     }
-    
 }
 
 // MARK: - UI

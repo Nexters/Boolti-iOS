@@ -30,6 +30,7 @@ final class ConcertListViewModel {
     
     struct Output {
         let didConcertFetch = PublishRelay<Void>()
+        var showBanner: Bool = false
         var topConcerts: [ConcertEntity] = []
         var bottomConcerts: [ConcertEntity] = []
         let showRegisterGiftPopUp = PublishRelay<GiftType>()
@@ -83,6 +84,7 @@ extension ConcertListViewModel {
             .subscribe(with: self) { owner, concerts in
                 owner.output.topConcerts = Array(concerts.prefix(4))
                 owner.output.bottomConcerts = Array(concerts.dropFirst(4))
+                owner.output.showBanner = true
                 owner.output.didConcertFetch.accept(())
             }
             .disposed(by: self.disposeBag)

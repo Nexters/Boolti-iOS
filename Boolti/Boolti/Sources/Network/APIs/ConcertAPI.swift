@@ -13,6 +13,8 @@ enum ConcertAPI {
 
     case list(requesDTO: ConcertListRequestDTO)
     case detail(requestDTO: ConcertDetailRequestDTO)
+    case castTeamList(requestDTO: ConcertCastTeamListRequestDTO)
+    case userProfile(requsetDTO: ConcertUserProfileRequestDTO)
 }
 
 extension ConcertAPI: ServiceAPI {
@@ -23,6 +25,10 @@ extension ConcertAPI: ServiceAPI {
             return "/papi/v1/shows/search"
         case .detail(let DTO):
             return "/papi/v1/show/\(DTO.id)"
+        case .castTeamList(let DTO):
+            return "/papi/v1/shows/\(DTO.showID)/cast-teams"
+        case .userProfile(requsetDTO: let DTO):
+            return "/papi/v1/users/\(DTO.userCode)"
         }
     }
     

@@ -9,38 +9,74 @@ import Foundation
 
 import RxSwift
 
+typealias isMyProfile = Bool
+
 final class ProfileViewModel {
     
     // MARK: Properties
     
     private let disposeBag = DisposeBag()
-    private let authRepository: AuthRepositoryType
-    
+    private let repository: RepositoryType
+
+    private let userCode: String?
+
+    struct Input {
+        let viewWillAppearEvent = PublishSubject<Void>()
+    }
+
     struct Output {
         var links: [LinkEntity] = []
-        var didProfileFetch = PublishSubject<String?>()
+        var didProfileFetch = PublishSubject<(UserProfileResponseDTO, isMyProfile)>()
     }
-    
+
+    var input: Input
     var output: Output
     
     // MARK: Initailizer
-    
-    init(authRepository: AuthRepositoryType) {
+    // TODO: 내 프로필 확인과 다른 사람 프로필 확인하는 API 구분하기!.. -> 지금은 하나의 ProfileVM에서 처리중
+    init(repository: RepositoryType, userCode: String? = nil) {
+        self.input = Input()
         self.output = Output()
-        self.authRepository = authRepository
+        self.repository = repository
+        self.userCode = userCode
+
+        self.bindInputs()
     }
-    
+
+    private func bindInputs() {
+        self.input.viewWillAppearEvent
+            .subscribe(with: self) { owner, _ in
+                if let _ = owner.userCode {
+                    owner.fetchProfileInformation()
+                } else {
+                    owner.fetchMyProfileInformation()
+                }
+            }
+            .disposed(by: self.disposeBag)
+    }
 }
 
 // MARK: - Network
 
 extension ProfileViewModel {
     
-    func fetchLinkList() {
-        self.authRepository.userProfile()
+    func fetchMyProfileInformation() {
+        guard let authRepository = self.repository as? AuthRepository else { return }
+        authRepository.userProfile()
             .subscribe(with: self) { owner, profile in
                 owner.output.links = profile.link ?? []
-                owner.output.didProfileFetch.onNext(profile.introduction)
+                owner.output.didProfileFetch.onNext((profile, true))
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    func fetchProfileInformation() {
+        guard let concertRepository = self.repository as? ConcertRepository else { return }
+        concertRepository.userProfile(userCode: self.userCode ?? "")
+            .debug()
+            .subscribe(with: self) { owner, profile in
+                owner.output.links = profile.link ?? []
+                owner.output.didProfileFetch.onNext((profile, false))
             }
             .disposed(by: self.disposeBag)
     }

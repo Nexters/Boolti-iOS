@@ -9,11 +9,12 @@ import Foundation
 
 import RxSwift
 
-protocol ConcertRepositoryType {
+protocol ConcertRepositoryType: RepositoryType {
     var networkService: NetworkProviderType { get }
     func concertList(concertName: String?) -> Single<[ConcertEntity]>
     func concertDetail(concertId: Int) -> Single<ConcertDetailEntity>
     func salesTicket(concertId: Int) -> Single<[SelectedTicketEntity]>
+    func castTeamList(concertId: Int) -> Single<[ConcertCastTeamListEntity]>
 }
 
 final class ConcertRepository: ConcertRepositoryType {
@@ -51,4 +52,22 @@ final class ConcertRepository: ConcertRepositoryType {
             .map { $0.convertToSalesTicketEntities() }
     }
 
+    func castTeamList(concertId: Int) -> Single<[ConcertCastTeamListEntity]> {
+        let castTeamListRequestDTO = ConcertCastTeamListRequestDTO(showID: concertId)
+        let api = ConcertAPI.castTeamList(requestDTO: castTeamListRequestDTO)
+
+        return networkService.request(api)
+            .map([ConcertCastTeamListResponseDTO].self)
+            .map { return $0.map { dto in
+                dto.convertToTeamListEntity()
+            } }
+    }
+
+    func userProfile(userCode: String) -> Single<ConcertUserProfileResponseDTO> {
+        let concertUserProfileRequestDTO = ConcertUserProfileRequestDTO(userCode: userCode)
+        let api = ConcertAPI.userProfile(requsetDTO: concertUserProfileRequestDTO)
+
+        return networkService.request(api)
+            .map(ConcertUserProfileResponseDTO.self)
+    }
 }
