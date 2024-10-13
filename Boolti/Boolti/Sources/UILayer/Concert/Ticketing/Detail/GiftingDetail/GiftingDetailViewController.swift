@@ -190,7 +190,7 @@ extension GiftingDetailViewController {
                 .items(cellIdentifier: CardImageCollectionViewCell.className,
                        cellType: CardImageCollectionViewCell.self)
             ) { index, entity, cell in
-                cell.setData(with: entity.thumbnailPath)
+                cell.setData(with: entity.previewPath)
             }
             .disposed(by: self.disposeBag)
         
@@ -233,7 +233,7 @@ extension GiftingDetailViewController {
                 guard let concertInfo = entity else { return }
                 let ticketInfo = owner.viewModel.selectedTicket
                 
-                owner.concertTicketInfoView.setData(posterURL: concertInfo.posters.first!.thumbnailPath,
+                owner.concertTicketInfoView.setData(posterURL: concertInfo.posters.first!.path,
                                                     title: concertInfo.name,
                                                     datetime: concertInfo.date,
                                                     ticketInfo: ticketInfo)

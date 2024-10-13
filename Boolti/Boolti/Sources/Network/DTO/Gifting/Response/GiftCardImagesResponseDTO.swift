@@ -13,6 +13,7 @@ struct GiftCardImagesResponseDTOElement: Decodable {
     let thumbnailPath: String
     let invite_path: String?
     let invite_thumbnail: String?
+    let preview_path: String?
     let sequence: Int
     let createdAt: String
     let modifiedAt: String?
@@ -27,7 +28,7 @@ extension GiftCardImagesResponseDTO {
         return self.map { image in
             return GiftCardImageEntity(id: image.id,
                                        path: image.path,
-                                       thumbnailPath: image.thumbnailPath)
+                                       previewPath: image.preview_path ?? image.path)
         }
     }
 }
