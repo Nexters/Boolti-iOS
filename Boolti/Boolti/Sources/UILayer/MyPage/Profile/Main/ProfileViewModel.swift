@@ -27,6 +27,7 @@ final class ProfileViewModel {
     struct Output {
         var links: [LinkEntity] = []
         var didProfileFetch = PublishSubject<(UserProfileResponseDTO, isMyProfile)>()
+        var isUnknownProfile = PublishSubject<Bool>()
     }
 
     var input: Input
@@ -74,10 +75,12 @@ extension ProfileViewModel {
         guard let concertRepository = self.repository as? ConcertRepository else { return }
         concertRepository.userProfile(userCode: self.userCode ?? "")
             .debug()
-            .subscribe(with: self) { owner, profile in
+            .subscribe(with: self, onSuccess: { owner, profile in
                 owner.output.links = profile.link ?? []
                 owner.output.didProfileFetch.onNext((profile, false))
-            }
+            }, onFailure: { owner, error in
+                owner.output.isUnknownProfile.onNext(true)
+            })
             .disposed(by: self.disposeBag)
     }
 }
