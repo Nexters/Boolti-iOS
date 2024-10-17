@@ -91,7 +91,12 @@ final class ProfileMainView: UIView {
 // MARK: - Methods
 
 extension ProfileMainView {
-    
+
+    func setDataForUnknownProfile() {
+        self.nameLabel.text = "-"
+        self.editButton.isHidden = true
+    }
+
     func setData(entity: UserProfileResponseDTO, isMyProfile: Bool) {
         self.profileImageView.setImage(with: entity.imgPath ?? "")
         self.nameLabel.text = entity.nickname

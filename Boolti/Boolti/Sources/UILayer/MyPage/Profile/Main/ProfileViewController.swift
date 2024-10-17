@@ -46,7 +46,9 @@ final class ProfileViewController: BooltiViewController {
     }()
     
     private let profileMainView = ProfileMainView()
-    
+
+    private let unknownProfilePopUpView = BooltiPopupView()
+
     let dataCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -105,13 +107,20 @@ extension ProfileViewController {
     }
 
     private func bindViewModel() {
-        print("🚨 bindViewModel")
         self.viewModel.output.didProfileFetch
             .subscribe(onNext: { [weak self] (entity, isMyProfile) in
                 self?.profileMainView.setData(entity: entity, isMyProfile: isMyProfile)
                 self?.dataCollectionView.reloadData()
                 self?.updateCollectionViewHeight()
             })
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.output.isUnknownProfile
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { owner, isUnknownProfile in
+                owner.configureUnknownProfileUI()
+                owner.unknownProfilePopUpView.showPopup(with: .unknownProfile)
+            }
             .disposed(by: self.disposeBag)
     }
     
@@ -165,7 +174,22 @@ extension ProfileViewController {
             make.height.equalTo(profileViewHeight)
         }
     }
-    
+
+    private func configureUnknownProfileUI() {
+        self.profileMainView.setDataForUnknownProfile()
+
+        self.profileMainView.snp.updateConstraints { make in
+            make.height.equalTo(250)
+        }
+
+        self.unknownProfilePopUpView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+
+            }
+            .disposed(by: self.disposeBag)
+    }
+
 }
 
 // MARK: - UICollectionViewDataSource
@@ -226,7 +250,7 @@ extension ProfileViewController {
     private func configureUI() {
         self.view.backgroundColor = .grey95
         self.view.addSubviews([self.navigationBar,
-                               self.mainScrollView])
+                               self.mainScrollView, self.unknownProfilePopUpView])
         self.navigationBar.setBackgroundColor(with: .grey90)
         self.configureConstraints()
     }
@@ -261,6 +285,10 @@ extension ProfileViewController {
         
         self.dataCollectionView.snp.makeConstraints { make in
             make.height.equalTo(0)
+        }
+
+        self.unknownProfilePopUpView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
