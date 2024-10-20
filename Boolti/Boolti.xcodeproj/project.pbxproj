@@ -355,6 +355,7 @@
 		87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */; };
 		87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */; };
 		87B18FE72BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B18FE62BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift */; };
+		87B864832CC5711800A9A836 /* WKWebViewConfiguration+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B864822CC5711800A9A836 /* WKWebViewConfiguration+.swift */; };
 		87C7594C2BA93EA40009A83E /* NotificationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7594B2BA93EA40009A83E /* NotificationMessage.swift */; };
 		87C7A5EC2CADABDA0078213E /* UnderlineSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7A5EB2CADABDA0078213E /* UnderlineSegmentedControl.swift */; };
 		87C7A5EE2CADB1CD0078213E /* SegmentedControlContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7A5ED2CADB1CD0078213E /* SegmentedControlContainerView.swift */; };
@@ -746,6 +747,7 @@
 		87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationsTableViewCell.swift; sourceTree = "<group>"; };
 		87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemEntity.swift; sourceTree = "<group>"; };
 		87B18FE62BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversalPolicyConfirmButton.swift; sourceTree = "<group>"; };
+		87B864822CC5711800A9A836 /* WKWebViewConfiguration+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebViewConfiguration+.swift"; sourceTree = "<group>"; };
 		87C7594B2BA93EA40009A83E /* NotificationMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationMessage.swift; sourceTree = "<group>"; };
 		87C7A5EB2CADABDA0078213E /* UnderlineSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentedControl.swift; sourceTree = "<group>"; };
 		87C7A5ED2CADB1CD0078213E /* SegmentedControlContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlContainerView.swift; sourceTree = "<group>"; };
@@ -1397,6 +1399,7 @@
 				87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */,
 				870C33352BBC29B600ED212C /* UICollectionReusableView+.swift */,
 				87EFEEDA2C7E1C4300A8993C /* Preview.swift */,
+				87B864822CC5711800A9A836 /* WKWebViewConfiguration+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2832,6 +2835,7 @@
 				22DFC5522C79B1F000C8433D /* ProfileViewModel.swift in Sources */,
 				221393612C89C17300459A20 /* EditIntroductionView.swift in Sources */,
 				84EC6A642B6CF973009AC6BB /* BooltiToastView.swift in Sources */,
+				87B864832CC5711800A9A836 /* WKWebViewConfiguration+.swift in Sources */,
 				2213935A2C88997600459A20 /* EditProfileViewModel.swift in Sources */,
 				87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */,
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,

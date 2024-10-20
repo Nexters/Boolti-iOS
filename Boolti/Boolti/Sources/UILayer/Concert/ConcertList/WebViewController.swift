@@ -1,53 +1,88 @@
 import UIKit
 import WebKit
+
 import SnapKit
+import RxSwift
 
+// TODO: 재사용가능하게 변경하기
+final class WebViewController: UIViewController {
 
-class WebViewController: UIViewController, WKUIDelegate {
+    private let disposeBag = DisposeBag()
 
-    var webView: WKWebView!
+    private let navigationBar = BooltiNavigationBar(type: .backButton)
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.configureSubviews()
+        self.bindUIComponent()
+    }
+
+    private func bindUIComponent() {
+        self.navigationBar.didBackButtonTap()
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func configureSubviews() {
+        self.view.addSubview(navigationBar)
+
+        self.navigationBar.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+        }
+
+        self.prepareWebConfiguration { [weak self] config in
+            guard let self = self, let config = config else { return }
+
+            let webView = WKWebView(frame: .zero, configuration: config)
+            self.view.addSubview(webView)
+
+            webView.snp.makeConstraints { make in
+                make.top.equalTo(self.navigationBar.snp.bottom)
+                make.horizontalEdges.bottom.equalToSuperview()
+            }
+            
+            guard let url = URL(string: Environment.REGISTER_CONCERT_URL) else { return }
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
+    }
+
+    private func prepareWebConfiguration(completion: @escaping (WKWebViewConfiguration?) -> Void) {
         let accessToken = UserDefaults.accessToken
         let refreshToken = UserDefaults.refreshToken
 
-        // WKWebView 설정
-        let webConfiguration = WKWebViewConfiguration()
-        webView = WKWebView(frame: view.bounds, configuration: webConfiguration)
-        webView.uiDelegate = self
-        view.addSubview(webView)
-
-        // URL 설정
-        let url = URL(string: "https://dotori.boolti.in/show/add")!
-
-        // 쿠키 생성 및 설정
-        let accessTokenCookie = HTTPCookie(properties: [
-            .domain: url.host!,
+        guard let authCookie = HTTPCookie(properties: [
+            .domain: ".boolti.in",
             .path: "/",
             .name: "x-access-token",
             .value: accessToken,
             .secure: "TRUE",
-            .expires: Date().addingTimeInterval(3600) // 1시간 후 만료
-        ])!
+        ]) else {
+            return
+        }
 
-        let refreshTokenCookie = HTTPCookie(properties: [
-            .domain: url.host!,
+        guard let uuidCookie = HTTPCookie(properties: [
+            .domain: ".boolti.in",
             .path: "/",
             .name: "x-refresh-token",
             .value: refreshToken,
             .secure: "TRUE",
-            .expires: Date().addingTimeInterval(2592000) // 30일 후 만료
-        ])!
+        ]) else {
+            return
+        }
 
-        // 쿠키 설정
-        webView.configuration.websiteDataStore.httpCookieStore.setCookie(accessTokenCookie) {
-            self.webView.configuration.websiteDataStore.httpCookieStore.setCookie(refreshTokenCookie) {
-                // 두 쿠키가 모두 설정된 후 URL 로드
-                let request = URLRequest(url: url)
-                self.webView.load(request)
-            }
+        WKWebViewConfiguration.includeCookie(cookies: [authCookie, uuidCookie]) {
+            completion($0)
         }
     }
 }
