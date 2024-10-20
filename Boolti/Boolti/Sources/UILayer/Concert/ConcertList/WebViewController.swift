@@ -33,6 +33,7 @@ final class WebViewController: UIViewController {
     }
 
     private func configureSubviews() {
+        self.view.backgroundColor = .white00
         self.view.addSubview(navigationBar)
 
         self.navigationBar.snp.makeConstraints { make in
