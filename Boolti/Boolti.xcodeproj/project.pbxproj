@@ -421,6 +421,7 @@
 		87F7DF492B8275D30068A6C9 /* EntryCodeErrorEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */; };
 		87FB0D382B6BE7B900B42AF9 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 87FB0D372B6BE7B900B42AF9 /* SwiftJWT */; };
 		87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */; };
+		87FCC3C72CC4DDFD0029A0C8 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FCC3C62CC4DDFD0029A0C8 /* WebViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -786,6 +787,7 @@
 		87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeErrorEntity.swift; sourceTree = "<group>"; };
 		87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityTokenDTO.swift; sourceTree = "<group>"; };
 		87FB0D3B2B6C09B500B42AF9 /* TicketItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketItemEntity.swift; sourceTree = "<group>"; };
+		87FCC3C62CC4DDFD0029A0C8 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1800,6 +1802,7 @@
 			children = (
 				840B39532B7667B100E7F8C8 /* Cells */,
 				84781CCB2B5C003700D37921 /* ConcertListDIContainer.swift */,
+				87FCC3C62CC4DDFD0029A0C8 /* WebViewController.swift */,
 				84781CCD2B5C005600D37921 /* ConcertListViewController.swift */,
 				84781CCF2B5C006500D37921 /* ConcertViewModel.swift */,
 				840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */,
@@ -2748,6 +2751,7 @@
 				224BEF0D2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift in Sources */,
 				84A0248E2B7B997A0095A56E /* QRScannerViewController.swift in Sources */,
 				846F5F3E2B7BBF60000F86AE /* QRRepository.swift in Sources */,
+				87FCC3C72CC4DDFD0029A0C8 /* WebViewController.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* OAuthRepository.swift in Sources */,
 				221393582C88996A00459A20 /* EditProfileViewController.swift in Sources */,
 				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
