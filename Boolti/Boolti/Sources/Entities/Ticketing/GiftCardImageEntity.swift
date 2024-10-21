@@ -10,5 +10,5 @@ import Foundation
 struct GiftCardImageEntity {
     let id: Int
     let path: String
-    let thumbnailPath: String
+    let previewPath: String
 }
