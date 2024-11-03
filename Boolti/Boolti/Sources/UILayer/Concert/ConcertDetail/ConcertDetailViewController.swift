@@ -351,21 +351,19 @@ extension ConcertDetailViewController {
         
         self.navigationBar.didShareButtonTap()
             .emit(with: self) { owner, _ in
-                guard let posterURL = owner.viewModel.output.concertDetail.value?.posters.first?.path
-                else { return }
-                guard let concertID = owner.viewModel.output.concertDetail.value?.id else { return }
+                guard let concertDetail = owner.viewModel.output.concertDetail.value else { return }
+                
+                let concertInfo = concertDetail.convertToShareConcertString()
 
-                let image = KFImage(URL(string: posterURL))
-
-                guard let link = URL(string: "https://preview.boolti.in/show/\(concertID)") else { return }
                 let activityViewController = UIActivityViewController(
-                    activityItems: [link, image],
+                    activityItems: [concertInfo],
                     applicationActivities: nil
                 )
                 activityViewController.popoverPresentationController?.sourceView = owner.view
                 owner.present(activityViewController, animated: true, completion: nil)
             }
             .disposed(by: self.disposeBag)
+
         self.navigationBar.didMoreButtonTap()
             .emit(with: self) { owner, _ in
                 let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
