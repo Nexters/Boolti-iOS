@@ -14,6 +14,7 @@ enum DateFormatType: String {
     case dateTime = "yyyy.MM.dd HH:mm"
     case dateDayTimeWithSlash = "yyyy.MM.dd (E) / HH:mm"
     case isoDateTime = "yyyy-MM-dd'T'HH:mm:ss"
+    case dateDayTimeWithDash = "yyyy.MM.dd (E) HH:mm -"
 }
 
 extension DateFormatType {

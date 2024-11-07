@@ -30,4 +30,19 @@ struct ConcertDetailEntity {
         let thumbnailPath: String
         let sequence: Int
     }
+    
+    func convertToShareConcertString() -> String {
+        let formattedString = """
+        공연 정보를 공유드려요!
+
+        공연명 : \(name)
+        일시 : \(date.format(.dateDayTimeWithDash))
+        장소 : \(placeName) / \(streetAddress), \(detailAddress)
+
+        공연 상세 정보 ▼ 
+        https://preview.boolti.in/show/\(id)
+        """
+        
+        return formattedString
+    }
 }
