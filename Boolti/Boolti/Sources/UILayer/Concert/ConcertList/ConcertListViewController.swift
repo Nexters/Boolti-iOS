@@ -188,11 +188,7 @@ extension ConcertListViewController: UICollectionViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return }
-        cell.disposeBag = DisposeBag()
-    }
+
 }
 
 // MARK: - UICollectionViewDataSource
@@ -254,6 +250,8 @@ extension ConcertListViewController: UICollectionViewDataSource {
             return cell
         case .information:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.disposeBag = DisposeBag()
             
             cell.businessInfoView.didInfoButtonTap()
                 .emit(with: self) { owner, _ in
