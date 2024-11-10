@@ -50,6 +50,9 @@
 		22739A462C510585000A357B /* RegisterGiftRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A452C510585000A357B /* RegisterGiftRequestDTO.swift */; };
 		22739A482C511058000A357B /* GiftInfoRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A472C511058000A357B /* GiftInfoRequestDTO.swift */; };
 		22739A4A2C5110FB000A357B /* GiftInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A492C5110FB000A357B /* GiftInfoResponseDTO.swift */; };
+		22B67B362CE0618F004F6D4A /* LinkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B352CE06187004F6D4A /* LinkListViewController.swift */; };
+		22B67B382CE06495004F6D4A /* LinkListDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B372CE0648A004F6D4A /* LinkListDIContainer.swift */; };
+		22B67B3A2CE065E1004F6D4A /* LinkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B392CE065DA004F6D4A /* LinkListViewModel.swift */; };
 		22CDB2C62BA2635E00D2077D /* BusinessInfoDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */; };
 		22CF3A2F2BB51A710094711C /* SelectedSalesTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */; };
 		22CF3A312BB586B50094711C /* SelectedInvitationTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A302BB586B50094711C /* SelectedInvitationTicketView.swift */; };
@@ -467,6 +470,9 @@
 		22739A452C510585000A357B /* RegisterGiftRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGiftRequestDTO.swift; sourceTree = "<group>"; };
 		22739A472C511058000A357B /* GiftInfoRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftInfoRequestDTO.swift; sourceTree = "<group>"; };
 		22739A492C5110FB000A357B /* GiftInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftInfoResponseDTO.swift; sourceTree = "<group>"; };
+		22B67B352CE06187004F6D4A /* LinkListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListViewController.swift; sourceTree = "<group>"; };
+		22B67B372CE0648A004F6D4A /* LinkListDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListDIContainer.swift; sourceTree = "<group>"; };
+		22B67B392CE065DA004F6D4A /* LinkListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListViewModel.swift; sourceTree = "<group>"; };
 		22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoDIContainer.swift; sourceTree = "<group>"; };
 		22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedSalesTicketView.swift; sourceTree = "<group>"; };
 		22CF3A302BB586B50094711C /* SelectedInvitationTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedInvitationTicketView.swift; sourceTree = "<group>"; };
@@ -1025,6 +1031,16 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
+		22B67B342CE0617A004F6D4A /* LinkList */ = {
+			isa = PBXGroup;
+			children = (
+				22B67B372CE0648A004F6D4A /* LinkListDIContainer.swift */,
+				22B67B352CE06187004F6D4A /* LinkListViewController.swift */,
+				22B67B392CE065DA004F6D4A /* LinkListViewModel.swift */,
+			);
+			path = LinkList;
+			sourceTree = "<group>";
+		};
 		22CDB2C42BA2633600D2077D /* BusinessInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1097,6 +1113,7 @@
 				221393532C88990A00459A20 /* Main */,
 				221393542C88991200459A20 /* EditProfile */,
 				8749F5812C88B8E200FC4365 /* EditLink */,
+				22B67B342CE0617A004F6D4A /* LinkList */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -2525,6 +2542,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22B67B3A2CE065E1004F6D4A /* LinkListViewModel.swift in Sources */,
 				87617F6D2B8ECC3500828C69 /* TicketInformationView.swift in Sources */,
 				84A024892B7B98710095A56E /* SelectedTicketEntity.swift in Sources */,
 				845F25442B89FA3800F6C328 /* PosterExpandDIContainer.swift in Sources */,
@@ -2558,6 +2576,7 @@
 				84E5124D2B6E7736002658D1 /* ConcertDetailViewController.swift in Sources */,
 				221393632C89CC7E00459A20 /* EditLinkView.swift in Sources */,
 				84FBBDF32B673877009462E9 /* ConcertInfoView.swift in Sources */,
+				22B67B382CE06495004F6D4A /* LinkListDIContainer.swift in Sources */,
 				87C7A5EE2CADB1CD0078213E /* SegmentedControlContainerView.swift in Sources */,
 				84E5124B2B6E71FD002658D1 /* ConcertDetailDIContainer.swift in Sources */,
 				870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */,
@@ -2617,6 +2636,7 @@
 				877CAFCE2B7BD281004799C8 /* RefundConfirmContentView.swift in Sources */,
 				843918FA2B7A82B200CC62AA /* ReportDIContainer.swift in Sources */,
 				8753CA7D2B7228F2002871C7 /* TicketDetailItemEntity.swift in Sources */,
+				22B67B362CE0618F004F6D4A /* LinkListViewController.swift in Sources */,
 				224BEF052C4CCB5200863970 /* GiftingEntity.swift in Sources */,
 				84D1C3852B7A14AD00527998 /* CheckInvitationCodeRequestDTO.swift in Sources */,
 				224BEEDF2C4A0B7700863970 /* TicketingType.swift in Sources */,
