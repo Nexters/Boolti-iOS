@@ -21,7 +21,7 @@ final class ProfileLinkHeaderView: UICollectionReusableView {
         let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
-        label.text = "SNS 링크"
+        label.text = "링크"
         return label
     }()
     
