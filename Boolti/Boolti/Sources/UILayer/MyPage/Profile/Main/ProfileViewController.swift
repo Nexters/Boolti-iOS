@@ -214,6 +214,9 @@ extension ProfileViewController: UICollectionViewDataSource {
               ) as? ProfileLinkHeaderView else { return UICollectionReusableView() }
         
         header.expandButton.isHidden = self.viewModel.output.links.count <= 3
+        
+        // 기존 disposeBag이 있다면 초기화
+        header.disposeBag = DisposeBag()
         return header
     }
     
