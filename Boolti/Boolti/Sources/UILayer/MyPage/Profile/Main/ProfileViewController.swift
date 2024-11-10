@@ -15,6 +15,11 @@ final class ProfileViewController: BooltiViewController {
     
     // MARK: Properties
     
+    enum Section: Int, CaseIterable {
+        case link
+        case concert
+    }
+    
     private let disposeBag = DisposeBag()
     private let viewModel: ProfileViewModel
     
@@ -42,6 +47,8 @@ final class ProfileViewController: BooltiViewController {
         stackView.axis = .vertical
         stackView.addArrangedSubviews([self.profileMainView,
                                        self.dataCollectionView])
+
+        stackView.setCustomSpacing(8, after: self.profileMainView)
         
         return stackView
     }()
@@ -50,16 +57,7 @@ final class ProfileViewController: BooltiViewController {
 
     private let unknownProfilePopUpView = BooltiPopupView()
 
-    let dataCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = .clear
-        collectionView.isScrollEnabled = false
-        return collectionView
-    }()
+    private lazy var dataCollectionView = self.makeCollectionView()
     
     // MARK: Initailizer
     
@@ -99,6 +97,17 @@ final class ProfileViewController: BooltiViewController {
 // MARK: - Methods
 
 extension ProfileViewController {
+    
+    private func makeCollectionView() -> UICollectionView {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        collectionView.isScrollEnabled = false
+        return collectionView
+    }
 
     private func bindInput() {
         self.rx.viewWillAppear
@@ -158,9 +167,11 @@ extension ProfileViewController {
         self.dataCollectionView.delegate = self
         self.dataCollectionView.dataSource = self
         
-        self.dataCollectionView.register(ProfileLinkHeaderView.self,
+        self.dataCollectionView.register(ProfileDataHeaderView.self,
                                          forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                         withReuseIdentifier: ProfileLinkHeaderView.className)
+                                         withReuseIdentifier: ProfileDataHeaderView.className)
+        self.dataCollectionView.register(ProfileLinkCollectionViewCell.self, forCellWithReuseIdentifier: ProfileLinkCollectionViewCell.className)
+        // TODO: - concert cell로 변경
         self.dataCollectionView.register(ProfileLinkCollectionViewCell.self, forCellWithReuseIdentifier: ProfileLinkCollectionViewCell.className)
     }
     
@@ -200,42 +211,78 @@ extension ProfileViewController {
 extension ProfileViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return Section.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return min(self.viewModel.output.links.count, 3)
+        guard let section = Section(rawValue: section) else { return 0 }
+        
+        switch section {
+        case .link:
+            return min(self.viewModel.output.links.count, 3)
+        case .concert:
+            // TODO: - concert count로 변경 필요
+            return min(self.viewModel.output.links.count, 3)
+        }
     }
     
     /// 헤더를 결정하는 메서드
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let section = Section(rawValue: indexPath.section) else { return .init() }
+
         guard kind == UICollectionView.elementKindSectionHeader,
               let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: ProfileLinkHeaderView.className,
+                withReuseIdentifier: ProfileDataHeaderView.className,
                 for: indexPath
-              ) as? ProfileLinkHeaderView else { return UICollectionReusableView() }
+              ) as? ProfileDataHeaderView else { return UICollectionReusableView() }
         
         header.expandButton.isHidden = self.viewModel.output.links.count <= 3
         
         // 기존 disposeBag이 있다면 초기화
         header.disposeBag = DisposeBag()
-        
-        header.expandButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                let viewController = self.linkListControllerFactory(owner.viewModel.output.links)
-                owner.navigationController?.pushViewController(viewController, animated: true)
-            }
-            .disposed(by: header.disposeBag)
-        return header
+
+        switch section {
+        case .link:
+            header.setTitle(with: "링크")
+            
+            header.expandButton.rx.tap
+                .asDriver()
+                .drive(with: self) { owner, _ in
+                    let viewController = self.linkListControllerFactory(owner.viewModel.output.links)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+                .disposed(by: header.disposeBag)
+            return header
+        case .concert:
+            header.setTitle(with: "출연한 공연")
+
+            header.expandButton.rx.tap
+                .asDriver()
+                .drive(with: self) { owner, _ in
+                    // TODO: - 공연 목록 전체보기 화면으로 이동
+                }
+                .disposed(by: header.disposeBag)
+            return header
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileLinkCollectionViewCell.className,
-                                                            for: indexPath) as? ProfileLinkCollectionViewCell else { return UICollectionViewCell() }
-        cell.setData(linkName: self.viewModel.output.links[indexPath.row].title)
-        return cell
+        guard let section = Section(rawValue: indexPath.section) else { return .init() }
+        
+        switch section {
+        case .link:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileLinkCollectionViewCell.className,
+                                                                for: indexPath) as? ProfileLinkCollectionViewCell else { return UICollectionViewCell() }
+            cell.setData(linkName: self.viewModel.output.links[indexPath.row].title)
+            return cell
+        case .concert:
+            // TODO: - cell 변경 필요
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileLinkCollectionViewCell.className,
+                                                                for: indexPath) as? ProfileLinkCollectionViewCell else { return UICollectionViewCell() }
+            cell.setData(linkName: self.viewModel.output.links[indexPath.row].title)
+            return cell
+        }
     }
     
 }
@@ -245,7 +292,7 @@ extension ProfileViewController: UICollectionViewDataSource {
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.dataCollectionView.frame.width - 40, height: 56)
+        return CGSize(width: self.view.frame.width - 40, height: 56)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -254,8 +301,9 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard !self.viewModel.output.links.isEmpty else { return .zero }
-        return CGSize(width: self.view.frame.width, height: 74)
+        return CGSize(width: self.view.frame.width, height: 66)
     }
+
 }
 
 // MARK: - UI
@@ -265,8 +313,10 @@ extension ProfileViewController {
     private func configureUI() {
         self.view.backgroundColor = .grey95
         self.view.addSubviews([self.navigationBar,
-                               self.mainScrollView, self.unknownProfilePopUpView])
+                               self.mainScrollView,
+                               self.unknownProfilePopUpView])
         self.navigationBar.setBackgroundColor(with: .grey90)
+
         self.configureConstraints()
     }
     
@@ -288,17 +338,11 @@ extension ProfileViewController {
         
         self.profileMainView.snp.makeConstraints { make in
             make.width.equalTo(UIScreen.main.bounds.width)
-        }
-        
-        self.dataCollectionView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
-        }
-        
-        self.profileMainView.snp.makeConstraints { make in
             make.height.equalTo(400)
         }
         
         self.dataCollectionView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
             make.height.equalTo(0)
         }
 
