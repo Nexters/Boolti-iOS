@@ -70,6 +70,7 @@ final class EditLinkViewController: BooltiViewController {
         self.configureUI()
         self.configureConstraints()
         self.bindUIComponents()
+        self.configureToastView(isButtonExisted: false)
     }
 
     private func configureUI() {
@@ -186,8 +187,10 @@ final class EditLinkViewController: BooltiViewController {
                 switch owner.editType {
                 case .add:
                     owner.delegate?.editLinkViewController(self, didAddedLink: LinkEntity(title: title, link: link))
+                    owner.showToast(message: "링크를 추가했어요")
                 case .edit:
                     owner.delegate?.editLinkViewController(self, didChangedLink: LinkEntity(title: title, link: link))
+                    owner.showToast(message: "링크를 편집했어요")
                 }
                 owner.navigationController?.popViewController(animated: true)
             }

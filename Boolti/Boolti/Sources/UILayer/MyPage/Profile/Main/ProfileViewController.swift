@@ -19,6 +19,7 @@ final class ProfileViewController: BooltiViewController {
     private let viewModel: ProfileViewModel
     
     private let editProfileViewControllerFactory: (() -> EditProfileViewController)?
+    private let linkListControllerFactory: ([LinkEntity]) -> LinkListViewController
 
     // MARK: UI Components
     
@@ -63,10 +64,12 @@ final class ProfileViewController: BooltiViewController {
     // MARK: Initailizer
     
     init(viewModel: ProfileViewModel,
-         editProfileViewControllerFactory: (() -> EditProfileViewController)? = nil
+         editProfileViewControllerFactory: (() -> EditProfileViewController)? = nil,
+         linkListControllerFactory: @escaping ([LinkEntity]) -> LinkListViewController
     ) {
         self.viewModel = viewModel
         self.editProfileViewControllerFactory = editProfileViewControllerFactory
+        self.linkListControllerFactory = linkListControllerFactory
         
         super.init()
     }
@@ -138,7 +141,7 @@ extension ProfileViewController {
                 if UIApplication.shared.canOpenURL(url) {
                     owner.openSafari(with: url)
                 } else {
-                    owner.showToast(message: "링크를 열 수 없습니다")
+                    owner.showToast(message: "유효한 링크가 아니에요")
                 }
             }
             .disposed(by: self.disposeBag)
@@ -201,7 +204,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel.output.links.count
+        return min(self.viewModel.output.links.count, 3)
     }
     
     /// 헤더를 결정하는 메서드
@@ -213,6 +216,18 @@ extension ProfileViewController: UICollectionViewDataSource {
                 for: indexPath
               ) as? ProfileLinkHeaderView else { return UICollectionReusableView() }
         
+        header.expandButton.isHidden = self.viewModel.output.links.count <= 3
+        
+        // 기존 disposeBag이 있다면 초기화
+        header.disposeBag = DisposeBag()
+        
+        header.expandButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                let viewController = self.linkListControllerFactory(owner.viewModel.output.links)
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: header.disposeBag)
         return header
     }
     

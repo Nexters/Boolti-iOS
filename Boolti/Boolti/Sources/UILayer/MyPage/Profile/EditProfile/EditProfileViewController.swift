@@ -308,7 +308,6 @@ extension EditProfileViewController: UICollectionViewDataSource {
         return links.count
     }
     
-    /// 헤더를 결정하는 메서드
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard kind == UICollectionView.elementKindSectionHeader,
               let header = collectionView.dequeueReusableSupplementaryView(
@@ -316,6 +315,9 @@ extension EditProfileViewController: UICollectionViewDataSource {
                 withReuseIdentifier: AddLinkHeaderView.className,
                 for: indexPath
               ) as? AddLinkHeaderView else { return UICollectionReusableView() }
+        
+        // 기존 disposeBag이 있다면 초기화
+        header.disposeBag = DisposeBag()
         
         header.rx.tapGesture()
             .when(.recognized)
@@ -349,16 +351,6 @@ extension EditProfileViewController: UICollectionViewDataSource {
         let viewController = EditLinkViewController(editType: .edit(linkEntity))
         viewController.delegate = self
         self.navigationController?.pushViewController(viewController, animated: true)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
-        guard let header = collectionView.dequeueReusableSupplementaryView(
-            ofKind: elementKind,
-            withReuseIdentifier: AddLinkHeaderView.className,
-            for: indexPath
-        ) as? AddLinkHeaderView else { return }
-        
-        header.disposeBag = DisposeBag()
     }
     
 }

@@ -11,9 +11,11 @@ import RxSwift
 
 final class AddLinkHeaderView: UICollectionReusableView {
     
-    // MARK: UI Components
+    // MARK: Properties
     
     var disposeBag = DisposeBag()
+    
+    // MARK: UI Components
     
     private let addLinkImageView: UIImageView = {
         let imageView = UIImageView()
@@ -41,6 +43,13 @@ final class AddLinkHeaderView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Life Cycle
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.disposeBag = DisposeBag()
     }
     
 }
