@@ -78,7 +78,7 @@ extension TossPaymentsViewModel {
     }
     
     private func orderTicketing(success: TossPaymentsResult.Success) {
-        guard var ticketingEntity = self.ticketingEntity else { return }
+        guard let ticketingEntity = self.ticketingEntity else { return }
         self.ticketingRepository.orderPayment(paymentKey: success.paymentKey,
                                               amount: Int(success.amount),
                                               ticketingEntity: ticketingEntity)
@@ -99,7 +99,7 @@ extension TossPaymentsViewModel {
     }
     
     private func orderGifting(success: TossPaymentsResult.Success) {
-        guard var giftingEntity = self.giftingEntity else { return }
+        guard let giftingEntity = self.giftingEntity else { return }
         self.giftingRepository.orderGiftPayment(paymentKey: success.paymentKey,
                                                 amount: Int(success.amount),
                                                 giftingEntity: giftingEntity)
