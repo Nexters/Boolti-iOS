@@ -138,7 +138,7 @@ extension ProfileViewController {
                 if UIApplication.shared.canOpenURL(url) {
                     owner.openSafari(with: url)
                 } else {
-                    owner.showToast(message: "링크를 열 수 없습니다")
+                    owner.showToast(message: "유효한 링크가 아니에요")
                 }
             }
             .disposed(by: self.disposeBag)
