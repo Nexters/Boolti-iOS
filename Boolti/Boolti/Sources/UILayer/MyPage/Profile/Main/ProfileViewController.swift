@@ -19,6 +19,7 @@ final class ProfileViewController: BooltiViewController {
     private let viewModel: ProfileViewModel
     
     private let editProfileViewControllerFactory: (() -> EditProfileViewController)?
+    private let linkListControllerFactory: ([LinkEntity]) -> LinkListViewController
 
     // MARK: UI Components
     
@@ -63,10 +64,12 @@ final class ProfileViewController: BooltiViewController {
     // MARK: Initailizer
     
     init(viewModel: ProfileViewModel,
-         editProfileViewControllerFactory: (() -> EditProfileViewController)? = nil
+         editProfileViewControllerFactory: (() -> EditProfileViewController)? = nil,
+         linkListControllerFactory: @escaping ([LinkEntity]) -> LinkListViewController
     ) {
         self.viewModel = viewModel
         self.editProfileViewControllerFactory = editProfileViewControllerFactory
+        self.linkListControllerFactory = linkListControllerFactory
         
         super.init()
     }
@@ -217,6 +220,14 @@ extension ProfileViewController: UICollectionViewDataSource {
         
         // 기존 disposeBag이 있다면 초기화
         header.disposeBag = DisposeBag()
+        
+        header.expandButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                let viewController = self.linkListControllerFactory(owner.viewModel.output.links)
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: header.disposeBag)
         return header
     }
     

@@ -17,6 +17,7 @@ final class ProfileDIContainer {
 
     func createMyProfileViewController() -> ProfileViewController {
         let authRepository = self.repository as? AuthRepository ?? AuthRepository(networkService: NetworkProvider())
+
         let editProfileViewControllerFactory = {
             let DIContainer = EditProfileDIContainer(
                 authRepository: authRepository
@@ -26,17 +27,33 @@ final class ProfileDIContainer {
             return viewController
         }
         
+        let linkListViewControllerFactory: ([LinkEntity]) -> LinkListViewController = { linkList in
+            let DIContainer = LinkListDIContainer()
+            let viewController = DIContainer.createLinkListViewController(linkList: linkList)
+            
+            return viewController
+        }
+
         let viewModel = ProfileViewModel(repository: self.repository)
         let viewController = ProfileViewController(viewModel: viewModel,
-                                                   editProfileViewControllerFactory: editProfileViewControllerFactory)
+                                                   editProfileViewControllerFactory: editProfileViewControllerFactory,
+                                                   linkListControllerFactory: linkListViewControllerFactory)
 
         return viewController
     }
 
     func createProfileViewController(userCode: String) -> ProfileViewController {
-
         let viewModel = ProfileViewModel(repository: self.repository, userCode: userCode)
-        let viewController = ProfileViewController(viewModel: viewModel)
+        
+        let linkListViewControllerFactory: ([LinkEntity]) -> LinkListViewController = { linkList in
+            let DIContainer = LinkListDIContainer()
+            let viewController = DIContainer.createLinkListViewController(linkList: linkList)
+            
+            return viewController
+        }
+
+        let viewController = ProfileViewController(viewModel: viewModel,
+                                                   linkListControllerFactory: linkListViewControllerFactory)
 
         return viewController
     }
