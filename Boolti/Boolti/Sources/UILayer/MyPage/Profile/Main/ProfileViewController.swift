@@ -201,7 +201,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel.output.links.count
+        return min(self.viewModel.output.links.count, 3)
     }
     
     /// 헤더를 결정하는 메서드
@@ -213,6 +213,7 @@ extension ProfileViewController: UICollectionViewDataSource {
                 for: indexPath
               ) as? ProfileLinkHeaderView else { return UICollectionReusableView() }
         
+        header.expandButton.isHidden = self.viewModel.output.links.count <= 3
         return header
     }
     
