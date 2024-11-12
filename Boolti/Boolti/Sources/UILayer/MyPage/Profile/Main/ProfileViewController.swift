@@ -171,8 +171,7 @@ extension ProfileViewController {
                                          forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                          withReuseIdentifier: ProfileDataHeaderView.className)
         self.dataCollectionView.register(ProfileLinkCollectionViewCell.self, forCellWithReuseIdentifier: ProfileLinkCollectionViewCell.className)
-        // TODO: - concert cell로 변경
-        self.dataCollectionView.register(ProfileLinkCollectionViewCell.self, forCellWithReuseIdentifier: ProfileLinkCollectionViewCell.className)
+        self.dataCollectionView.register(ProfileConcertCollectionViewCell.self, forCellWithReuseIdentifier: ProfileConcertCollectionViewCell.className)
     }
     
     private func updateCollectionViewHeight() {
@@ -221,8 +220,7 @@ extension ProfileViewController: UICollectionViewDataSource {
         case .link:
             return min(self.viewModel.output.links.count, 3)
         case .concert:
-            // TODO: - concert count로 변경 필요
-            return min(self.viewModel.output.links.count, 3)
+            return min(self.viewModel.output.performedConcerts.count, 2)
         }
     }
     
@@ -237,13 +235,13 @@ extension ProfileViewController: UICollectionViewDataSource {
                 for: indexPath
               ) as? ProfileDataHeaderView else { return UICollectionReusableView() }
         
-        header.expandButton.isHidden = self.viewModel.output.links.count <= 3
-        
         // 기존 disposeBag이 있다면 초기화
         header.disposeBag = DisposeBag()
 
         switch section {
         case .link:
+            header.expandButton.isHidden = self.viewModel.output.links.count <= 3
+
             header.setTitle(with: "링크")
             
             header.expandButton.rx.tap
@@ -255,6 +253,8 @@ extension ProfileViewController: UICollectionViewDataSource {
                 .disposed(by: header.disposeBag)
             return header
         case .concert:
+            header.expandButton.isHidden = self.viewModel.output.links.count <= 2
+
             header.setTitle(with: "출연한 공연")
 
             header.expandButton.rx.tap
@@ -277,10 +277,12 @@ extension ProfileViewController: UICollectionViewDataSource {
             cell.setData(linkName: self.viewModel.output.links[indexPath.row].title)
             return cell
         case .concert:
-            // TODO: - cell 변경 필요
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileLinkCollectionViewCell.className,
-                                                                for: indexPath) as? ProfileLinkCollectionViewCell else { return UICollectionViewCell() }
-            cell.setData(linkName: self.viewModel.output.links[indexPath.row].title)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileConcertCollectionViewCell.className,
+                                                                for: indexPath) as? ProfileConcertCollectionViewCell else { return UICollectionViewCell() }
+            let concert = self.viewModel.output.performedConcerts[indexPath.row]
+            cell.setData(posterURL: concert.thumbnailPath,
+                         title: concert.name,
+                         datetime: concert.date.formatToDate())
             return cell
         }
     }
@@ -292,11 +294,25 @@ extension ProfileViewController: UICollectionViewDataSource {
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.frame.width - 40, height: 56)
+        guard let section = Section(rawValue: indexPath.section) else { return .init() }
+
+        switch section {
+        case .link:
+            return CGSize(width: self.view.frame.width - 40, height: 56)
+        case .concert:
+            return CGSize(width: self.view.frame.width - 40, height: 94)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
+        guard let section = Section(rawValue: section) else { return .init() }
+        
+        switch section {
+        case .link:
+            return 16
+        case .concert:
+            return 24
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

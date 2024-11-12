@@ -53,6 +53,7 @@
 		22B67B362CE0618F004F6D4A /* LinkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B352CE06187004F6D4A /* LinkListViewController.swift */; };
 		22B67B382CE06495004F6D4A /* LinkListDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B372CE0648A004F6D4A /* LinkListDIContainer.swift */; };
 		22B67B3A2CE065E1004F6D4A /* LinkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B392CE065DA004F6D4A /* LinkListViewModel.swift */; };
+		22B67B3C2CE37DDC004F6D4A /* ProfileConcertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B3B2CE37DDC004F6D4A /* ProfileConcertCollectionViewCell.swift */; };
 		22CDB2C62BA2635E00D2077D /* BusinessInfoDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */; };
 		22CF3A2F2BB51A710094711C /* SelectedSalesTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */; };
 		22CF3A312BB586B50094711C /* SelectedInvitationTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A302BB586B50094711C /* SelectedInvitationTicketView.swift */; };
@@ -473,6 +474,7 @@
 		22B67B352CE06187004F6D4A /* LinkListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListViewController.swift; sourceTree = "<group>"; };
 		22B67B372CE0648A004F6D4A /* LinkListDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListDIContainer.swift; sourceTree = "<group>"; };
 		22B67B392CE065DA004F6D4A /* LinkListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListViewModel.swift; sourceTree = "<group>"; };
+		22B67B3B2CE37DDC004F6D4A /* ProfileConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileConcertCollectionViewCell.swift; sourceTree = "<group>"; };
 		22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoDIContainer.swift; sourceTree = "<group>"; };
 		22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedSalesTicketView.swift; sourceTree = "<group>"; };
 		22CF3A302BB586B50094711C /* SelectedInvitationTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedInvitationTicketView.swift; sourceTree = "<group>"; };
@@ -1122,6 +1124,7 @@
 			isa = PBXGroup;
 			children = (
 				22DFC55E2C79C7A400C8433D /* ProfileLinkCollectionViewCell.swift */,
+				22B67B3B2CE37DDC004F6D4A /* ProfileConcertCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -2669,6 +2672,7 @@
 				22DFC5632C7A00E900C8433D /* ProfileDataHeaderView.swift in Sources */,
 				22739A422C4F8D92000A357B /* SettingContentView.swift in Sources */,
 				840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */,
+				22B67B3C2CE37DDC004F6D4A /* ProfileConcertCollectionViewCell.swift in Sources */,
 				84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */,
 				843918FE2B7A82E700CC62AA /* ReportViewModel.swift in Sources */,
 				845F25462B89FA5000F6C328 /* PosterExpandViewController.swift in Sources */,

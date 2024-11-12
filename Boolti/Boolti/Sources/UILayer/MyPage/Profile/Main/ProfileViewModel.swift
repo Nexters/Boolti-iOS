@@ -26,6 +26,7 @@ final class ProfileViewModel {
 
     struct Output {
         var links: [LinkEntity] = []
+        var performedConcerts: [PerformedConcertEntity] = []
         var didProfileFetch = PublishSubject<(UserProfileResponseDTO, isMyProfile)>()
         var isUnknownProfile = PublishSubject<Bool>()
     }
@@ -66,6 +67,7 @@ extension ProfileViewModel {
         authRepository.userProfile()
             .subscribe(with: self) { owner, profile in
                 owner.output.links = profile.link ?? []
+                owner.output.performedConcerts = profile.performedShow ?? []
                 owner.output.didProfileFetch.onNext((profile, true))
             }
             .disposed(by: self.disposeBag)
@@ -77,6 +79,7 @@ extension ProfileViewModel {
             .debug()
             .subscribe(with: self, onSuccess: { owner, profile in
                 owner.output.links = profile.link ?? []
+                owner.output.performedConcerts = profile.performedShow ?? []
                 owner.output.didProfileFetch.onNext((profile, false))
             }, onFailure: { owner, error in
                 owner.output.isUnknownProfile.onNext(true)
