@@ -10,4 +10,5 @@ struct ProfileEntity {
     let nickname: String
     let introduction: String
     var links: [LinkEntity]
+    var performedConcerts: [PerformedConcertEntity]
 }
