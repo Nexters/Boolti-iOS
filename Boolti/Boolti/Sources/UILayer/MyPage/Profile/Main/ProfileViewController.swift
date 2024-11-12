@@ -25,6 +25,7 @@ final class ProfileViewController: BooltiViewController {
     
     private let editProfileViewControllerFactory: (() -> EditProfileViewController)?
     private let linkListControllerFactory: ([LinkEntity]) -> LinkListViewController
+    private let performedConcertListControllerFactory: ([PerformedConcertEntity]) -> PerformedConcertListViewController
 
     // MARK: UI Components
     
@@ -63,11 +64,13 @@ final class ProfileViewController: BooltiViewController {
     
     init(viewModel: ProfileViewModel,
          editProfileViewControllerFactory: (() -> EditProfileViewController)? = nil,
-         linkListControllerFactory: @escaping ([LinkEntity]) -> LinkListViewController
+         linkListControllerFactory: @escaping ([LinkEntity]) -> LinkListViewController,
+         performedConcertListControllerFactory: @escaping (([PerformedConcertEntity]) -> PerformedConcertListViewController)
     ) {
         self.viewModel = viewModel
         self.editProfileViewControllerFactory = editProfileViewControllerFactory
         self.linkListControllerFactory = linkListControllerFactory
+        self.performedConcertListControllerFactory = performedConcertListControllerFactory
         
         super.init()
     }
@@ -260,7 +263,8 @@ extension ProfileViewController: UICollectionViewDataSource {
             header.expandButton.rx.tap
                 .asDriver()
                 .drive(with: self) { owner, _ in
-                    // TODO: - 공연 목록 전체보기 화면으로 이동
+                    let viewController = self.performedConcertListControllerFactory(owner.viewModel.output.performedConcerts)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                 }
                 .disposed(by: header.disposeBag)
             return header

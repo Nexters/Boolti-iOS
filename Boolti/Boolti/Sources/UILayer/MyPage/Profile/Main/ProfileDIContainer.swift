@@ -33,11 +33,18 @@ final class ProfileDIContainer {
             
             return viewController
         }
+        
+        let performedConcertListControllerFactory: ([PerformedConcertEntity]) -> PerformedConcertListViewController = { concertList in
+            let DIContainer = PerformedConcertListDIContainer()
+            let viewController = DIContainer.createPerformedConcertListViewController(performedConcertList: concertList)
+            
+            return viewController
+        }
 
         let viewModel = ProfileViewModel(repository: self.repository)
         let viewController = ProfileViewController(viewModel: viewModel,
                                                    editProfileViewControllerFactory: editProfileViewControllerFactory,
-                                                   linkListControllerFactory: linkListViewControllerFactory)
+                                                   linkListControllerFactory: linkListViewControllerFactory, performedConcertListControllerFactory: performedConcertListControllerFactory)
 
         return viewController
     }
@@ -51,9 +58,16 @@ final class ProfileDIContainer {
             
             return viewController
         }
+        
+        let performedConcertListControllerFactory: ([PerformedConcertEntity]) -> PerformedConcertListViewController = { concertList in
+            let DIContainer = PerformedConcertListDIContainer()
+            let viewController = DIContainer.createPerformedConcertListViewController(performedConcertList: concertList)
+            
+            return viewController
+        }
 
         let viewController = ProfileViewController(viewModel: viewModel,
-                                                   linkListControllerFactory: linkListViewControllerFactory)
+                                                   linkListControllerFactory: linkListViewControllerFactory, performedConcertListControllerFactory: performedConcertListControllerFactory)
 
         return viewController
     }

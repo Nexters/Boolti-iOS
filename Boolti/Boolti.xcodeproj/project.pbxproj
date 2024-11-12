@@ -54,6 +54,9 @@
 		22B67B382CE06495004F6D4A /* LinkListDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B372CE0648A004F6D4A /* LinkListDIContainer.swift */; };
 		22B67B3A2CE065E1004F6D4A /* LinkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B392CE065DA004F6D4A /* LinkListViewModel.swift */; };
 		22B67B3C2CE37DDC004F6D4A /* ProfileConcertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B3B2CE37DDC004F6D4A /* ProfileConcertCollectionViewCell.swift */; };
+		22B67B412CE38EB3004F6D4A /* PerformedConcertListDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B402CE38EB3004F6D4A /* PerformedConcertListDIContainer.swift */; };
+		22B67B432CE38EBB004F6D4A /* PerformedConcertListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B422CE38EBB004F6D4A /* PerformedConcertListViewController.swift */; };
+		22B67B452CE38EC3004F6D4A /* PerformedConcertListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B442CE38EC3004F6D4A /* PerformedConcertListViewModel.swift */; };
 		22CDB2C62BA2635E00D2077D /* BusinessInfoDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */; };
 		22CF3A2F2BB51A710094711C /* SelectedSalesTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */; };
 		22CF3A312BB586B50094711C /* SelectedInvitationTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF3A302BB586B50094711C /* SelectedInvitationTicketView.swift */; };
@@ -475,6 +478,9 @@
 		22B67B372CE0648A004F6D4A /* LinkListDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListDIContainer.swift; sourceTree = "<group>"; };
 		22B67B392CE065DA004F6D4A /* LinkListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListViewModel.swift; sourceTree = "<group>"; };
 		22B67B3B2CE37DDC004F6D4A /* ProfileConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileConcertCollectionViewCell.swift; sourceTree = "<group>"; };
+		22B67B402CE38EB3004F6D4A /* PerformedConcertListDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformedConcertListDIContainer.swift; sourceTree = "<group>"; };
+		22B67B422CE38EBB004F6D4A /* PerformedConcertListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformedConcertListViewController.swift; sourceTree = "<group>"; };
+		22B67B442CE38EC3004F6D4A /* PerformedConcertListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformedConcertListViewModel.swift; sourceTree = "<group>"; };
 		22CDB2C52BA2635E00D2077D /* BusinessInfoDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfoDIContainer.swift; sourceTree = "<group>"; };
 		22CF3A2E2BB51A710094711C /* SelectedSalesTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedSalesTicketView.swift; sourceTree = "<group>"; };
 		22CF3A302BB586B50094711C /* SelectedInvitationTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedInvitationTicketView.swift; sourceTree = "<group>"; };
@@ -1043,6 +1049,16 @@
 			path = LinkList;
 			sourceTree = "<group>";
 		};
+		22B67B3F2CE38EA4004F6D4A /* PerformedConcertList */ = {
+			isa = PBXGroup;
+			children = (
+				22B67B402CE38EB3004F6D4A /* PerformedConcertListDIContainer.swift */,
+				22B67B422CE38EBB004F6D4A /* PerformedConcertListViewController.swift */,
+				22B67B442CE38EC3004F6D4A /* PerformedConcertListViewModel.swift */,
+			);
+			path = PerformedConcertList;
+			sourceTree = "<group>";
+		};
 		22CDB2C42BA2633600D2077D /* BusinessInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1116,6 +1132,7 @@
 				221393542C88991200459A20 /* EditProfile */,
 				8749F5812C88B8E200FC4365 /* EditLink */,
 				22B67B342CE0617A004F6D4A /* LinkList */,
+				22B67B3F2CE38EA4004F6D4A /* PerformedConcertList */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -2575,6 +2592,7 @@
 				84A024902B7B99830095A56E /* QRScannerViewModel.swift in Sources */,
 				2213935F2C88A6DB00459A20 /* EditNicknameView.swift in Sources */,
 				22739A482C511058000A357B /* GiftInfoRequestDTO.swift in Sources */,
+				22B67B412CE38EB3004F6D4A /* PerformedConcertListDIContainer.swift in Sources */,
 				877CAFCB2B7BC30A004799C8 /* TicketRefundConfirmDIContainer.swift in Sources */,
 				84E5124D2B6E7736002658D1 /* ConcertDetailViewController.swift in Sources */,
 				221393632C89CC7E00459A20 /* EditLinkView.swift in Sources */,
@@ -2682,6 +2700,7 @@
 				8753CA772B71F004002871C7 /* TicketListItemResponseDTO.swift in Sources */,
 				224BEF012C4CCA9A00863970 /* GiftingConfirmViewController.swift in Sources */,
 				22DFC5502C79B1E800C8433D /* ProfileDIContainer.swift in Sources */,
+				22B67B452CE38EC3004F6D4A /* PerformedConcertListViewModel.swift in Sources */,
 				849FBD512B5E920A006EB865 /* AppInfo.swift in Sources */,
 				221D09FC2BA1E49B0035B0E6 /* BusinessInfoCollectionViewCell.swift in Sources */,
 				870C33362BBC29B600ED212C /* UICollectionReusableView+.swift in Sources */,
@@ -2739,6 +2758,7 @@
 				84781CBA2B5BF90C00D37921 /* HomeTabBarViewModel.swift in Sources */,
 				8710D94C2B74FA7D00309FBF /* TicketReservationsViewController.swift in Sources */,
 				84781CC72B5BF9F700D37921 /* TicketListDIContainer.swift in Sources */,
+				22B67B432CE38EBB004F6D4A /* PerformedConcertListViewController.swift in Sources */,
 				84A024862B7B854B0095A56E /* QRScannerListTableViewCell.swift in Sources */,
 				842183732B71D75D00A52E1C /* ConcertDetailEntity.swift in Sources */,
 				84C6E0032B7320280023BAE6 /* ConcertDetailResponseDTO.swift in Sources */,
