@@ -20,6 +20,33 @@ final class TicketSalesTimeView: UIView {
         return label
     }()
 
+    private let soldCountImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .greyTicketIcon
+        imageView.contentMode = .scaleAspectFill
+
+        return imageView
+    }()
+
+    private lazy var soldCountStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.addArrangedSubviews([
+            self.soldCountImageView,
+            self.soldCountLabel
+        ])
+
+        return stackView
+    }()
+
+    private let soldCountLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.textColor = .grey30
+        label.font = .body3
+        return label
+    }()
+
     private let datetimeLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.textColor = .grey30
@@ -54,11 +81,17 @@ final class TicketSalesTimeView: UIView {
 
 extension TicketSalesTimeView {
 
-    func setData(startDate: Date, endDate: Date) {
+    func setData(startDate: Date, endDate: Date, soldCount: Int, ticketingState: ConcertTicketingState) {
         self.datetimeLabel.text = "\(startDate.format(.dateDay)) - \(endDate.format(.dateDay))"
 
+        if case .endSale = ticketingState {
+            self.soldCountLabel.text = "\(soldCount)매 판매 완료"
+        } else {
+            self.soldCountStackView.isHidden = true
+        }
+
         self.snp.makeConstraints { make in
-            make.height.equalTo(114 + self.datetimeLabel.getLabelHeight())
+            make.height.equalTo(114 + self.datetimeLabel.getLabelHeight() + self.soldCountLabel.getLabelHeight())
         }
     }
 }
@@ -68,7 +101,7 @@ extension TicketSalesTimeView {
 extension TicketSalesTimeView {
 
     private func configureUI() {
-        self.addSubviews([self.titleLabel, self.datetimeLabel, self.underLineView])
+        self.addSubviews([self.titleLabel, self.datetimeLabel, self.soldCountStackView, self.underLineView])
     }
 
     private func configureConstraints() {
@@ -80,6 +113,15 @@ extension TicketSalesTimeView {
         self.datetimeLabel.snp.makeConstraints { make in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(16)
             make.horizontalEdges.equalTo(self.titleLabel)
+        }
+
+        self.soldCountImageView.snp.makeConstraints { make in
+            make.size.equalTo(20)
+        }
+
+        self.soldCountStackView.snp.makeConstraints { make in
+            make.top.equalTo(self.datetimeLabel.snp.bottom).offset(4)
+            make.left.equalTo(self.titleLabel)
         }
 
         self.underLineView.snp.makeConstraints { make in

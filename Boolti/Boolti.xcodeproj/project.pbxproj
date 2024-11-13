@@ -85,7 +85,6 @@
 		840B395F2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B395E2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift */; };
 		840B39612B78CE6300E7F8C8 /* ConcertListRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39602B78CE6300E7F8C8 /* ConcertListRequestDTO.swift */; };
 		840B39632B78CEF700E7F8C8 /* ConcertListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39622B78CEF700E7F8C8 /* ConcertListResponseDTO.swift */; };
-		840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D84032B6F5C610078D352 /* TicketingPeriodView.swift */; };
 		841D77D22B73B0C10068B1C5 /* ConcertAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D12B73B0C10068B1C5 /* ConcertAPI.swift */; };
 		841D77D42B73B1B00068B1C5 /* ConcertRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */; };
 		841D77D82B73D2A20068B1C5 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D77D72B73D2A20068B1C5 /* String+.swift */; };
@@ -505,7 +504,6 @@
 		840B395E2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListMainTitleCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39602B78CE6300E7F8C8 /* ConcertListRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListRequestDTO.swift; sourceTree = "<group>"; };
 		840B39622B78CEF700E7F8C8 /* ConcertListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListResponseDTO.swift; sourceTree = "<group>"; };
-		840D84032B6F5C610078D352 /* TicketingPeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingPeriodView.swift; sourceTree = "<group>"; };
 		841D77D12B73B0C10068B1C5 /* ConcertAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertAPI.swift; sourceTree = "<group>"; };
 		841D77D32B73B1B00068B1C5 /* ConcertRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertRepository.swift; sourceTree = "<group>"; };
 		841D77D72B73D2A20068B1C5 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
@@ -1841,7 +1839,6 @@
 			isa = PBXGroup;
 			children = (
 				84E512522B6E9E0B002658D1 /* ConcertPosterView.swift */,
-				840D84032B6F5C610078D352 /* TicketingPeriodView.swift */,
 				84886E8B2B70A45F005D2329 /* DatetimeInfoView.swift */,
 				84886E8D2B70A651005D2329 /* PlaceInfoView.swift */,
 				84886E8F2B70A7D4005D2329 /* ContentInfoView.swift */,
@@ -2671,7 +2668,6 @@
 				224FE70F2C3E520A00C09D28 /* GiftCardImageEntity.swift in Sources */,
 				22DFC5632C7A00E900C8433D /* ProfileLinkHeaderView.swift in Sources */,
 				22739A422C4F8D92000A357B /* SettingContentView.swift in Sources */,
-				840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */,
 				84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */,
 				843918FE2B7A82E700CC62AA /* ReportViewModel.swift in Sources */,
 				845F25462B89FA5000F6C328 /* PosterExpandViewController.swift in Sources */,

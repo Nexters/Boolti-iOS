@@ -28,7 +28,8 @@ struct ConcertDetailResponseDTO: Decodable {
     let hostName: String
     let hostPhoneNumber: String
     let reservationStatus: Bool
-    
+    let salesTicketCount: Int
+
     struct ShowImg: Decodable {
         let id: Int
         let showId: Int
@@ -38,6 +39,25 @@ struct ConcertDetailResponseDTO: Decodable {
         let createdAt: String
         let modifiedAt: String?
         let removedAt: String?
+    }
+
+    func calculateTicketingState() -> ConcertTicketingState {
+        var state: ConcertTicketingState = .onSale
+
+        if Date() < self.salesStartTime.formatToDate() {
+            state = .beforeSale(startDate: self.salesStartTime.formatToDate())
+        }
+        else if Date() <= self.salesEndTime.formatToDate() {
+            state = .onSale
+        }
+        else if Date().getBetweenDay(to: self.date.formatToDate()) >= 0 {
+            state = .endSale
+        }
+        else {
+            state = .endConcert
+        }
+
+        return state
     }
 
     func convertToConcertDetailEntity() -> ConcertDetailEntity {
@@ -65,7 +85,9 @@ struct ConcertDetailResponseDTO: Decodable {
             posters: posters,
             hostName: self.hostName,
             hostPhoneNumber: self.hostPhoneNumber,
-            reservationStatus: self.reservationStatus
+            reservationStatus: self.reservationStatus,
+            salesTicketCount: self.salesTicketCount,
+            ticketingState: self.calculateTicketingState()
         )
     }
 }

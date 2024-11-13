@@ -243,9 +243,17 @@ extension ConcertDetailViewController {
                 guard let entity = entity else { return }
                 
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name)
-//                owner.ticketingPeriodView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
-                owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
-                owner.ticketSalesTimeView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
+                owner.placeInfoView.setData(
+                    name: entity.placeName,
+                    streetAddress: entity.streetAddress,
+                    detailAddress: entity.detailAddress
+                )
+                owner.ticketSalesTimeView.setData(
+                    startDate: entity.salesStartTime,
+                    endDate: entity.salesEndTime,
+                    soldCount: entity.salesTicketCount,
+                    ticketingState: entity.ticketingState
+                )
                 owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
                 owner.contentInfoView.setData(content: entity.notice)
                 owner.organizerInfoView.setData(hostName: entity.hostName)
