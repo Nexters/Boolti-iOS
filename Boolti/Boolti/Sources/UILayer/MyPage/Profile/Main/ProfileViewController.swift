@@ -30,7 +30,7 @@ final class ProfileViewController: BooltiViewController {
 
     // MARK: UI Components
     
-    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "프로필"))
+    private lazy var navigationBar = BooltiNavigationBar(type: .profile(isMyProfile: self.viewModel.isMyProfile))
     
     private lazy var mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()

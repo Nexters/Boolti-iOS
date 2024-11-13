@@ -131,7 +131,7 @@ final class EditLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 owner.linkNameTextField.text = ""
                 owner.linkNameTextField.isButtonHidden = true
-                owner.navigationBar.completeButton.isEnabled = false
+                owner.navigationBar.rightTextButton.isEnabled = false
             }
             .disposed(by: self.disposeBag)
 
@@ -157,7 +157,7 @@ final class EditLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 owner.URLTextField.text = ""
                 owner.URLTextField.isButtonHidden = true
-                owner.navigationBar.completeButton.isEnabled = false
+                owner.navigationBar.rightTextButton.isEnabled = false
             }
             .disposed(by: self.disposeBag)
 
@@ -176,7 +176,7 @@ final class EditLinkViewController: BooltiViewController {
         .map { urlText, linkNameText in
             return !urlText.isEmpty && !linkNameText.isEmpty
         }
-        .bind(to: self.navigationBar.completeButton.rx.isEnabled)
+        .bind(to: self.navigationBar.rightTextButton.rx.isEnabled)
         .disposed(by: self.disposeBag)
 
         // 완료 버튼

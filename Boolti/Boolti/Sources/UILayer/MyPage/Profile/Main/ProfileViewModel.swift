@@ -17,6 +17,7 @@ final class ProfileViewModel {
     private let repository: RepositoryType
 
     private let userCode: String?
+    let isMyProfile: Bool
 
     struct Input {
         let viewWillAppearEvent = PublishSubject<Void>()
@@ -39,6 +40,7 @@ final class ProfileViewModel {
         self.output = Output()
         self.repository = repository
         self.userCode = userCode
+        self.isMyProfile = userCode == nil
 
         self.bindInputs()
     }

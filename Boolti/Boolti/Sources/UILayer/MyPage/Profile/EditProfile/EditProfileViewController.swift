@@ -160,7 +160,7 @@ extension EditProfileViewController {
             .orEmpty
             .asDriver()
             .drive(with: self) { owner, text in
-                owner.navigationBar.completeButton.isEnabled = !text.isEmpty
+                owner.navigationBar.rightTextButton.isEnabled = !text.isEmpty
                 owner.viewModel.input.didNickNameTyped.accept(text)
             }
             .disposed(by: self.disposeBag)
@@ -169,7 +169,7 @@ extension EditProfileViewController {
             .orEmpty
             .asDriver()
             .drive(with: self, onNext: { owner, text in
-                owner.navigationBar.completeButton.isEnabled = !text.isEmpty
+                owner.navigationBar.rightTextButton.isEnabled = !text.isEmpty
                 if !owner.editIntroductionView.isShowingPlaceHolder {
                     owner.viewModel.input.didIntroductionTyped.accept(text)
                 }
