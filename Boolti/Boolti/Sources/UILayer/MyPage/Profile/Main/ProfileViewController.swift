@@ -153,7 +153,6 @@ extension ProfileViewController {
             .subscribe(with: self) { owner, indexPath in
                 guard let section = Section(rawValue: indexPath.section) else { return }
                 
-                guard let url = URL(string: owner.viewModel.output.links[indexPath.row].link) else { return }
                 switch section {
                 case .link:
                     guard let url = URL(string: owner.viewModel.output.links[indexPath.row].link) else { return }
