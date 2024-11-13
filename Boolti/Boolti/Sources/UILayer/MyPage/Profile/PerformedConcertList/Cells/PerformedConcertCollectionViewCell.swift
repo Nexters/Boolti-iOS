@@ -1,16 +1,16 @@
 //
-//  ProfileConcertCollectionViewCell.swift
+//  PerformedConcertCollectionViewCell.swift
 //  Boolti
 //
-//  Created by Juhyeon Byun on 11/12/24.
+//  Created by Juhyeon Byun on 11/13/24.
 //
 
 import UIKit
 
-final class ProfileConcertCollectionViewCell: UICollectionViewCell {
+final class PerformedConcertCollectionViewCell: UICollectionViewCell {
     
     // MARK: UI Component
-    
+
     private let poster: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .grey30
@@ -24,7 +24,7 @@ final class ProfileConcertCollectionViewCell: UICollectionViewCell {
     
     private lazy var labelStackView: UIStackView = {
         let view = UIStackView()
-        view.spacing = 2
+        view.spacing = 8
         view.axis = .vertical
         view.alignment = .fill
         
@@ -34,7 +34,7 @@ final class ProfileConcertCollectionViewCell: UICollectionViewCell {
     
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.font = .aggroB(14)
+        label.font = .point1
         label.numberOfLines = 2
         label.textColor = .grey05
         return label
@@ -70,7 +70,7 @@ final class ProfileConcertCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Methods
 
-extension ProfileConcertCollectionViewCell {
+extension PerformedConcertCollectionViewCell {
     
     func setData(posterURL: String, title: String, datetime: Date) {
         self.poster.setImage(with: posterURL)
@@ -88,25 +88,30 @@ extension ProfileConcertCollectionViewCell {
 
 // MARK: - UI
 
-extension ProfileConcertCollectionViewCell {
+extension PerformedConcertCollectionViewCell {
     
     private func configureUI() {
         self.contentView.addSubviews([self.poster,
                                       self.labelStackView])
-
-        self.configureConstraints()
+        self.contentView.backgroundColor = .grey90
     }
     
     private func configureConstraints() {
+        self.snp.makeConstraints { make in
+            make.height.equalTo(138)
+        }
+        
         self.poster.snp.makeConstraints { make in
-            make.verticalEdges.leading.equalToSuperview()
-            make.width.equalTo(68)
+            make.leading.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(70)
+            make.height.equalTo(98)
         }
         
         self.labelStackView.snp.makeConstraints { make in
             make.centerY.equalTo(self.poster)
             make.leading.equalTo(self.poster.snp.trailing).offset(16)
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().inset(20)
         }
     }
     

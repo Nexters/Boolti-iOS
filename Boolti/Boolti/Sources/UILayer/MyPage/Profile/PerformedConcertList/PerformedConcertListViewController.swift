@@ -19,7 +19,7 @@ final class PerformedConcertListViewController: BooltiViewController {
     
     // MARK: UI Components
     
-    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "링크"))
+    private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "출연한 공연"))
     
     private let concertCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -79,7 +79,7 @@ extension PerformedConcertListViewController {
         self.concertCollectionView.delegate = self
         self.concertCollectionView.dataSource = self
         
-        self.concertCollectionView.register(ProfileConcertCollectionViewCell.self, forCellWithReuseIdentifier: ProfileConcertCollectionViewCell.className)
+        self.concertCollectionView.register(PerformedConcertCollectionViewCell.self, forCellWithReuseIdentifier: PerformedConcertCollectionViewCell.className)
     }
     
 }
@@ -97,8 +97,8 @@ extension PerformedConcertListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileConcertCollectionViewCell.className,
-                                                            for: indexPath) as? ProfileConcertCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PerformedConcertCollectionViewCell.className,
+                                                            for: indexPath) as? PerformedConcertCollectionViewCell else { return UICollectionViewCell() }
         
         let concert = self.viewModel.concertList[indexPath.row]
         cell.setData(posterURL: concert.thumbnailPath,
@@ -114,11 +114,11 @@ extension PerformedConcertListViewController: UICollectionViewDataSource {
 extension PerformedConcertListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.concertCollectionView.frame.width - 40, height: 94)
+        return CGSize(width: self.concertCollectionView.frame.width, height: 136)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 24
+        return 12
     }
 
 }
