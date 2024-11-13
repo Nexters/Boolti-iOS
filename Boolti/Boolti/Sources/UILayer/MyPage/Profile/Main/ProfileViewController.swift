@@ -320,7 +320,15 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        guard !self.viewModel.output.links.isEmpty else { return .zero }
+        guard let section = Section(rawValue: section) else { return .init() }
+        
+        switch section {
+        case .link:
+            guard !self.viewModel.output.links.isEmpty else { return .zero }
+        case .concert:
+            guard !self.viewModel.output.performedConcerts.isEmpty else { return .zero }
+        }
+
         return CGSize(width: self.view.frame.width, height: 66)
     }
 
