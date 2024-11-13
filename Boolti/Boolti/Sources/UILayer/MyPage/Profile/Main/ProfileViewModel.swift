@@ -9,8 +9,6 @@ import Foundation
 
 import RxSwift
 
-typealias isMyProfile = Bool
-
 final class ProfileViewModel {
     
     // MARK: Properties
@@ -27,7 +25,7 @@ final class ProfileViewModel {
     struct Output {
         var links: [LinkEntity] = []
         var performedConcerts: [PerformedConcertEntity] = []
-        var didProfileFetch = PublishSubject<(UserProfileResponseDTO, isMyProfile)>()
+        var didProfileFetch = PublishSubject<(UserProfileResponseDTO)>()
         var isUnknownProfile = PublishSubject<Bool>()
     }
 
@@ -68,7 +66,7 @@ extension ProfileViewModel {
             .subscribe(with: self) { owner, profile in
                 owner.output.links = profile.link ?? []
                 owner.output.performedConcerts = profile.performedShow ?? []
-                owner.output.didProfileFetch.onNext((profile, true))
+                owner.output.didProfileFetch.onNext((profile))
             }
             .disposed(by: self.disposeBag)
     }
@@ -76,11 +74,10 @@ extension ProfileViewModel {
     func fetchProfileInformation() {
         guard let concertRepository = self.repository as? ConcertRepository else { return }
         concertRepository.userProfile(userCode: self.userCode ?? "")
-            .debug()
             .subscribe(with: self, onSuccess: { owner, profile in
                 owner.output.links = profile.link ?? []
                 owner.output.performedConcerts = profile.performedShow ?? []
-                owner.output.didProfileFetch.onNext((profile, false))
+                owner.output.didProfileFetch.onNext((profile))
             }, onFailure: { owner, error in
                 owner.output.isUnknownProfile.onNext(true)
             })

@@ -58,22 +58,6 @@ final class ProfileMainView: UIView {
         return stackView
     }()
     
-    private let editButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
-        config.title = "프로필 편집"
-        config.attributedTitle?.font = .pretendardR(12)
-        config.background.backgroundColor = .grey80
-        config.baseForegroundColor = .grey05
-        config.background.cornerRadius = 4
-        config.imagePadding = 6
-        
-        let button = UIButton(configuration: config)
-        button.setImage(.pencil, for: .normal)
-
-        return button
-    }()
-    
     // MARK: Initailizer
     
     override init(frame: CGRect) {
@@ -94,24 +78,18 @@ extension ProfileMainView {
 
     func setDataForUnknownProfile() {
         self.nameLabel.text = "-"
-        self.editButton.isHidden = true
     }
 
-    func setData(entity: UserProfileResponseDTO, isMyProfile: Bool) {
+    func setData(entity: UserProfileResponseDTO) {
         self.profileImageView.setImage(with: entity.imgPath ?? "")
         self.nameLabel.text = entity.nickname
         self.introductionLabel.text = entity.introduction ?? ""
-        self.editButton.isHidden = !isMyProfile
     }
     
     func getHeight() -> CGFloat {
-        let height = self.editButton.isHidden ? 192 : 222
-        return CGFloat(height) + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
+        return 162 + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
     }
 
-    func didEditButtonTap() -> Signal<Void> {
-        return self.editButton.rx.tap.asSignal()
-    }
 }
 
 // MARK: - UI
@@ -125,8 +103,7 @@ extension ProfileMainView {
             arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
         )
         self.addSubviews([self.profileImageView,
-                          self.labelStackView,
-                          self.editButton])
+                          self.labelStackView])
         
         self.configureConstraints()
     }
@@ -142,11 +119,6 @@ extension ProfileMainView {
             make.top.equalTo(self.profileImageView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
-        
-        self.editButton.snp.makeConstraints { make in
-            make.top.equalTo(self.labelStackView.snp.bottom).offset(28)
-            make.leading.equalTo(self.labelStackView)
-            make.bottom.equalToSuperview().inset(32)
-        }
     }
+
 }

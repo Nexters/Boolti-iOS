@@ -126,8 +126,8 @@ extension ProfileViewController {
 
     private func bindViewModel() {
         self.viewModel.output.didProfileFetch
-            .subscribe(onNext: { [weak self] (entity, isMyProfile) in
-                self?.profileMainView.setData(entity: entity, isMyProfile: isMyProfile)
+            .subscribe(onNext: { [weak self] (entity) in
+                self?.profileMainView.setData(entity: entity)
                 self?.dataCollectionView.reloadData()
                 self?.updateCollectionViewHeight()
             })
@@ -169,12 +169,12 @@ extension ProfileViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.profileMainView.didEditButtonTap()
-            .emit(with: self) { owner, _ in
-                guard let editProfileViewControllerFactory = owner.editProfileViewControllerFactory?() else { return }
-                owner.navigationController?.pushViewController(editProfileViewControllerFactory, animated: true)
-            }
-            .disposed(by: self.disposeBag)
+//        self.profileMainView.didEditButtonTap()
+//            .emit(with: self) { owner, _ in
+//                guard let editProfileViewControllerFactory = owner.editProfileViewControllerFactory?() else { return }
+//                owner.navigationController?.pushViewController(editProfileViewControllerFactory, animated: true)
+//            }
+//            .disposed(by: self.disposeBag)
     }
     
     private func configureCollectionView() {
