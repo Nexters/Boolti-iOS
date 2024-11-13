@@ -80,7 +80,7 @@ final class ConcertListViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.viewModel.fetchConcertList(concertName: nil)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         self.configureDynamicLinkDestination()
         self.mainCollectionView.reloadSections([0], animationStyle: .automatic)

@@ -30,10 +30,9 @@ final class ConcertDetailViewModel {
         var title: String {
             switch self {
             case .onSale: "예매하기"
-            case .beforeSale(let startDate):
-                "예매 시작 D-\(Date().getBetweenDay(to: startDate))"
             case .endSale: "예매 종료"
             case .endConcert: "공연 종료"
+            default: ""
             }
         }
         

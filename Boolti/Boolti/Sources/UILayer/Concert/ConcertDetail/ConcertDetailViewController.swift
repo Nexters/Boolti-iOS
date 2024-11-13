@@ -145,7 +145,7 @@ final class ConcertDetailViewController: BooltiViewController {
         return button
     }()
     
-    private let ticketingButton = BooltiButton(title: "예매하기")
+    private let ticketingButton = BooltiButton(title: "-")
     
     private lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView()
@@ -247,11 +247,16 @@ extension ConcertDetailViewController {
             .disposed(by: self.disposeBag)
 
         self.viewModel.output.buttonState
+            .skip(1)
             .bind(with: self) { owner, state in
                 owner.giftingButton.isHidden = !state.isEnabled
                 
                 owner.ticketingButton.isEnabled = state.isEnabled
-                owner.ticketingButton.setTitle(state.title, for: .normal)
+                if case let .beforeSale(startDate) = state {
+                    self.bindBeforeSaleTimerButton(startDate: startDate)
+                } else {
+                    owner.ticketingButton.setTitle(state.title, for: .normal)
+                }
                 owner.ticketingButton.setTitleColor(state.titleColor, for: .normal)
             }
             .disposed(by: self.disposeBag)
@@ -299,7 +304,35 @@ extension ConcertDetailViewController {
         self.bindNavigationBar()
         self.bindOrganizerInfoView()
     }
-    
+
+    private func bindBeforeSaleTimerButton(startDate: Date) {
+        let calendar = Calendar.current
+
+        Observable<Int>
+            .interval(.seconds(1), scheduler: MainScheduler.instance) // 1초마다 이벤트 발생
+            .map { _ -> String in
+                let currentDate = Date()
+
+                let components = calendar.dateComponents([.day, .hour, .minute, .second], from: currentDate, to: startDate)
+
+                if let hour = components.hour, let minute = components.minute, let second = components.second {
+                    let day = components.day ?? 0
+                    let adjustedDay = max(day, 0)
+                    return String(format: "판매 시작까지 %d일 %02d:%02d:%02d", adjustedDay, hour, minute, second)
+                } else {
+                    return "판매 시작까지 0일 00:00:00"
+                }
+            }
+            .take(until: Observable.just(()).delay(.seconds(Int(startDate.timeIntervalSinceNow)), scheduler: MainScheduler.instance))
+            .do(onCompleted: { [weak self] in
+                self?.viewModel.fetchConcertDetail()
+            })
+            .bind(with: self, onNext: { owner, text in
+                owner.ticketingButton.setTitle(text, for: .normal) // 버튼 제목 업데이트
+            })
+            .disposed(by: self.disposeBag)
+    }
+
     private func bindPlaceInfoView() {
         self.placeInfoView.didAddressCopyButtonTap()
             .emit(with: self) { owner, _ in
