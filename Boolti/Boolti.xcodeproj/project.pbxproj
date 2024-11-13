@@ -329,6 +329,7 @@
 		8757BAB62B6009B5008503B5 /* SignUpRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */; };
 		8757BAB82B600B1B008503B5 /* SignUpResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */; };
 		87617F6D2B8ECC3500828C69 /* TicketInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746AD002B67F7610037A1B1 /* TicketInformationView.swift */; };
+		8764C2772CE43E7900AA020A /* TicketSalesTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8764C2762CE43E7900AA020A /* TicketSalesTimeView.swift */; };
 		876667542B73A82300DDB2B5 /* EntryCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876667532B73A82300DDB2B5 /* EntryCodeInputView.swift */; };
 		8766B5592B641266004F266A /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 8766B5582B641266004F266A /* Differentiator */; };
 		8766B55B2B641266004F266A /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 8766B55A2B641266004F266A /* RxDataSources */; };
@@ -723,6 +724,7 @@
 		8757BAAF2B60069B008503B5 /* OAuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthResponse.swift; sourceTree = "<group>"; };
 		8757BAB52B6009B5008503B5 /* SignUpRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequestDTO.swift; sourceTree = "<group>"; };
 		8757BAB72B600B1B008503B5 /* SignUpResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponseDTO.swift; sourceTree = "<group>"; };
+		8764C2762CE43E7900AA020A /* TicketSalesTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketSalesTimeView.swift; sourceTree = "<group>"; };
 		876577142B613F8D00BC6805 /* Boolti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Boolti.entitlements; sourceTree = "<group>"; };
 		876667532B73A82300DDB2B5 /* EntryCodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeInputView.swift; sourceTree = "<group>"; };
 		87681BDC2B7A695B008BF59F /* TicketEntryCodeRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEntryCodeRequestDTO.swift; sourceTree = "<group>"; };
@@ -1850,6 +1852,7 @@
 				87CC3FEA2CB255D00056A974 /* CastTeamListHeaderView.swift */,
 				87CC3FEC2CB25E9A0056A974 /* CastTeamListFooterView.swift */,
 				87CC3FFA2CB44B000056A974 /* EmptyCastTeamListView.swift */,
+				8764C2762CE43E7900AA020A /* TicketSalesTimeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2796,6 +2799,7 @@
 				87F63D692C3F7E46001D7A56 /* GiftCompletionDIContainer.swift in Sources */,
 				8710D9542B74FAB500309FBF /* LogoutViewController.swift in Sources */,
 				87CC3FEB2CB255D00056A974 /* CastTeamListHeaderView.swift in Sources */,
+				8764C2772CE43E7900AA020A /* TicketSalesTimeView.swift in Sources */,
 				87CE4F6F2B8DDA59007A0C8F /* PushNotificationAPI.swift in Sources */,
 				872605462B7932BD005CD0D4 /* TicketReservationDetailViewModel.swift in Sources */,
 				84781CC52B5BF9DE00D37921 /* TicketListViewController.swift in Sources */,

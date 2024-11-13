@@ -62,14 +62,12 @@ final class ConcertDetailViewController: BooltiViewController {
 
         stackView.addArrangedSubviews([
             self.concertPosterView,
-            self.ticketingPeriodView,
             self.segmentedControlContainerView,
             self.concertDetailStackView,
             self.castTeamListCollectionView
         ])
 
-        stackView.setCustomSpacing(40, after: self.concertPosterView)
-        stackView.setCustomSpacing(40, after: self.ticketingPeriodView)
+        stackView.setCustomSpacing(20, after: self.concertPosterView)
         return stackView
     }()
 
@@ -79,6 +77,7 @@ final class ConcertDetailViewController: BooltiViewController {
         stackView.isHidden = false
 
         stackView.addArrangedSubviews([
+            self.ticketSalesTimeView,
             self.datetimeInfoView,
             self.placeInfoView,
             self.contentInfoView,
@@ -112,9 +111,15 @@ final class ConcertDetailViewController: BooltiViewController {
     }()
 
     private let concertPosterView = ConcertPosterView()
-    
-    private let ticketingPeriodView = TicketingPeriodView()
-    
+    private let ticketSalesTimeView = TicketSalesTimeView()
+    private let remainingSalesTimeLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .grey05
+        label.isHidden = true
+
+        return label
+    }()
+
     private let datetimeInfoView = DatetimeInfoView()
 
     private let segmentedControlContainerView = SegmentedControlContainerView(items: ["공연 정보", "출연진"])
@@ -146,7 +151,7 @@ final class ConcertDetailViewController: BooltiViewController {
     }()
     
     private let ticketingButton = BooltiButton(title: "-")
-    
+
     private lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -238,8 +243,9 @@ extension ConcertDetailViewController {
                 guard let entity = entity else { return }
                 
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name)
-                owner.ticketingPeriodView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
+//                owner.ticketingPeriodView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
                 owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
+                owner.ticketSalesTimeView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
                 owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
                 owner.contentInfoView.setData(content: entity.notice)
                 owner.organizerInfoView.setData(hostName: entity.hostName)
