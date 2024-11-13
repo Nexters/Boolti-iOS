@@ -9,7 +9,6 @@ import Foundation
 
 // TODO: DTO와 Entity 분리하기!
 struct UserResponseDTO: UserProfileResponseDTO {
-
     let id: Int
     let nickname: String?
     let userCode: String?
@@ -17,9 +16,17 @@ struct UserResponseDTO: UserProfileResponseDTO {
     let imgPath: String?
     let introduction: String?
     let link: [LinkEntity]?
+    let performedShow: [PerformedConcertEntity]?
 }
 
 struct LinkEntity: Codable, Equatable {
     let title: String
     let link: String
+}
+
+struct PerformedConcertEntity: Codable, Equatable {
+    let id: Int
+    let name: String
+    let date: String
+    let thumbnailPath: String
 }

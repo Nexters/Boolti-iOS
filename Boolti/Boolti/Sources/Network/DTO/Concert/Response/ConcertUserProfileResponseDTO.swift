@@ -13,6 +13,7 @@ protocol UserProfileResponseDTO: Decodable {
     var imgPath: String? { get }
     var introduction: String? { get }
     var link: [LinkEntity]? { get }
+    var performedShow: [PerformedConcertEntity]? { get }
 }
 
 struct ConcertUserProfileResponseDTO: UserProfileResponseDTO {
@@ -22,4 +23,5 @@ struct ConcertUserProfileResponseDTO: UserProfileResponseDTO {
     let imgPath: String?
     let introduction: String?
     let link: [LinkEntity]?
+    let performedShow: [PerformedConcertEntity]?
 }

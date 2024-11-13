@@ -1,5 +1,5 @@
 //
-//  ProfileLinkHeaderView.swift
+//  ProfileDataHeaderView.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 8/24/24.
@@ -9,7 +9,7 @@ import UIKit
 
 import RxSwift
 
-final class ProfileLinkHeaderView: UICollectionReusableView {
+final class ProfileDataHeaderView: UICollectionReusableView {
     
     // MARK: Properties
 
@@ -21,7 +21,6 @@ final class ProfileLinkHeaderView: UICollectionReusableView {
         let label = BooltiUILabel()
         label.font = .subhead2
         label.textColor = .grey10
-        label.text = "링크"
         return label
     }()
     
@@ -57,9 +56,19 @@ final class ProfileLinkHeaderView: UICollectionReusableView {
     
 }
 
+// MARK: - Methods
+
+extension ProfileDataHeaderView {
+    
+    func setTitle(with title: String) {
+        self.titleLabel.text = title
+    }
+
+}
+
 // MARK: - UI
 
-extension ProfileLinkHeaderView {
+extension ProfileDataHeaderView {
     
     private func configureUI() {
         self.addSubviews([self.titleLabel,
@@ -69,14 +78,13 @@ extension ProfileLinkHeaderView {
     
     private func configureConstraints() {
         self.titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(32)
+            make.bottom.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(20)
         }
         
         self.expandButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.titleLabel)
             make.trailing.equalToSuperview().inset(20)
-            
         }
     }
     
