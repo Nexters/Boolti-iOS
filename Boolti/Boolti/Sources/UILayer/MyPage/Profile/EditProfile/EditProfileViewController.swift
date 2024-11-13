@@ -180,7 +180,7 @@ extension EditProfileViewController {
             .emit(to: self.viewModel.input.didBackButtonTapped)
             .disposed(by: self.disposeBag)
         
-        self.navigationBar.didCompleteButtonTap()
+        self.navigationBar.didRightTextButtonTap()
             .emit(with: self, onNext: { owner, _ in
                 // TODO: 아래와 같이 url이랑 image 따로 보내는 거 해결하기 (vm 참고)
                 let image = owner.editProfileImageView.profileImageView.image ?? UIImage()

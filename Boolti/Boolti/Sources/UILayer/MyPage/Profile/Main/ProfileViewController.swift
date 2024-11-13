@@ -149,6 +149,29 @@ extension ProfileViewController {
             }
             .disposed(by: self.disposeBag)
         
+        self.navigationBar.didMoreButtonTap()
+            .emit(with: self) { owner, _ in
+                let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                
+                let reportAction = UIAlertAction(title: "신고하기", style: .default) { _ in
+                    // TODO: - 유저 신고하기
+                 }
+                 alertController.addAction(reportAction)
+
+                let cancleAction = UIAlertAction(title: "취소하기", style: .cancel)
+                alertController.addAction(cancleAction)
+
+                owner.present(alertController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.navigationBar.didRightTextButtonTap()
+            .emit(with: self) { owner, _ in
+                guard let editProfileViewControllerFactory = owner.editProfileViewControllerFactory?() else { return }
+                owner.navigationController?.pushViewController(editProfileViewControllerFactory, animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
         self.dataCollectionView.rx.itemSelected
             .subscribe(with: self) { owner, indexPath in
                 guard let section = Section(rawValue: indexPath.section) else { return }
@@ -168,13 +191,6 @@ extension ProfileViewController {
                 }
             }
             .disposed(by: self.disposeBag)
-        
-//        self.profileMainView.didEditButtonTap()
-//            .emit(with: self) { owner, _ in
-//                guard let editProfileViewControllerFactory = owner.editProfileViewControllerFactory?() else { return }
-//                owner.navigationController?.pushViewController(editProfileViewControllerFactory, animated: true)
-//            }
-//            .disposed(by: self.disposeBag)
     }
     
     private func configureCollectionView() {

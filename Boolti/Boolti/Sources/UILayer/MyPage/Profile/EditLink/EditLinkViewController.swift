@@ -180,7 +180,7 @@ final class EditLinkViewController: BooltiViewController {
         .disposed(by: self.disposeBag)
 
         // 완료 버튼
-        self.navigationBar.didCompleteButtonTap()
+        self.navigationBar.didRightTextButtonTap()
             .emit(with: self) { owner, _ in
                 guard let title = owner.linkNameTextField.text else { return }
                 guard let link = owner.URLTextField.text else { return }
