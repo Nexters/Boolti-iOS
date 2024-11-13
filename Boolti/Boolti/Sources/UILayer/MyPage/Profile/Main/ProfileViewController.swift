@@ -26,6 +26,7 @@ final class ProfileViewController: BooltiViewController {
     private let editProfileViewControllerFactory: (() -> EditProfileViewController)?
     private let linkListControllerFactory: ([LinkEntity]) -> LinkListViewController
     private let performedConcertListControllerFactory: ([PerformedConcertEntity]) -> PerformedConcertListViewController
+    private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
 
     // MARK: UI Components
     
@@ -65,12 +66,14 @@ final class ProfileViewController: BooltiViewController {
     init(viewModel: ProfileViewModel,
          editProfileViewControllerFactory: (() -> EditProfileViewController)? = nil,
          linkListControllerFactory: @escaping ([LinkEntity]) -> LinkListViewController,
-         performedConcertListControllerFactory: @escaping (([PerformedConcertEntity]) -> PerformedConcertListViewController)
+         performedConcertListControllerFactory: @escaping (([PerformedConcertEntity]) -> PerformedConcertListViewController),
+         concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController
     ) {
         self.viewModel = viewModel
         self.editProfileViewControllerFactory = editProfileViewControllerFactory
         self.linkListControllerFactory = linkListControllerFactory
         self.performedConcertListControllerFactory = performedConcertListControllerFactory
+        self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
         
         super.init()
     }
@@ -147,13 +150,22 @@ extension ProfileViewController {
             .disposed(by: self.disposeBag)
         
         self.dataCollectionView.rx.itemSelected
-            .map { $0.row }
-            .subscribe(with: self) { owner, index in
-                guard let url = URL(string: owner.viewModel.output.links[index].link) else { return }
-                if UIApplication.shared.canOpenURL(url) {
-                    owner.openSafari(with: url)
-                } else {
-                    owner.showToast(message: "유효한 링크가 아니에요")
+            .subscribe(with: self) { owner, indexPath in
+                guard let section = Section(rawValue: indexPath.section) else { return }
+                
+                guard let url = URL(string: owner.viewModel.output.links[indexPath.row].link) else { return }
+                switch section {
+                case .link:
+                    guard let url = URL(string: owner.viewModel.output.links[indexPath.row].link) else { return }
+                    if UIApplication.shared.canOpenURL(url) {
+                        owner.openSafari(with: url)
+                    } else {
+                        owner.showToast(message: "유효한 링크가 아니에요")
+                    }
+                case .concert:
+                    let concertId = owner.viewModel.output.performedConcerts[indexPath.row].id
+                    let concertDetailViewController = owner.concertDetailViewControllerFactory(concertId)
+                    owner.navigationController?.pushViewController(concertDetailViewController, animated: true)
                 }
             }
             .disposed(by: self.disposeBag)

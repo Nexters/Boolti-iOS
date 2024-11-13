@@ -35,16 +35,22 @@ final class ProfileDIContainer {
         }
         
         let performedConcertListControllerFactory: ([PerformedConcertEntity]) -> PerformedConcertListViewController = { concertList in
-            let DIContainer = PerformedConcertListDIContainer()
+            let DIContainer = PerformedConcertListDIContainer(repository: self.repository)
             let viewController = DIContainer.createPerformedConcertListViewController(performedConcertList: concertList)
+            
+            return viewController
+        }
+        
+        let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController = { concertId in
+            let DIContainer = ConcertDetailDIContainer(authRepository: AuthRepository(networkService: self.repository.networkService),
+                                                               concertRepository: ConcertRepository(networkService: self.repository.networkService))
+            let viewController = DIContainer.createConcertDetailViewController(concertId: concertId)
             
             return viewController
         }
 
         let viewModel = ProfileViewModel(repository: self.repository)
-        let viewController = ProfileViewController(viewModel: viewModel,
-                                                   editProfileViewControllerFactory: editProfileViewControllerFactory,
-                                                   linkListControllerFactory: linkListViewControllerFactory, performedConcertListControllerFactory: performedConcertListControllerFactory)
+        let viewController = ProfileViewController(viewModel: viewModel, editProfileViewControllerFactory: editProfileViewControllerFactory, linkListControllerFactory: linkListViewControllerFactory, performedConcertListControllerFactory: performedConcertListControllerFactory, concertDetailViewControllerFactory: concertDetailViewControllerFactory)
 
         return viewController
     }
@@ -60,14 +66,23 @@ final class ProfileDIContainer {
         }
         
         let performedConcertListControllerFactory: ([PerformedConcertEntity]) -> PerformedConcertListViewController = { concertList in
-            let DIContainer = PerformedConcertListDIContainer()
+            let DIContainer = PerformedConcertListDIContainer(repository: self.repository)
             let viewController = DIContainer.createPerformedConcertListViewController(performedConcertList: concertList)
+            
+            return viewController
+        }
+        
+        let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController = { concertId in
+            let DIContainer = ConcertDetailDIContainer(authRepository: AuthRepository(networkService: self.repository.networkService),
+                                                               concertRepository: ConcertRepository(networkService: self.repository.networkService))
+            let viewController = DIContainer.createConcertDetailViewController(concertId: concertId)
             
             return viewController
         }
 
         let viewController = ProfileViewController(viewModel: viewModel,
-                                                   linkListControllerFactory: linkListViewControllerFactory, performedConcertListControllerFactory: performedConcertListControllerFactory)
+                                                   linkListControllerFactory: linkListViewControllerFactory, performedConcertListControllerFactory: performedConcertListControllerFactory,
+                                                   concertDetailViewControllerFactory: concertDetailViewControllerFactory)
 
         return viewController
     }

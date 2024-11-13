@@ -17,6 +17,8 @@ final class PerformedConcertListViewController: BooltiViewController {
     private let disposeBag = DisposeBag()
     private var viewModel: PerformedConcertListViewModel
     
+    private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
+    
     // MARK: UI Components
     
     private let navigationBar = BooltiNavigationBar(type: .backButtonWithTitle(title: "출연한 공연"))
@@ -35,8 +37,11 @@ final class PerformedConcertListViewController: BooltiViewController {
     
     // MARK: Initailizer
     
-    init(viewModel: PerformedConcertListViewModel) {
+    init(viewModel: PerformedConcertListViewModel,
+         concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController) {
         self.viewModel = viewModel
+        self.concertDetailViewControllerFactory = concertDetailViewControllerFactory
+
         super.init()
     }
     
@@ -70,7 +75,9 @@ extension PerformedConcertListViewController {
         self.concertCollectionView.rx.itemSelected
             .map { $0.row }
             .subscribe(with: self) { owner, index in
-                // TODO: - 공연 상세로 이동
+                let concertId = owner.viewModel.concertList[index].id
+                let concertDetailViewController = owner.concertDetailViewControllerFactory(concertId)
+                owner.navigationController?.pushViewController(concertDetailViewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }
