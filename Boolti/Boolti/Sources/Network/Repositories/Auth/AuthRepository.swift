@@ -23,7 +23,7 @@ protocol AuthRepositoryType: RepositoryType {
     func userInfo() -> Single<Void>
     func userProfile() -> Single<ProfileEntity>
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void>
-    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void>
+    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity], snses: [SnsEntity]) -> Single<Void>
     func getUploadImageURL() -> Single<GetUploadURLReponseDTO>
     func uploadProfileImage(uploadURL: String, imageData: UIImage) -> Single<String>
 }
@@ -197,11 +197,21 @@ final class AuthRepository: AuthRepositoryType {
             .map { _ in return () }
     }
     
-    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void> {
+    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity], snses: [SnsEntity]) -> Single<Void> {
+        let link = links.map { link in
+            return LinkDTO(title: link.title, link: link.link)
+        }
+
+        let sns = snses.map { sns in
+            return LinkDTO(title: sns.snsType.rawValue, link: sns.name)
+        }
+        
+        
         let api = AuthAPI.editProfile(requestDTO: EditProfileRequestDTO(nickname: nickname,
                                                                          profileImagePath: profileImageUrl,
                                                                          introduction: introduction,
-                                                                         link: links))
+                                                                         link: link,
+                                                                         sns: sns))
         
         return self.networkService.request(api)
             .map(UserResponseDTO.self)

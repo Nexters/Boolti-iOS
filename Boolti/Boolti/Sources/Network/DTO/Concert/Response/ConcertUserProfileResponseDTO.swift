@@ -58,7 +58,7 @@ struct ConcertUserProfileResponseDTO: UserProfileResponseDTO {
 
 }
 
-struct LinkDTO: Decodable {
+struct LinkDTO: Codable {
     let title: String
     let link: String
 }
