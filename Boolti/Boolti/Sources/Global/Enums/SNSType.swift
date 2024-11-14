@@ -39,4 +39,13 @@ enum SNSType: String, Codable {
             return .youtube
         }
     }
+    
+    var description: String {
+        switch self {
+        case .instagram:
+            return "instagram"
+        case .youtube:
+            return "youtube"
+        }
+    }
 }

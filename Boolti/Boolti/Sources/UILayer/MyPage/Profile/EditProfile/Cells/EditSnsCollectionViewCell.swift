@@ -72,7 +72,7 @@ extension EditSnsCollectionViewCell {
     
     func setData(with data: SnsEntity) {
         self.snsImageView.image = data.snsType.image
-        self.typeLabel.text = data.snsType.rawValue
+        self.typeLabel.text = data.snsType.description
         self.nameLabel.text = data.name
     }
 
