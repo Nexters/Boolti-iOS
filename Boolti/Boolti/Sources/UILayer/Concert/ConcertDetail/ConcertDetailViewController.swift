@@ -62,14 +62,12 @@ final class ConcertDetailViewController: BooltiViewController {
 
         stackView.addArrangedSubviews([
             self.concertPosterView,
-            self.ticketingPeriodView,
             self.segmentedControlContainerView,
             self.concertDetailStackView,
             self.castTeamListCollectionView
         ])
 
-        stackView.setCustomSpacing(40, after: self.concertPosterView)
-        stackView.setCustomSpacing(40, after: self.ticketingPeriodView)
+        stackView.setCustomSpacing(20, after: self.concertPosterView)
         return stackView
     }()
 
@@ -79,6 +77,7 @@ final class ConcertDetailViewController: BooltiViewController {
         stackView.isHidden = false
 
         stackView.addArrangedSubviews([
+            self.ticketSalesTimeView,
             self.datetimeInfoView,
             self.placeInfoView,
             self.contentInfoView,
@@ -112,9 +111,17 @@ final class ConcertDetailViewController: BooltiViewController {
     }()
 
     private let concertPosterView = ConcertPosterView()
-    
-    private let ticketingPeriodView = TicketingPeriodView()
-    
+    private let ticketSalesTimeView = TicketSalesTimeView()
+    private let remainingSalesTimeLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .grey05
+        label.font = .subhead1
+        label.textColor = .grey90
+        label.textAlignment = .center
+
+        return label
+    }()
+
     private let datetimeInfoView = DatetimeInfoView()
 
     private let segmentedControlContainerView = SegmentedControlContainerView(items: ["공연 정보", "출연진"])
@@ -145,8 +152,8 @@ final class ConcertDetailViewController: BooltiViewController {
         return button
     }()
     
-    private let ticketingButton = BooltiButton(title: "예매하기")
-    
+    private let ticketingButton = BooltiButton(title: "-")
+
     private lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -229,7 +236,17 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
+
+    private func configureRemainingSaleTimerBanner(salesEndTime: Date, ticketingStatus: ConcertTicketingState) {
+        switch ticketingStatus {
+        case .onSale:
+            self.bindRemaingSaleTimerBanner(salesEndTime: salesEndTime)
+        default:
+            self.remainingSalesTimeLabel.isHidden = true
+            self.updateConstraintsForNonBannerCase()
+        }
+    }
+
     private func bindOutputs() {
         self.viewModel.output.concertDetail
             .skip(1)
@@ -238,20 +255,35 @@ extension ConcertDetailViewController {
                 guard let entity = entity else { return }
                 
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name)
-                owner.ticketingPeriodView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
-                owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
+                owner.placeInfoView.setData(
+                    name: entity.placeName,
+                    streetAddress: entity.streetAddress,
+                    detailAddress: entity.detailAddress
+                )
+                owner.ticketSalesTimeView.setData(
+                    startDate: entity.salesStartTime,
+                    endDate: entity.salesEndTime,
+                    soldCount: entity.salesTicketCount,
+                    ticketingState: entity.ticketingState
+                )
                 owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
                 owner.contentInfoView.setData(content: entity.notice)
                 owner.organizerInfoView.setData(hostName: entity.hostName)
+                owner.configureRemainingSaleTimerBanner(salesEndTime: entity.salesEndTime, ticketingStatus: entity.ticketingState)
             }
             .disposed(by: self.disposeBag)
 
         self.viewModel.output.buttonState
+            .skip(1)
             .bind(with: self) { owner, state in
                 owner.giftingButton.isHidden = !state.isEnabled
                 
                 owner.ticketingButton.isEnabled = state.isEnabled
-                owner.ticketingButton.setTitle(state.title, for: .normal)
+                if case let .beforeSale(startDate) = state {
+                    self.bindBeforeSaleTimerButton(startDate: startDate)
+                } else {
+                    owner.ticketingButton.setTitle(state.title, for: .normal)
+                }
                 owner.ticketingButton.setTitleColor(state.titleColor, for: .normal)
             }
             .disposed(by: self.disposeBag)
@@ -299,7 +331,8 @@ extension ConcertDetailViewController {
         self.bindNavigationBar()
         self.bindOrganizerInfoView()
     }
-    
+
+
     private func bindPlaceInfoView() {
         self.placeInfoView.didAddressCopyButtonTap()
             .emit(with: self) { owner, _ in
@@ -398,6 +431,63 @@ extension ConcertDetailViewController {
             .disposed(by: self.disposeBag)
     }
 
+    // TODO: Timer 설정하는 코드 중복되는 거 고도화하기
+    private func bindRemaingSaleTimerBanner(salesEndTime: Date) {
+        let calendar = Calendar.current
+
+        Observable<Int>
+            .interval(.seconds(1), scheduler: MainScheduler.instance)
+            .map { _ -> String in
+                let currentDate = Date()
+
+                let components = calendar.dateComponents([.day, .hour, .minute, .second], from: currentDate, to: salesEndTime)
+
+                if let hour = components.hour, let minute = components.minute, let second = components.second {
+                    let day = components.day ?? 0
+                    let adjustedDay = max(day, 0)
+                    return String(format: "🔥 판매 종료까지 %d일 %02d:%02d:%02d", adjustedDay, hour, minute, second)
+                } else {
+                    return ""
+                }
+            }
+            .take(until: Observable.just(()).delay(.seconds(Int(salesEndTime.timeIntervalSinceNow)), scheduler: MainScheduler.instance))
+            .do(onCompleted: { [weak self] in
+                self?.viewModel.fetchConcertDetail()
+            })
+            .bind(with: self, onNext: { owner, text in
+                owner.remainingSalesTimeLabel.text = text
+            })
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindBeforeSaleTimerButton(startDate: Date) {
+        let calendar = Calendar.current
+
+        Observable<Int>
+            .interval(.seconds(1), scheduler: MainScheduler.instance)
+            .map { _ -> String in
+                let currentDate = Date()
+
+                let components = calendar.dateComponents([.day, .hour, .minute, .second], from: currentDate, to: startDate)
+
+                if let hour = components.hour, let minute = components.minute, let second = components.second {
+                    let day = components.day ?? 0
+                    let adjustedDay = max(day, 0)
+                    return String(format: "판매 시작까지 %d일 %02d:%02d:%02d", adjustedDay, hour, minute, second)
+                } else {
+                    return ""
+                }
+            }
+            .take(until: Observable.just(()).delay(.seconds(Int(startDate.timeIntervalSinceNow)), scheduler: MainScheduler.instance))
+            .do(onCompleted: { [weak self] in
+                self?.viewModel.fetchConcertDetail()
+            })
+            .bind(with: self, onNext: { owner, text in
+                owner.ticketingButton.setTitle(text, for: .normal)
+            })
+            .disposed(by: self.disposeBag)
+    }
+
     private func configureCollectionView() {
         self.castTeamListCollectionView.reloadData()
         self.castTeamListCollectionView.layoutIfNeeded()
@@ -429,6 +519,7 @@ extension ConcertDetailViewController {
     
     private func configureUI() {
         self.view.addSubviews([self.navigationBar,
+                               self.remainingSalesTimeLabel,
                                self.scrollView,
                                self.buttonBackgroundView,
                                self.buttonStackView,
@@ -443,13 +534,19 @@ extension ConcertDetailViewController {
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
-        
+
+        self.remainingSalesTimeLabel.snp.makeConstraints { make in
+            make.height.equalTo(40)
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+        }
+
         self.dimmedBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
         self.scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.top.equalTo(self.remainingSalesTimeLabel.snp.bottom)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(self.ticketingButton.snp.top)
         }
@@ -473,6 +570,17 @@ extension ConcertDetailViewController {
         self.castTeamListCollectionView.snp.makeConstraints { make in
             make.height.equalTo(100) // 초기 설정
             make.horizontalEdges.equalToSuperview()
+        }
+    }
+
+    private func updateConstraintsForNonBannerCase() {
+        self.remainingSalesTimeLabel.isHidden = true
+
+        self.concertPosterView.updateHeight()
+        self.scrollView.snp.remakeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(self.ticketingButton.snp.top)
         }
     }
 
