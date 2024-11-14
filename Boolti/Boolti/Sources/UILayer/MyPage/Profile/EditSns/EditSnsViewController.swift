@@ -139,6 +139,8 @@ extension EditSnsViewController {
             .distinctUntilChanged()
             .bind(with: self) { owner, text in
                 if text.isEmpty {
+                    owner.errorMessageLabel.text = nil
+                    owner.userNameTextField.layer.borderWidth = 0
                     owner.userNameTextField.isButtonHidden = true
                     owner.navigationBar.rightTextButton.isEnabled = false
                 } else {
