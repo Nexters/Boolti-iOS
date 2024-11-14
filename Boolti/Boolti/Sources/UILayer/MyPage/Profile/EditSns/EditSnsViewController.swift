@@ -64,7 +64,12 @@ final class EditSnsViewController: BooltiViewController {
         return collectionView
     }()
 
-    private let userNameTextField = ButtonTextField(with: .delete, placeHolder: "ex) boolti_official")
+    private let userNameTextField: ButtonTextField = {
+        let textField = ButtonTextField(with: .delete, placeHolder: "ex) boolti_official")
+        textField.layer.borderColor = UIColor.error.cgColor
+        return textField
+    }()
+
     private lazy var userNameStackView = BooltiInputStackView(
         title: "Username",
         textField: userNameTextField
@@ -79,7 +84,13 @@ final class EditSnsViewController: BooltiViewController {
 
         return button
     }()
-
+    
+    private let errorMessageLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .pretendardR(14)
+        label.textColor = .error
+        return label
+    }()
 
     // TODO: BooltiPopUpView도 더 재사용성 높게 변경하기 -> Init에서 설정하게!
     // 항상 PopUpView를 띄어두고 있는 것(메모리)이 아니라 present하는 방식도 고민해보기
@@ -127,8 +138,31 @@ extension EditSnsViewController {
             .skip(1)
             .distinctUntilChanged()
             .bind(with: self) { owner, text in
-                owner.userNameTextField.isButtonHidden = text.isEmpty
-                owner.navigationBar.rightTextButton.isEnabled = !text.isEmpty
+                if text.isEmpty {
+                    owner.userNameTextField.isButtonHidden = true
+                    owner.navigationBar.rightTextButton.isEnabled = false
+                } else {
+                    if text.contains("@") {
+                        owner.errorMessageLabel.text = "@를 제외한 Username을 입력해 주세요"
+                        owner.userNameTextField.layer.borderWidth = 1
+                        owner.navigationBar.rightTextButton.isEnabled = false
+                    } else {
+                        let pattern = owner.snsTypes[owner.selectedIndex].pattern
+                        let regex = try! NSRegularExpression(pattern: pattern)
+                        
+                        let isValid = regex.firstMatch(in: text, options: [], range: NSRange(location: 0, length: text.count)) != nil
+                        
+                        if isValid {
+                            owner.errorMessageLabel.text = nil
+                            owner.userNameTextField.layer.borderWidth = 0
+                            owner.navigationBar.rightTextButton.isEnabled = true
+                        } else {
+                            owner.errorMessageLabel.text = "지원하지 않는 특수문자가 포함되어 있습니다"
+                            owner.userNameTextField.layer.borderWidth = 1
+                            owner.navigationBar.rightTextButton.isEnabled = false
+                        }
+                    }
+                }
             }
             .disposed(by: self.disposeBag)
 
@@ -279,6 +313,7 @@ extension EditSnsViewController {
                                self.snsSelectLabel,
                                self.snsTypeCollectionView,
                                self.userNameStackView,
+                               self.errorMessageLabel,
                                self.deleteSnsButton,
                                self.deleteSnsPopUpView])
         self.view.backgroundColor = .grey95
@@ -316,6 +351,12 @@ extension EditSnsViewController {
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         self.userNameStackView.updateTitleLabelConstraints(width: 65)
+        
+        self.errorMessageLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.userNameStackView.snp.bottom).offset(12)
+            make.leading.equalTo(self.userNameTextField)
+            make.trailing.equalToSuperview().inset(20)
+        }
 
         self.deleteSnsButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
