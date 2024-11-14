@@ -12,10 +12,6 @@ import RxCocoa
 
 final class ProfileMainView: UIView {
     
-    // MARK: Properties
-    
-    var disposeBag = DisposeBag()
-    
     // MARK: UI Components
 
     private let profileImageView: UIImageView = {
@@ -58,6 +54,18 @@ final class ProfileMainView: UIView {
         return stackView
     }()
     
+    let snsCollectionView: UICollectionView = {
+        let layout = SnsCollectionViewLeftAlignedLayout()
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        collectionView.isScrollEnabled = false
+        collectionView.register(ProfileSnsCollectionViewCell.self,
+                                forCellWithReuseIdentifier: ProfileSnsCollectionViewCell.className)
+        return collectionView
+    }()
+    
     // MARK: Initailizer
     
     override init(frame: CGRect) {
@@ -80,10 +88,10 @@ extension ProfileMainView {
         self.nameLabel.text = "-"
     }
 
-    func setData(entity: UserProfileResponseDTO) {
-        self.profileImageView.setImage(with: entity.imgPath ?? "")
+    func setData(entity: ProfileEntity) {
+        self.profileImageView.setImage(with: entity.profileImageURL)
         self.nameLabel.text = entity.nickname
-        self.introductionLabel.text = entity.introduction ?? ""
+        self.introductionLabel.text = entity.introduction
     }
     
     func getHeight() -> CGFloat {
@@ -103,7 +111,8 @@ extension ProfileMainView {
             arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
         )
         self.addSubviews([self.profileImageView,
-                          self.labelStackView])
+                          self.labelStackView,
+                          self.snsCollectionView])
         
         self.configureConstraints()
     }
@@ -118,6 +127,12 @@ extension ProfileMainView {
         self.labelStackView.snp.makeConstraints { make in
             make.top.equalTo(self.profileImageView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        self.snsCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(self.labelStackView.snp.bottom).offset(16)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(0)
         }
     }
 
