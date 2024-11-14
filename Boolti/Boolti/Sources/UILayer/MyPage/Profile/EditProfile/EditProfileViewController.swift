@@ -351,8 +351,7 @@ extension EditProfileViewController: UICollectionViewDataSource {
             header.rx.tapGesture()
                 .when(.recognized)
                 .bind(with: self) { owner, _ in
-                    // TODO: - editSnsViewController로 변경 필요
-                    let viewController = EditLinkViewController(editType: .add)
+                    let viewController = EditSnsViewController(editType: .add)
                     viewController.delegate = self
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
@@ -398,10 +397,9 @@ extension EditProfileViewController: UICollectionViewDataSource {
             let snsEntity = snses[indexPath.row]
             self.selectedItemIndex = indexPath.row
 
-            // TODO: - sns edit vc로 이동
-//            let viewController = EditLinkViewController(editType: .edit(linkEntity))
-//            viewController.delegate = self
-//            self.navigationController?.pushViewController(viewController, animated: true)
+            let viewController = EditSnsViewController(editType: .edit(snsEntity))
+            viewController.delegate = self
+            self.navigationController?.pushViewController(viewController, animated: true)
         } else {
             guard let links = self.viewModel.output.profile.links else { return }
 
@@ -508,6 +506,36 @@ extension EditProfileViewController: EditLinkViewControllerDelegate {
         links.insert(entity, at: 0)
         
         self.viewModel.input.didLinkChanged.accept(links)
+        self.reloadLinks()
+    }
+
+}
+
+// MARK: EditSnsViewControllerDelegate
+
+extension EditProfileViewController: EditSnsViewControllerDelegate {
+    
+    func editSnsDidDeleted(_ viewController: UIViewController) {
+        guard var snses = self.viewModel.output.profile.snses else { return }
+        snses.remove(at: self.selectedItemIndex)
+        
+        self.viewModel.input.didSnsChanged.accept(snses)
+        self.reloadLinks()
+    }
+    
+    func editSnsViewController(_ viewController: UIViewController, didChangedSns entity: SnsEntity) {
+        guard var snses = self.viewModel.output.profile.snses else { return }
+        snses[self.selectedItemIndex] = entity
+        
+        self.viewModel.input.didSnsChanged.accept(snses)
+        self.reloadLinks()
+    }
+    
+    func editSnsViewController(_ viewController: UIViewController, didAddedSns entity: SnsEntity) {
+        guard var snses = self.viewModel.output.profile.snses else { return }
+        snses.insert(entity, at: 0)
+        
+        self.viewModel.input.didSnsChanged.accept(snses)
         self.reloadLinks()
     }
 

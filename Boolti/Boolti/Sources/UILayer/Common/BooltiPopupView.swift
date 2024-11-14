@@ -27,6 +27,7 @@ final class BooltiPopupView: UIView {
         case registerMyGift
         case registerGiftError
         case deleteLink
+        case deleteSns
         case saveProfile
         case unknownProfile
 
@@ -50,6 +51,8 @@ final class BooltiPopupView: UIView {
                 "선물 등록에 실패했어요"
             case .deleteLink:
                 "링크를 삭제하시겠어요?"
+            case .deleteSns:
+                "SNS를 삭제하시겠어요?"
             case .saveProfile:
                 "저장하지 않고 이 페이지를 나가면\n작성한 정보가 손실됩니다.\n변경된 정보를 저장할까요?"
             case .unknownProfile:
@@ -78,7 +81,7 @@ final class BooltiPopupView: UIView {
                 "등록하기"
             case .registerGiftError:
                 "닫기"
-            case .deleteLink:
+            case .deleteLink, .deleteSns:
                 "삭제하기"
             case .saveProfile:
                 "저장하기"
@@ -98,7 +101,7 @@ final class BooltiPopupView: UIView {
         
         var withCloseButton: Bool {
             switch self {
-            case .deleteLink, .saveProfile:
+            case .deleteLink, .deleteSns, .saveProfile:
                 true
             default:
                 false
