@@ -20,6 +20,7 @@ final class EditProfileViewModel {
         var nickName: String? = ""
         var introduction: String? = ""
         var links: [LinkEntity]? = []
+        var snses: [SnsEntity]? = []
     }
 
     // MARK: Properties
@@ -32,6 +33,7 @@ final class EditProfileViewModel {
         let didIntroductionTyped = PublishRelay<String>()
         let didProfileImageSelected = PublishRelay<UIImage>()
         let didLinkChanged = PublishRelay<[LinkEntity]>()
+        let didSnsChanged = PublishRelay<[SnsEntity]>()
 
         let didNavigationBarCompleteButtonTapped = PublishSubject<Void>()
         let didPopUpConfirmButtonTapped = PublishSubject<Void>()
@@ -93,6 +95,12 @@ extension EditProfileViewModel {
                 owner.output.profile.links = links
             })
             .disposed(by: self.disposeBag)
+        
+        self.input.didSnsChanged
+            .subscribe(with: self, onNext: { owner, snses in
+                owner.output.profile.snses = snses
+            })
+            .disposed(by: self.disposeBag)
 
         self.input.didBackButtonTapped
             .subscribe(with: self) { owner, _ in
@@ -118,7 +126,12 @@ extension EditProfileViewModel {
         // TODO: 추후에 Domain 객체로 변경
         self.authRepository.userProfile()
             .map({ [weak self] DTO in
-                let fetchedProfile = Profile(image: nil, imageURL: DTO.imgPath, nickName: DTO.nickname, introduction: DTO.introduction, links: DTO.link)
+                let fetchedProfile = Profile(image: nil,
+                                             imageURL: DTO.profileImageURL,
+                                             nickName: DTO.nickname,
+                                             introduction: DTO.introduction,
+                                             links: DTO.links,
+                                             snses: DTO.snses)
                 self?.output.initialProfile = fetchedProfile
                 return fetchedProfile
             })
@@ -130,7 +143,6 @@ extension EditProfileViewModel {
     }
 
     func save(_ profile: Profile) {
-
         self.authRepository.getUploadImageURL()
             .flatMap({ [weak self] response -> Single<String> in
                 guard let self = self else { return .just("") }
@@ -142,7 +154,8 @@ extension EditProfileViewModel {
                 return self.authRepository.editProfile(profileImageUrl: profileImageUrl,
                                                        nickname: profile.nickName ?? "",
                                                        introduction: profile.introduction ?? "",
-                                                       links: profile.links ?? [])
+                                                       links: profile.links ?? [],
+                                                       snses: profile.snses ?? [])
             })
             .subscribe(with: self) { owner, _ in
                 owner.output.didProfileSaved.onNext(())

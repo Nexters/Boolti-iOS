@@ -9,8 +9,6 @@ import Foundation
 
 import RxSwift
 
-typealias isMyProfile = Bool
-
 final class ProfileViewModel {
     
     // MARK: Properties
@@ -19,6 +17,7 @@ final class ProfileViewModel {
     private let repository: RepositoryType
 
     private let userCode: String?
+    let isMyProfile: Bool
 
     struct Input {
         let viewWillAppearEvent = PublishSubject<Void>()
@@ -26,7 +25,9 @@ final class ProfileViewModel {
 
     struct Output {
         var links: [LinkEntity] = []
-        var didProfileFetch = PublishSubject<(UserProfileResponseDTO, isMyProfile)>()
+        var performedConcerts: [PerformedConcertEntity] = []
+        var snses: [SnsEntity] = []
+        var didProfileFetch = PublishSubject<(ProfileEntity)>()
         var isUnknownProfile = PublishSubject<Bool>()
     }
 
@@ -40,6 +41,7 @@ final class ProfileViewModel {
         self.output = Output()
         self.repository = repository
         self.userCode = userCode
+        self.isMyProfile = userCode == nil
 
         self.bindInputs()
     }
@@ -65,8 +67,10 @@ extension ProfileViewModel {
         guard let authRepository = self.repository as? AuthRepository else { return }
         authRepository.userProfile()
             .subscribe(with: self) { owner, profile in
-                owner.output.links = profile.link ?? []
-                owner.output.didProfileFetch.onNext((profile, true))
+                owner.output.links = profile.links
+                owner.output.performedConcerts = profile.performedConcerts
+                owner.output.snses = profile.snses
+                owner.output.didProfileFetch.onNext((profile))
             }
             .disposed(by: self.disposeBag)
     }
@@ -74,10 +78,11 @@ extension ProfileViewModel {
     func fetchProfileInformation() {
         guard let concertRepository = self.repository as? ConcertRepository else { return }
         concertRepository.userProfile(userCode: self.userCode ?? "")
-            .debug()
             .subscribe(with: self, onSuccess: { owner, profile in
-                owner.output.links = profile.link ?? []
-                owner.output.didProfileFetch.onNext((profile, false))
+                owner.output.links = profile.links
+                owner.output.performedConcerts = profile.performedConcerts
+                owner.output.snses = profile.snses
+                owner.output.didProfileFetch.onNext((profile))
             }, onFailure: { owner, error in
                 owner.output.isUnknownProfile.onNext(true)
             })

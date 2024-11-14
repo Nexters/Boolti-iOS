@@ -21,9 +21,9 @@ protocol AuthRepositoryType: RepositoryType {
     func signUp(provider: OAuthProvider, identityToken: String?) -> Single<Void>
     func logout() -> Single<Void>
     func userInfo() -> Single<Void>
-    func userProfile() -> Single<UserResponseDTO>
+    func userProfile() -> Single<ProfileEntity>
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void>
-    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void>
+    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity], snses: [SnsEntity]) -> Single<Void>
     func getUploadImageURL() -> Single<GetUploadURLReponseDTO>
     func uploadProfileImage(uploadURL: String, imageData: UIImage) -> Single<String>
 }
@@ -174,15 +174,15 @@ final class AuthRepository: AuthRepositoryType {
             })
     }
     
-    func userProfile() -> Single<UserResponseDTO> {
+    func userProfile() -> Single<ProfileEntity> {
         let api = AuthAPI.user
         return self.networkService.request(api)
             .map(UserResponseDTO.self)
-            .flatMap({ user -> Single<UserResponseDTO> in
+            .flatMap({ user -> Single<ProfileEntity> in
                 UserDefaults.userName = user.nickname ?? ""
                 UserDefaults.userImageURLPath = user.imgPath ?? ""
-
-                return .just(user)
+                
+                return Single.just(user.convertToUserProfile())
             })
     }
     
@@ -197,11 +197,22 @@ final class AuthRepository: AuthRepositoryType {
             .map { _ in return () }
     }
     
-    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void> {
+    func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity], snses: [SnsEntity]) -> Single<Void> {
+        let link = links.map { link in
+            return LinkDTO(title: link.title, link: link.link)
+        }
+
+        let sns = snses.map { sns in
+            return LinkDTO(title: sns.snsType.rawValue, link: sns.name)
+        }
+        
+        
         let api = AuthAPI.editProfile(requestDTO: EditProfileRequestDTO(nickname: nickname,
                                                                          profileImagePath: profileImageUrl,
                                                                          introduction: introduction,
-                                                                         link: links))
+                                                                         link: link,
+                                                                         sns: sns))
+        
         return self.networkService.request(api)
             .map(UserResponseDTO.self)
             .flatMap({ user -> Single<Void> in
