@@ -20,6 +20,7 @@ final class EditProfileViewModel {
         var nickName: String? = ""
         var introduction: String? = ""
         var links: [LinkEntity]? = []
+        var snses: [SnsEntity]? = []
     }
 
     // MARK: Properties
@@ -32,6 +33,7 @@ final class EditProfileViewModel {
         let didIntroductionTyped = PublishRelay<String>()
         let didProfileImageSelected = PublishRelay<UIImage>()
         let didLinkChanged = PublishRelay<[LinkEntity]>()
+        let didSnsChanged = PublishRelay<[SnsEntity]>()
 
         let didNavigationBarCompleteButtonTapped = PublishSubject<Void>()
         let didPopUpConfirmButtonTapped = PublishSubject<Void>()
@@ -93,6 +95,12 @@ extension EditProfileViewModel {
                 owner.output.profile.links = links
             })
             .disposed(by: self.disposeBag)
+        
+        self.input.didSnsChanged
+            .subscribe(with: self, onNext: { owner, snses in
+                owner.output.profile.snses = snses
+            })
+            .disposed(by: self.disposeBag)
 
         self.input.didBackButtonTapped
             .subscribe(with: self) { owner, _ in
@@ -122,7 +130,8 @@ extension EditProfileViewModel {
                                              imageURL: DTO.profileImageURL,
                                              nickName: DTO.nickname,
                                              introduction: DTO.introduction,
-                                             links: DTO.links)
+                                             links: DTO.links,
+                                             snses: DTO.snses)
                 self?.output.initialProfile = fetchedProfile
                 return fetchedProfile
             })
@@ -145,7 +154,8 @@ extension EditProfileViewModel {
                 return self.authRepository.editProfile(profileImageUrl: profileImageUrl,
                                                        nickname: profile.nickName ?? "",
                                                        introduction: profile.introduction ?? "",
-                                                       links: profile.links ?? [])
+                                                       links: profile.links ?? [],
+                                                       snses: profile.snses ?? [])
             })
             .subscribe(with: self) { owner, _ in
                 owner.output.didProfileSaved.onNext(())
