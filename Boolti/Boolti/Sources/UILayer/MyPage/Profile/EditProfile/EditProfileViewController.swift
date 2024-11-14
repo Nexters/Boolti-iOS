@@ -223,9 +223,8 @@ extension EditProfileViewController {
                                                       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                                       withReuseIdentifier: AddLinkHeaderView.className)
         
-        // TODO: - sns cell로 변경
-        self.editSnsView.snsCollectionView.register(EditLinkCollectionViewCell.self,
-                                                      forCellWithReuseIdentifier: EditLinkCollectionViewCell.className)
+        self.editSnsView.snsCollectionView.register(EditSnsCollectionViewCell.self,
+                                                      forCellWithReuseIdentifier: EditSnsCollectionViewCell.className)
 
         self.editLinkView.linkCollectionView.dataSource = self
         self.editLinkView.linkCollectionView.delegate = self
@@ -376,23 +375,18 @@ extension EditProfileViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.editSnsView.snsCollectionView {
-            // TODO: - sns cell로 변경 필요
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditLinkCollectionViewCell.className,
-                                                                for: indexPath) as? EditLinkCollectionViewCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditSnsCollectionViewCell.className,
+                                                                for: indexPath) as? EditSnsCollectionViewCell else { return UICollectionViewCell() }
             guard let snses = self.viewModel.output.profile.snses else { return UICollectionViewCell() }
 
-            let data = snses[indexPath.row]
-
-            cell.setData(title: data.snsType.rawValue, url: data.name)
+            cell.setData(with: snses[indexPath.row])
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditLinkCollectionViewCell.className,
                                                                 for: indexPath) as? EditLinkCollectionViewCell else { return UICollectionViewCell() }
             guard let links = self.viewModel.output.profile.links else { return UICollectionViewCell() }
 
-            let data = links[indexPath.row]
-
-            cell.setData(title: data.title, url: data.link)
+            cell.setData(with: links[indexPath.row])
             return cell
         }
     }

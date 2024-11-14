@@ -5,6 +5,8 @@
 //  Created by Juhyeon Byun on 11/13/24.
 //
 
+import UIKit
+
 enum SNSType: String, Codable {
     case instagram = "Instagram"
     case youtube = "YouTube"
@@ -26,6 +28,15 @@ enum SNSType: String, Codable {
             return "https://www.instagram.com/"
         case .youtube:
             return "https://www.youtube.com/@"
+        }
+    }
+    
+    var image: UIImage {
+        switch self {
+        case .instagram:
+            return .instagram
+        case .youtube:
+            return .youtube
         }
     }
 }
