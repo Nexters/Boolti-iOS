@@ -18,6 +18,17 @@ protocol EditSnsViewControllerDelegate: AnyObject {
 }
 
 final class EditSnsViewController: BooltiViewController {
+    
+    // MARK: Properties
+    
+    private let snsTypes = SNSType.allCases
+    private var selectedIndex = 0
+    
+    private let editType: EditType
+
+    weak var delegate: EditSnsViewControllerDelegate?
+
+    private let disposeBag = DisposeBag()
 
     /// EditType
     // - add => Sns 링크 추가
@@ -27,8 +38,31 @@ final class EditSnsViewController: BooltiViewController {
         case add
         case edit(SnsEntity)
     }
+    
+    // MARK: UI Components
 
     private let navigationBar = BooltiNavigationBar(type: .addLink)
+    
+    private let snsSelectLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .body1
+        label.textColor = .grey30
+        label.text = "SNS"
+        return label
+    }()
+
+    private let snsTypeCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.contentInset = .zero
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        
+        collectionView.register(SnsTypeCollectionViewCell.self, forCellWithReuseIdentifier: SnsTypeCollectionViewCell.className)
+        return collectionView
+    }()
 
     private let userNameTextField = ButtonTextField(with: .delete, placeHolder: "ex) boolti_official")
     private lazy var userNameStackView = BooltiInputStackView(
@@ -50,12 +84,8 @@ final class EditSnsViewController: BooltiViewController {
     // TODO: BooltiPopUpView도 더 재사용성 높게 변경하기 -> Init에서 설정하게!
     // 항상 PopUpView를 띄어두고 있는 것(메모리)이 아니라 present하는 방식도 고민해보기
     private let deleteSnsPopUpView = BooltiPopupView()
-
-    private let editType: EditType
-
-    weak var delegate: EditSnsViewControllerDelegate?
-
-    private let disposeBag = DisposeBag()
+    
+    // MARK: Initailizer
 
     init(editType: EditType) {
         self.editType = editType
@@ -65,6 +95,8 @@ final class EditSnsViewController: BooltiViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,44 +106,17 @@ final class EditSnsViewController: BooltiViewController {
         self.configureToastView(isButtonExisted: false)
     }
 
-    private func configureUI() {
-        self.view.addSubviews([self.navigationBar,
-                               self.userNameStackView,
-                               self.deleteSnsButton,
-                               self.deleteSnsPopUpView])
-        self.view.backgroundColor = .grey95
+}
 
-        if case .edit(let sns) = self.editType {
-            self.configureEditCase(with: sns)
-        }
-    }
+// MARK: - Methods
 
-    private func configureConstraints() {
-        self.navigationBar.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
-        }
-
-        self.userNameStackView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom).offset(20)
-            make.horizontalEdges.equalToSuperview().inset(20)
-        }
-        self.userNameStackView.updateTitleLabelConstraints(width: 65)
-
-        self.deleteSnsButton.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(42)
-        }
-
-        self.deleteSnsPopUpView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-
+extension EditSnsViewController {
+    
     private func configureEditCase(with sns: SnsEntity) {
         self.userNameTextField.text = sns.name
         self.deleteSnsButton.isHidden = false
         self.navigationBar.changeTitle(to: "SNS 편집")
+        self.selectedIndex = sns.snsType.index
     }
 
     private func bindUIComponents() {
@@ -156,10 +161,10 @@ final class EditSnsViewController: BooltiViewController {
                 guard let userName = owner.userNameTextField.text else { return }
                 switch owner.editType {
                 case .add:
-                    owner.delegate?.editSnsViewController(self, didAddedSns: SnsEntity(snsType: .instagram, name: userName))
+                    owner.delegate?.editSnsViewController(self, didAddedSns: SnsEntity(snsType: owner.snsTypes[owner.selectedIndex], name: userName))
                     owner.showToast(message: "SNS를 추가했어요")
                 case .edit:
-                    owner.delegate?.editSnsViewController(self, didChangedSns: SnsEntity(snsType: .instagram, name: userName))
+                    owner.delegate?.editSnsViewController(self, didChangedSns: SnsEntity(snsType: owner.snsTypes[owner.selectedIndex], name: userName))
                     owner.showToast(message: "SNS를 편집했어요")
                 }
                 owner.navigationController?.popViewController(animated: true)
@@ -182,6 +187,7 @@ final class EditSnsViewController: BooltiViewController {
             .disposed(by: self.disposeBag)
 
         self.bindPopUpViewComponents()
+        self.bindCollectionViewComponents()
 
         // 키보드
         /// 키보드가 내려갈 때는 무조건 button을 숨긴다.
@@ -215,6 +221,110 @@ final class EditSnsViewController: BooltiViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
+    }
+    
+    private func bindCollectionViewComponents() {
+        self.snsTypeCollectionView.delegate = self
+        self.snsTypeCollectionView.dataSource = self
+
+        self.snsTypeCollectionView.rx.itemSelected
+            .map { $0.row }
+            .bind(with: self, onNext: { owner, index in
+                owner.selectedIndex = index
+            })
+            .disposed(by: self.disposeBag)
+    }
+
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension EditSnsViewController: UICollectionViewDataSource {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.snsTypes.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SnsTypeCollectionViewCell.className, for: indexPath) as? SnsTypeCollectionViewCell else { return UICollectionViewCell() }
+        cell.setData(with: self.snsTypes[indexPath.row])
+        
+        if indexPath.row == self.selectedIndex {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
+            cell.isSelected = true
+        } else {
+            cell.isSelected = false
+        }
+        return cell
+    }
+    
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension EditSnsViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 48, height: 48)
+    }
+    
+}
+
+// MARK: - UI
+
+extension EditSnsViewController {
+    
+    private func configureUI() {
+        self.view.addSubviews([self.navigationBar,
+                               self.snsSelectLabel,
+                               self.snsTypeCollectionView,
+                               self.userNameStackView,
+                               self.deleteSnsButton,
+                               self.deleteSnsPopUpView])
+        self.view.backgroundColor = .grey95
+
+        if case .edit(let sns) = self.editType {
+            self.configureEditCase(with: sns)
+        } else {
+            self.navigationBar.changeTitle(to: "SNS 추가")
+            self.selectedIndex = 0
+            
+        }
+    }
+
+    private func configureConstraints() {
+        self.navigationBar.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.snsSelectLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(self.navigationBar.snp.bottom).offset(33)
+            make.width.equalTo(64)
+        }
+        
+        self.snsTypeCollectionView.snp.makeConstraints { make in
+            make.centerY.equalTo(self.snsSelectLabel)
+            make.leading.equalTo(self.snsSelectLabel.snp.trailing).offset(12)
+            make.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(48)
+        }
+
+        self.userNameStackView.snp.makeConstraints { make in
+            make.top.equalTo(self.snsTypeCollectionView.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+        self.userNameStackView.updateTitleLabelConstraints(width: 65)
+
+        self.deleteSnsButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(42)
+        }
+
+        self.deleteSnsPopUpView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 
 }

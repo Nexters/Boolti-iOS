@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum SNSType: String, Codable {
+enum SNSType: String, Codable, CaseIterable {
     case instagram = "Instagram"
     case youtube = "YouTube"
     
@@ -48,4 +48,14 @@ enum SNSType: String, Codable {
             return "youtube"
         }
     }
+    
+    var index: Int {
+        switch self {
+        case .instagram:
+            return 0
+        case .youtube:
+            return 1
+        }
+    }
+
 }
