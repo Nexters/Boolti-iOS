@@ -45,6 +45,7 @@ final class EditProfileViewController: BooltiViewController {
         stackView.addArrangedSubviews([self.editProfileImageView,
                                        self.editNicknameView,
                                        self.editIntroductionView,
+                                       self.editSnsView,
                                        self.editLinkView])
         stackView.setCustomSpacing(0, after: self.editProfileImageView)
         
@@ -56,6 +57,8 @@ final class EditProfileViewController: BooltiViewController {
     private let editNicknameView = EditNicknameView()
     
     private let editIntroductionView = EditIntroductionView()
+    
+    private let editSnsView = EditSnsView()
     
     private let editLinkView = EditLinkView()
     
@@ -111,6 +114,7 @@ final class EditProfileViewController: BooltiViewController {
 extension EditProfileViewController {
     
     private func reloadLinks() {
+        self.editSnsView.snsCollectionView.reloadData()
         self.editLinkView.linkCollectionView.reloadData()
         self.updateCollectionViewHeight()
     }
@@ -212,6 +216,17 @@ extension EditProfileViewController {
     }
 
     private func configureLinkCollectionView() {
+        self.editSnsView.snsCollectionView.dataSource = self
+        self.editSnsView.snsCollectionView.delegate = self
+        
+        self.editSnsView.snsCollectionView.register(AddLinkHeaderView.self,
+                                                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                                      withReuseIdentifier: AddLinkHeaderView.className)
+        
+        // TODO: - sns cell로 변경
+        self.editSnsView.snsCollectionView.register(EditLinkCollectionViewCell.self,
+                                                      forCellWithReuseIdentifier: EditLinkCollectionViewCell.className)
+
         self.editLinkView.linkCollectionView.dataSource = self
         self.editLinkView.linkCollectionView.delegate = self
         
@@ -227,10 +242,16 @@ extension EditProfileViewController {
     }
     
     private func updateCollectionViewHeight() {
+        self.editSnsView.snsCollectionView.layoutIfNeeded()
+        let snsCollectionViewHeight = self.editSnsView.snsCollectionView.contentSize.height
+        self.editSnsView.snsCollectionView.snp.updateConstraints { make in
+            make.height.equalTo(snsCollectionViewHeight)
+        }
+
         self.editLinkView.linkCollectionView.layoutIfNeeded()
-        let height = self.editLinkView.linkCollectionView.contentSize.height
+        let linkCollectionViewHeight = self.editLinkView.linkCollectionView.contentSize.height
         self.editLinkView.linkCollectionView.snp.updateConstraints { make in
-            make.height.equalTo(height)
+            make.height.equalTo(linkCollectionViewHeight)
         }
     }
     
@@ -319,14 +340,29 @@ extension EditProfileViewController: UICollectionViewDataSource {
         // 기존 disposeBag이 있다면 초기화
         header.disposeBag = DisposeBag()
         
-        header.rx.tapGesture()
-            .when(.recognized)
-            .bind(with: self) { owner, _ in
-                let viewController = EditLinkViewController(editType: .add)
-                viewController.delegate = self
-                owner.navigationController?.pushViewController(viewController, animated: true)
-            }
-            .disposed(by: header.disposeBag)
+        if collectionView == self.editSnsView.snsCollectionView {
+            header.setTitle(with: "SNS 추가")
+            
+            header.rx.tapGesture()
+                .when(.recognized)
+                .bind(with: self) { owner, _ in
+                    let viewController = EditLinkViewController(editType: .add)
+                    viewController.delegate = self
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+                .disposed(by: header.disposeBag)
+        } else {
+            header.setTitle(with: "링크 추가")
+            
+            header.rx.tapGesture()
+                .when(.recognized)
+                .bind(with: self) { owner, _ in
+                    let viewController = EditLinkViewController(editType: .add)
+                    viewController.delegate = self
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+                .disposed(by: header.disposeBag)
+        }
         
         return header
     }
@@ -408,6 +444,10 @@ extension EditProfileViewController {
             make.edges.equalToSuperview()
         }
         
+        self.editSnsView.snsCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(0)
+        }
+        
         self.editLinkView.linkCollectionView.snp.makeConstraints { make in
             make.height.equalTo(0)
         }
@@ -417,10 +457,11 @@ extension EditProfileViewController {
 // MARK: EditLinkViewControllerDelegate
 
 extension EditProfileViewController: EditLinkViewControllerDelegate {
+    
     func editLinkDidDeleted(_ viewController: UIViewController) {
         guard var links = self.viewModel.output.profile.links else { return }
         links.remove(at: self.selectedItemIndex)
-
+        
         self.viewModel.input.didLinkChanged.accept(links)
         self.reloadLinks()
     }
@@ -428,7 +469,7 @@ extension EditProfileViewController: EditLinkViewControllerDelegate {
     func editLinkViewController(_ viewController: UIViewController, didChangedLink entity: LinkEntity) {
         guard var links = self.viewModel.output.profile.links else { return }
         links[self.selectedItemIndex] = entity
-
+        
         self.viewModel.input.didLinkChanged.accept(links)
         self.reloadLinks()
     }
@@ -436,8 +477,9 @@ extension EditProfileViewController: EditLinkViewControllerDelegate {
     func editLinkViewController(_ viewController: UIViewController, didAddedLink entity: LinkEntity) {
         guard var links = self.viewModel.output.profile.links else { return }
         links.insert(entity, at: 0)
-
+        
         self.viewModel.input.didLinkChanged.accept(links)
         self.reloadLinks()
     }
+
 }

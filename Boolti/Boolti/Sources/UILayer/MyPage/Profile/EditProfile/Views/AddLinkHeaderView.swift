@@ -29,7 +29,6 @@ final class AddLinkHeaderView: UICollectionReusableView {
         let label = BooltiUILabel()
         label.font = .subhead1
         label.textColor = .grey15
-        label.text = "링크 추가"
         return label
     }()
     
@@ -50,6 +49,16 @@ final class AddLinkHeaderView: UICollectionReusableView {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.disposeBag = DisposeBag()
+    }
+    
+}
+
+// MARK: - Methods
+
+extension AddLinkHeaderView {
+    
+    func setTitle(with title: String) {
+        self.titleLabel.text = title
     }
     
 }
