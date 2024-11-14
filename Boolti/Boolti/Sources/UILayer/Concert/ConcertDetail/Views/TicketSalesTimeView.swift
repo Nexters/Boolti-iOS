@@ -84,9 +84,10 @@ extension TicketSalesTimeView {
     func setData(startDate: Date, endDate: Date, soldCount: Int, ticketingState: ConcertTicketingState) {
         self.datetimeLabel.text = "\(startDate.format(.dateDay)) - \(endDate.format(.dateDay))"
 
-        if case .endSale = ticketingState {
+        switch ticketingState {
+        case .endSale, .endConcert:
             self.soldCountLabel.text = "\(soldCount)매 판매 완료"
-        } else {
+        default:
             self.soldCountStackView.isHidden = true
         }
 

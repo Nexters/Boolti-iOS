@@ -577,7 +577,7 @@ extension ConcertDetailViewController {
         self.remainingSalesTimeLabel.isHidden = true
 
         self.concertPosterView.updateHeight()
-        self.scrollView.snp.makeConstraints { make in
+        self.scrollView.snp.remakeConstraints { make in
             make.top.equalTo(self.navigationBar.snp.bottom)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(self.ticketingButton.snp.top)
