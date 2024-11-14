@@ -190,6 +190,20 @@ extension ProfileViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+        
+        self.profileMainView.snsCollectionView.rx.itemSelected
+            .map { $0.row }
+            .subscribe(with: self) { owner, index in
+                let sns = owner.viewModel.output.snses[index]
+
+                guard let url = URL(string: "\(sns.snsType.urlPath)\(sns.name)") else { return }
+                if UIApplication.shared.canOpenURL(url) {
+                    owner.openSafari(with: url)
+                } else {
+                    owner.showToast(message: "유효한 SNS가 아니에요")
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func configureCollectionView() {

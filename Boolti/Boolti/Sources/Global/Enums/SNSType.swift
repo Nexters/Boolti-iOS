@@ -19,4 +19,13 @@ enum SNSType: String, Codable {
             return nil
         }
     }
+    
+    var urlPath: String {
+        switch self {
+        case .instagram:
+            return "https://www.instagram.com/"
+        case .youtube:
+            return "https://www.youtube.com/@"
+        }
+    }
 }
