@@ -202,6 +202,7 @@ final class AuthRepository: AuthRepositoryType {
                                                                          profileImagePath: profileImageUrl,
                                                                          introduction: introduction,
                                                                          link: links))
+        
         return self.networkService.request(api)
             .map(UserResponseDTO.self)
             .flatMap({ user -> Single<Void> in

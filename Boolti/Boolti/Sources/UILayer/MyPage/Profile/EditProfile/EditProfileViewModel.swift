@@ -134,7 +134,6 @@ extension EditProfileViewModel {
     }
 
     func save(_ profile: Profile) {
-
         self.authRepository.getUploadImageURL()
             .flatMap({ [weak self] response -> Single<String> in
                 guard let self = self else { return .just("") }

@@ -14,22 +14,22 @@ struct UserResponseDTO: UserProfileResponseDTO {
     let email: String?
     let imgPath: String?
     let introduction: String?
-    let link: [LinkDTO]
-    let performedShow: [PerformedShowDTO]
-    let sns: [LinkDTO]
+    let link: [LinkDTO]?
+    let performedShow: [PerformedShowDTO]?
+    let sns: [LinkDTO]?
     
     func convertToUserProfile() -> ProfileEntity {
-        let links = link.map { DTO in
+        let links = self.link?.map { DTO in
             return LinkEntity(title: DTO.title,
                               link: DTO.link)
         }
         
-        let snses = sns.map { DTO in
+        let snses = self.sns?.map { DTO in
             return SnsEntity(snsType: SNSType(rawValue: DTO.title) ?? .instagram ,
                              name: DTO.link)
         }
         
-        let performedConcerts = performedShow.map { DTO in
+        let performedConcerts = self.performedShow?.map { DTO in
             return PerformedConcertEntity(id: DTO.id,
                                           name: DTO.name,
                                           date: DTO.date,
@@ -39,9 +39,9 @@ struct UserResponseDTO: UserProfileResponseDTO {
         return .init(profileImageURL: self.imgPath ?? "",
                      nickname: self.nickname ?? "",
                      introduction: self.introduction ?? "",
-                     links: links,
-                     performedConcerts: performedConcerts,
-                     snses: snses)
+                     links: links ?? [],
+                     performedConcerts: performedConcerts ?? [],
+                     snses: snses ?? [])
     }
 
 }
