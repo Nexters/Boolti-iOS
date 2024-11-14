@@ -160,7 +160,7 @@ extension EditProfileViewController {
             .orEmpty
             .asDriver()
             .drive(with: self) { owner, text in
-                owner.navigationBar.completeButton.isEnabled = !text.isEmpty
+                owner.navigationBar.rightTextButton.isEnabled = !text.isEmpty
                 owner.viewModel.input.didNickNameTyped.accept(text)
             }
             .disposed(by: self.disposeBag)
@@ -169,7 +169,7 @@ extension EditProfileViewController {
             .orEmpty
             .asDriver()
             .drive(with: self, onNext: { owner, text in
-                owner.navigationBar.completeButton.isEnabled = !text.isEmpty
+                owner.navigationBar.rightTextButton.isEnabled = !text.isEmpty
                 if !owner.editIntroductionView.isShowingPlaceHolder {
                     owner.viewModel.input.didIntroductionTyped.accept(text)
                 }
@@ -180,7 +180,7 @@ extension EditProfileViewController {
             .emit(to: self.viewModel.input.didBackButtonTapped)
             .disposed(by: self.disposeBag)
         
-        self.navigationBar.didCompleteButtonTap()
+        self.navigationBar.didRightTextButtonTap()
             .emit(with: self, onNext: { owner, _ in
                 // TODO: 아래와 같이 url이랑 image 따로 보내는 거 해결하기 (vm 참고)
                 let image = owner.editProfileImageView.profileImageView.image ?? UIImage()

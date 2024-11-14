@@ -21,7 +21,7 @@ protocol AuthRepositoryType: RepositoryType {
     func signUp(provider: OAuthProvider, identityToken: String?) -> Single<Void>
     func logout() -> Single<Void>
     func userInfo() -> Single<Void>
-    func userProfile() -> Single<UserResponseDTO>
+    func userProfile() -> Single<ProfileEntity>
     func resign(reason: String, appleIdAuthorizationCode: String?) -> Single<Void>
     func editProfile(profileImageUrl: String, nickname: String, introduction: String, links: [LinkEntity]) -> Single<Void>
     func getUploadImageURL() -> Single<GetUploadURLReponseDTO>
@@ -174,15 +174,15 @@ final class AuthRepository: AuthRepositoryType {
             })
     }
     
-    func userProfile() -> Single<UserResponseDTO> {
+    func userProfile() -> Single<ProfileEntity> {
         let api = AuthAPI.user
         return self.networkService.request(api)
             .map(UserResponseDTO.self)
-            .flatMap({ user -> Single<UserResponseDTO> in
+            .flatMap({ user -> Single<ProfileEntity> in
                 UserDefaults.userName = user.nickname ?? ""
                 UserDefaults.userImageURLPath = user.imgPath ?? ""
-
-                return .just(user)
+                
+                return Single.just(user.convertToUserProfile())
             })
     }
     
@@ -202,6 +202,7 @@ final class AuthRepository: AuthRepositoryType {
                                                                          profileImagePath: profileImageUrl,
                                                                          introduction: introduction,
                                                                          link: links))
+        
         return self.networkService.request(api)
             .map(UserResponseDTO.self)
             .flatMap({ user -> Single<Void> in

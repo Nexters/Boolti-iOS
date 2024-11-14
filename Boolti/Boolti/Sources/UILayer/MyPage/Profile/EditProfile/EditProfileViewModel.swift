@@ -118,7 +118,11 @@ extension EditProfileViewModel {
         // TODO: 추후에 Domain 객체로 변경
         self.authRepository.userProfile()
             .map({ [weak self] DTO in
-                let fetchedProfile = Profile(image: nil, imageURL: DTO.imgPath, nickName: DTO.nickname, introduction: DTO.introduction, links: DTO.link)
+                let fetchedProfile = Profile(image: nil,
+                                             imageURL: DTO.profileImageURL,
+                                             nickName: DTO.nickname,
+                                             introduction: DTO.introduction,
+                                             links: DTO.links)
                 self?.output.initialProfile = fetchedProfile
                 return fetchedProfile
             })
@@ -130,7 +134,6 @@ extension EditProfileViewModel {
     }
 
     func save(_ profile: Profile) {
-
         self.authRepository.getUploadImageURL()
             .flatMap({ [weak self] response -> Single<String> in
                 guard let self = self else { return .just("") }

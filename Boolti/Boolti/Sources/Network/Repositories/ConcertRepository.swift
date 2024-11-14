@@ -63,11 +63,12 @@ final class ConcertRepository: ConcertRepositoryType {
             } }
     }
 
-    func userProfile(userCode: String) -> Single<ConcertUserProfileResponseDTO> {
+    func userProfile(userCode: String) -> Single<ProfileEntity> {
         let concertUserProfileRequestDTO = ConcertUserProfileRequestDTO(userCode: userCode)
         let api = ConcertAPI.userProfile(requsetDTO: concertUserProfileRequestDTO)
 
         return networkService.request(api)
             .map(ConcertUserProfileResponseDTO.self)
+            .map { $0.convertToUserProfile() }
     }
 }

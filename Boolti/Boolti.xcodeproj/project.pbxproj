@@ -44,6 +44,9 @@
 		2250FABF2C020BC400CCF487 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FABE2C020BC400CCF487 /* ContactViewController.swift */; };
 		2250FAC12C020BE800CCF487 /* ContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2250FAC02C020BE800CCF487 /* ContactViewModel.swift */; };
 		2251F6B22CE464AA00906FF5 /* PerformedConcertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6B12CE464AA00906FF5 /* PerformedConcertCollectionViewCell.swift */; };
+		2251F6B42CE48E9B00906FF5 /* ProfileSnsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6B32CE48E9000906FF5 /* ProfileSnsCollectionViewCell.swift */; };
+		2251F6B62CE48F6F00906FF5 /* SNSType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6B52CE48F6B00906FF5 /* SNSType.swift */; };
+		2251F6B82CE5E95200906FF5 /* SnsCollectionViewLeftAlignedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6B72CE5E94B00906FF5 /* SnsCollectionViewLeftAlignedLayout.swift */; };
 		226D42BF2B9EBA3E00680198 /* BooltiBusinessInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */; };
 		22739A3B2C4F86BA000A357B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A3A2C4F86BA000A357B /* SettingViewController.swift */; };
 		22739A3D2C4F86DA000A357B /* SettingDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A3C2C4F86DA000A357B /* SettingDIContainer.swift */; };
@@ -469,6 +472,9 @@
 		2250FABE2C020BC400CCF487 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		2250FAC02C020BE800CCF487 /* ContactViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewModel.swift; sourceTree = "<group>"; };
 		2251F6B12CE464AA00906FF5 /* PerformedConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformedConcertCollectionViewCell.swift; sourceTree = "<group>"; };
+		2251F6B32CE48E9000906FF5 /* ProfileSnsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSnsCollectionViewCell.swift; sourceTree = "<group>"; };
+		2251F6B52CE48F6B00906FF5 /* SNSType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSType.swift; sourceTree = "<group>"; };
+		2251F6B72CE5E94B00906FF5 /* SnsCollectionViewLeftAlignedLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnsCollectionViewLeftAlignedLayout.swift; sourceTree = "<group>"; };
 		226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBusinessInfoView.swift; sourceTree = "<group>"; };
 		22739A3A2C4F86BA000A357B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		22739A3C2C4F86DA000A357B /* SettingDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDIContainer.swift; sourceTree = "<group>"; };
@@ -1151,6 +1157,7 @@
 		22DFC55D2C79C79200C8433D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				2251F6B32CE48E9000906FF5 /* ProfileSnsCollectionViewCell.swift */,
 				22DFC55E2C79C7A400C8433D /* ProfileLinkCollectionViewCell.swift */,
 				22B67B3B2CE37DDC004F6D4A /* ProfileConcertCollectionViewCell.swift */,
 			);
@@ -1160,6 +1167,7 @@
 		22DFC5642C7A00EC00C8433D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2251F6B72CE5E94B00906FF5 /* SnsCollectionViewLeftAlignedLayout.swift */,
 				22DFC5572C79C1B900C8433D /* ProfileMainView.swift */,
 				22DFC5622C7A00E900C8433D /* ProfileDataHeaderView.swift */,
 			);
@@ -2319,6 +2327,7 @@
 		87C7594A2BA93E800009A83E /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				2251F6B52CE48F6B00906FF5 /* SNSType.swift */,
 				87C7594B2BA93EA40009A83E /* NotificationMessage.swift */,
 				87826AED2BBFF7F2005176D4 /* LandingDestination.swift */,
 				220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */,
@@ -2739,6 +2748,7 @@
 				845F25482B89FA5A00F6C328 /* PosterExpandViewModel.swift in Sources */,
 				8710D95A2B750A5500309FBF /* MyPageDestination.swift in Sources */,
 				8757BAA42B5FDEA2008503B5 /* OAuthAPIServiceType.swift in Sources */,
+				2251F6B82CE5E95200906FF5 /* SnsCollectionViewLeftAlignedLayout.swift in Sources */,
 				8757BAA22B5FDE0D008503B5 /* LoginViewModel.swift in Sources */,
 				87F7DF492B8275D30068A6C9 /* EntryCodeErrorEntity.swift in Sources */,
 				845D88552B87705700179F60 /* ResignReasonViewController.swift in Sources */,
@@ -2918,6 +2928,7 @@
 				8753CA6E2B70E30D002871C7 /* TicketEntryCodeDIContainer.swift in Sources */,
 				224BEF152C4EB3AF00863970 /* GiftCardImagesResponseDTO.swift in Sources */,
 				848CBF082B65480A00239303 /* TicketingDetailViewModel.swift in Sources */,
+				2251F6B42CE48E9B00906FF5 /* ProfileSnsCollectionViewCell.swift in Sources */,
 				84896A432B6A583200CB3E33 /* TicketingCompletionDIContainer.swift in Sources */,
 				8710D9582B74FAC800309FBF /* LogoutDIContainer.swift in Sources */,
 				840B395B2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift in Sources */,
@@ -2925,6 +2936,7 @@
 				848F9F4D2B8ED9400026F527 /* SignupConditionEntity.swift in Sources */,
 				84E48AC12B7E224600F8BFD0 /* UITextView+.swift in Sources */,
 				84886E882B6FB166005D2329 /* UIColor+.swift in Sources */,
+				2251F6B62CE48F6F00906FF5 /* SNSType.swift in Sources */,
 				876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */,
 				84781CCE2B5C005600D37921 /* ConcertListViewController.swift in Sources */,
 				84DF59E32B726E21000816DA /* ConcertContentExpandViewController.swift in Sources */,
