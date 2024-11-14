@@ -49,6 +49,7 @@
 		2251F6B82CE5E95200906FF5 /* SnsCollectionViewLeftAlignedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6B72CE5E94B00906FF5 /* SnsCollectionViewLeftAlignedLayout.swift */; };
 		2251F6BD2CE6074300906FF5 /* EditSnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6BC2CE6073D00906FF5 /* EditSnsView.swift */; };
 		2251F6BF2CE626F400906FF5 /* EditSnsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6BE2CE626EB00906FF5 /* EditSnsCollectionViewCell.swift */; };
+		2251F6C22CE62D0100906FF5 /* EditSnsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6C12CE62CFB00906FF5 /* EditSnsViewController.swift */; };
 		226D42BF2B9EBA3E00680198 /* BooltiBusinessInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */; };
 		22739A3B2C4F86BA000A357B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A3A2C4F86BA000A357B /* SettingViewController.swift */; };
 		22739A3D2C4F86DA000A357B /* SettingDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A3C2C4F86DA000A357B /* SettingDIContainer.swift */; };
@@ -479,6 +480,7 @@
 		2251F6B72CE5E94B00906FF5 /* SnsCollectionViewLeftAlignedLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnsCollectionViewLeftAlignedLayout.swift; sourceTree = "<group>"; };
 		2251F6BC2CE6073D00906FF5 /* EditSnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSnsView.swift; sourceTree = "<group>"; };
 		2251F6BE2CE626EB00906FF5 /* EditSnsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSnsCollectionViewCell.swift; sourceTree = "<group>"; };
+		2251F6C12CE62CFB00906FF5 /* EditSnsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSnsViewController.swift; sourceTree = "<group>"; };
 		226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBusinessInfoView.swift; sourceTree = "<group>"; };
 		22739A3A2C4F86BA000A357B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		22739A3C2C4F86DA000A357B /* SettingDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDIContainer.swift; sourceTree = "<group>"; };
@@ -1003,6 +1005,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		2251F6C02CE62BF600906FF5 /* EditSns */ = {
+			isa = PBXGroup;
+			children = (
+				2251F6C12CE62CFB00906FF5 /* EditSnsViewController.swift */,
+			);
+			path = EditSns;
+			sourceTree = "<group>";
+		};
 		22739A392C4F86AC000A357B /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1153,6 +1163,7 @@
 			children = (
 				221393532C88990A00459A20 /* Main */,
 				221393542C88991200459A20 /* EditProfile */,
+				2251F6C02CE62BF600906FF5 /* EditSns */,
 				8749F5812C88B8E200FC4365 /* EditLink */,
 				22B67B342CE0617A004F6D4A /* LinkList */,
 				22B67B3F2CE38EA4004F6D4A /* PerformedConcertList */,
@@ -2696,6 +2707,7 @@
 				2201AC972C2AB35100CEBD31 /* CardImageCollectionViewCell.swift in Sources */,
 				876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */,
 				847AA70E2B62B55500E5B55C /* BooltiNavigationBar.swift in Sources */,
+				2251F6C22CE62D0100906FF5 /* EditSnsViewController.swift in Sources */,
 				8453D7FC2B7539270048F103 /* SalesTicketResponseDTO.swift in Sources */,
 				2250FABD2C020BA100CCF487 /* ContactDIContainer.swift in Sources */,
 				84896A4F2B6A723900CB3E33 /* Date+.swift in Sources */,
