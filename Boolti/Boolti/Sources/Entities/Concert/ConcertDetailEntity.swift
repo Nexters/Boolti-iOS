@@ -50,7 +50,7 @@ struct ConcertDetailEntity {
 }
 
 enum ConcertTicketingState {
-    case onSale
+    case onSale(isLastDate: Bool)
     case beforeSale(startDate: Date)
     case endSale
     case endConcert

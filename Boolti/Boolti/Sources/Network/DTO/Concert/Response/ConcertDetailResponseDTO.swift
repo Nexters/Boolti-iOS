@@ -42,23 +42,45 @@ struct ConcertDetailResponseDTO: Decodable {
     }
 
     func calculateTicketingState() -> ConcertTicketingState {
-        var state: ConcertTicketingState = .onSale
+        let currentDate = Date() // Date()를 한 번만 호출
+        let salesStartDate = self.salesStartTime.formatToDate()
+        let salesEndDate = self.salesEndTime.formatToDate()
+        let concertDate = self.date.formatToDate()
 
-        if Date() < self.salesStartTime.formatToDate() {
-            state = .beforeSale(startDate: self.salesStartTime.formatToDate())
+        if currentDate < salesStartDate {
+            return .beforeSale(startDate: salesStartDate)
+        } else if Calendar.current.isDate(currentDate, inSameDayAs: salesEndDate) {
+            return .onSale(isLastDate: true)
+        } else if currentDate < salesEndDate {
+            return .onSale(isLastDate: false)
+        } else if currentDate.getBetweenDay(to: concertDate) >= 0 {
+            return .endSale
+        } else {
+            return .endConcert
         }
-        else if Date() <= self.salesEndTime.formatToDate() {
-            state = .onSale
-        }
-        else if Date().getBetweenDay(to: self.date.formatToDate()) >= 0 {
-            state = .endSale
-        }
-        else {
-            state = .endConcert
-        }
-
-        return state
     }
+
+//    func calculateTicketingState() -> ConcertTicketingState {
+//        var state: ConcertTicketingState = .onSale(isLastDate: false)
+//
+//        if Date() < self.salesStartTime.formatToDate() {
+//            state = .beforeSale(startDate: self.salesStartTime.formatToDate())
+//        }
+//        else if Date() == self.salesEndTime.formatToDate() {
+//            state = .onSale(isLastDate: true)
+//        }
+//        else if Date() < self.salesEndTime.formatToDate() {
+//            state = .onSale(isLastDate: false)
+//        }
+//        else if Date().getBetweenDay(to: self.date.formatToDate()) >= 0 {
+//            state = .endSale
+//        }
+//        else {
+//            state = .endConcert
+//        }
+//
+//        return state
+//    }
 
     func convertToConcertDetailEntity() -> ConcertDetailEntity {
         let posters = self.showImg.map { showImgDTO in

@@ -239,7 +239,7 @@ extension ConcertDetailViewController {
 
     private func configureRemainingSaleTimerBanner(salesEndTime: Date, ticketingStatus: ConcertTicketingState) {
         switch ticketingStatus {
-        case .onSale:
+        case .onSale(let isLastDate) where isLastDate:
             self.bindRemaingSaleTimerBanner(salesEndTime: salesEndTime)
         default:
             self.remainingSalesTimeLabel.isHidden = true
@@ -445,7 +445,7 @@ extension ConcertDetailViewController {
                 if let hour = components.hour, let minute = components.minute, let second = components.second {
                     let day = components.day ?? 0
                     let adjustedDay = max(day, 0)
-                    return String(format: "🔥 판매 종료까지 %d일 %02d:%02d:%02d", adjustedDay, hour, minute, second)
+                    return String(format: "🔥 판매 종료까지 %02d:%02d:%02d", adjustedDay, hour, minute, second)
                 } else {
                     return ""
                 }
