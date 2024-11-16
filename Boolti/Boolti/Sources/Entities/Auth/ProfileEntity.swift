@@ -10,7 +10,7 @@ struct ProfileEntity {
     let nickname: String
     let introduction: String
     var links: [LinkEntity]
-    var performedConcerts: [PerformedConcertEntity]
+    var performedConcerts: [ConcertEntity]
     var snses: [SnsEntity]
 }
 
@@ -22,11 +22,4 @@ struct SnsEntity: Codable, Equatable {
 struct LinkEntity: Codable, Equatable {
     let title: String
     let link: String
-}
-
-struct PerformedConcertEntity {
-    let id: Int
-    let name: String
-    let date: String
-    let thumbnailPath: String
 }

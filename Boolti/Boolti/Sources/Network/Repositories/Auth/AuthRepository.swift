@@ -203,7 +203,7 @@ final class AuthRepository: AuthRepositoryType {
         }
 
         let sns = snses.map { sns in
-            return LinkDTO(title: sns.snsType.rawValue, link: sns.name)
+            return SNSDTO(type: sns.snsType.rawValue, username: sns.name)
         }
         
         

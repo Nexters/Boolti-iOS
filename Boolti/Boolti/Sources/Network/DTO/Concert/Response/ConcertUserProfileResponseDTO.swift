@@ -13,8 +13,8 @@ protocol UserProfileResponseDTO: Decodable {
     var imgPath: String? { get }
     var introduction: String? { get }
     var link: [LinkDTO]? { get }
-    var performedShow: [PerformedShowDTO]? { get }
-    var sns: [LinkDTO]? { get }
+    var performedShow: [ConcertListResponseDTOElement]? { get }
+    var sns: [SNSDTO]? { get }
     
     func convertToUserProfile() -> ProfileEntity
 
@@ -27,8 +27,8 @@ struct ConcertUserProfileResponseDTO: UserProfileResponseDTO {
     let imgPath: String?
     let introduction: String?
     let link: [LinkDTO]?
-    let performedShow: [PerformedShowDTO]?
-    let sns: [LinkDTO]?
+    let performedShow: [ConcertListResponseDTOElement]?
+    let sns: [SNSDTO]?
     
     func convertToUserProfile() -> ProfileEntity {
         let links = self.link?.map { DTO in
@@ -37,15 +37,17 @@ struct ConcertUserProfileResponseDTO: UserProfileResponseDTO {
         }
         
         let snses = self.sns?.map { DTO in
-            return SnsEntity(snsType: SNSType(rawValue: DTO.title) ?? .instagram ,
-                             name: DTO.link)
+            return SnsEntity(snsType: SNSType(rawValue: DTO.type) ?? .instagram ,
+                             name: DTO.username)
         }
         
         let performedConcerts = self.performedShow?.map { DTO in
-            return PerformedConcertEntity(id: DTO.id,
-                                          name: DTO.name,
-                                          date: DTO.date,
-                                          thumbnailPath: DTO.thumbnailPath)
+            return ConcertEntity(id: DTO.id,
+                                 name: DTO.name,
+                                 dateTime: DTO.date.formatToDate(),
+                                 salesStartTime: DTO.salesStartTime.formatToDate(),
+                                 salesEndTime: DTO.salesEndTime.formatToDate(),
+                                 posterPath: DTO.showImg ?? "")
         }
         
         return .init(profileImageURL: self.imgPath ?? "",
@@ -63,9 +65,7 @@ struct LinkDTO: Codable {
     let link: String
 }
 
-struct PerformedShowDTO: Decodable {
-    let id: Int
-    let name: String
-    let date: String
-    let thumbnailPath: String
+struct SNSDTO: Codable {
+    let type: String
+    let username: String
 }

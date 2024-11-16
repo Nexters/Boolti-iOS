@@ -8,14 +8,14 @@
 import UIKit
 
 enum SNSType: String, Codable, CaseIterable {
-    case instagram = "Instagram"
-    case youtube = "YouTube"
+    case instagram = "INSTAGRAM"
+    case youtube = "YOUTUBE"
     
     init?(_ rawValue: String){
         switch rawValue {
-        case "Instagram":
+        case "INSTAGRAM":
             self  = .instagram
-        case "YouTube":
+        case "YOUTUBE":
             self = .youtube
         default:
             return nil
