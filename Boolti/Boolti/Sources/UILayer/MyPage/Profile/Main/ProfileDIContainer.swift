@@ -34,7 +34,7 @@ final class ProfileDIContainer {
             return viewController
         }
         
-        let performedConcertListControllerFactory: ([PerformedConcertEntity]) -> PerformedConcertListViewController = { concertList in
+        let performedConcertListControllerFactory: ([ConcertEntity]) -> PerformedConcertListViewController = { concertList in
             let DIContainer = PerformedConcertListDIContainer(repository: self.repository)
             let viewController = DIContainer.createPerformedConcertListViewController(performedConcertList: concertList)
             
@@ -65,7 +65,7 @@ final class ProfileDIContainer {
             return viewController
         }
         
-        let performedConcertListControllerFactory: ([PerformedConcertEntity]) -> PerformedConcertListViewController = { concertList in
+        let performedConcertListControllerFactory: ([ConcertEntity]) -> PerformedConcertListViewController = { concertList in
             let DIContainer = PerformedConcertListDIContainer(repository: self.repository)
             let viewController = DIContainer.createPerformedConcertListViewController(performedConcertList: concertList)
             

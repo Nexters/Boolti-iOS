@@ -15,7 +15,7 @@ final class PerformedConcertListDIContainer {
         self.repository = repository
     }
 
-    func createPerformedConcertListViewController(performedConcertList: [PerformedConcertEntity]) -> PerformedConcertListViewController {
+    func createPerformedConcertListViewController(performedConcertList: [ConcertEntity]) -> PerformedConcertListViewController {
         
         let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController = { concertId in
             let DIContainer = ConcertDetailDIContainer(authRepository: AuthRepository(networkService: self.repository.networkService),

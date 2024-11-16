@@ -25,7 +25,7 @@ final class ProfileViewModel {
 
     struct Output {
         var links: [LinkEntity] = []
-        var performedConcerts: [PerformedConcertEntity] = []
+        var performedConcerts: [ConcertEntity] = []
         var snses: [SnsEntity] = []
         var didProfileFetch = PublishSubject<(ProfileEntity)>()
         var isUnknownProfile = PublishSubject<Bool>()

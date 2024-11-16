@@ -108,9 +108,9 @@ extension PerformedConcertListViewController: UICollectionViewDataSource {
                                                             for: indexPath) as? PerformedConcertCollectionViewCell else { return UICollectionViewCell() }
         
         let concert = self.viewModel.concertList[indexPath.row]
-        cell.setData(posterURL: concert.thumbnailPath,
+        cell.setData(posterURL: concert.posterPath,
                      title: concert.name,
-                     datetime: concert.date.formatToDate())
+                     datetime: concert.dateTime)
         return cell
     }
     

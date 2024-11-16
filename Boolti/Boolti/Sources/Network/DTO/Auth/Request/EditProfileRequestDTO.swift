@@ -10,5 +10,5 @@ struct EditProfileRequestDTO: Encodable {
     let profileImagePath: String
     let introduction: String
     let link: [LinkDTO]
-    let sns: [LinkDTO]
+    let sns: [SNSDTO]
 }

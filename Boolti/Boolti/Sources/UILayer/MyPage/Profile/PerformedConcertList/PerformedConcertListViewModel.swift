@@ -9,11 +9,11 @@ final class PerformedConcertListViewModel {
     
     // MARK: Properties
     
-    let concertList: [PerformedConcertEntity]
+    let concertList: [ConcertEntity]
     
     // MARK: Initailizer
     
-    init(concertList: [PerformedConcertEntity]) {
+    init(concertList: [ConcertEntity]) {
         self.concertList = concertList
     }
     

@@ -25,7 +25,7 @@ final class ProfileViewController: BooltiViewController {
     
     private let editProfileViewControllerFactory: (() -> EditProfileViewController)?
     private let linkListControllerFactory: ([LinkEntity]) -> LinkListViewController
-    private let performedConcertListControllerFactory: ([PerformedConcertEntity]) -> PerformedConcertListViewController
+    private let performedConcertListControllerFactory: ([ConcertEntity]) -> PerformedConcertListViewController
     private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
 
     // MARK: UI Components
@@ -75,7 +75,7 @@ final class ProfileViewController: BooltiViewController {
     init(viewModel: ProfileViewModel,
          editProfileViewControllerFactory: (() -> EditProfileViewController)? = nil,
          linkListControllerFactory: @escaping ([LinkEntity]) -> LinkListViewController,
-         performedConcertListControllerFactory: @escaping (([PerformedConcertEntity]) -> PerformedConcertListViewController),
+         performedConcertListControllerFactory: @escaping (([ConcertEntity]) -> PerformedConcertListViewController),
          concertDetailViewControllerFactory: @escaping (Int) -> ConcertDetailViewController
     ) {
         self.viewModel = viewModel
@@ -357,9 +357,9 @@ extension ProfileViewController: UICollectionViewDataSource {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileConcertCollectionViewCell.className,
                                                                     for: indexPath) as? ProfileConcertCollectionViewCell else { return UICollectionViewCell() }
                 let concert = self.viewModel.output.performedConcerts[indexPath.row]
-                cell.setData(posterURL: concert.thumbnailPath,
+                cell.setData(posterURL: concert.posterPath,
                              title: concert.name,
-                             datetime: concert.date.formatToDate())
+                             datetime: concert.dateTime)
                 return cell
             }
         }
