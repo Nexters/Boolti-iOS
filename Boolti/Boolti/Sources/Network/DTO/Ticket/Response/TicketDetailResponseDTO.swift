@@ -67,10 +67,20 @@ extension TicketDetailResponseDTO {
 
         let ticketInformations: [TicketDetailInformation] = self.tickets.map { self.convertToTicketDetailInformaton($0) }
 
+        let formattedShowDate: Date = self.showDate.formatToDate()
+        var showStatus: ShowStatus = .dayBeforeShow
+
+        if Date().getBetweenDay(to: formattedShowDate) < 0 {
+            showStatus = .dayAfterShow
+        } else if Date().getBetweenDay(to: formattedShowDate) == 0 {
+            showStatus = .onShowDate
+        }
+
         return TicketDetailItemEntity(
             ticketType: ticketType,
             ticketName: self.ticketName,
             posterURLPath: self.showImgPath,
+            showStatus: showStatus,
             title: self.showName,
             streetAddress: self.streetAddress,
             notice: self.notice,

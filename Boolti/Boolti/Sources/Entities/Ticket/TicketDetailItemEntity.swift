@@ -12,6 +12,8 @@ struct TicketDetailItemEntity {
     let ticketType: TicketType
     let ticketName: String
     let posterURLPath: String
+    let showStatus: ShowStatus
+    let isGift: Bool = true
     let title: String
     let streetAddress: String
     let notice: String
@@ -28,4 +30,10 @@ struct TicketDetailInformation {
     let ticketStatus: TicketStatus
     let ticketID: Int
     let csTicketID: String
+}
+
+enum ShowStatus {
+    case dayBeforeShow
+    case onShowDate
+    case dayAfterShow
 }
