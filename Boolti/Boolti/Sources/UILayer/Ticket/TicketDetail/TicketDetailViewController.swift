@@ -98,6 +98,7 @@ final class TicketDetailViewController: BooltiViewController {
     private let ticketNoticeView = TicketNoticeView()
     private let organizerInfoView = OrganizerInfoView(horizontalInset: .zero, verticalInset:.zero , height: 98)
     private let reversalPolicyView = ReversalPolicyView()
+    private let cancelReceivedGiftPopView = BooltiPopupView()
 
     private lazy var copyAddressButton = self.makeButton(
         title: "공연장 주소 복사",
@@ -186,16 +187,24 @@ final class TicketDetailViewController: BooltiViewController {
 
         self.footerButton.rx.tap
             .bind(with: self) { owner, _ in
-                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
-                let concertID = "\(ticketDetail.concertID)"
-                let currentTicketIndex = owner.QRCodePageControl.currentPage
-                let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
-                let currentTicketID = "\(currentTicket.ticketID)"
+                // isGift인 지 판단해야한다.
+                owner.cancelReceivedGiftPopView.showPopup(with: .cancelReceivedGift)
+//                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
+//                let concertID = "\(ticketDetail.concertID)"
+//                let currentTicketIndex = owner.QRCodePageControl.currentPage
+//                let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
+//                let currentTicketID = "\(currentTicket.ticketID)"
+//
+//                let viewController = owner.ticketEntryCodeControllerFactory(currentTicketID, concertID)
+//                viewController.modalPresentationStyle = .overCurrentContext
+//                owner.definesPresentationContext = true
+//                owner.present(viewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
 
-                let viewController = owner.ticketEntryCodeControllerFactory(currentTicketID, concertID)
-                viewController.modalPresentationStyle = .overCurrentContext
-                owner.definesPresentationContext = true
-                owner.present(viewController, animated: true)
+        self.cancelReceivedGiftPopView.didConfirmButtonTap()
+            .emit(with: self) { owner, _ in
+                print("뭐지!!")
             }
             .disposed(by: self.disposeBag)
     }
@@ -315,11 +324,11 @@ final class TicketDetailViewController: BooltiViewController {
     private func configureUI() {
 
         self.view.backgroundColor = .grey95
-        self.view.addSubviews([self.navigationBar, self.scrollView])
+        self.view.addSubviews([self.navigationBar, self.scrollView, self.cancelReceivedGiftPopView])
 
         self.scrollView.addSubviews([
             self.refreshControl,
-            self.contentStackView
+            self.contentStackView,
         ])
 
         self.concertDetailStackView.addArrangedSubviews([
@@ -382,6 +391,10 @@ final class TicketDetailViewController: BooltiViewController {
         }
 
         self.contentStackView.setCustomSpacing(20, after: self.concertDetailStackView)
+
+        self.cancelReceivedGiftPopView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 
     private func setCustomStackViewSpacing() {

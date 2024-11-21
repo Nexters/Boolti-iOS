@@ -25,6 +25,7 @@ struct TicketDetailResponseDTO: Decodable {
     let placeName: String
     let showId: Int
     let tickets: [TicketDetailInformationDTO]
+    let giftSenderUserId: Int?
 }
 
 struct TicketDetailInformationDTO: Decodable {
@@ -76,11 +77,14 @@ extension TicketDetailResponseDTO {
             showStatus = .onShowDate
         }
 
+        let isGift = self.giftSenderUserId == nil ? false : true
+
         return TicketDetailItemEntity(
             ticketType: ticketType,
             ticketName: self.ticketName,
             posterURLPath: self.showImgPath,
             showStatus: showStatus,
+            isGift: isGift,
             title: self.showName,
             streetAddress: self.streetAddress,
             notice: self.notice,

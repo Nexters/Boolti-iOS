@@ -30,6 +30,7 @@ final class BooltiPopupView: UIView {
         case deleteSns
         case saveProfile
         case unknownProfile
+        case cancelReceivedGift
 
         var title: String {
             switch self {
@@ -57,6 +58,8 @@ final class BooltiPopupView: UIView {
                 "저장하지 않고 이 페이지를 나가면\n작성한 정보가 손실됩니다.\n변경된 정보를 저장할까요?"
             case .unknownProfile:
                 "존재하지 않는 프로필입니다."
+            case .cancelReceivedGift:
+                "취소 시 선물을 보낸 분께 알림이\n발송되며 결제가 자동 취소됩니다.\n취소하시겠습니까?"
             }
         }
         
@@ -85,6 +88,8 @@ final class BooltiPopupView: UIView {
                 "삭제하기"
             case .saveProfile:
                 "저장하기"
+            case .cancelReceivedGift:
+                "받은 선물 취소하기"
             default:
                 "확인"
             }
@@ -101,7 +106,7 @@ final class BooltiPopupView: UIView {
         
         var withCloseButton: Bool {
             switch self {
-            case .deleteLink, .deleteSns, .saveProfile:
+            case .deleteLink, .deleteSns, .saveProfile, .cancelReceivedGift:
                 true
             default:
                 false

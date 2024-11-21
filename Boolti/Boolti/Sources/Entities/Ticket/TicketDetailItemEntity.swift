@@ -13,7 +13,7 @@ struct TicketDetailItemEntity {
     let ticketName: String
     let posterURLPath: String
     let showStatus: ShowStatus
-    let isGift: Bool = true
+    let isGift: Bool
     let title: String
     let streetAddress: String
     let notice: String
