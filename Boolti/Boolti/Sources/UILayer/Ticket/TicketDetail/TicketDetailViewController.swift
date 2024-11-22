@@ -191,9 +191,7 @@ final class TicketDetailViewController: BooltiViewController {
 
                 guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
 
-                if ticketDetail.isGift {
-                    owner.cancelReceivedGiftPopView.showPopup(with: .cancelReceivedGift)
-                } else {
+                if ticketDetail.showStatus == .onShowDate {
                     let concertID = "\(ticketDetail.concertID)"
                     let currentTicketIndex = owner.QRCodePageControl.currentPage
                     let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
@@ -203,12 +201,23 @@ final class TicketDetailViewController: BooltiViewController {
                     viewController.modalPresentationStyle = .overCurrentContext
                     owner.definesPresentationContext = true
                     owner.present(viewController, animated: true)
+                } else if ticketDetail.isGift {
+                    owner.cancelReceivedGiftPopView.showPopup(with: .cancelReceivedGift)
                 }
             }
             .disposed(by: self.disposeBag)
 
         self.cancelReceivedGiftPopView.didConfirmButtonTap()
+            .do(onNext: { [weak self] _ in
+                self?.cancelReceivedGiftPopView.isHidden = true
+            })
             .emit(to: self.viewModel.input.didCancelGiftButtonTappedEvent)
+            .disposed(by: self.disposeBag)
+
+        self.cancelReceivedGiftPopView.didCloseButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.cancelReceivedGiftPopView.isHidden = true
+            }
             .disposed(by: self.disposeBag)
     }
 
