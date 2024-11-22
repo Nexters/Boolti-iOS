@@ -16,11 +16,13 @@ final class TicketDetailViewModel {
     struct Input {
         var viewWillAppearEvent = PublishSubject<Void>()
         var refreshControlEvent = PublishSubject<Void>()
+        var didCancelGiftButtonTappedEvent = PublishSubject<Void>()
     }
 
     struct Output {
         let isLoading = PublishRelay<Bool>()
         let fetchedTicketDetail = BehaviorRelay<TicketDetailItemEntity?>(value: nil)
+        let didCanceledGift = PublishRelay<Void>()
     }
 
     let input: Input
@@ -42,10 +44,6 @@ final class TicketDetailViewModel {
     }
 
     private func bindInputs() {
-        self.bindViewDidAppearEvent()
-    }
-
-    private func bindViewDidAppearEvent() {
         self.input.viewWillAppearEvent
             .take(1)
             .do(onNext: { _ in
@@ -65,6 +63,11 @@ final class TicketDetailViewModel {
                 owner.output.isLoading.accept(false)
             }
             .disposed(by: self.disposeBag)
+
+        self.input.didCancelGiftButtonTappedEvent
+            .flatMap { self.cancelReceivedGift() }
+            .bind(to: self.output.didCanceledGift)
+            .disposed(by: self.disposeBag)
     }
 
     private func fetchTicketDetailItem() -> Single<TicketDetailItemEntity> {
@@ -75,5 +78,13 @@ final class TicketDetailViewModel {
         return networkService.request(ticketDetailAPI)
             .map(TicketDetailResponseDTO.self)
             .map { $0.convertToTicketDetailItemEntity() }
+    }
+
+    private func cancelReceivedGift() -> Single<Void> {
+        let giftUUID = self.output.fetchedTicketDetail.value?.giftUUID
+        let giftCancelAPI = TicketAPI.cancelGift(giftUUID: giftUUID ?? "")
+
+        return networkService.request(giftCancelAPI)
+            .map { _ in return Void() }
     }
 }

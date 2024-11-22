@@ -23,6 +23,7 @@ final class TicketDetailViewController: BooltiViewController {
 
     private let disposeBag = DisposeBag()
     private let viewModel: TicketDetailViewModel
+    weak var delegate: TicketDetailViewControllerDelegate?
     private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
     private let qrExpandViewControllerFactory: (IndexPath, Tickets) -> QRExpandViewController
     private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
@@ -187,25 +188,27 @@ final class TicketDetailViewController: BooltiViewController {
 
         self.footerButton.rx.tap
             .bind(with: self) { owner, _ in
-                // isGift인 지 판단해야한다.
-                owner.cancelReceivedGiftPopView.showPopup(with: .cancelReceivedGift)
-//                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
-//                let concertID = "\(ticketDetail.concertID)"
-//                let currentTicketIndex = owner.QRCodePageControl.currentPage
-//                let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
-//                let currentTicketID = "\(currentTicket.ticketID)"
-//
-//                let viewController = owner.ticketEntryCodeControllerFactory(currentTicketID, concertID)
-//                viewController.modalPresentationStyle = .overCurrentContext
-//                owner.definesPresentationContext = true
-//                owner.present(viewController, animated: true)
+
+                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
+
+                if ticketDetail.isGift {
+                    owner.cancelReceivedGiftPopView.showPopup(with: .cancelReceivedGift)
+                } else {
+                    let concertID = "\(ticketDetail.concertID)"
+                    let currentTicketIndex = owner.QRCodePageControl.currentPage
+                    let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
+                    let currentTicketID = "\(currentTicket.ticketID)"
+
+                    let viewController = owner.ticketEntryCodeControllerFactory(currentTicketID, concertID)
+                    viewController.modalPresentationStyle = .overCurrentContext
+                    owner.definesPresentationContext = true
+                    owner.present(viewController, animated: true)
+                }
             }
             .disposed(by: self.disposeBag)
 
         self.cancelReceivedGiftPopView.didConfirmButtonTap()
-            .emit(with: self) { owner, _ in
-                print("뭐지!!")
-            }
+            .emit(to: self.viewModel.input.didCancelGiftButtonTappedEvent)
             .disposed(by: self.disposeBag)
     }
 
@@ -316,6 +319,14 @@ final class TicketDetailViewController: BooltiViewController {
             .map { $0.count }
             .distinctUntilChanged()
             .bind(to: self.QRCodePageControl.rx.numberOfPages)
+            .disposed(by: self.disposeBag)
+
+
+        self.viewModel.output.didCanceledGift
+            .bind(with: self) { owner, _ in
+                owner.delegate?.ticketDetailViewControllerDidCancelGift(owner)
+                owner.navigationController?.popViewController(animated: true)
+            }
             .disposed(by: self.disposeBag)
     }
 
