@@ -42,9 +42,9 @@ final class EditLinkCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let editImageView: UIImageView = {
+    private let moveImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .pencil
+        imageView.image = .move
         imageView.tintColor = .grey70
         return imageView
     }()
@@ -94,7 +94,7 @@ extension EditLinkCollectionViewCell {
         self.contentView.backgroundColor = .grey90
         self.contentView.addSubviews([self.linkImageView,
                                       self.labelStackView,
-                                      self.editImageView])
+                                      self.moveImageView])
     }
     
     private func configureConstraints() {
@@ -106,13 +106,13 @@ extension EditLinkCollectionViewCell {
         self.labelStackView.snp.makeConstraints { make in
             make.centerY.equalTo(self.linkImageView)
             make.leading.equalTo(self.linkImageView.snp.trailing).offset(12)
-            make.trailing.equalTo(self.editImageView.snp.leading).offset(-20)
+            make.trailing.equalTo(self.moveImageView.snp.leading).offset(-20)
         }
         
-        self.editImageView.snp.makeConstraints { make in
+        self.moveImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self.linkImageView)
             make.trailing.equalToSuperview()
-            make.size.equalTo(20)
+            make.size.equalTo(24)
         }
     }
 }
