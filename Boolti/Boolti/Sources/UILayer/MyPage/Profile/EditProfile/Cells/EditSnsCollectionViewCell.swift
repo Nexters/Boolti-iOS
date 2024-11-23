@@ -32,9 +32,9 @@ final class EditSnsCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let editImageView: UIImageView = {
+    private let moveImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .pencil
+        imageView.image = .move
         imageView.tintColor = .grey70
         return imageView
     }()
@@ -87,7 +87,7 @@ extension EditSnsCollectionViewCell {
         self.contentView.addSubviews([self.snsImageView,
                                       self.typeLabel,
                                       self.nameLabel,
-                                      self.editImageView])
+                                      self.moveImageView])
     }
     
     private func configureConstraints() {
@@ -105,13 +105,13 @@ extension EditSnsCollectionViewCell {
         self.nameLabel.snp.makeConstraints { make in
             make.centerY.equalTo(self.snsImageView)
             make.leading.equalTo(self.typeLabel.snp.trailing).offset(16)
-            make.trailing.equalTo(self.editImageView.snp.leading).offset(-16)
+            make.trailing.equalTo(self.moveImageView.snp.leading).offset(-16)
         }
         
-        self.editImageView.snp.makeConstraints { make in
+        self.moveImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self.snsImageView)
             make.trailing.equalToSuperview()
-            make.size.equalTo(20)
+            make.size.equalTo(24)
         }
     }
 }
