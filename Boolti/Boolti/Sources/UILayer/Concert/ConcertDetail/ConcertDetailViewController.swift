@@ -443,9 +443,7 @@ extension ConcertDetailViewController {
                 let components = calendar.dateComponents([.day, .hour, .minute, .second], from: currentDate, to: salesEndTime)
 
                 if let hour = components.hour, let minute = components.minute, let second = components.second {
-                    let day = components.day ?? 0
-                    let adjustedDay = max(day, 0)
-                    return String(format: "🔥 판매 종료까지 %02d:%02d:%02d", adjustedDay, hour, minute, second)
+                    return String(format: "🔥 판매 종료까지 %02d:%02d:%02d", hour, minute, second)
                 } else {
                     return ""
                 }

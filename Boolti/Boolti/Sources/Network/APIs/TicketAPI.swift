@@ -13,6 +13,7 @@ enum TicketAPI {
     case list
     case detail(requestDTO: TicketDetailRequestDTO)
     case entryCode(requestDTO: TicketEntryCodeRequestDTO)
+    case cancelGift(giftUUID: String)
 }
 
 extension TicketAPI: ServiceAPI {
@@ -25,14 +26,16 @@ extension TicketAPI: ServiceAPI {
             return "/api/v1/ticket/reservation/\(DTO.reservationID)"
         case .entryCode:
             return "/api/v1/ticket/entrance/manager"
+        case .cancelGift:
+            return "/api/v1/order/cancel-receive-gift"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .list, .detail:
             return .get
-        case .entryCode:
+        case .entryCode, .cancelGift:
             return .post
         }
     }
@@ -44,6 +47,10 @@ extension TicketAPI: ServiceAPI {
         case .entryCode(let DTO):
             let params: [String: Any]
             params = ["ticketId": DTO.ticketID, "showId": DTO.concertID, "managerCode": DTO.entryCode]
+            return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
+        case .cancelGift(let giftUUID):
+            let params: [String: Any]
+            params = ["giftUuid": giftUUID]
             return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
         }
     }
