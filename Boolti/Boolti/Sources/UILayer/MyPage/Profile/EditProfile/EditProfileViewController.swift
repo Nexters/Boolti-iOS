@@ -218,6 +218,8 @@ extension EditProfileViewController {
     private func configureLinkCollectionView() {
         self.editSnsView.snsCollectionView.dataSource = self
         self.editSnsView.snsCollectionView.delegate = self
+        self.editSnsView.snsCollectionView.dragDelegate = self
+        self.editSnsView.snsCollectionView.dropDelegate = self
         
         self.editSnsView.snsCollectionView.register(AddLinkHeaderView.self,
                                                       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -228,6 +230,8 @@ extension EditProfileViewController {
 
         self.editLinkView.linkCollectionView.dataSource = self
         self.editLinkView.linkCollectionView.delegate = self
+        self.editLinkView.linkCollectionView.dragDelegate = self
+        self.editLinkView.linkCollectionView.dropDelegate = self
         
         self.editLinkView.linkCollectionView.register(AddLinkHeaderView.self,
                                                       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -437,6 +441,66 @@ extension EditProfileViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width - 40, height: 56)
     }
+}
+
+// MARK: - UICollectionViewDragDelegate
+
+extension EditProfileViewController: UICollectionViewDragDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return [UIDragItem(itemProvider: NSItemProvider())]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        guard collectionView.hasActiveDrag else { return UICollectionViewDropProposal(operation: .forbidden) }
+        return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+    }
+
+}
+
+// MARK: - UICollectionViewDropDelegate
+
+extension EditProfileViewController: UICollectionViewDropDelegate {
+    
+   func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+       var destinationIndexPath: IndexPath
+       if let indexPath = coordinator.destinationIndexPath {
+           destinationIndexPath = indexPath
+       } else {
+           let item = collectionView.numberOfItems(inSection: 0)
+           destinationIndexPath = IndexPath(item: item - 1, section: 0)
+       }
+
+       guard let item = coordinator.items.first,
+             let sourceIndexPath = item.sourceIndexPath else { return }
+       
+       if collectionView == self.editSnsView.snsCollectionView {
+           guard var snses = self.viewModel.output.profile.snses else { return }
+           collectionView.performBatchUpdates {
+               let sourceItem = snses.remove(at: sourceIndexPath.item)
+               snses.insert(sourceItem, at: destinationIndexPath.item)
+               collectionView.deleteItems(at: [sourceIndexPath])
+               collectionView.insertItems(at: [destinationIndexPath])
+               coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+               print(snses)
+               self.viewModel.input.didSnsChanged.accept(snses)
+               self.reloadLinks()
+           }
+       } else {
+           guard var links = self.viewModel.output.profile.links else { return }
+           collectionView.performBatchUpdates {
+               let sourceItem = links.remove(at: sourceIndexPath.item)
+               links.insert(sourceItem, at: destinationIndexPath.item)
+               collectionView.deleteItems(at: [sourceIndexPath])
+               collectionView.insertItems(at: [destinationIndexPath])
+               coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+               print(links)
+               self.viewModel.input.didLinkChanged.accept(links)
+               self.reloadLinks()
+           }
+       }
+   }
+
 }
 
 // MARK: - UI
