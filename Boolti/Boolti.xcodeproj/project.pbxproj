@@ -26,7 +26,6 @@
 		2233EAAF2BE142C900A315BF /* TicketingErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233EAAE2BE142C900A315BF /* TicketingErrorResponseDTO.swift */; };
 		223698F92C8B36B6002C8081 /* GetUploadURLReponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223698F82C8B36B6002C8081 /* GetUploadURLReponseDTO.swift */; };
 		223698FB2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223698FA2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift */; };
-		223698FF2C8B4886002C8081 /* EditLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223698FE2C8B4886002C8081 /* EditLinkViewModel.swift */; };
 		223699012C8B5268002C8081 /* ProfileEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223699002C8B5268002C8081 /* ProfileEntity.swift */; };
 		224BEEDF2C4A0B7700863970 /* TicketingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEEDE2C4A0B7700863970 /* TicketingType.swift */; };
 		224BEEFF2C4CC9BA00863970 /* GiftingConfirmDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BEEFE2C4CC9BA00863970 /* GiftingConfirmDIContainer.swift */; };
@@ -458,7 +457,6 @@
 		2233EAAE2BE142C900A315BF /* TicketingErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingErrorResponseDTO.swift; sourceTree = "<group>"; };
 		223698F82C8B36B6002C8081 /* GetUploadURLReponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUploadURLReponseDTO.swift; sourceTree = "<group>"; };
 		223698FA2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfileImageRequestDTO.swift; sourceTree = "<group>"; };
-		223698FE2C8B4886002C8081 /* EditLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLinkViewModel.swift; sourceTree = "<group>"; };
 		223699002C8B5268002C8081 /* ProfileEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntity.swift; sourceTree = "<group>"; };
 		224BEEDE2C4A0B7700863970 /* TicketingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketingType.swift; sourceTree = "<group>"; };
 		224BEEFE2C4CC9BA00863970 /* GiftingConfirmDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftingConfirmDIContainer.swift; sourceTree = "<group>"; };
@@ -2221,7 +2219,6 @@
 			isa = PBXGroup;
 			children = (
 				8749F5822C88B90C00FC4365 /* EditLinkViewController.swift */,
-				223698FE2C8B4886002C8081 /* EditLinkViewModel.swift */,
 			);
 			path = EditLink;
 			sourceTree = "<group>";
@@ -2740,7 +2737,6 @@
 				224FE70F2C3E520A00C09D28 /* GiftCardImageEntity.swift in Sources */,
 				22DFC5632C7A00E900C8433D /* ProfileDataHeaderView.swift in Sources */,
 				22739A422C4F8D92000A357B /* SettingContentView.swift in Sources */,
-				840D84042B6F5C610078D352 /* TicketingPeriodView.swift in Sources */,
 				22B67B3C2CE37DDC004F6D4A /* ProfileConcertCollectionViewCell.swift in Sources */,
 				84781CA82B5BF71900D37921 /* SplashViewController.swift in Sources */,
 				843918FE2B7A82E700CC62AA /* ReportViewModel.swift in Sources */,
@@ -2791,7 +2787,6 @@
 				84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */,
 				8749F5832C88B90C00FC4365 /* EditLinkViewController.swift in Sources */,
 				84D1C37F2B79379200527998 /* FreeTicketingRequestDTO.swift in Sources */,
-				223698FF2C8B4886002C8081 /* EditLinkViewModel.swift in Sources */,
 				84BAB8262B8CA8DB00DEA35C /* TicketingConfirmDIContainer.swift in Sources */,
 				22DD8C882BD289100083622C /* SavePaymentInfoRequestDTO.swift in Sources */,
 				871F3D202C4FFFFA00AB1BB9 /* GiftRefundRequestDTO.swift in Sources */,
