@@ -355,7 +355,7 @@ extension EditSnsViewController {
         self.userNameStackView.updateTitleLabelConstraints(width: 65)
         
         self.errorMessageLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.userNameStackView.snp.bottom).offset(12)
+            make.top.equalTo(self.userNameStackView.snp.bottom).offset(8)
             make.leading.equalTo(self.userNameTextField)
             make.trailing.equalToSuperview().inset(20)
         }
