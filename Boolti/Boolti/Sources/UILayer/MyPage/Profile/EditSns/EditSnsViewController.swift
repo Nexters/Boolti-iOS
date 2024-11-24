@@ -144,6 +144,7 @@ extension EditSnsViewController {
                     owner.userNameTextField.isButtonHidden = true
                     owner.navigationBar.rightTextButton.isEnabled = false
                 } else {
+                    owner.userNameTextField.isButtonHidden = false
                     if text.contains("@") {
                         owner.errorMessageLabel.text = "@를 제외한 Username을 입력해 주세요"
                         owner.userNameTextField.layer.borderWidth = 1
@@ -355,7 +356,7 @@ extension EditSnsViewController {
         self.userNameStackView.updateTitleLabelConstraints(width: 65)
         
         self.errorMessageLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.userNameStackView.snp.bottom).offset(12)
+            make.top.equalTo(self.userNameStackView.snp.bottom).offset(8)
             make.leading.equalTo(self.userNameTextField)
             make.trailing.equalToSuperview().inset(20)
         }
