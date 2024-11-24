@@ -255,6 +255,7 @@ extension EditSnsViewController {
             .emit(with: self) { owner, _ in
                 owner.delegate?.editSnsDidDeleted(self)
                 owner.deleteSnsPopUpView.isHidden = true
+                owner.showToast(message: "SNS를 삭제했어요")
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
