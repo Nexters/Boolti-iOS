@@ -15,8 +15,9 @@ final class ProfileSnsCollectionViewCell: UICollectionViewCell {
     
     private let linkNameLabel: BooltiUILabel = {
         let label = BooltiUILabel()
-        label.font = .body3
-        label.textColor = .grey15
+        
+        label.font = .body1
+        label.textColor = .grey30
         
         return label
     }()
