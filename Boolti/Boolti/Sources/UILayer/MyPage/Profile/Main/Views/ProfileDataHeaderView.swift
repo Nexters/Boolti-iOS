@@ -17,7 +17,7 @@ final class ProfileDataHeaderView: UICollectionReusableView {
     
     // MARK: UI Components
     
-    private let seperatorView: UIView = {
+    private let separatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .grey85
         return view
@@ -71,7 +71,7 @@ extension ProfileDataHeaderView {
     }
     
     func hideSeparator(isHidden: Bool) {
-        self.seperatorView.isHidden = isHidden
+        self.separatorView.isHidden = isHidden
     }
 
 }
@@ -81,14 +81,14 @@ extension ProfileDataHeaderView {
 extension ProfileDataHeaderView {
     
     private func configureUI() {
-        self.addSubviews([self.seperatorView,
+        self.addSubviews([self.separatorView,
                           self.titleLabel,
                           self.expandButton])
         self.configureConstraints()
     }
     
     private func configureConstraints() {
-        self.seperatorView.snp.makeConstraints { make in
+        self.separatorView.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
