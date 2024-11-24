@@ -17,6 +17,12 @@ final class ProfileDataHeaderView: UICollectionReusableView {
     
     // MARK: UI Components
     
+    private let seperatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey85
+        return view
+    }()
+    
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .subhead2
@@ -63,6 +69,10 @@ extension ProfileDataHeaderView {
     func setTitle(with title: String) {
         self.titleLabel.text = title
     }
+    
+    func hideSeparator(isHidden: Bool) {
+        self.seperatorView.isHidden = isHidden
+    }
 
 }
 
@@ -71,12 +81,18 @@ extension ProfileDataHeaderView {
 extension ProfileDataHeaderView {
     
     private func configureUI() {
-        self.addSubviews([self.titleLabel,
+        self.addSubviews([self.seperatorView,
+                          self.titleLabel,
                           self.expandButton])
         self.configureConstraints()
     }
     
     private func configureConstraints() {
+        self.seperatorView.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
         self.titleLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(20)

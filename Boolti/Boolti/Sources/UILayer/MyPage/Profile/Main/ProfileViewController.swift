@@ -39,7 +39,6 @@ final class ProfileViewController: BooltiViewController {
         scrollView.addSubview(self.stackView)
         scrollView.bounces = false
         scrollView.delegate = self
-        scrollView.contentInset = .init(top: 0, left: 0, bottom: 32, right: 0)
         
         return scrollView
     }()
@@ -67,6 +66,7 @@ final class ProfileViewController: BooltiViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.isScrollEnabled = false
+
         return collectionView
     }()
     
@@ -309,6 +309,7 @@ extension ProfileViewController: UICollectionViewDataSource {
         switch section {
         case .link:
             header.expandButton.isHidden = self.viewModel.output.links.count <= 3
+            header.hideSeparator(isHidden: true)
 
             header.setTitle(with: "링크")
             
@@ -322,7 +323,8 @@ extension ProfileViewController: UICollectionViewDataSource {
             return header
         case .concert:
             header.expandButton.isHidden = self.viewModel.output.links.count <= 2
-
+            header.hideSeparator(isHidden: false)
+            
             header.setTitle(with: "출연한 공연")
 
             header.expandButton.rx.tap
@@ -371,6 +373,14 @@ extension ProfileViewController: UICollectionViewDataSource {
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if collectionView == self.profileMainView.snsCollectionView {
+            return .zero
+        } else {
+            return .init(top: 0, left: 0, bottom: 25, right: 0)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.profileMainView.snsCollectionView {
             let name = self.viewModel.output.snses[indexPath.row].name
@@ -378,7 +388,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
             let attributes = [NSAttributedString.Key.font: UIFont.body1]
             let nameSize = (name as NSString).size(withAttributes: attributes as [NSAttributedString.Key: Any])
 
-            return CGSize(width: nameSize.width * 1.2 + 46, height: 30)
+            return CGSize(width: nameSize.width * 1.1 + 46, height: 30)
         } else {
             guard let section = Section(rawValue: indexPath.section) else { return .init() }
 
