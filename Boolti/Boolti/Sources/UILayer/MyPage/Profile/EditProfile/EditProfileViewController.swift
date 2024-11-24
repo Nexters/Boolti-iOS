@@ -567,7 +567,7 @@ extension EditProfileViewController: EditLinkViewControllerDelegate {
     
     func editLinkViewController(_ viewController: UIViewController, didAddedLink entity: LinkEntity) {
         guard var links = self.viewModel.output.profile.links else { return }
-        links.insert(entity, at: 0)
+        links.append(entity)
         
         self.viewModel.input.didLinkChanged.accept(links)
         self.reloadLinks()
@@ -597,7 +597,7 @@ extension EditProfileViewController: EditSnsViewControllerDelegate {
     
     func editSnsViewController(_ viewController: UIViewController, didAddedSns entity: SnsEntity) {
         guard var snses = self.viewModel.output.profile.snses else { return }
-        snses.insert(entity, at: 0)
+        snses.append(entity)
         
         self.viewModel.input.didSnsChanged.accept(snses)
         self.reloadLinks()
