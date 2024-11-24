@@ -243,6 +243,7 @@ final class EditLinkViewController: BooltiViewController {
             .emit(with: self) { owner, _ in
                 owner.delegate?.editLinkDidDeleted(self)
                 owner.deleteLinkPopUpView.isHidden = true
+                owner.showToast(message: "링크를 삭제했어요")
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
