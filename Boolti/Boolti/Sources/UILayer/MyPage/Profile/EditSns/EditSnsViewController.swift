@@ -144,6 +144,7 @@ extension EditSnsViewController {
                     owner.userNameTextField.isButtonHidden = true
                     owner.navigationBar.rightTextButton.isEnabled = false
                 } else {
+                    owner.userNameTextField.isButtonHidden = false
                     if text.contains("@") {
                         owner.errorMessageLabel.text = "@를 제외한 Username을 입력해 주세요"
                         owner.userNameTextField.layer.borderWidth = 1
