@@ -198,7 +198,7 @@ extension ProfileViewController {
 
                 guard let url = URL(string: "\(sns.snsType.urlPath)\(sns.name)") else { return }
                 if UIApplication.shared.canOpenURL(url) {
-                    owner.openSafari(with: url)
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 } else {
                     owner.showToast(message: "유효한 SNS가 아니에요")
                 }
