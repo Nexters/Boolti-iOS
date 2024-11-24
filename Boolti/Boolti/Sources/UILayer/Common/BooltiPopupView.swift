@@ -45,7 +45,7 @@ final class BooltiPopupView: UIView {
             case .requireLogin:
                 "로그인 후 선물 등록이 가능합니다.\n로그인해 주세요."
             case .registerGift:
-                "선물을 등록하면\n선물 취소 및 환불이 불가합니다.\n등록하시겠습니까?"
+                "선물을 등록하시겠습니까?"
             case .registerMyGift:
                 "본인이 결제한 선물입니다.\n선물을 등록하면 다른 분께 보낼 수\n없습니다. 등록하시겠습니까?"
             case .registerGiftError:
