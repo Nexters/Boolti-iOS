@@ -32,7 +32,7 @@ final class ConcertDetailViewController: BooltiViewController {
     private let reportViewControllerFactory: () -> ReportViewController
     private let ticketSelectionViewControllerFactory: (ConcertId, TicketingType) -> TicketSelectionViewController
     private let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController
-    private let profileViewControllerFactory: (UserCode) -> ProfileViewController
+    private let profileViewControllerFactory: (UserCode?) -> ProfileViewController
 
     // MARK: UI Component
     
@@ -172,7 +172,7 @@ final class ConcertDetailViewController: BooltiViewController {
          reportViewControllerFactory: @escaping () -> ReportViewController,
          ticketSelectionViewControllerFactory: @escaping (ConcertId, TicketingType) -> TicketSelectionViewController,
          contactViewControllerFactory: @escaping (ContactType, PhoneNumber) -> ContactViewController,
-         profileViewControllerFactory: @escaping (UserCode) -> ProfileViewController
+         profileViewControllerFactory: @escaping (UserCode?) -> ProfileViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
@@ -742,7 +742,13 @@ extension ConcertDetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let listEntities = self.viewModel.output.teamListEntities.value else { return }
         let user = listEntities[indexPath.section].members[indexPath.row]
-        let viewController = self.profileViewControllerFactory(user.code)
+        
+        var viewController: ProfileViewController
+        if user.code == UserDefaults.userCode {
+            viewController = self.profileViewControllerFactory(nil)
+        } else {
+            viewController = self.profileViewControllerFactory(user.code)
+        }
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 
