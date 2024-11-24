@@ -45,9 +45,9 @@ struct ConcertDetailEntity {
         let formattedString = """
         공연 정보를 공유드려요!
 
-        공연명 : \(name)
-        일시 : \(date.format(.dateDayTimeWithDash))
-        장소 : \(placeName) / \(streetAddress), \(detailAddress)
+        - 공연명 : \(name)
+        - 일시 : \(date.format(.dateDayTimeWithDash))
+        - 장소 : \(placeName) / \(streetAddress), \(detailAddress)
 
         공연 상세 정보 ▼ 
         \(urlPrefix)\(id)
