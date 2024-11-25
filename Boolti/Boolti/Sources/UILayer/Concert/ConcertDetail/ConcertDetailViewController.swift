@@ -130,7 +130,7 @@ final class ConcertDetailViewController: BooltiViewController {
     
     private let contentInfoView = ContentInfoView()
     
-    private let organizerInfoView = OrganizerInfoView(horizontalInset: 20, verticalInset: 32, height: 170)
+    private let organizerInfoView = OrganizerInfoView(horizontalInset: 20, verticalInset: 32, height: 118)
 
     private let emptyCastView = EmptyCastTeamListView()
 
@@ -220,7 +220,7 @@ final class ConcertDetailViewController: BooltiViewController {
 // MARK: - Methods
 
 extension ConcertDetailViewController {
-    
+
     private func bindInputs() {
         self.ticketingButton.rx.tap
             .asDriver()
@@ -228,7 +228,7 @@ extension ConcertDetailViewController {
                 owner.viewModel.input.didTicketingButtonTap.accept(.ticketing)
             }
             .disposed(by: self.disposeBag)
-        
+
         self.giftingButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -253,7 +253,6 @@ extension ConcertDetailViewController {
             .take(1)
             .bind(with: self) { owner, entity in
                 guard let entity = entity else { return }
-                
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name)
                 owner.placeInfoView.setData(
                     name: entity.placeName,
@@ -277,17 +276,22 @@ extension ConcertDetailViewController {
             .skip(1)
             .bind(with: self) { owner, state in
                 owner.giftingButton.isHidden = !state.isEnabled
-                
+
                 owner.ticketingButton.isEnabled = state.isEnabled
-                if case let .beforeSale(startDate) = state {
-                    self.bindBeforeSaleTimerButton(startDate: startDate)
-                } else {
+                owner.ticketingButton.setTitleColor(state.titleColor, for: .normal)
+
+                switch state {
+                case .beforeSale(let startDate):
+                    owner.bindBeforeSaleTimerButton(startDate: startDate)
+                case .endConcert:
+                    owner.buttonStackView.isHidden = true
+                    owner.buttonBackgroundView.isHidden = true
+                default:
                     owner.ticketingButton.setTitle(state.title, for: .normal)
                 }
-                owner.ticketingButton.setTitleColor(state.titleColor, for: .normal)
             }
             .disposed(by: self.disposeBag)
-        
+
         self.viewModel.output.navigate
             .asDriver(onErrorJustReturn: .login)
             .drive(with: self) { owner, destination in
@@ -308,7 +312,7 @@ extension ConcertDetailViewController {
                     viewController.onDismiss = {
                         owner.dimmedBackgroundView.isHidden = true
                     }
-                    
+
                     owner.dimmedBackgroundView.isHidden = false
                     owner.present(viewController, animated: true)
                 }
@@ -318,12 +322,13 @@ extension ConcertDetailViewController {
         self.viewModel.output.teamListEntities
             .asDriver()
             .drive(with: self) { owner, entity in
-                    owner.configureEmptyCastTeamListView()
-                    owner.configureCollectionView()
+                owner.configureEmptyCastTeamListView()
+                owner.configureCollectionView()
             }
             .disposed(by: self.disposeBag)
     }
-    
+
+
     private func bindUIComponents() {
         self.bindPlaceInfoView()
         self.bindPosterView()
@@ -341,7 +346,7 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
+
     private func bindPosterView() {
         self.concertPosterView.rx.tapGesture()
             .when(.recognized)
@@ -351,20 +356,20 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
+
     private func bindContentInfoView() {
         self.contentInfoView.didAddressExpandButtonTap()
             .emit(to: self.viewModel.input.didExpandButtonTap)
             .disposed(by: self.disposeBag)
     }
-    
+
     private func bindNavigationBar() {
         self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
-        
+
         self.navigationBar.didHomeButtonTap()
             .emit(with: self) { owner, _ in
                 if let tabBarController = owner.tabBarController,
@@ -381,11 +386,11 @@ extension ConcertDetailViewController {
                 }
             }
             .disposed(by: self.disposeBag)
-        
+
         self.navigationBar.didShareButtonTap()
             .emit(with: self) { owner, _ in
                 guard let concertDetail = owner.viewModel.output.concertDetail.value else { return }
-                
+
                 let concertInfo = concertDetail.convertToShareConcertString()
 
                 let activityViewController = UIActivityViewController(
@@ -400,12 +405,12 @@ extension ConcertDetailViewController {
         self.navigationBar.didMoreButtonTap()
             .emit(with: self) { owner, _ in
                 let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                
+
                 let reportAction = UIAlertAction(title: "신고하기", style: .default) { _ in
                     let viewController = owner.reportViewControllerFactory()
                     owner.navigationController?.pushViewController(viewController, animated: true)
-                 }
-                 alertController.addAction(reportAction)
+                }
+                alertController.addAction(reportAction)
 
                 let cancleAction = UIAlertAction(title: "취소하기", style: .cancel)
                 alertController.addAction(cancleAction)
@@ -414,7 +419,7 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
+
     private func bindOrganizerInfoView() {
         self.organizerInfoView.didCallButtonTap()
             .emit(with: self) { owner, _ in
@@ -496,6 +501,14 @@ extension ConcertDetailViewController {
         self.stackView.addArrangedSubview(self.emptyCastView)
         self.emptyCastView.isHidden = true
     }
+
+//    private func updateSrollViewHeight() {
+//        self.scrollView.snp.remakeConstraints { make in
+//            make.top.equalTo(self.remainingSalesTimeLabel.snp.bottom)
+//            make.horizontalEdges.equalToSuperview()
+//            make.bottom.equalTo(self.view.snp.bottom)
+//        }
+//    }
 }
 
 // MARK: - UIScrollViewDelegate
@@ -542,7 +555,7 @@ extension ConcertDetailViewController {
         self.dimmedBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+
         self.scrollView.snp.makeConstraints { make in
             make.top.equalTo(self.remainingSalesTimeLabel.snp.bottom)
             make.horizontalEdges.equalToSuperview()
@@ -571,14 +584,20 @@ extension ConcertDetailViewController {
         }
     }
 
+    // 여기서 ScrollView height를 수정해준다.
     private func updateConstraintsForNonBannerCase() {
         self.remainingSalesTimeLabel.isHidden = true
 
         self.concertPosterView.updateHeight()
+
         self.scrollView.snp.remakeConstraints { make in
             make.top.equalTo(self.navigationBar.snp.bottom)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(self.ticketingButton.snp.top)
+            if buttonStackView.isHidden {
+                make.bottom.equalToSuperview()
+            } else {
+                make.bottom.equalTo(self.ticketingButton.snp.top)
+            }
         }
     }
 
@@ -719,7 +738,7 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
         let bottomInset: CGFloat
 
         if isLastSection {
-            bottomInset = 40
+            bottomInset = 56
         } else if hasMembers {
             bottomInset = 24
         } else {

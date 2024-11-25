@@ -17,7 +17,7 @@ final class ContentInfoView: UIView {
         let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .subhead2
-        label.text = "공연 내용"
+        label.text = "내용"
         
         return label
     }()
