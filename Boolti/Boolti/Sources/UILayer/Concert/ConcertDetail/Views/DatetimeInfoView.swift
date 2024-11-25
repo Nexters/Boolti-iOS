@@ -102,7 +102,7 @@ extension DatetimeInfoView {
         self.underLineView.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.bottom.equalToSuperview()
-            make.horizontalEdges.equalTo(self.datetimeLabel)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }

@@ -17,8 +17,8 @@ final class OrganizerInfoView: UIView {
         let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .subhead2
-        label.text = "공연 관련 문의"
-        
+        label.text = "주최"
+
         return label
     }()
     
@@ -90,7 +90,7 @@ extension OrganizerInfoView {
     
     private func configureConstraints(horizontalInset: Int, verticalInset: Int, height: Int) {
         self.snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(height)
+            make.height.greaterThanOrEqualTo(height+24)
         }
 
         self.titleLabel.snp.makeConstraints { make in
