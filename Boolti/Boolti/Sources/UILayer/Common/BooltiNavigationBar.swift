@@ -104,7 +104,7 @@ extension BooltiNavigationBar {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .subhead2
-        button.titleLabel?.textColor = .grey10
+        button.setTitleColor(.grey10, for: .normal)
         return button
     }
 
