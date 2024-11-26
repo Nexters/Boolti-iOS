@@ -323,8 +323,8 @@ extension ProfileViewController: UICollectionViewDataSource {
             return header
         case .concert:
             header.expandButton.isHidden = self.viewModel.output.links.count <= 2
-            header.hideSeparator(isHidden: false)
-            
+            header.hideSeparator(isHidden: self.viewModel.output.snses.isEmpty)
+
             header.setTitle(with: "출연한 공연")
 
             header.expandButton.rx.tap
