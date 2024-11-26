@@ -130,7 +130,7 @@ final class ConcertDetailViewController: BooltiViewController {
     
     private let contentInfoView = ContentInfoView()
     
-    private let organizerInfoView = OrganizerInfoView(horizontalInset: 20, verticalInset: 32, height: 118)
+    private let organizerInfoView = OrganizerInfoView(horizontalInset: 20, verticalInset: 24, height: 134)
 
     private let emptyCastView = EmptyCastTeamListView()
 
@@ -286,6 +286,7 @@ extension ConcertDetailViewController {
                 case .endConcert:
                     owner.buttonStackView.isHidden = true
                     owner.buttonBackgroundView.isHidden = true
+                    owner.organizerInfoView.configureHeightForEndSaleCase(with: 118)
                 default:
                     owner.ticketingButton.setTitle(state.title, for: .normal)
                 }
@@ -501,14 +502,6 @@ extension ConcertDetailViewController {
         self.stackView.addArrangedSubview(self.emptyCastView)
         self.emptyCastView.isHidden = true
     }
-
-//    private func updateSrollViewHeight() {
-//        self.scrollView.snp.remakeConstraints { make in
-//            make.top.equalTo(self.remainingSalesTimeLabel.snp.bottom)
-//            make.horizontalEdges.equalToSuperview()
-//            make.bottom.equalTo(self.view.snp.bottom)
-//        }
-//    }
 }
 
 // MARK: - UIScrollViewDelegate
@@ -723,9 +716,9 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
         let width = collectionView.frame.width
 
         if section == 0 {
-            return CGSize(width: width, height: 65)
+            return CGSize(width: width, height: 58)
         } else {
-            return CGSize(width: width, height: 50)
+            return CGSize(width: width, height: 46)
         }
     }
 
@@ -736,21 +729,39 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
         let hasMembers = !listEntities[section].members.isEmpty
 
         let bottomInset: CGFloat
+        let topInset: CGFloat
 
+        // 맴버가 있는 지 없는 지 판단하기!
         if isLastSection {
-            bottomInset = 56
-        } else if hasMembers {
-            bottomInset = 24
+            if hasMembers {
+                topInset = 24
+                bottomInset = buttonStackView.isHidden == true ? 32 : 48
+            } else {
+                topInset = 0
+                bottomInset = buttonStackView.isHidden == true ? 32 : 48
+            }
         } else {
-            bottomInset = 10
+            if hasMembers {
+                topInset = 24
+                bottomInset = 24
+            } else {
+                topInset = 0
+                bottomInset = 24
+            }
         }
 
-        return UIEdgeInsets(top: 20, left: 20, bottom: bottomInset, right: 20)
+        return UIEdgeInsets(top: topInset, left: 20, bottom: bottomInset, right: 20)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return CGSize.zero }
         let width = collectionView.frame.width
-        return CGSize(width: width, height: 1)
+
+        if listEntities.count == 1 || section == listEntities.count - 1 {
+            return CGSize.zero
+        } else {
+            return CGSize(width: width, height: 1)
+        }
     }
 }
 

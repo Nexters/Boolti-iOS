@@ -92,7 +92,7 @@ extension TicketSalesTimeView {
         }
 
         self.snp.makeConstraints { make in
-            make.height.equalTo(114 + self.datetimeLabel.getLabelHeight() + self.soldCountLabel.getLabelHeight())
+            make.height.equalTo(106 + self.datetimeLabel.getLabelHeight() + self.soldCountLabel.getLabelHeight())
         }
     }
 }
@@ -107,7 +107,7 @@ extension TicketSalesTimeView {
 
     private func configureConstraints() {
         self.titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(40)
+            make.top.equalToSuperview().inset(32)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 

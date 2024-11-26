@@ -90,7 +90,7 @@ extension OrganizerInfoView {
     
     private func configureConstraints(horizontalInset: Int, verticalInset: Int, height: Int) {
         self.snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(height+24)
+            make.height.greaterThanOrEqualTo(height)
         }
 
         self.titleLabel.snp.makeConstraints { make in
@@ -114,6 +114,12 @@ extension OrganizerInfoView {
             make.centerY.equalTo(self.organizerLabel)
             make.trailing.equalToSuperview().inset(horizontalInset)
             make.size.equalTo(24)
+        }
+    }
+
+    func configureHeightForEndSaleCase(with height: Int) {
+        self.snp.remakeConstraints { make in
+            make.height.equalTo(height)
         }
     }
 }
