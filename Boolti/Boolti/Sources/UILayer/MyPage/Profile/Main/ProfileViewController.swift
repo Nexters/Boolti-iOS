@@ -322,7 +322,7 @@ extension ProfileViewController: UICollectionViewDataSource {
                 .disposed(by: header.disposeBag)
             return header
         case .concert:
-            header.expandButton.isHidden = self.viewModel.output.links.count <= 2
+            header.expandButton.isHidden = self.viewModel.output.performedConcerts.count <= 2
             header.hideSeparator(isHidden: self.viewModel.output.snses.isEmpty)
 
             header.setTitle(with: "출연한 공연")
