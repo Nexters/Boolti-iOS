@@ -89,10 +89,6 @@ extension PlaceInfoView {
     func setData(name: String, streetAddress: String, detailAddress: String) {
         self.placeNameLabel.text = name
         self.addressLabel.text = "\(streetAddress) / \(detailAddress)"
-        
-        self.snp.makeConstraints { make in
-            make.height.equalTo(138 + self.addressLabel.getLabelHeight())
-        }
     }
     
     func didAddressCopyButtonTap() -> Signal<Void> {
@@ -110,7 +106,7 @@ extension PlaceInfoView {
     
     private func configureConstraints() {
         self.titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(32)
+            make.top.equalToSuperview().inset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
@@ -120,17 +116,18 @@ extension PlaceInfoView {
         }
         
         self.placeNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(16)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(12)
             make.horizontalEdges.equalTo(self.titleLabel)
         }
         
         self.addressLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.placeNameLabel.snp.bottom).offset(8)
+            make.top.equalTo(self.placeNameLabel.snp.bottom).offset(4)
             make.horizontalEdges.equalTo(self.placeNameLabel)
         }
         
         self.underLineView.snp.makeConstraints { make in
             make.height.equalTo(1)
+            make.top.equalTo(self.addressLabel.snp.bottom).offset(24)
             make.bottom.equalToSuperview()
             make.horizontalEdges.equalTo(self.addressLabel)
         }

@@ -139,9 +139,7 @@ final class EditLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 guard let nameText = owner.linkNameTextField.text else { return }
                 owner.linkNameTextField.isButtonHidden = nameText.isEmpty
-
-                guard let urlText = owner.URLTextField.text else { return }
-                owner.URLTextField.isButtonHidden = urlText.isEmpty
+                owner.URLTextField.isButtonHidden = true
             }
             .disposed(by: self.disposeBag)
 
@@ -169,9 +167,7 @@ final class EditLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 guard let urlText = owner.URLTextField.text else { return }
                 owner.URLTextField.isButtonHidden = urlText.isEmpty
-                // TODO: 위의 editDidBegin과 합치기!
-                guard let linkText = owner.linkNameTextField.text else { return }
-                owner.linkNameTextField.isButtonHidden = linkText.isEmpty
+                owner.linkNameTextField.isButtonHidden = true
             }
             .disposed(by: self.disposeBag)
 

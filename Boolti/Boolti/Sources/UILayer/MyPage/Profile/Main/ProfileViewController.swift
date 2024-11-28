@@ -322,9 +322,9 @@ extension ProfileViewController: UICollectionViewDataSource {
                 .disposed(by: header.disposeBag)
             return header
         case .concert:
-            header.expandButton.isHidden = self.viewModel.output.links.count <= 2
-            header.hideSeparator(isHidden: false)
-            
+            header.expandButton.isHidden = self.viewModel.output.performedConcerts.count <= 2
+            header.hideSeparator(isHidden: self.viewModel.output.snses.isEmpty)
+
             header.setTitle(with: "출연한 공연")
 
             header.expandButton.rx.tap
@@ -388,7 +388,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
             let attributes = [NSAttributedString.Key.font: UIFont.body1]
             let nameSize = (name as NSString).size(withAttributes: attributes as [NSAttributedString.Key: Any])
 
-            return CGSize(width: nameSize.width * 1.1 + 46, height: 30)
+            return CGSize(width: nameSize.width + 47, height: 30)
         } else {
             guard let section = Section(rawValue: indexPath.section) else { return .init() }
 
