@@ -388,7 +388,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
             let attributes = [NSAttributedString.Key.font: UIFont.body1]
             let nameSize = (name as NSString).size(withAttributes: attributes as [NSAttributedString.Key: Any])
 
-            return CGSize(width: nameSize.width * 1.1 + 46, height: 30)
+            return CGSize(width: nameSize.width + 47, height: 30)
         } else {
             guard let section = Section(rawValue: indexPath.section) else { return .init() }
 
