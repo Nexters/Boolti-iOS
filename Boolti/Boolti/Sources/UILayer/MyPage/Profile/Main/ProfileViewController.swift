@@ -179,7 +179,7 @@ extension ProfileViewController {
                 case .link:
                     guard let url = URL(string: owner.viewModel.output.links[indexPath.row].link) else { return }
                     if UIApplication.shared.canOpenURL(url) {
-                        owner.openSafari(with: url)
+                        UIApplication.shared.open(url, options: [:])
                     } else {
                         owner.showToast(message: "유효한 링크가 아니에요")
                     }
