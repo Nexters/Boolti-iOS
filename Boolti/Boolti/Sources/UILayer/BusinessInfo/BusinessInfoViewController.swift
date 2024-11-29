@@ -127,21 +127,21 @@ extension BusinessInfoViewController {
         self.termsPolicyButton.rx.tap
             .bind(with: self) { owner, _ in
                 guard let url = URL(string: AppInfo.termsPolicyLink) else { return }
-                owner.openSafari(with: url)
+                UIApplication.shared.open(url, options: [:])
             }
             .disposed(by: self.disposeBag)
         
         self.privacyPolicyButton.rx.tap
             .bind(with: self) { owner, _ in
                 guard let url = URL(string: AppInfo.privacyPolicyLink) else { return }
-                owner.openSafari(with: url)
+                UIApplication.shared.open(url, options: [:])
             }
             .disposed(by: self.disposeBag)
         
         self.refundPolicyButton.rx.tap
             .bind(with: self) { owner, _ in
                 guard let url = URL(string: AppInfo.refundPolicyLink) else { return }
-                owner.openSafari(with: url)
+                UIApplication.shared.open(url, options: [:])
             }
             .disposed(by: self.disposeBag)
     }

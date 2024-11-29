@@ -175,8 +175,15 @@ extension ConcertListViewController: UICollectionViewDelegate {
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.topConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
         case .banner:
-            guard let url = URL(string: "https://boolti.in/login") else { return }
-            self.openSafari(with: url)
+        #if DEBUG
+        let urlString = "https://dotori.boolti.in/login"
+        #else
+        let urlString = "https://boolti.in/login"
+        #endif
+
+        guard let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url, options: [:])
+
         case .bottomConcerts:
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.bottomConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)

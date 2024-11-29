@@ -73,7 +73,7 @@ extension LinkListViewController {
             .subscribe(with: self) { owner, index in
                 guard let url = URL(string: owner.viewModel.linkList[index].link) else { return }
                 if UIApplication.shared.canOpenURL(url) {
-                    owner.openSafari(with: url)
+                    UIApplication.shared.open(url, options: [:])
                 } else {
                     owner.showToast(message: "유효한 링크가 아니에요")
                 }
