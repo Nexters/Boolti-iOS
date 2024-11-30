@@ -70,7 +70,7 @@ extension ProfileViewModel {
                 owner.output.links = profile.links
                 owner.output.performedConcerts = profile.performedConcerts
                 owner.output.snses = profile.snses
-                owner.output.didProfileFetch.onNext((profile))
+                owner.output.didProfileFetch.onNext(profile)
             }
             .disposed(by: self.disposeBag)
     }
@@ -82,7 +82,7 @@ extension ProfileViewModel {
                 owner.output.links = profile.links
                 owner.output.performedConcerts = profile.performedConcerts
                 owner.output.snses = profile.snses
-                owner.output.didProfileFetch.onNext((profile))
+                owner.output.didProfileFetch.onNext(profile)
             }, onFailure: { owner, error in
                 owner.output.isUnknownProfile.onNext(true)
             })

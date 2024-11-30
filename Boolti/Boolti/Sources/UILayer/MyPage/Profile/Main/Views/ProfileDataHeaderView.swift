@@ -89,6 +89,7 @@ extension ProfileDataHeaderView {
     
     private func configureConstraints() {
         self.separatorView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
             make.height.equalTo(1)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
