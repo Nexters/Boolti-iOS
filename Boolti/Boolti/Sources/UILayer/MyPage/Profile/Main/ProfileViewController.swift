@@ -222,12 +222,6 @@ extension ProfileViewController {
     }
     
     private func updateCollectionViewHeight() {
-        self.dataCollectionView.layoutIfNeeded()
-        let dataCollectionViewHeight = self.dataCollectionView.contentSize.height
-        self.dataCollectionView.snp.updateConstraints { make in
-            make.height.equalTo(dataCollectionViewHeight)
-        }
-        
         self.profileMainView.snsCollectionView.layoutIfNeeded()
         let snsCollectionViewHeight = self.profileMainView.snsCollectionView.contentSize.height
         self.profileMainView.snsCollectionView.snp.updateConstraints { make in
@@ -244,6 +238,12 @@ extension ProfileViewController {
         self.profileMainView.snp.updateConstraints { make in
             make.height.equalTo(profileViewHeight)
         }
+        
+        self.dataCollectionView.layoutIfNeeded()
+        let dataCollectionViewHeight = self.dataCollectionView.contentSize.height
+        self.dataCollectionView.snp.updateConstraints { make in
+            make.height.equalTo(dataCollectionViewHeight)
+        }
     }
 
     private func configureUnknownProfileUI() {
@@ -256,7 +256,6 @@ extension ProfileViewController {
         self.unknownProfilePopUpView.didConfirmButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
-
             }
             .disposed(by: self.disposeBag)
     }
@@ -323,7 +322,7 @@ extension ProfileViewController: UICollectionViewDataSource {
             return header
         case .concert:
             header.expandButton.isHidden = self.viewModel.output.performedConcerts.count <= 2
-            header.hideSeparator(isHidden: self.viewModel.output.snses.isEmpty)
+            header.hideSeparator(isHidden: self.viewModel.output.links.isEmpty)
 
             header.setTitle(with: "출연한 공연")
 
@@ -377,7 +376,18 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
         if collectionView == self.profileMainView.snsCollectionView {
             return .zero
         } else {
-            return .init(top: 0, left: 0, bottom: 25, right: 0)
+            guard let section = Section(rawValue: section) else { return .init() }
+
+            switch section {
+            case .link:
+                if self.viewModel.output.links.isEmpty {
+                    return .zero
+                } else {
+                    return .init(top: 0, left: 0, bottom: 25, right: 0)
+                }
+            case .concert:
+                return .init(top: 0, left: 0, bottom: 25, right: 0)
+            }
         }
     }
     

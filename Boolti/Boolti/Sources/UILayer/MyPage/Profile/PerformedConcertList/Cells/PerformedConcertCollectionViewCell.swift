@@ -24,7 +24,7 @@ final class PerformedConcertCollectionViewCell: UICollectionViewCell {
     
     private lazy var labelStackView: UIStackView = {
         let view = UIStackView()
-        view.spacing = 8
+        view.spacing = 2
         view.axis = .vertical
         view.alignment = .fill
         
