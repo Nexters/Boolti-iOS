@@ -53,4 +53,11 @@ extension Date {
         let components = calendar.dateComponents([.day], from: startMidnight, to: endMidnight)
         return components.day ?? 0
     }
+
+    func isBeforeNow(withDuration minutes: Int) -> Bool {
+        let currentDate = Date()
+        let targetDate = Calendar.current.date(byAdding: .minute, value: minutes, to: self) ?? Date()
+
+        return currentDate > targetDate
+    }
 }
