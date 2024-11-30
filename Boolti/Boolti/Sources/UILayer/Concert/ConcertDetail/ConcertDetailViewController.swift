@@ -283,7 +283,7 @@ extension ConcertDetailViewController {
                 switch state {
                 case .beforeSale(let startDate):
                     owner.bindBeforeSaleTimerButton(startDate: startDate)
-                case .endConcert:
+                case .endConcert, .endSale:
                     owner.buttonStackView.isHidden = true
                     owner.buttonBackgroundView.isHidden = true
                     owner.organizerInfoView.configureHeightForEndSaleCase(with: 118)
