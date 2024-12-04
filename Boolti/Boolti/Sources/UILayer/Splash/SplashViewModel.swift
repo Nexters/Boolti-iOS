@@ -45,7 +45,10 @@ final class SplashViewModel {
     
     func checkRemoteConfig() {
         self.remoteConfig.fetchAndActivate(completionHandler: { status, error in
-            if status == .error { return }
+            if status == .error {
+                self.output.updateRequired.accept(false)
+                return
+            }
             
             guard let minVersion = self.remoteConfig.configValue(forKey: "MinVersion").stringValue else { return }
             let updateRequired = self.remoteConfig.configValue(forKey: "UpdateRequired").boolValue
