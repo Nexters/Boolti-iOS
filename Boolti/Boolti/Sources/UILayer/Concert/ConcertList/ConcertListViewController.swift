@@ -80,7 +80,7 @@ final class ConcertListViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.viewModel.fetchConcertList(concertName: nil)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         self.configureDynamicLinkDestination()
         self.mainCollectionView.reloadSections([0], animationStyle: .automatic)
@@ -175,8 +175,15 @@ extension ConcertListViewController: UICollectionViewDelegate {
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.topConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
         case .banner:
-            guard let url = URL(string: "https://boolti.in/login") else { return }
-            self.openSafari(with: url)
+        #if DEBUG
+        let urlString = "https://dotori.boolti.in/login"
+        #else
+        let urlString = "https://boolti.in/login"
+        #endif
+
+        guard let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url, options: [:])
+
         case .bottomConcerts:
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.bottomConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
@@ -188,11 +195,7 @@ extension ConcertListViewController: UICollectionViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return }
-        cell.disposeBag = DisposeBag()
-    }
+
 }
 
 // MARK: - UICollectionViewDataSource
@@ -254,6 +257,8 @@ extension ConcertListViewController: UICollectionViewDataSource {
             return cell
         case .information:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.disposeBag = DisposeBag()
             
             cell.businessInfoView.didInfoButtonTap()
                 .emit(with: self) { owner, _ in

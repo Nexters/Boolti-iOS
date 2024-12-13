@@ -12,10 +12,6 @@ import RxCocoa
 
 final class ProfileMainView: UIView {
     
-    // MARK: Properties
-    
-    var disposeBag = DisposeBag()
-    
     // MARK: UI Components
 
     private let profileImageView: UIImageView = {
@@ -58,20 +54,16 @@ final class ProfileMainView: UIView {
         return stackView
     }()
     
-    private let editButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
-        config.title = "프로필 편집"
-        config.attributedTitle?.font = .pretendardR(12)
-        config.background.backgroundColor = .grey80
-        config.baseForegroundColor = .grey05
-        config.background.cornerRadius = 4
-        config.imagePadding = 6
+    let snsCollectionView: UICollectionView = {
+        let layout = SnsCollectionViewLeftAlignedLayout()
         
-        let button = UIButton(configuration: config)
-        button.setImage(.pencil, for: .normal)
-
-        return button
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        collectionView.isScrollEnabled = false
+        collectionView.register(ProfileSnsCollectionViewCell.self,
+                                forCellWithReuseIdentifier: ProfileSnsCollectionViewCell.className)
+        return collectionView
     }()
     
     // MARK: Initailizer
@@ -91,22 +83,21 @@ final class ProfileMainView: UIView {
 // MARK: - Methods
 
 extension ProfileMainView {
-    
-    func setData(entity: UserProfileResponseDTO, isMyProfile: Bool) {
-        self.profileImageView.setImage(with: entity.imgPath ?? "")
+
+    func setDataForUnknownProfile() {
+        self.nameLabel.text = "-"
+    }
+
+    func setData(entity: ProfileEntity) {
+        self.profileImageView.setImage(with: entity.profileImageURL)
         self.nameLabel.text = entity.nickname
-        self.introductionLabel.text = entity.introduction ?? ""
-        self.editButton.isHidden = !isMyProfile
+        self.introductionLabel.text = entity.introduction
     }
     
     func getHeight() -> CGFloat {
-        let height = self.editButton.isHidden ? 192 : 222
-        return CGFloat(height) + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
+        return 162 + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
     }
 
-    func didEditButtonTap() -> Signal<Void> {
-        return self.editButton.rx.tap.asSignal()
-    }
 }
 
 // MARK: - UI
@@ -121,7 +112,7 @@ extension ProfileMainView {
         )
         self.addSubviews([self.profileImageView,
                           self.labelStackView,
-                          self.editButton])
+                          self.snsCollectionView])
         
         self.configureConstraints()
     }
@@ -138,10 +129,11 @@ extension ProfileMainView {
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
-        self.editButton.snp.makeConstraints { make in
-            make.top.equalTo(self.labelStackView.snp.bottom).offset(28)
-            make.leading.equalTo(self.labelStackView)
-            make.bottom.equalToSuperview().inset(32)
+        self.snsCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(self.labelStackView.snp.bottom).offset(16)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(0)
         }
     }
+
 }

@@ -186,7 +186,6 @@ final class GiftReservationDetailViewController: BooltiViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.contentStackView.isUserInteractionEnabled = true
         self.configureToastView(isButtonExisted: false)
-
         self.view.addSubviews([
             self.navigationBar,
             self.scrollView
@@ -207,7 +206,7 @@ final class GiftReservationDetailViewController: BooltiViewController {
 
         self.scrollView.snp.makeConstraints { make in
             make.top.equalTo(self.navigationBar.snp.bottom)
-            make.bottom.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide)
+            make.bottom.horizontalEdges.equalToSuperview()
         }
 
         self.contentStackView.snp.makeConstraints { make in

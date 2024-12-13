@@ -44,5 +44,11 @@ final class BooltiInputStackView: UIStackView {
             make.width.equalTo(64)
         }
     }
+    
+    func updateTitleLabelConstraints(width: CGFloat) {
+        self.titleLabel.snp.updateConstraints { make in
+            make.width.equalTo(width)
+        }
+    }
 }
 

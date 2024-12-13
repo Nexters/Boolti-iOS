@@ -25,6 +25,8 @@ struct TicketDetailResponseDTO: Decodable {
     let placeName: String
     let showId: Int
     let tickets: [TicketDetailInformationDTO]
+    let giftSenderUserId: Int?
+    let giftUuid: String?
 }
 
 struct TicketDetailInformationDTO: Decodable {
@@ -67,10 +69,24 @@ extension TicketDetailResponseDTO {
 
         let ticketInformations: [TicketDetailInformation] = self.tickets.map { self.convertToTicketDetailInformaton($0) }
 
+        let formattedShowDate: Date = self.showDate.formatToDate()
+        var showStatus: ShowStatus = .dayBeforeShow
+
+        if Date().getBetweenDay(to: formattedShowDate) < 0 {
+            showStatus = .dayAfterShow
+        } else if Date().getBetweenDay(to: formattedShowDate) == 0 {
+            showStatus = .onShowDate
+        }
+
+        let isGift = self.giftSenderUserId == nil ? false : true
+
         return TicketDetailItemEntity(
             ticketType: ticketType,
             ticketName: self.ticketName,
             posterURLPath: self.showImgPath,
+            showStatus: showStatus,
+            giftUUID: giftUuid,
+            isGift: isGift,
             title: self.showName,
             streetAddress: self.streetAddress,
             notice: self.notice,

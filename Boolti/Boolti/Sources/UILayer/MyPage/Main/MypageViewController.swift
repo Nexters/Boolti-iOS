@@ -196,8 +196,14 @@ final class MyPageViewController: BooltiViewController {
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                guard let url = URL(string: "https://boolti.in/login") else { return }
-                UIApplication.shared.open(url, options: [:])
+            #if DEBUG
+            let urlString = "https://dotori.boolti.in/login"
+            #else
+            let urlString = "https://boolti.in/login"
+            #endif
+
+            guard let url = URL(string: urlString) else { return }
+            UIApplication.shared.open(url, options: [:])
             }
             .disposed(by: self.disposeBag)
 

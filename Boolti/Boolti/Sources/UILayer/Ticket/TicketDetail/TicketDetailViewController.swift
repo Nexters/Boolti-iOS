@@ -23,6 +23,7 @@ final class TicketDetailViewController: BooltiViewController {
 
     private let disposeBag = DisposeBag()
     private let viewModel: TicketDetailViewModel
+    weak var delegate: TicketDetailViewControllerDelegate?
     private let ticketEntryCodeControllerFactory: (TicketID, ConcertID) -> TicketEntryCodeViewController
     private let qrExpandViewControllerFactory: (IndexPath, Tickets) -> QRExpandViewController
     private let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController
@@ -67,13 +68,7 @@ final class TicketDetailViewController: BooltiViewController {
 
     private let concertDetailBackgroundView = GradientBackgroundView()
 
-    private let entryCodeButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("입장 코드 입력하기", for: .normal)
-        button.setUnderline(font: .pretendardR(14), textColor: .grey50)
-
-        return button
-    }()
+    private let footerButton =  UIButton()
 
     private lazy var QRCodeCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -104,6 +99,7 @@ final class TicketDetailViewController: BooltiViewController {
     private let ticketNoticeView = TicketNoticeView()
     private let organizerInfoView = OrganizerInfoView(horizontalInset: .zero, verticalInset:.zero , height: 98)
     private let reversalPolicyView = ReversalPolicyView()
+    private let cancelReceivedGiftPopView = BooltiPopupView()
 
     private lazy var copyAddressButton = self.makeButton(
         title: "공연장 주소 복사",
@@ -190,18 +186,37 @@ final class TicketDetailViewController: BooltiViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.entryCodeButton.rx.tap
+        self.footerButton.rx.tap
             .bind(with: self) { owner, _ in
-                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
-                let concertID = "\(ticketDetail.concertID)"
-                let currentTicketIndex = owner.QRCodePageControl.currentPage
-                let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
-                let currentTicketID = "\(currentTicket.ticketID)"
 
-                let viewController = owner.ticketEntryCodeControllerFactory(currentTicketID, concertID)
-                viewController.modalPresentationStyle = .overCurrentContext
-                owner.definesPresentationContext = true
-                owner.present(viewController, animated: true)
+                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
+
+                if ticketDetail.showStatus == .onShowDate {
+                    let concertID = "\(ticketDetail.concertID)"
+                    let currentTicketIndex = owner.QRCodePageControl.currentPage
+                    let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
+                    let currentTicketID = "\(currentTicket.ticketID)"
+
+                    let viewController = owner.ticketEntryCodeControllerFactory(currentTicketID, concertID)
+                    viewController.modalPresentationStyle = .overCurrentContext
+                    owner.definesPresentationContext = true
+                    owner.present(viewController, animated: true)
+                } else if ticketDetail.isGift {
+                    owner.cancelReceivedGiftPopView.showPopup(with: .cancelReceivedGift)
+                }
+            }
+            .disposed(by: self.disposeBag)
+
+        self.cancelReceivedGiftPopView.didConfirmButtonTap()
+            .do(onNext: { [weak self] _ in
+                self?.cancelReceivedGiftPopView.isHidden = true
+            })
+            .emit(to: self.viewModel.input.didCancelGiftButtonTappedEvent)
+            .disposed(by: self.disposeBag)
+
+        self.cancelReceivedGiftPopView.didCloseButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.cancelReceivedGiftPopView.isHidden = true
             }
             .disposed(by: self.disposeBag)
     }
@@ -229,11 +244,7 @@ final class TicketDetailViewController: BooltiViewController {
 
         self.QRCodeCollectionView.rx.didEndDecelerating
             .subscribe(with: self) { owner, _ in
-                guard let ticketDetail = owner.viewModel.output.fetchedTicketDetail.value else { return }
-                let currentTicketIndex = owner.QRCodePageControl.currentPage
-                let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
-
-                owner.entryCodeButton.isHidden = currentTicket.ticketStatus != .notUsed
+                owner.setfooterButton()
             }
             .disposed(by: self.disposeBag)
     }
@@ -307,9 +318,9 @@ final class TicketDetailViewController: BooltiViewController {
             .bind(to: self.QRCodeCollectionView.rx.items(
                 cellIdentifier: TicketCollectionViewCell.className,
                 cellType: TicketCollectionViewCell.self)
-            ) { index, entity, cell in
+            ) { [weak self] index, entity, cell in
                 cell.setData(with: entity)
-                self.setInitialEntryCodeViewIsHidden()
+                self?.setfooterButton()
             }
             .disposed(by: self.disposeBag)
 
@@ -318,6 +329,14 @@ final class TicketDetailViewController: BooltiViewController {
             .distinctUntilChanged()
             .bind(to: self.QRCodePageControl.rx.numberOfPages)
             .disposed(by: self.disposeBag)
+
+
+        self.viewModel.output.didCanceledGift
+            .bind(with: self) { owner, _ in
+                owner.delegate?.ticketDetailViewControllerDidCancelGift(owner)
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     // MARK: Methods
@@ -325,11 +344,11 @@ final class TicketDetailViewController: BooltiViewController {
     private func configureUI() {
 
         self.view.backgroundColor = .grey95
-        self.view.addSubviews([self.navigationBar, self.scrollView])
+        self.view.addSubviews([self.navigationBar, self.scrollView, self.cancelReceivedGiftPopView])
 
         self.scrollView.addSubviews([
             self.refreshControl,
-            self.contentStackView
+            self.contentStackView,
         ])
 
         self.concertDetailStackView.addArrangedSubviews([
@@ -343,7 +362,7 @@ final class TicketDetailViewController: BooltiViewController {
         self.contentStackView.addArrangedSubviews([
             self.concertDetailStackView,
             self.reversalPolicyView,
-            self.entryCodeButton
+            self.footerButton
         ])
 
         self.concertDetailStackView.insertSubview(self.concertDetailBackgroundView, at: 0)
@@ -387,11 +406,15 @@ final class TicketDetailViewController: BooltiViewController {
             make.height.equalTo(64)
         }
 
-        self.entryCodeButton.snp.makeConstraints { make in
+        self.footerButton.snp.makeConstraints { make in
             make.height.equalTo(60)
         }
 
         self.contentStackView.setCustomSpacing(20, after: self.concertDetailStackView)
+
+        self.cancelReceivedGiftPopView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 
     private func setCustomStackViewSpacing() {
@@ -433,12 +456,26 @@ final class TicketDetailViewController: BooltiViewController {
         return cellIndex
     }
 
-    private func setInitialEntryCodeViewIsHidden() {
+    private func setfooterButton() {
         guard let ticketDetail = self.viewModel.output.fetchedTicketDetail.value else { return }
         let currentTicketIndex = self.QRCodePageControl.currentPage
         let currentTicket = ticketDetail.ticketInformations[currentTicketIndex]
 
-        self.entryCodeButton.isHidden = currentTicket.ticketStatus != .notUsed
+        switch ticketDetail.showStatus {
+        case .dayAfterShow:
+            self.footerButton.isHidden = true
+        case .dayBeforeShow:
+            if ticketDetail.isGift {
+                self.footerButton.setTitle("받은 선물 취소하기", for: .normal)
+                self.footerButton.setUnderline(font: .pretendardR(14), textColor: .grey50)
+            } else {
+                self.footerButton.isHidden = true
+            }
+        case .onShowDate:
+            self.footerButton.isHidden = currentTicket.ticketStatus != .notUsed
+            self.footerButton.setTitle("입장 코드 입력하기", for: .normal)
+            self.footerButton.setUnderline(font: .pretendardR(14), textColor: .grey50)
+        }
     }
 
     // Rx로 뺄 계획!
@@ -462,7 +499,7 @@ final class TicketDetailViewController: BooltiViewController {
     }
 
     func hideEntryCodeButton() {
-        self.entryCodeButton.isHidden = true
+        self.footerButton.isHidden = true
     }
 }
 

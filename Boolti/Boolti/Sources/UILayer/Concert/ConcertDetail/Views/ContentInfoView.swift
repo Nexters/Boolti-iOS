@@ -17,7 +17,7 @@ final class ContentInfoView: UIView {
         let label = BooltiUILabel()
         label.textColor = .grey10
         label.font = .subhead2
-        label.text = "공연 내용"
+        label.text = "내용"
         
         return label
     }()
@@ -78,7 +78,7 @@ extension ContentInfoView {
         self.contentTextView.setLineSpacing(lineSpacing: 6)
         
         self.snp.makeConstraints { make in
-            make.height.equalTo(106 + min(self.contentTextView.getTextViewHeight(), 246))
+            make.height.equalTo(94 + min(self.contentTextView.getTextViewHeight(), 246))
         }
     }
     
@@ -97,7 +97,7 @@ extension ContentInfoView {
     
     private func configureConstraints() {
         self.titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(32)
+            make.top.equalToSuperview().inset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
@@ -107,7 +107,7 @@ extension ContentInfoView {
         }
         
         self.contentTextView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(16)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(12)
             make.horizontalEdges.equalTo(self.titleLabel)
             make.height.lessThanOrEqualTo(246)
         }

@@ -10,4 +10,16 @@ struct ProfileEntity {
     let nickname: String
     let introduction: String
     var links: [LinkEntity]
+    var performedConcerts: [ConcertEntity]
+    var snses: [SnsEntity]
+}
+
+struct SnsEntity: Codable, Equatable {
+    let snsType: SNSType
+    let name: String
+}
+
+struct LinkEntity: Codable, Equatable {
+    let title: String
+    let link: String
 }

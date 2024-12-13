@@ -18,6 +18,7 @@ enum NavigationType {
     case ticketingCompletion
     case tossPaymentsWidget
     case addLink
+    case profile(isMyProfile: Bool)
     case editProfile
 }
 
@@ -51,7 +52,7 @@ final class BooltiNavigationBar: UIView {
     
     private lazy var moreButton = self.makeButton(image: .more)
   
-    lazy var completeButton = self.makeButton(title: "완료")
+    lazy var rightTextButton = self.makeButton(title: "완료")
     
     // MARK: Init
     
@@ -69,6 +70,7 @@ final class BooltiNavigationBar: UIView {
         case .ticketingCompletion: self.configureTicketingCompletionUI()
         case .tossPaymentsWidget: self.configureTossPaymentsWidgetUI()
         case .addLink: self.configureAddLink()
+        case .profile(let isMyProfile): self.configureProfileUI(isMyProfile)
         case .editProfile: self.configureEditProfileUI()
         }
     }
@@ -102,7 +104,7 @@ extension BooltiNavigationBar {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .subhead2
-        button.titleLabel?.textColor = .grey10
+        button.setTitleColor(.grey10, for: .normal)
         return button
     }
 
@@ -160,7 +162,6 @@ extension BooltiNavigationBar {
             make.right.equalToSuperview().inset(20)
             make.size.equalTo(24)
             make.bottom.equalToSuperview().inset(10)
-            
         }
     }
     
@@ -225,16 +226,33 @@ extension BooltiNavigationBar {
 
     private func configureAddLink() {
         self.titleLabel.text = "링크 추가"
-        self.configureUIWithCompleteButton()
+        self.configureUIWithRightTextButton()
+    }
+    
+    private func configureProfileUI(_ isMyProfile: Bool) {
+        self.configureBackButtonWithTitleUI("프로필")
+
+        if isMyProfile {
+            self.configureUIWithRightTextButton()
+            self.rightTextButton.setTitle("편집", for: .normal)
+        } else {
+            self.addSubview(self.moreButton)
+
+            self.moreButton.snp.makeConstraints { make in
+                make.right.equalToSuperview().inset(20)
+                make.size.equalTo(24)
+                make.bottom.equalToSuperview().inset(10)
+            }
+        }
     }
     
     private func configureEditProfileUI() {
         self.titleLabel.text = "프로필 편집"
-        self.configureUIWithCompleteButton()
+        self.configureUIWithRightTextButton()
     }
     
-    private func configureUIWithCompleteButton() {
-        self.addSubviews([self.backButton, self.titleLabel, self.completeButton])
+    private func configureUIWithRightTextButton() {
+        self.addSubviews([self.backButton, self.titleLabel, self.rightTextButton])
         
         self.backButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
@@ -247,9 +265,9 @@ extension BooltiNavigationBar {
             make.bottom.equalToSuperview().inset(10)
         }
 
-        self.completeButton.snp.makeConstraints { make in
+        self.rightTextButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(10)
+            make.centerY.equalTo(self.titleLabel)
         }
     }
 
@@ -279,8 +297,8 @@ extension BooltiNavigationBar {
         return moreButton.rx.tap.asSignal()
     }
 
-    func didCompleteButtonTap() -> Signal<Void> {
-        return completeButton.rx.tap.asSignal()
+    func didRightTextButtonTap() -> Signal<Void> {
+        return rightTextButton.rx.tap.asSignal()
     }
 
 }

@@ -10,6 +10,13 @@ import UIKit
 final class EditLinkCollectionViewCell: UICollectionViewCell {
     
     // MARK: UI Components
+    
+    private let linkImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .link
+        imageView.tintColor = .grey30
+        return imageView
+    }()
 
     private let titleLabel: BooltiUILabel = {
         let label = BooltiUILabel()
@@ -35,10 +42,10 @@ final class EditLinkCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let editImageView: UIImageView = {
+    private let moveImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .pencil
-        imageView.tintColor = .grey50
+        imageView.image = .move
+        imageView.tintColor = .grey70
         return imageView
     }()
     
@@ -72,9 +79,9 @@ extension EditLinkCollectionViewCell {
         self.urlLabel.text = nil
     }
     
-    func setData(title: String, url: String) {
-        self.titleLabel.text = title
-        self.urlLabel.text = url
+    func setData(with data: LinkEntity) {
+        self.titleLabel.text = data.title
+        self.urlLabel.text = data.link
     }
 
 }
@@ -85,21 +92,27 @@ extension EditLinkCollectionViewCell {
 
     private func configureUI() {
         self.contentView.backgroundColor = .grey90
-        self.contentView.addSubviews([self.labelStackView,
-                                      self.editImageView])
+        self.contentView.addSubviews([self.linkImageView,
+                                      self.labelStackView,
+                                      self.moveImageView])
     }
     
     private func configureConstraints() {
+        self.linkImageView.snp.makeConstraints { make in
+            make.centerY.leading.equalToSuperview()
+            make.size.equalTo(24)
+        }
+
         self.labelStackView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview().inset(40)
+            make.centerY.equalTo(self.linkImageView)
+            make.leading.equalTo(self.linkImageView.snp.trailing).offset(12)
+            make.trailing.equalTo(self.moveImageView.snp.leading).offset(-20)
         }
         
-        self.editImageView.snp.makeConstraints { make in
+        self.moveImageView.snp.makeConstraints { make in
+            make.centerY.equalTo(self.linkImageView)
             make.trailing.equalToSuperview()
-            make.centerY.equalTo(self.labelStackView)
-            make.size.equalTo(20)
+            make.size.equalTo(24)
         }
     }
 }

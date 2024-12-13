@@ -11,9 +11,11 @@ import RxSwift
 
 final class AddLinkHeaderView: UICollectionReusableView {
     
-    // MARK: UI Components
+    // MARK: Properties
     
     var disposeBag = DisposeBag()
+    
+    // MARK: UI Components
     
     private let addLinkImageView: UIImageView = {
         let imageView = UIImageView()
@@ -27,7 +29,6 @@ final class AddLinkHeaderView: UICollectionReusableView {
         let label = BooltiUILabel()
         label.font = .subhead1
         label.textColor = .grey15
-        label.text = "링크 추가"
         return label
     }()
     
@@ -41,6 +42,23 @@ final class AddLinkHeaderView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Life Cycle
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.disposeBag = DisposeBag()
+    }
+    
+}
+
+// MARK: - Methods
+
+extension AddLinkHeaderView {
+    
+    func setTitle(with title: String) {
+        self.titleLabel.text = title
     }
     
 }

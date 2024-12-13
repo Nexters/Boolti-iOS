@@ -111,7 +111,13 @@ extension ConcertPosterView: UIScrollViewDelegate {
 // MARK: - UI
 
 extension ConcertPosterView {
-    
+
+    func updateHeight() {
+        self.scrollView.snp.updateConstraints { make in
+            make.top.equalToSuperview().inset(16)
+        }
+    }
+
     private func configureUI() {
         self.addSubviews([self.scrollView, self.pageControl, self.titleLabel])
         
@@ -126,7 +132,7 @@ extension ConcertPosterView {
     
     private func configureConstraints() {
         self.scrollView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(16)
+            make.top.equalToSuperview().inset(38)
             make.centerX.equalToSuperview()
             make.width.equalTo(self.scrollViewWidth)
             make.height.equalTo(self.scrollViewHeight)

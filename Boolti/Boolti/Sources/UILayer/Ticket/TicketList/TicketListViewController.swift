@@ -13,6 +13,10 @@ import RxSwift
 import RxRelay
 import RxAppState
 
+protocol TicketDetailViewControllerDelegate: AnyObject {
+    func ticketDetailViewControllerDidCancelGift(_ viewController: TicketDetailViewController)
+}
+
 final class TicketListViewController: BooltiViewController {
 
     // MARK: Properties
@@ -93,6 +97,7 @@ final class TicketListViewController: BooltiViewController {
         super.viewDidLoad()
         self.configureUI()
         self.configureLoadingIndicatorView()
+        self.configureToastView(isButtonExisted: true)
         self.configureCollectionViewDatasource()
         self.bindUIComponents()
         self.bindViewModel()
@@ -178,15 +183,7 @@ final class TicketListViewController: BooltiViewController {
 
         self.viewModel.output.navigation
             .subscribe(with: self) { owner, ticketDestination in
-                let viewController = owner.createViewController(ticketDestination)
-
-                if let viewController = viewController as? LoginViewController {
-                    viewController.hidesBottomBarWhenPushed = true
-                    viewController.modalPresentationStyle = .fullScreen
-                    owner.present(viewController, animated: true)
-                } else {
-                    owner.navigationController?.pushViewController(viewController, animated: true)
-                }
+                owner.handleNavigation(to: ticketDestination)
             }
             .disposed(by: self.disposeBag)
     }
@@ -329,11 +326,23 @@ final class TicketListViewController: BooltiViewController {
         datasource?.apply(snapshot, animatingDifferences: false)
     }
 
-    private func createViewController(_ next: TicketListViewDestination) -> UIViewController {
-        switch next {
-        case .login: return loginViewControllerFactory()
+    private func handleNavigation(to destination: TicketListViewDestination) {
+        switch destination {
+        case .login:
+            let loginVC = loginViewControllerFactory()
+            loginVC.hidesBottomBarWhenPushed = true
+            loginVC.modalPresentationStyle = .fullScreen
+            self.present(loginVC, animated: true)
         case .detail(reservationID: let id):
-            return ticketDetailControllerFactory(id)
+            let ticketDetailVC = ticketDetailControllerFactory(id)
+            ticketDetailVC.delegate = self
+            self.navigationController?.pushViewController(ticketDetailVC, animated: true)
         }
+    }
+}
+
+extension TicketListViewController: TicketDetailViewControllerDelegate {
+    func ticketDetailViewControllerDidCancelGift(_ viewController: TicketDetailViewController) {
+        self.showToast(message: "받은 선물을 취소했어요")
     }
 }
