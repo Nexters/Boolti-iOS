@@ -39,6 +39,7 @@ final class ProfileViewController: BooltiViewController {
         scrollView.addSubview(self.stackView)
         scrollView.bounces = false
         scrollView.delegate = self
+        scrollView.contentInsetAdjustmentBehavior = .never
         
         return scrollView
     }()
@@ -224,20 +225,19 @@ extension ProfileViewController {
     private func updateCollectionViewHeight() {
         self.profileMainView.snsCollectionView.layoutIfNeeded()
         let snsCollectionViewHeight = self.profileMainView.snsCollectionView.contentSize.height
-        self.profileMainView.snsCollectionView.snp.updateConstraints { make in
-            make.height.equalTo(snsCollectionViewHeight)
-        }
+        let snsCollectionViewTopOffset: CGFloat = self.viewModel.output.snses.isEmpty ? 0 : 20
+        
+        self.profileMainView.updateUI(snsCollectionViewHeight: snsCollectionViewHeight,
+                                      snsCollectionViewTopOffset: snsCollectionViewTopOffset)
         
         self.profileMainView.layoutIfNeeded()
-        var profileViewHeight = self.profileMainView.getHeight() + snsCollectionViewHeight
-        
-        if !self.viewModel.output.snses.isEmpty {
-            profileViewHeight += 16
-        }
+        let profileViewHeight = self.navigationBar.frame.height + 144 + self.profileMainView.getLabelStackViewHeight() + snsCollectionViewHeight + 32
 
         self.profileMainView.snp.updateConstraints { make in
             make.height.equalTo(profileViewHeight)
         }
+        
+        self.profileMainView.addGradientLayer()
         
         self.dataCollectionView.layoutIfNeeded()
         let dataCollectionViewHeight = self.dataCollectionView.contentSize.height
@@ -260,6 +260,23 @@ extension ProfileViewController {
             .disposed(by: self.disposeBag)
     }
 
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension ProfileViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        if offset == 0 {
+            self.navigationBar.setBackgroundColor(with: .clear)
+        } else if offset <= self.profileMainView.frame.height - self.navigationBar.frame.height {
+            self.navigationBar.setBackgroundColor(with: .grey90)
+        } else {
+            self.navigationBar.setBackgroundColor(with: .grey95)
+        }
+    }
+    
 }
 
 // MARK: - UICollectionViewDataSource
@@ -455,10 +472,10 @@ extension ProfileViewController {
     
     private func configureUI() {
         self.view.backgroundColor = .grey95
-        self.view.addSubviews([self.navigationBar,
-                               self.mainScrollView,
+        self.view.addSubviews([self.mainScrollView,
+                               self.navigationBar,
                                self.unknownProfilePopUpView])
-        self.navigationBar.setBackgroundColor(with: .grey90)
+        self.navigationBar.setBackgroundColor(with: .clear)
 
         self.configureConstraints()
     }
@@ -467,11 +484,9 @@ extension ProfileViewController {
         self.navigationBar.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
         }
-        
+
         self.mainScrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom)
-            make.width.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.verticalEdges.width.equalToSuperview()
         }
         
         self.stackView.snp.makeConstraints { make in

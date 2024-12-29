@@ -17,11 +17,12 @@ final class ProfileMainView: UIView {
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey80
-        imageView.layer.cornerRadius = 35
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.borderColor = UIColor.grey80.cgColor
-        imageView.image = .defaultProfile
+        imageView.layer.cornerRadius = 20
+        imageView.layer.maskedCorners = CACornerMask(
+            arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
+        )
 
         return imageView
     }()
@@ -94,8 +95,26 @@ extension ProfileMainView {
         self.introductionLabel.text = entity.introduction
     }
     
-    func getHeight() -> CGFloat {
-        return 162 + self.nameLabel.getLabelHeight() + self.introductionLabel.getLabelHeight()
+    func getLabelStackViewHeight() -> CGFloat {
+        return self.nameLabel.getLabelHeight() + 2 + self.introductionLabel.getLabelHeight()
+    }
+    
+    func addGradientLayer() {
+        self.profileImageView.layer.sublayers?.removeAll()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.profileImageView.bounds
+        gradientLayer.colors = [UIColor("121318").withAlphaComponent(0.2).cgColor,
+                                UIColor("121318").withAlphaComponent(1).cgColor]
+        gradientLayer.locations = [0.0, 1.0]
+        self.profileImageView.layer.addSublayer(gradientLayer)
+    }
+    
+    func updateUI(snsCollectionViewHeight: CGFloat,
+                  snsCollectionViewTopOffset: CGFloat) {
+        self.snsCollectionView.snp.updateConstraints { make in
+            make.height.equalTo(snsCollectionViewHeight)
+            make.top.equalTo(self.labelStackView.snp.bottom).offset(snsCollectionViewTopOffset)
+        }
     }
 
 }
@@ -119,20 +138,18 @@ extension ProfileMainView {
     
     private func configureConstraints() {
         self.profileImageView.snp.makeConstraints { make in
-            make.size.equalTo(70)
-            make.top.equalToSuperview().inset(40)
-            make.leading.equalToSuperview().inset(20)
+            make.edges.equalToSuperview()
         }
-
+        
         self.labelStackView.snp.makeConstraints { make in
-            make.top.equalTo(self.profileImageView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
         self.snsCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(self.labelStackView.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalTo(self.labelStackView.snp.bottom).offset(20)
             make.height.equalTo(0)
+            make.bottom.equalToSuperview().inset(32)
         }
     }
 
