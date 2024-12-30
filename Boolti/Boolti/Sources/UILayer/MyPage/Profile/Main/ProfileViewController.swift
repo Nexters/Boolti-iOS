@@ -270,10 +270,8 @@ extension ProfileViewController: UIScrollViewDelegate {
         let offset = scrollView.contentOffset.y
         if offset == 0 {
             self.navigationBar.setBackgroundColor(with: .clear)
-        } else if offset <= self.profileMainView.frame.height - self.navigationBar.frame.height {
-            self.navigationBar.setBackgroundColor(with: .grey90)
         } else {
-            self.navigationBar.setBackgroundColor(with: .grey95)
+            self.navigationBar.setBackgroundColor(with: .grey90)
         }
     }
     
