@@ -19,6 +19,7 @@ final class ProfileMainView: UIView {
         imageView.backgroundColor = .grey90
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 20
         imageView.layer.maskedCorners = CACornerMask(
             arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
         )
@@ -110,7 +111,7 @@ extension ProfileMainView {
     }
     
     func updateSnsCollectionViewUI(snsCollectionViewHeight: CGFloat,
-                  snsCollectionViewTopOffset: CGFloat) {
+                                   snsCollectionViewTopOffset: CGFloat) {
         self.snsCollectionView.snp.updateConstraints { make in
             make.height.equalTo(snsCollectionViewHeight)
             make.top.equalTo(self.labelStackView.snp.bottom).offset(snsCollectionViewTopOffset)
@@ -121,7 +122,6 @@ extension ProfileMainView {
         self.profileImageView.snp.updateConstraints { make in
             make.height.equalTo(min(minHeight, self.bounds.width))
         }
-        self.profileImageView.layer.cornerRadius = minHeight >= self.bounds.width ? 20 : 0
     }
     
     func addGradientLayer(height: CGFloat) {
