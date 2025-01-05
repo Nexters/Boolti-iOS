@@ -15,7 +15,7 @@ final class EditProfileViewModel {
     // TODO: DOMAIN 객체 제대로 정의하기
     // - Domain 객체
     struct Profile: Equatable {
-        var image: UIImage? = UIImage() // TODO: URL 뽑아오는 로직 변경하기!..
+        var image: UIImage? = nil // TODO: URL 뽑아오는 로직 변경하기!..
         var imageURL: String? = ""
         var nickName: String? = ""
         var introduction: String? = ""
@@ -145,7 +145,10 @@ extension EditProfileViewModel {
     func save(_ profile: Profile) {
         self.authRepository.getUploadImageURL()
             .flatMap({ [weak self] response -> Single<String> in
-                guard let self = self else { return .just("") }
+                guard let self = self else { return .just(UserDefaults.userImageURLPath) }
+                guard let _ = self.output.profile.image else {
+                    return .just(self.output.profile.imageURL ?? UserDefaults.userImageURLPath)
+                }
                 return self.authRepository.uploadProfileImage(uploadURL: response.uploadUrl, imageData: profile.image ?? UIImage())
                     .map { _ in response.expectedUrl }
             })
