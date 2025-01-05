@@ -227,8 +227,8 @@ extension ProfileViewController {
         let snsCollectionViewHeight = self.profileMainView.snsCollectionView.contentSize.height
         let snsCollectionViewTopOffset: CGFloat = self.viewModel.output.snses.isEmpty ? 0 : 20
         
-        self.profileMainView.updateUI(snsCollectionViewHeight: snsCollectionViewHeight,
-                                      snsCollectionViewTopOffset: snsCollectionViewTopOffset)
+        self.profileMainView.updateSnsCollectionViewUI(snsCollectionViewHeight: snsCollectionViewHeight,
+                                                       snsCollectionViewTopOffset: snsCollectionViewTopOffset)
         
         self.profileMainView.layoutIfNeeded()
         let profileViewHeight = self.navigationBar.frame.height + 144 + self.profileMainView.getLabelStackViewHeight() + snsCollectionViewHeight + 32
@@ -237,7 +237,8 @@ extension ProfileViewController {
             make.height.equalTo(profileViewHeight)
         }
         
-        self.profileMainView.addGradientLayer()
+        self.profileMainView.updateProfileImageViewUI(minHeight: profileViewHeight - snsCollectionViewHeight)
+        self.profileMainView.addGradientLayer(height: profileViewHeight)
         
         self.dataCollectionView.layoutIfNeeded()
         let dataCollectionViewHeight = self.dataCollectionView.contentSize.height

@@ -16,15 +16,25 @@ final class ProfileMainView: UIView {
 
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .grey80
+        imageView.backgroundColor = .grey90
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 20
         imageView.layer.maskedCorners = CACornerMask(
             arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
         )
 
         return imageView
+    }()
+    
+    private let gradientView: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 20
+        view.layer.maskedCorners = CACornerMask(
+            arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
+        )
+        
+        return view
     }()
 
     private let nameLabel: BooltiUILabel = {
@@ -99,22 +109,29 @@ extension ProfileMainView {
         return self.nameLabel.getLabelHeight() + 2 + self.introductionLabel.getLabelHeight()
     }
     
-    func addGradientLayer() {
-        self.profileImageView.layer.sublayers?.removeAll()
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.profileImageView.bounds
-        gradientLayer.colors = [UIColor("121318").withAlphaComponent(0.2).cgColor,
-                                UIColor("121318").withAlphaComponent(1).cgColor]
-        gradientLayer.locations = [0.0, 1.0]
-        self.profileImageView.layer.addSublayer(gradientLayer)
-    }
-    
-    func updateUI(snsCollectionViewHeight: CGFloat,
+    func updateSnsCollectionViewUI(snsCollectionViewHeight: CGFloat,
                   snsCollectionViewTopOffset: CGFloat) {
         self.snsCollectionView.snp.updateConstraints { make in
             make.height.equalTo(snsCollectionViewHeight)
             make.top.equalTo(self.labelStackView.snp.bottom).offset(snsCollectionViewTopOffset)
         }
+    }
+    
+    func updateProfileImageViewUI(minHeight: CGFloat) {
+        self.profileImageView.snp.updateConstraints { make in
+            make.height.equalTo(min(minHeight, self.bounds.width))
+        }
+        self.profileImageView.layer.cornerRadius = minHeight >= self.bounds.width ? 20 : 0
+    }
+    
+    func addGradientLayer(height: CGFloat) {
+        self.gradientView.layer.sublayers?.removeAll()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: height)
+        gradientLayer.colors = [UIColor("121318").withAlphaComponent(0.2).cgColor,
+                                UIColor("121318").withAlphaComponent(1).cgColor]
+        gradientLayer.locations = [0.0, 1.0]
+        self.gradientView.layer.addSublayer(gradientLayer)
     }
 
 }
@@ -130,6 +147,7 @@ extension ProfileMainView {
             arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
         )
         self.addSubviews([self.profileImageView,
+                          self.gradientView,
                           self.labelStackView,
                           self.snsCollectionView])
         
@@ -138,6 +156,11 @@ extension ProfileMainView {
     
     private func configureConstraints() {
         self.profileImageView.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+            make.height.equalTo(200)
+        }
+        
+        self.gradientView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
