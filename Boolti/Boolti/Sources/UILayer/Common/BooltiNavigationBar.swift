@@ -20,6 +20,7 @@ enum NavigationType {
     case addLink
     case profile(isMyProfile: Bool)
     case editProfile
+    case qrScanner(title: String)
 }
 
 final class BooltiNavigationBar: UIView {
@@ -51,6 +52,8 @@ final class BooltiNavigationBar: UIView {
     private lazy var shareButton = self.makeButton(image: .share)
     
     private lazy var moreButton = self.makeButton(image: .more)
+    
+    private lazy var cameraButton = self.makeButton(image: .cameraReverse)
   
     lazy var rightTextButton = self.makeButton(title: "완료")
     
@@ -72,6 +75,7 @@ final class BooltiNavigationBar: UIView {
         case .addLink: self.configureAddLink()
         case .profile(let isMyProfile): self.configureProfileUI(isMyProfile)
         case .editProfile: self.configureEditProfileUI()
+        case .qrScanner(let title): self.configureQRScannerUI(title)
         }
     }
     
@@ -270,6 +274,28 @@ extension BooltiNavigationBar {
             make.centerY.equalTo(self.titleLabel)
         }
     }
+    
+    func configureQRScannerUI(_ title: String) {
+        self.addSubviews([self.backButton, self.titleLabel, self.cameraButton])
+        
+        self.backButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.size.equalTo(24)
+            make.bottom.equalToSuperview().inset(10)
+        }
+
+        self.titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(self.backButton.snp.trailing).offset(12)
+            make.trailing.equalTo(self.cameraButton.snp.leading).offset(-44)
+            make.centerY.equalTo(self.backButton)
+        }
+        
+        self.cameraButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(20)
+            make.size.equalTo(24)
+            make.centerY.equalTo(self.backButton)
+        }
+    }
 
 }
 
@@ -299,6 +325,10 @@ extension BooltiNavigationBar {
 
     func didRightTextButtonTap() -> Signal<Void> {
         return rightTextButton.rx.tap.asSignal()
+    }
+    
+    func didCameraButtonTap() -> Signal<Void> {
+        return cameraButton.rx.tap.asSignal()
     }
 
 }

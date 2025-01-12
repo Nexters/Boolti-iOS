@@ -24,7 +24,7 @@ final class QRScannerViewController: BooltiViewController {
 
     // MARK: UI Component
 
-    private lazy var navigationBar = BooltiNavigationBar(type: .titleWithCloseButton(title: self.viewModel.qrScannerEntity.concertName))
+    private lazy var navigationBar = BooltiNavigationBar(type: .qrScanner(title: self.viewModel.qrScannerEntity.concertName))
 
     private let entranceCodeButton: UIButton = {
         var config = UIButton.Configuration.plain()
