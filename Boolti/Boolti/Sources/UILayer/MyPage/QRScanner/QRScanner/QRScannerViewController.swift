@@ -17,6 +17,11 @@ final class QRScannerViewController: BooltiViewController {
     typealias EntranceCode = String
 
     private let captureSession = AVCaptureSession()
+    private var backCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+    private lazy var frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
+    private var backCameraInput: AVCaptureDeviceInput!
+    private var frontCameraInput: AVCaptureDeviceInput!
+    private let notificationHaptic = UINotificationFeedbackGenerator()
 
     private let viewModel: QRScannerViewModel
     private let disposeBag = DisposeBag()
@@ -24,7 +29,18 @@ final class QRScannerViewController: BooltiViewController {
 
     // MARK: UI Component
 
-    private lazy var navigationBar = BooltiNavigationBar(type: .titleWithCloseButton(title: self.viewModel.qrScannerEntity.concertName))
+    private lazy var navigationBar = BooltiNavigationBar(type: .qrScanner(title: self.viewModel.qrScannerEntity.concertName))
+    
+    private let entranceDescriptionLabel: BooltiUILabel = {
+        let label = BooltiUILabel()
+        label.font = .body1
+        label.textColor = .grey50
+        label.text = "QR 코드가 인식되지 않을 경우 티켓 화면 하단의\n’입장 코드 입력하기’에 아래 입장코드를 입력해 주세요."
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        
+        return label
+    }()
 
     private let entranceCodeButton: UIButton = {
         var config = UIButton.Configuration.plain()
@@ -83,12 +99,21 @@ extension QRScannerViewController {
         self.viewModel.output.qrCodeValidationResponse
             .asDriver(onErrorJustReturn: .invalid)
             .drive(with: self) { owner, response in
+                switch response {
+                case .invalid, .isAlreadyUsed:
+                    owner.notificationHaptic.notificationOccurred(.error)
+                case .notToday:
+                    owner.notificationHaptic.notificationOccurred(.warning)
+                case .valid:
+                    owner.notificationHaptic.notificationOccurred(.success)
+                }
+                
                 owner.qrCodeResponsePopUpView.setData(with: response)
                 owner.qrCodeResponsePopUpView.isHidden = false
 
                 UIView.animate(
                     withDuration: 0.3,
-                    delay: 2,
+                    delay: 1.5,
                     animations: {
                         owner.qrCodeResponsePopUpView.alpha = 0
                     },
@@ -101,9 +126,23 @@ extension QRScannerViewController {
     }
 
     private func bindUIComponents() {
-        self.navigationBar.didCloseButtonTap()
+        self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
-                owner.dismiss(animated: true)
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.navigationBar.didCameraButtonTap()
+            .emit(with: self) { owner, _ in
+                owner.captureSession.beginConfiguration()
+                if owner.captureSession.inputs[0] == owner.backCameraInput {
+                    owner.captureSession.removeInput(owner.backCameraInput)
+                    owner.captureSession.addInput(owner.frontCameraInput)
+                } else if owner.captureSession.inputs[0] == owner.frontCameraInput {
+                    owner.captureSession.removeInput(owner.frontCameraInput)
+                    owner.captureSession.addInput(owner.backCameraInput)
+                }
+                owner.captureSession.commitConfiguration()
             }
             .disposed(by: self.disposeBag)
 
@@ -117,11 +156,14 @@ extension QRScannerViewController {
     }
 
     private func configureQRScanner() {
-        guard let captureDevice = AVCaptureDevice.default(for: .video) else { return }
+        guard let backCamera = self.backCamera,
+              let frontCamera = self.frontCamera else { return }
 
         do {
-            let input = try AVCaptureDeviceInput(device: captureDevice)
-            self.captureSession.addInput(input)
+            self.backCameraInput = try AVCaptureDeviceInput(device: backCamera)
+            self.frontCameraInput = try AVCaptureDeviceInput(device: frontCamera)
+            
+            self.captureSession.addInput(backCameraInput)
 
             let output = AVCaptureMetadataOutput()
             self.captureSession.addOutput(output)
@@ -173,6 +215,7 @@ extension QRScannerViewController {
             self.navigationBar,
             self.qrCodeResponsePopUpView,
             self.bottomBackgroundView,
+            self.entranceDescriptionLabel,
             self.entranceCodeButton,
         ])
 
@@ -190,16 +233,21 @@ extension QRScannerViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-10)
             make.centerX.equalToSuperview()
         }
+        
+        self.entranceDescriptionLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(self.entranceCodeButton.snp.top).offset(-20)
+            make.centerX.equalToSuperview()
+        }
 
         self.qrCodeResponsePopUpView.snp.makeConstraints { make in
-            make.bottom.equalTo(self.entranceCodeButton.snp.top).offset(-44)
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.centerX.equalToSuperview()
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(self.bottomBackgroundView.snp.top)
         }
 
         self.bottomBackgroundView.snp.makeConstraints { make in
             make.width.bottom.equalToSuperview()
-            make.top.equalTo(self.entranceCodeButton.snp.top).offset(-20)
+            make.top.equalTo(self.entranceDescriptionLabel.snp.top).offset(-20)
         }
     }
 }
@@ -217,7 +265,6 @@ extension QRScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
                 return
             }
 
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             self.captureSession.stopRunning()
             self.viewModel.input.detectQRCode.accept(decodedCode)
 

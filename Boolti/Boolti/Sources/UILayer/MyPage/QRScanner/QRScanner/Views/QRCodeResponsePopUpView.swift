@@ -8,10 +8,26 @@
 import UIKit
 
 class QRCodeResponsePopUpView: UIView {
+    
+    private let entireBorderView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.layer.borderWidth = 4
+        
+        return view
+    }()
+    
+    private let toastBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor("1B1D23").withAlphaComponent(0.8)
+        view.layer.cornerRadius = 4
+        
+        return view
+    }()
 
     private let iconImageView = UIImageView()
 
-    private let responseDescriptionLabel: BooltiUILabel = {
+    private let toastMessageLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .body3
         label.textColor = .white00
@@ -30,17 +46,16 @@ class QRCodeResponsePopUpView: UIView {
 
     func setData(with item: QRCodeValidationResponse) {
         self.iconImageView.image = item.iconImage
-        self.responseDescriptionLabel.text = item.rawValue
+        self.toastMessageLabel.text = item.rawValue
+        self.entireBorderView.layer.borderColor = item.statusColor.cgColor
     }
 
     private func configureUI() {
-        self.backgroundColor = .grey85
-        self.layer.cornerRadius = 4
-        self.alpha = 0.8
-
         self.addSubviews([
+            self.entireBorderView,
+            self.toastBackgroundView,
             self.iconImageView,
-            self.responseDescriptionLabel
+            self.toastMessageLabel
         ])
 
         self.configureConstraints()
@@ -48,18 +63,25 @@ class QRCodeResponsePopUpView: UIView {
     }
 
     private func configureConstraints() {
-        self.snp.makeConstraints { make in
+        self.entireBorderView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        self.toastBackgroundView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(18)
             make.height.equalTo(48)
+            make.centerX.equalToSuperview()
         }
 
         self.iconImageView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(16)
+            make.centerY.equalTo(self.toastBackgroundView)
+            make.leading.equalTo(self.toastBackgroundView).inset(16)
         }
 
-        self.responseDescriptionLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.left.equalTo(self.iconImageView.snp.right).offset(12)
+        self.toastMessageLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(self.toastBackgroundView)
+            make.leading.equalTo(self.iconImageView.snp.trailing).offset(8)
+            make.trailing.equalTo(self.toastBackgroundView).inset(16)
         }
     }
 }
