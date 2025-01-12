@@ -20,7 +20,6 @@ final class QRScannerListTableViewCell: UITableViewCell {
     private let concertNameLabel: BooltiUILabel = {
         let label = BooltiUILabel()
         label.font = .aggroB(16)
-        label.textColor = .grey05
         label.numberOfLines = 2
         return label
     }()
@@ -28,7 +27,6 @@ final class QRScannerListTableViewCell: UITableViewCell {
     private let scannerImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .qrScanner.withRenderingMode(.alwaysTemplate)
-        imageView.tintColor = .grey05
         return imageView
     }()
     
@@ -62,6 +60,9 @@ extension QRScannerListTableViewCell {
         if isConcertEnd {
             self.concertNameLabel.textColor = .grey50
             self.scannerImageView.tintColor = .grey50
+        } else {
+            self.concertNameLabel.textColor = .grey05
+            self.scannerImageView.tintColor = .grey05
         }
     }
     

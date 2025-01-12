@@ -122,8 +122,7 @@ extension QRScannerListViewController {
                 guard !qrScannerEntity.isConcertEnd else { return }
                 
                 let viewController = owner.qrScannerViewControllerFactory(qrScannerEntity)
-                viewController.modalPresentationStyle = .overFullScreen
-                owner.present(viewController, animated: true)
+                owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }

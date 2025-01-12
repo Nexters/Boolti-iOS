@@ -276,6 +276,8 @@ extension BooltiNavigationBar {
     }
     
     func configureQRScannerUI(_ title: String) {
+        self.titleLabel.text = title
+        
         self.addSubviews([self.backButton, self.titleLabel, self.cameraButton])
         
         self.backButton.snp.makeConstraints { make in
