@@ -51,6 +51,10 @@
 		2251F6C22CE62D0100906FF5 /* EditSnsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6C12CE62CFB00906FF5 /* EditSnsViewController.swift */; };
 		2251F6C52CE6352C00906FF5 /* SnsTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6C42CE6352000906FF5 /* SnsTypeCollectionViewCell.swift */; };
 		226003092D37C3830073D100 /* BooltiEventPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226003082D37C3830073D100 /* BooltiEventPopupViewController.swift */; };
+		2260030D2D37E0790073D100 /* PopupResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2260030C2D37E0710073D100 /* PopupResponseDTO.swift */; };
+		226003102D37E5060073D100 /* PopupEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2260030F2D37E5060073D100 /* PopupEntity.swift */; };
+		226003122D37E5270073D100 /* PopupType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226003112D37E5270073D100 /* PopupType.swift */; };
+		226003142D37E53D0073D100 /* PopupShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226003132D37E53D0073D100 /* PopupShowView.swift */; };
 		226D42BF2B9EBA3E00680198 /* BooltiBusinessInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */; };
 		22739A3B2C4F86BA000A357B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A3A2C4F86BA000A357B /* SettingViewController.swift */; };
 		22739A3D2C4F86DA000A357B /* SettingDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A3C2C4F86DA000A357B /* SettingDIContainer.swift */; };
@@ -483,6 +487,10 @@
 		2251F6C12CE62CFB00906FF5 /* EditSnsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSnsViewController.swift; sourceTree = "<group>"; };
 		2251F6C42CE6352000906FF5 /* SnsTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnsTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		226003082D37C3830073D100 /* BooltiEventPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiEventPopupViewController.swift; sourceTree = "<group>"; };
+		2260030C2D37E0710073D100 /* PopupResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupResponseDTO.swift; sourceTree = "<group>"; };
+		2260030F2D37E5060073D100 /* PopupEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupEntity.swift; sourceTree = "<group>"; };
+		226003112D37E5270073D100 /* PopupType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupType.swift; sourceTree = "<group>"; };
+		226003132D37E53D0073D100 /* PopupShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupShowView.swift; sourceTree = "<group>"; };
 		226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBusinessInfoView.swift; sourceTree = "<group>"; };
 		22739A3A2C4F86BA000A357B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		22739A3C2C4F86DA000A357B /* SettingDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDIContainer.swift; sourceTree = "<group>"; };
@@ -1024,6 +1032,30 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		2260030A2D37E0610073D100 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2260030B2D37E0670073D100 /* Response */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		2260030B2D37E0670073D100 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				2260030C2D37E0710073D100 /* PopupResponseDTO.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		2260030E2D37E4FA0073D100 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2260030F2D37E5060073D100 /* PopupEntity.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		22739A392C4F86AC000A357B /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1313,6 +1345,7 @@
 		84625A0F2B63B46600CC9077 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				2260030E2D37E4FA0073D100 /* App */,
 				848F9F4B2B8ED9370026F527 /* Auth */,
 				84D1C3792B792D0D00527998 /* Concert */,
 				22A0D0FF2C53DD3900E8157A /* Ticketing */,
@@ -1495,6 +1528,7 @@
 		84781C792B5BEBDA00D37921 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				2260030A2D37E0610073D100 /* App */,
 				87CE4F662B8DD93A007A0C8F /* PushNotification */,
 				84781C7A2B5BEBE500D37921 /* Auth */,
 				84DC6F632B728792001F9576 /* Concert */,
@@ -2360,6 +2394,8 @@
 				87826AED2BBFF7F2005176D4 /* LandingDestination.swift */,
 				220013D82BE39F62007FF9E6 /* TicketingErrorType.swift */,
 				224BEEDE2C4A0B7700863970 /* TicketingType.swift */,
+				226003112D37E5270073D100 /* PopupType.swift */,
+				226003132D37E53D0073D100 /* PopupShowView.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -2651,6 +2687,7 @@
 				87C7A5EE2CADB1CD0078213E /* SegmentedControlContainerView.swift in Sources */,
 				84E5124B2B6E71FD002658D1 /* ConcertDetailDIContainer.swift in Sources */,
 				870099AE2B77434A001779FB /* TicketDetailRequestDTO.swift in Sources */,
+				226003102D37E5060073D100 /* PopupEntity.swift in Sources */,
 				223698FB2C8B3BA3002C8081 /* UploadProfileImageRequestDTO.swift in Sources */,
 				22DD8C8C2BD2897E0083622C /* TicketingAPI.swift in Sources */,
 				22739A462C510585000A357B /* RegisterGiftRequestDTO.swift in Sources */,
@@ -2658,6 +2695,7 @@
 				84A713482B7C898E000BABCB /* QRExpandDIContainer.swift in Sources */,
 				872605532B79FEE2005CD0D4 /* TicketReservationDetailEntity.swift in Sources */,
 				8730F01A2B7B2A0C00D4F339 /* TicketRefundRequestDIContainer.swift in Sources */,
+				2260030D2D37E0790073D100 /* PopupResponseDTO.swift in Sources */,
 				22739A3D2C4F86DA000A357B /* SettingDIContainer.swift in Sources */,
 				871F3D182C4E894100AB1BB9 /* GiftReservationDetailViewController.swift in Sources */,
 				84A713412B7C6D96000BABCB /* EntranceCodeViewController.swift in Sources */,
@@ -2738,6 +2776,7 @@
 				84FBB2CA2B80D0E8001F4211 /* BooltiUILabel.swift in Sources */,
 				8726054D2B79CDF3005CD0D4 /* ConcertInformationView.swift in Sources */,
 				8757BA9E2B5FD7D3008503B5 /* LoginEnterView.swift in Sources */,
+				226003122D37E5270073D100 /* PopupType.swift in Sources */,
 				224FE70F2C3E520A00C09D28 /* GiftCardImageEntity.swift in Sources */,
 				22DFC5632C7A00E900C8433D /* ProfileDataHeaderView.swift in Sources */,
 				22739A422C4F8D92000A357B /* SettingContentView.swift in Sources */,
@@ -2787,6 +2826,7 @@
 				879E923A2BFB5DC200EC7ED1 /* GradientBackgroundView.swift in Sources */,
 				840B395F2B76966E00E7F8C8 /* ConcertListMainTitleCollectionViewCell.swift in Sources */,
 				87F63D752C3F85DB001D7A56 /* GiftReservationDetailEntity.swift in Sources */,
+				226003142D37E53D0073D100 /* PopupShowView.swift in Sources */,
 				87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */,
 				84781C6D2B5BEA3800D37921 /* AuthInterceptor.swift in Sources */,
 				8749F5832C88B90C00FC4365 /* EditLinkViewController.swift in Sources */,
