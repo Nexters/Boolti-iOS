@@ -99,6 +99,7 @@ final class BooltiEventPopupViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.eventImageView.setImage(with: popupData.eventUrl)
+        self.bindEventImageView(with: popupData.eventUrl)
     }
     
     required init?(coder: NSCoder) {
@@ -113,7 +114,8 @@ extension BooltiEventPopupViewController {
     
     private func bindComponents() {
         self.closeButton.rx.tap
-            .bind(with: self) { owner, _ in
+            .asDriver()
+            .drive(with: self) { owner, _ in
                 if owner.stopShowButton.isSelected {
                     UserDefaults.eventPopupStopShowDate = Date()
                 }
@@ -126,6 +128,16 @@ extension BooltiEventPopupViewController {
             .drive(with: self, onNext: { owner, _ in
                 owner.stopShowButton.isSelected.toggle()
             })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func bindEventImageView(with url: String) {
+        self.eventImageView.rx.tapGesture()
+            .when(.recognized)
+            .bind(with: self) { owner, _ in
+                guard let url = URL(string: url) else { return }
+                UIApplication.shared.open(url, options: [:])
+            }
             .disposed(by: self.disposeBag)
     }
 
