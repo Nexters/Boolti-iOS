@@ -122,8 +122,15 @@ extension ConcertListViewModel {
             .subscribe(with: self) { owner, popupData in
                 switch popupData.type {
                 case .event:
-                    owner.output.showEventPopup.accept(popupData)
-                    // 만약 userdefault에 오늘 그만보기 date 비교해서 오늘 지났으면 event popup vc 띄우기
+                    if let stopShowDate = UserDefaults.eventPopupStopShowDate {
+                        if stopShowDate >= popupData.startDate && stopShowDate <= popupData.endDate {
+                            if stopShowDate.getBetweenDay(to: Date()) > 0 {
+                                owner.output.showEventPopup.accept(popupData)
+                            }
+                        }
+                    } else {
+                        owner.output.showEventPopup.accept(popupData)
+                    }
                 case .notice:
                     print()
                     // notice popup 띄우기

@@ -114,6 +114,9 @@ extension BooltiEventPopupViewController {
     private func bindComponents() {
         self.closeButton.rx.tap
             .bind(with: self) { owner, _ in
+                if owner.stopShowButton.isSelected {
+                    UserDefaults.eventPopupStopShowDate = Date()
+                }
                 owner.dismiss(animated: true)
             }
             .disposed(by: self.disposeBag)
@@ -122,7 +125,6 @@ extension BooltiEventPopupViewController {
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
                 owner.stopShowButton.isSelected.toggle()
-//                owner.stopShowButtonSelected.accept(owner.stopShowButton.isSelected)
             })
             .disposed(by: self.disposeBag)
     }

@@ -41,7 +41,10 @@ extension UserDefaults {
     static var concertID
 
     @UserDefault<LandingDestination?>(key: UserDefaultsKey.landingDestination.rawValue, defaultValue: nil)
-      static var landingDestination
+    static var landingDestination
+    
+    @UserDefault<Date?>(key: UserDefaultsKey.eventPopupStopShowDate.rawValue, defaultValue: nil)
+    static var eventPopupStopShowDate
 
     // MARK: - Custom Methods
 
