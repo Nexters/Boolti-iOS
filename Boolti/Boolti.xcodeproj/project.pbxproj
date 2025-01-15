@@ -55,6 +55,8 @@
 		226003102D37E5060073D100 /* PopupEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2260030F2D37E5060073D100 /* PopupEntity.swift */; };
 		226003122D37E5270073D100 /* PopupType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226003112D37E5270073D100 /* PopupType.swift */; };
 		226003142D37E53D0073D100 /* PopupShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226003132D37E53D0073D100 /* PopupShowView.swift */; };
+		226003172D37E9900073D100 /* AppAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226003162D37E9900073D100 /* AppAPI.swift */; };
+		226003192D37EA480073D100 /* AppRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226003182D37EA480073D100 /* AppRepository.swift */; };
 		226D42BF2B9EBA3E00680198 /* BooltiBusinessInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */; };
 		22739A3B2C4F86BA000A357B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A3A2C4F86BA000A357B /* SettingViewController.swift */; };
 		22739A3D2C4F86DA000A357B /* SettingDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A3C2C4F86DA000A357B /* SettingDIContainer.swift */; };
@@ -491,6 +493,8 @@
 		2260030F2D37E5060073D100 /* PopupEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupEntity.swift; sourceTree = "<group>"; };
 		226003112D37E5270073D100 /* PopupType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupType.swift; sourceTree = "<group>"; };
 		226003132D37E53D0073D100 /* PopupShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupShowView.swift; sourceTree = "<group>"; };
+		226003162D37E9900073D100 /* AppAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAPI.swift; sourceTree = "<group>"; };
+		226003182D37EA480073D100 /* AppRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRepository.swift; sourceTree = "<group>"; };
 		226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiBusinessInfoView.swift; sourceTree = "<group>"; };
 		22739A3A2C4F86BA000A357B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		22739A3C2C4F86DA000A357B /* SettingDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDIContainer.swift; sourceTree = "<group>"; };
@@ -1276,6 +1280,7 @@
 				870099B62B77489A001779FB /* ReservationsRepository.swift */,
 				87CE4F702B8DF7CE007A0C8F /* PushNotificationRepository.swift */,
 				846F5F3D2B7BBF60000F86AE /* QRRepository.swift */,
+				226003182D37EA480073D100 /* AppRepository.swift */,
 				87CC3FF42CB40F2F0056A974 /* RepositoryType.swift */,
 			);
 			path = Repositories;
@@ -1589,6 +1594,7 @@
 				87F63D6E2C3F8298001D7A56 /* GiftReservationAPI.swift */,
 				846F5F392B7BBEC4000F86AE /* QRAPI.swift */,
 				87CE4F6E2B8DDA59007A0C8F /* PushNotificationAPI.swift */,
+				226003162D37E9900073D100 /* AppAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -3008,10 +3014,12 @@
 				848F9F4D2B8ED9400026F527 /* SignupConditionEntity.swift in Sources */,
 				84E48AC12B7E224600F8BFD0 /* UITextView+.swift in Sources */,
 				84886E882B6FB166005D2329 /* UIColor+.swift in Sources */,
+				226003172D37E9900073D100 /* AppAPI.swift in Sources */,
 				2251F6B62CE48F6F00906FF5 /* SNSType.swift in Sources */,
 				876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */,
 				84781CCE2B5C005600D37921 /* ConcertListViewController.swift in Sources */,
 				84DF59E32B726E21000816DA /* ConcertContentExpandViewController.swift in Sources */,
+				226003192D37EA480073D100 /* AppRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
