@@ -120,20 +120,21 @@ extension ConcertListViewModel {
     func checkAdminPopup() {
         self.appRepository.popup()
             .subscribe(with: self) { owner, popupData in
-                switch popupData.type {
-                case .event:
-                    if let stopShowDate = UserDefaults.eventPopupStopShowDate {
-                        if stopShowDate >= popupData.startDate && stopShowDate <= popupData.endDate {
-                            if stopShowDate.getBetweenDay(to: Date()) > 0 {
+                let today = Date()
+                if today >= popupData.startDate && today <= popupData.endDate {
+                    switch popupData.type {
+                    case .event:
+                        if let stopShowDate = UserDefaults.eventPopupStopShowDate {
+                            if stopShowDate.getBetweenDay(to: today) > 0 {
                                 owner.output.showEventPopup.accept(popupData)
                             }
+                        } else {
+                            owner.output.showEventPopup.accept(popupData)
                         }
-                    } else {
-                        owner.output.showEventPopup.accept(popupData)
+                    case .notice:
+                        debugPrint("notice popup")
+                        // notice popup 띄우기
                     }
-                case .notice:
-                    print()
-                    // notice popup 띄우기
                 }
             }
             .disposed(by: self.disposeBag)
