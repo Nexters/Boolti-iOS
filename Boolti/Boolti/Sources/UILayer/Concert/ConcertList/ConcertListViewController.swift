@@ -153,7 +153,7 @@ extension ConcertListViewController {
         
         self.viewModel.output.showEventPopup
             .subscribe(with: self) { owner, popupData in
-                let eventPopupViewController = BooltiEventPopupViewController()
+                let eventPopupViewController = BooltiEventPopupViewController(with: popupData)
                 eventPopupViewController.modalPresentationStyle = .popover
                 owner.present(eventPopupViewController, animated: true)
             }

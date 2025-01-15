@@ -22,7 +22,6 @@ final class BooltiEventPopupViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.image = .eventPopup
         imageView.layer.cornerRadius = 8
         imageView.layer.maskedCorners = CACornerMask(
             arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner
@@ -92,6 +91,18 @@ final class BooltiEventPopupViewController: UIViewController {
         
         self.configureUI()
         self.bindComponents()
+    }
+    
+    // MARK: Initailizer
+    
+    init(with popupData: PopupEntity) {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.eventImageView.setImage(with: popupData.eventUrl)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 }
