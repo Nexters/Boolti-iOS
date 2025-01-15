@@ -150,13 +150,3 @@ extension BooltiEventPopupViewController {
     }
     
 }
-
-// MARK: - Network
-
-extension BooltiEventPopupViewController {
-
-    private func fetchEventImage() {
-
-    }
-    
-}

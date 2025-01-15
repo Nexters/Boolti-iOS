@@ -72,6 +72,7 @@ final class ConcertListViewController: BooltiViewController {
         self.configureToastView(isButtonExisted: true)
         self.bindInputs()
         self.bindOutputs()
+        self.viewModel.checkAdminPopup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,6 +86,7 @@ final class ConcertListViewController: BooltiViewController {
         self.configureDynamicLinkDestination()
         self.mainCollectionView.reloadSections([0], animationStyle: .automatic)
     }
+
 }
 
 // MARK: - Methods
@@ -146,6 +148,14 @@ extension ConcertListViewController {
                     owner.popupView.showPopup(with: .registerMyGift,
                                               withCancelButton: true)
                 }
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.showEventPopup
+            .subscribe(with: self) { owner, popupData in
+                let eventPopupViewController = BooltiEventPopupViewController()
+                eventPopupViewController.modalPresentationStyle = .popover
+                owner.present(eventPopupViewController, animated: true)
             }
             .disposed(by: self.disposeBag)
     }

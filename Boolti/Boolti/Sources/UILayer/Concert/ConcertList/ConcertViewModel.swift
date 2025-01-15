@@ -17,6 +17,7 @@ final class ConcertListViewModel {
     private let disposeBag = DisposeBag()
     private let concertRepository: ConcertRepositoryType
     private let giftingRepository: GiftingRepositoryType
+    private let appRepository: AppRepositoryType
     
     enum GiftType {
         case send
@@ -35,6 +36,7 @@ final class ConcertListViewModel {
         var bottomConcerts: [ConcertEntity] = []
         let showRegisterGiftPopUp = PublishRelay<GiftType>()
         let didRegisterGift = PublishRelay<Bool>()
+        let showEventPopup = PublishRelay<PopupEntity>()
     }
     
     let input: Input
@@ -49,6 +51,7 @@ final class ConcertListViewModel {
         self.output = Output()
         self.concertRepository = concertRepository
         self.giftingRepository = GiftingRepository(networkService: self.concertRepository.networkService)
+        self.appRepository = AppRepository(networkService: self.concertRepository.networkService)
         
         self.bindInputs()
     }
@@ -111,6 +114,21 @@ extension ConcertListViewModel {
             }, onFailure: { owner, _ in
                 owner.output.didRegisterGift.accept(false)
             })
+            .disposed(by: self.disposeBag)
+    }
+    
+    func checkAdminPopup() {
+        self.appRepository.popup()
+            .subscribe(with: self) { owner, popupData in
+                switch popupData.type {
+                case .event:
+                    owner.output.showEventPopup.accept(popupData)
+                    // 만약 userdefault에 오늘 그만보기 date 비교해서 오늘 지났으면 event popup vc 띄우기
+                case .notice:
+                    print()
+                    // notice popup 띄우기
+                }
+            }
             .disposed(by: self.disposeBag)
     }
     
