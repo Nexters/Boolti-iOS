@@ -18,25 +18,10 @@ final class ProfileMainView: UIView {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey90
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 20
-        imageView.layer.maskedCorners = CACornerMask(
-            arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
-        )
-
         return imageView
     }()
     
-    private let gradientView: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 20
-        view.layer.maskedCorners = CACornerMask(
-            arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
-        )
-        
-        return view
-    }()
+    private let gradientView = UIView()
 
     private let nameLabel: BooltiUILabel = {
         let label = BooltiUILabel()
@@ -142,6 +127,7 @@ extension ProfileMainView {
     
     private func configureUI() {
         self.backgroundColor = .grey90
+        self.clipsToBounds = true
         self.layer.cornerRadius = 20
         self.layer.maskedCorners = CACornerMask(
             arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
