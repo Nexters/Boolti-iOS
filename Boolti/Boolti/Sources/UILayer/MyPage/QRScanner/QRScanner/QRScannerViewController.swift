@@ -47,7 +47,7 @@ final class QRScannerViewController: BooltiViewController {
         config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
         config.title = "입장코드 보기"
         config.attributedTitle?.font = .body1
-        config.baseForegroundColor = .grey50
+        config.baseForegroundColor = .grey30
         config.imagePadding = 4
 
         let button = UIButton(configuration: config)
@@ -230,12 +230,12 @@ extension QRScannerViewController {
         }
 
         self.entranceCodeButton.snp.makeConstraints { make in
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-10)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-12)
             make.centerX.equalToSuperview()
         }
         
         self.entranceDescriptionLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(self.entranceCodeButton.snp.top).offset(-20)
+            make.bottom.equalTo(self.entranceCodeButton.snp.top).offset(-12)
             make.centerX.equalToSuperview()
         }
 
