@@ -18,25 +18,10 @@ final class ProfileMainView: UIView {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey90
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 20
-        imageView.layer.maskedCorners = CACornerMask(
-            arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
-        )
-
         return imageView
     }()
     
-    private let gradientView: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 20
-        view.layer.maskedCorners = CACornerMask(
-            arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
-        )
-        
-        return view
-    }()
+    private let gradientView = UIView()
 
     private let nameLabel: BooltiUILabel = {
         let label = BooltiUILabel()
@@ -118,16 +103,16 @@ extension ProfileMainView {
         }
     }
     
-    func updateProfileImageViewUI(minHeight: CGFloat) {
+    func updateProfileImageViewUI(profileViewHeight: CGFloat) {
         self.profileImageView.snp.updateConstraints { make in
-            make.height.equalTo(min(minHeight, self.bounds.width))
+            make.height.equalTo(min(profileViewHeight, self.bounds.width))
         }
     }
     
-    func addGradientLayer(height: CGFloat) {
+    func addGradientLayer(profileViewHeight: CGFloat) {
         self.gradientView.layer.sublayers?.removeAll()
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: height)
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: min(profileViewHeight, self.bounds.width))
         gradientLayer.colors = [UIColor("121318").withAlphaComponent(0.2).cgColor,
                                 UIColor("121318").withAlphaComponent(1).cgColor]
         gradientLayer.locations = [0.0, 1.0]
@@ -142,6 +127,7 @@ extension ProfileMainView {
     
     private func configureUI() {
         self.backgroundColor = .grey90
+        self.clipsToBounds = true
         self.layer.cornerRadius = 20
         self.layer.maskedCorners = CACornerMask(
             arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner
