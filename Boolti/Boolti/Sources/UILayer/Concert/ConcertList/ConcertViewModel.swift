@@ -17,6 +17,7 @@ final class ConcertListViewModel {
     private let disposeBag = DisposeBag()
     private let concertRepository: ConcertRepositoryType
     private let giftingRepository: GiftingRepositoryType
+    private let appRepository: AppRepositoryType
     
     enum GiftType {
         case send
@@ -35,6 +36,7 @@ final class ConcertListViewModel {
         var bottomConcerts: [ConcertEntity] = []
         let showRegisterGiftPopUp = PublishRelay<GiftType>()
         let didRegisterGift = PublishRelay<Bool>()
+        let showEventPopup = PublishRelay<PopupEntity>()
     }
     
     let input: Input
@@ -49,6 +51,7 @@ final class ConcertListViewModel {
         self.output = Output()
         self.concertRepository = concertRepository
         self.giftingRepository = GiftingRepository(networkService: self.concertRepository.networkService)
+        self.appRepository = AppRepository(networkService: self.concertRepository.networkService)
         
         self.bindInputs()
     }
@@ -111,6 +114,29 @@ extension ConcertListViewModel {
             }, onFailure: { owner, _ in
                 owner.output.didRegisterGift.accept(false)
             })
+            .disposed(by: self.disposeBag)
+    }
+    
+    func checkAdminPopup() {
+        self.appRepository.popup()
+            .subscribe(with: self) { owner, popupData in
+                let today = Date()
+                if today >= popupData.startDate && today <= popupData.endDate {
+                    switch popupData.type {
+                    case .event:
+                        if let stopShowDate = UserDefaults.eventPopupStopShowDate {
+                            if stopShowDate.getBetweenDay(to: today) > 0 {
+                                owner.output.showEventPopup.accept(popupData)
+                            }
+                        } else {
+                            owner.output.showEventPopup.accept(popupData)
+                        }
+                    case .notice:
+                        debugPrint("notice popup")
+                        // notice popup 띄우기
+                    }
+                }
+            }
             .disposed(by: self.disposeBag)
     }
     
