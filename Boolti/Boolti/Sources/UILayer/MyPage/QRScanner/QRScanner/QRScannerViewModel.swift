@@ -14,7 +14,7 @@ import RxRelay
 enum QRCodeValidationResponse: String {
     case valid = "입장을 확인했어요"
     case invalid = "이 공연의 티켓이 아니에요"
-    case isAlreadyUsed = "이미 입장에 사용된 티켓이에요"
+    case isAlreadyUsed = "이미 입장에 사용한 티켓이에요"
     case notToday = "아직 공연일이 아니에요"
 
     init?(statusCode: Int) {
