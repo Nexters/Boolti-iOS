@@ -231,14 +231,14 @@ extension ProfileViewController {
                                                        snsCollectionViewTopOffset: snsCollectionViewTopOffset)
         
         self.profileMainView.layoutIfNeeded()
-        let profileViewHeight = self.navigationBar.frame.height + 144 + self.profileMainView.getLabelStackViewHeight() + snsCollectionViewHeight + 32
+        let profileViewHeight = self.navigationBar.frame.height + 144 + self.profileMainView.getLabelStackViewHeight() + snsCollectionViewTopOffset + snsCollectionViewHeight + 32
 
         self.profileMainView.snp.updateConstraints { make in
             make.height.equalTo(profileViewHeight)
         }
         
-        self.profileMainView.updateProfileImageViewUI(minHeight: profileViewHeight - snsCollectionViewHeight)
-        self.profileMainView.addGradientLayer(height: profileViewHeight)
+        self.profileMainView.updateProfileImageViewUI(profileViewHeight: profileViewHeight)
+        self.profileMainView.addGradientLayer(profileViewHeight: profileViewHeight)
         
         self.dataCollectionView.layoutIfNeeded()
         let dataCollectionViewHeight = self.dataCollectionView.contentSize.height
