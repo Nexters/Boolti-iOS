@@ -3170,7 +3170,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3212,7 +3212,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
