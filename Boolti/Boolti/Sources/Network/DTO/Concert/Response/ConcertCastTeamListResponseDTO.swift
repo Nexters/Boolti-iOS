@@ -19,7 +19,7 @@ struct ConcertCastTeamListResponseDTO: Decodable {
             return TeamMember(
                 id: DTO.id,
                 code: DTO.userCode,
-                imagePath: DTO.userImgPath,
+                imagePath: DTO.userImgPath ?? "",
                 nickName: DTO.userNickname,
                 roleName: DTO.roleName,
                 createdAt: DTO.createdAt,
@@ -39,7 +39,7 @@ struct ConcertCastTeamListResponseDTO: Decodable {
 struct TeamMemberDTO: Codable {
     let id: Int
     let userCode: String
-    let userImgPath: String
+    let userImgPath: String?
     let userNickname: String
     let roleName: String
     let createdAt: String
