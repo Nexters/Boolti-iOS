@@ -46,12 +46,13 @@ final class QRScannerViewController: BooltiViewController {
         var config = UIButton.Configuration.plain()
         config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
         config.title = "입장코드 보기"
-        config.attributedTitle?.font = .body1
+        config.attributedTitle?.font = .subhead0
         config.baseForegroundColor = .grey30
         config.imagePadding = 4
 
         let button = UIButton(configuration: config)
         button.setImage(.entranceCode, for: .normal)
+        button.tintColor = .grey30
 
         return button
     }()
