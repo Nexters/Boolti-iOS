@@ -504,21 +504,6 @@ extension ConcertDetailViewController {
     }
 }
 
-// MARK: - UIScrollViewDelegate
-
-extension ConcertDetailViewController: UIScrollViewDelegate {
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offset = scrollView.contentOffset.y
-        if offset == 0 {
-            self.navigationBar.setBackgroundColor(with: .clear)
-        } else {
-            self.navigationBar.setBackgroundColor(with: .grey90)
-        }
-    }
-
-}
-
 // MARK: - UI
 
 extension ConcertDetailViewController {
