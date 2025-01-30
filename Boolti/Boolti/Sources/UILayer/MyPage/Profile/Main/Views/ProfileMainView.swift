@@ -18,6 +18,7 @@ final class ProfileMainView: UIView {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey90
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -105,14 +106,14 @@ extension ProfileMainView {
     
     func updateProfileImageViewUI(profileViewHeight: CGFloat) {
         self.profileImageView.snp.updateConstraints { make in
-            make.height.equalTo(max(profileViewHeight, self.bounds.width))
+            make.height.equalTo(min(profileViewHeight, self.bounds.width))
         }
     }
-    
+
     func addGradientLayer(profileViewHeight: CGFloat) {
         self.gradientView.layer.sublayers?.removeAll()
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: max(profileViewHeight, self.bounds.width))
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: min(profileViewHeight, self.bounds.width))
         gradientLayer.colors = [UIColor("121318").withAlphaComponent(0.2).cgColor,
                                 UIColor("121318").withAlphaComponent(1).cgColor]
         gradientLayer.locations = [0.0, 1.0]
