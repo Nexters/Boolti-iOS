@@ -18,6 +18,7 @@ final class ProfileMainView: UIView {
         let imageView = UIImageView()
         imageView.backgroundColor = .grey90
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -108,7 +109,7 @@ extension ProfileMainView {
             make.height.equalTo(max(profileViewHeight, self.bounds.width))
         }
     }
-    
+
     func addGradientLayer(profileViewHeight: CGFloat) {
         self.gradientView.layer.sublayers?.removeAll()
         let gradientLayer = CAGradientLayer()
