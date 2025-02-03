@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>REGISTER_CONCERT_URL</key>
+	<string>${REGISTER_CONCERT_URL}</string>
 	<key>LOGIN_URL</key>
 	<string>${LOGIN_URL}</string>
 	<key>MANAGE_CONCERT_URL</key>
