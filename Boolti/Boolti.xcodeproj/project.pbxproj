@@ -1238,6 +1238,42 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		22F7A4E22D50CFD50079D465 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */,
+				8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */,
+				84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */,
+				841FA6402B8326BD00441848 /* BooltiPopupView.swift */,
+				847AA70D2B62B55500E5B55C /* BooltiNavigationBar.swift */,
+				226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		22F7A4E32D50CFDA0079D465 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */,
+				226003082D37C3830073D100 /* BooltiEventPopupViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		22F7A4E42D50CFE00079D465 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */,
+				84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */,
+				84FBBE002B677187009462E9 /* BooltiTextField.swift */,
+				84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */,
+				8749F5842C8A105A00FC4365 /* ButtonTextField.swift */,
+				8749F5862C8A16B700FC4365 /* BooltiInputStackView.swift */,
+				876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		840B39532B7667B100E7F8C8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -2342,21 +2378,9 @@
 		8769BF9B2B6267B200DA9A67 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */,
-				8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */,
-				876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */,
-				84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */,
-				841FA6402B8326BD00441848 /* BooltiPopupView.swift */,
-				876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */,
-				8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */,
-				84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */,
-				84FBBE002B677187009462E9 /* BooltiTextField.swift */,
-				847AA70D2B62B55500E5B55C /* BooltiNavigationBar.swift */,
-				84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */,
-				226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */,
-				8749F5842C8A105A00FC4365 /* ButtonTextField.swift */,
-				8749F5862C8A16B700FC4365 /* BooltiInputStackView.swift */,
-				226003082D37C3830073D100 /* BooltiEventPopupViewController.swift */,
+				22F7A4E42D50CFE00079D465 /* Components */,
+				22F7A4E22D50CFD50079D465 /* Views */,
+				22F7A4E32D50CFDA0079D465 /* ViewControllers */,
 			);
 			path = Common;
 			sourceTree = "<group>";
