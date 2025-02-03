@@ -124,7 +124,7 @@ extension ConcertListViewModel {
                 if today >= popupData.startDate && today <= popupData.endDate {
                     switch popupData.type {
                     case .event:
-                        if let stopShowDate = UserDefaults.eventPopupStopShowDate {
+                        if let stopShowDate = UserDefaults.popupStopShowDate[popupData.id] {
                             if stopShowDate.getBetweenDay(to: today) > 0 {
                                 owner.output.showEventPopup.accept(popupData)
                             }

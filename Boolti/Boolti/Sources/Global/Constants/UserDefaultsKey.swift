@@ -17,5 +17,5 @@ enum UserDefaultsKey: String, CaseIterable {
     case tabBarIndex
     case concertID
     case landingDestination
-    case eventPopupStopShowDate
+    case popupStopShowDate
 }
