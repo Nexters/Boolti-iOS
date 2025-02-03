@@ -185,13 +185,7 @@ extension ConcertListViewController: UICollectionViewDelegate {
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.topConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
         case .banner:
-        #if DEBUG
-        let urlString = "https://dotori.boolti.in/login"
-        #else
-        let urlString = "https://boolti.in/login"
-        #endif
-
-        guard let url = URL(string: urlString) else { return }
+            guard let url = URL(string: Environment.LOGIN_URL) else { return }
         UIApplication.shared.open(url, options: [:])
 
         case .bottomConcerts:
