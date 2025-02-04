@@ -97,7 +97,8 @@ final class BooltiEventPopupViewController: UIViewController {
     init(with popupData: PopupEntity) {
         super.init(nibName: nil, bundle: nil)
         
-        self.eventImageView.setImage(with: popupData.eventUrl)
+        guard let imageUrl = popupData.emphasisDescription else { return }
+        self.eventImageView.setImage(with: imageUrl)
         self.bindEventImageView(with: popupData.eventUrl)
         self.bindComponents(popupId: popupData.id)
     }
@@ -131,11 +132,13 @@ extension BooltiEventPopupViewController {
             .disposed(by: self.disposeBag)
     }
     
-    private func bindEventImageView(with url: String) {
+    private func bindEventImageView(with url: String?) {
+        guard let imageUrl = url else { return }
+              
         self.eventImageView.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                guard let url = URL(string: url) else { return }
+                guard let url = URL(string: imageUrl) else { return }
                 UIApplication.shared.open(url, options: [:])
             }
             .disposed(by: self.disposeBag)
