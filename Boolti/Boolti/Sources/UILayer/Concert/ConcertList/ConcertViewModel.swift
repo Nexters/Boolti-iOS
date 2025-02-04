@@ -118,13 +118,13 @@ extension ConcertListViewModel {
     }
     
     func checkAdminPopup() {
-        self.appRepository.popup()
+        self.appRepository.popup(route: .home)
             .subscribe(with: self) { owner, popupData in
                 let today = Date()
                 if today >= popupData.startDate && today <= popupData.endDate {
                     switch popupData.type {
                     case .event:
-                        if let stopShowDate = UserDefaults.eventPopupStopShowDate {
+                        if let stopShowDate = UserDefaults.popupStopShowDate[popupData.id] {
                             if stopShowDate.getBetweenDay(to: today) > 0 {
                                 owner.output.showEventPopup.accept(popupData)
                             }

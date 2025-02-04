@@ -359,7 +359,6 @@
 		876BF16E2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16D2B6A45AD00DB4BCB /* TokenRefreshResponseDTO.swift */; };
 		876BF1702B6A5FEF00DB4BCB /* RefreshAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876BF16F2B6A5FEF00DB4BCB /* RefreshAuthRepository.swift */; };
 		876C65E02B73907D000F2746 /* TicketType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C65DF2B73907D000F2746 /* TicketType.swift */; };
-		876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 876E41432B5F874B006BEEB7 /* Shared.xcconfig */; };
 		876E41482B5F875D006BEEB7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 876E41472B5F875C006BEEB7 /* GoogleService-Info.plist */; };
 		876E414D2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */; };
 		876E414F2B5F915E006BEEB7 /* BooltiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */; };
@@ -397,8 +396,6 @@
 		87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */; };
 		87D2FABA2B6EB5C50027FBE1 /* TicketNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB92B6EB5C50027FBE1 /* TicketNoticeView.swift */; };
 		87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */; };
-		87DB76C02C52823400DE8B14 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87DB76BE2C52823400DE8B14 /* Debug.xcconfig */; };
-		87DB76C12C52823400DE8B14 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 87DB76BF2C52823400DE8B14 /* Release.xcconfig */; };
 		87EFEEDB2C7E1C4300A8993C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EFEEDA2C7E1C4300A8993C /* Preview.swift */; };
 		87EFEEDE2C7E21EF00A8993C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EFEEDD2C7E21EF00A8993C /* WebKit.framework */; };
 		87EFEEE12C7F597700A8993C /* AgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EFEEE02C7F597700A8993C /* AgreementViewController.swift */; };
@@ -1236,6 +1233,42 @@
 				22DFC5622C7A00E900C8433D /* ProfileDataHeaderView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		22F7A4E22D50CFD50079D465 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */,
+				8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */,
+				84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */,
+				841FA6402B8326BD00441848 /* BooltiPopupView.swift */,
+				847AA70D2B62B55500E5B55C /* BooltiNavigationBar.swift */,
+				226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		22F7A4E32D50CFDA0079D465 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */,
+				226003082D37C3830073D100 /* BooltiEventPopupViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		22F7A4E42D50CFE00079D465 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */,
+				84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */,
+				84FBBE002B677187009462E9 /* BooltiTextField.swift */,
+				84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */,
+				8749F5842C8A105A00FC4365 /* ButtonTextField.swift */,
+				8749F5862C8A16B700FC4365 /* BooltiInputStackView.swift */,
+				876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		840B39532B7667B100E7F8C8 /* Cells */ = {
@@ -2342,21 +2375,9 @@
 		8769BF9B2B6267B200DA9A67 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				8757BA9D2B5FD7D3008503B5 /* LoginEnterView.swift */,
-				8746AD1F2B6932B30037A1B1 /* ConcertEnterView.swift */,
-				876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */,
-				84EC6A632B6CF973009AC6BB /* BooltiToastView.swift */,
-				841FA6402B8326BD00441848 /* BooltiPopupView.swift */,
-				876E414C2B5F8CA8006BEEB7 /* BooltiLoadingIndicatorView.swift */,
-				8769BF9C2B6267CC00DA9A67 /* BooltiButton.swift */,
-				84FBB2C92B80D0E8001F4211 /* BooltiUILabel.swift */,
-				84FBBE002B677187009462E9 /* BooltiTextField.swift */,
-				847AA70D2B62B55500E5B55C /* BooltiNavigationBar.swift */,
-				84625A172B63E05700CC9077 /* BooltiPaddingLabel.swift */,
-				226D42BE2B9EBA3E00680198 /* BooltiBusinessInfoView.swift */,
-				8749F5842C8A105A00FC4365 /* ButtonTextField.swift */,
-				8749F5862C8A16B700FC4365 /* BooltiInputStackView.swift */,
-				226003082D37C3830073D100 /* BooltiEventPopupViewController.swift */,
+				22F7A4E42D50CFE00079D465 /* Components */,
+				22F7A4E22D50CFD50079D465 /* Views */,
+				22F7A4E32D50CFDA0079D465 /* ViewControllers */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2587,7 +2608,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1520;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					84781BC82B5BDAFC00D37921 = {
 						CreatedOnToolsVersion = 15.2;
@@ -2632,10 +2653,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84FBBDFD2B675E78009462E9 /* OTSBAggroB.otf in Resources */,
-				87DB76C02C52823400DE8B14 /* Debug.xcconfig in Resources */,
-				876E41462B5F874B006BEEB7 /* Shared.xcconfig in Resources */,
 				84781BD92B5BDAFD00D37921 /* LaunchScreen.storyboard in Resources */,
-				87DB76C12C52823400DE8B14 /* Release.xcconfig in Resources */,
 				84781BD62B5BDAFD00D37921 /* Assets.xcassets in Resources */,
 				84975BFF2B6123E500F903E7 /* Pretendard-SemiBold.otf in Resources */,
 				84896A532B6A86A800CB3E33 /* OTSAggroM.otf in Resources */,
@@ -3170,7 +3188,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3212,7 +3230,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;

@@ -10,15 +10,15 @@ import Foundation
 import Moya
 
 enum AppAPI {
-    case popup
+    case popup(route: String)
 }
 
 extension AppAPI: ServiceAPI {
     
     var path: String {
         switch self {
-        case .popup:
-            return "/papi/v1/popup"
+        case .popup(let route):
+            return "/papi/v1/popup/\(route)"
         }
     }
     

@@ -43,8 +43,8 @@ extension UserDefaults {
     @UserDefault<LandingDestination?>(key: UserDefaultsKey.landingDestination.rawValue, defaultValue: nil)
     static var landingDestination
     
-    @UserDefault<Date?>(key: UserDefaultsKey.eventPopupStopShowDate.rawValue, defaultValue: nil)
-    static var eventPopupStopShowDate
+    @UserDefault<Dictionary>(key: UserDefaultsKey.popupStopShowDate.rawValue, defaultValue: [-1: Date()])
+    static var popupStopShowDate
 
     // MARK: - Custom Methods
 

@@ -12,7 +12,7 @@ import RxSwift
 protocol AppRepositoryType: RepositoryType {
     
     var networkService: NetworkProviderType { get }
-    func popup() -> Single<PopupEntity>
+    func popup(route: PopupShowView) -> Single<PopupEntity>
 }
 
 final class AppRepository: AppRepositoryType {
@@ -23,8 +23,8 @@ final class AppRepository: AppRepositoryType {
         self.networkService = networkService
     }
     
-    func popup() -> Single<PopupEntity> {
-        let api = AppAPI.popup
+    func popup(route: PopupShowView) -> Single<PopupEntity> {
+        let api = AppAPI.popup(route: route.rawValue)
         
         return networkService.request(api)
             .map(PopupResponseDTO.self)
