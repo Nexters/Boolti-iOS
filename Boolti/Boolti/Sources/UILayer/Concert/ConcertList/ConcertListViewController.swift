@@ -154,7 +154,7 @@ extension ConcertListViewController {
         self.viewModel.output.showEventPopup
             .subscribe(with: self) { owner, popupData in
                 let eventPopupViewController = BooltiEventPopupViewController(with: popupData)
-                eventPopupViewController.modalPresentationStyle = .popover
+                eventPopupViewController.modalPresentationStyle = .overFullScreen
                 owner.present(eventPopupViewController, animated: true)
             }
             .disposed(by: self.disposeBag)
