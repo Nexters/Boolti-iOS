@@ -151,6 +151,7 @@ extension BooltiEventPopupViewController {
 extension BooltiEventPopupViewController {
     
     private func configureUI() {
+        self.view.backgroundColor = .black100.withAlphaComponent(0.65)
         self.view.addSubview(self.contentStackview)
 
         self.configureConstraints()

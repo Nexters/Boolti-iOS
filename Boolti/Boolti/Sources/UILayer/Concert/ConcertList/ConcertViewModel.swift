@@ -36,7 +36,7 @@ final class ConcertListViewModel {
         var bottomConcerts: [ConcertEntity] = []
         let showRegisterGiftPopUp = PublishRelay<GiftType>()
         let didRegisterGift = PublishRelay<Bool>()
-        let showEventPopup = PublishRelay<PopupEntity>()
+        let showAdminPopup = PublishRelay<(PopupType, PopupEntity)>()
     }
     
     let input: Input
@@ -126,14 +126,13 @@ extension ConcertListViewModel {
                     case .event:
                         if let stopShowDate = UserDefaults.popupStopShowDate[popupData.id] {
                             if stopShowDate.getBetweenDay(to: today) > 0 {
-                                owner.output.showEventPopup.accept(popupData)
+                                owner.output.showAdminPopup.accept((.event ,popupData))
                             }
                         } else {
-                            owner.output.showEventPopup.accept(popupData)
+                            owner.output.showAdminPopup.accept((.event ,popupData))
                         }
                     case .notice:
-                        debugPrint("notice popup")
-                        // notice popup 띄우기
+                        owner.output.showAdminPopup.accept((.notice ,popupData))
                     }
                 }
             }

@@ -50,6 +50,7 @@
 		2251F6BF2CE626F400906FF5 /* EditSnsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6BE2CE626EB00906FF5 /* EditSnsCollectionViewCell.swift */; };
 		2251F6C22CE62D0100906FF5 /* EditSnsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6C12CE62CFB00906FF5 /* EditSnsViewController.swift */; };
 		2251F6C52CE6352C00906FF5 /* SnsTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251F6C42CE6352000906FF5 /* SnsTypeCollectionViewCell.swift */; };
+		22563FEC2D5B6FA4004E58E0 /* BooltiNoticePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22563FEB2D5B6F9C004E58E0 /* BooltiNoticePopupViewController.swift */; };
 		226003092D37C3830073D100 /* BooltiEventPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226003082D37C3830073D100 /* BooltiEventPopupViewController.swift */; };
 		2260030D2D37E0790073D100 /* PopupResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2260030C2D37E0710073D100 /* PopupResponseDTO.swift */; };
 		226003102D37E5060073D100 /* PopupEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2260030F2D37E5060073D100 /* PopupEntity.swift */; };
@@ -485,6 +486,7 @@
 		2251F6BE2CE626EB00906FF5 /* EditSnsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSnsCollectionViewCell.swift; sourceTree = "<group>"; };
 		2251F6C12CE62CFB00906FF5 /* EditSnsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSnsViewController.swift; sourceTree = "<group>"; };
 		2251F6C42CE6352000906FF5 /* SnsTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnsTypeCollectionViewCell.swift; sourceTree = "<group>"; };
+		22563FEB2D5B6F9C004E58E0 /* BooltiNoticePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiNoticePopupViewController.swift; sourceTree = "<group>"; };
 		226003082D37C3830073D100 /* BooltiEventPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooltiEventPopupViewController.swift; sourceTree = "<group>"; };
 		2260030C2D37E0710073D100 /* PopupResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupResponseDTO.swift; sourceTree = "<group>"; };
 		2260030F2D37E5060073D100 /* PopupEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupEntity.swift; sourceTree = "<group>"; };
@@ -1253,6 +1255,7 @@
 			children = (
 				876E414E2B5F915E006BEEB7 /* BooltiViewController.swift */,
 				226003082D37C3830073D100 /* BooltiEventPopupViewController.swift */,
+				22563FEB2D5B6F9C004E58E0 /* BooltiNoticePopupViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -3020,6 +3023,7 @@
 				871996F52C2C2B85003F3845 /* SocialServiceButton.swift in Sources */,
 				877563DA2B6E0CDA001504FE /* TicketListFooterView.swift in Sources */,
 				878AF4692B60EC3A00C8838C /* ASAuthorizationController+Rx.swift in Sources */,
+				22563FEC2D5B6FA4004E58E0 /* BooltiNoticePopupViewController.swift in Sources */,
 				876BF1702B6A5FEF00DB4BCB /* RefreshAuthRepository.swift in Sources */,
 				8753CA6E2B70E30D002871C7 /* TicketEntryCodeDIContainer.swift in Sources */,
 				224BEF152C4EB3AF00863970 /* GiftCardImagesResponseDTO.swift in Sources */,
@@ -3188,7 +3192,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3205,7 +3209,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.9.1;
+				MARKETING_VERSION = 1.9.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.boolti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3230,7 +3234,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3247,7 +3251,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.9.1;
+				MARKETING_VERSION = 1.9.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.boolti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
