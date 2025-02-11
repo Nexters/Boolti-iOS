@@ -155,6 +155,7 @@ extension BooltiNoticePopupViewController {
         self.labelStackView.addArrangedSubviews([self.titleLabel,
                                                  self.emphasisDescriptionBackgroundView,
                                                  self.descriptionLabel])
+        self.labelStackView.setCustomSpacing(16, after: self.emphasisDescriptionBackgroundView)
 
         self.titleLabel.snp.makeConstraints { make in
             make.width.equalTo(self.view.frame.width - 104)
