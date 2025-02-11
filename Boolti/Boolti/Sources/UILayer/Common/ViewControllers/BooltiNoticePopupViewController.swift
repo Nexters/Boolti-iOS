@@ -175,8 +175,7 @@ extension BooltiNoticePopupViewController {
     }
     
     private func configureUI() {
-        self.view.backgroundColor = .clear
-
+        self.view.backgroundColor = .black100.withAlphaComponent(0.65)
         self.contentView.addSubviews([self.closeButton,
                                       self.labelStackView,
                                       self.confirmButton])
