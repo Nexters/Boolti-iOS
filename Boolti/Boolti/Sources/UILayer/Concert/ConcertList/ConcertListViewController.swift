@@ -72,6 +72,7 @@ final class ConcertListViewController: BooltiViewController {
         self.configureToastView(isButtonExisted: true)
         self.bindInputs()
         self.bindOutputs()
+        self.viewModel.checkAdminPopup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,6 +86,7 @@ final class ConcertListViewController: BooltiViewController {
         self.configureDynamicLinkDestination()
         self.mainCollectionView.reloadSections([0], animationStyle: .automatic)
     }
+
 }
 
 // MARK: - Methods
@@ -148,6 +150,14 @@ extension ConcertListViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.showEventPopup
+            .subscribe(with: self) { owner, popupData in
+                let eventPopupViewController = BooltiEventPopupViewController(with: popupData)
+                eventPopupViewController.modalPresentationStyle = .overFullScreen
+                owner.present(eventPopupViewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func configureCollectionView() {
@@ -175,13 +185,7 @@ extension ConcertListViewController: UICollectionViewDelegate {
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.topConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
         case .banner:
-        #if DEBUG
-        let urlString = "https://dotori.boolti.in/login"
-        #else
-        let urlString = "https://boolti.in/login"
-        #endif
-
-        guard let url = URL(string: urlString) else { return }
+            guard let url = URL(string: Environment.LOGIN_URL) else { return }
         UIApplication.shared.open(url, options: [:])
 
         case .bottomConcerts:
