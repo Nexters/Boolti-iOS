@@ -255,7 +255,7 @@ extension GiftingDetailViewController {
         self.agreeView.didCollectionOpenButtonTap()
             .emit(with: self) { owner, _ in
                 owner.presentAgreementViewController(
-                    urlString: "https://boolti.in/site-policy/privacy",
+                    urlString: AppInfo.sitePolicyPrivacyLink,
                     detentHeight: 628
                 )
             }
@@ -264,7 +264,7 @@ extension GiftingDetailViewController {
         self.agreeView.didOfferOpenButtonTap()
             .emit(with: self) { owner, _ in
                 owner.presentAgreementViewController(
-                    urlString: "https://boolti.in/site-policy/consent",
+                    urlString: AppInfo.sitePolicyConsentLink,
                     detentHeight: 512
                 )
             }
