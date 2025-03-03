@@ -65,6 +65,7 @@
 		22739A462C510585000A357B /* RegisterGiftRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A452C510585000A357B /* RegisterGiftRequestDTO.swift */; };
 		22739A482C511058000A357B /* GiftInfoRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A472C511058000A357B /* GiftInfoRequestDTO.swift */; };
 		22739A4A2C5110FB000A357B /* GiftInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22739A492C5110FB000A357B /* GiftInfoResponseDTO.swift */; };
+		229730282D75B81500118C35 /* ConcertShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229730272D75B80D00118C35 /* ConcertShareViewController.swift */; };
 		22B67B362CE0618F004F6D4A /* LinkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B352CE06187004F6D4A /* LinkListViewController.swift */; };
 		22B67B382CE06495004F6D4A /* LinkListDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B372CE0648A004F6D4A /* LinkListDIContainer.swift */; };
 		22B67B3A2CE065E1004F6D4A /* LinkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B67B392CE065DA004F6D4A /* LinkListViewModel.swift */; };
@@ -501,6 +502,7 @@
 		22739A452C510585000A357B /* RegisterGiftRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGiftRequestDTO.swift; sourceTree = "<group>"; };
 		22739A472C511058000A357B /* GiftInfoRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftInfoRequestDTO.swift; sourceTree = "<group>"; };
 		22739A492C5110FB000A357B /* GiftInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftInfoResponseDTO.swift; sourceTree = "<group>"; };
+		229730272D75B80D00118C35 /* ConcertShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertShareViewController.swift; sourceTree = "<group>"; };
 		22B67B352CE06187004F6D4A /* LinkListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListViewController.swift; sourceTree = "<group>"; };
 		22B67B372CE0648A004F6D4A /* LinkListDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListDIContainer.swift; sourceTree = "<group>"; };
 		22B67B392CE065DA004F6D4A /* LinkListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkListViewModel.swift; sourceTree = "<group>"; };
@@ -1075,6 +1077,14 @@
 				22739A412C4F8D92000A357B /* SettingContentView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		229730262D75B7F800118C35 /* ConcertShare */ = {
+			isa = PBXGroup;
+			children = (
+				229730272D75B80D00118C35 /* ConcertShareViewController.swift */,
+			);
+			path = ConcertShare;
 			sourceTree = "<group>";
 		};
 		22A0D0FF2C53DD3900E8157A /* Ticketing */ = {
@@ -1718,6 +1728,7 @@
 			children = (
 				84E512482B6E702E002658D1 /* ConcertList */,
 				84E512492B6E71B6002658D1 /* ConcertDetail */,
+				229730262D75B7F800118C35 /* ConcertShare */,
 				845F25412B89F9CC00F6C328 /* PosterExpand */,
 				84DF59DF2B726C34000816DA /* ConcertContentExpand */,
 				843918F82B7A827F00CC62AA /* Report */,
@@ -2685,6 +2696,7 @@
 				87D2FABA2B6EB5C50027FBE1 /* TicketNoticeView.swift in Sources */,
 				84D1C38B2B7A448100527998 /* InvitationTicketingRequestDTO.swift in Sources */,
 				87101EF72B5DF8FE004BD418 /* RootDestination.swift in Sources */,
+				229730282D75B81500118C35 /* ConcertShareViewController.swift in Sources */,
 				84781CC92B5BFA1C00D37921 /* TicketListViewModel.swift in Sources */,
 				22DFC54E2C79B1E000C8433D /* ProfileViewController.swift in Sources */,
 				87F63D6F2C3F8298001D7A56 /* GiftReservationAPI.swift in Sources */,

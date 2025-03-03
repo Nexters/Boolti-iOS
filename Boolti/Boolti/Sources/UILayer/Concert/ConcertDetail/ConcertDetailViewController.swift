@@ -391,15 +391,9 @@ extension ConcertDetailViewController {
         self.navigationBar.didShareButtonTap()
             .emit(with: self) { owner, _ in
                 guard let concertDetail = owner.viewModel.output.concertDetail.value else { return }
-
-                let concertInfo = concertDetail.convertToShareConcertString()
-
-                let activityViewController = UIActivityViewController(
-                    activityItems: [concertInfo],
-                    applicationActivities: nil
-                )
-                activityViewController.popoverPresentationController?.sourceView = owner.view
-                owner.present(activityViewController, animated: true, completion: nil)
+                
+                let viewController = ConcertShareViewController(concertData: concertDetail)
+                self.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
 
