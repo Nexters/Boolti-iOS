@@ -34,14 +34,6 @@ struct ConcertDetailEntity {
     }
     
     func convertToShareConcertString() -> String {
-        let urlPrefix: String
-        #if DEBUG
-        urlPrefix = "https://dev.preview.boolti.in/show/"
-        #else
-        urlPrefix = "https://preview.boolti.in/show/"
-        #endif
-
-        // 포매팅된 문자열을 생성합니다.
         let formattedString = """
         공연 정보를 공유드려요!
 
@@ -50,7 +42,7 @@ struct ConcertDetailEntity {
         - 장소 : \(placeName) / \(streetAddress), \(detailAddress)
 
         공연 상세 정보 ▼ 
-        \(urlPrefix)\(id)
+        \(Environment.PREVIEW_URL_PREFIX)\(id)
         """
 
         return formattedString
