@@ -63,26 +63,11 @@ final class ConcertDetailViewController: BooltiViewController {
         stackView.addArrangedSubviews([
             self.concertPosterView,
             self.segmentedControlContainerView,
-            self.concertDetailStackView,
+            // TODO: - insert web view
             self.castTeamListCollectionView
         ])
 
         stackView.setCustomSpacing(20, after: self.concertPosterView)
-        return stackView
-    }()
-
-    private lazy var concertDetailStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.isHidden = false
-
-        stackView.addArrangedSubviews([
-            self.ticketSalesTimeView,
-            self.datetimeInfoView,
-            self.placeInfoView,
-            self.contentInfoView,
-            self.organizerInfoView
-        ])
         return stackView
     }()
 
@@ -111,7 +96,6 @@ final class ConcertDetailViewController: BooltiViewController {
     }()
 
     private let concertPosterView = ConcertPosterView()
-    private let ticketSalesTimeView = TicketSalesTimeView()
     private let remainingSalesTimeLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .grey05
@@ -122,15 +106,7 @@ final class ConcertDetailViewController: BooltiViewController {
         return label
     }()
 
-    private let datetimeInfoView = DatetimeInfoView()
-
     private let segmentedControlContainerView = SegmentedControlContainerView(items: ["공연 정보", "출연진"])
-
-    private let placeInfoView = PlaceInfoView()
-    
-    private let contentInfoView = ContentInfoView()
-    
-    private let organizerInfoView = OrganizerInfoView(horizontalInset: 20, verticalInset: 24, height: 134)
 
     private let emptyCastView = EmptyCastTeamListView()
 
@@ -253,21 +229,8 @@ extension ConcertDetailViewController {
             .take(1)
             .bind(with: self) { owner, entity in
                 guard let entity = entity else { return }
-                owner.concertPosterView.setData(images: entity.posters, title: entity.name)
-                owner.placeInfoView.setData(
-                    name: entity.placeName,
-                    streetAddress: entity.streetAddress,
-                    detailAddress: entity.detailAddress
-                )
-                owner.ticketSalesTimeView.setData(
-                    startDate: entity.salesStartTime,
-                    endDate: entity.salesEndTime,
-                    soldCount: entity.salesTicketCount,
-                    ticketingState: entity.ticketingState
-                )
-                owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
-                owner.contentInfoView.setData(content: entity.notice)
-                owner.organizerInfoView.setData(hostName: entity.hostName)
+                owner.concertPosterView.setData(images: entity.posters, title: entity.name,
+                                                date: entity.date, runningTime: entity.runningTime)
                 owner.configureRemainingSaleTimerBanner(salesEndTime: entity.salesEndTime, ticketingStatus: entity.ticketingState)
             }
             .disposed(by: self.disposeBag)
@@ -286,7 +249,6 @@ extension ConcertDetailViewController {
                 case .endConcert, .endSale:
                     owner.buttonStackView.isHidden = true
                     owner.buttonBackgroundView.isHidden = true
-                    owner.organizerInfoView.configureHeightForEndSaleCase(with: 118)
                 default:
                     owner.ticketingButton.setTitle(state.title, for: .normal)
                 }
@@ -331,21 +293,8 @@ extension ConcertDetailViewController {
 
 
     private func bindUIComponents() {
-        self.bindPlaceInfoView()
         self.bindPosterView()
-        self.bindContentInfoView()
         self.bindNavigationBar()
-        self.bindOrganizerInfoView()
-    }
-
-
-    private func bindPlaceInfoView() {
-        self.placeInfoView.didAddressCopyButtonTap()
-            .emit(with: self) { owner, _ in
-                UIPasteboard.general.string = owner.viewModel.output.concertDetail.value?.streetAddress
-                owner.showToast(message: "공연장 주소가 복사되었어요")
-            }
-            .disposed(by: self.disposeBag)
     }
 
     private func bindPosterView() {
@@ -355,12 +304,6 @@ extension ConcertDetailViewController {
             .drive(with: self) { owner, _ in
                 owner.viewModel.input.didPosterViewTap.accept(())
             }
-            .disposed(by: self.disposeBag)
-    }
-
-    private func bindContentInfoView() {
-        self.contentInfoView.didAddressExpandButtonTap()
-            .emit(to: self.viewModel.input.didExpandButtonTap)
             .disposed(by: self.disposeBag)
     }
 
@@ -411,22 +354,6 @@ extension ConcertDetailViewController {
                 alertController.addAction(cancleAction)
 
                 owner.present(alertController, animated: true)
-            }
-            .disposed(by: self.disposeBag)
-    }
-
-    private func bindOrganizerInfoView() {
-        self.organizerInfoView.didCallButtonTap()
-            .emit(with: self) { owner, _ in
-                guard let phoneNumber = owner.viewModel.output.concertDetail.value?.hostPhoneNumber else { return }
-                owner.present(owner.contactViewControllerFactory(.call, phoneNumber), animated: true)
-            }
-            .disposed(by: self.disposeBag)
-
-        self.organizerInfoView.didMessageButtonTap()
-            .emit(with: self) { owner, _ in
-                guard let phoneNumber = owner.viewModel.output.concertDetail.value?.hostPhoneNumber else { return }
-                owner.present(owner.contactViewControllerFactory(.message, phoneNumber), animated: true)
             }
             .disposed(by: self.disposeBag)
     }
@@ -606,7 +533,7 @@ extension ConcertDetailViewController {
     }
 
     private func configureCastView() {
-        self.concertDetailStackView.isHidden = true
+        // TODO: - web view isHidden true
         guard let listEntities = self.viewModel.output.teamListEntities.value else { return }
         if listEntities.isEmpty {
             self.emptyCastView.isHidden = false
@@ -620,7 +547,7 @@ extension ConcertDetailViewController {
     private func configureConcertDetailView() {
         self.emptyCastView.isHidden = true
         self.castTeamListCollectionView.isHidden = true
-        self.concertDetailStackView.isHidden = false
+        // TODO: - web view isHidden false
     }
 }
 

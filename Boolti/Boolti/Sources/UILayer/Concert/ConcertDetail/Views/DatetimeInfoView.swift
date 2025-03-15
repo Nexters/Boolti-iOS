@@ -11,13 +11,10 @@ final class DatetimeInfoView: UIView {
     
     // MARK: UI Component
     
-    private let titleLabel: BooltiUILabel = {
-        let label = BooltiUILabel()
-        label.textColor = .grey10
-        label.font = .subhead2
-        label.text = "일시"
-        
-        return label
+    private let clockImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .clock
+        return imageView
     }()
     
     private let datetimeLabel: BooltiUILabel = {
@@ -30,7 +27,7 @@ final class DatetimeInfoView: UIView {
     }()
 
     private let runningTimeLabel: BooltiPaddingLabel = {
-        let label = BooltiPaddingLabel(padding: .init(top: 5, left: 12, bottom: 5, right: 12))
+        let label = BooltiPaddingLabel(padding: .init(top: 3, left: 8, bottom: 3, right: 12))
         label.font = .caption
         label.layer.cornerRadius = 12
         label.clipsToBounds = true
@@ -38,13 +35,6 @@ final class DatetimeInfoView: UIView {
         label.layer.borderWidth = 1
         label.layer.borderColor = UIColor.grey50.cgColor
         return label
-    }()
-
-    private let underLineView: UIView = {
-        let view: UIView = UIView()
-        view.backgroundColor = .grey85
-        
-        return view
     }()
     
     // MARK: Init
@@ -76,30 +66,26 @@ extension DatetimeInfoView {
 extension DatetimeInfoView {
     
     private func configureUI() {
-        self.addSubviews([self.titleLabel, self.datetimeLabel, self.runningTimeLabel, self.underLineView])
+        self.addSubviews([self.clockImageView,
+                          self.datetimeLabel,
+                          self.runningTimeLabel])
     }
     
     private func configureConstraints() {
-        self.titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(24)
-            make.horizontalEdges.equalToSuperview().inset(20)
+        self.clockImageView.snp.makeConstraints { make in
+            make.centerY.equalTo(self.datetimeLabel)
+            make.size.equalTo(20)
+            make.leading.equalToSuperview()
         }
         
         self.datetimeLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(12)
-            make.left.equalTo(self.titleLabel.snp.left)
+            make.verticalEdges.equalToSuperview()
+            make.leading.equalTo(self.clockImageView.snp.trailing).offset(6)
         }
 
         self.runningTimeLabel.snp.makeConstraints { make in
             make.left.equalTo(self.datetimeLabel.snp.right).offset(6)
-            make.centerY.equalTo(self.datetimeLabel.snp.centerY)
-        }
-
-        self.underLineView.snp.makeConstraints { make in
-            make.height.equalTo(1)
-            make.top.equalTo(self.runningTimeLabel.snp.bottom).offset(24)
-            make.bottom.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.centerY.equalTo(self.clockImageView.snp.centerY)
         }
     }
 }
