@@ -45,6 +45,8 @@ final class ConcertPosterView: UIView {
         return label
     }()
     
+    private let datetimePlaceInfoView = DatetimePlaceInfoView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -60,12 +62,15 @@ final class ConcertPosterView: UIView {
 // MARK: - Methods
 
 extension ConcertPosterView {
-    
-    func setData(images: [ConcertDetailEntity.Poster], title: String) {
+
+    func setData(images: [ConcertDetailEntity.Poster], title: String,
+                 date: Date, runningTime: Int, placeName: String) {
         self.addContentScrollView(images: images)
         self.titleLabel.text = title
         
         self.pageControl.isHidden = images.count <= 1
+        
+        self.datetimePlaceInfoView.setData(date: date, runningTime: runningTime, placeName: placeName)
     }
     
     private func addContentScrollView(images: [ConcertDetailEntity.Poster]) {
@@ -119,7 +124,11 @@ extension ConcertPosterView {
     }
 
     private func configureUI() {
-        self.addSubviews([self.scrollView, self.pageControl, self.titleLabel])
+        self.addSubviews([self.scrollView,
+                          self.pageControl,
+                          self.titleLabel,
+                          self.datetimePlaceInfoView
+                         ])
         
         self.backgroundColor = .grey90
         self.layer.cornerRadius = 20
@@ -146,7 +155,12 @@ extension ConcertPosterView {
         self.titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.scrollView.snp.bottom).offset(24)
             make.horizontalEdges.equalTo(self.scrollView)
-            make.bottom.equalToSuperview().inset(30)
+        }
+        
+        self.datetimePlaceInfoView.snp.makeConstraints { make in
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(12)
+            make.horizontalEdges.equalTo(self.scrollView)
+            make.bottom.equalToSuperview().inset(24)
         }
     }
 }
