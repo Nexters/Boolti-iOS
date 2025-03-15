@@ -230,7 +230,7 @@ extension ConcertDetailViewController {
             .bind(with: self) { owner, entity in
                 guard let entity = entity else { return }
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name,
-                                                date: entity.date, runningTime: entity.runningTime)
+                                                date: entity.date, runningTime: entity.runningTime, placeName: entity.placeName)
                 owner.configureRemainingSaleTimerBanner(salesEndTime: entity.salesEndTime, ticketingStatus: entity.ticketingState)
             }
             .disposed(by: self.disposeBag)

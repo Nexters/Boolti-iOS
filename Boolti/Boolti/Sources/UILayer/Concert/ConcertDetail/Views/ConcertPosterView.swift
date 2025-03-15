@@ -45,7 +45,7 @@ final class ConcertPosterView: UIView {
         return label
     }()
     
-    private let datetimeInfoView = DatetimeInfoView()
+    private let datetimePlaceInfoView = DatetimePlaceInfoView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -64,13 +64,13 @@ final class ConcertPosterView: UIView {
 extension ConcertPosterView {
 
     func setData(images: [ConcertDetailEntity.Poster], title: String,
-                 date: Date, runningTime: Int) {
+                 date: Date, runningTime: Int, placeName: String) {
         self.addContentScrollView(images: images)
         self.titleLabel.text = title
         
         self.pageControl.isHidden = images.count <= 1
         
-        self.datetimeInfoView.setData(date: date, runningTime: runningTime)
+        self.datetimePlaceInfoView.setData(date: date, runningTime: runningTime, placeName: placeName)
     }
     
     private func addContentScrollView(images: [ConcertDetailEntity.Poster]) {
@@ -127,7 +127,7 @@ extension ConcertPosterView {
         self.addSubviews([self.scrollView,
                           self.pageControl,
                           self.titleLabel,
-                          self.datetimeInfoView
+                          self.datetimePlaceInfoView
                          ])
         
         self.backgroundColor = .grey90
@@ -157,7 +157,7 @@ extension ConcertPosterView {
             make.horizontalEdges.equalTo(self.scrollView)
         }
         
-        self.datetimeInfoView.snp.makeConstraints { make in
+        self.datetimePlaceInfoView.snp.makeConstraints { make in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(12)
             make.horizontalEdges.equalTo(self.scrollView)
             make.bottom.equalToSuperview().inset(24)
