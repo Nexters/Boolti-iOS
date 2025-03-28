@@ -2,10 +2,11 @@
 //  ConcertDetailViewController.swift
 //  Boolti
 //
-//  Created by Juhyeon Byun on 2/3/24.
+//  Created by Juhyeon Byun on 2/3/21.
 //
 
 import UIKit
+import WebKit
 
 import RxSwift
 import RxCocoa
@@ -13,7 +14,7 @@ import RxGesture
 import Kingfisher
 import FirebaseDynamicLinks
 
-final class ConcertDetailViewController: BooltiViewController {
+final class ConcertDetailViewController: BooltiViewController, WKUIDelegate, WKNavigationDelegate {
     
     // MARK: Properties
 
@@ -55,6 +56,19 @@ final class ConcertDetailViewController: BooltiViewController {
         scrollView.addSubviews([self.stackView])
         return scrollView
     }()
+    
+    lazy var webview: WKWebView = {
+        let controller = WKUserContentController()
+        let config = WKWebViewConfiguration()
+        config.userContentController = controller
+        let tempWebView = WKWebView(frame: .zero, configuration: config)
+        tempWebView.uiDelegate = self
+        tempWebView.navigationDelegate = self
+        tempWebView.isOpaque = false
+        tempWebView.backgroundColor = .clear
+        tempWebView.scrollView.contentInset = .init(top: 0, left: 20, bottom: 16, right: 20)
+        return tempWebView
+    }()
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -63,7 +77,7 @@ final class ConcertDetailViewController: BooltiViewController {
         stackView.addArrangedSubviews([
             self.concertPosterView,
             self.segmentedControlContainerView,
-            // TODO: - insert web view
+            self.webview,
             self.castTeamListCollectionView
         ])
 
@@ -183,6 +197,8 @@ final class ConcertDetailViewController: BooltiViewController {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
         self.dimmedBackgroundView.isHidden = true
+        let request = URLRequest(url: URL(string: "https://dev.preview.boolti.in/show/159/notice")!, cachePolicy: .returnCacheDataElseLoad)
+        self.webview.load(request)
         self.viewModel.fetchConcertDetail()
         self.viewModel.fetchCastTeamList()
     }
@@ -190,6 +206,21 @@ final class ConcertDetailViewController: BooltiViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.updateCollectionViewHeight()
+    }
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { // 0.1초 지연
+            self.webview.evaluateJavaScript("document.readyState") { (complete, error) in
+                if complete != nil {
+                    self.webview.evaluateJavaScript("document.body.scrollHeight") { (height, error) in
+                        self.webview.snp.updateConstraints { make in
+                            guard let height = height as? Float else { return }
+                            make.height.equalTo(height + 16)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -446,6 +477,12 @@ extension ConcertDetailViewController {
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
+        
+        self.webview.snp.makeConstraints { make in
+            make.width.equalTo(self.view.bounds.width - 40)
+            // 초기 설정
+            make.height.equalTo(500)
+        }
 
         self.remainingSalesTimeLabel.snp.makeConstraints { make in
             make.height.equalTo(40)
@@ -533,7 +570,7 @@ extension ConcertDetailViewController {
     }
 
     private func configureCastView() {
-        // TODO: - web view isHidden true
+        self.webview.isHidden = true
         guard let listEntities = self.viewModel.output.teamListEntities.value else { return }
         if listEntities.isEmpty {
             self.emptyCastView.isHidden = false
@@ -547,7 +584,7 @@ extension ConcertDetailViewController {
     private func configureConcertDetailView() {
         self.emptyCastView.isHidden = true
         self.castTeamListCollectionView.isHidden = true
-        // TODO: - web view isHidden false
+        self.webview.isHidden = false
     }
 }
 
