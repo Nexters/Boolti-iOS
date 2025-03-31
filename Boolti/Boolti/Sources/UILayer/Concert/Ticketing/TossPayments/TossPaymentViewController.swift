@@ -136,7 +136,9 @@ extension TossPaymentViewController {
                 owner.widget.requestPayment(
                     info: DefaultWidgetPaymentInfo(
                         orderId: orderId,
-                        orderName: "\(selectedTicket.ticketName) / \(selectedTicket.count)매"))
+                        orderName: "\(selectedTicket.concertId)/\(selectedTicket.ticketName)/\(selectedTicket.count)매/iOS"
+                    )
+                )
             }
             .disposed(by: self.disposeBag)
     }

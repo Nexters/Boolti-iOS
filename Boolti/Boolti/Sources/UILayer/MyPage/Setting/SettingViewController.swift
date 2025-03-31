@@ -31,6 +31,22 @@ final class SettingViewController: BooltiViewController {
         return label
     }()
     
+    private let userCodeCopyButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
+        config.title = "코드 복사"
+        config.attributedTitle?.font = .pretendardR(12)
+        config.background.backgroundColor = .grey80
+        config.baseForegroundColor = .grey05
+        config.background.cornerRadius = 4
+        config.imagePadding = 6
+        
+        let button = UIButton(configuration: config)
+        button.setImage(.copy, for: .normal)
+
+        return button
+    }()
+    
     private let oauthProviderContentView = SettingContentView(title: "연결 서비스")
     private let oauthProviderImageView: UIImageView = {
         let imageView = UIImageView()
@@ -116,12 +132,11 @@ extension SettingViewController {
             }
             .disposed(by: self.disposeBag)
         
-        self.userCodeLabel.rx.tapGesture()
-            .when(.recognized)
-            .asDriver(onErrorDriveWith: .never())
+        self.userCodeCopyButton.rx.tap
+            .asDriver()
             .drive(with: self) { owner, _ in
-                UIPasteboard.general.string = "#\(UserDefaults.userCode)"
-                owner.showToast(message: "식별 코드가 복사되었어요")
+                UIPasteboard.general.string = UserDefaults.userCode
+                owner.showToast(message: "식별 코드를 복사했어요")
             }
             .disposed(by: self.disposeBag)
         
@@ -169,7 +184,8 @@ extension SettingViewController {
                                self.logoutStackView,
                                self.resignNavigationButton])
         
-        self.userCodeContentView.addSubview(self.userCodeLabel)
+        self.userCodeContentView.addSubviews([self.userCodeLabel,
+                                              self.userCodeCopyButton])
         self.oauthProviderContentView.addSubview(self.oauthProviderImageView)
         
         self.configureConstraints()
@@ -189,6 +205,11 @@ extension SettingViewController {
             make.top.equalTo(self.userCodeContentView.titleLabel.snp.bottom).offset(16)
             make.horizontalEdges.equalTo(self.userCodeContentView.titleLabel)
             make.bottom.equalToSuperview().inset(16)
+        }
+        
+        self.userCodeCopyButton.snp.makeConstraints { make in
+            make.centerY.equalTo(self.userCodeLabel)
+            make.trailing.equalToSuperview().inset(20)
         }
         
         self.oauthProviderContentView.snp.makeConstraints { make in

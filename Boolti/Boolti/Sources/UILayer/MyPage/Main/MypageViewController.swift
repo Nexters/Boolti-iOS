@@ -42,6 +42,7 @@ final class MyPageViewController: BooltiViewController {
     }()
     
     private let registerConcertView = MypageContentView(icon: .addConcert, title: "공연 등록")
+    private let manageConcertView = MypageContentView(icon: .manageConcert, title: "공연 관리")
     private let qrScannerListNavigationView = MypageContentView(icon: .qrScanner, title: "입장 확인")
     
     private let logoImageView: UIImageView = {
@@ -108,6 +109,7 @@ final class MyPageViewController: BooltiViewController {
             self.separateLineView,
             self.subTitleLabel,
             self.registerConcertView,
+            self.manageConcertView,
             self.qrScannerListNavigationView,
             self.logoImageView,
             self.versionLabel
@@ -142,10 +144,15 @@ final class MyPageViewController: BooltiViewController {
             make.horizontalEdges.height.equalTo(self.ticketingReservationsNavigationView)
             make.top.equalTo(self.subTitleLabel.snp.bottom).offset(8)
         }
+        
+        self.manageConcertView.snp.makeConstraints { make in
+            make.horizontalEdges.height.equalTo(self.ticketingReservationsNavigationView)
+            make.top.equalTo(self.registerConcertView.snp.bottom)
+        }
 
         self.qrScannerListNavigationView.snp.makeConstraints { make in
             make.horizontalEdges.height.equalTo(self.ticketingReservationsNavigationView)
-            make.top.equalTo(self.registerConcertView.snp.bottom)
+            make.top.equalTo(self.manageConcertView.snp.bottom)
         }
         
         self.logoImageView.snp.makeConstraints { make in
@@ -196,7 +203,16 @@ final class MyPageViewController: BooltiViewController {
             .when(.recognized)
             .asDriver(onErrorDriveWith: .never())
             .drive(with: self) { owner, _ in
-                guard let url = URL(string: "https://boolti.in/login") else { return }
+                guard let url = URL(string: Environment.LOGIN_URL) else { return }
+                UIApplication.shared.open(url, options: [:])
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.manageConcertView.rx.tapGesture()
+            .when(.recognized)
+            .asDriver(onErrorDriveWith: .never())
+            .drive(with: self) { owner, _ in
+                guard let url = URL(string: Environment.MANAGE_CONCERT_URL) else { return }
                 UIApplication.shared.open(url, options: [:])
             }
             .disposed(by: self.disposeBag)

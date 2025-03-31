@@ -32,7 +32,7 @@ final class ConcertDetailViewController: BooltiViewController {
     private let reportViewControllerFactory: () -> ReportViewController
     private let ticketSelectionViewControllerFactory: (ConcertId, TicketingType) -> TicketSelectionViewController
     private let contactViewControllerFactory: (ContactType, PhoneNumber) -> ContactViewController
-    private let profileViewControllerFactory: (UserCode) -> ProfileViewController
+    private let profileViewControllerFactory: (UserCode?) -> ProfileViewController
 
     // MARK: UI Component
     
@@ -62,28 +62,12 @@ final class ConcertDetailViewController: BooltiViewController {
 
         stackView.addArrangedSubviews([
             self.concertPosterView,
-            self.ticketingPeriodView,
             self.segmentedControlContainerView,
-            self.concertDetailStackView,
+            // TODO: - insert web view
             self.castTeamListCollectionView
         ])
 
-        stackView.setCustomSpacing(40, after: self.concertPosterView)
-        stackView.setCustomSpacing(40, after: self.ticketingPeriodView)
-        return stackView
-    }()
-
-    private lazy var concertDetailStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.isHidden = false
-
-        stackView.addArrangedSubviews([
-            self.datetimeInfoView,
-            self.placeInfoView,
-            self.contentInfoView,
-            self.organizerInfoView
-        ])
+        stackView.setCustomSpacing(20, after: self.concertPosterView)
         return stackView
     }()
 
@@ -112,18 +96,17 @@ final class ConcertDetailViewController: BooltiViewController {
     }()
 
     private let concertPosterView = ConcertPosterView()
-    
-    private let ticketingPeriodView = TicketingPeriodView()
-    
-    private let datetimeInfoView = DatetimeInfoView()
+    private let remainingSalesTimeLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .grey05
+        label.font = .subhead1
+        label.textColor = .grey90
+        label.textAlignment = .center
+
+        return label
+    }()
 
     private let segmentedControlContainerView = SegmentedControlContainerView(items: ["공연 정보", "출연진"])
-
-    private let placeInfoView = PlaceInfoView()
-    
-    private let contentInfoView = ContentInfoView()
-    
-    private let organizerInfoView = OrganizerInfoView(horizontalInset: 20, verticalInset: 32, height: 170)
 
     private let emptyCastView = EmptyCastTeamListView()
 
@@ -145,8 +128,8 @@ final class ConcertDetailViewController: BooltiViewController {
         return button
     }()
     
-    private let ticketingButton = BooltiButton(title: "예매하기")
-    
+    private let ticketingButton = BooltiButton(title: "-")
+
     private lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -165,7 +148,7 @@ final class ConcertDetailViewController: BooltiViewController {
          reportViewControllerFactory: @escaping () -> ReportViewController,
          ticketSelectionViewControllerFactory: @escaping (ConcertId, TicketingType) -> TicketSelectionViewController,
          contactViewControllerFactory: @escaping (ContactType, PhoneNumber) -> ContactViewController,
-         profileViewControllerFactory: @escaping (UserCode) -> ProfileViewController
+         profileViewControllerFactory: @escaping (UserCode?) -> ProfileViewController
     ) {
         self.viewModel = viewModel
         self.loginViewControllerFactory = loginViewControllerFactory
@@ -213,7 +196,7 @@ final class ConcertDetailViewController: BooltiViewController {
 // MARK: - Methods
 
 extension ConcertDetailViewController {
-    
+
     private func bindInputs() {
         self.ticketingButton.rx.tap
             .asDriver()
@@ -221,7 +204,7 @@ extension ConcertDetailViewController {
                 owner.viewModel.input.didTicketingButtonTap.accept(.ticketing)
             }
             .disposed(by: self.disposeBag)
-        
+
         self.giftingButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -229,33 +212,49 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
+
+    private func configureRemainingSaleTimerBanner(salesEndTime: Date, ticketingStatus: ConcertTicketingState) {
+        switch ticketingStatus {
+        case .onSale(let isLastDate) where isLastDate:
+            self.bindRemaingSaleTimerBanner(salesEndTime: salesEndTime)
+        default:
+            self.remainingSalesTimeLabel.isHidden = true
+            self.updateConstraintsForNonBannerCase()
+        }
+    }
+
     private func bindOutputs() {
         self.viewModel.output.concertDetail
             .skip(1)
             .take(1)
             .bind(with: self) { owner, entity in
                 guard let entity = entity else { return }
-                
-                owner.concertPosterView.setData(images: entity.posters, title: entity.name)
-                owner.ticketingPeriodView.setData(startDate: entity.salesStartTime, endDate: entity.salesEndTime)
-                owner.placeInfoView.setData(name: entity.placeName, streetAddress: entity.streetAddress, detailAddress: entity.detailAddress)
-                owner.datetimeInfoView.setData(date: entity.date, runningTime: entity.runningTime)
-                owner.contentInfoView.setData(content: entity.notice)
-                owner.organizerInfoView.setData(hostName: entity.hostName)
+                owner.concertPosterView.setData(images: entity.posters, title: entity.name,
+                                                date: entity.date, runningTime: entity.runningTime, placeName: entity.placeName)
+                owner.configureRemainingSaleTimerBanner(salesEndTime: entity.salesEndTime, ticketingStatus: entity.ticketingState)
             }
             .disposed(by: self.disposeBag)
 
         self.viewModel.output.buttonState
+            .skip(1)
             .bind(with: self) { owner, state in
                 owner.giftingButton.isHidden = !state.isEnabled
-                
+
                 owner.ticketingButton.isEnabled = state.isEnabled
-                owner.ticketingButton.setTitle(state.title, for: .normal)
                 owner.ticketingButton.setTitleColor(state.titleColor, for: .normal)
+
+                switch state {
+                case .beforeSale(let startDate):
+                    owner.bindBeforeSaleTimerButton(startDate: startDate)
+                case .endConcert, .endSale:
+                    owner.buttonStackView.isHidden = true
+                    owner.buttonBackgroundView.isHidden = true
+                default:
+                    owner.ticketingButton.setTitle(state.title, for: .normal)
+                }
             }
             .disposed(by: self.disposeBag)
-        
+
         self.viewModel.output.navigate
             .asDriver(onErrorJustReturn: .login)
             .drive(with: self) { owner, destination in
@@ -276,7 +275,7 @@ extension ConcertDetailViewController {
                     viewController.onDismiss = {
                         owner.dimmedBackgroundView.isHidden = true
                     }
-                    
+
                     owner.dimmedBackgroundView.isHidden = false
                     owner.present(viewController, animated: true)
                 }
@@ -286,29 +285,18 @@ extension ConcertDetailViewController {
         self.viewModel.output.teamListEntities
             .asDriver()
             .drive(with: self) { owner, entity in
-                    owner.configureEmptyCastTeamListView()
-                    owner.configureCollectionView()
+                owner.configureEmptyCastTeamListView()
+                owner.configureCollectionView()
             }
             .disposed(by: self.disposeBag)
     }
-    
+
+
     private func bindUIComponents() {
-        self.bindPlaceInfoView()
         self.bindPosterView()
-        self.bindContentInfoView()
         self.bindNavigationBar()
-        self.bindOrganizerInfoView()
     }
-    
-    private func bindPlaceInfoView() {
-        self.placeInfoView.didAddressCopyButtonTap()
-            .emit(with: self) { owner, _ in
-                UIPasteboard.general.string = owner.viewModel.output.concertDetail.value?.streetAddress
-                owner.showToast(message: "공연장 주소가 복사되었어요")
-            }
-            .disposed(by: self.disposeBag)
-    }
-    
+
     private func bindPosterView() {
         self.concertPosterView.rx.tapGesture()
             .when(.recognized)
@@ -318,20 +306,14 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
-    private func bindContentInfoView() {
-        self.contentInfoView.didAddressExpandButtonTap()
-            .emit(to: self.viewModel.input.didExpandButtonTap)
-            .disposed(by: self.disposeBag)
-    }
-    
+
     private func bindNavigationBar() {
         self.navigationBar.didBackButtonTap()
             .emit(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)
-        
+
         self.navigationBar.didHomeButtonTap()
             .emit(with: self) { owner, _ in
                 if let tabBarController = owner.tabBarController,
@@ -348,33 +330,25 @@ extension ConcertDetailViewController {
                 }
             }
             .disposed(by: self.disposeBag)
-        
+
         self.navigationBar.didShareButtonTap()
             .emit(with: self) { owner, _ in
-                guard let posterURL = owner.viewModel.output.concertDetail.value?.posters.first?.path
-                else { return }
-                guard let concertID = owner.viewModel.output.concertDetail.value?.id else { return }
-
-                let image = KFImage(URL(string: posterURL))
-
-                guard let link = URL(string: "https://preview.boolti.in/show/\(concertID)") else { return }
-                let activityViewController = UIActivityViewController(
-                    activityItems: [link, image],
-                    applicationActivities: nil
-                )
-                activityViewController.popoverPresentationController?.sourceView = owner.view
-                owner.present(activityViewController, animated: true, completion: nil)
+                guard let concertDetail = owner.viewModel.output.concertDetail.value else { return }
+                
+                let viewController = ConcertShareViewController(concertData: concertDetail)
+                self.present(viewController, animated: true)
             }
             .disposed(by: self.disposeBag)
+
         self.navigationBar.didMoreButtonTap()
             .emit(with: self) { owner, _ in
                 let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                
+
                 let reportAction = UIAlertAction(title: "신고하기", style: .default) { _ in
                     let viewController = owner.reportViewControllerFactory()
                     owner.navigationController?.pushViewController(viewController, animated: true)
-                 }
-                 alertController.addAction(reportAction)
+                }
+                alertController.addAction(reportAction)
 
                 let cancleAction = UIAlertAction(title: "취소하기", style: .cancel)
                 alertController.addAction(cancleAction)
@@ -383,20 +357,59 @@ extension ConcertDetailViewController {
             }
             .disposed(by: self.disposeBag)
     }
-    
-    private func bindOrganizerInfoView() {
-        self.organizerInfoView.didCallButtonTap()
-            .emit(with: self) { owner, _ in
-                guard let phoneNumber = owner.viewModel.output.concertDetail.value?.hostPhoneNumber else { return }
-                owner.present(owner.contactViewControllerFactory(.call, phoneNumber), animated: true)
-            }
-            .disposed(by: self.disposeBag)
 
-        self.organizerInfoView.didMessageButtonTap()
-            .emit(with: self) { owner, _ in
-                guard let phoneNumber = owner.viewModel.output.concertDetail.value?.hostPhoneNumber else { return }
-                owner.present(owner.contactViewControllerFactory(.message, phoneNumber), animated: true)
+    // TODO: Timer 설정하는 코드 중복되는 거 고도화하기
+    private func bindRemaingSaleTimerBanner(salesEndTime: Date) {
+        let calendar = Calendar.current
+
+        Observable<Int>
+            .interval(.seconds(1), scheduler: MainScheduler.instance)
+            .map { _ -> String in
+                let currentDate = Date()
+
+                let components = calendar.dateComponents([.day, .hour, .minute, .second], from: currentDate, to: salesEndTime)
+
+                if let hour = components.hour, let minute = components.minute, let second = components.second {
+                    return String(format: "🔥 판매 종료까지 %02d:%02d:%02d", hour, minute, second)
+                } else {
+                    return ""
+                }
             }
+            .take(until: Observable.just(()).delay(.seconds(Int(salesEndTime.timeIntervalSinceNow)), scheduler: MainScheduler.instance))
+            .do(onCompleted: { [weak self] in
+                self?.viewModel.fetchConcertDetail()
+            })
+            .bind(with: self, onNext: { owner, text in
+                owner.remainingSalesTimeLabel.text = text
+            })
+            .disposed(by: self.disposeBag)
+    }
+
+    private func bindBeforeSaleTimerButton(startDate: Date) {
+        let calendar = Calendar.current
+
+        Observable<Int>
+            .interval(.seconds(1), scheduler: MainScheduler.instance)
+            .map { _ -> String in
+                let currentDate = Date()
+
+                let components = calendar.dateComponents([.day, .hour, .minute, .second], from: currentDate, to: startDate)
+
+                if let hour = components.hour, let minute = components.minute, let second = components.second {
+                    let day = components.day ?? 0
+                    let adjustedDay = max(day, 0)
+                    return String(format: "판매 시작까지 %d일 %02d:%02d:%02d", adjustedDay, hour, minute, second)
+                } else {
+                    return ""
+                }
+            }
+            .take(until: Observable.just(()).delay(.seconds(Int(startDate.timeIntervalSinceNow)), scheduler: MainScheduler.instance))
+            .do(onCompleted: { [weak self] in
+                self?.viewModel.fetchConcertDetail()
+            })
+            .bind(with: self, onNext: { owner, text in
+                owner.ticketingButton.setTitle(text, for: .normal)
+            })
             .disposed(by: self.disposeBag)
     }
 
@@ -412,25 +425,13 @@ extension ConcertDetailViewController {
     }
 }
 
-// MARK: - UIScrollViewDelegate
-
-extension ConcertDetailViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offset = scrollView.contentOffset.y
-        if offset <= self.concertPosterView.frame.height {
-            self.navigationBar.setBackgroundColor(with: .grey90)
-        } else {
-            self.navigationBar.setBackgroundColor(with: .grey95)
-        }
-    }
-}
-
 // MARK: - UI
 
 extension ConcertDetailViewController {
     
     private func configureUI() {
         self.view.addSubviews([self.navigationBar,
+                               self.remainingSalesTimeLabel,
                                self.scrollView,
                                self.buttonBackgroundView,
                                self.buttonStackView,
@@ -445,13 +446,19 @@ extension ConcertDetailViewController {
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
-        
+
+        self.remainingSalesTimeLabel.snp.makeConstraints { make in
+            make.height.equalTo(40)
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+        }
+
         self.dimmedBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+
         self.scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.top.equalTo(self.remainingSalesTimeLabel.snp.bottom)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(self.ticketingButton.snp.top)
         }
@@ -475,6 +482,23 @@ extension ConcertDetailViewController {
         self.castTeamListCollectionView.snp.makeConstraints { make in
             make.height.equalTo(100) // 초기 설정
             make.horizontalEdges.equalToSuperview()
+        }
+    }
+
+    // 여기서 ScrollView height를 수정해준다.
+    private func updateConstraintsForNonBannerCase() {
+        self.remainingSalesTimeLabel.isHidden = true
+
+        self.concertPosterView.updateHeight()
+
+        self.scrollView.snp.remakeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+            if buttonStackView.isHidden {
+                make.bottom.equalToSuperview()
+            } else {
+                make.bottom.equalTo(self.ticketingButton.snp.top)
+            }
         }
     }
 
@@ -509,7 +533,7 @@ extension ConcertDetailViewController {
     }
 
     private func configureCastView() {
-        self.concertDetailStackView.isHidden = true
+        // TODO: - web view isHidden true
         guard let listEntities = self.viewModel.output.teamListEntities.value else { return }
         if listEntities.isEmpty {
             self.emptyCastView.isHidden = false
@@ -523,7 +547,7 @@ extension ConcertDetailViewController {
     private func configureConcertDetailView() {
         self.emptyCastView.isHidden = true
         self.castTeamListCollectionView.isHidden = true
-        self.concertDetailStackView.isHidden = false
+        // TODO: - web view isHidden false
     }
 }
 
@@ -600,9 +624,9 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
         let width = collectionView.frame.width
 
         if section == 0 {
-            return CGSize(width: width, height: 65)
+            return CGSize(width: width, height: 58)
         } else {
-            return CGSize(width: width, height: 50)
+            return CGSize(width: width, height: 46)
         }
     }
 
@@ -613,21 +637,39 @@ extension ConcertDetailViewController: UICollectionViewDelegateFlowLayout {
         let hasMembers = !listEntities[section].members.isEmpty
 
         let bottomInset: CGFloat
+        let topInset: CGFloat
 
+        // 맴버가 있는 지 없는 지 판단하기!
         if isLastSection {
-            bottomInset = 40
-        } else if hasMembers {
-            bottomInset = 24
+            if hasMembers {
+                topInset = 24
+                bottomInset = buttonStackView.isHidden == true ? 32 : 48
+            } else {
+                topInset = 0
+                bottomInset = buttonStackView.isHidden == true ? 32 : 48
+            }
         } else {
-            bottomInset = 10
+            if hasMembers {
+                topInset = 24
+                bottomInset = 24
+            } else {
+                topInset = 0
+                bottomInset = 24
+            }
         }
 
-        return UIEdgeInsets(top: 20, left: 20, bottom: bottomInset, right: 20)
+        return UIEdgeInsets(top: topInset, left: 20, bottom: bottomInset, right: 20)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard let listEntities = self.viewModel.output.teamListEntities.value else { return CGSize.zero }
         let width = collectionView.frame.width
-        return CGSize(width: width, height: 1)
+
+        if listEntities.count == 1 || section == listEntities.count - 1 {
+            return CGSize.zero
+        } else {
+            return CGSize(width: width, height: 1)
+        }
     }
 }
 
@@ -638,7 +680,13 @@ extension ConcertDetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let listEntities = self.viewModel.output.teamListEntities.value else { return }
         let user = listEntities[indexPath.section].members[indexPath.row]
-        let viewController = self.profileViewControllerFactory(user.code)
+        
+        var viewController: ProfileViewController
+        if user.code == UserDefaults.userCode {
+            viewController = self.profileViewControllerFactory(nil)
+        } else {
+            viewController = self.profileViewControllerFactory(user.code)
+        }
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 

@@ -16,7 +16,9 @@ final class ProfileDIContainer {
     }
 
     func createMyProfileViewController() -> ProfileViewController {
-        let authRepository = self.repository as? AuthRepository ?? AuthRepository(networkService: NetworkProvider())
+        let concertRepository = self.repository
+        let authRepository = AuthRepository(networkService: self.repository.networkService)
+
         let editProfileViewControllerFactory = {
             let DIContainer = EditProfileDIContainer(
                 authRepository: authRepository
@@ -26,17 +28,62 @@ final class ProfileDIContainer {
             return viewController
         }
         
-        let viewModel = ProfileViewModel(repository: self.repository)
-        let viewController = ProfileViewController(viewModel: viewModel,
-                                                   editProfileViewControllerFactory: editProfileViewControllerFactory)
+        let linkListViewControllerFactory: ([LinkEntity]) -> LinkListViewController = { linkList in
+            let DIContainer = LinkListDIContainer()
+            let viewController = DIContainer.createLinkListViewController(linkList: linkList)
+            
+            return viewController
+        }
+        
+        let performedConcertListControllerFactory: ([ConcertEntity]) -> PerformedConcertListViewController = { concertList in
+            let DIContainer = PerformedConcertListDIContainer(repository: concertRepository)
+            let viewController = DIContainer.createPerformedConcertListViewController(performedConcertList: concertList)
+            
+            return viewController
+        }
+        
+        let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController = { concertId in
+            let DIContainer = ConcertDetailDIContainer(authRepository: authRepository,
+                                                       concertRepository: concertRepository as? ConcertRepository ?? ConcertRepository(networkService: self.repository.networkService))
+            let viewController = DIContainer.createConcertDetailViewController(concertId: concertId)
+            
+            return viewController
+        }
+
+        let viewModel = ProfileViewModel(repository: authRepository)
+        let viewController = ProfileViewController(viewModel: viewModel, editProfileViewControllerFactory: editProfileViewControllerFactory, linkListControllerFactory: linkListViewControllerFactory, performedConcertListControllerFactory: performedConcertListControllerFactory, concertDetailViewControllerFactory: concertDetailViewControllerFactory)
 
         return viewController
     }
 
     func createProfileViewController(userCode: String) -> ProfileViewController {
-
         let viewModel = ProfileViewModel(repository: self.repository, userCode: userCode)
-        let viewController = ProfileViewController(viewModel: viewModel)
+        
+        let linkListViewControllerFactory: ([LinkEntity]) -> LinkListViewController = { linkList in
+            let DIContainer = LinkListDIContainer()
+            let viewController = DIContainer.createLinkListViewController(linkList: linkList)
+            
+            return viewController
+        }
+        
+        let performedConcertListControllerFactory: ([ConcertEntity]) -> PerformedConcertListViewController = { concertList in
+            let DIContainer = PerformedConcertListDIContainer(repository: self.repository)
+            let viewController = DIContainer.createPerformedConcertListViewController(performedConcertList: concertList)
+            
+            return viewController
+        }
+        
+        let concertDetailViewControllerFactory: (Int) -> ConcertDetailViewController = { concertId in
+            let DIContainer = ConcertDetailDIContainer(authRepository: AuthRepository(networkService: self.repository.networkService),
+                                                               concertRepository: ConcertRepository(networkService: self.repository.networkService))
+            let viewController = DIContainer.createConcertDetailViewController(concertId: concertId)
+            
+            return viewController
+        }
+
+        let viewController = ProfileViewController(viewModel: viewModel,
+                                                   linkListControllerFactory: linkListViewControllerFactory, performedConcertListControllerFactory: performedConcertListControllerFactory,
+                                                   concertDetailViewControllerFactory: concertDetailViewControllerFactory)
 
         return viewController
     }

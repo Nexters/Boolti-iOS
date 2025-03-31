@@ -24,8 +24,7 @@ extension QRScannerListResponseDTO {
     
     func convertToQRScannerEntities() -> [QRScannerEntity] {
         return self.map { scanner in
-            let concertEndDatetime = scanner.date.formatToDate().addingTimeInterval(TimeInterval(scanner.runningTime * 60))
-            let isConcertEnd = concertEndDatetime < Date()
+            let isConcertEnd = scanner.date.formatToDate().getBetweenDay(to: Date()) > 0
             
             return QRScannerEntity(concertId: scanner.showId,
                                    concertName: scanner.showName,

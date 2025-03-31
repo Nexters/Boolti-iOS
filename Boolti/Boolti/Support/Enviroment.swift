@@ -18,6 +18,9 @@ enum Environment: String {
             static let registerConcertURL = "REGISTER_CONCERT_URL"
             static let kakaoNativeAppKey = "KAKAO_NATIVE_APP_KEY"
             static let tossPaymentsKey = "TOSS_PAYMENTS_KEY"
+            static let manageConcertURL = "MANAGE_CONCERT_URL"
+            static let loginURL = "LOGIN_URL"
+            static let previewURLPrerix = "PREVIEW_URL_PREFIX"
         }
     }
     
@@ -60,6 +63,28 @@ enum Environment: String {
         }
         return string
     }()
+    
+    static let MANAGE_CONCERT_URL: String = {
+        guard let string = Environment.infoDictionary[Keys.Plist.manageConcertURL] as? String else {
+            fatalError("MANAGE_CONCERT_URL not set in plist for this environment")
+        }
+        return string
+    }()
+    
+    static let LOGIN_URL: String = {
+        guard let string = Environment.infoDictionary[Keys.Plist.loginURL] as? String else {
+            fatalError("LOGIN_URL not set in plist for this environment")
+        }
+        return string
+    }()
+    
+    static let PREVIEW_URL_PREFIX: String = {
+        guard let string = Environment.infoDictionary[Keys.Plist.previewURLPrerix] as? String else {
+            fatalError("PREVIEW_URL_PREFIX not set in plist for this environment")
+        }
+        return string
+    }()
+
 }
 
 func env() -> Environment {

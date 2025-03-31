@@ -73,11 +73,16 @@ final class ConcertDetailDIContainer {
             return viewController
         }
 
-        let profileViewControllerFactory: (UserCode) -> ProfileViewController = { (userCode) in
+        let profileViewControllerFactory: (UserCode?) -> ProfileViewController = { (userCode) in
             let DIContainer = self.createProfileDIContainer()
 
-            let viewController = DIContainer.createProfileViewController(userCode: userCode)
-            return viewController
+            if let userCode = userCode {
+                let profileViewController = DIContainer.createProfileViewController(userCode: userCode)
+                return profileViewController
+            } else {
+                let myProfileViewController = DIContainer.createMyProfileViewController()
+                return myProfileViewController
+            }
         }
 
         let viewController = ConcertDetailViewController(

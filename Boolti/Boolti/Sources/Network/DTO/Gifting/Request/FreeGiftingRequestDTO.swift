@@ -17,7 +17,5 @@ struct FreeGiftingRequestDTO: Encodable {
     let senderPhoneNumber: String
     let recipientName: String
     let recipientPhoneNumber: String
-    let depositorName: String
-    let depositorPhoneNumber: String
     
 }

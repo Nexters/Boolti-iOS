@@ -72,6 +72,7 @@ final class ConcertListViewController: BooltiViewController {
         self.configureToastView(isButtonExisted: true)
         self.bindInputs()
         self.bindOutputs()
+        self.viewModel.checkAdminPopup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,11 +81,12 @@ final class ConcertListViewController: BooltiViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.viewModel.fetchConcertList(concertName: nil)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         self.configureDynamicLinkDestination()
         self.mainCollectionView.reloadSections([0], animationStyle: .automatic)
     }
+
 }
 
 // MARK: - Methods
@@ -148,6 +150,20 @@ extension ConcertListViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.showAdminPopup
+            .subscribe(with: self) { owner, data in
+                var popupViewController: UIViewController
+                switch data.0 {
+                case .event:
+                    popupViewController = BooltiEventPopupViewController(with: data.1)
+                case .notice:
+                    popupViewController = BooltiNoticePopupViewController(with: data.1)
+                }
+                popupViewController.modalPresentationStyle = .overFullScreen
+                owner.present(popupViewController, animated: true)
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func configureCollectionView() {
@@ -187,11 +203,6 @@ extension ConcertListViewController: UICollectionViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return }
-        cell.disposeBag = DisposeBag()
     }
 }
 
@@ -254,6 +265,8 @@ extension ConcertListViewController: UICollectionViewDataSource {
             return cell
         case .information:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BusinessInfoCollectionViewCell.className, for: indexPath) as? BusinessInfoCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.disposeBag = DisposeBag()
             
             cell.businessInfoView.didInfoButtonTap()
                 .emit(with: self) { owner, _ in

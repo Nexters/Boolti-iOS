@@ -45,6 +45,7 @@ final class EditProfileViewController: BooltiViewController {
         stackView.addArrangedSubviews([self.editProfileImageView,
                                        self.editNicknameView,
                                        self.editIntroductionView,
+                                       self.editSnsView,
                                        self.editLinkView])
         stackView.setCustomSpacing(0, after: self.editProfileImageView)
         
@@ -56,6 +57,8 @@ final class EditProfileViewController: BooltiViewController {
     private let editNicknameView = EditNicknameView()
     
     private let editIntroductionView = EditIntroductionView()
+    
+    private let editSnsView = EditSnsView()
     
     private let editLinkView = EditLinkView()
     
@@ -111,6 +114,7 @@ final class EditProfileViewController: BooltiViewController {
 extension EditProfileViewController {
     
     private func reloadLinks() {
+        self.editSnsView.snsCollectionView.reloadData()
         self.editLinkView.linkCollectionView.reloadData()
         self.updateCollectionViewHeight()
     }
@@ -160,7 +164,7 @@ extension EditProfileViewController {
             .orEmpty
             .asDriver()
             .drive(with: self) { owner, text in
-                owner.navigationBar.completeButton.isEnabled = !text.isEmpty
+                owner.navigationBar.rightTextButton.isEnabled = !text.isEmpty
                 owner.viewModel.input.didNickNameTyped.accept(text)
             }
             .disposed(by: self.disposeBag)
@@ -169,7 +173,7 @@ extension EditProfileViewController {
             .orEmpty
             .asDriver()
             .drive(with: self, onNext: { owner, text in
-                owner.navigationBar.completeButton.isEnabled = !text.isEmpty
+                owner.navigationBar.rightTextButton.isEnabled = !text.isEmpty
                 if !owner.editIntroductionView.isShowingPlaceHolder {
                     owner.viewModel.input.didIntroductionTyped.accept(text)
                 }
@@ -180,19 +184,14 @@ extension EditProfileViewController {
             .emit(to: self.viewModel.input.didBackButtonTapped)
             .disposed(by: self.disposeBag)
         
-        self.navigationBar.didCompleteButtonTap()
+        self.navigationBar.didRightTextButtonTap()
             .emit(with: self, onNext: { owner, _ in
-                // TODO: 아래와 같이 url이랑 image 따로 보내는 거 해결하기 (vm 참고)
-                let image = owner.editProfileImageView.profileImageView.image ?? UIImage()
-                owner.viewModel.input.didProfileImageSelected.accept(image)
                 owner.viewModel.input.didNavigationBarCompleteButtonTapped.onNext(())
             })
             .disposed(by: self.disposeBag)
 
         self.popupView.didConfirmButtonTap()
             .emit(with: self, onNext: { owner, _ in
-                let image = owner.editProfileImageView.profileImageView.image ?? UIImage()
-                owner.viewModel.input.didProfileImageSelected.accept(image)
                 owner.viewModel.input.didPopUpConfirmButtonTapped.onNext(())
             })
             .disposed(by: self.disposeBag)
@@ -212,8 +211,22 @@ extension EditProfileViewController {
     }
 
     private func configureLinkCollectionView() {
+        self.editSnsView.snsCollectionView.dataSource = self
+        self.editSnsView.snsCollectionView.delegate = self
+        self.editSnsView.snsCollectionView.dragDelegate = self
+        self.editSnsView.snsCollectionView.dropDelegate = self
+        
+        self.editSnsView.snsCollectionView.register(AddLinkHeaderView.self,
+                                                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                                      withReuseIdentifier: AddLinkHeaderView.className)
+        
+        self.editSnsView.snsCollectionView.register(EditSnsCollectionViewCell.self,
+                                                      forCellWithReuseIdentifier: EditSnsCollectionViewCell.className)
+
         self.editLinkView.linkCollectionView.dataSource = self
         self.editLinkView.linkCollectionView.delegate = self
+        self.editLinkView.linkCollectionView.dragDelegate = self
+        self.editLinkView.linkCollectionView.dropDelegate = self
         
         self.editLinkView.linkCollectionView.register(AddLinkHeaderView.self,
                                                       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -227,10 +240,16 @@ extension EditProfileViewController {
     }
     
     private func updateCollectionViewHeight() {
+        self.editSnsView.snsCollectionView.layoutIfNeeded()
+        let snsCollectionViewHeight = self.editSnsView.snsCollectionView.contentSize.height
+        self.editSnsView.snsCollectionView.snp.updateConstraints { make in
+            make.height.equalTo(snsCollectionViewHeight)
+        }
+
         self.editLinkView.linkCollectionView.layoutIfNeeded()
-        let height = self.editLinkView.linkCollectionView.contentSize.height
+        let linkCollectionViewHeight = self.editLinkView.linkCollectionView.contentSize.height
         self.editLinkView.linkCollectionView.snp.updateConstraints { make in
-            make.height.equalTo(height)
+            make.height.equalTo(linkCollectionViewHeight)
         }
     }
     
@@ -282,6 +301,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
             self.viewModel.input.didProfileImageSelected.accept(selectedImage)
         }
     }
+
 }
 
 // MARK: - UIScrollViewDelegate
@@ -304,11 +324,15 @@ extension EditProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let links = self.viewModel.output.profile.links else { return 0 }
-        return links.count
+        if collectionView == self.editSnsView.snsCollectionView {
+            guard let snses = self.viewModel.output.profile.snses else { return 0 }
+            return snses.count
+        } else {
+            guard let links = self.viewModel.output.profile.links else { return 0 }
+            return links.count
+        }
     }
     
-    /// 헤더를 결정하는 메서드
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard kind == UICollectionView.elementKindSectionHeader,
               let header = collectionView.dequeueReusableSupplementaryView(
@@ -317,48 +341,74 @@ extension EditProfileViewController: UICollectionViewDataSource {
                 for: indexPath
               ) as? AddLinkHeaderView else { return UICollectionReusableView() }
         
-        header.rx.tapGesture()
-            .when(.recognized)
-            .bind(with: self) { owner, _ in
-                let viewController = EditLinkViewController(editType: .add)
-                viewController.delegate = self
-                owner.navigationController?.pushViewController(viewController, animated: true)
-            }
-            .disposed(by: header.disposeBag)
+        // 기존 disposeBag이 있다면 초기화
+        header.disposeBag = DisposeBag()
+        
+        if collectionView == self.editSnsView.snsCollectionView {
+            header.setTitle(with: "SNS 추가")
+            
+            header.rx.tapGesture()
+                .when(.recognized)
+                .bind(with: self) { owner, _ in
+                    let viewController = EditSnsViewController(editType: .add)
+                    viewController.delegate = self
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+                .disposed(by: header.disposeBag)
+        } else {
+            header.setTitle(with: "링크 추가")
+            
+            header.rx.tapGesture()
+                .when(.recognized)
+                .bind(with: self) { owner, _ in
+                    let viewController = EditLinkViewController(editType: .add)
+                    viewController.delegate = self
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+                .disposed(by: header.disposeBag)
+        }
         
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditLinkCollectionViewCell.className,
-                                                            for: indexPath) as? EditLinkCollectionViewCell else { return UICollectionViewCell() }
-        guard let links = self.viewModel.output.profile.links else { return UICollectionViewCell() }
+        if collectionView == self.editSnsView.snsCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditSnsCollectionViewCell.className,
+                                                                for: indexPath) as? EditSnsCollectionViewCell else { return UICollectionViewCell() }
+            guard let snses = self.viewModel.output.profile.snses else { return UICollectionViewCell() }
 
-        let data = links[indexPath.row]
+            cell.setData(with: snses[indexPath.row])
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditLinkCollectionViewCell.className,
+                                                                for: indexPath) as? EditLinkCollectionViewCell else { return UICollectionViewCell() }
+            guard let links = self.viewModel.output.profile.links else { return UICollectionViewCell() }
 
-        cell.setData(title: data.title, url: data.link)
-        return cell
+            cell.setData(with: links[indexPath.row])
+            return cell
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let links = self.viewModel.output.profile.links else { return }
+        if collectionView == self.editSnsView.snsCollectionView {
+            guard let snses = self.viewModel.output.profile.snses else { return }
 
-        let linkEntity = links[indexPath.row]
-        self.selectedItemIndex = indexPath.row
+            let snsEntity = snses[indexPath.row]
+            self.selectedItemIndex = indexPath.row
 
-        let viewController = EditLinkViewController(editType: .edit(linkEntity))
-        viewController.delegate = self
-        self.navigationController?.pushViewController(viewController, animated: true)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
-        guard let header = collectionView.dequeueReusableSupplementaryView(
-            ofKind: elementKind,
-            withReuseIdentifier: AddLinkHeaderView.className,
-            for: indexPath
-        ) as? AddLinkHeaderView else { return }
-        
-        header.disposeBag = DisposeBag()
+            let viewController = EditSnsViewController(editType: .edit(snsEntity))
+            viewController.delegate = self
+            self.navigationController?.pushViewController(viewController, animated: true)
+        } else {
+            guard let links = self.viewModel.output.profile.links else { return }
+
+            let linkEntity = links[indexPath.row]
+            self.selectedItemIndex = indexPath.row
+
+            let viewController = EditLinkViewController(editType: .edit(linkEntity))
+            viewController.delegate = self
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
     }
     
 }
@@ -368,7 +418,11 @@ extension EditProfileViewController: UICollectionViewDataSource {
 extension EditProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: UIScreen.main.bounds.width - 40, height: 56)
+        if collectionView == self.editSnsView.snsCollectionView {
+            return CGSize(width: UIScreen.main.bounds.width - 40, height: 44)
+        } else {
+            return CGSize(width: UIScreen.main.bounds.width - 40, height: 56)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -382,6 +436,66 @@ extension EditProfileViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width - 40, height: 56)
     }
+}
+
+// MARK: - UICollectionViewDragDelegate
+
+extension EditProfileViewController: UICollectionViewDragDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return [UIDragItem(itemProvider: NSItemProvider())]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        guard collectionView.hasActiveDrag else { return UICollectionViewDropProposal(operation: .forbidden) }
+        return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+    }
+
+}
+
+// MARK: - UICollectionViewDropDelegate
+
+extension EditProfileViewController: UICollectionViewDropDelegate {
+    
+   func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+       var destinationIndexPath: IndexPath
+       if let indexPath = coordinator.destinationIndexPath {
+           destinationIndexPath = indexPath
+       } else {
+           let item = collectionView.numberOfItems(inSection: 0)
+           destinationIndexPath = IndexPath(item: item - 1, section: 0)
+       }
+
+       guard let item = coordinator.items.first,
+             let sourceIndexPath = item.sourceIndexPath else { return }
+       
+       if collectionView == self.editSnsView.snsCollectionView {
+           guard var snses = self.viewModel.output.profile.snses else { return }
+           collectionView.performBatchUpdates {
+               let sourceItem = snses.remove(at: sourceIndexPath.item)
+               snses.insert(sourceItem, at: destinationIndexPath.item)
+               collectionView.deleteItems(at: [sourceIndexPath])
+               collectionView.insertItems(at: [destinationIndexPath])
+               coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+               print(snses)
+               self.viewModel.input.didSnsChanged.accept(snses)
+               self.reloadLinks()
+           }
+       } else {
+           guard var links = self.viewModel.output.profile.links else { return }
+           collectionView.performBatchUpdates {
+               let sourceItem = links.remove(at: sourceIndexPath.item)
+               links.insert(sourceItem, at: destinationIndexPath.item)
+               collectionView.deleteItems(at: [sourceIndexPath])
+               collectionView.insertItems(at: [destinationIndexPath])
+               coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+               print(links)
+               self.viewModel.input.didLinkChanged.accept(links)
+               self.reloadLinks()
+           }
+       }
+   }
+
 }
 
 // MARK: - UI
@@ -416,6 +530,10 @@ extension EditProfileViewController {
             make.edges.equalToSuperview()
         }
         
+        self.editSnsView.snsCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(0)
+        }
+        
         self.editLinkView.linkCollectionView.snp.makeConstraints { make in
             make.height.equalTo(0)
         }
@@ -425,10 +543,11 @@ extension EditProfileViewController {
 // MARK: EditLinkViewControllerDelegate
 
 extension EditProfileViewController: EditLinkViewControllerDelegate {
+    
     func editLinkDidDeleted(_ viewController: UIViewController) {
         guard var links = self.viewModel.output.profile.links else { return }
         links.remove(at: self.selectedItemIndex)
-
+        
         self.viewModel.input.didLinkChanged.accept(links)
         self.reloadLinks()
     }
@@ -436,16 +555,47 @@ extension EditProfileViewController: EditLinkViewControllerDelegate {
     func editLinkViewController(_ viewController: UIViewController, didChangedLink entity: LinkEntity) {
         guard var links = self.viewModel.output.profile.links else { return }
         links[self.selectedItemIndex] = entity
-
+        
         self.viewModel.input.didLinkChanged.accept(links)
         self.reloadLinks()
     }
     
     func editLinkViewController(_ viewController: UIViewController, didAddedLink entity: LinkEntity) {
         guard var links = self.viewModel.output.profile.links else { return }
-        links.insert(entity, at: 0)
-
+        links.append(entity)
+        
         self.viewModel.input.didLinkChanged.accept(links)
         self.reloadLinks()
     }
+
+}
+
+// MARK: EditSnsViewControllerDelegate
+
+extension EditProfileViewController: EditSnsViewControllerDelegate {
+    
+    func editSnsDidDeleted(_ viewController: UIViewController) {
+        guard var snses = self.viewModel.output.profile.snses else { return }
+        snses.remove(at: self.selectedItemIndex)
+        
+        self.viewModel.input.didSnsChanged.accept(snses)
+        self.reloadLinks()
+    }
+    
+    func editSnsViewController(_ viewController: UIViewController, didChangedSns entity: SnsEntity) {
+        guard var snses = self.viewModel.output.profile.snses else { return }
+        snses[self.selectedItemIndex] = entity
+        
+        self.viewModel.input.didSnsChanged.accept(snses)
+        self.reloadLinks()
+    }
+    
+    func editSnsViewController(_ viewController: UIViewController, didAddedSns entity: SnsEntity) {
+        guard var snses = self.viewModel.output.profile.snses else { return }
+        snses.append(entity)
+        
+        self.viewModel.input.didSnsChanged.accept(snses)
+        self.reloadLinks()
+    }
+
 }

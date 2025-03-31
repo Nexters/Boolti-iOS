@@ -70,6 +70,7 @@ final class EditLinkViewController: BooltiViewController {
         self.configureUI()
         self.configureConstraints()
         self.bindUIComponents()
+        self.configureToastView(isButtonExisted: false)
     }
 
     private func configureUI() {
@@ -130,7 +131,7 @@ final class EditLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 owner.linkNameTextField.text = ""
                 owner.linkNameTextField.isButtonHidden = true
-                owner.navigationBar.completeButton.isEnabled = false
+                owner.navigationBar.rightTextButton.isEnabled = false
             }
             .disposed(by: self.disposeBag)
 
@@ -138,6 +139,7 @@ final class EditLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 guard let nameText = owner.linkNameTextField.text else { return }
                 owner.linkNameTextField.isButtonHidden = nameText.isEmpty
+                owner.URLTextField.isButtonHidden = true
             }
             .disposed(by: self.disposeBag)
 
@@ -156,7 +158,7 @@ final class EditLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 owner.URLTextField.text = ""
                 owner.URLTextField.isButtonHidden = true
-                owner.navigationBar.completeButton.isEnabled = false
+                owner.navigationBar.rightTextButton.isEnabled = false
             }
             .disposed(by: self.disposeBag)
 
@@ -165,6 +167,7 @@ final class EditLinkViewController: BooltiViewController {
             .bind(with: self) { owner, _ in
                 guard let urlText = owner.URLTextField.text else { return }
                 owner.URLTextField.isButtonHidden = urlText.isEmpty
+                owner.linkNameTextField.isButtonHidden = true
             }
             .disposed(by: self.disposeBag)
 
@@ -175,19 +178,21 @@ final class EditLinkViewController: BooltiViewController {
         .map { urlText, linkNameText in
             return !urlText.isEmpty && !linkNameText.isEmpty
         }
-        .bind(to: self.navigationBar.completeButton.rx.isEnabled)
+        .bind(to: self.navigationBar.rightTextButton.rx.isEnabled)
         .disposed(by: self.disposeBag)
 
         // 완료 버튼
-        self.navigationBar.didCompleteButtonTap()
+        self.navigationBar.didRightTextButtonTap()
             .emit(with: self) { owner, _ in
                 guard let title = owner.linkNameTextField.text else { return }
                 guard let link = owner.URLTextField.text else { return }
                 switch owner.editType {
                 case .add:
                     owner.delegate?.editLinkViewController(self, didAddedLink: LinkEntity(title: title, link: link))
+                    owner.showToast(message: "링크를 추가했어요")
                 case .edit:
                     owner.delegate?.editLinkViewController(self, didChangedLink: LinkEntity(title: title, link: link))
+                    owner.showToast(message: "링크를 편집했어요")
                 }
                 owner.navigationController?.popViewController(animated: true)
             }
@@ -240,6 +245,7 @@ final class EditLinkViewController: BooltiViewController {
             .emit(with: self) { owner, _ in
                 owner.delegate?.editLinkDidDeleted(self)
                 owner.deleteLinkPopUpView.isHidden = true
+                owner.showToast(message: "링크를 삭제했어요")
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: self.disposeBag)

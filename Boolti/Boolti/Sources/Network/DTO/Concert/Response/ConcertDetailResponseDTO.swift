@@ -28,7 +28,8 @@ struct ConcertDetailResponseDTO: Decodable {
     let hostName: String
     let hostPhoneNumber: String
     let reservationStatus: Bool
-    
+    let salesTicketCount: Int
+
     struct ShowImg: Decodable {
         let id: Int
         let showId: Int
@@ -38,6 +39,27 @@ struct ConcertDetailResponseDTO: Decodable {
         let createdAt: String
         let modifiedAt: String?
         let removedAt: String?
+    }
+
+    func calculateTicketingState() -> ConcertTicketingState {
+        let currentDate = Date() // Date()를 한 번만 호출
+        let salesStartDate = self.salesStartTime.formatToDate()
+        let salesEndDate = self.salesEndTime.formatToDate()
+        let concertDate = self.date.formatToDate()
+
+        if currentDate < salesStartDate {
+            return .beforeSale(startDate: salesStartDate)
+        } else if Calendar.current.isDate(currentDate, inSameDayAs: salesEndDate) {
+            return .onSale(isLastDate: true)
+        } else if currentDate < salesEndDate {
+            return .onSale(isLastDate: false)
+        } else {
+            if concertDate.isBeforeNow(withDuration: runningTime) {
+                return .endConcert
+            } else {
+                return .endSale
+            }
+        }
     }
 
     func convertToConcertDetailEntity() -> ConcertDetailEntity {
@@ -65,7 +87,9 @@ struct ConcertDetailResponseDTO: Decodable {
             posters: posters,
             hostName: self.hostName,
             hostPhoneNumber: self.hostPhoneNumber,
-            reservationStatus: self.reservationStatus
+            reservationStatus: self.reservationStatus,
+            salesTicketCount: self.salesTicketCount,
+            ticketingState: self.calculateTicketingState()
         )
     }
 }

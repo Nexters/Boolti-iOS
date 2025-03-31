@@ -60,9 +60,7 @@ final class GiftingRepository: GiftingRepositoryType {
                                                                     senderName: giftingEntity.sender.name,
                                                                     senderPhoneNumber: giftingEntity.sender.phoneNumber,
                                                                     recipientName: giftingEntity.receiver.name,
-                                                                    recipientPhoneNumber: giftingEntity.receiver.phoneNumber,
-                                                                    depositorName: giftingEntity.sender.name,
-                                                                    depositorPhoneNumber: giftingEntity.sender.phoneNumber)
+                                                                    recipientPhoneNumber: giftingEntity.receiver.phoneNumber)
         
         let api = GiftingAPI.orderGiftPayment(requestDTO: orderGiftPaymentRequestDTO)
         
@@ -80,9 +78,7 @@ final class GiftingRepository: GiftingRepositoryType {
                                                           senderName: giftingEntity.sender.name,
                                                           senderPhoneNumber: giftingEntity.sender.phoneNumber,
                                                           recipientName: giftingEntity.receiver.name,
-                                                          recipientPhoneNumber: giftingEntity.receiver.phoneNumber,
-                                                          depositorName: giftingEntity.sender.name,
-                                                          depositorPhoneNumber: giftingEntity.sender.phoneNumber)
+                                                          recipientPhoneNumber: giftingEntity.receiver.phoneNumber)
         
         let api = GiftingAPI.freeGifting(requestDTO: freeGiftingRequestDTO)
         
