@@ -14,7 +14,7 @@ import RxGesture
 import Kingfisher
 import FirebaseDynamicLinks
 
-final class ConcertDetailViewController: BooltiViewController, WKUIDelegate, WKNavigationDelegate {
+final class ConcertDetailViewController: BooltiViewController {
     
     // MARK: Properties
 
@@ -60,14 +60,14 @@ final class ConcertDetailViewController: BooltiViewController, WKUIDelegate, WKN
     lazy var webview: WKWebView = {
         let controller = WKUserContentController()
         let config = WKWebViewConfiguration()
+        controller.addUserScript(WebViewJsCode.UpdateWebViewHeightScript)
+        controller.add(self, name: WebViewJsCode.UpdateWebViewHeight)
         config.userContentController = controller
-        let tempWebView = WKWebView(frame: .zero, configuration: config)
-        tempWebView.uiDelegate = self
-        tempWebView.navigationDelegate = self
-        tempWebView.isOpaque = false
-        tempWebView.backgroundColor = .clear
-        tempWebView.scrollView.contentInset = .init(top: 0, left: 20, bottom: 16, right: 20)
-        return tempWebView
+        let webView = WKWebView(frame: .zero, configuration: config)
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
+        webView.scrollView.isScrollEnabled = false
+        return webView
     }()
 
     private lazy var stackView: UIStackView = {
@@ -197,8 +197,6 @@ final class ConcertDetailViewController: BooltiViewController, WKUIDelegate, WKN
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
         self.dimmedBackgroundView.isHidden = true
-        let request = URLRequest(url: URL(string: "https://dev.preview.boolti.in/show/159/notice")!, cachePolicy: .returnCacheDataElseLoad)
-        self.webview.load(request)
         self.viewModel.fetchConcertDetail()
         self.viewModel.fetchCastTeamList()
     }
@@ -208,20 +206,6 @@ final class ConcertDetailViewController: BooltiViewController, WKUIDelegate, WKN
         self.updateCollectionViewHeight()
     }
 
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { // 0.1초 지연
-            self.webview.evaluateJavaScript("document.readyState") { (complete, error) in
-                if complete != nil {
-                    self.webview.evaluateJavaScript("document.body.scrollHeight") { (height, error) in
-                        self.webview.snp.updateConstraints { make in
-                            guard let height = height as? Float else { return }
-                            make.height.equalTo(height + 16)
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 // MARK: - Methods
@@ -262,6 +246,8 @@ extension ConcertDetailViewController {
                 guard let entity = entity else { return }
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name,
                                                 date: entity.date, runningTime: entity.runningTime, placeName: entity.placeName)
+                let request = URLRequest(url: URL(string: "\(Environment.PREVIEW_URL_PREFIX)\(entity.id)/notice")!, cachePolicy: .returnCacheDataElseLoad)
+                owner.webview.load(request)
                 owner.configureRemainingSaleTimerBanner(salesEndTime: entity.salesEndTime, ticketingStatus: entity.ticketingState)
             }
             .disposed(by: self.disposeBag)
@@ -454,6 +440,23 @@ extension ConcertDetailViewController {
         self.stackView.addArrangedSubview(self.emptyCastView)
         self.emptyCastView.isHidden = true
     }
+
+}
+
+// MARK: - WKScriptMessageHandler
+
+extension ConcertDetailViewController: WKScriptMessageHandler {
+    
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == "updateWebViewHeight" {
+            if let height = message.body as? CGFloat {
+                self.webview.snp.updateConstraints { make in
+                    make.height.equalTo(height)
+                }
+            }
+        }
+    }
+    
 }
 
 // MARK: - UI
@@ -479,9 +482,8 @@ extension ConcertDetailViewController {
         }
         
         self.webview.snp.makeConstraints { make in
-            make.width.equalTo(self.view.bounds.width - 40)
-            // 초기 설정
-            make.height.equalTo(500)
+            make.width.equalTo(self.view.frame.width)
+            make.height.equalTo(1)
         }
 
         self.remainingSalesTimeLabel.snp.makeConstraints { make in
