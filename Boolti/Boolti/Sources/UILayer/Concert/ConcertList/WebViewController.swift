@@ -4,14 +4,12 @@ import WebKit
 import SnapKit
 import RxSwift
 
-final class WebViewController: UIViewController, WKScriptMessageHandler {
+final class WebViewController: BooltiViewController, WKScriptMessageHandler {
 
     private var webView: WKWebView!
     private let disposeBag = DisposeBag()
 
     private let navigationBar = BooltiNavigationBar(type: .backButton)
-
-    var number = 0
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -22,6 +20,7 @@ final class WebViewController: UIViewController, WKScriptMessageHandler {
         super.viewDidLoad()
         self.setUpWebView()
         self.configureSubviews()
+        self.configureToastView(isButtonExisted: false)
         self.bindUIComponent()
     }
 
@@ -32,7 +31,7 @@ final class WebViewController: UIViewController, WKScriptMessageHandler {
 
     private func loadWebPage() {
         guard let url = URL(string: Environment.REGISTER_CONCERT_URL) else { return }
-        //        guard let url = URL(string: "https://dotori.boolti.in/webview") else { return }
+//        guard let url = URL(string: "https://dotori.boolti.in/webview") else { return }
 
         let urlRequest = URLRequest(url: url)
         webView.load(urlRequest)
@@ -78,7 +77,7 @@ final class WebViewController: UIViewController, WKScriptMessageHandler {
     }
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        print("📩 JS message received: \(message.body)")
+        print("message: \(message.body)")
 
         guard let bodyString = message.body as? String,
               let data = bodyString.data(using: .utf8),
@@ -95,14 +94,25 @@ final class WebViewController: UIViewController, WKScriptMessageHandler {
 
         switch command {
         case .navigateBack:
-            print("🔙 Navigate Back")
+            print("NavigationBack")
 
         case .navigateToShowDetail:
             if let showId = payload["showId"] as? Int {
-                print("🎭 Navigate to Show Detail with showId: \(showId)")
+                UserDefaults.landingDestination = .concertDetail(concertId: showId)
+
+                NotificationCenter.default.post(
+                    name: Notification.Name.didTabBarSelectedIndexChanged,
+                    object: nil,
+                    userInfo: ["tabBarIndex" : HomeTab.concert.rawValue]
+                )
+                NotificationCenter.default.post(
+                    name: Notification.Name.LandingDestination.concertDetail,
+                    object: nil
+                )
             } else {
-                print("❌ Missing or invalid showId")
+                print("Show ID 문제")
             }
+
 
         case .requestToken:
             let response: [String: Any] = [
@@ -121,9 +131,9 @@ final class WebViewController: UIViewController, WKScriptMessageHandler {
 
                 self.webView.evaluateJavaScript(js) { result, error in
                     if let error = error {
-                        print("❌ JS eval error: \(error)")
+                        print("rror: \(error)")
                     } else {
-                        print("✅ JS message sent: \(jsonString)")
+                        print("message 보내짐: \(jsonString)")
                     }
                 }
             }
@@ -131,9 +141,7 @@ final class WebViewController: UIViewController, WKScriptMessageHandler {
         case .showToast:
             if let message = payload["message"] as? String,
                let durationStr = payload["duration"] as? String {
-                print("🍞 Show toast")
-            } else {
-                print("❌ Invalid toast parameters")
+                self.showToast(message: message)
             }
         }
     }
