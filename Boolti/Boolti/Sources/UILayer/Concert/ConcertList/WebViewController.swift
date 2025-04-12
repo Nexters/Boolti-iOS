@@ -32,7 +32,7 @@ final class WebViewController: UIViewController, WKScriptMessageHandler {
 
     private func loadWebPage() {
         guard let url = URL(string: Environment.REGISTER_CONCERT_URL) else { return }
-//        guard let url = URL(string: "https://dotori.boolti.in/webview") else { return }
+        //        guard let url = URL(string: "https://dotori.boolti.in/webview") else { return }
 
         let urlRequest = URLRequest(url: url)
         webView.load(urlRequest)
@@ -79,26 +79,35 @@ final class WebViewController: UIViewController, WKScriptMessageHandler {
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         print("📩 JS message received: \(message.body)")
-        print("📦 type(of: body): \(type(of: message.body))")
 
         guard let bodyString = message.body as? String,
-              let data = bodyString.data(using: .utf8) else {
-            return
-        }
-
-        guard let body = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let data = bodyString.data(using: .utf8),
+              let body = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
               let id = body["id"] as? String,
               let timestamp = body["timestamp"],
-              let command = body["command"] as? String else {
+              let commandStr = body["command"] as? String,
+              let command = WebToAppCommand(rawValue: commandStr) else {
             return
         }
 
         let timestampString = "\(timestamp)"
+        let payload = body["data"] as? [String: Any] ?? [:]
 
-        if command == "REQUEST_TOKEN" {
+        switch command {
+        case .navigateBack:
+            print("🔙 Navigate Back")
+
+        case .navigateToShowDetail:
+            if let showId = payload["showId"] as? Int {
+                print("🎭 Navigate to Show Detail with showId: \(showId)")
+            } else {
+                print("❌ Missing or invalid showId")
+            }
+
+        case .requestToken:
             let response: [String: Any] = [
                 "id": id,
-                "command": command,
+                "command": command.rawValue,
                 "timestamp": timestampString,
                 "data": [
                     "token": UserDefaults.accessToken
@@ -118,6 +127,15 @@ final class WebViewController: UIViewController, WKScriptMessageHandler {
                     }
                 }
             }
+
+        case .showToast:
+            if let message = payload["message"] as? String,
+               let durationStr = payload["duration"] as? String {
+                print("🍞 Show toast")
+            } else {
+                print("❌ Invalid toast parameters")
+            }
         }
     }
+
 }
