@@ -1,18 +1,25 @@
-name: Run test
+name: Run Debug Tests
 
 on:
   push:
-  # test를 위해 develop branch가 아닌 test branch로 설정
     branches: [ test ]
   pull_request:
     branches: [ test ]
 
 jobs:
-  build:
+  test-debug:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Start xcode build 🛠
-      run: |
-        xcodebuild clean test -project Boolti/Boolti.xcodeproj -scheme Boolti -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest'
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.0.app
+
+      - name: Run tests with Debug scheme 🧪
+        run: |
+          xcodebuild clean test \
+            -project Boolti/Boolti.xcodeproj \
+            -scheme Boolti-Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest' \
+            CODE_SIGNING_ALLOWED=NO
