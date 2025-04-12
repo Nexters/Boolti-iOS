@@ -2,9 +2,9 @@ name: Run Debug Tests
 
 on:
   push:
-    branches: [ test ]
+    branches: [ develop ]
   pull_request:
-    branches: [ test ]
+    branches: [ develop ]
 
 jobs:
   test-debug:
