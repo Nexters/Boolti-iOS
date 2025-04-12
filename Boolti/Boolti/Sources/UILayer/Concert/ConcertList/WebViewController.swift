@@ -4,12 +4,14 @@ import WebKit
 import SnapKit
 import RxSwift
 
-// TODO: 재사용가능하게 변경하기
-final class WebViewController: UIViewController {
+final class WebViewController: UIViewController, WKScriptMessageHandler {
 
+    private var webView: WKWebView!
     private let disposeBag = DisposeBag()
 
     private let navigationBar = BooltiNavigationBar(type: .backButton)
+
+    var number = 0
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -18,9 +20,37 @@ final class WebViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.setUpWebView()
         self.configureSubviews()
         self.bindUIComponent()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.loadWebPage()
+    }
+
+    private func loadWebPage() {
+        guard let url = URL(string: Environment.REGISTER_CONCERT_URL) else { return }
+//        guard let url = URL(string: "https://dotori.boolti.in/webview") else { return }
+
+        let urlRequest = URLRequest(url: url)
+        webView.load(urlRequest)
+    }
+
+    private func setUpWebView() {
+        let configuration = WKWebViewConfiguration()
+
+        let contentController = WKUserContentController()
+        contentController.add(self, name: "boolti")
+        configuration.userContentController = contentController
+        webView = WKWebView(frame: .zero, configuration: configuration)
+
+        let userAgent = WKWebView().value(forKey: "userAgent")
+
+        webView.customUserAgent = userAgent as! String + " BOOLTI/IOS"
+
+        webView.allowsBackForwardNavigationGestures = true
     }
 
     private func bindUIComponent() {
@@ -34,56 +64,60 @@ final class WebViewController: UIViewController {
 
     private func configureSubviews() {
         self.view.backgroundColor = .white00
-        self.view.addSubview(navigationBar)
+        self.view.addSubviews([navigationBar, webView])
 
         self.navigationBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
 
-        self.prepareWebConfiguration { [weak self] config in
-            guard let self = self, let config = config else { return }
-
-            let webView = WKWebView(frame: .zero, configuration: config)
-            self.view.addSubview(webView)
-
-            webView.snp.makeConstraints { make in
-                make.top.equalTo(self.navigationBar.snp.bottom)
-                make.horizontalEdges.bottom.equalToSuperview()
-            }
-            
-            guard let url = URL(string: Environment.REGISTER_CONCERT_URL) else { return }
-            let request = URLRequest(url: url)
-            webView.load(request)
+        self.webView.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.bottom.left.right.equalToSuperview()
         }
     }
 
-    private func prepareWebConfiguration(completion: @escaping (WKWebViewConfiguration?) -> Void) {
-        let accessToken = UserDefaults.accessToken
-        let refreshToken = UserDefaults.refreshToken
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        print("📩 JS message received: \(message.body)")
+        print("📦 type(of: body): \(type(of: message.body))")
 
-        guard let authCookie = HTTPCookie(properties: [
-            .domain: ".boolti.in",
-            .path: "/",
-            .name: "x-access-token",
-            .value: accessToken,
-            .secure: "TRUE",
-        ]) else {
+        guard let bodyString = message.body as? String,
+              let data = bodyString.data(using: .utf8) else {
             return
         }
 
-        guard let uuidCookie = HTTPCookie(properties: [
-            .domain: ".boolti.in",
-            .path: "/",
-            .name: "x-refresh-token",
-            .value: refreshToken,
-            .secure: "TRUE",
-        ]) else {
+        guard let body = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let id = body["id"] as? String,
+              let timestamp = body["timestamp"],
+              let command = body["command"] as? String else {
             return
         }
 
-        WKWebViewConfiguration.includeCookie(cookies: [authCookie, uuidCookie]) {
-            completion($0)
+        let timestampString = "\(timestamp)"
+
+        if command == "REQUEST_TOKEN" {
+            let response: [String: Any] = [
+                "id": id,
+                "command": command,
+                "timestamp": timestampString,
+                "data": [
+                    "token": UserDefaults.accessToken
+                ]
+            ]
+
+            if let jsonData = try? JSONSerialization.data(withJSONObject: response),
+               let jsonString = String(data: jsonData, encoding: .utf8) {
+
+                let js = "javascript:__boolti__webview__bridge__.postMessage(\(jsonString));"
+
+                self.webView.evaluateJavaScript(js) { result, error in
+                    if let error = error {
+                        print("❌ JS eval error: \(error)")
+                    } else {
+                        print("✅ JS message sent: \(jsonString)")
+                    }
+                }
+            }
         }
     }
 }
