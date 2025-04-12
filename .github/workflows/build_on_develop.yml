@@ -1,0 +1,19 @@
+name: Run build on develop
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  test-debug:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run build 🛠️
+        run: |
+          xcodebuild build \
+            -project Boolti/Boolti.xcodeproj \
