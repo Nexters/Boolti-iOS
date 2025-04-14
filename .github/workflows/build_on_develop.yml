@@ -14,13 +14,14 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Create GoogleService-Info.plist
-        run: echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}" > ./Boolti/Application/GoogleService-Info.plist
+        run: echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}" | base64 --decode > ./Boolti/Boolti/Application/GoogleService-Info.plist
 
       - name: Create .xcconfig files
         run: |
-          echo "${{ secrets.DEBUG_XCCONFIG }}" > ./Boolti/Support/Debug.xcconfig
-          echo "${{ secrets.RELEASE_XCCONFIG }}" > ./Boolti/Support/Release.xcconfig
-          echo "${{ secrets.SHARED_XCCONFIG }}" > ./Boolti/Support/Shared.xcconfig
+          echo "${{ secrets.DEBUG_XCCONFIG }}" | base64 --decode > ./Boolti/Boolti/Support/Debug.xcconfig
+          echo "${{ secrets.RELEASE_XCCONFIG }}" | base64 --decode > ./Boolti/Boolti/Support/Release.xcconfig
+          echo "${{ secrets.SHARED_XCCONFIG }}" | base64 --decode > ./Boolti/Boolti/Support/Shared.xcconfig
+
       - name: Run build 🛠️
         run: |
           xcodebuild build \
