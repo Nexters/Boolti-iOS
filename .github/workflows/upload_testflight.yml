@@ -24,8 +24,8 @@ jobs:
       CERT_ENCRYPTION_KEY: ${{ secrets.CERTS_ENCRYPTION_PWD }}
 
       # provisioning
-      ENCRYPTED_PROVISION_FILE_PATH: ${{ '.github/secrets/BooltiProvisioningDevelopment.mobileprovision.gpg' }}
-      DECRYPTED_PROVISION_FILE_PATH: ${{ '.github/secrets/BooltiProvisioningDevelopment.mobileprovision' }}
+      ENCRYPTED_PROVISION_FILE_PATH: ${{ '.github/secrets/BooltiProvisioningAppstore.mobileprovision.gpg' }}
+      DECRYPTED_PROVISION_FILE_PATH: ${{ '.github/secrets/BooltiProvisioningAppstore.mobileprovision' }}
       PROVISIONING_ENCRYPTION_KEY: ${{ secrets.PROVISION_ENCRYPTION_PWD }}
 
       # certification export key
