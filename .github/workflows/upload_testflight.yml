@@ -65,18 +65,18 @@ jobs:
 
       - name: Archive app
         run: |
-          xcodebuild clean archive
-            -project $XC_PROJECT
-            -scheme $XC_SCHEME
-            -configuration Debug
+          xcodebuild clean archive \
+            -project $XC_PROJECT \
+            -scheme $XC_SCHEME \
+            -configuration Debug \
             -archivePath $XC_ARCHIVE
 
       - name: Export app
         run: |
-          xcodebuild
-            -exportArchive
-            -archivePath $XC_ARCHIVE
-            -exportOptionsPlist ExportOptions.plist
+          xcodebuild \
+            -exportArchive \
+            -archivePath $XC_ARCHIVE \
+            -exportOptionsPlist ExportOptions.plist \
             -exportPath . -allowProvisioningUpdates
 
       - name: Decode API private key
