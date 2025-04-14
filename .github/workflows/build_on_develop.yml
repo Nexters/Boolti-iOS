@@ -1,10 +1,14 @@
 name: Run build on develop
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
-    branches: [ develop ]
+    branches:
+      - develop
+    types: [opened, synchronize, reopened]
+
+  push:
+    branches:
+      - develop
 
 jobs:
   test-debug:
@@ -26,3 +30,7 @@ jobs:
         run: |
           xcodebuild build \
             -project Boolti/Boolti.xcodeproj \
+            -scheme Boolti-Debug \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest' \
+            CODE_SIGNING_ALLOWED=NO
