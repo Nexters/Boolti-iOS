@@ -19,8 +19,8 @@ jobs:
       XC_ARCHIVE: ${{ 'Boolti.xcarchive' }}
 
       # certificate
-      ENCRYPTED_CERT_FILE_PATH: ${{ '.github/secrets/dev.p12.gpg' }}
-      DECRYPTED_CERT_FILE_PATH: ${{ '.github/secrets/dev.p12' }}
+      ENCRYPTED_CERT_FILE_PATH: ${{ '.github/secrets/prod.p12.gpg' }}
+      DECRYPTED_CERT_FILE_PATH: ${{ '.github/secrets/prod.p12' }}
       CERT_ENCRYPTION_KEY: ${{ secrets.CERTS_ENCRYPTION_PWD }}
 
       # provisioning
