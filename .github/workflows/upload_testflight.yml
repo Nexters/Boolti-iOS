@@ -63,6 +63,15 @@ jobs:
               cp "./$PROVISION" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
           done
 
+      - name: Create GoogleService-Info.plist
+        run: echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}" | base64 --decode > ./Boolti/Boolti/Application/GoogleService-Info.plist
+
+      - name: Create .xcconfig files
+        run: |
+          echo "${{ secrets.DEBUG_XCCONFIG }}" | base64 --decode > ./Boolti/Boolti/Support/Debug.xcconfig
+          echo "${{ secrets.RELEASE_XCCONFIG }}" | base64 --decode > ./Boolti/Boolti/Support/Release.xcconfig
+          echo "${{ secrets.SHARED_XCCONFIG }}" | base64 --decode > ./Boolti/Boolti/Support/Shared.xcconfig
+
       - name: Archive app
         run: |
           xcodebuild clean archive \
