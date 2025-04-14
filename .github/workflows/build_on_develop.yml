@@ -13,6 +13,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Create GoogleService-Info.plist
+        run: echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}" > ./Application/GoogleService-Info.plist
+
+      - name: Create .xcconfig files
+        run: |
+          echo "${{ secrets.DEBUG_XCCONFIG }}" > ./Support/Debug.xcconfig
+	  echo "${{ secrets.RELEASE_XCCONFIG }}" > ./Support/Release.xcconfig
+          echo "${{ secrets.SHARED_XCCONFIG }}" > ./Support/Shared.xcconfig
+
       - name: Run build 🛠️
         run: |
           xcodebuild build \
