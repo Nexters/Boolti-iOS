@@ -1,0 +1,84 @@
+name: Upload dev to TestFlight
+
+on:
+  pull_request:
+    branches:
+      - qa
+
+  push:
+    branches:
+      - qa
+
+jobs:
+  deploy:
+    runs-on: macos-latest
+
+    env:
+      XC_PROJECT: ${{ 'Boolti/Boolti.xcodeproj' }}
+      XC_SCHEME: ${{ 'Boolti-debug' }}
+      XC_ARCHIVE: ${{ 'Boolti.xcarchive' }}
+
+      # certificate
+      ENCRYPTED_CERT_FILE_PATH: ${{ '.github/secrets/dev.p12.gpg' }}
+      DECRYPTED_CERT_FILE_PATH: ${{ '.github/secrets/dev.p12' }}
+      CERT_ENCRYPTION_KEY: ${{ secrets.CERTS_ENCRYPTION_PWD }}
+
+      # provisioning
+      ENCRYPTED_PROVISION_FILE_PATH: ${{ '.github/secrets/BooltiProvisioningDevelopment.mobileprovision.gpg' }}
+      DECRYPTED_PROVISION_FILE_PATH: ${{ '.github/secrets/BooltiProvisioningDevelopment.mobileprovision' }}
+      PROVISIONING_ENCRYPTION_KEY: ${{ secrets.PROVISION_ENCRYPTION_PWD }}
+
+      # certification export key
+      CERT_EXPORT_KEY: ${{ secrets.CERT_EXPORT_PWD }}
+
+      KEYCHAIN: ${{ 'test.keychain' }}
+
+    steps:
+      - name: Select latest Xcode
+        run: "sudo xcode-select -s /Applications/Xcode.app"
+
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Configure Keychain
+        run: |
+          security create-keychain -p "" "$KEYCHAIN"
+          security list-keychains -s "$KEYCHAIN"
+          security default-keychain -s "$KEYCHAIN"
+          security unlock-keychain -p "" "$KEYCHAIN"
+          security set-keychain-settings
+
+      - name: Configure Code Signing
+        run: |
+          gpg -d -o "$DECRYPTED_CERT_FILE_PATH" --pinentry-mode=loopback --passphrase "$CERT_ENCRYPTION_KEY" "$ENCRYPTED_CERT_FILE_PATH"
+          gpg -d -o "$DECRYPTED_PROVISION_FILE_PATH" --pinentry-mode=loopback --passphrase "$PROVISIONING_ENCRYPTION_KEY" "$ENCRYPTED_PROVISION_FILE_PATH"
+          security import "$DECRYPTED_CERT_FILE_PATH" -k "$KEYCHAIN" -P "$CERT_EXPORT_KEY" -A
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" "$KEYCHAIN"
+
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          echo `ls .github/secrets/*.mobileprovision`
+              for PROVISION in `ls .github/secrets/*.mobileprovision`
+              do
+              UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i ./$PROVISION)`
+              cp "./$PROVISION" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
+          done
+
+      - name: Archive app
+        run: |
+          pod install --repo-update --clean-install --project-directory=Boolti/
+          xcodebuild clean archive -project $XC_PROJECT -scheme $XC_SCHEME -configuration debug -archivePath $XC_ARCHIVE
+
+      - name: Export app
+        run: |
+          xcodebuild -exportArchive -archivePath $XC_ARCHIVE -exportOptionsPlist ExportOptions.plist -exportPath . -allowProvisioningUpdates
+
+      - name: Decode API private key
+        run: echo "${{ secrets.APPSTORE_API_PRIVATE_KEY_BASE64 }}" | base64 -d > ApiKey.p8
+
+      - name: Upload to TestFlight
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: "Boolti.ipa"
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ./ApiKey.p8
