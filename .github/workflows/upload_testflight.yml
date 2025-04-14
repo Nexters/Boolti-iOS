@@ -65,7 +65,6 @@ jobs:
 
       - name: Archive app
         run: |
-          pod install --repo-update --clean-install --project-directory=Boolti/
           xcodebuild clean archive -project $XC_PROJECT -scheme $XC_SCHEME -configuration debug -archivePath $XC_ARCHIVE
 
       - name: Export app
