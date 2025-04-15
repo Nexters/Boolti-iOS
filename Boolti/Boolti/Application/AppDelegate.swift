@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// 탭 Bar index 초기화하기/destination 초기화하기
         UserDefaults.tabBarIndex = 0
         UserDefaults.landingDestination = nil
-        
+
         return true
     }
     
