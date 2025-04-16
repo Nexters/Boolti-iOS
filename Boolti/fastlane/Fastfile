@@ -38,7 +38,6 @@ platform :ios do
 
     version = get_version_number(xcodeproj: "Boolti.xcodeproj")
     build_number = get_build_number(xcodeproj: "Boolti.xcodeproj")
-    puts "👉 Webhook: #{ENV['DISCORD_WEBHOOK_URL']}"  # 값 잘 들어오는지 확인
     discord_notifier(
       webhook_url: ENV['DISCORD_WEBHOOK_URL'],
       title: "🚀 불티 Debug 빌드 완료!",
