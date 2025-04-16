@@ -1,0 +1,57 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new debug build to TestFlight"
+  lane :beta do
+    increment_build_number(xcodeproj: "Boolti.xcodeproj")
+    build_app(
+      scheme: "Boolti-Debug",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "com.nexters.boolti" => "Boolti-Provisioning-Appstore"
+        }
+      }
+    )
+
+    upload_to_testflight(
+      api_key_path: "fastlane/api_key.json",
+      changelog: "Debug 환경입니다!",
+      distribute_external: false,
+      skip_waiting_for_build_processing: true
+    )
+
+    version = get_version_number(xcodeproj: "Boolti.xcodeproj")
+    build_number = get_build_number(xcodeproj: "Boolti.xcodeproj")
+    discord_notifier(
+      webhook_url: ENV['DISCORD_WEBHOOK_URL'],
+      title: "🚀 불티 Debug 빌드 완료!",
+      description: "Version: #{version} (#{build_number})",
+      success: true
+    )
+  end
+
+  error do |lane, exception|
+    discord_notifier(
+      webhook_url: ENV['DISCORD_WEBHOOK_URL'],
+      title: "❌ 불티 Debug 빌드 실패..",
+      description: "Version: #{version} (#{build_number})",
+      success: false
+    )
+  end
+end

@@ -137,3 +137,6 @@ GAM/GAM.xcodeproj/project.xcworkspace/xcuserdata/jungbin.xcuserdatad/UserInterfa
 ### SECRET KEY ###
 *.xcconfig
 GoogleService-Info.plist
+api_key.json
+*.env
+*.ipa
