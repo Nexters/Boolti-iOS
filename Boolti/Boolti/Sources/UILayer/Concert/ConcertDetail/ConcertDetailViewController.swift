@@ -249,7 +249,7 @@ extension ConcertDetailViewController {
                 guard let entity = entity else { return }
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name,
                                                 date: entity.date, runningTime: entity.runningTime, placeName: entity.placeName)
-                let request = URLRequest(url: URL(string: "\(Environment.PREVIEW_URL_PREFIX)\(entity.id)/info")!, cachePolicy: .returnCacheDataElseLoad)
+                let request = URLRequest(url: URL(string: "\(Environment.PREVIEW_URL_PREFIX)/\(entity.id)/info")!, cachePolicy: .returnCacheDataElseLoad)
                 owner.webview.load(request)
                 owner.configureRemainingSaleTimerBanner(salesEndTime: entity.salesEndTime, ticketingStatus: entity.ticketingState)
             }
