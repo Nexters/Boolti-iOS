@@ -73,7 +73,7 @@ extension ConcertShareViewController {
         self.urlShareButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                let url = "\(Environment.PREVIEW_URL_PREFIX)\(concertDetail.id)"
+                let url = "\(Environment.PREVIEW_URL_PREFIX)/\(concertDetail.id)"
 
                 let activityViewController = UIActivityViewController(
                     activityItems: [url],

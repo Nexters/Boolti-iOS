@@ -60,13 +60,16 @@ final class ConcertDetailViewController: BooltiViewController {
     lazy var webview: WKWebView = {
         let controller = WKUserContentController()
         let config = WKWebViewConfiguration()
+        
         controller.addUserScript(WebViewJsCode.UpdateWebViewHeightScript)
         controller.add(self, name: WebViewJsCode.UpdateWebViewHeight)
         config.userContentController = controller
+        
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.isOpaque = false
         webView.backgroundColor = .clear
         webView.scrollView.isScrollEnabled = false
+        webView.navigationDelegate = self
         return webView
     }()
 
@@ -246,7 +249,7 @@ extension ConcertDetailViewController {
                 guard let entity = entity else { return }
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name,
                                                 date: entity.date, runningTime: entity.runningTime, placeName: entity.placeName)
-                let request = URLRequest(url: URL(string: "\(Environment.PREVIEW_URL_PREFIX)\(entity.id)/info")!, cachePolicy: .returnCacheDataElseLoad)
+                let request = URLRequest(url: URL(string: "\(Environment.PREVIEW_URL_PREFIX)/\(entity.id)/info")!, cachePolicy: .returnCacheDataElseLoad)
                 owner.webview.load(request)
                 owner.configureRemainingSaleTimerBanner(salesEndTime: entity.salesEndTime, ticketingStatus: entity.ticketingState)
             }
@@ -443,12 +446,12 @@ extension ConcertDetailViewController {
 
 }
 
-// MARK: - WKScriptMessageHandler
+// MARK: - WKScriptMessageHandler, WKNavigationDelegate
 
-extension ConcertDetailViewController: WKScriptMessageHandler {
+extension ConcertDetailViewController: WKScriptMessageHandler, WKNavigationDelegate {
     
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if message.name == "updateWebViewHeight" {
+        if message.name == WebViewJsCode.UpdateWebViewHeight {
             if let height = message.body as? CGFloat {
                 self.webview.snp.updateConstraints { make in
                     make.height.equalTo(height)
@@ -457,6 +460,17 @@ extension ConcertDetailViewController: WKScriptMessageHandler {
         }
     }
     
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let url = navigationAction.request.url, navigationAction.navigationType == .linkActivated || url.scheme == "sms" || url.scheme == "tel" {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                decisionHandler(.cancel)
+            }
+        } else {
+            decisionHandler(.allow)
+        }
+    }
+
 }
 
 // MARK: - UI
