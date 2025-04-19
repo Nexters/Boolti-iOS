@@ -61,8 +61,9 @@ final class ConcertDetailViewController: BooltiViewController {
         let controller = WKUserContentController()
         let config = WKWebViewConfiguration()
         
-        controller.addUserScript(WebViewJsCode.UpdateWebViewHeightScript)
-        controller.add(self, name: WebViewJsCode.UpdateWebViewHeight)
+        controller.addUserScript(WebViewInfo.UpdateWebViewHeightScript)
+        controller.add(self, name: WebViewInfo.UpdateWebViewHeight)
+        controller.add(self, name: WebViewInfo.webViewBridgeName)
         config.userContentController = controller
         
         let webView = WKWebView(frame: .zero, configuration: config)
@@ -70,6 +71,10 @@ final class ConcertDetailViewController: BooltiViewController {
         webView.backgroundColor = .clear
         webView.scrollView.isScrollEnabled = false
         webView.navigationDelegate = self
+        
+        let userAgent = WKWebView().value(forKey: "userAgent")
+        webView.customUserAgent = userAgent as! String + WebViewInfo.webViewUserAgent
+
         return webView
     }()
 
@@ -451,12 +456,25 @@ extension ConcertDetailViewController {
 extension ConcertDetailViewController: WKScriptMessageHandler, WKNavigationDelegate {
     
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if message.name == WebViewJsCode.UpdateWebViewHeight {
+        switch message.name {
+        case WebViewInfo.webViewBridgeName:
+            if let bodyString = message.body as? String,
+               let data = bodyString.data(using: .utf8),
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                if let command = (json["command"] as? String).flatMap(WebviewCommand.init(rawValue:)) {
+                    if command == .showToast {
+                        self.showToast(message: "주소를 복사했어요")
+                    }
+                }
+            }
+        case WebViewInfo.UpdateWebViewHeight:
             if let height = message.body as? CGFloat {
                 self.webview.snp.updateConstraints { make in
                     make.height.equalTo(height)
                 }
             }
+        default:
+            break
         }
     }
     
