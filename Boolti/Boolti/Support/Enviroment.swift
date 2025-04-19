@@ -63,7 +63,7 @@ enum Environment: String {
         }
         return string
     }()
-    
+  
     static let MANAGE_CONCERT_URL: String = {
         guard let string = Environment.infoDictionary[Keys.Plist.manageConcertURL] as? String else {
             fatalError("MANAGE_CONCERT_URL not set in plist for this environment")
