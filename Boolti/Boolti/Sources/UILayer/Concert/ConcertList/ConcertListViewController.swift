@@ -191,9 +191,12 @@ extension ConcertListViewController: UICollectionViewDelegate {
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.topConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)
         case .banner:
-            guard let url = URL(string: Environment.LOGIN_URL) else { return }
-        UIApplication.shared.open(url, options: [:])
+            guard UserDefaults.accessToken != "" else { return }
+            guard let url = URL(string: Environment.REGISTER_CONCERT_URL) else { return }
+            let handler = RegisterConcertWebViewHandler()
+            let webViewController = WebViewController(url: url, messageHandler: handler)
 
+            self.navigationController?.pushViewController(webViewController, animated: true)
         case .bottomConcerts:
             let viewController = concertDetailViewControllerFactory(self.viewModel.output.bottomConcerts[indexPath.row].id)
             self.navigationController?.pushViewController(viewController, animated: true)

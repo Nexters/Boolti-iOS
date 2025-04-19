@@ -297,6 +297,7 @@
 		871F3D252C50016600AB1BB9 /* GiftReservationRefundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D242C50016600AB1BB9 /* GiftReservationRefundViewController.swift */; };
 		871F3D272C50017800AB1BB9 /* GiftRefundRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F3D262C50017800AB1BB9 /* GiftRefundRequestViewModel.swift */; };
 		8721400A2B749A5D007C3BC1 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 872140092B749A5D007C3BC1 /* RxKeyboard */; };
+		8723F0122DAA3F7B0090EDDD /* WebToAppCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8723F0112DAA3F710090EDDD /* WebToAppCommand.swift */; };
 		8724C4BF2B6221A500484BFC /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8724C4BE2B6221A500484BFC /* UIView+.swift */; };
 		872605422B793223005CD0D4 /* TicketReservationDetailDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872605412B793223005CD0D4 /* TicketReservationDetailDIContainer.swift */; };
 		872605442B7932AF005CD0D4 /* TicketReservationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872605432B7932AF005CD0D4 /* TicketReservationDetailViewController.swift */; };
@@ -375,6 +376,7 @@
 		87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */; };
 		87A3716F2B76534B0061814E /* TicketReservationItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */; };
 		87B18FE72BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B18FE62BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift */; };
+		87B864832CC5711800A9A836 /* WKWebViewConfiguration+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B864822CC5711800A9A836 /* WKWebViewConfiguration+.swift */; };
 		87C7594C2BA93EA40009A83E /* NotificationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7594B2BA93EA40009A83E /* NotificationMessage.swift */; };
 		87C7A5EC2CADABDA0078213E /* UnderlineSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7A5EB2CADABDA0078213E /* UnderlineSegmentedControl.swift */; };
 		87C7A5EE2CADB1CD0078213E /* SegmentedControlContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7A5ED2CADB1CD0078213E /* SegmentedControlContainerView.swift */; };
@@ -396,6 +398,7 @@
 		87D2FAB62B6E97870027FBE1 /* TicketDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB52B6E97870027FBE1 /* TicketDetailViewModel.swift */; };
 		87D2FABA2B6EB5C50027FBE1 /* TicketNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FAB92B6EB5C50027FBE1 /* TicketNoticeView.swift */; };
 		87D2FAC02B7003970027FBE1 /* ReversalPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */; };
+		87E027DB2DAE8617001D5424 /* WebViewMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E027DA2DAE860C001D5424 /* WebViewMessageHandler.swift */; };
 		87EFEEDB2C7E1C4300A8993C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EFEEDA2C7E1C4300A8993C /* Preview.swift */; };
 		87EFEEDE2C7E21EF00A8993C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EFEEDD2C7E21EF00A8993C /* WebKit.framework */; };
 		87EFEEE12C7F597700A8993C /* AgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EFEEE02C7F597700A8993C /* AgreementViewController.swift */; };
@@ -439,6 +442,7 @@
 		87F7DF492B8275D30068A6C9 /* EntryCodeErrorEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */; };
 		87FB0D382B6BE7B900B42AF9 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 87FB0D372B6BE7B900B42AF9 /* SwiftJWT */; };
 		87FB0D3A2B6BE97F00B42AF9 /* IdentityTokenDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */; };
+		87FCC3C72CC4DDFD0029A0C8 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FCC3C62CC4DDFD0029A0C8 /* WebViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -705,6 +709,7 @@
 		871F3D222C50015300AB1BB9 /* GiftRefundRequestDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftRefundRequestDIContainer.swift; sourceTree = "<group>"; };
 		871F3D242C50016600AB1BB9 /* GiftReservationRefundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftReservationRefundViewController.swift; sourceTree = "<group>"; };
 		871F3D262C50017800AB1BB9 /* GiftRefundRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftRefundRequestViewModel.swift; sourceTree = "<group>"; };
+		8723F0112DAA3F710090EDDD /* WebToAppCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebToAppCommand.swift; sourceTree = "<group>"; };
 		8724C4BE2B6221A500484BFC /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		872605412B793223005CD0D4 /* TicketReservationDetailDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailDIContainer.swift; sourceTree = "<group>"; };
 		872605432B7932AF005CD0D4 /* TicketReservationDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationDetailViewController.swift; sourceTree = "<group>"; };
@@ -784,6 +789,7 @@
 		87A3716C2B76497B0061814E /* TicketReservationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationsTableViewCell.swift; sourceTree = "<group>"; };
 		87A3716E2B76534B0061814E /* TicketReservationItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketReservationItemEntity.swift; sourceTree = "<group>"; };
 		87B18FE62BB15A3C005A4800 /* ReversalPolicyConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversalPolicyConfirmButton.swift; sourceTree = "<group>"; };
+		87B864822CC5711800A9A836 /* WKWebViewConfiguration+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebViewConfiguration+.swift"; sourceTree = "<group>"; };
 		87C7594B2BA93EA40009A83E /* NotificationMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationMessage.swift; sourceTree = "<group>"; };
 		87C7A5EB2CADABDA0078213E /* UnderlineSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentedControl.swift; sourceTree = "<group>"; };
 		87C7A5ED2CADB1CD0078213E /* SegmentedControlContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlContainerView.swift; sourceTree = "<group>"; };
@@ -807,6 +813,7 @@
 		87D2FABF2B7003970027FBE1 /* ReversalPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversalPolicyView.swift; sourceTree = "<group>"; };
 		87DB76BE2C52823400DE8B14 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		87DB76BF2C52823400DE8B14 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		87E027DA2DAE860C001D5424 /* WebViewMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewMessageHandler.swift; sourceTree = "<group>"; };
 		87EFEEDA2C7E1C4300A8993C /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		87EFEEDD2C7E21EF00A8993C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		87EFEEE02C7F597700A8993C /* AgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementViewController.swift; sourceTree = "<group>"; };
@@ -825,6 +832,7 @@
 		87F7DF482B8275D30068A6C9 /* EntryCodeErrorEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCodeErrorEntity.swift; sourceTree = "<group>"; };
 		87FB0D392B6BE97F00B42AF9 /* IdentityTokenDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityTokenDTO.swift; sourceTree = "<group>"; };
 		87FB0D3B2B6C09B500B42AF9 /* TicketItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketItemEntity.swift; sourceTree = "<group>"; };
+		87FCC3C62CC4DDFD0029A0C8 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1567,6 +1575,7 @@
 				87F7DF442B82322E0068A6C9 /* Notification.Name+.swift */,
 				870C33352BBC29B600ED212C /* UICollectionReusableView+.swift */,
 				87EFEEDA2C7E1C4300A8993C /* Preview.swift */,
+				87B864822CC5711800A9A836 /* WKWebViewConfiguration+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1974,8 +1983,10 @@
 		84E512482B6E702E002658D1 /* ConcertList */ = {
 			isa = PBXGroup;
 			children = (
+				87E027DA2DAE860C001D5424 /* WebViewMessageHandler.swift */,
 				840B39532B7667B100E7F8C8 /* Cells */,
 				84781CCB2B5C003700D37921 /* ConcertListDIContainer.swift */,
+				87FCC3C62CC4DDFD0029A0C8 /* WebViewController.swift */,
 				84781CCD2B5C005600D37921 /* ConcertListViewController.swift */,
 				84781CCF2B5C006500D37921 /* ConcertViewModel.swift */,
 				840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */,
@@ -2432,6 +2443,7 @@
 		87C7594A2BA93E800009A83E /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				8723F0112DAA3F710090EDDD /* WebToAppCommand.swift */,
 				2251F6B52CE48F6B00906FF5 /* SNSType.swift */,
 				87C7594B2BA93EA40009A83E /* NotificationMessage.swift */,
 				87826AED2BBFF7F2005176D4 /* LandingDestination.swift */,
@@ -2925,6 +2937,7 @@
 				224BEF0D2C4E6EFF00863970 /* OrderGiftPaymentResponseDTO.swift in Sources */,
 				84A0248E2B7B997A0095A56E /* QRScannerViewController.swift in Sources */,
 				846F5F3E2B7BBF60000F86AE /* QRRepository.swift in Sources */,
+				87FCC3C72CC4DDFD0029A0C8 /* WebViewController.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* OAuthRepository.swift in Sources */,
 				221393582C88996A00459A20 /* EditProfileViewController.swift in Sources */,
 				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
@@ -3005,6 +3018,7 @@
 				22DFC5522C79B1F000C8433D /* ProfileViewModel.swift in Sources */,
 				221393612C89C17300459A20 /* EditIntroductionView.swift in Sources */,
 				84EC6A642B6CF973009AC6BB /* BooltiToastView.swift in Sources */,
+				87B864832CC5711800A9A836 /* WKWebViewConfiguration+.swift in Sources */,
 				2213935A2C88997600459A20 /* EditProfileViewModel.swift in Sources */,
 				87A3716D2B76497B0061814E /* TicketReservationsTableViewCell.swift in Sources */,
 				84625A162B63C33D00CC9077 /* UITableViewCell+.swift in Sources */,
@@ -3042,9 +3056,11 @@
 				848CBF082B65480A00239303 /* TicketingDetailViewModel.swift in Sources */,
 				2251F6B42CE48E9B00906FF5 /* ProfileSnsCollectionViewCell.swift in Sources */,
 				84896A432B6A583200CB3E33 /* TicketingCompletionDIContainer.swift in Sources */,
+				8723F0122DAA3F7B0090EDDD /* WebToAppCommand.swift in Sources */,
 				8710D9582B74FAC800309FBF /* LogoutDIContainer.swift in Sources */,
 				840B395B2B7679EC00E7F8C8 /* SearchBarCollectionViewCell.swift in Sources */,
 				848CBF062B6547FA00239303 /* TicketingDetailViewController.swift in Sources */,
+				87E027DB2DAE8617001D5424 /* WebViewMessageHandler.swift in Sources */,
 				848F9F4D2B8ED9400026F527 /* SignupConditionEntity.swift in Sources */,
 				84E48AC12B7E224600F8BFD0 /* UITextView+.swift in Sources */,
 				84886E882B6FB166005D2329 /* UIColor+.swift in Sources */,
