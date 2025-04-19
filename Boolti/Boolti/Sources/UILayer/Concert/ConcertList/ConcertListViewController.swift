@@ -208,6 +208,7 @@ extension ConcertListViewController: UICollectionViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
+
 }
 
 // MARK: - UICollectionViewDataSource
