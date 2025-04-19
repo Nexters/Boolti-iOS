@@ -2,10 +2,11 @@
 //  ConcertDetailViewController.swift
 //  Boolti
 //
-//  Created by Juhyeon Byun on 2/3/24.
+//  Created by Juhyeon Byun on 2/3/21.
 //
 
 import UIKit
+import WebKit
 
 import RxSwift
 import RxCocoa
@@ -55,6 +56,22 @@ final class ConcertDetailViewController: BooltiViewController {
         scrollView.addSubviews([self.stackView])
         return scrollView
     }()
+    
+    lazy var webview: WKWebView = {
+        let controller = WKUserContentController()
+        let config = WKWebViewConfiguration()
+        
+        controller.addUserScript(WebViewJsCode.UpdateWebViewHeightScript)
+        controller.add(self, name: WebViewJsCode.UpdateWebViewHeight)
+        config.userContentController = controller
+        
+        let webView = WKWebView(frame: .zero, configuration: config)
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
+        webView.scrollView.isScrollEnabled = false
+        webView.navigationDelegate = self
+        return webView
+    }()
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -63,7 +80,7 @@ final class ConcertDetailViewController: BooltiViewController {
         stackView.addArrangedSubviews([
             self.concertPosterView,
             self.segmentedControlContainerView,
-            // TODO: - insert web view
+            self.webview,
             self.castTeamListCollectionView
         ])
 
@@ -191,6 +208,7 @@ final class ConcertDetailViewController: BooltiViewController {
         super.viewDidLayoutSubviews()
         self.updateCollectionViewHeight()
     }
+
 }
 
 // MARK: - Methods
@@ -231,6 +249,8 @@ extension ConcertDetailViewController {
                 guard let entity = entity else { return }
                 owner.concertPosterView.setData(images: entity.posters, title: entity.name,
                                                 date: entity.date, runningTime: entity.runningTime, placeName: entity.placeName)
+                let request = URLRequest(url: URL(string: "\(Environment.PREVIEW_URL_PREFIX)/\(entity.id)/info")!, cachePolicy: .returnCacheDataElseLoad)
+                owner.webview.load(request)
                 owner.configureRemainingSaleTimerBanner(salesEndTime: entity.salesEndTime, ticketingStatus: entity.ticketingState)
             }
             .disposed(by: self.disposeBag)
@@ -423,6 +443,34 @@ extension ConcertDetailViewController {
         self.stackView.addArrangedSubview(self.emptyCastView)
         self.emptyCastView.isHidden = true
     }
+
+}
+
+// MARK: - WKScriptMessageHandler, WKNavigationDelegate
+
+extension ConcertDetailViewController: WKScriptMessageHandler, WKNavigationDelegate {
+    
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == WebViewJsCode.UpdateWebViewHeight {
+            if let height = message.body as? CGFloat {
+                self.webview.snp.updateConstraints { make in
+                    make.height.equalTo(height)
+                }
+            }
+        }
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let url = navigationAction.request.url, navigationAction.navigationType == .linkActivated || url.scheme == "sms" || url.scheme == "tel" {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                decisionHandler(.cancel)
+            }
+        } else {
+            decisionHandler(.allow)
+        }
+    }
+
 }
 
 // MARK: - UI
@@ -445,6 +493,11 @@ extension ConcertDetailViewController {
         self.navigationBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
+        }
+        
+        self.webview.snp.makeConstraints { make in
+            make.width.equalTo(self.view.frame.width)
+            make.height.equalTo(1)
         }
 
         self.remainingSalesTimeLabel.snp.makeConstraints { make in
@@ -533,7 +586,7 @@ extension ConcertDetailViewController {
     }
 
     private func configureCastView() {
-        // TODO: - web view isHidden true
+        self.webview.isHidden = true
         guard let listEntities = self.viewModel.output.teamListEntities.value else { return }
         if listEntities.isEmpty {
             self.emptyCastView.isHidden = false
@@ -547,7 +600,7 @@ extension ConcertDetailViewController {
     private func configureConcertDetailView() {
         self.emptyCastView.isHidden = true
         self.castTeamListCollectionView.isHidden = true
-        // TODO: - web view isHidden false
+        self.webview.isHidden = false
     }
 }
 

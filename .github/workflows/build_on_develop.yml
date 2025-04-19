@@ -1,0 +1,37 @@
+name: Run build on develop
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [opened, synchronize, reopened]
+
+  push:
+    branches:
+      - develop
+
+jobs:
+  test-debug:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Create GoogleService-Info.plist
+        run: echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}" | base64 --decode > ./Boolti/Boolti/Application/GoogleService-Info.plist
+
+      - name: Create .xcconfig files
+        run: |
+          echo "${{ secrets.DEBUG_XCCONFIG }}" | base64 --decode > ./Boolti/Boolti/Support/Debug.xcconfig
+          echo "${{ secrets.RELEASE_XCCONFIG }}" | base64 --decode > ./Boolti/Boolti/Support/Release.xcconfig
+          echo "${{ secrets.SHARED_XCCONFIG }}" | base64 --decode > ./Boolti/Boolti/Support/Shared.xcconfig
+
+      - name: Run build 🛠️
+        run: |
+          xcodebuild build \
+            -project Boolti/Boolti.xcodeproj \
+            -scheme Boolti-Debug \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest' \
+            CODE_SIGNING_ALLOWED=NO

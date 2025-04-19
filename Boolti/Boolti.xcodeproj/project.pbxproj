@@ -98,6 +98,7 @@
 		22DFC5632C7A00E900C8433D /* ProfileDataHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC5622C7A00E900C8433D /* ProfileDataHeaderView.swift */; };
 		22DFC56D2C7F60E600C8433D /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */; };
 		22FA98232C3D0BE500831F64 /* ConcertTicketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FA98222C3D0BE500831F64 /* ConcertTicketInfoView.swift */; };
+		22FD84552D9EA3A100CB807C /* UpdateWebViewHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FD84542D9EA39400CB807C /* UpdateWebViewHeight.swift */; };
 		840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */; };
 		840B39572B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */; };
 		840B39592B7670FC00E7F8C8 /* ConcertEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */; };
@@ -535,6 +536,7 @@
 		22DFC5622C7A00E900C8433D /* ProfileDataHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataHeaderView.swift; sourceTree = "<group>"; };
 		22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		22FA98222C3D0BE500831F64 /* ConcertTicketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertTicketInfoView.swift; sourceTree = "<group>"; };
+		22FD84542D9EA39400CB807C /* UpdateWebViewHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateWebViewHeight.swift; sourceTree = "<group>"; };
 		840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertEntity.swift; sourceTree = "<group>"; };
@@ -1286,6 +1288,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		22FD84532D9EA38B00CB807C /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				22FD84542D9EA39400CB807C /* UpdateWebViewHeight.swift */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		840B39532B7667B100E7F8C8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1793,6 +1803,7 @@
 		849FBD4F2B5E91F7006EB865 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				22FD84532D9EA38B00CB807C /* WebView */,
 				849FBD502B5E920A006EB865 /* AppInfo.swift */,
 				84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */,
 			);
@@ -2792,6 +2803,7 @@
 				224BEEDF2C4A0B7700863970 /* TicketingType.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
 				84DF59DA2B722E5B000816DA /* UpdatePopupViewController.swift in Sources */,
+				22FD84552D9EA3A100CB807C /* UpdateWebViewHeight.swift in Sources */,
 				876C65E02B73907D000F2746 /* TicketType.swift in Sources */,
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
 				2201AC972C2AB35100CEBD31 /* CardImageCollectionViewCell.swift in Sources */,
@@ -3208,7 +3220,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3250,7 +3262,7 @@
 				CODE_SIGN_ENTITLEMENTS = Boolti/Boolti.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 83B9Y749K7;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3272,7 +3284,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.boolti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Boolti-Provisioning-AdHoc";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Boolti-Provisioning-Appstore";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

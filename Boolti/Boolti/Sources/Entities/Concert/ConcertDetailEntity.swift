@@ -42,7 +42,7 @@ struct ConcertDetailEntity {
         - 장소 : \(placeName) / \(streetAddress), \(detailAddress)
 
         공연 상세 정보 ▼ 
-        \(Environment.PREVIEW_URL_PREFIX)\(id)
+        \(Environment.PREVIEW_URL_PREFIX)/\(id)
         """
 
         return formattedString
