@@ -1,5 +1,5 @@
 //
-//  UpdateWebViewHeight.swift
+//  WebViewInfo.swift
 //  Boolti
 //
 //  Created by Juhyeon Byun on 4/3/25.
@@ -7,7 +7,10 @@
 
 import WebKit
 
-enum WebViewJsCode {
+enum WebViewInfo {
+
+    static let webViewBridgeName = "boolti"
+    static let webViewUserAgent = "BOOLTI/IOS"
     static let UpdateWebViewHeight = "updateWebViewHeight"
     static let UpdateWebViewHeightScript = WKUserScript(
           source: """

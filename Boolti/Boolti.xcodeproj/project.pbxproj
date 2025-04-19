@@ -98,7 +98,8 @@
 		22DFC5632C7A00E900C8433D /* ProfileDataHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC5622C7A00E900C8433D /* ProfileDataHeaderView.swift */; };
 		22DFC56D2C7F60E600C8433D /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */; };
 		22FA98232C3D0BE500831F64 /* ConcertTicketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FA98222C3D0BE500831F64 /* ConcertTicketInfoView.swift */; };
-		22FD84552D9EA3A100CB807C /* UpdateWebViewHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FD84542D9EA39400CB807C /* UpdateWebViewHeight.swift */; };
+		22FAA3D32DB3587700963ACF /* WebviewCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FAA3D22DB3587200963ACF /* WebviewCommand.swift */; };
+		22FD84552D9EA3A100CB807C /* WebViewInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FD84542D9EA39400CB807C /* WebViewInfo.swift */; };
 		840B39552B7667D500E7F8C8 /* ConcertCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */; };
 		840B39572B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */; };
 		840B39592B7670FC00E7F8C8 /* ConcertEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */; };
@@ -532,7 +533,8 @@
 		22DFC5622C7A00E900C8433D /* ProfileDataHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataHeaderView.swift; sourceTree = "<group>"; };
 		22DFC56C2C7F60E600C8433D /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		22FA98222C3D0BE500831F64 /* ConcertTicketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertTicketInfoView.swift; sourceTree = "<group>"; };
-		22FD84542D9EA39400CB807C /* UpdateWebViewHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateWebViewHeight.swift; sourceTree = "<group>"; };
+		22FAA3D22DB3587200963ACF /* WebviewCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewCommand.swift; sourceTree = "<group>"; };
+		22FD84542D9EA39400CB807C /* WebViewInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewInfo.swift; sourceTree = "<group>"; };
 		840B39542B7667D500E7F8C8 /* ConcertCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewCell.swift; sourceTree = "<group>"; };
 		840B39562B76688C00E7F8C8 /* ConcertCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		840B39582B7670FC00E7F8C8 /* ConcertEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertEntity.swift; sourceTree = "<group>"; };
@@ -1280,14 +1282,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		22FD84532D9EA38B00CB807C /* WebView */ = {
-			isa = PBXGroup;
-			children = (
-				22FD84542D9EA39400CB807C /* UpdateWebViewHeight.swift */,
-			);
-			path = WebView;
-			sourceTree = "<group>";
-		};
 		840B39532B7667B100E7F8C8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1794,7 +1788,8 @@
 		849FBD4F2B5E91F7006EB865 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				22FD84532D9EA38B00CB807C /* WebView */,
+				22FAA3D22DB3587200963ACF /* WebviewCommand.swift */,
+				22FD84542D9EA39400CB807C /* WebViewInfo.swift */,
 				849FBD502B5E920A006EB865 /* AppInfo.swift */,
 				84781C762B5BEB8500D37921 /* UserDefaultsKey.swift */,
 			);
@@ -2791,7 +2786,7 @@
 				224BEEDF2C4A0B7700863970 /* TicketingType.swift in Sources */,
 				84781C772B5BEB8500D37921 /* UserDefaultsKey.swift in Sources */,
 				84DF59DA2B722E5B000816DA /* UpdatePopupViewController.swift in Sources */,
-				22FD84552D9EA3A100CB807C /* UpdateWebViewHeight.swift in Sources */,
+				22FD84552D9EA3A100CB807C /* WebViewInfo.swift in Sources */,
 				876C65E02B73907D000F2746 /* TicketType.swift in Sources */,
 				84781CC22B5BF9A700D37921 /* MyPageViewModel.swift in Sources */,
 				2201AC972C2AB35100CEBD31 /* CardImageCollectionViewCell.swift in Sources */,
@@ -2927,6 +2922,7 @@
 				846F5F3E2B7BBF60000F86AE /* QRRepository.swift in Sources */,
 				8757BAA62B5FDED7008503B5 /* OAuthRepository.swift in Sources */,
 				221393582C88996A00459A20 /* EditProfileViewController.swift in Sources */,
+				22FAA3D32DB3587700963ACF /* WebviewCommand.swift in Sources */,
 				848CBF0A2B65481500239303 /* TicketingDetailDIContainer.swift in Sources */,
 				87CE4F712B8DF7CE007A0C8F /* PushNotificationRepository.swift in Sources */,
 				8753CA732B71EA68002871C7 /* TicketAPI.swift in Sources */,

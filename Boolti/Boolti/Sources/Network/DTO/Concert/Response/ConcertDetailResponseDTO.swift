@@ -17,8 +17,8 @@ struct ConcertDetailResponseDTO: Decodable {
     let runningTime: Int
     let streetAddress: String
     let detailAddress: String
-    let latitude: Int?
-    let longitude: Int?
+    let latitude: Double?
+    let longitude: Double?
     let notice: String
     let managerCode: String
     let salesStartTime: String
